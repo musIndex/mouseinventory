@@ -1,0 +1,32 @@
+<%@ page import="java.util.StringTokenizer" %>
+<%@ page import="java.util.Properties" %>
+<%@ page import="java.util.Enumeration" %>
+<%!
+	@SuppressWarnings("rawtypes")
+    private String propertiesToTabDelimitedString(Properties props) {
+        StringBuffer propsBuf = new StringBuffer();
+        Enumeration names = props.propertyNames();
+        while (names.hasMoreElements()) {
+            String name = (String) names.nextElement();
+            propsBuf.append(name + "=" + props.getProperty(name) + "\t");
+        }
+        return propsBuf.toString();
+    }
+
+    private Properties tabDelimitedStringToProperties(String s) {
+        Properties props = new Properties();
+        StringTokenizer t = new StringTokenizer(s, "\t");
+        while (t.hasMoreTokens()) {
+            String token = t.nextToken();
+            StringTokenizer t2 = new StringTokenizer(token, "=");
+            String name = t2.nextToken().trim();
+            String value = "";
+            if (t2.hasMoreTokens()) {
+                value = t2.nextToken().trim();
+            }
+            props.put(name, value);
+        }
+        return props;
+    }
+
+%>

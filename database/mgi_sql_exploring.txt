@@ -1,0 +1,38 @@
+--** These queries may help you get started if you want to get some useful data out of your MGI public SQL account
+
+--**allele key from mouse MGI ID**
+select _Object_key
+	from ACC_Accession left join ACC_MGIType on ACC_Accession._MGIType_key=ACC_MGIType._MGIType_key
+	where numericPart=3809524 
+	and prefixPart='MGI:'
+	and ACC_Accession._MGIType_key=11
+
+--**mouse name and symbol**
+select _Marker_key,name,symbol from ALL_Allele where _Allele_key=63704
+
+--mutation type
+select mutation from ALL_Allele_Mutation_View where _Allele_key=63704
+--allele type
+select alleleType from ALL_Allele_Strain_View where _Allele_key=63704
+
+--gene symbol and name
+select symbol,name from MRK_Marker where _Marker_key=37270
+
+//TODO check marker type  1 = gene, 12 = transgene  select * from MRK_Types
+
+--gene MGI accession ID
+select numericPart from ACC_Accession
+	WHERE _MGIType_key=2
+	and _Object_key=37270
+	and prefixPart='MGI:'
+	and preferred=1
+
+--pubmed reference key
+select _Refs_key from MGI_Reference_Allele_View where _Object_key=63704 and assocType='Original'
+
+--pubmed details
+select _primary,title from BIB_refs where _Refs_key = 
+(select _Refs_key from MGI_Reference_Allele_View where _Object_key=63704 and assocType='Original')
+
+--pubmed accession ID
+select accID from ACC_Accession where _MGIType_key=1 and _Object_key=156886 and prefixPart=NULL

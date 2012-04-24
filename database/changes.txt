@@ -1,0 +1,218 @@
+#Notes on the work in progress for changing the database schema
+#proposed database schema change:
+
+for ids, convert all to bigint(20), make primary key
+
+convert mouse.gene_id and mouse.target_gene_id into new table
+
+switch to property model for nearly all mouse data fields
+
+remove transgenic type - make people use mouse type
+
+mouse will have the following fields
+id
+name
+mousetypeId
+statusId
+
+
+new table - status
+statusId	int(10)
+statusName	varchar(255)
+--------------
+id  statusName	
+--------------
+1	live
+2	deleted
+3	incomplete
+
+
+
+
+new table - mouse_repository
+id
+mouse_id
+repository_id
+catalog_numer
+symbol
+---------------------------------------------------
+id  mouse_id	repository_id	catalog_number	symbol
+---------------------------------------------------
+1	1			1				12312441		ssh<null>
+2	2			1				34235235325		fgfgh<sp1h3>
+3	3			2				12553				
+
+
+edit repository table
+id
+name
+displayformat
+
+---------------------------------------------------
+id  name	  validation_target	displayformat		
+---------------------------------------------------
+1	mgi			MgiValidate					http://www.informatics.jax.org/${catalog_number}.html
+2	jax			JaxValidate						....
+
+mouse_property_values will have everything else
+
+
+
+
+new table - mouse_genes
+id
+mouse_id
+gene_id
+category_id
+modification_type_id  ??
+
+
+
+new table - modification_types
+id
+modification
+
+1	targeted disruption
+2	targeted knock-in
+3	conditional allele (loxP/frt)
+
+
+
+defines which properties are visible by default for a given mouse type.  may be modified later - this is used for new blank entries only
+
+mouse_type_properties
+id
+mousetype_id
+property_id
+category_id
+position
+---------------------------------------------------
+id  mousetype_id	  property_id	category_id		
+---------------------------------------------------
+1	1					1			1				
+2	1					2			1
+3	1					
+4	1
+
+
+property_definitions table
+id			 			int(11)
+name		 			varchar(255)
+type_id		 			int(11)
+validation	 			text
+listvalues	 			text
+allow_custom_listvalue 	tinyint(1)
+
+
+--------------------------------	
+id  name			  type_id		validation	allow_custom_listvalue		listvalues										
+--------------------------------	            
+1	?modification type?	3			[NULL]		true						targeted disruption|spontaneous mutation,...	
+2	expressed sequence	3			[NULL]		true						lacz|eGFP|gfP|Cre,...							
+3	regulatory element  2			[NULL]		[NULL]						[NULL]											
+7   mta required		3			[NULL]		false						Yes|No|Don't know								
+9	comment				4			[NULL]		[NULL]						[NULL]											
+
+
+
+property_value_types table?  or fixed enum in code
+id  int(11)
+type_name	varchar(255)
+
+----------------
+id  type_name	
+----------------
+1	int			
+2	string		
+3	list		
+4	text		
+5 	boolean
+
+
+property_int_values table
+id
+value 
+
+property_string_values table
+id
+value
+
+....
+
+
+mouse_property_values table
+id
+mouse_id
+property_id
+category_id
+value_id
+
+---------------------------------------------------------------------------------------
+id  mouse_id	property_id		category_id 	label						value		
+---------------------------------------------------------------------------------------
+1	1			1				1				null						targeted..	
+2	1			2				1				null						Cre			
+3	1			2				1				Secondary expressed sequence lacz		
+
+
+property_categories table
+id
+name
+min_width
+--------------
+id  name		
+--------------
+1   Category	
+2   Details		
+3   Comment		
+
+
+
+
+
+
+
+remove columns from mouse:
+strain_comment
+modification_type
+regulatory_element_comment
+endangered
+holder_lastname_for_sort
+repository_id
+repository_catalog_number
+mta_required
+inbred_strain_id
+source
+other_comment
+general_comment
+gene_id
+target_gene_id
+strain
+reporter_comment
+expressedsequence_id
+transgenictype_id
+
+remove expressed sequence table
+remove transgenic type table
+
+
+convert double quotes in strings/text to single quotes
+
+SELECT m.mouseId, s.statusName as 'status', m.name,
+group_concat(distinct concat(mt.modification,'=',g.symbol,'=',g.fullname) separator '\t') as 'genes',
+group_concat(distinct concat(pd.name,'=',pv.value,'=',pv.categoryId) separator '\t') as 'properties',
+group_concat(distinct concat(l.pmid) separator '\t') as 'literature',
+group_concat(distinct concat(h.id,'=',h.firstname,'=',h.lastname,'=',h.department,'=',h.email,'=',f.id,'=',f.facility) separator '\t') as 'holders'
+FROM `newmouse` m
+left join status s on m.statusId=s.statusId
+left join mouse_property_values pv on m.mouseId = pv.mouseId
+left join property_definitions pd on pv.property_definitionId=pd.property_definitionId
+left join mouse_gene mg on mg.mouseId=m.mouseId
+left join gene g on mg.geneId=g.id
+left join modification_type mt on mg.modification_typeId = mt.modification_typeId
+left join mouse_literature ml on m.mouseId = ml.mouse_id
+left join literature l on ml.literature_id = l.id
+left join mouse_holder_facility hf on m.mouseId=hf.mouse_id
+left join holder h on hf.holder_id=h.id
+left join facility f on hf.facility_id=f.id
+group by (m.mouseId)
