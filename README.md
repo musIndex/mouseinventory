@@ -5,6 +5,7 @@ The mouse inventory database is an application for tracking an institution's inv
 
 ## Features
 
+See the <a href="http://ucsf-mousedb.github.com/mouseinventory">home page</a>
 
 
 ## Requirements
