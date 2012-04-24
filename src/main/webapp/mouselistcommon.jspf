@@ -1,0 +1,10 @@
+<script type="text/javascript">
+!function($){
+	$(document).ready(function(){
+		$('.mouselist-holderlist-showall').on('click',function(){
+			$(this).hide().parent().siblings().show();
+			return false;
+			});
+	});
+}(jQuery)
+</script>

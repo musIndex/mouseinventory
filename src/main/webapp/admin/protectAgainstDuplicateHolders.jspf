@@ -1,0 +1,32 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
+	rel="stylesheet" type="text/css" />
+<script>
+$(document).ready(function(){
+	$('select[id*=holder_id-]').change(function(){
+		protectAgainstDuplicateHolderSelection($(this));
+	});
+});
+
+function getSelectedHolders() {
+	var holder_ids = [];
+	$('select[id*=holder_id-]').each(function(){holder_ids.push($(this).val())});
+	return holder_ids;
+}
+
+function protectAgainstDuplicateHolderSelection(obj) {
+	var holder = obj.val();
+	var selected_holders = getSelectedHolders();
+
+	
+	var count = 0;
+	for (var i = 0; i < selected_holders.length; i++) {
+		if (selected_holders[i] === holder) count++;
+	}
+
+	if (count > 1) 
+		alert("That holder is already listed on this record.  Please verify that you've selected the correct holder.");
+}
+
+</script>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomcat-users>
+  <role rolename="administrator"/>
+  <user username="admin" password="change_this_password" roles="administrator"/>
+<!-- Uncomment this section if you want to use the tomcat manager for installing/updating.
+  <role rolename="manager"/>
+  <role rolename="admin"/>
+  <user name="installer" password="installbabyinstall" roles="manager,admin"/>
+-->
+</tomcat-users>
