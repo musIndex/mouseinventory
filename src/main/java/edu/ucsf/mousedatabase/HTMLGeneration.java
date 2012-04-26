@@ -877,21 +877,21 @@ public class HTMLGeneration {
 		}
 
 		if (sub != null) {
-			buf.append("<input type=\"submit\" style=\"background: #B4EEB4; color:black; font-weight: bold;\" name=\"submitButton\" value=\"Convert to Record\">");
+			buf.append("<input type=\"submit\" class='btn btn-success' name=\"submitButton\" value=\"Convert to Record\">");
 			buf.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-					+ "<input type=\"submit\" style=\"background: #FFF68f; color:black; font-weight: bold;\" name=\"submitButton\" value=\"Move to Hold\">");
+					+ "<input type=\"submit\" class='btn btn-warning' name=\"submitButton\" value=\"Move to Hold\">");
 			buf.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-					+ "<input type=\"submit\" style=\"background: #EE6A50; color:white; font-weight: bold;\" name=\"submitButton\" value=\"Reject Submission\">");
+					+ "<input type=\"submit\" class='btn btn-danger' name=\"submitButton\" value=\"Reject Submission\">");
 		} else if (req != null) {
-			buf.append("<input type=\"submit\" style=\"background: #B4EEB4; color:black; font-weight: bold;\" name=\"submitButton\" value=\"Complete Change Request\">");
+			buf.append("<input type=\"submit\" class='btn btn-success' name=\"submitButton\" value=\"Complete Change Request\">");
 			buf.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-					+ "<input type=\"submit\" style=\"background: #FFF68f; color:black; font-weight: bold;\" name=\"submitButton\" value=\"Move to Pending\">");
+					+ "<input type=\"submit\" class='btn btn-warning' name=\"submitButton\" value=\"Move to Pending\">");
 		} else if (isAdminCreating) {
-			buf.append("<input type=\"submit\" style=\"background: #B4EEB4; color:black; font-weight: bold;\" name=\"submitButton\" value=\"Create Record\">");
+			buf.append("<input type=\"submit\" class='btn btn-success' name=\"submitButton\" value=\"Create Record\">");
 			buf.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-					+ "<input type=\"submit\" style=\"background: #FFF68f; color:black; font-weight: bold;\" name=\"submitButton\" value=\"Save as Incomplete\">");
+					+ "<input type=\"submit\" class='btn btn-warning' name=\"submitButton\" value=\"Save as Incomplete\">");
 		} else {
-			buf.append("<input type=\"submit\" style=\"background: #B4EEB4; color:black; font-weight: bold;\" name=\"submitButton\" value=\"Save Changes to Record\">");
+			buf.append("<input type=\"submit\" class='btn btn-success' name=\"submitButton\" value=\"Save Changes to Record\">");
 		}
 
 		buf.append("</form>\r\n");
