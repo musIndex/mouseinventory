@@ -66,7 +66,10 @@ public class HTMLGeneration {
 		}
 		buf.append("<link href=\""
 				+ siteRoot
-				+ "MouseInventory.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
+				+ "css/MouseInventory.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
+		buf.append("<link href=\""
+				+ siteRoot
+				+ "css/bootstrap.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
 
 		buf.append("<title>" + SiteName + "</title>\r\n");
 
