@@ -1,5 +1,3 @@
-
-
 <%@page import="edu.ucsf.mousedatabase.admin.RecordManager.PopulateMouseResult"%>
 <%@page import="edu.ucsf.mousedatabase.admin.RecordManager"%>
 <%@ page import="java.util.Enumeration" %>
