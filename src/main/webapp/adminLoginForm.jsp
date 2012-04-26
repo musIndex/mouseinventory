@@ -22,7 +22,7 @@ Log.Info("Admin loging in");
 			<td><input type="password" name="j_password"></td>
 		</tr>
 		<tr>
-			<td><input type="submit" value="Login"></td>
+			<td><input class='btn btn-primary' type="submit" value="Login"></td>
 		</tr>
 	</table>
 	</form>
