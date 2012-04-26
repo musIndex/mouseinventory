@@ -9,7 +9,7 @@
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("ImportReports.jsp", true) %>
 
-<script language="javascript" type="text/javascript" src=" <%=HTMLGeneration.scriptRoot %>jquery-1.6.2.min.js"></script>
+
 <script>
 var scrollToBottom = true;
 $(document).ready(function() {

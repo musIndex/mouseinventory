@@ -18,16 +18,16 @@ public class HTMLGeneration {
 	public static void setGoogleAnalyticsId(String id, String domainSuffix)
 	{
 		googleAnalyticsScript = 
-				   "<script type=\"text/javascript\">"
-				+ "  var _gaq = _gaq || [];"
-				+ "  _gaq.push(['_setAccount', '" + id	+ "']);"
-				+ "  _gaq.push(['_setDomainName', '"+ domainSuffix + "']);"
-				+ "  _gaq.push(['_trackPageview']);"
-				+ "  (function() {"
-				+ "    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;"
-				+ "    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';"
-				+ "    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);"
-				+ "  })();" + "</script>";
+				   "<script type=\"text/javascript\">\r\n"
+				+ "  var _gaq = _gaq || [];\r\n"
+				+ "  _gaq.push(['_setAccount', '" + id	+ "']);\r\n"
+				+ "  _gaq.push(['_setDomainName', '"+ domainSuffix + "']);\r\n"
+				+ "  _gaq.push(['_trackPageview']);\r\n"
+				+ "  (function() {\r\n"
+				+ "    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;\r\n"
+				+ "    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';\r\n"
+				+ "    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);\r\n"
+				+ "  })();" + "</script>\r\n";
 	}
 
 	public static String googleAnalyticsScript;
@@ -51,7 +51,7 @@ public class HTMLGeneration {
 			boolean disableCache, boolean isAdminPage, String bodyParams) {
 
 		StringBuffer buf = new StringBuffer();
-		// TODO see if we're compliant with strict or better
+		// TODO html5
 		buf.append("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\r\n");
 
 		buf.append("<html>\r\n");
@@ -70,6 +70,9 @@ public class HTMLGeneration {
 		buf.append("<link href=\""
 				+ siteRoot
 				+ "css/bootstrap.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
+		buf.append("<link href=\""
+				+ siteRoot
+				+ "css/chosen.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
 
 		buf.append("<title>" + SiteName + "</title>\r\n");
 
@@ -79,9 +82,14 @@ public class HTMLGeneration {
 				+ scriptRoot + "ajaxFunctions.js\"></script>\r\n");
 		buf.append("<script language=\"javascript\" type=\"text/javascript\" src=\""
 				+ scriptRoot + "validationFunctions.js\"></script>\r\n");
-		buf.append("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js\"></script>");
-	
-		buf.append(googleAnalyticsScript);
+		buf.append("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js\"></script>\r\n");
+
+		buf.append("<script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js'></script>\r\n");
+		buf.append("<link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css 'rel='stylesheet' type='text/css' />");
+		buf.append("<script src=\"" + scriptRoot + "chosen.jquery.min.js\"></script>\r\n");
+		buf.append("<script type=\"text/javascript\">\r\n$(document).ready(function(){\r\n$('.chzn-select').chosen();\r\n})\r\n</script>\r\n");
+
+		buf.append(googleAnalyticsScript + "\r\n");
 		if (additionalJavaScript != null) {
 			buf.append(additionalJavaScript);
 		}
@@ -2424,7 +2432,7 @@ public class HTMLGeneration {
 	public static String genSelect(String name, String[] values,
 			String[] niceNames, String current, String selectParams) {
 		StringBuffer b = new StringBuffer();
-		b.append("<select id=\"" + name + "\" name=\"" + name + "\" "
+		b.append("<select class='chzn-select' id=\"" + name + "\" name=\"" + name + "\" "
 				+ selectParams + ">");
 		for (int i = 0; i < values.length; i++) {
 			String value = values[i];
