@@ -891,7 +891,7 @@ public class HTMLGeneration {
 			buf.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 					+ "<input type=\"submit\" class='btn btn-danger' name=\"submitButton\" value=\"Reject Submission\">");
 		} else if (req != null) {
-			buf.append("<input type=\"submit\" class='btn btn-success' name=\"submitButton\" value=\"Complete Change Request\">");
+			buf.append("<input type=\"submit\" class='btn btn-primary' name=\"submitButton\" value=\"Complete Change Request\">");
 			buf.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 					+ "<input type=\"submit\" class='btn btn-warning' name=\"submitButton\" value=\"Move to Pending\">");
 		} else if (isAdminCreating) {
@@ -899,7 +899,7 @@ public class HTMLGeneration {
 			buf.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 					+ "<input type=\"submit\" class='btn btn-warning' name=\"submitButton\" value=\"Save as Incomplete\">");
 		} else {
-			buf.append("<input type=\"submit\" class='btn btn-success' name=\"submitButton\" value=\"Save Changes to Record\">");
+			buf.append("<input type=\"submit\" class='btn btn-primary' name=\"submitButton\" value=\"Save Changes to Record\">");
 		}
 
 		buf.append("</form>\r\n");
@@ -922,7 +922,7 @@ public class HTMLGeneration {
 			}
 
 			String mouseTypeOptions = genSelect("mousetype_id", mouseTypeIDs,
-					mouseTypeNames, currentTypeIDstr, null);
+					mouseTypeNames, currentTypeIDstr, "style='width:150px'");
 
 			buf.append("<form name=\"changeMouseType\" action=\"ChangeMouseType.jsp\" method=\"post\">\r\n");
 			buf.append("<input type=\"hidden\" name=\"mouse_id\" value=\"" + r.getMouseID() + "\">");
@@ -2431,6 +2431,7 @@ public class HTMLGeneration {
 
 	public static String genSelect(String name, String[] values,
 			String[] niceNames, String current, String selectParams) {
+		if (selectParams == null) selectParams = "";
 		StringBuffer b = new StringBuffer();
 		b.append("<select class='chzn-select' id=\"" + name + "\" name=\"" + name + "\" "
 				+ selectParams + ">");
@@ -2739,7 +2740,7 @@ public class HTMLGeneration {
 		String[] values = new String[] { "10", "25", "50", "100", "500", "-2" };
 		String[] labels = new String[] { "10", "25", "50", "100", "500", "All" };
 
-		String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), null);
+		String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px'");
 		buf.append("<table>");
 		if (includeLimitSelector) {
 			buf.append("<tr>" + "<td>" + "Records per page: &nbsp;"	+ perPageDropDown + "</td></tr>");
