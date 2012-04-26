@@ -95,13 +95,18 @@ public class PdfServlet extends HttpServlet {
 	    int limit = -1;
 		
 	    String orderBy = request.getParameter("orderby");
-		
+	    String searchTerms = request.getParameter("searchterms");
+	    String status = request.getParameter("status");
+	    
 	    if (orderBy == null || orderBy.isEmpty()) {
 	    	orderBy = "mouse.name";
 	    }
 	    
-	    String searchTerms = null;
-	    
+	    if(status == null)
+		{		
+			status = "all";
+		}
+	     
 		if(creOnly < 0){
 			creOnly = 0;
 		}
@@ -109,7 +114,7 @@ public class PdfServlet extends HttpServlet {
 		Holder holder = DBConnect.getHolder(holderID);
 	    Gene gene = DBConnect.getGene(geneID);
 	    Facility facility = DBConnect.getFacility(facilityID);
-	    ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID,limit,offset);
+	    ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms, false, creOnly, facilityID,limit,offset);
 		
 		ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
 		String mouseTypeStr = "Listing";
@@ -150,6 +155,16 @@ public class PdfServlet extends HttpServlet {
 	    {
 	    	mouseTypeStr += " with expressed sequence type CRE";
 	    }	
+	    
+	    if(searchTerms != null && !searchTerms.isEmpty())
+	    {
+	    	mouseTypeStr += " matching search term '" + searchTerms + "'";
+	    }
+	    
+	    if(!status.equals("all"))
+		{
+			mouseTypeStr += " with status='" + status + "'";
+		}
 
 	  
 		PdfPTable table = new PdfPTable(2);
