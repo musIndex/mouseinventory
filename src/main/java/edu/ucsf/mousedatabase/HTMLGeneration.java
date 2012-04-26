@@ -1704,7 +1704,7 @@ public class HTMLGeneration {
 
 					if (holderCount == maxHolders && !showAllHolders) {
 						overMax = true;
-						holderBuf.append("<dt><a class=\"SL mouselist-holderlist-showall\" href='#'>show all...</a></dt>");
+						holderBuf.append("<dt><a class=\"mouselist-holderlist-showall btn btn-mini\" style='text-decoration:none'  href='#'>show all</a></dt>");
 					}
 
 					String cryoLiveStatus = "";
