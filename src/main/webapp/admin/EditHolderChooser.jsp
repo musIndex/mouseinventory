@@ -58,7 +58,7 @@
 		        </tr>		
 		        <tr><td colspan=2 align="center">
 		        <input type="hidden" name="command" value="Insert">
-		        <input type="submit" value="Create Holder"></td></tr>
+		        <input type="submit" class="btn btn-success" value="Create Holder"></td></tr>
 		    </table>
 		</form>
 		<%

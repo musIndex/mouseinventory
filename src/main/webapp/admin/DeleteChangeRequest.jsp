@@ -40,7 +40,7 @@
 				<form action="DeleteChangeRequest.jsp" method="post">
 					<input type="hidden" name="id" value="<%=id %>">
 					<p>Are you sure you want to delete the change request below?</p>
-					<input type="submit" name="confirm" value="Yes">
+					<input type="submit" class="btn btn-danger" name="confirm" value="Yes">
 				</form>
 				<%=table %>
 			<%

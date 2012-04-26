@@ -171,7 +171,7 @@
 		<form action="UpdateSubmission.jsp" method="post">
 		<input type="hidden" name="mouseID" value="<%= mouseID %>"/>
 		<input type="hidden" name="submittedMouseID" value="<%= submissionID %>">
-		<input type="submit" style="background: #FF9966; color:black; font-weight: bold;" name="submitButton" value="Undo conversion to Record">
+		<input type="submit" class="btn btn-warning" name="submitButton" value="Undo conversion to Record">
 		</form>
 		<%
 	}

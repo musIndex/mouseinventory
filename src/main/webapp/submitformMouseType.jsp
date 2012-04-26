@@ -83,7 +83,7 @@ Is the mouse published?
 
 <input type="hidden" value="Random insertion" name="transgenicType">
 
-<input id="nextButton" type="submit" style="<%=HTMLGeneration.elementVisibility(newMouse.hasType()) %>" value="Next"/>
+<input id="nextButton" type="submit" class="btn btn-primary" style="<%=HTMLGeneration.elementVisibility(newMouse.hasType()) %>" value="Next"/>
 </form>
 
 

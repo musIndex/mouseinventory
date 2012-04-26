@@ -30,7 +30,7 @@ Inbred Strain
 
 <input type="hidden" value="Random insertion" name="transgenicType">
 
-<input id="nextButton" type="submit" value="Next"/>
+<input id="nextButton" type="submit" class="btn btn-primary" value="Next"/>
 </form>
 
 

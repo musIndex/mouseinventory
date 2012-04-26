@@ -50,7 +50,7 @@
              <td colspan="2">
              <input type="hidden" name="geneRecordID" value="<%= id %>">
              <input type="hidden" name="command" value="Edit">
-             <input type="submit" value="Save Changes"></td>
+             <input type="submit" class="btn btn-primary" value="Save Changes"></td>
         </tr>
     </table>
 </form>
@@ -59,7 +59,7 @@
 <form action="UpdateGene.jsp" method="post">
     <input type="hidden" name="geneRecordID" value="<%= id %>">
     Delete this gene? 
-    <input type="submit" name="command" value="Delete">
+    <input type="submit" class="btn btn-danger" name="command" value="Delete">
 </form>
 <%}else{ %>
 	This Gene is linked to one or more mouse records and cannot be deleted:

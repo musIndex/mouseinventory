@@ -255,10 +255,10 @@ $(document).ready(function(){
 				</table>
 			</div>
 			<input type="hidden" name="process" value="true"> 
-			<input type="submit" name="submitButton" value="I'm not done yet. Save data"> 
+			<input type="submit" class="btn" name="submitButton" value="I'm not done yet. Save data"> 
 			(This will save data as	long as your browser window stays open, or until you submit the	mouse). 
 			<br> <br> 
-			<input type="submit" name="submitButton" value="I'm done! Submit Mouse">
+			<input type="submit" class="btn btn-primary"  name="submitButton" value="I'm done! Submit Mouse">
 		</form>
 	</div>
 </div>

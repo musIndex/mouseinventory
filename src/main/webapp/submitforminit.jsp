@@ -136,7 +136,7 @@ if (request != null && request.getRemoteUser() != null && request.getRemoteUser(
 </table>
 
 <input type="hidden" name="process" value="true">
-<input type="submit" value="Next">
+<input type="submit" class="btn btn-primary" value="Next">
 </form>
 </div>
 </div>

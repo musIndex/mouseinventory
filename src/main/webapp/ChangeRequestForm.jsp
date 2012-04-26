@@ -129,7 +129,7 @@ Enter <font color="red">your</font> name and e-mail address (required)<br>
         <%--</tr>--%>        
         <tr>
             <td colspan="2">           
-            <input type="submit" value="Submit change request">          
+            <input type="submit" class="btn btn-primary" value="Submit change request">          
             </td>
         </tr>		
     </table>

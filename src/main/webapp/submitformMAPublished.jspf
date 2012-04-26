@@ -48,7 +48,7 @@
 	<td valign="top"><b>Official Symbol</b> for the allele being submitted
 		(automatically entered when the MGI ID is entered): 
 		<br>
-		If the official symbol seems to be correct, click the autofill box. 
+		If the official symbol seems to be correct, click the autofill button. 
 		If not, replace the MGI ID with the one for the correct	allele.
 	</td>
 	<td valign="top">
@@ -65,8 +65,8 @@
 		<input type="hidden" name="mouseMGIIDValid" id="mouseMGIIDValid"
 			value="${newMouse.mouseMGIIDValid}">
 		<br />
-		<span class="linkButton" style="padding:2px; border:1px solid black;font-weight: bold;" 
-		id="mgiautofillbutton">Click to auto-fill Gene, PubMed, and description data</span>
+		<a href="#" id="mgiautofillbutton" style="text-decoration:none" 
+			class="btn btn-primary btn-large">Auto-fill Gene, PubMed, and description data</a>
 		<span class="validationError">${newMouse.officialSymbolErr}</span>
 	</td>
 </tr>
@@ -153,7 +153,7 @@
 		been entered (i.e. name of gene modified, relevant publication, and 
 		description of the allele) you realize that this is not the allele you
 		want to submit, please start over by entering the MGI ID for the correct 
-		allele and clicking the auto-fill box.
+		allele and clicking the auto-fill button.
 		<br />
 		<br />
 		If you entered 'none' in the MGI ID field above, enter a brief description 

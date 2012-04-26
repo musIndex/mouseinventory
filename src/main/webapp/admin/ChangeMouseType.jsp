@@ -41,7 +41,7 @@ from <%= record.getMouseType() %> to <%= newMouseType.getTypeName() %>
     <input type="hidden" name="inbred_strain_id" value="<%= inbredStrainID %>">
     <input type="hidden" name="confirm" value="true" >
     Yes, I want to change the mouse type of this mouse from <%= records.get(0).getMouseType() %> to <%= newMouseType.getTypeName() %>:
-    <input type="submit" value="SUBMIT">
+    <input type="submit" class="btn btn-primary" value="SUBMIT">
 </form>
 Else click your browser's BACK button.
 

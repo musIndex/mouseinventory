@@ -47,7 +47,7 @@
 		<b>Official Symbol</b> for the transgene being submitted: (automatically entered 
 		when the MGI ID is entered)
 		<br>
-		If the official symbol seems to be correct, click the autofill box. If not, 
+		If the official symbol seems to be correct, click the autofill button. If not, 
 		replace the MGI ID with the one for the correct transgene.
 	</td>
 	<td valign="top"><input type="hidden" name="officialSymbol"
@@ -58,10 +58,8 @@
 	</span> <span
 		class="<%=newMouse.hasValidMouseMGIID()	? "bp_valid": "bp_invalid"%>"
 		id="mouseMGIValidation">${newMouse.mouseMGIIDErr}</span> <br />
-	<span class="linkButton"
-		style="padding: 2px; border: 1px solid black; font-weight: bold;"
-		id="mgiautofillbutton">Click to auto-fill Pubmed and
-			description data</span> <input type="hidden"
+	<a href="#" id="mgiautofillbutton" style="text-decoration:none" class="btn btn-primary btn-large">Auto-fill PubMed and description data</a>
+	<input type="hidden"
 		name="mouseMGIIDValidationString" id="mouseMGIIDValidationString"
 		value="${newMouse.mouseMGIIDValidationString}">
 		<input type="hidden" name="mouseMGIIDValid" id="mouseMGIIDValid"

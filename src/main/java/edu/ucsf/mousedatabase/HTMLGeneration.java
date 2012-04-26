@@ -919,7 +919,7 @@ public class HTMLGeneration {
 			buf.append("<form name=\"changeMouseType\" action=\"ChangeMouseType.jsp\" method=\"post\">\r\n");
 			buf.append("<input type=\"hidden\" name=\"mouse_id\" value=\"" + r.getMouseID() + "\">");
 			buf.append("<br><p>Change Mouse Type to: " + mouseTypeOptions);
-			buf.append("&nbsp;&nbsp;<input type=\"submit\" value=\"Change Type\">");
+			buf.append("&nbsp;&nbsp;<input type=\"submit\" class='btn btn-small' value=\"Change Type\">");
 			buf.append("</form>\r\n");
 			buf.append("</div>\r\n");
 			buf.append("</div>\r\n");

@@ -93,7 +93,7 @@
 			buf.append("    <input type=\"hidden\" name=\"geneRecordID\" value=\"" + id + "\">");
 			buf.append("    <input type=\"hidden\" name=\"confirm\" value=\"yes\">");
 			buf.append("    Yes, I want to delete this gene: ");
-			buf.append("    <input type=\"submit\" name=\"command\" value=\"Delete\">");
+			buf.append("    <input type=\"submit\" class='btn btn-danger' name=\"command\" value=\"Delete\">");
 			buf.append("</form>");
 			buf.append("<p>Else click your browser's BACK button.</p>");
 		}

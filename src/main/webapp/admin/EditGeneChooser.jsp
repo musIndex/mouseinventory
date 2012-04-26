@@ -48,7 +48,7 @@
 			        <tr>
 			            <td colspan="2">
 			            <input type="hidden" name="command" value="Insert">
-			            <input type="submit" value="Create Gene"></td>
+			            <input type="submit" class="btn btn-success" value="Create Gene"></td>
 			        </tr>
 			    </table>
 			</form>		
