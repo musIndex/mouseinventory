@@ -1,4 +1,4 @@
-
+<%@ page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@ page import="java.util.ArrayList" %>
@@ -51,6 +51,24 @@
 	{
 		session.setAttribute("editMiceOrderBy",orderBy);
 	}
+	
+	ArrayList<String> query = new ArrayList<String>();
+    query.add("holder_id=" + holderID);
+    query.add("orderby=" + orderBy);
+    query.add("geneID=" + geneID);
+    //query.add("creonly=" + creOnly);
+    query.add("mousetype_id=" + mouseTypeID);
+    //query.add("facility_id=" + facilityID);
+    query.add("searchterms=" + searchTerms);
+    query.add("status=" + status);
+    
+    String queryString = "";
+
+    for (String s : query)
+    {
+        queryString += s + "&";
+    }
+	
 	int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms, false, -1, -1);
 	
 	ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms,false,-1,-1,limit,offset);
@@ -123,7 +141,8 @@
     <a href="CovertMice.jsp">Covert Mice</a>
 	<form action="EditMouseSelection.jsp" method="post">
 		<%= mouseTypeSelectionLinks %>
-		<%= topPageSelectionLinks %>  
+		<%= topPageSelectionLinks %> 
+		<a class="btn btn-small btn-info" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a> 
 		<%= table %>
 		<%= bottomPageSelectionLinks %>  
 	</form>
