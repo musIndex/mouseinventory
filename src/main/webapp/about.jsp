@@ -13,7 +13,12 @@
 		</div>
 		<dl>
 			<dt><b>Recent changes:</b></dt>	
-			<dd><b>Mouse lists can now be downloaded as a PDF</b></dd>	
+			<dd><b>It is now possible to download a PDF showing the records for all the 
+			mice listed for an individual holder.</b><br>
+			 To do this, go to the "Holder List," find the name of the holder, 
+			 and click on the number on the extreme right ("Mice Held"). The page 
+			 that comes up, showing the list of all the mice held, has a button that 
+			 can be clicked to download the list.</dd>	
 			<dd><b>It is now easier to submit a new mouse to the database.</b>
 			<br>The mouse submission form has been updated.  When submitting a published mutant
 			allele or transgene, some data (such as the gene and pubmed IDs, as well as a description)
