@@ -222,7 +222,11 @@
 <%= topPageSelectionLinks %> <%=emptyIfNull(holderListDiv) %>
 
 </div>
+<% 
+if (holder != null) 
+    { %>
 <a class="btn btn-small btn-info" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
+<%} %>
 <%= table %> 
 <div id="bottomControls">
 <%= bottomPageSelectionLinks %>
