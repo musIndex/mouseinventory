@@ -3,6 +3,13 @@
 <%=HTMLGeneration.getPageHeader(null, false,false,"onload=\"setFocus('quickSearchForm', 'searchterms')\"") %>
 <%=HTMLGeneration.getNavBar(null, false) %>
 
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".whatsnew dt").css("color","green");
+	$(".whatsnew dd b").css("color","purple");
+});
+</script>
+
 <div class="pagecontent">
 <div class="textwrapper">
 	<div class="whatsnew">
@@ -27,6 +34,7 @@
 			<dt><b>Site Feedback:</b></dt>
 			<dd>We'd like to hear from you!  Please use the 'Submit Feedback' link at the top of the page
 			if you would like to report an issue or have any other comments regarding the database.
+			<br>
 			<br>
 			</dd>
 			
