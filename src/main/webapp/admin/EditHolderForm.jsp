@@ -68,7 +68,7 @@
             <td colspan=2 align="center">
             <input type="hidden" name="command" value="Edit">
             <input type="hidden" name="holderID" value="<%= id %>">
-            <input type="submit" value="Submit Changes"></td>
+            <input type="submit" class="btn btn-primary" value="Submit Changes"></td>
         </tr>
     </table>
 </form>
@@ -77,7 +77,7 @@
 <form action="UpdateHolder.jsp" method="post">
     <input type="hidden" name="holderID" value="<%= id %>">
     Delete this holder? 
-    <input type="submit" name="command" value="Delete">
+    <input type="submit" class="btn btn-danger" name="command" value="Delete">
 </form>
 <%}else{ %>
 	This Holder is linked to one or more mouse records and cannot be deleted:

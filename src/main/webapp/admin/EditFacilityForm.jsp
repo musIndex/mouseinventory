@@ -54,7 +54,7 @@
             </td>
         </tr>
         <tr>
-            <td colspan="2"><input type="submit" value="Save Changes"></td>
+            <td colspan="2"><input type="submit" class="btn btn-primary" value="Save Changes"></td>
         </tr>
     </table>
 </form>
@@ -64,7 +64,7 @@
 <form action="UpdateFacility.jsp" method="post">
     <input type="hidden" name="facilityID" value="<%= id %>">
     Delete this facility? 
-    <input type="submit" name="command" value="Delete">
+    <input type="submit" class="btn btn-danger" name="command" value="Delete">
 </form>
 <%}else{ %>
 	This Holder is linked to one or more mouse records and cannot be deleted:

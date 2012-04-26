@@ -28,7 +28,7 @@ for(ImportDefinition importReportDefinition : ImportHandler.getImportDefinitions
 			<tr>
 				<td colspan="2">
 				<input type="hidden" name="<%=ImportServlet.importDefinitionIdFieldName %>" size="30" value="<%=importReportDefinition.Id %>">
-				<input type="submit" value="Upload"></td>
+				<input type="submit" class="btn btn-primary" value="Upload"></td>
 			</tr>
 		</table>
 	</form>

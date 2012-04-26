@@ -23,7 +23,7 @@
 				<form action="DeleteSubmission.jsp" method="POST">
 				<input type="hidden" name="confirm" value="confirmCode123456">
 				<input type="hidden" name="submissionID" value="<%=submissionID %>">
-				<input type="submit" value="Yes">
+				<input type="submit" class="btn btn-danger" value="Yes">
 				</form>			
 				<%
 			}

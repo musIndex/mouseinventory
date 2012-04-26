@@ -43,7 +43,7 @@
 		        <tr>
 		            <td colspan="2">
 		            <input type="hidden" name="command" value="Insert">
-		            <input type="submit" value="Create Facility"></td>
+		            <input type="submit" class="btn btn-success" value="Create Facility"></td>
 		        </tr>
 		    </table>
 		</form>		

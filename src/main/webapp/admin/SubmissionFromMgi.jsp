@@ -193,7 +193,7 @@ if(!processed)
 	</tr>
 	
 	</table>
-	<input type="submit" value="Submit">
+	<input type="submit" class="btn btn-primary" value="Submit">
 	</form>
 	<%
 }
