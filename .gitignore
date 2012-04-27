@@ -1,6 +1,3 @@
-build/
-docs/
 target/*
-*.class
 .DS_Store
 
