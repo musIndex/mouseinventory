@@ -10,7 +10,7 @@ $(document).ready(function(){
 });
 </script>
 
-<div class="pagecontent-centered">
+<div class="pagecontent">
 <div class="textwrapper">
 	<div class="whatsnew">
 		<div class="borderbox">
