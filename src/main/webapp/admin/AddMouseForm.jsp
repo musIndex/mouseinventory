@@ -29,7 +29,7 @@
 %>
 
 
-<div class="pagecontent">
+<div class="pagecontent-leftaligned">
 <h2>Creating new record: <%=HTMLGeneration.emptyIfNull(newMouse.getMouseName()) %> (<%= newMouse.getMouseType() %>)
 </h2>
 <h2>Record Preview:</h2>

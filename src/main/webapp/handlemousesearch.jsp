@@ -99,7 +99,7 @@
       Log.Info("Search performed with terms \"" + searchterms + "\", " + resultCount);
 %>
 
-<div class="pagecontent">
+<div class="pagecontent-leftaligned">
 
 <h4><%=resultCount %></h4>
 

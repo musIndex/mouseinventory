@@ -81,7 +81,7 @@
 %>
 
 
-<div class="pagecontent">
+<div class="pagecontent-leftaligned">
 <h2>Editing Submission #<%=submission.getSubmissionID() %>: <%=record.getMouseName() %> (<%= record.getMouseType() %>)
 </h2>
 <%=submissionTable %>
