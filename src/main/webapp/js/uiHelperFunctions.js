@@ -132,8 +132,7 @@ function clearFieldValue(elementName)
 
 function SetFieldValue(elementName, value)
 {
-	var ele = document.getElementById(elementName);
-	ele.value = value;
+	$("#" + elementName).val(value).trigger("liszt:updated");;
 }
 
 function UpdateTransgenicType()
