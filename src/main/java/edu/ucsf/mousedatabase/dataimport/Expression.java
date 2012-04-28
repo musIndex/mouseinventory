@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public interface Expression
 {
-	public ExpressionMatch match(HashMap<String,String> row);
-	public String[] getGroupNames();
-	public String getName();
+  public ExpressionMatch match(HashMap<String,String> row);
+  public String[] getGroupNames();
+  public String getName();
 }

@@ -11,15 +11,15 @@
 <jsp:setProperty property="*" name="submitterData"/>
 <div class="pagecontent">
 <%
-	
-	if(!submitterData.ValidateContactInfo())
-	{
-		%><h2><font color="red">Invalid contact information. Please go back to step 1.</font></h2>
-		<a href="submitforminit.jsp">Back to step 1</a>
-		<%	
-	}
-	else
-	{
+  
+  if(!submitterData.ValidateContactInfo())
+  {
+    %><h2><font color="red">Invalid contact information. Please go back to step 1.</font></h2>
+    <a href="submitforminit.jsp">Back to step 1</a>
+    <%  
+  }
+  else
+  {
 
 %>
 
@@ -74,9 +74,9 @@ Is the mouse published?
 </td>
 <td colspan="2">
 <input type="radio" name="isPublished" 
-		value="Yes" onclick="UpdateSelectedMouseType()" <%=HTMLGeneration.isChecked(newMouse.getIsPublished() != null && newMouse.isPublished()) %> >Yes<br>
+    value="Yes" onclick="UpdateSelectedMouseType()" <%=HTMLGeneration.isChecked(newMouse.getIsPublished() != null && newMouse.isPublished()) %> >Yes<br>
 <input type="radio" name="isPublished"
-		value="No" onclick="UpdateSelectedMouseType()" <%=HTMLGeneration.isChecked(newMouse.getIsPublished() != null && !newMouse.isPublished()) %> >No
+    value="No" onclick="UpdateSelectedMouseType()" <%=HTMLGeneration.isChecked(newMouse.getIsPublished() != null && !newMouse.isPublished()) %> >No
 </td>
 </tr>
 </table>

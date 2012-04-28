@@ -26,7 +26,7 @@
 
 <%
 if (!confirmed){
-	 String table = HTMLGeneration.getMouseTable(records,false,false,false);
+   String table = HTMLGeneration.getMouseTable(records,false,false,false);
 %>
 
 <h2><font color="red">Please Confirm that you want to change the mouse type of record # <%= mouseID %> 
@@ -46,9 +46,9 @@ from <%= record.getMouseType() %> to <%= newMouseType.getTypeName() %>
 Else click your browser's BACK button.
 
 <%}else{ 
-	record.setMouseType(newMouseType.getTypeName());
-	DBConnect.updateMouseRecord(record);
-	records = DBConnect.getMouseRecord(mouseID);
+  record.setMouseType(newMouseType.getTypeName());
+  DBConnect.updateMouseRecord(record);
+  records = DBConnect.getMouseRecord(mouseID);
 %>
 <font size="4" color="black">The type of mouse ID <%= mouseID %> has been changed. Please <a
         href="EditMouseForm.jsp?id=<%= mouseID %>">edit it

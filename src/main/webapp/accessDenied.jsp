@@ -3,5 +3,5 @@
 <%=HTMLGeneration.getNavBar(null, true, false) %>
 
 <div class="pagecontent">
-	<h2 style="color:red;">Login failed.  Invalid username/password combination.</h2>
+  <h2 style="color:red;">Login failed.  Invalid username/password combination.</h2>
 </div>
