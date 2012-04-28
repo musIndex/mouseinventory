@@ -17,7 +17,7 @@ server {
     }
 
     location /{
-	rewrite ^  https://$host/mouseinventory$request_uri? permanent;
+  rewrite ^  https://$host/mouseinventory$request_uri? permanent;
     }
 
     location /mouseinventory/{

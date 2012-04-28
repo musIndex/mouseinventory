@@ -15,7 +15,7 @@ function AJAXInteraction(url, callback) {
     function processRequest () {
       // readyState of 4 signifies request is complete
       if (req.readyState == 4) {
-	// status of 200 signifies sucessful HTTP call
+  // status of 200 signifies sucessful HTTP call
         if (req.status == 200) {
           if (callback) callback(req.responseXML);
         }

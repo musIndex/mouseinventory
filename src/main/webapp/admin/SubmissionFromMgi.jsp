@@ -29,111 +29,111 @@ allHldrs.toArray(holderList);
 
 if (request.getParameter("mgiIds") != null)
 {
-	String ids = request.getParameter("mgiIds");
-	
-	String holderName = request.getParameter("holderName");
-	String facilityName = request.getParameter("holderFacility");
-	
-	List<Integer> mgiIds = new ArrayList<Integer>();
-	
-	for (String id : ids.split("[\r\n]+"))
-	{
-		try
-		{
-			mgiIds.add(Integer.parseInt(id));
-		}
-		catch(Exception e)
-		{
-			badIds.add(id);
-		}
-	}
-	String idList = "";
-	boolean first = true;
-	for(int id : mgiIds)
-	{
-		if (first)
-		{
-			first = false;
-		}
-		else
-		{
-			idList += ", ";
-		}
-		idList += id;
-	}
-	
-	HashMap<Integer,MouseSubmission> requestedSubmissions = MGIConnect.SubmissionFromMGI(mgiIds,-1);
-	
-	List<MouseSubmission> submissions = new ArrayList<MouseSubmission>();
-	
-	for (int mgiId : requestedSubmissions.keySet())
-	{
-		if (requestedSubmissions.get(mgiId) != null)
-		{
-			submissions.add(requestedSubmissions.get(mgiId));
-		}
-		else
-		{
-			invalidIdsBuffer.append("<b>Not a valid Allele MGI ID: " + mgiId + ".  No submission generated.<b><br>");
-		}
-	}
-	
-	if (submissions.size() <= 0)
-	{
-		header = "No submissions created.  Input ids were: " + idList;
-	}
-	else
-	{
-		UserData submitterData = new UserData();
-		submitterData.setFirstName("Database");
-		submitterData.setLastName("Administrator");
-		submitterData.setEmail(HTMLGeneration.AdminEmail);
-		submitterData.setDepartment("database admin");
-		submitterData.setTelephoneNumber(" ");
-		List<Integer> subIds = new ArrayList<Integer>();	
-		
-		
-		
-		for(MouseSubmission sub : submissions)
-		{
-			
-			if(DBConnect.isDuplicateSubmission(sub,duplicateBuffer))
-			{
-				continue;
-			}
-			sub.setHolderFacility("unassigned");
-			sub.setHolderName("unassigned");
-			if (holderName != null && !holderName.isEmpty() &&!holderName.equals("Choose One"))
-			{
-				sub.setHolderName(holderName);
-			}
-			if (facilityName != null && !facilityName.isEmpty() && !holderName.equals("Choose One"))
-			{
-				sub.setHolderFacility(facilityName);
-			}
-			int submissionID = DBConnect.insertSubmission(submitterData,sub,MouseSubmission.GetPropertiesString(submitterData,sub));
-			DBConnect.updateSubmission(submissionID,"new","Auto-generated from MGI Submission tool");
-			subIds.add(submissionID);
-				
+  String ids = request.getParameter("mgiIds");
+  
+  String holderName = request.getParameter("holderName");
+  String facilityName = request.getParameter("holderFacility");
+  
+  List<Integer> mgiIds = new ArrayList<Integer>();
+  
+  for (String id : ids.split("[\r\n]+"))
+  {
+    try
+    {
+      mgiIds.add(Integer.parseInt(id));
+    }
+    catch(Exception e)
+    {
+      badIds.add(id);
+    }
+  }
+  String idList = "";
+  boolean first = true;
+  for(int id : mgiIds)
+  {
+    if (first)
+    {
+      first = false;
+    }
+    else
+    {
+      idList += ", ";
+    }
+    idList += id;
+  }
+  
+  HashMap<Integer,MouseSubmission> requestedSubmissions = MGIConnect.SubmissionFromMGI(mgiIds,-1);
+  
+  List<MouseSubmission> submissions = new ArrayList<MouseSubmission>();
+  
+  for (int mgiId : requestedSubmissions.keySet())
+  {
+    if (requestedSubmissions.get(mgiId) != null)
+    {
+      submissions.add(requestedSubmissions.get(mgiId));
+    }
+    else
+    {
+      invalidIdsBuffer.append("<b>Not a valid Allele MGI ID: " + mgiId + ".  No submission generated.<b><br>");
+    }
+  }
+  
+  if (submissions.size() <= 0)
+  {
+    header = "No submissions created.  Input ids were: " + idList;
+  }
+  else
+  {
+    UserData submitterData = new UserData();
+    submitterData.setFirstName("Database");
+    submitterData.setLastName("Administrator");
+    submitterData.setEmail(HTMLGeneration.AdminEmail);
+    submitterData.setDepartment("database admin");
+    submitterData.setTelephoneNumber(" ");
+    List<Integer> subIds = new ArrayList<Integer>();  
+    
+    
+    
+    for(MouseSubmission sub : submissions)
+    {
+      
+      if(DBConnect.isDuplicateSubmission(sub,duplicateBuffer))
+      {
+        continue;
+      }
+      sub.setHolderFacility("unassigned");
+      sub.setHolderName("unassigned");
+      if (holderName != null && !holderName.isEmpty() &&!holderName.equals("Choose One"))
+      {
+        sub.setHolderName(holderName);
+      }
+      if (facilityName != null && !facilityName.isEmpty() && !holderName.equals("Choose One"))
+      {
+        sub.setHolderFacility(facilityName);
+      }
+      int submissionID = DBConnect.insertSubmission(submitterData,sub,MouseSubmission.GetPropertiesString(submitterData,sub));
+      DBConnect.updateSubmission(submissionID,"new","Auto-generated from MGI Submission tool");
+      subIds.add(submissionID);
+        
 
-		}
-		
-		if (subIds.size() > 0)
-		{		bodyText += HTMLGeneration.getSubmissionTable(DBConnect.getMouseSubmissions(subIds),null,null);
-			header = "Created new submission(s): ";
-		}
-		else
-		{
-			header = "No submissions were created.";
-		}
-		processed = true;
-		
-		
-	}
+    }
+    
+    if (subIds.size() > 0)
+    {    bodyText += HTMLGeneration.getSubmissionTable(DBConnect.getMouseSubmissions(subIds),null,null);
+      header = "Created new submission(s): ";
+    }
+    else
+    {
+      header = "No submissions were created.";
+    }
+    processed = true;
+    
+    
+  }
 }
 else
 {
-	header = "Create new submission from MGI number(s)";
+  header = "Create new submission from MGI number(s)";
 }
 
 %>
@@ -172,39 +172,39 @@ else
 <% 
 if(!processed) 
 {
-	%>
-	<p>To process multiple MGI ids simultaneously, enter one per line.  
-	NOTE - it may take a long time to process multiple IDs, please be patient.  Progress reporting to be implemented later.
-	
-	<form method="post" action="SubmissionFromMgi.jsp">
-	<textarea  name=mgiIds rows="20" cols="20"></textarea>
-	<br>
-	<table>
-	<tr>
-		<td valign="top">Holder</td>
-		<td valign="top"><%=HTMLGeneration.genSelect("holderName",(String[])holderList,"",null)%>
-		</td>
-	</tr>
-	
-	<tr >
-		<td valign="top">Facility :</td>
-		<td valign="top"><%=HTMLGeneration.genSelect("holderFacility",(String[])facilityList,"", null)%>
-		</td>
-	</tr>
-	
-	</table>
-	<input type="submit" class="btn btn-primary" value="Submit">
-	</form>
-	<%
+  %>
+  <p>To process multiple MGI ids simultaneously, enter one per line.  
+  NOTE - it may take a long time to process multiple IDs, please be patient.  Progress reporting to be implemented later.
+  
+  <form method="post" action="SubmissionFromMgi.jsp">
+  <textarea  name=mgiIds rows="20" cols="20"></textarea>
+  <br>
+  <table>
+  <tr>
+    <td valign="top">Holder</td>
+    <td valign="top"><%=HTMLGeneration.genSelect("holderName",(String[])holderList,"",null)%>
+    </td>
+  </tr>
+  
+  <tr >
+    <td valign="top">Facility :</td>
+    <td valign="top"><%=HTMLGeneration.genSelect("holderFacility",(String[])facilityList,"", null)%>
+    </td>
+  </tr>
+  
+  </table>
+  <input type="submit" class="btn btn-primary" value="Submit">
+  </form>
+  <%
 }
 else
 { 
-	%>
-	
-	<%=bodyText %>
-	
-	
-	<%
+  %>
+  
+  <%=bodyText %>
+  
+  
+  <%
 } 
 %>
 </div>

@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-	<WatchedResource>WEB-INF/web.xml</WatchedResource>
-	
-	<Resource name="jdbc/mouse_inventory" 
-				auth="Container"
-				type="javax.sql.DataSource" 
-				username="mouseuser" 
-				password="password"
-				driverClassName="com.mysql.jdbc.Driver"
-				url="jdbc:mysql://localhost/mouse_inventory"
-				maxActive="15" 
-				maxIdle="3"
-				removeAbandoned="true"
-				removeAbandonedTimeout="120"
-				logAbandoned="true"
-				testOnBorrow="false"
-				testOnReturn="false"
-				timeBetweenEvictionRunsMillis="60000"
-				numTestsPerEvictionRun="5"
-				minEvictableIdleTimeMillis="30000"
-				testWhileIdle="true"
-				validationQuery="select now()"/>
-	<Environment name="MOUSEDATABASE_MGI_DATABASE_USER" value="user"  type="java.lang.String" override="false"/>
-	<Environment name="MOUSEDATABASE_MGI_DATABASE_PW" value="password"  type="java.lang.String" override="false"/>
-	
-	<Environment name="MOUSEDATABASE_SITE_NAME" value="University Name Mouse Inventory Database"  type="java.lang.String" override="false"/>
-	<Environment name="MOUSEDATABASE_ADMINISTRATOR_EMAIL" value="admin.mousedatabase@university.edu"  type="java.lang.String" override="false"/>
+  <WatchedResource>WEB-INF/web.xml</WatchedResource>
+  
+  <Resource name="jdbc/mouse_inventory" 
+        auth="Container"
+        type="javax.sql.DataSource" 
+        username="mouseuser" 
+        password="password"
+        driverClassName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://localhost/mouse_inventory"
+        maxActive="15" 
+        maxIdle="3"
+        removeAbandoned="true"
+        removeAbandonedTimeout="120"
+        logAbandoned="true"
+        testOnBorrow="false"
+        testOnReturn="false"
+        timeBetweenEvictionRunsMillis="60000"
+        numTestsPerEvictionRun="5"
+        minEvictableIdleTimeMillis="30000"
+        testWhileIdle="true"
+        validationQuery="select now()"/>
+  <Environment name="MOUSEDATABASE_MGI_DATABASE_USER" value="user"  type="java.lang.String" override="false"/>
+  <Environment name="MOUSEDATABASE_MGI_DATABASE_PW" value="password"  type="java.lang.String" override="false"/>
+  
+  <Environment name="MOUSEDATABASE_SITE_NAME" value="University Name Mouse Inventory Database"  type="java.lang.String" override="false"/>
+  <Environment name="MOUSEDATABASE_ADMINISTRATOR_EMAIL" value="admin.mousedatabase@university.edu"  type="java.lang.String" override="false"/>
 
-	<Environment name="GOOGLE_ANALYTICS_ACCOUNT" value="" type="java.lang.String" override="false" />
-	<Environment name="GOOGLE_ANALYTICS_DOMAIN_SUFFIX" value=".university.edu" type="java.lang.String" override="false" />
+  <Environment name="GOOGLE_ANALYTICS_ACCOUNT" value="" type="java.lang.String" override="false" />
+  <Environment name="GOOGLE_ANALYTICS_DOMAIN_SUFFIX" value=".university.edu" type="java.lang.String" override="false" />
 </Context>

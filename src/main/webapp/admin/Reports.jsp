@@ -11,48 +11,48 @@
 <%!
 private String getReportSelector(ImportObjectType reportType, String name)
 {
-	ArrayList<ImportReport> importReports = DBConnect.getImportReports(reportType);
+  ArrayList<ImportReport> importReports = DBConnect.getImportReports(reportType);
 
-	if (importReports.size() == 0)
-	{
-		return "[No reports available yet - run an import of this type first]";
-	}
-	 String[] reportIds = new String[importReports.size()];
-	 String[] reportNames = new String[importReports.size()];
-	 
-	 for(int i = 0; i< importReports.size(); i++)
-	 {
-		 reportIds[i] = Integer.toString(importReports.get(i).getImportReportID());
-		 reportNames[i] = importReports.get(i).getName();
-	 }
-	 
-	 return HTMLGeneration.genSelect(name,reportIds,reportNames,null,null);
+  if (importReports.size() == 0)
+  {
+    return "[No reports available yet - run an import of this type first]";
+  }
+   String[] reportIds = new String[importReports.size()];
+   String[] reportNames = new String[importReports.size()];
+   
+   for(int i = 0; i< importReports.size(); i++)
+   {
+     reportIds[i] = Integer.toString(importReports.get(i).getImportReportID());
+     reportNames[i] = importReports.get(i).getName();
+   }
+   
+   return HTMLGeneration.genSelect(name,reportIds,reportNames,null,null);
 }
 
 private String getReportForm(String reportName, String reportDescription, String extraListItem)
 {
-	StringBuilder sb = new StringBuilder();
-	sb.append("<form method=\"get\" action=\"" + HTMLGeneration.siteRoot + "report\"\r\n");
-	sb.append("<dl>\r\n");
-	sb.append("<dt><button type=\"submit\" name=\"reportName\" class=\"btn\" value=\"" + reportName 
-			+ "\" />Download <b>" + reportName + "</b></button></dt>\r\n");
-	sb.append("<dd>" + reportDescription + "</dd>\r\n");
-	if (extraListItem != null)
-	{
-		sb.append("<dd>" + extraListItem + "</dd>");
-	}
-	sb.append("</dl>\r\n");
-	sb.append("</form>\r\n");
-	return sb.toString();
-	
+  StringBuilder sb = new StringBuilder();
+  sb.append("<form method=\"get\" action=\"" + HTMLGeneration.siteRoot + "report\"\r\n");
+  sb.append("<dl>\r\n");
+  sb.append("<dt><button type=\"submit\" name=\"reportName\" class=\"btn\" value=\"" + reportName 
+      + "\" />Download <b>" + reportName + "</b></button></dt>\r\n");
+  sb.append("<dd>" + reportDescription + "</dd>\r\n");
+  if (extraListItem != null)
+  {
+    sb.append("<dd>" + extraListItem + "</dd>");
+  }
+  sb.append("</dl>\r\n");
+  sb.append("</form>\r\n");
+  return sb.toString();
+  
 }
 
 
 %>
 <%
-	 String pptReportSelector = getReportSelector(ImportObjectType.PPTCHANGEREQUEST,"importReportId-ppt");
-	 String purchaseSubmissionReportSelector = getReportSelector(ImportObjectType.PURCHASESUBMISSION,"importReportId-purchase_sub");
-	 String purchaseChangeRequestReportSelector = getReportSelector(ImportObjectType.PURCHASECHANGEREQUEST,"importReportId-purchase_ppt");
+   String pptReportSelector = getReportSelector(ImportObjectType.PPTCHANGEREQUEST,"importReportId-ppt");
+   String purchaseSubmissionReportSelector = getReportSelector(ImportObjectType.PURCHASESUBMISSION,"importReportId-purchase_sub");
+   String purchaseChangeRequestReportSelector = getReportSelector(ImportObjectType.PURCHASECHANGEREQUEST,"importReportId-purchase_ppt");
 %>
 <div class="pagecontent">
 

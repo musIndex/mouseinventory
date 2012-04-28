@@ -4,41 +4,41 @@
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 
 <%
-	
+  
 
     String orderBy = request.getParameter("orderby");
-	String entered = request.getParameter("entered");
-	String status = request.getParameter("status");
+  String entered = request.getParameter("entered");
+  String status = request.getParameter("status");
 
-	if (orderBy == null) 
+  if (orderBy == null) 
     {
         orderBy = "submittedmouse.id";
     }
     
     if(entered!= null && entered.equalsIgnoreCase("null"))
     {
-    	entered = null;
+      entered = null;
     }
 
 
     /******/
     if(status == null)
-	{
-		if ((status = (String)session.getAttribute("listSubmissionStatus")) == null)
-		{
-			status = "new";
-		}
-	}
+  {
+    if ((status = (String)session.getAttribute("listSubmissionStatus")) == null)
+    {
+      status = "new";
+    }
+  }
     if (status.equalsIgnoreCase("need")) 
     {
         status = "need more info";
     }
-	session.setAttribute("listSubmissionStatus",status);
-	session.setAttribute("listSubmissionOrderBy",orderBy);
+  session.setAttribute("listSubmissionStatus",status);
+  session.setAttribute("listSubmissionOrderBy",orderBy);
 
     
-	
-	
+  
+  
     
     ArrayList<SubmittedMouse> submissions = DBConnect.getMouseSubmissions(status, entered, orderBy);
     
@@ -67,13 +67,13 @@
     String statusString = "Listing " + status + " submissions";
     if(status.startsWith("need"))
     {
-    	statusString = "Listing submissions in Holding";
-    	status="need";
+      statusString = "Listing submissions in Holding";
+      status="need";
     }else if(status.startsWith("accepted"))
     {
-    	statusString = "Listing submissions that have been converted to records";
+      statusString = "Listing submissions that have been converted to records";
     }
-    	
+      
 %>
 <%=HTMLGeneration.getNavBar("ListSubmissions.jsp?status="+status+"&entered="+entered, true) %>
 <div class="pagecontent-leftaligned">

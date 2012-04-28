@@ -8,24 +8,24 @@
 
 <%
 
-	int holderID = HTMLGeneration.stringToInt(request.getParameter("holder_id"));
-	int geneID = HTMLGeneration.stringToInt(request.getParameter("geneID"));
+  int holderID = HTMLGeneration.stringToInt(request.getParameter("holder_id"));
+  int geneID = HTMLGeneration.stringToInt(request.getParameter("geneID"));
     int mouseTypeID = HTMLGeneration.stringToInt(request.getParameter("mousetype_id"));
     String orderBy = request.getParameter("orderby");
     int pagenum = HTMLGeneration.stringToInt(request.getParameter("pagenum"));
     int limit = HTMLGeneration.stringToInt(request.getParameter("limit"));  
     if (limit == -1)
     {
-    	limit = 100;
+      limit = 100;
     }
     
     if (pagenum == -1)
     {
-    	pagenum = 1;
+      pagenum = 1;
     }
     int offset = limit * (pagenum - 1);
-    int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null,true,-1,-1);		
-	ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, true);	
+    int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null,true,-1,-1);    
+  ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, true);  
     String table = HTMLGeneration.getMouseTable(mice, false, true, false);  
     ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();  
     String mouseTypeSelectionLinks = HTMLGeneration.getMouseTypeSelectionLinks(mouseTypeID, orderBy,holderID,geneID,mouseTypes,null,null,-1,-1);
@@ -37,22 +37,22 @@
     String mouseCountStr = "";
     if(mouseTypeID != -1)
     {
-    	for(MouseType type : mouseTypes)
-    	{
-    		if(type.getMouseTypeID() == mouseTypeID)
-    		{
-    			mouseTypeStr += " " + type.getTypeName();
-    			break;
-    		}
-    	}
+      for(MouseType type : mouseTypes)
+      {
+        if(type.getMouseTypeID() == mouseTypeID)
+        {
+          mouseTypeStr += " " + type.getTypeName();
+          break;
+        }
+      }
     } 
     else
     {
-    	mouseTypeStr += " all";	
+      mouseTypeStr += " all";  
     }   
     if(mice.size() > 0)
     {
-    	mouseCountStr = mice.size() + " found.";
+      mouseCountStr = mice.size() + " found.";
     }
     
     
@@ -60,12 +60,12 @@
     
     if (holder != null) 
     { 
-		mouseTypeStr += " held by " + holder.getFullname(); 
- 	} 
+    mouseTypeStr += " held by " + holder.getFullname(); 
+   } 
     else if(gene != null) 
-    { 	
-		mouseTypeStr += " with gene <span class=\"geneSymbol\">" + gene.getSymbol() + "</span> - <span class=\"geneName\">" + gene.getFullname() + "</span>";
-	}
+    {   
+    mouseTypeStr += " with gene <span class=\"geneSymbol\">" + gene.getSymbol() + "</span> - <span class=\"geneName\">" + gene.getFullname() + "</span>";
+  }
 
     
 %>

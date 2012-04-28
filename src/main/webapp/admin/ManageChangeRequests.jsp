@@ -13,35 +13,35 @@
 
 
 <%
-	String newStatus = request.getParameter("newStatus");
-	String idToUpdate = request.getParameter("idToUpdate");
-	String updateMessage = "";
-	
-	String status = request.getParameter("status");
-	String orderBy = request.getParameter("orderby");
-	
-	if(status == null)
-	{
-		if ((status = (String)session.getAttribute("manageChangeRequestStatus")) == null)
-		{
-			status = "new";
-		}
-	}
-	session.setAttribute("manageChangeRequestStatus",status);
-	if(orderBy == null)
-	{
-		if((orderBy = (String)session.getAttribute("manageChangeRequestOrderBy")) == null)
-		{
-			orderBy = "changerequest.id";
-		}
-	}
-	else
-	{
-		session.setAttribute("manageChangeRequestOrderBy",orderBy);
-	}
-	
+  String newStatus = request.getParameter("newStatus");
+  String idToUpdate = request.getParameter("idToUpdate");
+  String updateMessage = "";
+  
+  String status = request.getParameter("status");
+  String orderBy = request.getParameter("orderby");
+  
+  if(status == null)
+  {
+    if ((status = (String)session.getAttribute("manageChangeRequestStatus")) == null)
+    {
+      status = "new";
+    }
+  }
+  session.setAttribute("manageChangeRequestStatus",status);
+  if(orderBy == null)
+  {
+    if((orderBy = (String)session.getAttribute("manageChangeRequestOrderBy")) == null)
+    {
+      orderBy = "changerequest.id";
+    }
+  }
+  else
+  {
+    session.setAttribute("manageChangeRequestOrderBy",orderBy);
+  }
+  
 
-	
+  
 
     String[] sortOptions = new String[] {"changerequest.id","requestdate","mouse_id","firstname","lastname"};
     String[] sortOptionNiceNames = new String[] {"Request #","Request date", "Record #", "Submitter first name", "Submitter last name"};
@@ -58,17 +58,17 @@
     sortBuf.append("<br>&nbsp;<input type=\"submit\" value=\"Update\">"); 
     sortBuf.append("</form>");
     
-	ArrayList<ChangeRequest> requests = DBConnect.getChangeRequests(status, orderBy);
-	
-	String newTable = HTMLGeneration.getChangeRequestsTable(requests, status);
+  ArrayList<ChangeRequest> requests = DBConnect.getChangeRequests(status, orderBy);
+  
+  String newTable = HTMLGeneration.getChangeRequestsTable(requests, status);
     
-	String statusString = "Listing " + status + " change requests";
-	if(status.equalsIgnoreCase("done"))
-	{
-		statusString = "Listing completed change requests";
-	}
+  String statusString = "Listing " + status + " change requests";
+  if(status.equalsIgnoreCase("done"))
+  {
+    statusString = "Listing completed change requests";
+  }
        
-	int kount = requests.size();
+  int kount = requests.size();
 %>
 
 <h2><%= statusString %></h2>
