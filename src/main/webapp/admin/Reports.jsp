@@ -12,7 +12,11 @@
 private String getReportSelector(ImportObjectType reportType, String name)
 {
 	ArrayList<ImportReport> importReports = DBConnect.getImportReports(reportType);
-	  
+
+	if (importReports.size() == 0)
+	{
+		return "[No reports available yet - run an import of this type first]";
+	}
 	 String[] reportIds = new String[importReports.size()];
 	 String[] reportNames = new String[importReports.size()];
 	 
@@ -28,9 +32,10 @@ private String getReportSelector(ImportObjectType reportType, String name)
 private String getReportForm(String reportName, String reportDescription, String extraListItem)
 {
 	StringBuilder sb = new StringBuilder();
-	sb.append("<form method=\"GET\" action=\"" + HTMLGeneration.siteRoot + "report\"\r\n");
+	sb.append("<form method=\"get\" action=\"" + HTMLGeneration.siteRoot + "report\"\r\n");
 	sb.append("<dl>\r\n");
-	sb.append("<dt><input type=\"submit\" name=\"reportName\" class=\"linkButton\" value=\"" + reportName + "\" /></dt>\r\n");
+	sb.append("<dt><button type=\"submit\" name=\"reportName\" class=\"btn\" value=\"" + reportName 
+			+ "\" />Download <b>" + reportName + "</b></button></dt>\r\n");
 	sb.append("<dd>" + reportDescription + "</dd>\r\n");
 	if (extraListItem != null)
 	{
@@ -45,9 +50,9 @@ private String getReportForm(String reportName, String reportDescription, String
 
 %>
 <%
-	 String pptReportSelector = getReportSelector(ImportObjectType.PPTCHANGEREQUEST,"importReportId");
-	 String purchaseSubmissionReportSelector = getReportSelector(ImportObjectType.PURCHASESUBMISSION,"importReportId");
-	 String purchaseChangeRequestReportSelector = getReportSelector(ImportObjectType.PURCHASECHANGEREQUEST,"importReportId");
+	 String pptReportSelector = getReportSelector(ImportObjectType.PPTCHANGEREQUEST,"importReportId-ppt");
+	 String purchaseSubmissionReportSelector = getReportSelector(ImportObjectType.PURCHASESUBMISSION,"importReportId-purchase_sub");
+	 String purchaseChangeRequestReportSelector = getReportSelector(ImportObjectType.PURCHASECHANGEREQUEST,"importReportId-purchase_ppt");
 %>
 <div class="pagecontent">
 

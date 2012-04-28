@@ -29,7 +29,7 @@
 	allHldrs.toArray(holderList);
 
 %>
-<div class="pagecontent-centered">
+<div class="pagecontent">
 <h2>Submit a request to change Mouse Record # <%= mouseID %>
 </h2>
 <%= table %>

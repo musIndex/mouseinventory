@@ -210,7 +210,7 @@
     
 %>
 <div id="mousecount" style="display:none"><%=mice.size() %></div>
-<div class="pagecontent">
+<div class="pagecontent-leftaligned">
 
 <h2><%=mouseTypeStr %></h2>
 <h4><%=mouseCountStr %></h4>
@@ -218,7 +218,7 @@
 <%=emptyIfNull(holderData) %>
 
 <!-- -<p><a href="EndangeredReport.jsp">View Endangered Mice</a></p>-->
-<form action="MouseReport.jsp" method="post"><%= mouseTypeSelectionLinks %>
+<form action="MouseReport.jsp" method="get"><%= mouseTypeSelectionLinks %>
 <%= topPageSelectionLinks %> <%=emptyIfNull(holderListDiv) %>
 
 </div>

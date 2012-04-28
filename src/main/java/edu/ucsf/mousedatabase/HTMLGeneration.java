@@ -64,15 +64,16 @@ public class HTMLGeneration {
 			buf.append("<meta http-equiv=\"expires\" content=\"0\"> <!-- says that the cache expires 'now' -->\r\n");
 			buf.append("<meta http-equiv=\"pragma\" content=\"no-cache\"> <!-- says not to use cached stuff, if there is any -->\r\n");
 		}
-		buf.append("<link href=\""
-				+ siteRoot
-				+ "css/MouseInventory.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
+		
 		buf.append("<link href=\""
 				+ siteRoot
 				+ "css/bootstrap.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
 		buf.append("<link href=\""
 				+ siteRoot
 				+ "css/chosen.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
+		buf.append("<link href=\""
+				+ siteRoot
+				+ "css/MouseInventory.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
 
 		buf.append("<title>" + SiteName + "</title>\r\n");
 
@@ -146,7 +147,7 @@ public class HTMLGeneration {
 			table.append("<div id=\"quickSearchContainer\">");
 			table.append("<form id=\"quickSearchForm\"action=\"" + siteRoot + "handlemousesearch.jsp\" method=\"get\">\r\n");
 			table.append("<input type=\"text\" class=\"input-medium search-query\"  name=\"searchterms\" >");
-			table.append("<input class=\"btn\" type=\"submit\" value=\"Quick Search\">");
+			table.append("<input class=\"btn search-query\" type=\"submit\" value=\"Quick Search\">");
 			table.append("</form>");
 			table.append("</div>");
 			
@@ -155,6 +156,8 @@ public class HTMLGeneration {
 		// Navigation Bar
 		table.append("<div id=\"navigationLinksContainer\">");
 		table.append("<ul class=\"navLinkUL\">");
+		table.append(addNavLink("Search", "search.jsp", null,
+				currentPageFilename, false));
 		table.append(addNavLink("Mouse List", "MouseReport.jsp", null,
 				currentPageFilename, false));
 		table.append(addNavLink("Gene List", "GeneReport.jsp", null,
@@ -162,8 +165,6 @@ public class HTMLGeneration {
 		table.append(addNavLink("Holder List", "HolderReport.jsp", null,
 				currentPageFilename, false));
 		table.append(addNavLink("Facility List", "FacilityReport.jsp", null,
-				currentPageFilename, false));
-		table.append(addNavLink("Search", "search.jsp", null,
 				currentPageFilename, false));
 		// table.append(addNavLink("Endangered Mice", "EndangeredReport.jsp",
 		// null,currentPageFilename,false));
@@ -2735,7 +2736,7 @@ public class HTMLGeneration {
 					+ facilityID + "\"></td></tr>");
 		}
 
-		buf.append("<tr><td colspan=\"5\"><input type=\"submit\" value=\"Update\"></td></tr>");
+		buf.append("<tr><td colspan=\"5\"><input type=\"submit\" class='btn btn-small' value=\"Update\"></td></tr>");
 		buf.append("</table>");
 
 		return buf.toString();

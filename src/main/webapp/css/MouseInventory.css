@@ -438,7 +438,13 @@ th {
 	font-weight: bold;
 }
 
+.pagecontent-leftaligned {
+	padding: 5px;
+}
 .pagecontent {
+	/* width: 90%;
+	min-width: 940px;
+	margin: auto; */
 	padding: 5px;
 }
 
@@ -678,12 +684,6 @@ td.mouselistcolumn-holders {
 	min-width: 150px;
 }
 
-.pagecontent-centered {
-	width: 90%;
-	min-width: 940px;
-	margin: auto;
-}
-
 .search-box {
 	margin-top: 50px;
 	vertical-align: middle;
@@ -702,4 +702,10 @@ div.centered {
 form.centered-left {
 	margin: auto;
 	text-align: left
+}
+
+/* overriding bootstrap */
+
+input[type="image"], input[type="checkbox"], input[type="radio"] {
+	margin-right:3px;
 }

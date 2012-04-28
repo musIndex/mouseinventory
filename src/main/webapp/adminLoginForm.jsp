@@ -7,7 +7,7 @@
 Log.Info("Admin loging in");
 %>
 
-<div class="pagecontent-centered centered">
+<div class="pagecontent centered">
 	<br>
 	<br>	
 	<form style="width:400px" class="centered-left" id="loginform" name="loginform" action="j_security_check" method="post">
@@ -16,13 +16,11 @@ Log.Info("Admin loging in");
 		<tr>
 			<td>Username:</td>
 			<td><input type="text" name="j_username"></td>
+			<td style="vertical-align:top" rowspan="2"><input class='btn btn-primary btn-large' type="submit" value="&nbsp;&nbsp;Login&nbsp;&nbsp;"></td>
 		</tr>
 		<tr>
 			<td>Password:</td>
 			<td><input type="password" name="j_password"></td>
-		</tr>
-		<tr>
-			<td colspan="2"><input class='btn btn-primary btn-large' type="submit" value="Login"></td>
 		</tr>
 	</table>
 	</form>

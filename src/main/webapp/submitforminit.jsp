@@ -71,7 +71,7 @@ if (request != null && request.getRemoteUser() != null && request.getRemoteUser(
 {
 	%>
 	<p><b>ADMIN LOGGED IN (<%=request.getRemoteUser() %>)</b>&nbsp;
-		<button onclick="AutoPopulateContactInfo()" value="AutoFill">Auto Fill Data</button>
+		<button class="btn" onclick="AutoPopulateContactInfo()" value="AutoFill">Auto Fill Data</button>
 		</p>
 	<%
 }%>
