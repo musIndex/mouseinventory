@@ -7,11 +7,11 @@
 Log.Info("Admin loging in");
 %>
 
-<div class="pagecontent">
-
-
-	<h2>Please Log in for administrative access</h2>
-	<form id="loginform" name="loginform" action="j_security_check" method="POST">
+<div class="pagecontent-centered centered">
+	<br>
+	<br>	
+	<form style="width:400px" class="centered-left" id="loginform" name="loginform" action="j_security_check" method="post">
+	<h2>Sign in for administrative access</h2>
 	<table>
 		<tr>
 			<td>Username:</td>
@@ -22,7 +22,7 @@ Log.Info("Admin loging in");
 			<td><input type="password" name="j_password"></td>
 		</tr>
 		<tr>
-			<td><input class='btn btn-primary' type="submit" value="Login"></td>
+			<td colspan="2"><input class='btn btn-primary btn-large' type="submit" value="Login"></td>
 		</tr>
 	</table>
 	</form>

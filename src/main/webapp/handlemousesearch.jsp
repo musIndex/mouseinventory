@@ -73,8 +73,11 @@
 	    		geneId = Integer.parseInt(mouseGene);
 	    	}
 	    	ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(-1, null, -1, geneId, "live", searchterms);
-	    	resultCount = mice.size() + " records found";
-	    	newResults = HTMLGeneration.getMouseTable(mice, false, true, false);
+	    	resultCount = mice.size() + " records found for terms '" + searchterms + "'";
+	    	if(mice.size() > 0)
+	    	{
+	    		newResults = HTMLGeneration.getMouseTable(mice, false, true, false);
+	    	}
 	    	/*
 	    	for(String term : mouseSearchCache.getTermsToHighlight())
 	    	{
@@ -98,15 +101,15 @@
 
 <div class="pagecontent">
 
-<form id="searchForm" action="handlemousesearch.jsp" method="POST">Search for <input
-	type="TEXT" size="50" name="searchterms" value="<%= searchterms %>">
-<input type="SUBMIT" value="Search"></form>
-
 <h4><%=resultCount %></h4>
+
+<div class="search-box">
+	<form id="searchForm" action="handlemousesearch.jsp" class="form-search" method="get">
+		Search again:&nbsp;&nbsp;
+	    <input type="text" class="input-large search-query" name="searchterms" value="<%=searchterms %>">
+	    <input class="btn" type="submit" value="Go">
+	</form>
+</div>
 <%= newResults %>
 
-<br>
-
-
 </div>
-

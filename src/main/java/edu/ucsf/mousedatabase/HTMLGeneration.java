@@ -52,7 +52,7 @@ public class HTMLGeneration {
 
 		StringBuffer buf = new StringBuffer();
 		// TODO html5
-		buf.append("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\r\n");
+		buf.append("<!DOCTYPE html>\r\n");
 
 		buf.append("<html>\r\n");
 		buf.append("<head>\r\n");
@@ -87,8 +87,13 @@ public class HTMLGeneration {
 		buf.append("<script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js'></script>\r\n");
 		buf.append("<link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css 'rel='stylesheet' type='text/css' />");
 		buf.append("<script src=\"" + scriptRoot + "chosen.jquery.min.js\"></script>\r\n");
-		buf.append("<script type=\"text/javascript\">\r\n$(document).ready(function(){\r\n$('.chzn-select').chosen();\r\n})\r\n</script>\r\n");
-
+		buf.append("<script type=\"text/javascript\">\r\n" + 
+				"$(document).ready(function(){\r\n" + 
+					"$('.chzn-select').chosen();" + 
+					"$('input[name=searchterms]').focus()" +
+				"\r\n})\r\n" +
+				"</script>\r\n");
+		
 		buf.append(googleAnalyticsScript + "\r\n");
 		if (additionalJavaScript != null) {
 			buf.append(additionalJavaScript);
@@ -118,10 +123,11 @@ public class HTMLGeneration {
 		table.append("<div id=\"navBarContainer\">");
 
 		// Page header
-		table.append("<div id=\"pageHeaderContainer\">");
+		table.append("<div id=\"pageHeaderContainer\" class='clearfix'>");
 		table.append("<div id=\"pageTitleContainer\">");
 		table.append("<div>");
-		table.append("<span id=\"pageTitle\">" + SiteName + "</span>");
+		table.append("<span id=\"pageTitle\">" + 
+				"<a href='" + siteRoot + "'>" + SiteName + "</a></span>");
 		table.append("</div>");
 		// About, faq, contact links
 		table.append("<div>");
@@ -135,14 +141,16 @@ public class HTMLGeneration {
 		table.append("</div>");
 		table.append("</div>");
 		// Quick Search bar
-		table.append("<div id=\"quickSearchContainer\">");
-		table.append("<form id=\"quickSearchForm\"action=\"" + siteRoot
-				+ "handlemousesearch.jsp\" method=\"post\">\r\n");
-		table.append("<input type=\"text\" size=\"15\" name=\"searchterms\" value=\"\">");
-		table.append("<span>&nbsp;</span>");
-		table.append("<input class=\"searchButton\" type=\"submit\" value=\"Quick Search\">");
-		table.append("</form>");
-		table.append("</div>");
+		if (currentPageFilename == null || !(currentPageFilename.equals("search.jsp") || currentPageFilename.equals("handlemousesearch.jsp")))
+		{
+			table.append("<div id=\"quickSearchContainer\">");
+			table.append("<form id=\"quickSearchForm\"action=\"" + siteRoot + "handlemousesearch.jsp\" method=\"get\">\r\n");
+			table.append("<input type=\"text\" class=\"input-medium search-query\"  name=\"searchterms\" >");
+			table.append("<input class=\"btn\" type=\"submit\" value=\"Quick Search\">");
+			table.append("</form>");
+			table.append("</div>");
+			
+		}
 		table.append("</div>");
 		// Navigation Bar
 		table.append("<div id=\"navigationLinksContainer\">");

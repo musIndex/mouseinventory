@@ -10,12 +10,12 @@ $(document).ready(function(){
 });
 </script>
 
-<div class="pagecontent">
+<div class="pagecontent-centered">
 <div class="textwrapper">
 	<div class="whatsnew">
 		<div class="borderbox">
 		<h3>Welcome to the <%=HTMLGeneration.SiteName %>!</h3>
-		<div style="position: relative;top: 35px;">
+		<div style="position: relative;top: 43px;">
 			<img src="img/new.png">
 		</div>
 		<dl>
