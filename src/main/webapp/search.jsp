@@ -37,6 +37,7 @@ $(document).ready(function(){
 
 <%
 
+    
     response.setHeader("Cache-Control", "no-cache");
     response.setHeader("Pragma", "no-cache");
     response.setDateHeader("Expires", 0);
@@ -50,7 +51,7 @@ $(document).ready(function(){
 
     boolean searchPerformed = false;
 
-   
+    
 
     if(searchterms != null && !searchterms.isEmpty())
     {
@@ -63,9 +64,27 @@ $(document).ready(function(){
   	    {
   	      whereClause = " mouse.id=" + extractFirstGroup(mouseIDregex,searchterms);
   	    }
+        //TODO rework this, not robust to spaces, need support for quoted groups
+        searchterms = searchterms.toLowerCase();
+        ArrayList<MouseRecord> mice = new ArrayList<MouseRecord>();
+        String[] andClasues = searchterms.split("and");
+        
+        for (String andClause : andClasues) {
+          ArrayList<MouseRecord> mouseGroup = new ArrayList<MouseRecord>();
+          String[] orClauses = andClause.split("or");
+          for (String orClause : orClauses) {
+          	mouseGroup = addMice(mouseGroup, DBConnect.getMouseRecords(-1, null, -1, -1, "live", orClause.trim()));
+          }
+          if (mice.isEmpty()) {
+            mice = mouseGroup;
+          }
+          else
+          {
+            mice.retainAll(mouseGroup);
+          }
+        }
         
         
-        ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(-1, null, -1, -1, "live", searchterms);
         resultCount = mice.size() + " records found";
         if(mice.size() > 0)
         {
@@ -109,25 +128,23 @@ $(document).ready(function(){
           <input id="search_button" class="btn" type="submit" value="Mouse Search">
       </form>
       <div class="search-instructions">
-        Enter search terms separated by spaces.
-        <br>
-    
-        Use "-" before a term to exclude it. Enclose exact phrase in quotes. Punctuation marks such as ,.?! will be ignored.
-        <br><br>
         <b>Examples:</b>
         <br>
-        cre hedgehog
-        <dl><dd>Search for all records which <b>include both</b> cre <b>and</b> hedgehog</dd></dl>
-    
-        cre -hedgehog
-        <dl><dd>Search for all records which <b>include</b> cre and do <b>NOT include</b> hedgehog</dd></dl>
-    
-        "fibroblast growth factor 10"
-        <dl><dd>Search for all records which include the <b>exact phrase</b> fibroblast growth factor 10. Compare to unquoted search
-            for same phrase which also returns <b>fibroblast growth factor</b> 9, MGI <b>10</b>4723 (Fgf9)
-        </dd></dl>
-    
-        <b>IMPORTANT:</b> You may limit the search to mouse type by adding "Mutant Allele", "Transgenic", or "Inbred Strain" to your search terms.
+        shh null
+        <br>
+        Search for all records which <b>include the exact string</b> shh&lt;space&gt;null
+        <br><br>
+        shh or null
+        <br>
+        Search for all records which <b>include</b> shh <b>or</b> null
+        <br><br>
+        shh and null
+        <br>
+        Search for all records which include the shh <b>and</b> null
+        <br><br>
+        #101
+        <br>
+        Search for record #101
       </div>
       <a href="#" id="show_search_instructions">how do I search?</a>
     </div>

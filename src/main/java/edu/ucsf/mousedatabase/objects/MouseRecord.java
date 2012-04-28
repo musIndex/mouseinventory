@@ -47,7 +47,18 @@ public class MouseRecord {
 
   String submittedMouseID;
 
-
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof MouseRecord) {
+      return ((MouseRecord)o).getMouseID().equals(this.getMouseID());
+    }
+    return false;
+  }
+  
+  @Override
+  public int hashCode() {
+    return this.getMouseID().hashCode();
+  }
 
 
   public String getOfficialMouseName() {

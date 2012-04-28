@@ -15,6 +15,8 @@ import org.apache.commons.fileupload.FileItem;
 
 import com.csvreader.CsvReader;
 
+import edu.ucsf.mousedatabase.objects.MouseRecord;
+
 
 public class HTMLUtilities {
 
@@ -173,4 +175,24 @@ public class HTMLUtilities {
     }
     return true;
   }
+  
+  public static ArrayList<MouseRecord> addMice(ArrayList<MouseRecord> list, ArrayList<MouseRecord> mice) {
+    if (list == null || list.isEmpty()) return mice;
+    if (mice == null || mice.isEmpty()) return list;
+    
+    for (MouseRecord newMouse : mice){
+      boolean exists = false;
+      for (MouseRecord exisiting : list) {
+        if (exisiting.getMouseID() == newMouse.getMouseID()) {
+          exists = true;
+          break;
+        }
+      }
+      if (exists) continue;
+      list.add(newMouse);
+    }
+    return list;
+  }
+
+
 }
