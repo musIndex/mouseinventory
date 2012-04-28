@@ -172,7 +172,7 @@ $(document).ready(function(){
 %>
 
 <div class="pagecontent">
-	<div id="pageContent" class="formbody">
+	<div class="formbody">
 		<div class="introduction">
 			<h2>New Submission Step 3: Mouse Details</h2>
 			<%=savedMessage%>

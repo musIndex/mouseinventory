@@ -40,7 +40,7 @@
 	
 %>
 <div class="pagecontent">
-<div id="pageContent" class="formbody">
+<div class="formbody">
 <div class="introduction">
 <h2>New Submission: Step 1</h2>
 

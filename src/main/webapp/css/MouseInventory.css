@@ -9,10 +9,10 @@ body {
 }
 
 div.duplicateDescriptor {
- border-color: #AA0000;
- background-color: #F8F8EE;
- border-style: solid;
- padding: 3px;
+	border-color: #AA0000;
+	background-color: #F8F8EE;
+	border-style: solid;
+	padding: 3px;
 }
 
 img {
@@ -24,19 +24,19 @@ table {
 }
 
 ul {
-	margin:0;
-	padding-left:20px;
+	margin: 0;
+	padding-left: 20px;
 }
-ul.navLinkUL
-{
-	margin:0;
+
+ul.navLinkUL {
+	margin: 0;
 	padding: 0;
-}	
+}
 
 #navBarContainer {
 	min-width: 920px;
 	position: relative;
-	margin:0px;
+	margin: 0px;
 }
 
 #pageHeaderContainer {
@@ -45,105 +45,106 @@ ul.navLinkUL
 }
 
 #pageTitleContainer {
-	float:left;
+	float: left;
 }
 
-#pageTitle a{
+#pageTitle a {
 	color: #FFFFFF;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 28px;
 	line-height: 30px;
 	text-decoration: none;
 }
+
 .titleSubText {
 	color: #FFFFFF;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
-	line-height: 16px;	
+	line-height: 16px;
 }
+
 #quickSearchContainer {
 	float: right;
 	margin-top: 4px;
-	margin-right: 4px;	
-}
-.searchButton {
-	background-color:#EEEEEE;
-	border:1px solid #7D95B9;
-	color:#002255;
-	font-size:12px;
-	font-weight:bolder;
-	outline-color:-moz-use-text-color;
-	outline-style:none;
-	outline-width:0;
-	padding:2px;
+	margin-right: 4px;
 }
 
+.searchButton {
+	background-color: #EEEEEE;
+	border: 1px solid #7D95B9;
+	color: #002255;
+	font-size: 12px;
+	font-weight: bolder;
+	outline-color: -moz-use-text-color;
+	outline-style: none;
+	outline-width: 0;
+	padding: 2px;
+}
 
 .linkButton {
-	border-style: none;	
+	border-style: none;
 	background-color: #F8F8FF;
-	padding:0px;
-	margin:0px;
-	cursor: pointer; 
+	padding: 0px;
+	margin: 0px;
+	cursor: pointer;
 	cursor: hand;
 	color: blue;
 }
+
 .linkButton:hover {
-
 	background-color: #8EE5EE;
-
 }
 
 .linkButtonCurrent {
-	border-style: none;	
+	border-style: none;
 	background-color: #AAB3E2;
-	padding:0px;
-	margin:0px;
-	cursor: pointer; 
+	padding: 0px;
+	margin: 0px;
+	cursor: pointer;
 	cursor: hand;
 	color: blue;
 }
 
 .linkButtonCurrent:hover {
-
-	background-color: #8EE5EE;	
-
+	background-color: #8EE5EE;
 }
 
 #navigationLinksContainer {
-	-moz-background-clip:border;
-	-moz-background-inline-policy:continuous;
-	-moz-background-origin:padding;
-	background:#99bbcc none repeat scroll 0 0;
-	font-size:13px;
-	font-weight:bold;
-	height:24px;
-	min-width:800px;
+	-moz-background-clip: border;
+	-moz-background-inline-policy: continuous;
+	-moz-background-origin: padding;
+	background: #99bbcc none repeat scroll 0 0;
+	font-size: 13px;
+	font-weight: bold;
+	height: 24px;
+	min-width: 800px;
 	margin: 0px;
 	padding: 0;
 }
+
 #adminLinksContainer {
-	-moz-background-clip:border;
-	-moz-background-inline-policy:continuous;
-	-moz-background-origin:padding;
-	background:#666699 none repeat scroll 0 0;
-	font-size:13px;
-	font-weight:bold;
-	height:24px;
-	min-width:800px;
+	-moz-background-clip: border;
+	-moz-background-inline-policy: continuous;
+	-moz-background-origin: padding;
+	background: #666699 none repeat scroll 0 0;
+	font-size: 13px;
+	font-weight: bold;
+	height: 24px;
+	min-width: 800px;
 	margin: 0px;
 	padding: 0;
 }
+
 #submissionLinksContainer {
-	-moz-background-clip:border;
-	-moz-background-inline-policy:continuous;
-	-moz-background-origin:padding;
-	background:#5577AA none repeat scroll 0 0;
-	font-family:Verdana,Arial,Helvetica;
-	font-size:13px;
-	font-weight:bold;
-	height:24px;
-	min-width:800px;
+	-moz-background-clip: border;
+	-moz-background-inline-policy: continuous;
+	-moz-background-origin: padding;
+	background: #5577AA none repeat scroll 0 0;
+	font-family: Verdana, Arial, Helvetica;
+	font-size: 13px;
+	font-weight: bold;
+	height: 24px;
+	min-width: 800px;
 	margin: 0;
 	padding: 0;
 }
@@ -160,7 +161,7 @@ li.NavLinkItem:hover {
 	padding: 0;
 	list-style-type: none;
 	float: left;
-	background-color:#00008B;
+	background-color: #00008B;
 }
 
 li.currentNavLinkItem {
@@ -170,63 +171,59 @@ li.currentNavLinkItem {
 	float: left;
 	background: #335599;
 }
+
 li.currentNavLinkItem:hover {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
 	float: left;
-	background-color:#00008B;
+	background-color: #00008B;
 }
-
 
 a.navBarAnchor:hover {
 	color: #FFFFFD;
-	text-decoration:none;
+	text-decoration: none;
 	padding-left: 10px;
 	padding-right: 10px;
 }
 
 a.navBarAnchor:link {
-	text-decoration:none;
+	text-decoration: none;
 	padding-left: 10px;
 	padding-right: 10px;
 	color: #FFFFFF;
 }
+
 a.navBarAnchor:visited {
 	color: #FFFFFD;
-	text-decoration:none;
-		padding-left: 10px;
+	text-decoration: none;
+	padding-left: 10px;
 	padding-right: 10px;
 }
 
-.mouseTable
-{
-	min-width: 920px;	
+.mouseTable {
+	min-width: 920px;
 }
 
-.facilityTable
-{
-		
+.facilityTable {
+	
 }
 
-.mouseSubDetail
-{
-	line-height: 145%;	
+.mouseSubDetail {
+	line-height: 145%;
 	margin-left: 20px;
 }
 
-.mouseComment
-{
-	line-height: 170%;	
+.mouseComment {
+	line-height: 170%;
 }
 
 dl {
-	
-	line-height: 180%;	
+	line-height: 180%;
 }
 
 .bp_invalid {
-	font-weight:bold;
+	font-weight: bold;
 	color: red;
 }
 
@@ -271,6 +268,7 @@ tr.InbredH {
 tr.Inbred {
 	background-color: #AAAADD;
 }
+
 tr.InbredAlt {
 	background-color: #AAAAEE;
 }
@@ -288,116 +286,124 @@ tr.formFieldAlt {
 }
 
 .formbody {
-	align: center;
-	width: 950px;
+	margin:auto;
+	margin-top:10px;
+	width: 920px;
 	background-color: #CDC9A5;
-	padding:5px;
+	padding: 5px;
 }
+
 .introduction {
 	background-color: #FFE7BA;
-	padding:5px;
+	padding: 5px;
 	margin: 2px;
 }
 
 tr.mouselistH {
 	font-size: 14pt;
-	background-color: #7AC5CD;	
-}
-tr.mouselist {
-	background-color: #ECF1EF;	
-}
-tr.mouselistAlt {
-	background-color: #EEF3E2;	
-}
-tr.submissionlistH {
-	font-size: 14pt;
-	background-color: #E9967A;	
-}
-tr.submissionlist {
-	background-color: #FEEED4;	
-}
-tr.submissionlistAlt {
-	background-color: #FFFFD4;	
+	background-color: #7AC5CD;
 }
 
+tr.mouselist {
+	background-color: #ECF1EF;
+}
+
+tr.mouselistAlt {
+	background-color: #EEF3E2;
+}
+
+tr.submissionlistH {
+	font-size: 14pt;
+	background-color: #E9967A;
+}
+
+tr.submissionlist {
+	background-color: #FEEED4;
+}
+
+tr.submissionlistAlt {
+	background-color: #FFFFD4;
+}
 
 tr.changerequestlistH {
 	font-size: 14pt;
 	color: white;
-	background-color: #00688B;	
+	background-color: #00688B;
 }
+
 tr.changerequestlist {
-	background-color: #f4ecf6;	
+	background-color: #f4ecf6;
 }
+
 tr.changerequestlistAlt {
-	background-color: #e6f2f8;	
+	background-color: #e6f2f8;
 }
+
 tr.facilitylistH {
 	font-size: 14pt;
-	background-color: #7AC5CD;	
+	background-color: #7AC5CD;
 }
+
 tr.facilitylist {
-	background-color: #ECF1EF;	
+	background-color: #ECF1EF;
 }
+
 tr.facilitylistAlt {
 	background-color: #EEF3E2;
 }
+
 tr.holderlist {
-	background-color: #ECF1EF;	
-	
+	background-color: #ECF1EF;
 }
+
 tr.holderlistAlt {
 	background-color: #EEF3E2;
-		
 }
+
 table.editMouseParent {
-	width: 100%;	
+	width: 100%;
 	padding: 0px;
 }
 
 table.editMouseColumn {
 	width: 100%;
 	padding: 0px;
-	
 }
 
 div.editMouseFormContainer {
 	
-	
 }
+
 div.editMouseFormLeftColumn {
 	float: left;
 	width: 50%;
-	
 }
+
 div.editMouseFormRightColumn {
 	float: left;
 	width: 50%;
-	
 }
 
 tr.editMouseRow {
 	background-color: #ECF1EF;
-	
 }
 
-
-
 dl {
-	margin:0px;	
+	margin: 0px;
 }
 
 .mouseName {
 	font-size: 11pt;
-	font-weight: bold;	
+	font-weight: bold;
 }
+
 .mouseType {
-	
-	font-weight: bold;	
+	font-weight: bold;
 }
+
 .innertable {
 	height: 100%;
-	align: left;	
+	align: left;
 }
 
 .firstColumn {
@@ -411,15 +417,15 @@ dl {
 .error {
 	color: red;
 	font-weight: bold;
-	font-size: 14pt;	
+	font-size: 14pt;
 }
 
 td {
-	padding:3px;	
+	padding: 3px;
 }
 
 th {
-	font-size: 14pt;	
+	font-size: 14pt;
 }
 
 .header2 {
@@ -434,7 +440,6 @@ th {
 
 .pagecontent {
 	padding: 5px;
-	
 }
 
 .about {
@@ -443,38 +448,37 @@ th {
 }
 
 .whatsnew {
-	float: right;	
+	float: right;
 	width: 400px;
 }
 
 .textwrapper {
 	margin-left: 30px;
-	width: 1020px;	
-	
+	width: 1020px;
 }
 
 .borderbox {
 	border-style: solid;
 	border-width: 2px;
 	border-color: black;
-	padding: 5px;	
+	padding: 5px;
 }
 
 table.inputForm {
-	width:100%;
+	width: 100%;
 }
 
 .geneSymbol {
-	font-weight: bold;	
+	font-weight: bold;
 }
 
-.geneName {	
+.geneName {
 	
 }
 
 .endangered {
 	font-weight: bold;
-	color: red;	
+	color: red;
 }
 
 .mgiGeneLink {
@@ -482,143 +486,138 @@ table.inputForm {
 }
 
 a.MP:hover {
-	background-color:#C7E3FE;
-	color:#CC0000;
-	text-decoration:none;
+	background-color: #C7E3FE;
+	color: #CC0000;
+	text-decoration: none;
 }
 
 a.MP:link {
-	text-decoration:none;
+	text-decoration: none;
 }
 
 a.MP:visited {
-	color:#660099;
-	text-decoration:none;
+	color: #660099;
+	text-decoration: none;
 }
 
 a.SL:hover {
-	
-	color:#CC0000;
-	text-decoration:none;
+	color: #CC0000;
+	text-decoration: none;
 }
 
 a.SL:link {
-	text-decoration:none;
+	text-decoration: none;
 	font-size: 11px;
 }
+
 a.SL:visited {
 	font-size: 11px;
-	text-decoration:none;
+	text-decoration: none;
 }
 
 a.TL:hover {
-	
-	color:#CC0000;
-	text-decoration:none;
+	color: #CC0000;
+	text-decoration: none;
 }
 
 a.TL:link {
-	text-decoration:none;
+	text-decoration: none;
 	font-size: 13px;
 }
+
 a.TL:visited {
 	font-size: 13px;
-	text-decoration:none;
+	text-decoration: none;
 }
 
 a:hover {
-	color:#FF2222;
-	text-decoration:none;
+	color: #FF2222;
+	text-decoration: none;
 }
 
-div.reportBody
-{
+div.reportBody {
 	
 }
 
-div.reportEntry
-{
+div.reportEntry {
 	background-color: #F5F5DC;
-	padding:3px;
+	padding: 3px;
 }
 
-div.reportEntryAlt
-{
+div.reportEntryAlt {
 	background-color: #EED5B7;
-	padding:3px;
+	padding: 3px;
 }
 
-span.rawRecord
-{
+span.rawRecord {
 	font-size: 11px;
-	font-family: monospace;	
+	font-family: monospace;
 	line-height: 12px;
 	display: none;
 }
 
-span.importAction
-{
+span.importAction {
 	font-weight: bold;
 }
 
-div.holderData
-{
-	width: 750px; 
+div.holderData {
+	width: 750px;
 	position: absolute;
-	left: 490px;	
-	line-height: 14px; 
+	left: 490px;
+	line-height: 14px;
 }
-div.holderNotice
-{
-	font-size: 11px; 	
-	border: thin solid black; 
+
+div.holderNotice {
+	font-size: 11px;
+	border: thin solid black;
 	padding: 3px;
 	margin-bottom: 3px;
 }
 
-span.redboldheading
-{
-	font-size: 12px; 
-	font-weight: bold; 
+span.redboldheading {
+	font-size: 12px;
+	font-weight: bold;
 	color: red;
 }
 
-span.boldheading
-{
-	font-size: 12px; 
-	font-weight: bold; 
+span.boldheading {
+	font-size: 12px;
+	font-weight: bold;
 }
+
 span.importStatusTitle {
-    font-size: 16px;
-    font-weight:  700;
+	font-size: 16px;
+	font-weight: 700;
 }
+
 span.importStatusHeader {
-    font-size: 14px;
-    font-weight:  600;
+	font-size: 14px;
+	font-weight: 600;
 }
+
 span.progressPercentange {
-    margin-left: 3px;
-    text-decoration: italic;
+	margin-left: 3px;
+	text-decoration: italic;
 }
+
 span.historyMessage {
-    margin-left: 3px;
-    line-height: 12px;
-    font-size: 10px;
+	margin-left: 3px;
+	line-height: 12px;
+	font-size: 10px;
 }
 
 span.historyTimestamp {
-    font-weight: 700;
-    font-size: 10px;
+	font-weight: 700;
+	font-size: 10px;
 }
 
-div.importHistory{
+div.importHistory {
 	border: 1px solid;
-    height: 300px;
-    line-height: 15px;
-    margin-bottom: 20px;
-    overflow: auto;
-    width: 750px;
-	
+	height: 300px;
+	line-height: 15px;
+	margin-bottom: 20px;
+	overflow: auto;
+	width: 750px;
 }
 
 div.help_pdf {
@@ -634,21 +633,21 @@ div.help_pdf {
 	margin-bottom: 10px;
 }
 
-div.help_pdf:hover{
+div.help_pdf:hover {
 	background-color: lightCyan;
 }
 
 div.help_pdf a {
-	text-decoration: none;	
+	text-decoration: none;
 }
 
-span.full_div_link{ 
-  position:absolute; 
-  width:100%;
-  height:100%;
-  top:0;
-  left: 0;
-  z-index: 1 
+span.full_div_link {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1
 }
 
 span.red {
@@ -660,15 +659,15 @@ span.red {
 }
 
 td.mouselistcolumn-name {
-	width:175px;
+	width: 175px;
 }
 
 td.mouselistcolumn-category {
-	min-width:250px;
+	min-width: 250px;
 }
 
 td.mouselistcolumn-details {
-	min-width:250px;
+	min-width: 250px;
 }
 
 td.mouselistcolumn-comment {
@@ -676,31 +675,31 @@ td.mouselistcolumn-comment {
 }
 
 td.mouselistcolumn-holders {
-	min-width:150px;
+	min-width: 150px;
 }
 
-.pagecontent-centered{
-	width:90%;
-	min-width:940px;
-	margin:auto;
+.pagecontent-centered {
+	width: 90%;
+	min-width: 940px;
+	margin: auto;
 }
+
 .search-box {
-	margin-top:50px;
-	vertical-align:middle;
+	margin-top: 50px;
+	vertical-align: middle;
 }
 
 .search-instructions {
 	width: 600px;
-	margin:auto;
-	display:none;
+	margin: auto;
+	display: none;
 }
 
 div.centered {
 	text-align: center;
-	
 }
 
 form.centered-left {
-	margin:auto;
+	margin: auto;
 	text-align: left
 }
