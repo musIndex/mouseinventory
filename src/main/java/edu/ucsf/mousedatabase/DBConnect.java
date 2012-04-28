@@ -2461,8 +2461,9 @@ public class DBConnect {
         }
 
         String query = "select g1.id,g1.symbol,g1.fullname,g1.mgi,count(*) as 'record count'" +
-          " from mouse left join gene g1 on mouse.gene_id=g1.id " +
-          "left join gene g2 on mouse.target_gene_id=g2.id" +
+          " from mouse left join gene g1 on mouse.gene_id=g1.id" +
+          " left join gene g2 on mouse.target_gene_id=g2.id" +
+          " where status='live'" +
           " group by g1.id";
 
         _resultSet = _statement.executeQuery(query);
