@@ -521,9 +521,8 @@ public class HTMLGeneration {
 					buf,
 					"Modification Type",
 					genRadio("modificationType", values,
-							r.getModificationType(), null),
-					"onChange=\"UpdateModificationTypeEdit()\" style=\""
-							+ rowVisibility(r.getMouseType().equalsIgnoreCase(
+							r.getModificationType(), "onChange=\"UpdateModificationTypeEdit()\""),
+					 "style=\""	+ rowVisibility(r.getMouseType().equalsIgnoreCase(
 									"mutant allele")) + "\"", "editMouseRow");
 
 			// Expressed Sequence section
@@ -533,15 +532,13 @@ public class HTMLGeneration {
 					buf,
 					"Expressed Sequence",
 					genRadio("expressedSequence", exprSeqValues,
-							r.getExpressedSequence()),
+							r.getExpressedSequence(), "onChange=\"UpdateExpressedSequenceEdit()\""),
 					"id=\"trExprSeqRow\" style=\""
 							+ rowVisibility(r.getMouseType().equalsIgnoreCase(
 									"Transgenic")
 									|| (r.getModificationType() != null && r
 											.getModificationType()
-											.equalsIgnoreCase(
-													"targeted knock-in")))
-							+ "\"  onChange=\"UpdateExpressedSequenceEdit()\"",
+											.equalsIgnoreCase("targeted knock-in"))) + "\"",
 					"editMouseRow");
 
 			String mgiID = r.getTargetGeneID();
