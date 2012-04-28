@@ -23,7 +23,7 @@
 
 %>
 
-<div id="pageContent" class="formbody">
+<div class="formbody">
 <div class="introduction"><div style="width:650px">
 <h2>New Submission Step 2: Choose Mouse Category</h2>
 <a href="submitforminit.jsp">Back to step 1</a>
