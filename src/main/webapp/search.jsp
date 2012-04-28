@@ -1,12 +1,10 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="edu.ucsf.mousedatabase.*"%>
 <%@ page import="edu.ucsf.mousedatabase.objects.MouseRecord"%>
 <%@ page import="static edu.ucsf.mousedatabase.HTMLUtilities.*"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <% boolean isXhr = request.getParameter("xhr") != null; %>
-
 <% if(!isXhr){ %>
   <%=getPageHeader(null,false,false, null) %>
   <%=getNavBar("search.jsp", false) %>
@@ -46,8 +44,6 @@ $(document).ready(function(){
     String searchterms = request.getParameter("searchterms");
     String searchsource = request.getParameter("search-source");
 
-    String mouseGene = request.getParameter("geneID");
-    String geneSymbol = request.getParameter("geneSymbol");
     String whereClause = "";
     String resultCount = "";
     String newResults = "";
@@ -56,15 +52,11 @@ $(document).ready(function(){
 
    
 
-    if((searchterms != null && !searchterms.isEmpty()) || mouseGene != null)
+    if(searchterms != null && !searchterms.isEmpty())
     {
       try
       {
-  	    if(mouseGene != null)
-  	    {
-  	      whereClause = " gene_id=" + mouseGene + " or target_gene_id=" + mouseGene;
-  	    }
-
+  	    
   	    String mouseIDregex = "^#([0-9]+)$";
 
   	    if(searchterms != null && searchterms.matches(mouseIDregex))
@@ -72,12 +64,8 @@ $(document).ready(function(){
   	      whereClause = " mouse.id=" + extractFirstGroup(mouseIDregex,searchterms);
   	    }
         
-        int geneId = -1;
-        if (mouseGene != null && !mouseGene.isEmpty())
-        {
-          geneId = Integer.parseInt(mouseGene);
-        }
-        ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(-1, null, -1, geneId, "live", searchterms);
+        
+        ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(-1, null, -1, -1, "live", searchterms);
         resultCount = mice.size() + " records found";
         if(mice.size() > 0)
         {
@@ -98,7 +86,8 @@ $(document).ready(function(){
     }
     catch(Exception e)
     {
-      newResults = "<p><font color=\"red\"><b>We're sorry, but an error prevented us from completing your search.  Please let the administrator know about this!</p><p>" + e.getLocalizedMessage() + "</b></font></p>";
+      newResults = "<p class='red'><b>We're sorry, but an error prevented us from completing your search.  Please let the administrator know about this!</b></p>";
+      Log.Error("Error searching", e);
     }
   }
   if (searchPerformed) {
