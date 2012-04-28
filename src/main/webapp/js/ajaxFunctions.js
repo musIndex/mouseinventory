@@ -3,7 +3,7 @@ function AJAXInteraction(url, callback) {
 
     var req = init();
     req.onreadystatechange = processRequest;
-        
+
     function init() {
       if (window.XMLHttpRequest) {
         return new XMLHttpRequest();
@@ -11,7 +11,7 @@ function AJAXInteraction(url, callback) {
         return new ActiveXObject("Microsoft.XMLHTTP");
       }
     }
-    
+
     function processRequest () {
       // readyState of 4 signifies request is complete
       if (req.readyState == 4) {

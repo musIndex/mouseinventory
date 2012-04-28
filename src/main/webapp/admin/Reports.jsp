@@ -19,13 +19,13 @@ private String getReportSelector(ImportObjectType reportType, String name)
   }
    String[] reportIds = new String[importReports.size()];
    String[] reportNames = new String[importReports.size()];
-   
+
    for(int i = 0; i< importReports.size(); i++)
    {
      reportIds[i] = Integer.toString(importReports.get(i).getImportReportID());
      reportNames[i] = importReports.get(i).getName();
    }
-   
+
    return HTMLGeneration.genSelect(name,reportIds,reportNames,null,null);
 }
 
@@ -34,7 +34,7 @@ private String getReportForm(String reportName, String reportDescription, String
   StringBuilder sb = new StringBuilder();
   sb.append("<form method=\"get\" action=\"" + HTMLGeneration.siteRoot + "report\"\r\n");
   sb.append("<dl>\r\n");
-  sb.append("<dt><button type=\"submit\" name=\"reportName\" class=\"btn\" value=\"" + reportName 
+  sb.append("<dt><button type=\"submit\" name=\"reportName\" class=\"btn\" value=\"" + reportName
       + "\" />Download <b>" + reportName + "</b></button></dt>\r\n");
   sb.append("<dd>" + reportDescription + "</dd>\r\n");
   if (extraListItem != null)
@@ -44,7 +44,7 @@ private String getReportForm(String reportName, String reportDescription, String
   sb.append("</dl>\r\n");
   sb.append("</form>\r\n");
   return sb.toString();
-  
+
 }
 
 

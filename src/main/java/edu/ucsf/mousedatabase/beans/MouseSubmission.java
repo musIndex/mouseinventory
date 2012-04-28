@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 
 public class MouseSubmission {
-  
+
   /*********************/
   String mouseName;
   String officialMouseName;
@@ -17,13 +17,13 @@ public class MouseSubmission {
   String holderFacility;
   String otherHolderFacility;
   String isPublished;
-  
+
   //Mutant Allele fields
   String MAModificationType;
   String MAMgiGeneID;
   String MAMgiGeneIDValidationString;
   String MAMgiGeneIDValid;
-  
+
   //Transgenic fields
   String TGExpressedSequence;
   String transgenicType;
@@ -36,13 +36,13 @@ public class MouseSubmission {
   String TGMouseGeneValidationString;
   String TGMouseGeneValid;
   String TGOther;
-  
+
   //Inbred Strain fields
-  
+
   String ISSupplier;
   String ISSupplierCatalogNumber;
   String ISSupplierCatalogUrl;
-  
+
   //Common fields
   String backgroundStrain;
   String mtaRequired;
@@ -58,7 +58,7 @@ public class MouseSubmission {
   String gensatFounderLine;
   String producedInLabOfHolder;
   String cryopreserved;
-  
+
   //ERROR messages
   //************************************************
   String mouseNameErr;
@@ -69,11 +69,11 @@ public class MouseSubmission {
   String isPublishedErr;
   String otherHolderNameErr;
   String otherFacilityErr;
-  
+
   //Mutant Allele fields
   String MAModificationTypeErr;
   String MAMgiGeneIDErr;
-  
+
   //Transgenic fields
   String TGExpressedSequenceErr;
   String transgenicTypeErr;
@@ -82,10 +82,10 @@ public class MouseSubmission {
   String TGKnockedInGeneErr;
   String TGMouseGeneErr;
   String TGOtherErr;
-  
+
   //Inbred Strain fields
   String ISSupplierErr;
-  
+
   //Common fields
   String backgroundStrainErr;
   String mtaRequiredErr;
@@ -94,27 +94,27 @@ public class MouseSubmission {
   String officialSymbolErr;
   String PMIDErr;
   String gensatFounderLineErr;
-  
+
   String producedInLabOfHolderErr;
   String cryopreservedErr;
-  
+
   public MouseSubmission()
   {}
-  
+
   public void clearMouseData()
   {
     mouseName = null;
     mouseType = null;
 
-    
+
     isPublished = null;
-    
+
     //Mutant Allele fields
     MAModificationType = null;
     MAMgiGeneID = null;
     MAMgiGeneIDValidationString = null;
     MAMgiGeneIDValid = null;
-    
+
     //Transgenic fields
     TGExpressedSequence = null;
     transgenicType = null;
@@ -127,11 +127,11 @@ public class MouseSubmission {
     TGMouseGeneValidationString = null;
     TGMouseGeneValid = null;
     TGOther = null;
-    
+
     //Inbred Strain fields
-    
+
     ISSupplier = null;
-    
+
     //Common fields
     backgroundStrain = null;
     mtaRequired = null;
@@ -147,8 +147,8 @@ public class MouseSubmission {
     producedInLabOfHolder = null;
     cryopreserved = null;
     rawMGIComment = null;
-    
-    
+
+
     //ERROR messages
     //************************************************
     mouseNameErr = null;
@@ -159,11 +159,11 @@ public class MouseSubmission {
     isPublishedErr = null;
     otherHolderNameErr = null;
     otherFacilityErr = null;
-    
+
     //Mutant Allele fields
     MAModificationTypeErr = null;
     MAMgiGeneIDErr = null;
-    
+
     //Transgenic fields
     TGExpressedSequenceErr = null;
     transgenicTypeErr = null;
@@ -172,11 +172,11 @@ public class MouseSubmission {
     TGKnockedInGeneErr = null;
     TGMouseGeneErr = null;
     TGOtherErr = null;
-    
+
     //Inbred Strain fields
     ISSupplierErr = null;
     ISSupplierCatalogNumber = null;
-    
+
     //Common fields
     backgroundStrainErr = null;
     mtaRequiredErr = null;
@@ -188,7 +188,7 @@ public class MouseSubmission {
     producedInLabOfHolderErr = null;
     cryopreservedErr = null;
   }
-  
+
   public void clearHolderData()
   {
     holderName = null;
@@ -201,36 +201,36 @@ public class MouseSubmission {
     clearMouseData();
     clearHolderData();
   }
-  
-  
+
+
   public boolean isMA(){ return mouseType!= null && mouseType.equalsIgnoreCase("Mutant Allele");}
   public boolean isTG(){ return mouseType!= null && mouseType.equalsIgnoreCase("Transgenic");}
   public boolean isIS(){return mouseType!= null && mouseType.equalsIgnoreCase("Inbred Strain");}
-  
+
   public boolean hasType() { return mouseType != null; }
-  
+
   public boolean isJAX() { return ISSupplierCatalogNumber != null && ISSupplierCatalogNumber.equalsIgnoreCase("jax"); }
-  
+
   public boolean isGeneExprSeq() { return TGExpressedSequence != null && TGExpressedSequence.equalsIgnoreCase("Mouse Gene (unmodified)");}
   public boolean isReporterExprSeq() { return TGExpressedSequence != null && TGExpressedSequence.equalsIgnoreCase("reporter");}
   public boolean isOtherExprSeq() { return TGExpressedSequence != null && TGExpressedSequence.equalsIgnoreCase("Modified mouse gene or Other");}
   public boolean isKnockIn() { return MAModificationType != null && MAModificationType.equalsIgnoreCase("targeted knock-in");}
   public boolean isRandomInsertion() { return transgenicType != null && transgenicType.equalsIgnoreCase("Random insertion");}
   public boolean isPublished() { return isPublished != null && isPublished.equalsIgnoreCase("Yes"); }
-  
+
   public boolean hasOtherHolderName() { return holderName != null && holderName.equalsIgnoreCase("Other(specify)");};
   public boolean hasOtherFacilityName() { return holderFacility != null && holderFacility.equalsIgnoreCase("Other(specify)");};
-  
+
   public boolean hasValidMAmgiGeneID() { return MAMgiGeneIDValid != null && MAMgiGeneIDValid.equalsIgnoreCase("true");};
   public boolean hasValidTGKnockedInGene() { return TGKnockedInGeneValid != null && TGKnockedInGeneValid.equalsIgnoreCase("true");};
   public boolean hasValidTGMouseGene() { return TGMouseGeneValid != null && TGMouseGeneValid.equalsIgnoreCase("true");};
   public boolean hasValidMouseMGIID() { return mouseMGIIDValid != null && mouseMGIIDValid.equalsIgnoreCase("true");};
   public boolean hasValidPMID() { return PMIDValid != null && PMIDValid.equalsIgnoreCase("true");};
-  
+
   //public boolean isCryoOnly() { return cryopreserved != null && cryopreserved.equalsIgnoreCase("Cryo only");};
   public String liveCryoStatus() {return cryopreserved != null ?  cryopreserved : "Live only";};
-  
-  
+
+
   public boolean ValidateHolderInfo(){
     boolean valid = true;
     clearHolderErrors();
@@ -263,23 +263,23 @@ public class MouseSubmission {
     }
     return valid;
   }
-  
 
-  
+
+
   public boolean validateMouseType(){
     boolean valid = true;
     clearMouseTypeErrors();
     //TODO implement this, just in case javascript doesn't catch all cases
-    
+
     return valid;
   }
 
-  
-  
+
+
   public boolean validateMouseDetails(){
     boolean valid = true;
     clearMouseDetailsErrors();
-    
+
     if(isNullOrEmpty(mouseName))
     {
       valid = false;
@@ -288,7 +288,7 @@ public class MouseSubmission {
     /* Temporarily disable mouse discipline field validation
     if(isMA() || isTG())
     {
-      
+
       if(mouseDisciplines == null || mouseDisciplines.length <= 0)
       {
         if(isNullOrEmpty(otherMouseDiscipline))
@@ -360,14 +360,14 @@ public class MouseSubmission {
         {
           //no validation rules for this case yet
         }
-  
+
       }
       if(isNullOrEmpty(mtaRequired))
       {
         //valid = false;
         //mtaRequiredErr = "Please specifiy whether or not an MTA is required.  If unknown, choose 'Don't Know'";
       }
-      
+
       if(isNullOrEmpty(MAMgiGeneID))
       {
         valid = false;
@@ -383,7 +383,7 @@ public class MouseSubmission {
         valid = false;
         MAMgiGeneIDErr = "Invalid gene ID";  //this will get overwritten by MAMGIGeneIDValidationString in getMAMgiGeneID()
       }
-      
+
       //MUTANT ALLELE PUBLISHED
       if(isPublished != null && isPublished())
       {
@@ -399,7 +399,7 @@ public class MouseSubmission {
           valid = false;
           producedInLabOfHolderErr = "Please choose yes or no.";
         }
-        
+
         if(isNullOrEmpty(comment))
         {
           valid = false;
@@ -411,11 +411,11 @@ public class MouseSubmission {
         isPublishedErr = "You must select whether or not this allele is published in step 2";
         valid = false;
       }
-      
+
       //validate comment
       //validate background strain
       valid &= validateMTA();
-      
+
     }
     //TRANSGENIC
     else if(isTG())
@@ -425,7 +425,7 @@ public class MouseSubmission {
         //valid = false;
         //mtaRequiredErr = "Please specifiy whether or not an MTA is required.  If uknown, choose 'Don't Know'";
       }
-      
+
       if(isNullOrEmpty(TGExpressedSequence))
       {
         valid = false;
@@ -472,17 +472,17 @@ public class MouseSubmission {
       }
       if(isRandomInsertion())
       {
-        
-        
+
+
       }
       else
       {
         transgenicTypeErr = "Unrecognized transgenic type!";
         valid = false;
       }
-      
+
       String typeString = isKnockIn() ? "transgene/knock-in" : "allele";
-      
+
       //PUBLISHED TRANSGENIC
       if(isPublished != null && isPublished())
       {
@@ -498,7 +498,7 @@ public class MouseSubmission {
           valid = false;
           producedInLabOfHolderErr = "Please choose yes or no.";
         }
-        
+
         if(isNullOrEmpty(comment))
         {
           valid = false;
@@ -510,7 +510,7 @@ public class MouseSubmission {
         isPublishedErr = "Select Yes or No";
         valid = false;
       }
-      
+
       valid &= validateMTA();
     }
     else if(isIS())
@@ -523,7 +523,7 @@ public class MouseSubmission {
       {
         //valid = false;
         //ISSupplierErr = "Please provide the supplier catalog number (e.g '000664')";
-        
+
       }
       else if(!isNullOrEmpty(ISSupplierCatalogNumber) && !isNumericString(ISSupplierCatalogNumber))
       {
@@ -533,15 +533,15 @@ public class MouseSubmission {
     }
     return valid;
   }
-  
-  
+
+
   public void clearAllErrors()
   {
     clearHolderErrors();
     clearMouseDetailsErrors();
     clearMouseTypeErrors();
   }
-  
+
   private void clearHolderErrors()
   {
     this.holderFacilityErr = null;
@@ -558,13 +558,13 @@ public class MouseSubmission {
     transgenicTypeErr = null;
     mouseTypeErr = null;
     isPublishedErr = null;
-    
+
     mouseNameErr = null;
     mouseDisciplinesErr = null;
-    
+
     MAModificationTypeErr = null;
     MAMgiGeneIDErr = null;
-    
+
     TGExpressedSequenceErr = null;
     TGRegulatoryElementErr = null;
     TGReporterErr = null;
@@ -573,7 +573,7 @@ public class MouseSubmission {
     TGOtherErr = null;
 
     ISSupplierErr = null;
-    
+
     backgroundStrainErr = null;
     mtaRequiredErr = null;
     commentErr = null;
@@ -584,12 +584,12 @@ public class MouseSubmission {
     producedInLabOfHolderErr = null;
     cryopreservedErr = null;
   }
-  
+
   private boolean isNullOrEmpty(String input)
   {
     return input == null || input.isEmpty();
   }
-  
+
   private boolean validateMGIMouseID(String typeString)
   {
     boolean valid = true;
@@ -610,7 +610,7 @@ public class MouseSubmission {
     }
     return valid;
   }
-  
+
   private boolean validateOfficialSymbol(String typeString)
   {
     boolean valid = true;
@@ -619,13 +619,13 @@ public class MouseSubmission {
       //officialSymbolErr = "Please enter the Official Symbol for the " + typeString;
       //valid = false;;
     }
-    
+
     if(mouseMGIID != null && mouseMGIID.equalsIgnoreCase("none"))
     {
       valid = true;
-      //officialSymbolErr = ""; 
+      //officialSymbolErr = "";
     }
-    
+
     return valid;
   }
 
@@ -652,7 +652,7 @@ public class MouseSubmission {
     }
     return valid;
   }
-  
+
   private boolean validateMTA()
   {
     /*if(mtaRequired == null)
@@ -661,9 +661,9 @@ public class MouseSubmission {
       return false;
     }*/
     return true;
-    
+
   }
-  
+
   private boolean isNumericString(String input)
   {
     Pattern ptn = Pattern.compile("[0-9]+");
@@ -671,7 +671,7 @@ public class MouseSubmission {
 
       return matcher.find() && matcher.matches();
   }
-  
+
   public String getNiceMouseType()
   {
     if(mouseType.equalsIgnoreCase("Transgenic"))
@@ -680,8 +680,8 @@ public class MouseSubmission {
     }
     return mouseType;
   }
-  
-  
+
+
   public String getFullMouseTypeTitle(){
     String mouseTypeTitle = "Unknown Mouse Type";
     if(isMA())
@@ -709,13 +709,13 @@ public class MouseSubmission {
     }
     return mouseTypeTitle;
   }
-  
+
   public String printMouse(String lineDelimeter)
   {
     StringBuffer buf = new StringBuffer();
     buf.append("Name: " + getMouseName() + lineDelimeter);
     buf.append("Type: " + getFullMouseTypeTitle()+ lineDelimeter);
-    
+
     buf.append("Holder: " + getHolderName() + lineDelimeter);
     buf.append("Other Holder : " + getOtherHolderName()+ lineDelimeter);
     buf.append("Facility: " +getHolderFacility() + lineDelimeter);
@@ -750,15 +750,15 @@ public class MouseSubmission {
 
     return buf.toString();
   }
-  
+
   public MouseSubmission(String tabDelimitedPropertiesString)
   {
     Properties props = new Properties();
-      if (tabDelimitedPropertiesString == null) 
+      if (tabDelimitedPropertiesString == null)
       {
         return;
       }
-      
+
         StringTokenizer t = new StringTokenizer(tabDelimitedPropertiesString, "\t");
         while (t.hasMoreTokens()) {
             StringTokenizer t2 = new StringTokenizer(t.nextToken(), "=");
@@ -855,19 +855,19 @@ public class MouseSubmission {
         {
           setCryopreserved(props.getProperty(propName));
         }
-        
-        
-        
+
+
+
       }
   }
-  
-  
+
+
   public static Properties GetPropertiesString(UserData submitterData, MouseSubmission newMouse)
   {
     Properties props = new Properties();
 
         //temporary properties conversion.
-        
+
         //general
         props.setProperty("First", submitterData.getFirstName());
         props.setProperty("Last",submitterData.getLastName());
@@ -875,7 +875,7 @@ public class MouseSubmission {
         props.setProperty("Email",submitterData.getEmail());
         props.setProperty("Tel",submitterData.getTelephoneNumber());
 
-        //all types     
+        //all types
         props.setProperty("MouseType", newMouse.getMouseType());
     if(newMouse.isMA() || newMouse.isTG())
     {
@@ -889,7 +889,7 @@ public class MouseSubmission {
         {
           props.setProperty("officialMouseName", newMouse.getOfficialMouseName());
         }
-        
+
         props.setProperty("holder",newMouse.getHolderName());
         props.setProperty("facility",newMouse.getHolderFacility());
         if(newMouse.hasOtherHolderName()){
@@ -898,10 +898,10 @@ public class MouseSubmission {
         if(newMouse.hasOtherFacilityName()){
           props.setProperty("otherFacility",newMouse.getOtherHolderFacility());
         }
-        
+
         props.setProperty("comment",emptyIfNull(newMouse.getComment()));
         props.setProperty("rawMGIComment", emptyIfNull(newMouse.getRawMGIComment()));
-        
+
         //mutant allele
         if(newMouse.isMA())
         {
@@ -911,15 +911,15 @@ public class MouseSubmission {
         //transgenic
         if(newMouse.isTG())
         {
-         
+
           props.setProperty("TransgenicType", newMouse.getTransgenicType());
           props.setProperty("regulatoryElement",emptyIfNull(newMouse.getTGRegulatoryElement()));
-          
+
           props.setProperty("knockedInGene",emptyIfNull(newMouse.getTGKnockedInGene()));
-          
+
           props.setProperty("gensatFounderLine",emptyIfNull(newMouse.getGensatFounderLine()));
         }
-        
+
         //inbred strain
         if(newMouse.isIS())
         {
@@ -935,15 +935,15 @@ public class MouseSubmission {
           props.setProperty("reporter",emptyIfNull(newMouse.getTGReporter()));
           props.setProperty("mouse gene",emptyIfNull(newMouse.getTGMouseGene()));
           props.setProperty("other",emptyIfNull(newMouse.getTGOther()));
-          
+
           props.setProperty("strain",emptyIfNull(newMouse.getBackgroundStrain()));
           props.setProperty("mta",emptyIfNull(newMouse.getMtaRequired()));
           props.setProperty("producedInLabOfHolder",emptyIfNull(newMouse.getProducedInLabOfHolder()));
-          
+
             props.setProperty("repository",emptyIfNull(newMouse.getMouseMGIID()));
             props.setProperty("source",emptyIfNull(newMouse.getOfficialSymbol()));
             props.setProperty("pmid",emptyIfNull(newMouse.getPMID()));
-          
+
           props.setProperty("geneValid",emptyIfNull(newMouse.getMAMgiGeneIDValid()));
           props.setProperty("geneValidationString",emptyIfNull(newMouse.getMAMgiGeneIDValidationString()));
           props.setProperty("targetGeneValid",emptyIfNull(newMouse.getTGMouseGeneValid()));
@@ -951,7 +951,7 @@ public class MouseSubmission {
         }
         return props;
   }
-  
+
   public String getIsPublished()
   {
     return isPublished;
@@ -1245,14 +1245,14 @@ public class MouseSubmission {
   public void setTGOtherErr(String otherErr) {
     TGOtherErr = otherErr;
   }
-  
+
   public String getMouseDisciplineErr() {
     return mouseDisciplinesErr;
   }
   public void setMouseDisciplineErr(String mouseDisciplineErr) {
     this.mouseDisciplinesErr = mouseDisciplineErr;
   }
-  
+
   public String getOtherHolderName() {
     return otherHolderName;
   }
@@ -1436,7 +1436,7 @@ public class MouseSubmission {
     this.cryopreservedErr = cryopreservedErr;
   }
 
-  
+
   private static String emptyIfNull(String input)
   {
     if (input != null)

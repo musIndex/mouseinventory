@@ -8,15 +8,15 @@
   int id = -1;;
   Gene gene = null;
   ArrayList<Integer> geneMouseIDs = null;
-  boolean mayDelete = false;   
-  
+  boolean mayDelete = false;
+
   try
   {
-    id = HTMLGeneration.stringToInt(request.getParameter("geneRecordID")); 
+    id = HTMLGeneration.stringToInt(request.getParameter("geneRecordID"));
     gene = DBConnect.getGene(id);
     if (gene == null) throw new Exception("Gene not found");
     geneMouseIDs = DBConnect.getMiceWithGene(id);
-    mayDelete = geneMouseIDs.size() <= 0;   
+    mayDelete = geneMouseIDs.size() <= 0;
   }
   catch (Exception e)
   {
@@ -27,7 +27,7 @@
     <%
     return;
   }
-  
+
 %>
 <div class="pagecontent">
 <h2>Edit Gene</h2>
@@ -58,7 +58,7 @@
 <% if (mayDelete) { %>
 <form action="UpdateGene.jsp" method="post">
     <input type="hidden" name="geneRecordID" value="<%= id %>">
-    Delete this gene? 
+    Delete this gene?
     <input type="submit" class="btn btn-danger" name="command" value="Delete">
 </form>
 <%}else{ %>

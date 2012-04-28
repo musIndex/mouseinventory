@@ -8,10 +8,10 @@
   int id = -1;;
   Holder holder = null;
   ArrayList<Integer> holderMouseIDs = null;
-  boolean mayDelete = false;   
+  boolean mayDelete = false;
   try
   {
-      id = HTMLGeneration.stringToInt(request.getParameter("holderID")); 
+      id = HTMLGeneration.stringToInt(request.getParameter("holderID"));
     holder = DBConnect.getHolder(id);
     if (holder == null) throw new Exception("Holder not found");
       holderMouseIDs = DBConnect.getMiceWithHolder(id);
@@ -60,10 +60,10 @@
         </tr>
     <tr>
             <td>Last review date: (format: yyyy-mm-dd)</td>
-            <td><input type=text name="dateValidated" size=20 
+            <td><input type=text name="dateValidated" size=20
             value="<%= HTMLGeneration.emptyIfNull(holder.getDateValidated())%>"></td>
         </tr>
-        
+
         <tr>
             <td colspan=2 align="center">
             <input type="hidden" name="command" value="Edit">
@@ -76,7 +76,7 @@
 <%if(mayDelete) { %>
 <form action="UpdateHolder.jsp" method="post">
     <input type="hidden" name="holderID" value="<%= id %>">
-    Delete this holder? 
+    Delete this holder?
     <input type="submit" class="btn btn-danger" name="command" value="Delete">
 </form>
 <%}else{ %>

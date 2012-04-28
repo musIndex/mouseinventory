@@ -104,7 +104,7 @@ public class ChangeRequest {
     }
     this.properties = sb.toString();
   }
-  
+
   public Properties Properties()
   {
     if (getProperties() == null)
@@ -114,15 +114,15 @@ public class ChangeRequest {
     Properties props = new Properties();
     Pattern ptn = Pattern.compile("([^=\t]+)=([^\\t]+)?");
     Matcher match = ptn.matcher(getProperties());
-    
-        while (match.find()) 
+
+        while (match.find())
         {
             String prop = match.group(1);
             String val = null;
             if (match.groupCount() > 1) {
                 val = match.group(2);
             }
-            if (val != null && val.length() > 0) 
+            if (val != null && val.length() > 0)
             {
                 props.setProperty(prop, val);
             }

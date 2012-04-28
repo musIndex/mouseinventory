@@ -19,13 +19,13 @@ $(document).ready(function(){
       <img src="img/new.png">
     </div>
     <dl>
-      <dt><b>Recent changes:</b></dt>  
-      <dd><b>It is now possible to download a PDF showing the records for all the 
+      <dt><b>Recent changes:</b></dt>
+      <dd><b>It is now possible to download a PDF showing the records for all the
       mice listed for an individual holder.</b><br>
-       To do this, go to the "Holder List," find the name of the holder, 
-       and click on the number on the extreme right ("Mice Held"). The page 
-       that comes up, showing the list of all the mice held, has a button that 
-       can be clicked to download the list.</dd>  
+       To do this, go to the "Holder List," find the name of the holder,
+       and click on the number on the extreme right ("Mice Held"). The page
+       that comes up, showing the list of all the mice held, has a button that
+       can be clicked to download the list.</dd>
       <dd><b>It is now easier to submit a new mouse to the database.</b>
       <br>The mouse submission form has been updated.  When submitting a published mutant
       allele or transgene, some data (such as the gene and pubmed IDs, as well as a description)
@@ -37,7 +37,7 @@ $(document).ready(function(){
       <br>
       <br>
       </dd>
-      
+
       <dd><b>If you contact a holder and find that s/he is no longer keeping a particular mouse, please inform admin.</b></dd>
     </dl>
     </div>
@@ -56,27 +56,27 @@ $(document).ready(function(){
   <li><a href="#disclaimer">Disclaimer</a></li>
 </ol>
 
- 
+
 <h2 id="faq">Frequently Asked Questions</h2>
 
 <ul>
   <li><a href="faq.jsp">Who has access to the UCSF mouse inventory database?</a></li>
   <li><a href="faq.jsp">Are investigators required to list all the mice in their colonies?</a></li>
-  <li><a href="faq.jsp">Does listing a mouse in the database obligate an investigator to provide 
+  <li><a href="faq.jsp">Does listing a mouse in the database obligate an investigator to provide
   it to other investigators at UCSF?</a></li>
   <li><a href="faq.jsp">Should unpublished mice be entered?</a></li>
-  <li><a href="faq.jsp">If a mouse was originally obtained pursuant to a material transfer agreement (MTA), 
-  or if a mouse was produced at UCSF using materials obtained pursuant to an MTA, can the mouse 
+  <li><a href="faq.jsp">If a mouse was originally obtained pursuant to a material transfer agreement (MTA),
+  or if a mouse was produced at UCSF using materials obtained pursuant to an MTA, can the mouse
   (or its descendants) be passed to another investigator at UCSF without completing a new MTA?</a></li>
 </ul>
 
- 
+
 <h2 id="introduction">Introduction</h2>
 <p>The Mouse Inventory Database is a web application consisting of
 Java Server Pages (JSP) running under Nginx/Tomcat, custom Java
 libraries, and a MySQL database.  JavaScript must be enabled to access
 all features of the database.</p>
-<p>The code behind the database is open source.  See the 
+<p>The code behind the database is open source.  See the
 <a href="licenses.jsp">licenses</a> page for details.</p>
 <ul>
   <li><b>Version 1</b>, completed in April 2009, was programmed by
@@ -106,7 +106,7 @@ mice. Access to this information should save investigators considerable
 time and money in acquiring mice, as well as stimulate collaboration
 between investigators.</p>
 <p>
-In addition, for each investigator listed as a 'holder' in the database, a 
+In addition, for each investigator listed as a 'holder' in the database, a
 description of all the mice in his/her colony can be readily obtained
 </p>
 <br>
@@ -119,9 +119,9 @@ is classified in one of three categories:</p>
 <dl>
   <dt><b>1) Mutant Allele </b></dt>
 
-  <dd>This category comprises all types of mutations in a known gene or sequence. 
+  <dd>This category comprises all types of mutations in a known gene or sequence.
   The type of modification is described as: targeted
-  disruption, conditional allele, targeted knock-in, gene trap insertion, 
+  disruption, conditional allele, targeted knock-in, gene trap insertion,
   Chemically induced (ENU), spontaneous mutation or other (description
   provided). <br>
   </dd>
@@ -129,18 +129,18 @@ is classified in one of three categories:</p>
   <dt><b>2) Transgenic</b></dt>
 
   <dd>This category comprises transgenes that express a
-  particular sequence, and that have been <b>randomly inserted</b> in the genome. 
+  particular sequence, and that have been <b>randomly inserted</b> in the genome.
   <br>
   The expressed sequence is described as Cre, Reporter
   (e.g. lacZ, GFP, etc.), mouse gene, or other (e.g. human gene, rat gene, etc.)</dd>
   <dt><b>3) Inbred Strain</b>
-  <dd>This category comprises mice whose major genetic characteristic is that they 
-  are members of a particular inbred strain (mice that are genetically nearly 
-  identical as a result of extensive inbreeding - usually at least 13 generations). 
+  <dd>This category comprises mice whose major genetic characteristic is that they
+  are members of a particular inbred strain (mice that are genetically nearly
+  identical as a result of extensive inbreeding - usually at least 13 generations).
   These strains are generally purchased from commercial suppliers.  <br></dd>
 
   </dt>
-  
+
   <dt>Each entry is for an <span class=red><b>individual</b></span>
   mutant allele or transgene (or inbred strain) - irrespective of whether
   the allele or transgene is maintained in combination with other mutant
@@ -191,8 +191,8 @@ description of that strain on the JAX Mice website.</p>
 record also provides the MGI allele/transgene ID and official symbol for
 the mouse, along with the Pubmed ID for the most relevant publication(s)
 describing the genetic modifications in the allele/transgene. Clicking
-on the <span class=red>MGI allele/transgene ID</span> or the 
-<span class=red>Pubmed ID</span> will bring up the relevant pages on MGI 
+on the <span class=red>MGI allele/transgene ID</span> or the
+<span class=red>Pubmed ID</span> will bring up the relevant pages on MGI
 or Pubmed, respectively.</p>
 
 <p>When it has been provided, there is information about the

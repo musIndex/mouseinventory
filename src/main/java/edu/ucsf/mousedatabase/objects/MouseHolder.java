@@ -6,21 +6,21 @@ public class MouseHolder {
   private Facility facility;
   private String cryoLiveStatus;
   private boolean newlyAdded;
-  
+
   private boolean covert;
-  
+
   public MouseHolder()
   {
     this.holder = new Holder();
     this.facility = new Facility();
   }
-  
+
   public MouseHolder(Holder h, Facility f, boolean covert)
   {
     this.holder = h;
     this.facility = f;
     this.covert = covert;
-    
+
     //these two cases happen when people specify 'other' for the holder and facility name in a submission
     if (h == null)
     {
@@ -31,18 +31,18 @@ public class MouseHolder {
       facility = new Facility();
     }
   }
-  
+
   public String getFullname()
   {
     return holder.getFirstname() + " " + holder.getLastname();
   }
-  
+
   public String getFullTitle()
   {
     return holder.getLastname() + ", " + holder.getFirstname() + " - " + holder.getDept();
   }
-  
-  
+
+
   public String getFirstname() {
     return holder.getFirstname();
   }
@@ -105,7 +105,7 @@ public class MouseHolder {
   public void setCovert(boolean covert) {
     this.covert = covert;
   }
-  
+
   public String getCryoLiveStatus() {
     return cryoLiveStatus != null ? cryoLiveStatus : "Live only";
   }
@@ -121,5 +121,5 @@ public class MouseHolder {
   public void setNewlyAdded(boolean newlyAdded) {
     this.newlyAdded = newlyAdded;
   }
-  
+
 }

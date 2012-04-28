@@ -13,7 +13,7 @@ alter table changerequest add column properties text;
 #4 - change transgenic knock-in mice to mutant allele mice with a modification type of 'knock-in'
 #change mouse type to mutant allele and set modification type to knock-in
 update mouse
-set modification_type='targeted knock-in', 
+set modification_type='targeted knock-in',
 mousetype_id=(select id from mousetype where mousetype.mousetype = 'Mutant Allele')
 where transgenictype_id = (select id from transgenictype where transgenictype.transgenictype = 'knock-in');
 #remove transgenic type
@@ -93,7 +93,7 @@ CREATE TABLE `import_reports` (
   `creationdate` date default NULL,
   `reporttext` mediumtext,
  PRIMARY KEY  (`id`));
- 
+
 #22 - holder last validation date
 alter table holder add column datevalidated date,add column validation_comment text;
 
@@ -116,7 +116,7 @@ CREATE TABLE `import_new_objects` (
   `import_report_id` bigint(20) DEFAULT '0',
   `object_id` bigint(20) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #27 - facility codes for imports
 alter table facility add column code varchar(50);

@@ -21,36 +21,36 @@ public class HTMLUtilities {
   public static String p(String paragraphText)
   {
     return "<p>" + paragraphText + "</p>";
-  }  
-  
+  }
+
   public static String table(String tableText)
   {
     return "<table>" + tableText + "</table>";
   }
-  
+
   public static String tr(String tableText)
   {
     return "<tr>" + tableText + "</tr>";
   }
-  
+
   public static String td(String tableText)
   {
     return "<td>" + tableText + "</td>";
   }
-      
+
   public static void append(StringBuilder sb, Object o)
   {
     sb.append(o.toString());
   }
-  
+
   public static void appendline(StringBuilder sb, Object o)
   {
     sb.append(o.toString());
     sb.append("\r\n");
   }
-  
+
   public static String extractFirstGroup(String regexPattern, String searchString)
-  {  
+  {
     if(searchString == null)
     {
       return null;
@@ -58,8 +58,8 @@ public class HTMLUtilities {
     Pattern ptn = Pattern.compile(regexPattern);
     Matcher match = ptn.matcher(searchString);
 
-    String result = null;  
-    if (match.find()) 
+    String result = null;
+    if (match.find())
     {
       if (match.groupCount() > 0) {
         result = match.group(1);
@@ -67,7 +67,7 @@ public class HTMLUtilities {
     }
     return result;
   }
-  
+
   public static String getCommentForDisplay(String generalComment)
   {
     if (generalComment == null)
@@ -82,7 +82,7 @@ public class HTMLUtilities {
     fixed = fixed.replaceAll("\\[URL\\](.*)\\[/URL\\]","<a href='$1'>$1</a>");
     return fixed;
   }
-  
+
   public static String getHttpResponse(URL url, String expectedContentType) throws Exception
   {
     URLConnection conn = url.openConnection();
@@ -102,41 +102,41 @@ public class HTMLUtilities {
               {
                 throw new Exception(url.toString() + " returned a 404 error");
               }
-          }  
+          }
       }
-      
+
       String contentType = conn.getContentType();
-      
+
       if (expectedContentType != null && !contentType.equals(expectedContentType))
       {
         throw new Exception("received invalid content type: " + contentType + ", expected: " + expectedContentType);
       }
-      
+
       StringBuilder content = new StringBuilder();
-      
+
       BufferedReader in = new BufferedReader(
                 new InputStreamReader(
                 conn.getInputStream()));
     String inputLine;
-    
-    while ((inputLine = in.readLine()) != null) 
+
+    while ((inputLine = in.readLine()) != null)
     {
       content.append(inputLine + "\n");
     }
     in.close();
-      
-      
+
+
       return content.toString();
   }
-  
+
   public static ArrayList<HashMap<String,String>> readCSVFileFromStream(FileItem data, Charset encoding) throws Exception
   {
     ArrayList<HashMap<String,String>> csvData = new ArrayList<HashMap<String,String>>();
-    
+
 
       InputStream uploadedStream = data.getInputStream();
       CsvReader reader = new CsvReader(uploadedStream,encoding);
-      
+
       if(!reader.readHeaders())
       {
         throw new Exception("No headers found in input file " + data.getName());
@@ -146,7 +146,7 @@ public class HTMLUtilities {
       {
         headers.add(i, reader.getHeader(i));
       }
-      
+
       while(reader.readRecord())
       {
         HashMap<String,String> record = new HashMap<String,String>();
@@ -161,15 +161,15 @@ public class HTMLUtilities {
 
 
     Log.Info("Read input file: " + data.getName() + ", " + data.getSize() + "bytes (" + csvData.size() + " records)");
-    
+
     return csvData;
   }
-  
+
   private static boolean isBlankRow(HashMap<String,String> row)
   {
     for (String value : row.values())
     {
-      if (value != null && !value.trim().equals("")) return false;      
+      if (value != null && !value.trim().equals("")) return false;
     }
     return true;
   }

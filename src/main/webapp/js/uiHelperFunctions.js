@@ -1,7 +1,7 @@
 function UpdateExpressedSequenceDetail()
 {
   len = document.mouseDetails.TGExpressedSequence.length;
-  
+
   chosen = "none";
 
   for (i = 0; i < len; i++) {
@@ -12,8 +12,8 @@ function UpdateExpressedSequenceDetail()
   setElementVisibility("trGeneRow", "none");
   setElementVisibility("trRepRow", "none");
   setElementVisibility("trDescRow", "none");
-  
-  
+
+
   if(chosen == "Mouse Gene (unmodified)")
   {
     setElementVisibility("trGeneRow", "");
@@ -26,12 +26,12 @@ function UpdateExpressedSequenceDetail()
   {
     setElementVisibility("trDescRow", "");
   }
-  
+
 }
 function UpdateExpressedSequenceEdit()
 {
   len = document.mouseDetails.expressedSequence.length;
-  
+
   chosen = "none";
 
   for (i = 0; i < len; i++) {
@@ -42,11 +42,11 @@ function UpdateExpressedSequenceEdit()
   setElementVisibility("trGeneRow", "none");
   setElementVisibility("trRepRow", "none");
   setElementVisibility("trDescRow", "none");
-  
+
   clearFieldValue("targetGeneMGIID");
   clearFieldValue("reporterTextArea");
   clearFieldValue("otherCommentTextArea");
-  
+
   if(chosen == "Mouse Gene (unmodified)")
   {
     setElementVisibility("trGeneRow", "");
@@ -59,61 +59,61 @@ function UpdateExpressedSequenceEdit()
   {
     setElementVisibility("trDescRow", "");
   }
-  
+
 }
 
 function UpdateModificationType()
 {
   len = document.mouseDetails.MAModificationType.length;
-  
+
   chosen = "none";
-  
+
   for (i = 0; i < len; i++) {
     if (document.mouseDetails.MAModificationType[i].checked) {
       chosen = document.mouseDetails.MAModificationType[i].value;
     }
   }
   setElementVisibility("trExprSeqRow", "none");
-  
+
   setElementVisibility("trGeneRow", "none");
   setElementVisibility("trRepRow", "none");
   setElementVisibility("trDescRow", "none");
-  
+
   if(chosen == "targeted knock-in"){
     setElementVisibility("trExprSeqRow","");
     UpdateExpressedSequenceDetail();
-    
+
   }
-  
+
 }
 
 function UpdateModificationTypeEdit()
 {
   len = document.mouseDetails.modificationType.length;
-  
+
   chosen = "none";
-  
+
   for (i = 0; i < len; i++) {
     if (document.mouseDetails.modificationType[i].checked) {
       chosen = document.mouseDetails.modificationType[i].value;
     }
   }
   setElementVisibility("trExprSeqRow", "none");
-  
+
   setElementVisibility("trGeneRow", "none");
   setElementVisibility("trRepRow", "none");
   setElementVisibility("trDescRow", "none");
-  
+
   clearFieldValue("targetGeneMGIID");
   clearFieldValue("reporterTextArea");
   clearFieldValue("otherCommentTextArea");
-  
+
   if(chosen == "targeted knock-in"){
     setElementVisibility("trExprSeqRow","");
     UpdateExpressedSequenceEdit();
-    
+
   }
-  
+
 }
 
 function clearHolder(id)
@@ -138,7 +138,7 @@ function SetFieldValue(elementName, value)
 function UpdateTransgenicType()
 {
   len = document.mouseDetails.TransgenicType.length;
-  
+
   chosen = "none";
 
   for (i = 0; i < len; i++) {
@@ -148,8 +148,8 @@ function UpdateTransgenicType()
   }
   setElementVisibility("trKnockIn", "none");
   setElementVisibility("trRegEle", "none");
-  
-  
+
+
   if(chosen == "knock-in")
   {
     setElementVisibility("trKnockIn", "");
@@ -158,14 +158,14 @@ function UpdateTransgenicType()
   {
     setElementVisibility("trRegEle", "");
   }
-  
-  
+
+
 }
 
 function UpdateSelectedMouseType()
 {
   len = document.MouseTypeForm.mouseType.length;
-  
+
   mouseType = "none";
 
   for (i = 0; i < len; i++) {
@@ -173,9 +173,9 @@ function UpdateSelectedMouseType()
       mouseType = document.MouseTypeForm.mouseType[i].value;
     }
   }
-  
+
   //len = document.MouseTypeForm.transgenicType.length;
-  
+
   //transgenicType = "none";
 
   //for (i = 0; i < len; i++) {
@@ -183,9 +183,9 @@ function UpdateSelectedMouseType()
   //    transgenicType = document.MouseTypeForm.transgenicType[i].value;
   //  }
   //}
-  
+
   len = document.MouseTypeForm.isPublished.length;
-  
+
   isPublished = "none";
 
   for (i = 0; i < len; i++) {
@@ -193,14 +193,14 @@ function UpdateSelectedMouseType()
       isPublished = document.MouseTypeForm.isPublished[i].value;
     }
   }
-  
+
   if(mouseType == "Mutant Allele")
   {
-    
+
     setElementVisibility("nextButton", "none");
     //setElementVisibility("transgenicTypes", "none");
     setElementVisibility("isPublishedSection", "");
-    
+
     if(isPublished != "none")
     {
       setElementVisibility("nextButton", "block");
@@ -211,21 +211,21 @@ function UpdateSelectedMouseType()
     setElementVisibility("nextButton", "none");
     //setElementVisibility("transgenicTypes", "");
     setElementVisibility("isPublishedSection", "");
-    
+
     //ADD red text label saying they have to choose one
-    
+
     if(isPublished != "none")
     {
       setElementVisibility("nextButton", "block");
     }
-  } 
+  }
   else if (mouseType == "Inbred Strain")
   {
     setElementVisibility("nextButton", "block");
     //setElementVisibility("transgenicTypes", "none");
     setElementVisibility("isPublishedSection", "none");
   }
-  
+
 }
 
 function UpdateSelectedMouseTypeOld() {
@@ -243,8 +243,8 @@ function UpdateSelectedMouseTypeOld() {
   setElementVisibility("Transgenic", "none");
   setElementVisibility("InbredStrain", "none");
   //setElementVisibility("OfficialSymbol", "none");
-  
-  
+
+
   if(chosen == "Mutant Allele")
   {
     setElementVisibility("MutantAllele", "block");
@@ -259,14 +259,14 @@ function UpdateSelectedMouseTypeOld() {
   {
     setElementVisibility("InbredStrain", "block");
   }
-  else 
+  else
   {
     setElementVisibility("AdditionalInfo", "none");
     return;
   }
   setElementVisibility("AdditionalInfo", "block");
-  
-} 
+
+}
 
 function UpdateCatalogUrlVisibility()
 {
@@ -282,14 +282,14 @@ function UpdateCatalogUrlVisibility()
   }
   else
   {
-    
+
     setElementVisibility("jaxCatalogNumber", "table-row");
     setElementVisibility("jaxInstructions","block");
     setElementVisibility("morejaxinstructions","block");
     setElementVisibility("nonJaxUrlField","none");
-    setElementVisibility("nonJaxInstructions","none");    
+    setElementVisibility("nonJaxInstructions","none");
   }
-  
+
 }
 
 function AutoPopulateContactInfo()
@@ -404,17 +404,17 @@ function setElementVisibility(elementName, displayStyle)
 {
   var ele = document.getElementById(elementName);
   ele.style.display = displayStyle;
-    
+
 }
 
 function setTwoElementVisibility(elementName, displayStyle, elementTwoName, displayStyleTwo)
 {
   var ele = document.getElementById(elementName);
   ele.style.display = displayStyle;
-  
+
   ele = document.getElementById(elementTwoName);
   ele.style.display = displayStyleTwo;
-    
+
 }
 
 
@@ -434,14 +434,14 @@ function one2two(elementID) {
       m2.options[m2len]= new Option(m1.options[i].text);
     }
   }
-  
+
    for ( i = (m1len -1); i>=0; i--){
      if (m1.options[i].selected == true ) {
        m1.options[i] = null;
      }
    }
 }
-  
+
 function two2one(elementID) {
    m2 = document.getElementById(elementID)
    m2len = m2.length ;
@@ -456,6 +456,6 @@ function two2one(elementID) {
        m2.options[i] = null;
      }
    }
-} 
+}
 
 

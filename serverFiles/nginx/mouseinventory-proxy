@@ -9,9 +9,9 @@ server {
     ssl on;
     ssl_certificate /etc/ssl/certs/host.university.edu.crt;
     ssl_certificate_key /etc/ssl/private/host.university.edu.key;
- 
+
     root /usr/share/nginx/www;
- 
+
     location /favicon.ico{
 
     }

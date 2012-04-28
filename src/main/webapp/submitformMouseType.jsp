@@ -11,12 +11,12 @@
 <jsp:setProperty property="*" name="submitterData"/>
 <div class="pagecontent">
 <%
-  
+
   if(!submitterData.ValidateContactInfo())
   {
     %><h2><font color="red">Invalid contact information. Please go back to step 1.</font></h2>
     <a href="submitforminit.jsp">Back to step 1</a>
-    <%  
+    <%
   }
   else
   {
@@ -28,25 +28,25 @@
 <h2>New Submission Step 2: Choose Mouse Category</h2>
 <a href="submitforminit.jsp">Back to step 1</a>
 <br>
-<p>For the mouse you want to submit, please select a category from the three choices listed, 
+<p>For the mouse you want to submit, please select a category from the three choices listed,
 then complete the rest of the page.</p>
 <p>
 <b><span class=red>Choose 'Mutant Allele'</span></b> when a gene in the mouse has been modified in some way
 (e.g. targeted disruption such as replacement with a neo cassette; creation of a floxed allele
-by insertion of loxP sites; targeted knock-in of a sequence such as Cre, a reporter gene, 
-or a mouse or human gene; spontaneous mutation, etc.) 
+by insertion of loxP sites; targeted knock-in of a sequence such as Cre, a reporter gene,
+or a mouse or human gene; spontaneous mutation, etc.)
 </p>
 <p>
-<b><span class=red>Choose 'Transgene'</span></b> when a DNA construct (perhaps a BAC) has been randomly 
-inserted into the genome, such that the mouse expresses a particular sequence 
-(e.g. Cre, a reporter gene, a mouse or human gene) under the control of a 
+<b><span class=red>Choose 'Transgene'</span></b> when a DNA construct (perhaps a BAC) has been randomly
+inserted into the genome, such that the mouse expresses a particular sequence
+(e.g. Cre, a reporter gene, a mouse or human gene) under the control of a
 regulatory sequence included in the construct. Note: a knock-in into a specific locus
-is classified as a ‘mutant allele.’  However, if a gene is disrupted by a random insertion of a DNA construct, 
+is classified as a ‘mutant allele.’  However, if a gene is disrupted by a random insertion of a DNA construct,
 then the modification, while it is an allele of the disrupted gene, is classified as a transgene.
 </p>
-<p><b><span class=red>Choose 'Inbred Strain'</span></b> when the major genetic characteristic of the mouse you want to submit is that it is a 
-member of a particular inbred strain (mice that are genetically nearly identical as a result of extensive inbreeding - 
-usually at least 13 generations). These strains are generally purchased from suppliers such as JAX Mice. 
+<p><b><span class=red>Choose 'Inbred Strain'</span></b> when the major genetic characteristic of the mouse you want to submit is that it is a
+member of a particular inbred strain (mice that are genetically nearly identical as a result of extensive inbreeding -
+usually at least 13 generations). These strains are generally purchased from suppliers such as JAX Mice.
 This category should be used for mice that are maintained because they carry QTLs.</p>
 </div>
 </div>
@@ -73,7 +73,7 @@ Inbred Strain
 Is the mouse published?
 </td>
 <td colspan="2">
-<input type="radio" name="isPublished" 
+<input type="radio" name="isPublished"
     value="Yes" onclick="UpdateSelectedMouseType()" <%=HTMLGeneration.isChecked(newMouse.getIsPublished() != null && newMouse.isPublished()) %> >Yes<br>
 <input type="radio" name="isPublished"
     value="No" onclick="UpdateSelectedMouseType()" <%=HTMLGeneration.isChecked(newMouse.getIsPublished() != null && !newMouse.isPublished()) %> >No
@@ -91,8 +91,8 @@ Is the mouse published?
 </div>
 
 
-<% 
-}  //closes if(!submitterData.validateContactInfo()) 
+<%
+}  //closes if(!submitterData.validateContactInfo())
 
 %>
 </div>

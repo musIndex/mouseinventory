@@ -15,13 +15,13 @@ function protectAgainstDuplicateHolderSelection(obj) {
   var holder = obj.val();
   var selected_holders = getSelectedHolders();
 
-  
+
   var count = 0;
   for (var i = 0; i < selected_holders.length; i++) {
     if (selected_holders[i] === holder) count++;
   }
 
-  if (count > 1) 
+  if (count > 1)
     alert("That holder is already listed on this record.  Please verify that you've selected the correct holder.");
 }
 

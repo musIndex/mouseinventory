@@ -30,12 +30,12 @@ allHldrs.toArray(holderList);
 if (request.getParameter("mgiIds") != null)
 {
   String ids = request.getParameter("mgiIds");
-  
+
   String holderName = request.getParameter("holderName");
   String facilityName = request.getParameter("holderFacility");
-  
+
   List<Integer> mgiIds = new ArrayList<Integer>();
-  
+
   for (String id : ids.split("[\r\n]+"))
   {
     try
@@ -61,11 +61,11 @@ if (request.getParameter("mgiIds") != null)
     }
     idList += id;
   }
-  
+
   HashMap<Integer,MouseSubmission> requestedSubmissions = MGIConnect.SubmissionFromMGI(mgiIds,-1);
-  
+
   List<MouseSubmission> submissions = new ArrayList<MouseSubmission>();
-  
+
   for (int mgiId : requestedSubmissions.keySet())
   {
     if (requestedSubmissions.get(mgiId) != null)
@@ -77,7 +77,7 @@ if (request.getParameter("mgiIds") != null)
       invalidIdsBuffer.append("<b>Not a valid Allele MGI ID: " + mgiId + ".  No submission generated.<b><br>");
     }
   }
-  
+
   if (submissions.size() <= 0)
   {
     header = "No submissions created.  Input ids were: " + idList;
@@ -90,13 +90,13 @@ if (request.getParameter("mgiIds") != null)
     submitterData.setEmail(HTMLGeneration.AdminEmail);
     submitterData.setDepartment("database admin");
     submitterData.setTelephoneNumber(" ");
-    List<Integer> subIds = new ArrayList<Integer>();  
-    
-    
-    
+    List<Integer> subIds = new ArrayList<Integer>();
+
+
+
     for(MouseSubmission sub : submissions)
     {
-      
+
       if(DBConnect.isDuplicateSubmission(sub,duplicateBuffer))
       {
         continue;
@@ -114,10 +114,10 @@ if (request.getParameter("mgiIds") != null)
       int submissionID = DBConnect.insertSubmission(submitterData,sub,MouseSubmission.GetPropertiesString(submitterData,sub));
       DBConnect.updateSubmission(submissionID,"new","Auto-generated from MGI Submission tool");
       subIds.add(submissionID);
-        
+
 
     }
-    
+
     if (subIds.size() > 0)
     {    bodyText += HTMLGeneration.getSubmissionTable(DBConnect.getMouseSubmissions(subIds),null,null);
       header = "Created new submission(s): ";
@@ -127,8 +127,8 @@ if (request.getParameter("mgiIds") != null)
       header = "No submissions were created.";
     }
     processed = true;
-    
-    
+
+
   }
 }
 else
@@ -169,13 +169,13 @@ else
 
 <h2><%=header %></h2>
 
-<% 
-if(!processed) 
+<%
+if(!processed)
 {
   %>
-  <p>To process multiple MGI ids simultaneously, enter one per line.  
+  <p>To process multiple MGI ids simultaneously, enter one per line.
   NOTE - it may take a long time to process multiple IDs, please be patient.  Progress reporting to be implemented later.
-  
+
   <form method="post" action="SubmissionFromMgi.jsp">
   <textarea  name=mgiIds rows="20" cols="20"></textarea>
   <br>
@@ -185,26 +185,26 @@ if(!processed)
     <td valign="top"><%=HTMLGeneration.genSelect("holderName",(String[])holderList,"",null)%>
     </td>
   </tr>
-  
+
   <tr >
     <td valign="top">Facility :</td>
     <td valign="top"><%=HTMLGeneration.genSelect("holderFacility",(String[])facilityList,"", null)%>
     </td>
   </tr>
-  
+
   </table>
   <input type="submit" class="btn btn-primary" value="Submit">
   </form>
   <%
 }
 else
-{ 
+{
   %>
-  
+
   <%=bodyText %>
-  
-  
+
+
   <%
-} 
+}
 %>
 </div>

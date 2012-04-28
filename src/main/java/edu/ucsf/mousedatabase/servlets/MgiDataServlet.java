@@ -21,7 +21,7 @@ import edu.ucsf.mousedatabase.objects.MGIResult;
  */
 public class MgiDataServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -37,7 +37,7 @@ public class MgiDataServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     String query = request.getParameter("query");
-    
+
     try
     {
       if (query== null)
@@ -45,7 +45,7 @@ public class MgiDataServlet extends HttpServlet {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         return;
       }
-        
+
       if (query.equals("allele_properties"))
       {
         String accIdParam = request.getParameter("acc_id");
@@ -60,12 +60,12 @@ public class MgiDataServlet extends HttpServlet {
           Integer.parseInt(accIdParam);
         }
         catch(Exception ex)
-        
+
         {
           response.sendError(HttpServletResponse.SC_BAD_REQUEST);
           return;
         }
-        
+
         final int accessionId = Integer.parseInt(accIdParam);
         MGIResult result = null;
         if (expectedTypeName.equals("allele"))
@@ -78,8 +78,8 @@ public class MgiDataServlet extends HttpServlet {
           response.sendError(HttpServletResponse.SC_BAD_REQUEST);
           return;
         }
-        
-        
+
+
         Properties data;
         if (result.isValid())
         {

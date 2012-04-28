@@ -1,24 +1,24 @@
 <%//***Expressed Sequence Section***** %>
 <tr class="formField">
-  <td valign="top" class="firstColumn"><span class=red>*</span> 
+  <td valign="top" class="firstColumn"><span class=red>*</span>
     <b>Expressed sequence type</b>: <br>For reporter-cre fusions, select 'Cre'</td>
   <td><%=getExpressedSequenceRadioWithParams(emptyIfNull(newMouse.getTGExpressedSequence()),
-  "onChange='UpdateExpressedSequenceDetail()'")%> 
+  "onChange='UpdateExpressedSequenceDetail()'")%>
     <span class="validationError">${newMouse.TGExpressedSequenceErr}</span>
   </td>
 </tr>
 <tr class="formField" id="trGeneRow"
   style="<%=rowVisibility(newMouse.isGeneExprSeq())%>">
   <td valign="top">
-    <span class=red>*</span> Mouse gene that is expressed 
-    <br> 
-    Go to MGI, find the detail page for the gene that is expressed, 
-    copy the MGI ID for that gene and paste it in the space provided. 
+    <span class=red>*</span> Mouse gene that is expressed
+    <br>
+    Go to MGI, find the detail page for the gene that is expressed,
+    copy the MGI ID for that gene and paste it in the space provided.
     (Click <a href="http://www.informatics.jax.org/javawi2/servlet/WIFetch?page=markerQF"
-      target="_blank">here</a> for a link to the MGI gene query page.) 
+      target="_blank">here</a> for a link to the MGI gene query page.)
     <br>
     <span class=red>Please   make sure that the gene that is entered is the correct one.</span>
-    <br> 
+    <br>
     If you are not certain how to find this
     information, click the 'How to find MGI Gene ID button'.
     <div class=help_pdf>
@@ -72,7 +72,7 @@
     <br>
     Briefly describe the sequences that drive expression of the transgene, (e.g. 'CAG promoter').
     <br>
-    For mice produced using a BAC (e.g. Gensat mice), state 'BAC containing X 
+    For mice produced using a BAC (e.g. Gensat mice), state 'BAC containing X
     gene (provide gene symbol)'.
   </td>
   <td valign="top"><INPUT TYPE="TEXT"
@@ -87,7 +87,7 @@
     <span class=red>*</span> Was the mouse
     produced in the laboratory of the holder?
   </td>
-  <td valign="top"><%=genYesNoRadio("producedInLabOfHolder", newMouse.getProducedInLabOfHolder())%> 
+  <td valign="top"><%=genYesNoRadio("producedInLabOfHolder", newMouse.getProducedInLabOfHolder())%>
     If not, please use the
     comment field to provide the name and Institution of the PI in
     whose laboratory the mouse was produced (or from whom the mouse
@@ -98,7 +98,7 @@
 
 <tr class="formField">
   <td valign="top">
-    <span class=red>*</span> <b>Comment</b> 
+    <span class=red>*</span> <b>Comment</b>
     <br>
     Provide a brief description of the transgene.
     This is particularly important when there is no publication
@@ -128,7 +128,7 @@
       width="24" height="24">
   </a> <br /> <span
     class="<%=newMouse.hasValidMouseMGIID() ? "bp_valid" : "bp_invalid"%>"
-    id="mouseMGIValidation">${newMouse.mouseMGIIDErr}</span> 
+    id="mouseMGIValidation">${newMouse.mouseMGIIDErr}</span>
     <input type="hidden"
     name="mouseMGIIDValidationString" id="mouseMGIIDValidationString"
     value="${newMouse.mouseMGIIDValidationString}">
@@ -139,10 +139,10 @@
 
 <tr class="formField">
   <td valign="top">If you have entered a valid MGI ID, the
-    official symbol for the transgene is shown. Please click on the link that 
+    official symbol for the transgene is shown. Please click on the link that
     has been generated to the MGI accession number for this transgene
     and <b>double check</b> to make sure that it describes the transgene you
-    want to submit. If not, replace the MGI  ID with the one for the correct 
+    want to submit. If not, replace the MGI  ID with the one for the correct
     transgene.</td>
   <td valign="top"><input type="hidden" name="officialSymbol"
     id="officialSymbol"
@@ -153,11 +153,11 @@
 
 <tr class="formField">
   <td valign="top" class="firstColumn">
-    <b>Background strain</b> of transgenic mouse. 
-    <br> 
+    <b>Background strain</b> of transgenic mouse.
+    <br>
     Enter only defined background strains (i.e. do not enter 'mixed' or 'not known').
     <br>
-    (Optional: if the transgene is being maintained in combination with another transgene(s) 
+    (Optional: if the transgene is being maintained in combination with another transgene(s)
     or a mutant allele(s), this can be noted here.)
   </td>
   <td valign="top">

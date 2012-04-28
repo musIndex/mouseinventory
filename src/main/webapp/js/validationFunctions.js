@@ -32,11 +32,11 @@ function validateInputGo(currCount, inputFieldId, resultFieldId, inputFieldType,
     _count = 0;
     var inputString = document.getElementById(inputFieldId).value;
     inputString = trim(inputString);
-    var url = validationUrl + "?fieldType=" + inputFieldType + "&resultFieldId=" + resultFieldId + "&inputFieldId=" + inputFieldId +"&inputString=" + encodeURIComponent(inputString) + "&allowedValues=" + encodeURIComponent(allowedValueString); 
-    var ajax = new AJAXInteraction(url, validateInputCallback); 
+    var url = validationUrl + "?fieldType=" + inputFieldType + "&resultFieldId=" + resultFieldId + "&inputFieldId=" + inputFieldId +"&inputString=" + encodeURIComponent(inputString) + "&allowedValues=" + encodeURIComponent(allowedValueString);
+    var ajax = new AJAXInteraction(url, validateInputCallback);
     var resultSpan = document.getElementById(resultFieldId);
     resultSpan.innerHTML = "Validating '" + inputString + "'...";
-    ajax.doGet(); 
+    ajax.doGet();
   }
 }
 
@@ -46,7 +46,7 @@ function validateInputCallback(responseXML) {
   var fieldType = responseXML.getElementsByTagName("fieldType")[0].childNodes[0].nodeValue;
   var resultFieldId = responseXML.getElementsByTagName("resultFieldId")[0].childNodes[0].nodeValue;
   var inputFieldId = responseXML.getElementsByTagName("inputFieldId")[0].childNodes[0].nodeValue;
-  
+
   var inputValue = "";
   try //input might be an empty string
   {
@@ -57,13 +57,13 @@ function validateInputCallback(responseXML) {
     inputValue = "";
   }
   var currentInputValue = trim(document.getElementById(inputFieldId).value);
-  
+
   if(currentInputValue != inputValue)
   {
     //this may happen if a older request took longer than a more recent one
     return;
   }
-  
+
   var valid = responseXML.getElementsByTagName("valid")[0].childNodes[0].nodeValue;
   var showUrl = responseXML.getElementsByTagName("showUrl")[0].childNodes[0].nodeValue;
   var resultString = "";
@@ -75,20 +75,20 @@ function validateInputCallback(responseXML) {
   resultString = replaceNewlines(resultString);
   var resultSpan = document.getElementById(resultFieldId);
   var url = "";
-  
+
   var linkText = "";
-  
+
   if (fieldType == "mgiAlleleId" || fieldType == "mgiTransgeneId" || fieldType == "mgiModifiedGeneId" || fieldType == "mgiKnockedInGeneId" || fieldType == "mgiExpressedGeneId")
   {
     url = _mgiDBurl + inputValue + _mgiDBurlTail;
     linkText = "(" + "MGI:" + inputValue + ")";
     updateHiddenInputs(resultString, valid, inputFieldId);
-    
+
   } else if (fieldType == "pmId")
   {
-    url = _pmDBurl + inputValue + _pmDBurlTail; 
+    url = _pmDBurl + inputValue + _pmDBurlTail;
     linkText = "(" + "Pubmed:" + inputValue + ")";
-    
+
     //hack for mice with no MGI allele/transgene page - the pubmed id isn't in MGI so just generate the pubmed link
     //if(document.getElementById("mouseMGIID") != null && document.getElementById("mouseMGIID").value == "none")
     //{
@@ -113,28 +113,28 @@ function validateInputCallback(responseXML) {
   } else if (fieldType == "gensat")
   {
     url = _gensatUrl + inputValue + _gensatUrlTail;
-    linkText = "(GENSAT:" + inputValue + ")";    
+    linkText = "(GENSAT:" + inputValue + ")";
   }
-  
+
 
   if (valid != "true") {
     resultSpan.className = "bp_invalid";
   } else {
     resultSpan.className = "bp_valid";
   }
-  
+
   if(showUrl == "true" && url != null && url != "")
   {
     resultString += " <a class=\"MP\" target=\"_blank\" href=" + url + ">" + linkText + "</a>";
   }
 
   resultSpan.innerHTML = resultString;
-  
+
   try
   {
     var symbol = responseXML.getElementsByTagName("symbol")[0].childNodes[0].nodeValue;
     symbol = decodeXML(symbol);
-    
+
     if(symbol != null && symbol != "null")
     {
       var symbolField = document.getElementById("officialSymbol");
@@ -148,9 +148,9 @@ function validateInputCallback(responseXML) {
   }
   catch(Exception)
   {}
-  
-  
-} 
+
+
+}
 
 function updateHiddenInputs(resultString, valid, inputFieldId)
 {
@@ -158,7 +158,7 @@ function updateHiddenInputs(resultString, valid, inputFieldId)
     var validInput = document.getElementById(inputFieldId + "Valid");
     if(validationStringInput != null)
       validationStringInput.value = resultString;
-    
+
     if(validInput != null)
       validInput.value = valid;
 }
@@ -167,12 +167,12 @@ function updateHiddenInputs(resultString, valid, inputFieldId)
 function trim(str, chars) {
   return ltrim(rtrim(str, chars), chars);
 }
- 
+
 function ltrim(str, chars) {
   chars = chars || "\\s";
   return str.replace(new RegExp("^[" + chars + "]+", "g"), "");
 }
- 
+
 function rtrim(str, chars) {
   chars = chars || "\\s";
   return str.replace(new RegExp("[" + chars + "]+$", "g"), "");
@@ -217,7 +217,7 @@ function checkCR(evt) {
     var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
 
     if ((evt.keyCode == 13) && (node.type=="text")) {return false;}
-    
+
     return true;
   }
 
@@ -226,8 +226,8 @@ function imposeMaxLength(field, MaxLen)
   //blah bla
   if (field.value.length > MaxLen) // if too long...trim it!
     field.value = field.value.substring(0, MaxLen);
-} 
+}
 
-  
+
 
 //***************************

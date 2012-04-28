@@ -9,7 +9,7 @@ Log.Info("Admin loging in");
 
 <div class="pagecontent centered">
   <br>
-  <br>  
+  <br>
   <form style="width:400px" class="centered-left" id="loginform" name="loginform" action="j_security_check" method="post">
   <h2>Sign in for administrative access</h2>
   <table>

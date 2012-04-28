@@ -4,7 +4,7 @@
 <%=HTMLGeneration.getNavBar(null, false) %>
 
 <%
-  
+
 %>
 
 <div class="pagecontent">

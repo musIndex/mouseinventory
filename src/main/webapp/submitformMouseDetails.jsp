@@ -16,18 +16,18 @@ $(document).ready(function(){
   (function(){
     var mgiNumber = null;
     $('#popupDialog').dialog({
-      autoOpen: false, 
+      autoOpen: false,
       buttons: {   "Close" : function(){ $(this).dialog("close"); }
       }
     });
-    
+
     $('#mgiautofillbutton').click( function() {
         $('#popupDialog').dialog('open');
         var message = $("#popupDialogMessage");
       message.text("Please wait...");
       fillFormFromMgi();
     });
-  
+
     function fillFormFromMgi()
     {
       var expected_type_name = $("#expected_type_name").data("name");
@@ -48,14 +48,14 @@ $(document).ready(function(){
           data: {},
           async: true
       });
-      
+
     }
-  
+
     function mgiLookupSuccess(data){
       var result = null;
-      
+
       if (data.is_valid != null && data.is_valid == "true") {
-      
+
           if (!data.officialSymbol)
           {
             result = { success: false, message: "No data for MGI:" + mgiNumber};
@@ -67,7 +67,7 @@ $(document).ready(function(){
             $("#mouseMGIID").val(mgiNumber);
             $("#mouseMGIIDValid").val(true);
             $("#mouseMGIValidation").html(replaceBrackets(data.officialSymbol + " - " + data.mouseName) + " " + formatMgiLink(mgiNumber)).switchClass("bp_invalid","bp_valid");
-            
+
             if (data.pubMedID){
               $("#PMID").val(data.pubMedID);
               $("#PMIDValid").val(true);
@@ -79,7 +79,7 @@ $(document).ready(function(){
               notes += "NOTE: A Pubmed reference was not found for this mouse.";
               success = false;
             }
-              
+
             $("#MAMgiGeneID").val(data.geneMgiID);
             $("#MAMgiGeneIDValid").val(true);
             $("#mutantAlleleMGIValidation").html(replaceBrackets(data.geneSymbol + " - " + data.geneName) + " " + formatMgiLink(data.geneMgiID)).switchClass("bp_invalid","bp_valid");
@@ -99,34 +99,34 @@ $(document).ready(function(){
         message.css("color","green");
       }
       else {  message.css("color","red");  }
-      
+
     }
-  
+
     function mgiLookupError(data){
       var message = $("#popupDialogMessage");
       message.html("Unexpected error.  Please try again later.");
       message.css("color","red");
     }
-  
+
     function formatMgiLink(mgiNumber)
     {
-      
+
       return "<a class='MP' target='_blank' href='http://www.informatics.jax.org/accession/MGI:" + mgiNumber + "'>(MGI:" + mgiNumber + ")</a>";
     }
-  
+
     function formatPubmedLink(pubmedId)
     {
-      return "<a class='MP' target='_blank' href='http://www.ncbi.nlm.nih.gov/pubmed/"+pubmedId+"?dopt=Abstract'>(Pubmed:"+pubmedId+")</a>";  
+      return "<a class='MP' target='_blank' href='http://www.ncbi.nlm.nih.gov/pubmed/"+pubmedId+"?dopt=Abstract'>(Pubmed:"+pubmedId+")</a>";
     }
-  
-    function htmlEncode(value) { 
-        return $('<div/>').text(value).html(); 
+
+    function htmlEncode(value) {
+        return $('<div/>').text(value).html();
     }
-  
-    function htmlDecode(value) {   
-        return $('<div/>').html(value).text(); 
+
+    function htmlDecode(value) {
+        return $('<div/>').html(value).text();
     }
-  
+
   })();
 });
 
@@ -179,11 +179,11 @@ $(document).ready(function(){
       <h3>
         <span class=red><%=errorsMessage%></span>
       </h3>
-      <a href="submitformMouseType.jsp">Back to step 2</a> 
-      <br> 
+      <a href="submitformMouseType.jsp">Back to step 2</a>
+      <br>
       <span class=red>NOTE: if you leave this page without using the
       save button at the bottom of the page, the data you entered will be
-      lost</span> 
+      lost</span>
       <br> If you encounter any difficulties while completing
       this page, click 'Submit Feedback' at the top of the screen.
       <p>
@@ -191,7 +191,7 @@ $(document).ready(function(){
       </p>
 
       <span class="validationError">${newMouse.mouseTypeErr}</span>
-      <span class="validationError">${newMouse.transgenicTypeErr}</span> 
+      <span class="validationError">${newMouse.transgenicTypeErr}</span>
       <span class="validationError">${newMouse.isPublishedErr}</span>
 
       <%
@@ -221,7 +221,7 @@ $(document).ready(function(){
             </td>
             <td>
               <input type="text" name="mouseName"  value="${ newMouse.mouseName}"
-              size="40" maxlength="255"> 
+              size="40" maxlength="255">
               <span class="validationError">${ newMouse.mouseNameErr}</span>
             </td>
           </tr>
@@ -252,10 +252,10 @@ $(document).ready(function(){
           %>
         </table>
       </div>
-      <input type="hidden" name="process" value="true"> 
-      <input type="submit" class="btn" name="submitButton" value="I'm not done yet. Save data"> 
-      (This will save data as  long as your browser window stays open, or until you submit the  mouse). 
-      <br> <br> 
+      <input type="hidden" name="process" value="true">
+      <input type="submit" class="btn" name="submitButton" value="I'm not done yet. Save data">
+      (This will save data as  long as your browser window stays open, or until you submit the  mouse).
+      <br> <br>
       <input type="submit" class="btn btn-primary"  name="submitButton" value="I'm done! Submit Mouse">
     </form>
   </div>

@@ -8,10 +8,10 @@
   int id = -1;;
   Facility facility = null;
   ArrayList<Integer> facilityMouseIDs = null;
-  boolean mayDelete = false;   
+  boolean mayDelete = false;
   try
   {
-      id = HTMLGeneration.stringToInt(request.getParameter("facilityID")); 
+      id = HTMLGeneration.stringToInt(request.getParameter("facilityID"));
     facility = DBConnect.getFacility(id);
     if (facility == null) throw new Exception("Facility not found");
       facilityMouseIDs = DBConnect.getMiceInFacility(id);
@@ -41,11 +41,11 @@
             </td>
        </tr>
        <tr>
-           <td>Description</td> 
+           <td>Description</td>
             <td>
               <input type="text" name="facilityDescription" size="50" value="<%= HTMLGeneration.emptyIfNull(facility.getFacilityDescription()) %>">
             </td>
-            
+
        </tr>
        <tr>
            <td>Code (for imports)</td>
@@ -63,7 +63,7 @@
 <% if (mayDelete) { %>
 <form action="UpdateFacility.jsp" method="post">
     <input type="hidden" name="facilityID" value="<%= id %>">
-    Delete this facility? 
+    Delete this facility?
     <input type="submit" class="btn btn-danger" name="command" value="Delete">
 </form>
 <%}else{ %>

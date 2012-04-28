@@ -1,11 +1,11 @@
 <tr class="formFieldH">
   <td colspan="2">
-    <b>If the transgene you want to submit is published, there should be a 
-    'Transgene Detail' page for it on Mouse Genome Informatics (MGI).  
+    <b>If the transgene you want to submit is published, there should be a
+    'Transgene Detail' page for it on Mouse Genome Informatics (MGI).
     You need to find this page in order to complete this submission.</b>
     </br>
     <a href="http://www.informatics.jax.org/" target="_blank">Mouse Genome Informatics</a>
-    <br>  
+    <br>
     If you are not certain how to find it, click here:
     <br>
     <div class=help_pdf>
@@ -19,13 +19,13 @@
 
 <tr class="formField">
   <td style="width: 50%" valign="top">
-    <span class=red>*</span>Copy the <span class=red><b>MGI ID</b></span> for 
+    <span class=red>*</span>Copy the <span class=red><b>MGI ID</b></span> for
     the transgene from the transgene detail page (number only) and paste it here.
-     <br> 
-     Although each published transgene should have a detail page, 
-     occasionally it does not.  If you are <span class=red>absolutely 
+     <br>
+     Although each published transgene should have a detail page,
+     occasionally it does not.  If you are <span class=red>absolutely
      certain</span> that there is no detail page on MGI for the transgene you
-     want to submit, enter none.  Admin will inform MGI, and they will provide 
+     want to submit, enter none.  Admin will inform MGI, and they will provide
      a detail page for the transgene, usually within a few days.
   </td>
   <td valign="top">
@@ -44,10 +44,10 @@
 
 <tr class="formField">
   <td valign="top">
-    <b>Official Symbol</b> for the transgene being submitted: (automatically entered 
+    <b>Official Symbol</b> for the transgene being submitted: (automatically entered
     when the MGI ID is entered)
     <br>
-    If the official symbol seems to be correct, click the autofill button. If not, 
+    If the official symbol seems to be correct, click the autofill button. If not,
     replace the MGI ID with the one for the correct transgene.
   </td>
   <td valign="top"><input type="hidden" name="officialSymbol"
@@ -70,11 +70,11 @@
 
 <tr class="formField">
   <td valign="top">
-    <span class=red>*</span> <b>Pubmed ID</b>, generally for the publication in which 
-    the transgene was first  described (auto/matically entered when the MGI ID 
+    <span class=red>*</span> <b>Pubmed ID</b>, generally for the publication in which
+    the transgene was first  described (auto/matically entered when the MGI ID
     is entered)
     <br>
-    If you entered 'none' in the MGI ID field above, enter the PMID for a 
+    If you entered 'none' in the MGI ID field above, enter the PMID for a
     publication in which the transgene is described.
   </td>
   <td valign="top">
@@ -85,8 +85,8 @@
     <a title="Check ID in Pubmed database" href="javascript:"
     onClick="validateInput('PMID', 'PMIDValidation', 'pmId', '')"><img
       style="vertical-align: middle" src="img/arrow_cycle.png"
-      width="24" height="24"></a> 
-    <br> 
+      width="24" height="24"></a>
+    <br>
     <span class="<%=newMouse.hasValidPMID() ? "bp_valid" : "bp_invalid"%>"
       id="PMIDValidation">${newMouse.PMIDErr}</span>
     <input type="hidden" name="PMIDValidationString" id="PMIDValidationString"
@@ -109,21 +109,21 @@
 
 <tr class="formField">
   <td valign="top">
-    <b>Comment</b> 
-    <br> 
-    The text automatically entered here is the description of the transgene 
+    <b>Comment</b>
+    <br>
+    The text automatically entered here is the description of the transgene
     provided by MGI.
-    <span class=red>Please read this text and make sure it accurately describes the 
-    transgene you want to submit.  If not, make the appropriate changes.</span> 
+    <span class=red>Please read this text and make sure it accurately describes the
+    transgene you want to submit.  If not, make the appropriate changes.</span>
     <br />
     <br />
-    If, after checking the information that has been entered (i.e. relevant 
-    publication and description of transgene), you realize that this is not 
-    the transgene you want to submit, please start over by entering the MGI 
+    If, after checking the information that has been entered (i.e. relevant
+    publication and description of transgene), you realize that this is not
+    the transgene you want to submit, please start over by entering the MGI
     ID for the correct transgene and clicking the auto-fill box.
     <br />
     <br />
-    If you entered 'none' in the MGI ID field above, enter a brief description 
+    If you entered 'none' in the MGI ID field above, enter a brief description
     of the transgene here.
   </td>
   <td valign="top">
@@ -133,25 +133,25 @@
 
 <%//***Expressed Sequence Section***** %>
 <tr class="formField">
-  <td valign="top" class="firstColumn"><span class=red>*</span> 
+  <td valign="top" class="firstColumn"><span class=red>*</span>
   <b>Expressed sequence type</b>: <br>For reporter-cre fusions, select 'Cre'</td>
   <td><%=getExpressedSequenceRadioWithParams(emptyIfNull(newMouse.getTGExpressedSequence()),
-  "onChange='UpdateExpressedSequenceDetail()'")%> 
+  "onChange='UpdateExpressedSequenceDetail()'")%>
     <span class="validationError">${newMouse.TGExpressedSequenceErr}</span>
   </td>
 </tr>
 <tr class="formField" id="trGeneRow"
   style="<%=rowVisibility(newMouse.isGeneExprSeq())%>">
   <td valign="top">
-    <span class=red>*</span> Mouse gene that is expressed 
-    <br> 
-    Go to MGI, find the detail page for the gene that is expressed, 
-    copy the MGI ID for that gene and paste it in the space provided. 
+    <span class=red>*</span> Mouse gene that is expressed
+    <br>
+    Go to MGI, find the detail page for the gene that is expressed,
+    copy the MGI ID for that gene and paste it in the space provided.
     (Click <a href="http://www.informatics.jax.org/javawi2/servlet/WIFetch?page=markerQF"
-      target="_blank">here</a> for a link to the MGI gene query page.) 
+      target="_blank">here</a> for a link to the MGI gene query page.)
     <br>
     <span class=red>Please   make sure that the gene that is entered is the correct one.</span>
-    <br> 
+    <br>
     If you are not certain how to find this
     information, click the 'How to find MGI Gene ID button'.
     <div class=help_pdf>
@@ -170,7 +170,7 @@
       style="vertical-align: middle" src="img/arrow_cycle.png"
       width="24" height="24">
   </a> <br> <span  class="<%=newMouse.hasValidTGMouseGene() ? "bp_valid" : "bp_invalid"%>"  id="TGMouseGeneValidation">
-    ${newMouse.TGMouseGeneErr}</span> 
+    ${newMouse.TGMouseGeneErr}</span>
     <input type="hidden"
     name="TGMouseGeneValidationString"
     id="TGMouseGeneValidationString"
@@ -205,7 +205,7 @@
     <br>
     Briefly describe the sequences that drive expression of the transgene, (e.g. 'CAG promoter').
     <br>
-    For mice produced using a BAC (e.g. Gensat mice), state 'BAC containing X 
+    For mice produced using a BAC (e.g. Gensat mice), state 'BAC containing X
     gene (provide gene symbol)'.
   </td>
   <td valign="top"><INPUT TYPE="TEXT"
@@ -217,11 +217,11 @@
 
 <tr class="formField">
   <td valign="top" class="firstColumn">
-    <b>Background strain</b> of transgenic mouse. 
-    <br> 
+    <b>Background strain</b> of transgenic mouse.
+    <br>
     Enter only defined background strains (i.e. do not enter 'mixed' or 'not known').
     <br>
-    (Optional: if the transgene is being maintained in combination with another transgene(s) 
+    (Optional: if the transgene is being maintained in combination with another transgene(s)
     or a mutant allele(s), this can be noted here.)
   </td>
   <td valign="top"><input type="text" name="backgroundStrain"

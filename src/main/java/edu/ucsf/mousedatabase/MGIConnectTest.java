@@ -10,14 +10,14 @@ import edu.ucsf.mousedatabase.objects.MGIResult;
 
 public class MGIConnectTest {
 
-  
+
   @SuppressWarnings("serial")
   public static void main(String[] args)
   {
     init();
     if (args.length == 2)
     {
-      
+
       if (args[0].equals("g"))
       {
         MGIResult r = MGIConnect.doMGIQuery(args[1], MGIConnect.MGI_MARKER, null);
@@ -48,17 +48,17 @@ public class MGIConnectTest {
           }
         }
       }
-      
+
     }
-    
-    
+
+
   }
-  
+
   private static void init()
   {
     Log.Initialize();
     MGIConnect.verbose = true;
     MGIConnect.Initialize("org.postgresql.Driver","jdbc:postgresql://adhoc.informatics.jax.org:5432/mgd","jonathan_scoles","sc0l3s@mgi");
-    
+
   }
 }

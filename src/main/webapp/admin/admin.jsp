@@ -7,7 +7,7 @@
 
 
 <%
-  
+
   ArrayList<ArrayList<SubmittedMouse>> submissionLists = new ArrayList<ArrayList<SubmittedMouse>>();
   submissionLists.add(DBConnect.getMouseSubmissions("new",null,null));
   submissionLists.add(DBConnect.getMouseSubmissions("need more info",null,null));
@@ -18,7 +18,7 @@
   changeRequestLists.add(DBConnect.getChangeRequests("new", null));
   changeRequestLists.add( DBConnect.getChangeRequests("pending",null)) ;
   String[] changeRequestListLabels = new String[]{"new","pending"};
-  
+
   StringBuffer buf = new StringBuffer();
   for(int i =0; i< submissionLists.size(); i++)
   {
@@ -26,11 +26,11 @@
     String label = submissionListLabels[i];
     if(newSubmissions.size() > 0)
     {
-      
+
       buf.append("<dl>");
       buf.append("<dt><font color='green'><b>There are " + newSubmissions.size() + " " + label + "!</b></font></dt>");
       for(SubmittedMouse mouse : newSubmissions)
-      {  
+      {
         String mouseName = "";
         if (mouse.getOfficialSymbol() == null || mouse.getOfficialSymbol().isEmpty())
         {
@@ -48,7 +48,7 @@
           {
             action = "purchased by";
           }
-              
+
         }
         String holders = "";
         ArrayList<MouseHolder> mouseHolders = mouse.getHolders();
@@ -65,15 +65,15 @@
           }
         }
         buf.append("<dd><span class='mouseName'>" + mouseName
-            + HTMLUtilities.getCommentForDisplay(HTMLGeneration.emptyIfNull(mouse.getOfficialSymbol())) 
-            + "</span> " + action + "  " + holders 
+            + HTMLUtilities.getCommentForDisplay(HTMLGeneration.emptyIfNull(mouse.getOfficialSymbol()))
+            + "</span> " + action + "  " + holders
             + " - <a href=\"CreateNewRecord.jsp?id=" + mouse.getSubmissionID() + "\">Convert to record</a></dd>");
       }
       buf.append("</dl>");
     }
   }
-  
-  
+
+
   for (int i = 0; i < changeRequestLists.size();i++)
   {
     ArrayList<ChangeRequest> changeRequests = changeRequestLists.get(i);
@@ -89,7 +89,7 @@
         String changeRequestTitle = changeRequest.getFirstname() + " " + changeRequest.getLastname();
         try{
         int index = -1;
-        
+
         if ((index = userComment.indexOf("ADD HOLDER: ")) >= 0)
         {
           int parenIndex = userComment.indexOf("(");
@@ -115,18 +115,18 @@
             holderData = holderData.substring(index+1);
           }
           changeRequestTitle = "Add holder: " + holderData;
-          
+
         }
         }catch(Exception e)
         {
-          
+
         }
-        
+
         ArrayList<MouseRecord> mouse = DBConnect.getMouseRecord(changeRequest.getMouseID());
         if(mouse.size() > 0)
         {
           buf.append("<dd>" + changeRequestTitle
-              +  ": <span class='mouseName'>" + HTMLGeneration.emptyIfNull(mouse.get(0).getMouseName()) + "</span> " 
+              +  ": <span class='mouseName'>" + HTMLGeneration.emptyIfNull(mouse.get(0).getMouseName()) + "</span> "
               + "<a href=\"CompleteChangeRequest.jsp?id="
               + changeRequest.getRequestID() + "\">Edit record #"
               + changeRequest.getMouseID() + "</a>");
@@ -135,7 +135,7 @@
       buf.append("</dl>");
     }
   }
-  
+
 
 %>
 <div class="pagecontent">

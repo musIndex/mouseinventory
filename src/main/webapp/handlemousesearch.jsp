@@ -8,7 +8,7 @@
 
 
 <%
-  
+
     String searchCacheKey = "handlemousesearch";
 
     response.setHeader("Cache-Control", "no-cache");
@@ -16,22 +16,22 @@
     response.setDateHeader("Expires", 0);
 
     String searchterms = request.getParameter("searchterms");
-    
+
     String mouseGene = request.getParameter("geneID");
     String geneSymbol = request.getParameter("geneSymbol");
     String whereClause = "";
     String resultCount = "";
     String newResults = "";
-    
+
     boolean ok = false;
     if (searchterms != null) {
-       ok = true;   
+       ok = true;
     }
     if (mouseGene != null && geneSymbol != null)
     {
       ok = true;
     }
-    
+
     if(!ok)
     {
       %>
@@ -39,22 +39,22 @@
       <%
       return;
     }
-  
-    
+
+
     if(mouseGene != null)
      {
        whereClause = " gene_id=" + mouseGene + " or target_gene_id=" + mouseGene;
-       
+
      }
-      
+
       String mouseIDregex = "^#([0-9]+)$";
-      
+
       if(searchterms.matches(mouseIDregex))
       {
         whereClause = " mouse.id=" + HTMLUtilities.extractFirstGroup(mouseIDregex,searchterms);
       }
-    
-    
+
+
       if((searchterms == null || searchterms == "") && mouseGene == null)
       {
         %>
@@ -63,7 +63,7 @@
         return;
       }
       else
-        
+
       {
       try
     {
@@ -82,7 +82,7 @@
         for(String term : mouseSearchCache.getTermsToHighlight())
         {
           Pattern pattern = Pattern.compile("(>[A-Za-z0-9\\s'\"]+)(" + term + ")([A-Za-z0-9\\s'\"]+<)",Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-              
+
               // Replace all occurrences of pattern in input
               Matcher matcher = pattern.matcher(newResults);
               String output = matcher.replaceAll("$1<b>$2</b>$3");
@@ -95,7 +95,7 @@
       newResults = "<p><font color=\"red\"><b>We're sorry, but an error prevented us from completing your search.  Please let the administrator know about this!</p><p>" + e.getLocalizedMessage() + "</b></font></p>";
     }
       }
-      
+
       Log.Info("Search performed with terms \"" + searchterms + "\", " + resultCount);
 %>
 

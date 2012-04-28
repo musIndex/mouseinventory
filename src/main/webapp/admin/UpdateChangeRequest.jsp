@@ -21,13 +21,13 @@
 
   int mouseID = HTMLGeneration.stringToInt(request.getParameter("mouseID"));
     int changeRequestID = HTMLGeneration.stringToInt(request.getParameter("changeRequestID"));
-  
+
   String previousRecord = null;
   if(mouseID > 0)
   {
     previousRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false,true);
   }
-  
+
   String updateCommand = request.getParameter("submitButton");
      if(updateCommand == null || updateCommand.isEmpty() || !(updateCommand.equals("Complete Change Request") || updateCommand.equals("Move to Pending")))
      {
@@ -38,7 +38,7 @@
     <%
     return;
      }
-     
+
 
      String recordUpdateResult = null;
      String notes = request.getParameter("requestNotes");
@@ -48,7 +48,7 @@
   String resultingRecord = "";
   String updatedRequest = "";
   boolean errorsEncountered = false;
-  
+
   PopulateMouseResult result = RecordManager.PopulateMouseDataFromRequest(updatedRecord,request);
      if (!result.Success)
      {
@@ -74,7 +74,7 @@
         pageHeader = "Completed change request #" +changeRequestID;
            //update the record
            recordUpdateResult = DBConnect.updateMouseRecord(updatedRecord);
-           
+
            if(recordUpdateResult != null)
            {
              errors += recordUpdateResult;
@@ -83,46 +83,46 @@
            {
                resultingRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false, true);
            }
-           
+
            //update the change request
            DBConnect.updateChangeRequest(changeRequestID,"done",HTMLGeneration.emptyIfNull(notes));
       }
-  
+
        }
        else if(updateCommand.equals("Move to Pending"))
        {
          pageHeader = "Moved change request #" +changeRequestID + " to Pending.  No changes have been made to record #" + mouseID;
          //don't update the record
-         
+
          //update the change request
          DBConnect.updateChangeRequest(changeRequestID,"pending",HTMLGeneration.emptyIfNull(notes));
        }
-    
-       ArrayList<ChangeRequest> requests = DBConnect.getChangeRequest(changeRequestID);    
+
+       ArrayList<ChangeRequest> requests = DBConnect.getChangeRequest(changeRequestID);
       if(requests.size() < 1)
       {
         throw new ServletException("Change request not found, cannot edit");
       }
-    
+
       updatedRequest = HTMLGeneration.getChangeRequestsTable(requests,null);
      }
-  
+
 %>
 <div class="pagecontent">
 <h2><%=pageHeader %></h2>
 <%if(errors.isEmpty())
-{ 
+{
   if(updateCommand.equals("Move to Pending"))
   {
     %>
     <h3>Change request was:</h3>
     <%= updatedRequest%>
-    <%  
-    
+    <%
+
   }
   else
   {
-    
+
     %>
     <h3>Change request was:</h3>
     <%= updatedRequest%>
@@ -130,7 +130,7 @@
     <%= previousRecord %>
     <h3>Record after changes:</h3>
     <%= resultingRecord %>
-    <%  
+    <%
   }
 
 }

@@ -8,7 +8,7 @@
 <%
   String command = request.getParameter("command");
   StringBuffer buf = new StringBuffer();
-  
+
   int id = HTMLGeneration.stringToInt(request.getParameter("holderID"));
   Holder originalHolder = new Holder();
   ArrayList<Holder> holders = new ArrayList<Holder>();
@@ -18,7 +18,7 @@
     try
     {
       originalHolder = DBConnect.getHolder(id);
-      holders.add(originalHolder);            
+      holders.add(originalHolder);
         originalHolderTable = HTMLGeneration.getHolderTable(holders,true);
       }
     catch (Exception e)
@@ -45,11 +45,11 @@
     {
         buf.append("<h2>Before edit:</h2> ");
         buf.append(originalHolderTable);
-      
+
       DBConnect.updateHolder(editedHolder);
-      
+
       holders.clear();
-      holders.add(DBConnect.getHolder(id));      
+      holders.add(DBConnect.getHolder(id));
         buf.append("<h2>After edit:</h2> ");
         buf.append(HTMLGeneration.getHolderTable(holders,true));
     }
@@ -58,14 +58,14 @@
   {
     id = DBConnect.insertHolder(editedHolder);
     holders.clear();
-    holders.add(DBConnect.getHolder(id));      
+    holders.add(DBConnect.getHolder(id));
       buf.append("<h2>Added new holder:</h2> ");
       buf.append(HTMLGeneration.getHolderTable(holders,true));
   }
   else if (command.equals("Delete"))
   {
-    
-    boolean confirmed = request.getParameter("confirm") != null && 
+
+    boolean confirmed = request.getParameter("confirm") != null &&
       request.getParameter("confirm").equals("yes");
     if (confirmed)
     {
@@ -85,7 +85,7 @@
       }
     }
     else
-    {      
+    {
         buf.append("<h2>Confirm that you want to delete this holder</h2>\r\n");
         buf.append(originalHolderTable);
       buf.append("<form action=\"UpdateHolder.jsp\" method=\"post\">");

@@ -10,8 +10,8 @@
 <%@ include file="protectAgainstDuplicateHolders.jspf" %>
 <%
 
-  
-  if (request.getParameter("id") == null) 
+
+  if (request.getParameter("id") == null)
   {
     %>
     <div class="pagecontent">
@@ -22,8 +22,8 @@
   }
   String requestIDstr = request.getParameter("id");
     int requestID = Integer.parseInt(requestIDstr);
-    
-    ArrayList<ChangeRequest> requests = DBConnect.getChangeRequest(requestID);    
+
+    ArrayList<ChangeRequest> requests = DBConnect.getChangeRequest(requestID);
     if(requests.size() < 1)
     {
       %>
@@ -34,9 +34,9 @@
     return;
     }
     ChangeRequest currentRequest = requests.get(0);
-    
-    
-    
+
+
+
     ArrayList<MouseRecord> records = DBConnect.getMouseRecord(currentRequest.getMouseID());
     if(records.size() < 1)
     {
@@ -52,12 +52,12 @@
     <%
     return;
     }
-    
+
     MouseRecord record = records.get(0);
     String changeRequestTable = HTMLGeneration.getChangeRequestsTable(requests,null);
     String existingRecord = HTMLGeneration.getMouseTable(records,false,false,true);
     String editForm = HTMLGeneration.getEditMouseForm(record,currentRequest);
-    
+
 %>
 
 
