@@ -12,6 +12,7 @@ public class HTMLGeneration {
   // note these are not used everywhere they should be
   public static final String siteRoot = "/mouseinventory/";
   public static final String adminRoot = "/mouseinventory/admin/";
+  public static final String imageRoot = "/mouseinventory/img/";
   public static final String scriptRoot = "/mouseinventory/js/";
   public static final String dataRoot = "/mouseinventory/rawdata/";
 
@@ -91,7 +92,6 @@ public class HTMLGeneration {
     buf.append("<script type=\"text/javascript\">\r\n" +
         "$(document).ready(function(){\r\n" +
           "$('.chzn-select').chosen();" +
-          "$('input[name=searchterms]').focus()" +
         "\r\n})\r\n" +
         "</script>\r\n");
 
@@ -142,12 +142,14 @@ public class HTMLGeneration {
     table.append("</div>");
     table.append("</div>");
     // Quick Search bar
-    if (currentPageFilename == null || !(currentPageFilename.equals("search.jsp") || currentPageFilename.equals("handlemousesearch.jsp")))
+    if (currentPageFilename == null || !currentPageFilename.equals("search.jsp"))
     {
       table.append("<div id=\"quickSearchContainer\">");
-      table.append("<form id=\"quickSearchForm\"action=\"" + siteRoot + "handlemousesearch.jsp\" method=\"get\">\r\n");
+      table.append("<form id=\"quickSearchForm\"action=\"" + siteRoot + "search.jsp\" method=\"get\">\r\n");
       table.append("<input type=\"text\" class=\"input-medium search-query\"  name=\"searchterms\" >");
+      table.append("<input type='hidden' name='search-source' value='quicksearch:" + currentPageFilename + "'>");
       table.append("<input class=\"btn search-query\" type=\"submit\" value=\"Quick Search\">");
+      table.append("<script type='text/javascript'>$('input[name=searchterms]').focus()</script>");
       table.append("</form>");
       table.append("</div>");
 
