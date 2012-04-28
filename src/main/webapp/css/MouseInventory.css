@@ -36,31 +36,24 @@ ul.navLinkUL
 #navBarContainer {
 	min-width: 920px;
 	position: relative;
-	width: 100%;
 	margin:0px;
-		
 }
 
 #pageHeaderContainer {
-	min-width: 920px;
-	position: relative;
-	height: 50px;
+	padding: 0px 5px;
 	background-color: #77aaaa;
-	width: 100%;
-	
-	
 }
 
 #pageTitleContainer {
-	position: absolute;
-	left: 2px;
+	float:left;
 }
 
-#pageTitle {
+#pageTitle a{
 	color: #FFFFFF;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 28px;
-	line-height: 30px;	
+	line-height: 30px;
+	text-decoration: none;
 }
 .titleSubText {
 	color: #FFFFFF;
@@ -69,9 +62,9 @@ ul.navLinkUL
 	line-height: 16px;	
 }
 #quickSearchContainer {
-	position: absolute;
-	right: 3px;
-	bottom: 2px;	
+	float: right;
+	margin-top: 4px;
+	margin-right: 4px;	
 }
 .searchButton {
 	background-color:#EEEEEE;
@@ -684,4 +677,30 @@ td.mouselistcolumn-comment {
 
 td.mouselistcolumn-holders {
 	min-width:150px;
+}
+
+.pagecontent-centered{
+	width:90%;
+	min-width:940px;
+	margin:auto;
+}
+.search-box {
+	margin-top:50px;
+	vertical-align:middle;
+}
+
+.search-instructions {
+	width: 600px;
+	margin:auto;
+	display:none;
+}
+
+div.centered {
+	text-align: center;
+	
+}
+
+form.centered-left {
+	margin:auto;
+	text-align: left
 }
