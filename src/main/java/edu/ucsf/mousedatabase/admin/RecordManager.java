@@ -13,7 +13,7 @@ import edu.ucsf.mousedatabase.objects.MouseHolder;
 import edu.ucsf.mousedatabase.objects.MouseRecord;
 
 public class RecordManager {
-  
+
   public static class PopulateMouseResult
   {
     public boolean Success;
@@ -23,10 +23,10 @@ public class RecordManager {
       Success = success;
       Message = message;
     }
-    
-    
+
+
   }
-  
+
   public static class GeneInfo
   {
     public String mgiGeneID;
@@ -36,22 +36,22 @@ public class RecordManager {
     public String manualTargetGeneName;
     public String manualTargetGeneSymbol;
   }
-  
+
   public static class AddGeneResult
   {
     public boolean Success;
     public String Message;
-    
+
     public AddGeneResult(boolean success, String message) {
       Success = success;
       Message = message;
     }
   }
-  
+
   public static PopulateMouseResult PopulateMouseDataFromRequest(MouseRecord newMouse, HttpServletRequest request)
   {
     PopulateMouseResult result = new PopulateMouseResult(true, null);
-    
+
     GeneInfo geneInfo = new GeneInfo();
     geneInfo.manualGeneName = request.getParameter("geneManualName");
     geneInfo.manualGeneSymbol = request.getParameter("geneManualSymbol");
@@ -59,7 +59,7 @@ public class RecordManager {
     geneInfo.manualTargetGeneSymbol = request.getParameter("targetGeneManualSymbol");
     geneInfo.mgiGeneID = request.getParameter("geneMGIID");
     geneInfo.targetMgiGeneID = request.getParameter("targetGeneMGIID");
-    
+
     AddGeneResult geneResult = CreateAndAddGenes(newMouse,geneInfo);
     if (!geneResult.Success)
     {
@@ -72,7 +72,7 @@ public class RecordManager {
 
     return new PopulateMouseResult(true, null);
   }
-  
+
   public static AddGeneResult CreateAndAddGenes(MouseRecord newMouse, GeneInfo geneInfo)
   {
     //convert MGI Gene IDs into mouse db gene IDs
@@ -90,7 +90,7 @@ public class RecordManager {
         }
         else if (geneInfo.manualGeneName == null || geneInfo.manualGeneName.isEmpty() || geneInfo.manualGeneSymbol == null || geneInfo.manualGeneSymbol.isEmpty())
         {
-          String message = "Unable to automatically add gene because: " + result.getErrorString() 
+          String message = "Unable to automatically add gene because: " + result.getErrorString()
           + "<br>.Please go back and manually enter the symbol and full name for the gene at MGI ID: " + geneInfo.mgiGeneID;
           return new AddGeneResult(false,message);
         }
@@ -119,7 +119,7 @@ public class RecordManager {
         }
         else if (geneInfo.manualTargetGeneName == null || geneInfo.manualTargetGeneName.isEmpty() || geneInfo.manualTargetGeneSymbol == null || geneInfo.manualTargetGeneSymbol.isEmpty())
         {
-          String message = "Unable to automatically add gene because: " + result.getErrorString() 
+          String message = "Unable to automatically add gene because: " + result.getErrorString()
           + "<br>.Please go back and manually enter the symbol and full name for the gene at MGI ID: " + geneInfo.targetMgiGeneID;
           return new AddGeneResult(false,message);
         }
@@ -151,7 +151,7 @@ public class RecordManager {
         }
 
         return DBConnect.checkForDuplicates(Integer.parseInt(newMouse.getRepositoryCatalogNumber()), mID);
-        
+
       }
       catch (NumberFormatException ex)
       {
@@ -165,7 +165,7 @@ public class RecordManager {
   {
     //create nice and neat ArrayList of holders
     ArrayList<MouseHolder> holders = new ArrayList<MouseHolder>();
-  
+
       String holderIDStr;
       int k = 0;
       while ((holderIDStr = request.getParameter("holder_id-" + k)) != null) {
@@ -181,16 +181,16 @@ public class RecordManager {
         }
           k++;
       }
-    
+
       newMouse.setHolders(holders);
-      
+
   }
-  
+
   public static void AddPubMedIds(MouseRecord newMouse, HttpServletRequest request)
   {
     //create nice and neat ArrayList of PM IDs
       ArrayList<String> pmIDs = new ArrayList<String>();
-      
+
       String pmID;
       int k = 1;
       while((pmID = request.getParameter("pmid" + k)) != null)
@@ -198,7 +198,7 @@ public class RecordManager {
         pmIDs.add(pmID);
         k++;
       }
-       newMouse.setPubmedIDs(pmIDs); 
+       newMouse.setPubmedIDs(pmIDs);
   }
-  
+
 }

@@ -19,7 +19,7 @@ $(document).ready(function() {
   $.ajaxSetup({ cache: false });
   $('.importHistory').mousedown(pauseScrolling);
 
-});  
+});
 
 function loadReport()
 {
@@ -32,7 +32,7 @@ function loadReport()
       {
         return;
       }
-      
+
       $('#history-'+taskId).each(function(){
             $(this).load('/mouseinventory/rawdata/ImportStatusBody.jsp?command=history&taskid='+taskId,function(){
               if (scrollToBottom)
@@ -50,14 +50,14 @@ function loadReport()
               $('#history-'+taskId).mousedown(pauseScrolling);
             });
           });
-      
-         
+
+
        $('#summary-'+taskId).each(function(){
          $(this).load('/mouseinventory/rawdata/ImportStatusBody.jsp?command=summary&taskid='+taskId);
        });
-         
+
       });
-    
+
 }
 
 function pauseScrolling()
@@ -74,7 +74,7 @@ for (int importId : ImportStatusTracker.ImportsInProgress())
 {
 
   ImportTask task = ImportStatusTracker.GetTask(importId);
-  
+
   sb.append("<div class=\"importStatusReport\" taskid=\"" + importId + "\">");
   sb.append("<div class=\"importTaskSummary\" id=\"summary-"+importId+"\">");
   sb.append(task.GetSummary(importId));

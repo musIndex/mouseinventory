@@ -8,13 +8,13 @@
 <div class="pagecontent">
 <%
   String confirmed = request.getParameter("confirm");
-  int submissionID = HTMLGeneration.stringToInt(request.getParameter("submissionID"));  
+  int submissionID = HTMLGeneration.stringToInt(request.getParameter("submissionID"));
   if(confirmed==null || !confirmed.equals("confirmCode123456"))
   {
     ArrayList<SubmittedMouse> submissions = DBConnect.getMouseSubmission(submissionID);
-    
+
     if(submissions.size() > 0)
-    {    
+    {
       SubmittedMouse submission = submissions.get(0);
       if(submission.getStatus().equalsIgnoreCase("rejected"))
       {
@@ -24,7 +24,7 @@
         <input type="hidden" name="confirm" value="confirmCode123456">
         <input type="hidden" name="submissionID" value="<%=submissionID %>">
         <input type="submit" class="btn btn-danger" value="Yes">
-        </form>      
+        </form>
         <%
       }
       else
@@ -47,6 +47,6 @@
       %>
     <h2>Submission# <%=submissionID %> was successfully deleted</h2>
     <%
-  }   
+  }
 %>
 </div>

@@ -11,13 +11,13 @@
   int holderID = HTMLGeneration.stringToInt(request.getParameter("holder_id"));
   int geneID = HTMLGeneration.stringToInt(request.getParameter("geneID"));
   int mouseTypeID = HTMLGeneration.stringToInt(request.getParameter("mousetype_id"));
-  
+
   String searchTerms = request.getParameter("searchterms");
   String orderBy = request.getParameter("orderby");
   String status = request.getParameter("status");
-  
+
   int pagenum = HTMLGeneration.stringToInt(request.getParameter("pagenum"));
-    int limit = HTMLGeneration.stringToInt(request.getParameter("limit"));    
+    int limit = HTMLGeneration.stringToInt(request.getParameter("limit"));
     if (limit == -1)
     {
       if (session.getAttribute("limit") != null)
@@ -51,7 +51,7 @@
   {
     session.setAttribute("editMiceOrderBy",orderBy);
   }
-  
+
   ArrayList<String> query = new ArrayList<String>();
     query.add("holder_id=" + holderID);
     query.add("orderby=" + orderBy);
@@ -61,33 +61,33 @@
     //query.add("facility_id=" + facilityID);
     query.add("searchterms=" + searchTerms);
     query.add("status=" + status);
-    
+
     String queryString = "";
 
     for (String s : query)
     {
         queryString += s + "&";
     }
-  
+
   int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms, false, -1, -1);
-  
+
   ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms,false,-1,-1,limit,offset);
 
   String table = HTMLGeneration.getMouseTable(mice, true, false, false);
 
-  //String table = generateMouseList(mouseTypeID, null, (orderBy== null || orderBy.equals("mouse.id")) ? "mouse.id desc" : orderBy, true);  
+  //String table = generateMouseList(mouseTypeID, null, (orderBy== null || orderBy.equals("mouse.id")) ? "mouse.id desc" : orderBy, true);
 
   ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
-  
+
     String mouseTypeSelectionLinks = HTMLGeneration.getMouseTypeSelectionLinks(mouseTypeID, orderBy,holderID,geneID, mouseTypes, status,searchTerms,-1,-1);
     String topPageSelectionLinks = HTMLGeneration.getPageSelectionLinks(limit,pagenum,mouseCount,true);
     String bottomPageSelectionLinks = HTMLGeneration.getPageSelectionLinks(limit,pagenum,mouseCount,false);
-    
-    
+
+
     Holder holder = DBConnect.getHolder(holderID);
-    
+
     Gene gene = DBConnect.getGene(geneID);
-    
+
     String mouseTypeStr = "Edit: Listing";
     String mouseCountStr = "";
     if(mouseTypeID != -1)
@@ -100,26 +100,26 @@
           break;
         }
       }
-    } 
+    }
     else
     {
-      mouseTypeStr += " all";  
+      mouseTypeStr += " all";
     }
-    
+
     if(mice.size() > 0)
     {
       mouseCountStr = mouseCount + " found (" + mice.size() + " shown)";
     }
-    
-    
+
+
     mouseTypeStr += " records";
-    
-    if (holder != null) 
-    { 
-    mouseTypeStr += " held by " + holder.getFullname(); 
-   } 
-    else if(gene != null) 
-    {   
+
+    if (holder != null)
+    {
+    mouseTypeStr += " held by " + holder.getFullname();
+   }
+    else if(gene != null)
+    {
     mouseTypeStr += " with gene <span class=\"geneSymbol\">" + gene.getSymbol() + "</span> - <span class=\"geneName\">" + gene.getFullname() + "</span>";
   }
 
@@ -127,12 +127,12 @@
     {
       mouseTypeStr += " matching search term '" + searchTerms + "'";
     }
-    
+
     if(!status.equals("all"))
   {
     mouseTypeStr += " with status='" + status + "'";
   }
-    
+
 %>
 <div class="pagecontent-leftaligned">
 
@@ -141,9 +141,9 @@
     <a href="CovertMice.jsp">Covert Mice</a>
   <form action="EditMouseSelection.jsp" method="post">
     <%= mouseTypeSelectionLinks %>
-    <%= topPageSelectionLinks %> 
-    <a class="btn btn-small btn-info" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a> 
+    <%= topPageSelectionLinks %>
+    <a class="btn btn-small btn-info" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
     <%= table %>
-    <%= bottomPageSelectionLinks %>  
+    <%= bottomPageSelectionLinks %>
   </form>
 </div>

@@ -13,24 +13,24 @@ import java.util.*;
 import java.util.regex.*;
 
 public class ValidationServlet extends HttpServlet {
-    
+
   private static final long serialVersionUID = 1L;
   //private static final String pmDBurl = "http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=PubMed&list_uids=";
-  
-  
-  
+
+
+
 
   //private ServletContext context;
 
- 
+
     public void init(ServletConfig config) throws ServletException {
       super.init(config);
         //this.context = config.getServletContext();
-        
+
     }
-    
-    
-    
+
+
+
     //output xml should look like this
     //<validationResults>
     //<fieldType/>
@@ -40,7 +40,7 @@ public class ValidationServlet extends HttpServlet {
     //<showUrl/>
     //<valid/>
     //</validationResults>
-    
+
     public  void doGet(HttpServletRequest request, HttpServletResponse  response)
         throws IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
@@ -49,14 +49,14 @@ public class ValidationServlet extends HttpServlet {
         String inputFieldId = request.getParameter("inputFieldId");
         String inputString = request.getParameter("inputString");
         String allowedValues = request.getParameter("allowedValues");
-        
+
         ArrayList<String> childNodes = new ArrayList<String>();
-        
+
         childNodes.add("<fieldType>" + fieldType + "</fieldType>");
         childNodes.add("<resultFieldId>" + resultFieldId + "</resultFieldId>");
         childNodes.add("<inputValue>" + addXMLEscapes(inputString) + "</inputValue>");
         childNodes.add("<inputFieldId>" + inputFieldId + "</inputFieldId>");
-        
+
         ValidationResult result = null;
         if(fieldType.equals("pmId"))
         {
@@ -64,23 +64,23 @@ public class ValidationServlet extends HttpServlet {
         }
         else if (fieldType.equals("mgiAlleleId"))
         {
-          result = doMGIAlleleIDValidation(inputString, allowedValues); 
+          result = doMGIAlleleIDValidation(inputString, allowedValues);
         }
         else if (fieldType.equals("mgiTransgeneId"))
         {
-          result = doMGITransgeneIDValidation(inputString, allowedValues); 
+          result = doMGITransgeneIDValidation(inputString, allowedValues);
         }
         else if (fieldType.equals("mgiModifiedGeneId"))
         {
-          result = doMGIGeneIDValidation(inputString, allowedValues,"modifiedgene"); 
+          result = doMGIGeneIDValidation(inputString, allowedValues,"modifiedgene");
         }
         else if (fieldType.equals("mgiExpressedGeneId"))
         {
-          result = doMGIGeneIDValidation(inputString, allowedValues,"expressedgene"); 
+          result = doMGIGeneIDValidation(inputString, allowedValues,"expressedgene");
         }
         else if (fieldType.equals("mgiKnockedInGeneId"))
         {
-          result = doMGIGeneIDValidation(inputString, allowedValues,"knockedingene"); 
+          result = doMGIGeneIDValidation(inputString, allowedValues,"knockedingene");
         }
         else if (fieldType.equals("email"))
         {
@@ -94,29 +94,29 @@ public class ValidationServlet extends HttpServlet {
         {
           result = doGensatValidation(inputString, allowedValues);
         }
-        else        
+        else
         {
           result = new ValidationResult("Unknown fieldType error", false, false);
         }
-        
-        
+
+
         childNodes.add("<outputValue>" + addXMLEscapes(result.outputValue) + "</outputValue>");
         childNodes.add("<valid>" + result.valid + "</valid>");
         childNodes.add("<showUrl>" + result.showUrl + "</showUrl>");
         if(result.additionalNodes!= null && !result.additionalNodes.isEmpty())
           childNodes.add(result.additionalNodes);
-        
+
       response.setContentType("text/xml");
         response.setHeader("Cache-Control", "no-cache");
         response.getWriter().write("<validationResults>\r\n");
-        
+
       for(String childNode : childNodes)
       {
         response.getWriter().write(childNode + "\r\n");
       }
         response.getWriter().write("</validationResults>");
     }
-    
+
     private ValidationResult doGensatValidation(String inputString,
       String allowedValues) {
       ValidationResult result = checkAllowedValues(inputString, allowedValues, "gensat");
@@ -134,18 +134,18 @@ public class ValidationServlet extends HttpServlet {
 
 
   private ValidationResult doJaxIDValidation(String inputString, String allowedValues) {
-      
+
       ValidationResult result = checkAllowedValues(inputString, allowedValues, "JaxID");
       if(result != null)
       {
         return result;
       }
-      
+
       if(inputString == null || inputString.isEmpty())
       {
         return new ValidationResult(" ", true, true);
       }
-      
+
 //      try
 //      {
 //        Integer.parseInt(inputString);
@@ -153,8 +153,8 @@ public class ValidationServlet extends HttpServlet {
 //      {
 //        return new ValidationResult("Please enter only numbers (no spaces)", false, false);
 //      }
-      
-      
+
+
       return new ValidationResult(" ", true, true);
   }
 
@@ -166,7 +166,7 @@ public class ValidationServlet extends HttpServlet {
         return result;
       }
       MGIResult r = MGIConnect.DoReferenceQuery(accessionID);
-      
+
       if(r.isValid())
       {
         if(r.getType() == MGIConnect.MGI_MARKER || r.getType() == MGIConnect.MGI_ALLELE)
@@ -187,19 +187,19 @@ public class ValidationServlet extends HttpServlet {
         result = new ValidationResult(r.getErrorString(), false, true);
       }
 
-      return result;  
+      return result;
     }
-    
+
   private ValidationResult doMGIAlleleIDValidation(String idString, String allowedValues)
   {
     return doMGIMouseIDValidation(idString, allowedValues, "allele");
   }
-  
+
   private ValidationResult doMGITransgeneIDValidation(String idString, String allowedValues)
   {
     return doMGIMouseIDValidation(idString, allowedValues, "transgene");
   }
-  
+
     private ValidationResult doMGIMouseIDValidation(String idString, String allowedValues, String type)
     {
       ValidationResult result = checkAllowedValues(idString, allowedValues, "MGI ID");
@@ -221,7 +221,7 @@ public class ValidationServlet extends HttpServlet {
       {
         return null;
       }
-      
+
       if(r.isValid())
       {
         result = new ValidationResult(r.getSymbol() + " - " + r.getName(), true, true);
@@ -235,11 +235,11 @@ public class ValidationServlet extends HttpServlet {
         result = new ValidationResult(r.getErrorString(), false, true);
         result.additionalNodes = "<symbol> </symbol>";
       }
-      
-      
+
+
       return result;
     }
-    
+
   private ValidationResult doMGIGeneIDValidation(String idString, String allowedValues, String type)
     {
 
@@ -248,9 +248,9 @@ public class ValidationServlet extends HttpServlet {
       {
         return result;
       }
-      
+
       MGIResult r = null;
-      
+
       if(type.equalsIgnoreCase("modifiedGene"))
       {
         r = MGIConnect.DoMGIModifiedGeneQuery(idString);
@@ -261,7 +261,7 @@ public class ValidationServlet extends HttpServlet {
       {
         r = MGIConnect.DoMGIExpressedGeneQuery(idString);
       }
-      
+
       if(r.isValid())
       {
         result = new ValidationResult(r.getSymbol() + " - " + r.getName(), true, true);
@@ -278,11 +278,11 @@ public class ValidationServlet extends HttpServlet {
     private ValidationResult checkAllowedValues(String inputString, String allowedValues, String fieldTypeDescription)
     {
       ValidationResult result = null;
-      
+
       String[] allowedVals = allowedValues.split(",");
       String prettyAllowedValString = "";
       boolean allowBlank = false;
-      
+
       for (String allowedVal : allowedVals)
       {
         if(inputString.equalsIgnoreCase(allowedVal))
@@ -293,15 +293,15 @@ public class ValidationServlet extends HttpServlet {
         {
           allowBlank = true;
               prettyAllowedValString += " or leave this field blank";
-   
-        } 
+
+        }
         else  {
           if (!allowedVal.equals(""))  //handle case when there are no allowed values
           {
             prettyAllowedValString += " or '" + allowedVal + "'";
           }
-        } 
-        
+        }
+
       }
       if(allowedVals.length == 0 && allowedValues.equals(","))
         allowBlank = true;
@@ -310,9 +310,9 @@ public class ValidationServlet extends HttpServlet {
       {
         return new ValidationResult("",true,false);
       }
-      
+
     if(!allowBlank && inputString.equalsIgnoreCase(""))
-    { 
+    {
       if(fieldTypeDescription.equalsIgnoreCase("jaxid"))
         fieldTypeDescription = " the catalog ID (number only)";
         return new ValidationResult("Please enter " + fieldTypeDescription + prettyAllowedValString, false, false);
@@ -322,10 +322,10 @@ public class ValidationServlet extends HttpServlet {
     {
       return result;
     }
-      
+
     if (fieldTypeDescription.equals("Pubmed ID") || fieldTypeDescription.equals("MGI ID"))
     {
-      
+
         try
         {
           Long.parseLong(inputString);
@@ -334,26 +334,26 @@ public class ValidationServlet extends HttpServlet {
         {
           return new ValidationResult("Please enter only numbers (no spaces)" + prettyAllowedValString, false, false);
         }
-    } 
+    }
     else if (fieldTypeDescription.equals("Email Address"))
     {
       Pattern ptn = Pattern.compile("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}", Pattern.CASE_INSENSITIVE);
       Matcher matcher = ptn.matcher(inputString);
         matcher.find();
-        
+
         if(matcher.matches())
         {
           return new ValidationResult("OK", true, false);
         }
         return new ValidationResult("Invalid Address", false, false);
     }
-    
+
     //Jax ID rules (currently none)
     //gensat url rules (currently none)
-    
+
       return null;
     }
-    
+
     private String addXMLEscapes(String input)
     {
       if(input == null)
@@ -368,25 +368,25 @@ public class ValidationServlet extends HttpServlet {
       output = output.replace("'", "&apos;");
       return output;
     }
-    
 
-    
+
+
     private class ValidationResult
     {
       public String outputValue;
       public boolean valid;
       public boolean showUrl;
       public String additionalNodes;
-      
+
       public ValidationResult(String outputValue, boolean valid, boolean showUrl)
       {
         this.outputValue = outputValue;
         this.showUrl = showUrl;
         this.valid = valid;
-        
+
       }
-      
-    
+
+
     }
 }
 

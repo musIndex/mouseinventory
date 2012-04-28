@@ -55,7 +55,7 @@
             <tr>
                 <td>Tel</td>
                 <td><input type=text name="tel" size=20></td>
-            </tr>    
+            </tr>
             <tr><td colspan=2 align="center">
             <input type="hidden" name="command" value="Insert">
             <input type="submit" class="btn btn-success" value="Create Holder"></td></tr>

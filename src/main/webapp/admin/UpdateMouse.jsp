@@ -21,7 +21,7 @@
 
 <%
 
-  
+
   int mouseID = HTMLGeneration.stringToInt(request.getParameter("mouseID"));
   String errors = "";
   String errortext = "";
@@ -30,9 +30,9 @@
   String recordUpdateResult = null;
      String pageHeader = "";
      boolean errorsEncountered = false;
-     
+
   //TODO combine code in updatemouse,updatechangerequest,updatesubmission into servlet
-  
+
      PopulateMouseResult result = RecordManager.PopulateMouseDataFromRequest(updatedRecord,request);
      if (!result.Success)
      {
@@ -42,9 +42,9 @@
      else if( mouseID > 0)
   {
     previousRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false,true);
-    
+
     int existingRecordID = RecordManager.RecordExists(updatedRecord);
-    
+
     if(existingRecordID > 0)
     {
       //dupicate found
@@ -66,7 +66,7 @@
     errors += "Mouse ID not found, cannot update";
     errorsEncountered = true;
   }
-  
+
 
   if(recordUpdateResult != null)
   {
@@ -80,13 +80,13 @@
 <div class="pagecontent">
 <h2><%=pageHeader %></h2>
 <%if(errors.isEmpty())
-{ 
+{
   %>
   <h3>Before:</h3>
   <%= previousRecord %>
   <h3>After:</h3>
   <%= resultingRecord %>
-  <%  
+  <%
 }
 else
 { %>

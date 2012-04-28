@@ -8,7 +8,7 @@
 <%
   String command = request.getParameter("command");
   StringBuffer buf = new StringBuffer();
-    
+
   int id = HTMLGeneration.stringToInt(request.getParameter("geneRecordID"));
 
   Gene originalGene = new Gene();
@@ -19,7 +19,7 @@
     try
     {
       originalGene = DBConnect.getGene(id);
-      genes.add(originalGene);            
+      genes.add(originalGene);
         originalGeneTable = HTMLGeneration.getGeneTable(genes,false);
     }
     catch (Exception e)
@@ -47,11 +47,11 @@
     {
         buf.append("<h2>Before edit:</h2> ");
         buf.append(originalGeneTable);
-      
+
       DBConnect.updateGene(editedGene);
-      
+
       genes.clear();
-      genes.add(DBConnect.getGene(id));      
+      genes.add(DBConnect.getGene(id));
         buf.append("<h2>After edit:</h2> ");
         buf.append(HTMLGeneration.getGeneTable(genes,true));
     }
@@ -60,13 +60,13 @@
   {
     id = DBConnect.insertGene(editedGene);
     genes.clear();
-    genes.add(DBConnect.getGene(id));      
+    genes.add(DBConnect.getGene(id));
       buf.append("<h2>Added new gene:</h2> ");
       buf.append(HTMLGeneration.getGeneTable(genes,true));
   }
   else if (command.equals("Delete"))
   {
-    
+
     boolean confirmed = request.getParameter("confirm") != null && request.getParameter("confirm").equals("yes");
     if (confirmed)
     {
@@ -86,7 +86,7 @@
       }
     }
     else
-    {      
+    {
         buf.append("<h2>Confirm that you want to delete this gene</h2>\r\n");
         buf.append(originalGeneTable);
       buf.append("<form action=\"UpdateGene.jsp\" method=\"post\">");

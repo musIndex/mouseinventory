@@ -9,7 +9,7 @@ public class MouseRecord {
   String mouseName;
   String officialMouseName;
   String mouseType;
-  
+
   String geneID;
   String geneName;
   String geneSymbol;
@@ -17,39 +17,39 @@ public class MouseRecord {
   String targetGeneID;
   String targetGeneName;
   String targetGeneSymbol;
-  
+
   String modificationType;
   String regulatoryElement;
-  
+
   String expressedSequence;
   String otherComment;
   String reporter;
   String transgenicType;
-  
+
   String mtaRequired;
   String generalComment;
   String backgroundStrain;
-  
+
   String source;
 
   String repositoryCatalogNumber;
     String repositoryTypeID;
-    
+
     String gensat;
-    
+
     String cryopreserved;
     boolean endangered;
-    
+
     ArrayList<String> pubmedIDs;
   ArrayList<MouseHolder> holders;
-  
+
   String status;
-  
+
   String submittedMouseID;
-  
-  
-  
-  
+
+
+
+
   public String getOfficialMouseName() {
     return officialMouseName;
   }
@@ -105,11 +105,11 @@ public class MouseRecord {
             setTargetGeneID(null);
             setReporter(null);
           }
-          
+
         }
       }
-      
-    
+
+
     }
   }
   public boolean isMA(){ return mouseType!= null && mouseType.equalsIgnoreCase("Mutant Allele");}
@@ -131,7 +131,7 @@ public class MouseRecord {
     }
     return true;
   }
-  
+
   public boolean isHidden()
   {
     if (getHolders() == null || getHolders().size() <= 0)
@@ -142,7 +142,7 @@ public class MouseRecord {
     {
       return true;
     }
-    
+
     boolean covertOnly = true;
     for (MouseHolder holder : getHolders())
     {
@@ -150,7 +150,7 @@ public class MouseRecord {
     }
     return covertOnly;
   }
-  
+
   public String getMouseID() {
     return mouseID;
   }
@@ -319,7 +319,7 @@ public class MouseRecord {
     Properties props = new Properties();
 
         //temporary properties conversion.
-        
+
         //general
         props.setProperty("First", submitterData.getFirstName());
         props.setProperty("Last",submitterData.getLastName());
@@ -327,14 +327,14 @@ public class MouseRecord {
         props.setProperty("Email",submitterData.getEmail());
         props.setProperty("Tel",submitterData.getTelephoneNumber());
 
-        //all types     
+        //all types
         props.setProperty("MouseType", newMouse.getMouseType());
     if(newMouse.isMA() || newMouse.isTG())
     {
           //props.setProperty("isPublished", newMouse.getIsPublished());
     }
         props.setProperty("mouseName",emptyIfNull(newMouse.getMouseName()));
-        
+
         ArrayList<MouseHolder> holders = newMouse.getHolders();
         for (MouseHolder mouseHolder : holders)
     {
@@ -342,10 +342,10 @@ public class MouseRecord {
              props.setProperty("facility",emptyIfNull(mouseHolder.getFacilityName()));
              break;
     }
-       
-        
+
+
         props.setProperty("comment",emptyIfNull(newMouse.getGeneralComment()));
-        
+
         //mutant allele
         if(newMouse.isMA())
         {
@@ -355,15 +355,15 @@ public class MouseRecord {
         //transgenic
         if(newMouse.isTG())
         {
-         
+
           props.setProperty("TransgenicType", emptyIfNull(newMouse.getTransgenicType()));
           props.setProperty("regulatoryElement",emptyIfNull(newMouse.getRegulatoryElement()));
-          
+
           props.setProperty("knockedInGene",emptyIfNull(newMouse.getTargetGeneID()));
-          
+
           props.setProperty("gensatFounderLine",emptyIfNull(newMouse.getGensat()));
         }
-        
+
         //inbred strain
         if(newMouse.isIS())
         {
@@ -379,7 +379,7 @@ public class MouseRecord {
           props.setProperty("reporter",emptyIfNull(newMouse.getReporter()));
           props.setProperty("mouse gene",emptyIfNull(newMouse.getGeneID()));
           props.setProperty("other",emptyIfNull(newMouse.getOtherComment()));
-          
+
           props.setProperty("strain",emptyIfNull(newMouse.getBackgroundStrain()));
           props.setProperty("mta",emptyIfNull(newMouse.getMtaRequired()));
           //props.setProperty("producedInLabOfHolder",emptyIfNull(newMouse.getProducedInLabOfHolder()));
@@ -392,7 +392,7 @@ public class MouseRecord {
               props.setProperty("pmid",pmid);
               break;
         }
-            
+
           //}
           //props.setProperty("geneValid",emptyIfNull(newMouse.getMAMgiGeneIDValid()));
          // props.setProperty("geneValidationString",emptyIfNull(newMouse.getMAMgiGeneIDValidationString()));

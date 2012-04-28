@@ -1,9 +1,9 @@
 package edu.ucsf.mousedatabase.objects;
 
 public class MGIResult {
-  
-  
-  
+
+
+
   private String accessionID;
   private int type;
   private String symbol;
@@ -15,7 +15,7 @@ public class MGIResult {
   private boolean isOGFPage;
   private boolean mgiOffline;
   private boolean mgiConnectionTimedout;
-  
+
   public boolean isMgiConnectionTimedout() {
     return mgiConnectionTimedout;
   }
@@ -23,16 +23,16 @@ public class MGIResult {
     this.mgiConnectionTimedout = mgiConnectionTimedout;
   }
   private String alleleAccessionID;
-  
-  
-  
+
+
+
   public int getType() {
     return type;
   }
   public void setType(int type) {
     this.type = type;
   }
-  
+
   public String getSymbol() {
     return symbol;
   }
@@ -104,5 +104,5 @@ public class MGIResult {
   public void setMgiOffline(boolean mgiOffline) {
     this.mgiOffline = mgiOffline;
   }
-  
+
 }

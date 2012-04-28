@@ -8,7 +8,7 @@
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
 <%@ include file="protectAgainstDuplicateHolders.jspf" %>
 <%
-  
+
   if (request.getParameter("id") == null) {
     %>
       <div class="pagecontent">
@@ -19,8 +19,8 @@
   }
 
     int submissionID = Integer.parseInt(request.getParameter("id"));
-      
-    
+
+
     ArrayList<SubmittedMouse> submissions = DBConnect.getMouseSubmission(submissionID);
     if(submissions.size() < 1)
     {
@@ -32,7 +32,7 @@
       return;
     }
     SubmittedMouse submission = submissions.get(0);
-    
+
     if(submission.getStatus().equalsIgnoreCase("accepted"))
     {
       %>
@@ -40,9 +40,9 @@
       <h2>ERROR - submission #<%=submissionID %> has already been accepted.</h2>
       </div>
       <%
-      return;    
+      return;
     }
-      
+
 
     MouseRecord record;
     ArrayList<MouseRecord> records;
@@ -69,15 +69,15 @@
       records = new ArrayList<MouseRecord>();
       records.add(record);
     }
-   
-    
-   
+
+
+
     String submissionTable = HTMLGeneration.getSubmissionTable(submissions,null,null,false);
-    
+
     String editForm = HTMLGeneration.getEditMouseForm(record,submission);
-    
+
     String recordPreview = HTMLGeneration.getMouseTable(records,false,false,true);
-    
+
 %>
 
 

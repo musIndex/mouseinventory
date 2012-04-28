@@ -9,7 +9,7 @@
 <%
   String command = request.getParameter("command");
   StringBuffer buf = new StringBuffer();
-  
+
   int id = HTMLGeneration.stringToInt(request.getParameter("facilityID"));
   Facility originalFacility = new Facility();
   ArrayList<Facility> facilities = new ArrayList<Facility>();
@@ -19,7 +19,7 @@
     try
     {
       originalFacility = DBConnect.getFacility(id);
-      facilities.add(originalFacility);            
+      facilities.add(originalFacility);
         originalFacilityTable = HTMLGeneration.getFacilityTable(facilities,true);
       }
     catch (Exception e)
@@ -46,11 +46,11 @@
     {
         buf.append("<h2>Before edit:</h2> ");
         buf.append(originalFacilityTable);
-      
+
       DBConnect.updateFacility(editedFacility);
-      
+
       facilities.clear();
-      facilities.add(DBConnect.getFacility(id));      
+      facilities.add(DBConnect.getFacility(id));
         buf.append("<h2>After edit:</h2> ");
         buf.append(HTMLGeneration.getFacilityTable(facilities,true));
     }
@@ -59,13 +59,13 @@
   {
     id = DBConnect.insertFacility(editedFacility);
     facilities.clear();
-    facilities.add(DBConnect.getFacility(id));      
+    facilities.add(DBConnect.getFacility(id));
       buf.append("<h2>Added new facility:</h2> ");
       buf.append(HTMLGeneration.getFacilityTable(facilities,true));
   }
   else if (command.equals("Delete"))
   {
-    
+
     boolean confirmed = request.getParameter("confirm") != null && request.getParameter("confirm").equals("yes");
     if (confirmed)
     {
@@ -85,7 +85,7 @@
       }
     }
     else
-    {      
+    {
         buf.append("<h2>Confirm that you want to delete this facility</h2>\r\n");
         buf.append(originalFacilityTable);
       buf.append("<form action=\"UpdateFacility.jsp\" method=\"post\">");

@@ -42,7 +42,7 @@
   String errortext = "";
   boolean errorsEncountered = false;
   String resultingRecord = "";
-  
+
   PopulateMouseResult result = RecordManager.PopulateMouseDataFromRequest(updatedRecord,request);
      if (!result.Success)
      {
@@ -53,7 +53,7 @@
      {
     if(updateCommand.equals("Convert to Record") || updateCommand.equals("Move to Hold"))
     {
-      
+
       int existingRecordID = RecordManager.RecordExists(updatedRecord);
       if(existingRecordID > 0)
       {
@@ -77,7 +77,7 @@
           <%
           return;
         }
-    
+
         DBConnect.updateSubmission(submissionID, "accepted", notes);
         updatedRecord.setStatus("live");
         if(mouseID < 0)
@@ -92,9 +92,9 @@
         }
            pageHeader = "Created new Record #" + mouseID + ":";
            resultingRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false, true);
-        
+
            submissionTable = HTMLGeneration.getSubmissionTable(DBConnect.getMouseSubmission(submissionID),null,null,false);
-           
+
       }
       else if(updateCommand.equals("Move to Hold"))
       {
@@ -114,14 +114,14 @@
         if(updateResult == null)  //null means there were no errors updating the submission
         {
             resultingRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),false,false, true);
-            
+
         }
         else
         {
           errors += "Error: " + updateResult + "<br>";
         }
         submissionTable = HTMLGeneration.getSubmissionTable(DBConnect.getMouseSubmission(submissionID),null,null,true);
-      }  
+      }
     }
     else if(updateCommand.equals("Reject Submission"))
     {
@@ -140,7 +140,7 @@
         DBConnect.updateSubmission(submissionID, "need more info", null);
         pageHeader = "Moved submission #" + submissionID + " back to hold.";
         //also delete the incomplete mouse record if there is one.
-        if (mouseID > 0) 
+        if (mouseID > 0)
         {
           updatedRecord = DBConnect.getMouseRecord(mouseID).get(0);
           updatedRecord.setStatus("incomplete");
@@ -157,7 +157,7 @@
 <div class="pagecontent">
 
 <%if(errors.isEmpty())
-{ 
+{
   %>
   <h2><%=pageHeader %></h2>
   <%
@@ -184,7 +184,7 @@
     <h3>Incomplete Record:</h3>
     <%
   }
-  
+
   if(updateCommand.equals("Convert to Record") || updateCommand.equals("Move to Hold"))
   {
     %>
@@ -198,7 +198,7 @@ else
   <h3 class="validationError"><%=errors %></h3>
   <%=errortext %>
 <%
-} 
+}
 %>
 </div>
 

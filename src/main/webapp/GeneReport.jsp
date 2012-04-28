@@ -7,11 +7,11 @@
 
 <%
     String orderBy = request.getParameter("orderby");
-    if (orderBy == null) 
+    if (orderBy == null)
     {
         orderBy = "fullname";
     }
-    
+
     ArrayList<Gene> genes = DBConnect.getAllGenes(orderBy);
     String table = HTMLGeneration.getGeneTable(genes,false);
 %>
@@ -22,5 +22,5 @@
       <a href="GeneReport.jsp?orderby=fullname">Full name</a>,
       <a href="GeneReport.jsp?orderby=mgi">MGI</a></p>
         <%= table%>
-        
+
 </div>

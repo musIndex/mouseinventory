@@ -34,17 +34,17 @@
         idList += ", ";
       }
       idList += id;
-      
+
       ArrayList<Integer> MGIids = JaxMiceConnect.GetMGINumbersFromJax(id);
       for(int MGIid : MGIids)
       {
         resultsBuffer.append("JAX: " + id + " - MGI: " + MGIid + "<br>");
       }
-      
+
     }
     processed = true;
     bodyText = resultsBuffer.toString();
-    
+
   }
 
 
@@ -55,8 +55,8 @@
 
 <h2><%=header %></h2>
 
-<% 
-if(!processed) 
+<%
+if(!processed)
 {
   %>
   <p>To look up an MGI ID from a Jax stock number, enter one stock number per line.  Be sure to include any leading zeros, and no other characters.
@@ -67,7 +67,7 @@ if(!processed)
   <br>NOT:
   <br>#000133
   <br>123
-  
+
   <form method="post" action="MgiFromJax.jsp">
   <textarea  name=jaxIds rows="20" cols="20"></textarea>
   <br>
@@ -76,13 +76,13 @@ if(!processed)
   <%
 }
 else
-{ 
+{
   %>
-  
+
   <%=bodyText %>
-  
-  
+
+
   <%
-} 
+}
 %>
 </div>

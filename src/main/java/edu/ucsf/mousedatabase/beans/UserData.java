@@ -10,13 +10,13 @@ public class UserData {
   private String email;
   private String telephoneNumber;
   private String department;
-  
+
   private String firstNameErr;
   private String lastNameErr;
   private String emailErr;
   private String telephoneNumberErr;
   private String departmentErr;
-  
+
   public boolean ValidateContactInfo()
   {
     boolean valid = true;
@@ -59,17 +59,17 @@ public class UserData {
     }
     return valid;
   }
-  
+
   private void clearContactInfoErrors()
   {
     this.firstNameErr = this.lastNameErr = this.departmentErr = this.emailErr = this.telephoneNumberErr = null;
   }
-  
+
   public String getFullname()
   {
     return firstName + " " + lastName;
   }
-  
+
   public String getFirstName() {
     return firstName;
   }

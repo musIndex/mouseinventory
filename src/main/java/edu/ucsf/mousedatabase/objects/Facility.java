@@ -5,7 +5,7 @@ public class Facility {
   private String facilityName;
   private String facilityDescription;
   private String facilityCode;
-  
+
   private int recordCount;
   public int getRecordCount()
   {
@@ -41,5 +41,5 @@ public class Facility {
   public void setFacilityCode(String facilityCode) {
     this.facilityCode = facilityCode;
   }
-  
+
 }

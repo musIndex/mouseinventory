@@ -7,7 +7,7 @@
 <%
   int id = HTMLGeneration.stringToInt(request.getParameter("id"));
   String confirmed = request.getParameter("confirm");
-  
+
   if (id < 0)
   {
     %>
@@ -16,22 +16,22 @@
   }
   else
   {
-  
+
     ArrayList<ImportReport> reqs = DBConnect.getImportReport(id);
     String table = HTMLGeneration.getImportReportTable(reqs,false);
     if (reqs.size() != 1)
     {
       %>
         <h2>No import report with ID <%=id %> found.</h2>
-      <%  
+      <%
     }
     else if (confirmed != null && confirmed.equals("Yes"))
     {
-      
+
       DBConnect.deleteImportReport(id);
       %>
         <h3>Successfully deleted import report #<%=id %></h3>
-      
+
       <%
     }
     else

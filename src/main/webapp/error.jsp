@@ -11,7 +11,7 @@
 
 <div class="pagecontent">
 <h2>Unknown Error.</h2>
-<p>We're sorry, but the Mouse Inventory Database has encountered an error.  
+<p>We're sorry, but the Mouse Inventory Database has encountered an error.
 Please notify the administrator.</p>
 <h3>Error details:</h3>
 <%-- Exception Handler --%>
@@ -28,7 +28,7 @@ Please notify the administrator.</p>
   <%} %>
   </div>
   <%
-} 
+}
 %>
 
 

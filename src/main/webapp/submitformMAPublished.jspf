@@ -1,12 +1,12 @@
 <tr class="formFieldH">
   <td colspan="2">
   <div>
-    <b>If the mutant allele you want to submit is published, there should be 
+    <b>If the mutant allele you want to submit is published, there should be
     an 'allele detail' page for it on Mouse Genome Informatics (MGI).
     You need to find this page in order to complete this submission.</b>
     <br>
     <a href="http://www.informatics.jax.org/" target="_blank">Mouse Genome Informatics</a>
-    <br>  
+    <br>
     If you are not certain how to find it, click here:
     <div class=help_pdf>
       <a href=helpdocs/HelpTextFindingTheMGIAlleleID.pdf target=_blank>
@@ -19,15 +19,15 @@
 </tr>
 <tr class="formField">
   <td valign="top">
-    <span class=red>*</span> Copy the <span class=red><b>MGI ID</b></span> 
-    for the allele from the allele detail page (number only) and paste it here. 
+    <span class=red>*</span> Copy the <span class=red><b>MGI ID</b></span>
+    for the allele from the allele detail page (number only) and paste it here.
     <br>
     Although each published allele should have a detail page, occasionally
     it does not.
     <br>
     If you are <span class=red>absolutely certain </span> that there is
-    no detail page on MGI for the mutant allele you want to submit, 
-    enter 'none'. Admin will inform MGI, and they will provide a 
+    no detail page on MGI for the mutant allele you want to submit,
+    enter 'none'. Admin will inform MGI, and they will provide a
     detail page for the allele, usually within a few days.
   </td>
   <td valign="top">
@@ -40,21 +40,21 @@
     onClick="validateInput('mouseMGIID', 'mouseMGIValidation', 'mgiAlleleId', 'none')">
       <img style="vertical-align: middle" src="img/arrow_cycle.png" width="24"
         height="24">
-    </a> 
+    </a>
   </td>
 </tr>
 
 <tr class="formField">
   <td valign="top"><b>Official Symbol</b> for the allele being submitted
-    (automatically entered when the MGI ID is entered): 
+    (automatically entered when the MGI ID is entered):
     <br>
-    If the official symbol seems to be correct, click the autofill button. 
+    If the official symbol seems to be correct, click the autofill button.
     If not, replace the MGI ID with the one for the correct  allele.
   </td>
   <td valign="top">
     <input type="hidden" name="officialSymbol"
     id="officialSymbol"
-    value="${newMouse.officialSymbol}"size="40"> 
+    value="${newMouse.officialSymbol}"size="40">
     <span style="display: none" id="officialSymbolSpan">
     <b>${newMouse.officialSymbol}</b></span>
     <span class="<%=newMouse.hasValidMouseMGIID() ? "bp_valid" : "bp_invalid"%>"
@@ -65,7 +65,7 @@
     <input type="hidden" name="mouseMGIIDValid" id="mouseMGIIDValid"
       value="${newMouse.mouseMGIIDValid}">
     <br />
-    <a href="#" id="mgiautofillbutton" style="text-decoration:none" 
+    <a href="#" id="mgiautofillbutton" style="text-decoration:none"
       class="btn btn-primary btn-large">Auto-fill Gene, PubMed, and description data</a>
     <span class="validationError">${newMouse.officialSymbolErr}</span>
   </td>
@@ -79,12 +79,12 @@
     Clicking on the link that has been generated to the MGI accession number will
     bring up the page that describes this gene.
     <br>
-    If you entered 'none' in the MGI ID field above, enter the MGI ID for 
-    the gene that is mutated in the allele you want to submit. 
+    If you entered 'none' in the MGI ID field above, enter the MGI ID for
+    the gene that is mutated in the allele you want to submit.
     (Click
     <a href="http://www.informatics.jax.org/javawi2/servlet/WIFetch?page=markerQF"
-    target="_blank">here</a> for a link to the MGI gene query page.) If you are 
-    not certain how to find this information, click the 'How to find the MGI 
+    target="_blank">here</a> for a link to the MGI gene query page.) If you are
+    not certain how to find this information, click the 'How to find the MGI
     Gene ID' button.
     <div class=help_pdf>
       <a href=helpdocs/HelpTextFindingTheMGIGeneID.pdf target=_blank>
@@ -114,11 +114,11 @@
 
 <tr class="formField">
   <td valign="top">
-    <span class=red>*</span> <b>Pubmed ID</b>, generally for the publication in which 
-    the mutant allele was first described (automatically entered when the MGI ID 
+    <span class=red>*</span> <b>Pubmed ID</b>, generally for the publication in which
+    the mutant allele was first described (automatically entered when the MGI ID
     for the allele is entered)
     <br>
-    If you entered 'none' in the MGI ID field above, enter the PMID for a 
+    If you entered 'none' in the MGI ID field above, enter the PMID for a
     publication in which the mutant allele is described.
   </td>
   <td valign="top">
@@ -130,8 +130,8 @@
     onClick="validateInput('PMID', 'PMIDValidation', 'pmId', '')"><img
       style="vertical-align: middle" src="img/arrow_cycle.png"
       width="24" height="24">
-    </a> 
-    <br> 
+    </a>
+    <br>
     <span class="<%=newMouse.hasValidPMID() ? "bp_valid" : "bp_invalid"%>"
       id="PMIDValidation">${newMouse.PMIDErr}</span>
     <input type="hidden" name="PMIDValidationString" id="PMIDValidationString"
@@ -141,22 +141,22 @@
 </tr>
 
 <tr class="formField">
-  <td valign="top"><span class=red>*</span> <b>Comment</b> 
+  <td valign="top"><span class=red>*</span> <b>Comment</b>
     <br>
-    Text automatically entered here is the description of the allele 
-    provided by MGI. <span class=red>Please read it and make sure it 
-    accurately describes the allele you want to submit.  If not, make the 
-    appropriate changes.</span> 
+    Text automatically entered here is the description of the allele
+    provided by MGI. <span class=red>Please read it and make sure it
+    accurately describes the allele you want to submit.  If not, make the
+    appropriate changes.</span>
     <br />
-    <br /> 
+    <br />
     If, after checking the information that has
-    been entered (i.e. name of gene modified, relevant publication, and 
+    been entered (i.e. name of gene modified, relevant publication, and
     description of the allele) you realize that this is not the allele you
-    want to submit, please start over by entering the MGI ID for the correct 
+    want to submit, please start over by entering the MGI ID for the correct
     allele and clicking the auto-fill button.
     <br />
     <br />
-    If you entered 'none' in the MGI ID field above, enter a brief description 
+    If you entered 'none' in the MGI ID field above, enter a brief description
     of the allele here.
   </td>
   <td valign="top">
@@ -168,8 +168,8 @@
 <tr valign="top" class="formField">
   <td style="width: 50%">
     <span class=red>*</span>
-    <b>Modification type</b>: 
-    <br> 
+    <b>Modification type</b>:
+    <br>
     Choose 'targeted knock-in' when the
     modification to the gene results in the expression of a sequence
     of particular interest (e.g. another mouse gene, Cre, a reporter,
@@ -190,29 +190,29 @@
   </td>
   <td>
     <%=getExpressedSequenceRadioWithParams(emptyIfNull(newMouse.getTGExpressedSequence()),
-    "onChange='UpdateExpressedSequenceDetail()'")%> 
+    "onChange='UpdateExpressedSequenceDetail()'")%>
     <span class="validationError">${newMouse.TGExpressedSequenceErr}</span>
   </td>
 </tr>
 <tr class="formField" id="trGeneRow"
   style="<%=rowVisibility(newMouse.isGeneExprSeq())%>">
   <td valign="top">
-    <span class=red>*</span> Mouse gene that is expressed 
-    <br>   
-    Go to MGI, find the detail page for the gene that is expressed, 
-    copy the MGI ID for that gene and paste it in the space provided. 
+    <span class=red>*</span> Mouse gene that is expressed
+    <br>
+    Go to MGI, find the detail page for the gene that is expressed,
+    copy the MGI ID for that gene and paste it in the space provided.
     (Click
     <a
     href="http://www.informatics.jax.org/javawi2/servlet/WIFetch?page=markerQF"
-    target="_blank">here</a> for a link to the MGI gene query page.)  
+    target="_blank">here</a> for a link to the MGI gene query page.)
     <br>
-    <span class=red>Please 
+    <span class=red>Please
     make sure that the gene that is entered is the correct one.</span>
     <br>
-    If you are not certain how to find this information, click the 
+    If you are not certain how to find this information, click the
     'How to find the MGI Gene ID' button, above.
     <br>
-    If any regulatory sequences that control the expression of this gene were included in the knock-in 
+    If any regulatory sequences that control the expression of this gene were included in the knock-in
     construct, please make sure that they are described in the comment field.
   </td>
   <td valign="top"><INPUT TYPE="TEXT" id="TGMouseGene"
@@ -247,8 +247,8 @@
 <tr class="formField" id="trDescRow"
   style="<%=rowVisibility(newMouse.isOtherExprSeq())%>">
   <td valign="top">
-    <span class=red>*</span> Description of the expressed sequence, 
-    as well as any regulatory sequences included in the knock-in construct that control 
+    <span class=red>*</span> Description of the expressed sequence,
+    as well as any regulatory sequences included in the knock-in construct that control
     its expression.
   </td>
   <td valign="top"><INPUT TYPE="TEXT" name="TGOther"
@@ -259,11 +259,11 @@
 
 <tr class="formField">
   <td valign="top" class="firstColumn">
-    <b>Background strain</b> of mutant allele mouse. 
-    <br> 
+    <b>Background strain</b> of mutant allele mouse.
+    <br>
     Enter only defined background strains (i.e. do not enter 'mixed' or 'not known').
     <br>
-    (Optional: if the mutant allele is being maintained in combination with another mutant allele(s) 
+    (Optional: if the mutant allele is being maintained in combination with another mutant allele(s)
     or a transgene(s), this can be noted here.)
   </td>
   <td valign="top"><input type="text" name="backgroundStrain"

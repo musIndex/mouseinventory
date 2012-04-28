@@ -13,7 +13,7 @@ public class ReportServlet extends HttpServlet
 {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
 
@@ -23,10 +23,10 @@ public class ReportServlet extends HttpServlet
   public static final String PPTChangeRequestImportReportName = "PPT Change Request Data Import Report";
   public static final String PurchaseChangeRequestImportReportName = "Purchases Change Request Data Import Report";
   public static final String PurchaseSubmissionsImportReportName = "Purchases Submissions Data Import Report";
-    
+
   public void doGet(HttpServletRequest request, HttpServletResponse  response)
       throws IOException, ServletException {
-    
+
     Object[] args = null;
     String reportName = request.getParameter("reportName");
     Boolean problem = false;
@@ -42,7 +42,7 @@ public class ReportServlet extends HttpServlet
       ArrayList<ImportReport> reports = DBConnect.getImportReport(Integer.parseInt((String)args[0]));
       filename = reportName + " " + reports.get(0).getName() + ".csv";
     }
-    
+
     String errorMessage = "Problem running report.  Please contact Mouse Database Administrator\r\n";
     String report = "";
     if (reportName != null && !reportName.equals(""))
@@ -68,7 +68,7 @@ public class ReportServlet extends HttpServlet
       errorMessage += "No report specified!";
       problem = true;
     }
-    
+
     response.setContentType("application/text");
     filename = filename.replaceAll(" ", "_");
     response.setHeader("Content-disposition","attachment; filename=" +filename);
@@ -80,9 +80,9 @@ public class ReportServlet extends HttpServlet
         {
           response.getWriter().write(errorMessage);
         }
-        
-  
+
+
   }
-  
-  
+
+
 }

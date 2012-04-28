@@ -29,10 +29,10 @@ import edu.ucsf.mousedatabase.objects.MouseHolder;
 import edu.ucsf.mousedatabase.objects.MouseRecord;
 import edu.ucsf.mousedatabase.objects.MouseType;
 
-public class PdfServlet extends HttpServlet { 
-  
+public class PdfServlet extends HttpServlet {
+
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
   private static Font FONT_NORMAL,
@@ -42,7 +42,7 @@ public class PdfServlet extends HttpServlet {
   private static Chunk NL;
 
   private String documentName = SiteName;
-  
+
   static {
     FONT_NORMAL = new Font(FontFamily.HELVETICA);
     FONT_NORMAL.setSize(10);
@@ -51,39 +51,39 @@ public class PdfServlet extends HttpServlet {
     FONT_MOUSENAME = new Font(FONT_BOLD);
     FONT_TITLE = new Font(FONT_BOLD);
     FONT_TITLE.setSize(16);
-    
+
     NL = Chunk.NEWLINE;
   }
-  
+
   protected void doGet(
-    HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
-    
+    HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     try {
-      
+
       Element data = getMouseListPdf(request);
       ServletOutputStream stream = response.getOutputStream();
 
-      Document document = new Document(); 
-      PdfWriter.getInstance(document, stream); 
-      document.open(); 
-      document.add(data); 
+      Document document = new Document();
+      PdfWriter.getInstance(document, stream);
+      document.open();
+      document.add(data);
       document.close();
-      
+
       response.setHeader("Expires", "0");
       response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
       response.setContentType("application/pdf");
-      
+
       //This doesn't seem to take effect, oh well
       response.setHeader("Content-Disposition", "attachment; filename=\"" + documentName + ".pdf\"");
 
       Log.Info("Exported pdf - " + documentName);
-    } catch (Exception e) { 
-      response.setContentType("text/html"); 
+    } catch (Exception e) {
+      response.setContentType("text/html");
       response.getWriter().write("Error processing pdf!");
       Log.Error("Error processing pdf!",e);
     }
   }
-  
+
   private Element getMouseListPdf(HttpServletRequest request) throws IOException, DocumentException
   {
     int holderID = stringToInt(request.getParameter("holder_id"));
@@ -93,29 +93,29 @@ public class PdfServlet extends HttpServlet {
       int facilityID = stringToInt(request.getParameter("facility_id"));
       int offset = -1;
       int limit = -1;
-    
+
       String orderBy = request.getParameter("orderby");
       String searchTerms = request.getParameter("searchterms");
       String status = request.getParameter("status");
-      
+
       if (orderBy == null || orderBy.isEmpty()) {
         orderBy = "mouse.name";
       }
-      
+
       if(status == null)
-    {    
+    {
       status = "all";
     }
-       
+
     if(creOnly < 0){
       creOnly = 0;
     }
-    
+
     Holder holder = DBConnect.getHolder(holderID);
       Gene gene = DBConnect.getGene(geneID);
       Facility facility = DBConnect.getFacility(facilityID);
       ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms, false, creOnly, facilityID,limit,offset);
-    
+
     ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
     String mouseTypeStr = "Listing";
       String mouseCountStr = "";
@@ -129,44 +129,44 @@ public class PdfServlet extends HttpServlet {
             break;
           }
         }
-      } 
+      }
       else
       {
-        mouseTypeStr += " all";  
+        mouseTypeStr += " all";
       }
       mouseCountStr = Integer.toString(mice.size()) + " records total, as of " + new Date().toString();
       mouseTypeStr += " records";
-      
+
       if (facility != null)
       {
         mouseTypeStr += " in facility " + facility.getFacilityName();
       }
-      
-      if (holder != null) 
-      { 
-      mouseTypeStr += " held by " + holder.getFullname(); 
-      } 
-      else if(gene != null) 
-      {   
+
+      if (holder != null)
+      {
+      mouseTypeStr += " held by " + holder.getFullname();
+      }
+      else if(gene != null)
+      {
       mouseTypeStr += " with gene " + gene.getSymbol() + " " + gene.getFullname();
     }
-      
+
       if(creOnly > 0)
       {
         mouseTypeStr += " with expressed sequence type CRE";
-      }  
-      
+      }
+
       if(searchTerms != null && !searchTerms.isEmpty())
       {
         mouseTypeStr += " matching search term '" + searchTerms + "'";
       }
-      
+
       if(!status.equals("all"))
     {
       mouseTypeStr += " with status='" + status + "'";
     }
 
-    
+
     PdfPTable table = new PdfPTable(2);
     table.setWidthPercentage(100);
     table.setWidths(new int[]{1,5});
@@ -194,8 +194,8 @@ public class PdfServlet extends HttpServlet {
     list.add(table);
     return list;
   }
-  
-  
+
+
   private static PdfPCell cell(Phrase phr){
     return cell(phr, 1,1);
   }
@@ -210,7 +210,7 @@ public class PdfServlet extends HttpServlet {
     cell.setLeading(0f, 1.1f);
     return cell;
   }
-  
+
   private static Phrase getMouseNameAndNumber(MouseRecord mouse){
     Phrase p = phr();
     p.add(phr(mouse.getMouseName(), FONT_MOUSENAME));
@@ -218,7 +218,7 @@ public class PdfServlet extends HttpServlet {
     p.add(phr("Record #" + mouse.getMouseID()));
     return p;
   }
-  
+
   private static Phrase getMouseCategory(MouseRecord mouse){
     Phrase p = phr();
     p.add(phrb(mouse.getMouseType()));
@@ -252,10 +252,10 @@ public class PdfServlet extends HttpServlet {
     }
     return p;
   }
-  
+
   private static Phrase getMouseDetails(MouseRecord mouse){
     Phrase p = phr();
-    
+
     if (mouse.isTG() || mouse.isMA()) {
       Phrase source;
       if (mouse.getSource() == null || mouse.getSource().equals("")) {
@@ -272,7 +272,7 @@ public class PdfServlet extends HttpServlet {
 
       p.add(phr("Official Symbol: "));
       p.add(source);
-      
+
       String officialName = mouse.getOfficialMouseName();
       if (officialName != null && !officialName.isEmpty()) {
         p.add(NL);
@@ -333,12 +333,12 @@ public class PdfServlet extends HttpServlet {
 //    if (mouse.isEndangered()) {
 //      table.append("<dt><span class='endangered'>Endangered</span></dt>\r\n");
 //    }
-    
-    
+
+
     return p;
   }
-  
-    
+
+
   private static Phrase getHolderList(MouseRecord mouse)
   {
     Phrase p = phr("Holders:  ");
@@ -379,14 +379,14 @@ public class PdfServlet extends HttpServlet {
       else {
         first = false;
       }
-      p.add(phr(firstInitial  + holder.getLastname() + " " + facilityName  + cryoLiveStatus));      
+      p.add(phr(firstInitial  + holder.getLastname() + " " + facilityName  + cryoLiveStatus));
     }
-    
-    
-    
+
+
+
     return p;
   }
-  
+
   private static Phrase getExpressedSequence(MouseRecord mouse)
   {
     Phrase p = phr();
@@ -399,7 +399,7 @@ public class PdfServlet extends HttpServlet {
                     mouse.getTargetGeneID()));
       } else if (mouse.getExpressedSequence().equalsIgnoreCase("reporter")) {
         p.add(phr(mouse.getReporter()));
-      } else if (mouse.getExpressedSequence().equalsIgnoreCase("other")|| 
+      } else if (mouse.getExpressedSequence().equalsIgnoreCase("other")||
              mouse.getExpressedSequence().equalsIgnoreCase("Modified mouse gene or Other")) {
         p.add(phr(mouse.getOtherComment()));
       } else {
@@ -408,24 +408,24 @@ public class PdfServlet extends HttpServlet {
     }
     return p;
   }
-  
+
   private static Phrase getFormattedMouseComment(String comment) throws IOException {
     // hi there [URL]http://asdfasdfasdf[/URL] - > hi there http://asdfasdfasdf
     // some comments *an important comment in bold* and some more
     Phrase p = phr();
     if (comment == null) return p;
     String htmlComment = HTMLUtilities.getCommentForDisplay(comment);
-    HashMap<String,Object> map = new HashMap<String,Object>(); 
+    HashMap<String,Object> map = new HashMap<String,Object>();
     map.put("font_factory",new MouseFontFactory());
     java.util.List<Element> objects = HTMLWorker.parseToList(new StringReader(htmlComment), null, map);
     for (Element element : objects) p.add(element);
     return p;
   }
-  
+
   private static Phrase phr(){
     return phr("");
   }
-  
+
   private static Phrase phr(String text){
     return phr(text, FONT_NORMAL);
   }
@@ -444,20 +444,20 @@ public class PdfServlet extends HttpServlet {
     gene.add(phr("   MGI: " + id));
     return gene;
   }
-  
+
   private static Phrase formatSymbolPdf(String symbol)
   {
     Phrase p = phrb(symbol);
     //TODO parse and set the rise for the chunk in brackets
     return p;
   }
-  
-  public static class MouseFontFactory implements FontProvider { 
+
+  public static class MouseFontFactory implements FontProvider {
     public Font getFont(String fontname,
-      String encoding, boolean embedded, float size, int style, BaseColor color) { 
+      String encoding, boolean embedded, float size, int style, BaseColor color) {
       return new Font(FONT_NORMAL.getFamily(), FONT_NORMAL.getSize(), style, color);
     }
-    
+
     public boolean isRegistered(String fontname) {
       return false;
     }

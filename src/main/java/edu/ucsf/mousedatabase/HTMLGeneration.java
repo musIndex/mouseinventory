@@ -14,10 +14,10 @@ public class HTMLGeneration {
   public static final String adminRoot = "/mouseinventory/admin/";
   public static final String scriptRoot = "/mouseinventory/js/";
   public static final String dataRoot = "/mouseinventory/rawdata/";
-  
+
   public static void setGoogleAnalyticsId(String id, String domainSuffix)
   {
-    googleAnalyticsScript = 
+    googleAnalyticsScript =
            "<script type=\"text/javascript\">\r\n"
         + "  var _gaq = _gaq || [];\r\n"
         + "  _gaq.push(['_setAccount', '" + id  + "']);\r\n"
@@ -36,7 +36,7 @@ public class HTMLGeneration {
 
   public static String SiteName = "";
   public static String AdminEmail = "";
-  
+
   /**********************************************/
   /* Page utility methods */
   /*********************************************/
@@ -64,7 +64,7 @@ public class HTMLGeneration {
       buf.append("<meta http-equiv=\"expires\" content=\"0\"> <!-- says that the cache expires 'now' -->\r\n");
       buf.append("<meta http-equiv=\"pragma\" content=\"no-cache\"> <!-- says not to use cached stuff, if there is any -->\r\n");
     }
-    
+
     buf.append("<link href=\""
         + siteRoot
         + "css/bootstrap.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
@@ -88,13 +88,13 @@ public class HTMLGeneration {
     buf.append("<script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js'></script>\r\n");
     buf.append("<link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css 'rel='stylesheet' type='text/css' />");
     buf.append("<script src=\"" + scriptRoot + "chosen.jquery.min.js\"></script>\r\n");
-    buf.append("<script type=\"text/javascript\">\r\n" + 
-        "$(document).ready(function(){\r\n" + 
-          "$('.chzn-select').chosen();" + 
+    buf.append("<script type=\"text/javascript\">\r\n" +
+        "$(document).ready(function(){\r\n" +
+          "$('.chzn-select').chosen();" +
           "$('input[name=searchterms]').focus()" +
         "\r\n})\r\n" +
         "</script>\r\n");
-    
+
     buf.append(googleAnalyticsScript + "\r\n");
     if (additionalJavaScript != null) {
       buf.append(additionalJavaScript);
@@ -127,7 +127,7 @@ public class HTMLGeneration {
     table.append("<div id=\"pageHeaderContainer\" class='clearfix'>");
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div>");
-    table.append("<span id=\"pageTitle\">" + 
+    table.append("<span id=\"pageTitle\">" +
         "<a href='" + siteRoot + "'>" + SiteName + "</a></span>");
     table.append("</div>");
     // About, faq, contact links
@@ -150,7 +150,7 @@ public class HTMLGeneration {
       table.append("<input class=\"btn search-query\" type=\"submit\" value=\"Quick Search\">");
       table.append("</form>");
       table.append("</div>");
-      
+
     }
     table.append("</div>");
     // Navigation Bar
@@ -290,7 +290,7 @@ public class HTMLGeneration {
     ArrayList<MouseHolder> holderList = r.getHolders();
     if (holderList == null)
       holderList = new ArrayList<MouseHolder>();
-    
+
     if (req != null)
     {
       int addHolderID = -1;
@@ -302,13 +302,13 @@ public class HTMLGeneration {
         if (propName.equals("Add Holder"))
         {
           int splitterIndex = propertyValue.indexOf('|');
-          if (splitterIndex > 0) 
+          if (splitterIndex > 0)
           {
             try
             {
               addHolderID = Integer.parseInt(propertyValue.substring(0,splitterIndex));
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
               Log.Error("Unable to parse int from holder property value in change request #" + req.getRequestID() + ": " + propertyValue,e);
             }
@@ -317,13 +317,13 @@ public class HTMLGeneration {
         else if (propName.equals("Add Facility"))
         {
           int splitterIndex = propertyValue.indexOf('|');
-          if (splitterIndex > 0) 
+          if (splitterIndex > 0)
           {
             try
             {
               addFacilityId = Integer.parseInt(propertyValue.substring(0,splitterIndex));
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
               Log.Error("Unable to parse int from facility property value in change request #" + req.getRequestID() + ": " + propertyValue,e);
             }
@@ -357,9 +357,9 @@ public class HTMLGeneration {
         }
         holderList.add(addedHolder);
       }
-      
+
     }
-    
+
 //    TODO finish this - auto populate multiple holders on the submission - need a way to deal with holders that don't yet exisit
 //    if (sub != null)
 //    {
@@ -372,8 +372,8 @@ public class HTMLGeneration {
 //        String holderFacility = props.getProperty("Recipient Facility-" + i);
 //      }
 //    }
-    
-    
+
+
     holderList.add(new MouseHolder());
 
     ArrayList<Holder> allHoldersObjs = DBConnect.getAllHolders();
@@ -649,7 +649,7 @@ public class HTMLGeneration {
         field = "<textarea id=\"regulatoryElement\" name=\"regulatoryElement\" rows=\"2\" cols=\"40\" >"
           + emptyIfNull(r.getRegulatoryElement()) + "</textarea>\r\n";
         getInputRow(buf, "Regulatory Element", field,null, "editMouseRow");
-        
+
       }
     }
     buf.append("</table>\r\n");
@@ -818,15 +818,15 @@ public class HTMLGeneration {
 
       buf.append("</tr>\r\n");
     }
-    
-    if (sub != null && sub.getRawMGIComment() != null && !sub.getRawMGIComment().equals("") 
+
+    if (sub != null && sub.getRawMGIComment() != null && !sub.getRawMGIComment().equals("")
         && sub.getComment() != null &&  !(sub.getComment().equals(sub.getRawMGIComment()))) {
       buf.append("<tr class=editMouseRow><td colspan=2>");
       buf.append("<span class=red>The submitter modified the description from MGI</span> (Original below)");
       buf.append("<p style='font-style: italic;'>" + sub.getRawMGIComment() + "</p>");
       buf.append("</td></tr>");
     }
-    
+
     field = "<textarea name=\"generalComment\" rows=\"10\" cols=\"60\">"
         + emptyIfNull(r.getGeneralComment()) + "</textarea>\r\n";
     getInputRow(buf, "Comment", field, null, "editMouseRow");
@@ -1367,7 +1367,7 @@ public class HTMLGeneration {
 
       // COLUMN - Holder
       table.append("<td valign='top'>\r\n");
-      
+
       ArrayList<MouseHolder> holders = nextSubmission.getHolders();
       if (nextSubmission.getHolderName() != null && !nextSubmission.getHolderName().equals("unassigned"))
       {
@@ -1390,12 +1390,12 @@ public class HTMLGeneration {
       }
       if (holders != null)
       {
-        for (MouseHolder mouseHolder : holders) 
+        for (MouseHolder mouseHolder : holders)
         {
           table.append("<dt>\r\n");
           table.append(mouseHolder.getFullname());
           table.append("</dt>\r\n");
-          
+
           table.append("<dt>\r\n");
           table.append("Facility: " + mouseHolder.getFacilityName());
           table.append("</dt>\r\n");
@@ -2751,7 +2751,7 @@ public class HTMLGeneration {
     if (includeLimitSelector) {
       buf.append("<tr>" + "<td>" + "Records per page: &nbsp;"  + perPageDropDown + "</td></tr>");
     }
-    
+
     if (limit > 0)
     {
       buf.append("<tr><td>Page ");
@@ -2772,7 +2772,7 @@ public class HTMLGeneration {
           continue;
         }
         skipping = false;
-  
+
         buf.append("<input class=\"" + cssClass
             + "\" type=\"submit\" name=\"pagenum\" value=\"" + i + "\">\r\n");
       }

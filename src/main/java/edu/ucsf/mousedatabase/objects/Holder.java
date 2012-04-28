@@ -12,16 +12,16 @@ public class Holder {
   private String tel;
   private String dateValidated;
   private String validationComment;
-  
+
   private int visibleMouseCount;
-  
-  
+
+
   public String getFullname()
   {
     return firstname + " " + lastname;
   }
-  
-  
+
+
   public String getFirstname() {
     return firstname;
   }
@@ -34,21 +34,21 @@ public class Holder {
   public void setLastname(String lastname) {
     this.lastname = lastname;
   }
-  
+
   public int getHolderID() {
     return holderID;
   }
   public void setHolderID(int holderID) {
     this.holderID = holderID;
   }
-  
+
   public String getEmail() {
     return email;
   }
   public void setEmail(String email) {
     this.email = email;
   }
-  
+
   public String getAlternateEmail() {
     return alternateEmail;
   }
@@ -103,5 +103,5 @@ public class Holder {
   public void setValidationComment(String validationComment) {
     this.validationComment = validationComment;
   }
-  
+
 }

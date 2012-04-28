@@ -5,16 +5,16 @@ public class Log {
 
   private static Logger _logger;
   public static final String loggerName = "mousedblogger";
-  
-  
+
+
   public static void Initialize()
   {
     _logger = Logger.getLogger(loggerName);
     _logger.setLevel(Level.ALL);
     _logger.info("Logging initialized.");
   }
-  
-  
+
+
   public static void Info(Object o)
   {
     if (o == null)
@@ -23,12 +23,12 @@ public class Log {
     }
     _logger.info(o.toString());
   }
-  
+
   public static void Error(Object o)
   {
     Error(o, null);
   }
-  
+
   public static void Error(Object o, Throwable exception)
   {
     if (o == null)
@@ -40,6 +40,6 @@ public class Log {
       _logger.log(Level.SEVERE, o.toString(), exception);
     }
   }
-  
+
 
 }

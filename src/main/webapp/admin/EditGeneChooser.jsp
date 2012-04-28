@@ -4,20 +4,20 @@
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditGeneChooser.jsp", true) %>
 <div class="pagecontent">
-<%  
+<%
   String command = request.getParameter("command");
   if (command == null || command.isEmpty() || command.equals("edit"))
   {
       String orderBy = "mgi";
-      if (request.getParameter("orderby") != null) 
+      if (request.getParameter("orderby") != null)
       {
           orderBy = request.getParameter("orderby");
       }
-      
+
       ArrayList<Gene> genes = DBConnect.getAllGenes(orderBy);
-      String table = HTMLGeneration.getGeneTable(genes,true);    
+      String table = HTMLGeneration.getGeneTable(genes,true);
       %>
-      
+
     <h2>Edit Genes</h2>
     <p><a href="EditGeneChooser.jsp?command=add">Add Gene...</a></p>
     <p>Sort by <a href="EditGeneChooser.jsp?orderby=symbol&command=edit">Symbol</a>,
@@ -30,7 +30,7 @@
   {
     %>
       <h2>Add New Gene</h2>
-  
+
       <form action="UpdateGene.jsp" method="post">
           <table>
               <tr>
@@ -51,7 +51,7 @@
                   <input type="submit" class="btn btn-success" value="Create Gene"></td>
               </tr>
           </table>
-      </form>    
-  <%} 
+      </form>
+  <%}
 %>
 </div>

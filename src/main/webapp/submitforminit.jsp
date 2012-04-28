@@ -15,19 +15,19 @@
   if("true".equals(request.getParameter("process")))
   {
     String holderName = request.getParameter("holderName");
-    
+
     boolean contactInfoValid = submitterData.ValidateContactInfo();
     boolean holderDataValid = newMouse.ValidateHolderInfo();
-    
+
     if(contactInfoValid && holderDataValid)
     {
       %>
         <jsp:forward page="submitformMouseType.jsp" />
       <%
       return;
-    }  
+    }
   }
-  
+
   ArrayList<String> allFacs = DBConnect.getAllFacilityNames(false);
   ArrayList<String> allHldrs = DBConnect.getAllHolderNames(false);
 
@@ -35,9 +35,9 @@
   allFacs.toArray(facilityList);
   String[] holderList = new String[allHldrs.size()];
   allHldrs.toArray(holderList);
-  
 
-  
+
+
 %>
 <div class="pagecontent">
 <div class="formbody">
@@ -45,10 +45,10 @@
 <h2>New Submission: Step 1</h2>
 
 <p class="header3">
-Each submission should be for an 
+Each submission should be for an
 <span style="color: red;text-decoration: underline">individual</span>
-mutant allele or transgene (or inbred strain) - generically referred 
-to as a &quot;mouse&quot;, irrespective of whether the allele or transgene 
+mutant allele or transgene (or inbred strain) - generically referred
+to as a &quot;mouse&quot;, irrespective of whether the allele or transgene
 is maintained in combination with other mutant alleles or transgenes.
 </p>
 <p class="header3"><span class=red>Before completing a
@@ -57,17 +57,17 @@ is already listed in the inventory.</span> If it is, and if you want to note
 that it is also being housed by another investigator or to add
 information about the mouse, <span class=red>do not</span> use this
 form. Instead, go to the "<a href="MouseReport.jsp">Mouse List</a>," find the
-record for that mouse, click on "Request change" (under the mouse name of that mouse), 
-and complete the form. 
+record for that mouse, click on "Request change" (under the mouse name of that mouse),
+and complete the form.
 <br>
 <br>
-If that individual mutant allele or transgene is not in the database, even if a 
+If that individual mutant allele or transgene is not in the database, even if a
 similar one is, please complete submission form.</p>
 <p><font color="red">*</font>Indicates required field.</p>
 </div>
   <%
 
-if (request != null && request.getRemoteUser() != null && request.getRemoteUser().equalsIgnoreCase("admin")) 
+if (request != null && request.getRemoteUser() != null && request.getRemoteUser().equalsIgnoreCase("admin"))
 {
   %>
   <p><b>ADMIN LOGGED IN (<%=request.getRemoteUser() %>)</b>&nbsp;
@@ -102,7 +102,7 @@ if (request != null && request.getRemoteUser() != null && request.getRemoteUser(
   </tr>
   <tr class="formFieldAlt">
     <td><font color="red">* </font>Email</td>
-    <td><INPUT TYPE="TEXT" name="email" id="Email" value="<%=HTMLGeneration.emptyIfNull(submitterData.getEmail()) %>" size="40" maxlength="128"> 
+    <td><INPUT TYPE="TEXT" name="email" id="Email" value="<%=HTMLGeneration.emptyIfNull(submitterData.getEmail()) %>" size="40" maxlength="128">
     <span class="validationError"><%=HTMLGeneration.emptyIfNull(submitterData.getEmailErr()) %></span></td>
   </tr>
   <tr class="formField">
@@ -124,7 +124,7 @@ if (request != null && request.getRemoteUser() != null && request.getRemoteUser(
     <span id="otherHolderSpan" style="<%=HTMLGeneration.rowVisibility(newMouse.hasOtherHolderName()) %>"> Specify holder name: <input type="text" name="otherHolderName" value="<%=HTMLGeneration.emptyIfNull(newMouse.getOtherHolderName()) %>" size="20"><span class="validationError"><%=HTMLGeneration.emptyIfNull(newMouse.getOtherHolderNameErr()) %></span></span>
     </td>
   </tr>
-  
+
   <tr class="formFieldAlt">
     <td valign="top"><font color="red">* </font>Facility where the mouse is housed:</td>
     <td valign="top"><%=HTMLGeneration.genSelect("holderFacility",(String[])facilityList,HTMLGeneration.emptyIfNull(newMouse.getHolderFacility()), "onChange='checkOtherFacility()'")%>
@@ -132,7 +132,7 @@ if (request != null && request.getRemoteUser() != null && request.getRemoteUser(
     <span id="otherFacilitySpan" style="<%=HTMLGeneration.rowVisibility(newMouse.hasOtherFacilityName()) %>"> Specify facility name: <input type="text" name="otherHolderFacility" value="<%=HTMLGeneration.emptyIfNull(newMouse.getOtherHolderFacility()) %>" size="20"><span class="validationError"><%=HTMLGeneration.emptyIfNull(newMouse.getOtherFacilityErr()) %></span></span>
     </td>
   </tr>
-    
+
 </table>
 
 <input type="hidden" name="process" value="true">

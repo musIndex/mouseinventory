@@ -18,40 +18,40 @@ public class ImportAction
     this.name = name;
     this.outputFormat = outputFormat;
   }
-  
+
   public boolean rowIsValid(HashMap<String,String> row)
   {
     return meetsAcceptExpression(row) && passesRejectExpression(row);
   }
-  
-  
+
+
   //output format would be something like this:
   //Created new change request for holder ${holderid.name} who received mouse %{record.name}
-  
-  
+
+
   public String getOutput(HashMap<String,String> row)
   {
     String output = outputFormat;
-    for (Expression expression : outputExpressions) 
+    for (Expression expression : outputExpressions)
     {
       ExpressionMatch match = expression.match(row);
       if (!match.isMatch())
       {
         //this should not happen, but it might, so...
       }
-      for (String groupName : expression.getGroupNames()) 
+      for (String groupName : expression.getGroupNames())
       {
         String replaceString = "${" + expression.getName() + "." + groupName + "}";
         String value = match.getGroup(groupName);
         output.replaceAll(replaceString, value);
       }
-      
+
     }
     return output;
   }
-  
+
   private boolean meetsAcceptExpression(HashMap<String,String> row)
-  {      
+  {
     for (Expression expression : acceptExpressions)
     {
       ExpressionMatch m = expression.match(row);
@@ -59,12 +59,12 @@ public class ImportAction
       {
         return false;
       }
-    }      
+    }
     return true;
-  }  
-  
+  }
+
   private boolean passesRejectExpression(HashMap<String,String> row)
-  {      
+  {
     for (Expression expression : rejectExpressions)
     {
       ExpressionMatch m = expression.match(row);
@@ -72,14 +72,14 @@ public class ImportAction
       {
         return false;
       }
-    }      
+    }
     return true;
   }
-  
-  
+
+
   public String getName() {
     return name;
-  }  
+  }
   public String getOutputFormat() {
     return outputFormat;
   }

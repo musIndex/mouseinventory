@@ -9,8 +9,8 @@
 <%@ include file="protectAgainstDuplicateHolders.jspf" %>
 <%
 
-  
-  if (request.getParameter("id") == null) 
+
+  if (request.getParameter("id") == null)
   {
     %>
     <div class="pagecontent">
@@ -20,8 +20,8 @@
     return;
   }
     int mouseID = Integer.parseInt(request.getParameter("id"));
-    
-        
+
+
     ArrayList<MouseRecord> records = DBConnect.getMouseRecord(mouseID);
     if(records.size() < 1)
     {
@@ -32,9 +32,9 @@
     <%
     return;
     }
-    
+
     MouseRecord record = records.get(0);
-    
+
     if(record.getStatus() != null && record.getStatus().equalsIgnoreCase("incomplete"))
   {
     %>
@@ -44,10 +44,10 @@
     <%
     return;
   }
-    
+
     String existingRecord = HTMLGeneration.getMouseTable(records,true,false,true);
     String editForm = HTMLGeneration.getEditMouseForm(record);
-    
+
 %>
 
 

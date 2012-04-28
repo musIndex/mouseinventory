@@ -5,7 +5,7 @@ import java.util.Date;
 
 import edu.ucsf.mousedatabase.dataimport.ImportHandler.ImportObjectType;
 
-public class ImportReport 
+public class ImportReport
 {
   private int importReportID;
   private ImportObjectType importType;
@@ -49,5 +49,5 @@ public class ImportReport
   public void setNewObjectIds(Collection<Integer> newObjectIds) {
     this.newObjectIds = newObjectIds;
   }
-  
+
 }

@@ -11,25 +11,25 @@ public class SubmittedMouse {
   public static final String SubmissionSourceKey = "Submisison Source";
   public static final String ManualSubmission = "Manual Submission";
   public static final String DataImport = "Data Import";
-  
+
   int submissionID;
   int mouseRecordID;
-  
+
   private Properties properties;
-  
+
   private java.util.Date submissionDate;
-  
+
   private String status;
   private boolean entered;
-  
+
   private String adminComment;
-  
+
   private String firstName;
   private String lastName;
   private String email;
   private String telephoneNumber;
   private String department;
-  
+
   private String mouseName;
   private String officialMouseName;
   private String mouseType;
@@ -39,14 +39,14 @@ public class SubmittedMouse {
   private String otherHolderFacility;
   private String isPublished;
   private String cryoLiveStatus;
-  
-  
+
+
   //Mutant Allele fields
   private String MAModificationType;
   private String MAMgiGeneID;
   private String MAMgiGeneIDValidationString;
   private String MAMgiGeneIDValid;
-  
+
   //Transgenic fields
   private String TGExpressedSequence;
   private String transgenicType;
@@ -59,14 +59,14 @@ public class SubmittedMouse {
   private String TGMouseGeneValidationString;
   private String TGMouseGeneValid;
   private String TGOther;
-  
+
   //Inbred Strain fields
-  
+
   private String ISSupplier;
   private String ISSupplierCatalogNumber;
   private String ISSupplierCatalogUrl;
-  
-  
+
+
   //Common fields
   private String backgroundStrain;
   private String mtaRequired;
@@ -81,7 +81,7 @@ public class SubmittedMouse {
   private String PMIDValid;
   private String gensatFounderLine;
   private String producedInLabOfHolder;
-  
+
   public boolean hasOtherHolderName() { return holderName != null && holderName.equalsIgnoreCase("Other(specify)");};
   public boolean hasOtherFacilityName() { return holderFacility != null && holderFacility.equalsIgnoreCase("Other(specify)");};
   public boolean isMA(){ return mouseType!= null && mouseType.equalsIgnoreCase("Mutant Allele");}
@@ -90,11 +90,11 @@ public class SubmittedMouse {
   public boolean isKnockIn() { return transgenicType != null && transgenicType.equalsIgnoreCase("Knock-in");}
   public boolean isRandomInsertion() { return transgenicType != null && transgenicType.equalsIgnoreCase("Random insertion");}
   public boolean isPublished() { return isPublished != null && isPublished.equalsIgnoreCase("Yes"); }
-  
+
   public boolean isCryoOnly() { return cryoLiveStatus != null && cryoLiveStatus.equalsIgnoreCase("Cryo only");};
-  
+
   public boolean hasType() { return mouseType != null; }
-  
+
   public void parseProperties(String propString)
   {
     if(propString == null)
@@ -103,10 +103,10 @@ public class SubmittedMouse {
     }
     Pattern ptn = Pattern.compile("([^=\t]+)=([^\\t]+)?");
     Matcher match = ptn.matcher(propString);
-    
+
     Properties props = new Properties();
         //StringTokenizer t = new StringTokenizer(propString, "\t");
-        while (match.find()) 
+        while (match.find())
         {
             //StringTokenizer t2 = new StringTokenizer(t.nextToken(), "=");
             String prop = match.group(1);
@@ -114,14 +114,14 @@ public class SubmittedMouse {
             if (match.groupCount() > 1) {
                 val = match.group(2);
             }
-            if (val != null && val.length() > 0) 
+            if (val != null && val.length() > 0)
             {
                 props.setProperty(prop, val);
             }
         }
-        
+
         this.properties = props;
-        
+
       for(Object property : props.keySet())
       {
         String propName = (String)property;
@@ -182,7 +182,7 @@ public class SubmittedMouse {
           setGensatFounderLine(props.getProperty(propName));
         }else if(propName.equalsIgnoreCase("supplierForInbredStrain"))
         {
-          setISSupplier(props.getProperty(propName));          
+          setISSupplier(props.getProperty(propName));
         }else if(propName.equalsIgnoreCase("supplierForInbredStrainCatalogNumber"))
         {
           setISSupplierCatalogNumber(props.getProperty(propName));
@@ -229,15 +229,15 @@ public class SubmittedMouse {
         {
           setCryoLiveStatus(props.getProperty(propName));
         }
-        
-        
+
+
       }
-        
-        
-        
-        
+
+
+
+
   }
-  
+
   public ArrayList<MouseHolder> getHolders()
   {
     String holderAndFacilityIds = null;
@@ -252,7 +252,7 @@ public class SubmittedMouse {
       int holderId = Integer.parseInt(tokens[0]);
       int facilityId = Integer.parseInt(tokens[1]);
       MouseHolder mouseHolder = new MouseHolder();
-      
+
       Holder holder = DBConnect.getHolder(holderId);
       Facility facility = DBConnect.getFacility(facilityId);
       mouseHolder.setHolderID(holderId);
@@ -269,8 +269,8 @@ public class SubmittedMouse {
         mouseHolder.setEmail(holder.getEmail());
         mouseHolder.setDept(holder.getDept());
       }
-      
-      
+
+
       mouseHolder.setFacilityID(facilityId);
       if (facility == null || facility.getFacilityName().isEmpty())
       {
@@ -281,43 +281,43 @@ public class SubmittedMouse {
       {
         mouseHolder.setFacilityName(facility.getFacilityName());
       }
-      
+
       mouseHolders.add(mouseHolder);
       i++;
     }
-    
-    
+
+
     return mouseHolders;
   }
-  
+
   public MouseRecord toMouseRecord()
   {
     MouseRecord r = new MouseRecord();
     r.setMouseName(mouseName);
     r.setOfficialMouseName(officialMouseName);
     r.setMouseType(mouseType);
-    
+
     r.setGeneID(MAMgiGeneID);
     r.setTargetGeneID(TGMouseGene);
-    
+
     if(MAModificationType != null && !MAModificationType.equalsIgnoreCase("Select One"))
       r.setModificationType(MAModificationType);
-    
+
     r.setRegulatoryElement(TGRegulatoryElement);
-    
+
     if(transgenicType != null && !transgenicType.equalsIgnoreCase("Select One"))
       r.setTransgenicType(transgenicType);
-    
+
     if(mouseType.equalsIgnoreCase("transgenic") && transgenicType == null)
     {
       r.setTransgenicType("Random Insertion");
     }
-    
+
     if(TGExpressedSequence != null && !TGExpressedSequence.equalsIgnoreCase("Select One"))
       r.setExpressedSequence(TGExpressedSequence);
     r.setReporter(TGReporter);
     r.setOtherComment(TGOther);
-    
+
     if(isMA() || isTG())
     {
       r.setSource(officialSymbol);
@@ -332,12 +332,12 @@ public class SubmittedMouse {
       if (!getISSupplier().startsWith("JAX"))
       {
         sourceString += "||" + getISSupplierCatalogUrl();
-      }  
-        
+      }
+
       r.setSource(sourceString);
     }
-    
-    
+
+
     String trimmedComment = comment;
     if (trimmedComment != null && !trimmedComment.isEmpty())
     {
@@ -348,23 +348,23 @@ public class SubmittedMouse {
       }
     }
     r.setGeneralComment(trimmedComment);
-    
+
     if(producedInLabOfHolder != null && producedInLabOfHolder.equalsIgnoreCase("Yes"))
     {
       r.setGeneralComment(r.getGeneralComment() + "  Produced in laboratory of holder (" + holderName + ")");
     }
-    
+
     ArrayList<String> pmids = new ArrayList<String>();
     pmids.add(PMID);
     r.setPubmedIDs(pmids);
     r.setRepositoryCatalogNumber(mouseMGIID);
     r.setRepositoryTypeID("5");
-    
+
     r.setBackgroundStrain(backgroundStrain);
     r.setGensat(gensatFounderLine);
     r.setMtaRequired(mtaRequired);
-    
-    
+
+
     try
     {
       ArrayList<MouseHolder> mHolders = getHolders();
@@ -380,7 +380,7 @@ public class SubmittedMouse {
         mHolder.setCryoLiveStatus(cryoLiveStatus);
         mHolders.add(mHolder);
       }
-      
+
       setCryoLiveStatus(cryoLiveStatus);
       r.setHolders(mHolders);
     }
@@ -394,12 +394,12 @@ public class SubmittedMouse {
       mHolders.add(mHolder);
       r.setHolders(mHolders);
     }
-    
-    
-    
+
+
+
     return r;
   }
-  
+
   public String getFullMouseTypeTitle(){
     String mouseTypeTitle = "Unknown Mouse Type";
     if(isMA())
@@ -412,7 +412,7 @@ public class SubmittedMouse {
       if (isKnockIn())
       {
         mouseTypeTitle += " Knock-in";
-      } 
+      }
       else if (isRandomInsertion())
       {
         mouseTypeTitle += " Random Insertion";
@@ -741,14 +741,14 @@ public class SubmittedMouse {
   public void setProducedInLabOfHolder(String producedInLabOfHolder) {
     this.producedInLabOfHolder = producedInLabOfHolder;
   }
-  
+
   public String getCryoLiveStatus() {
     return cryoLiveStatus;
   }
   public void setCryoLiveStatus(String cryoLiveStatus) {
     this.cryoLiveStatus = cryoLiveStatus;
   }
-  
+
   public String getISSupplierCatalogUrl() {
     return ISSupplierCatalogUrl;
   }
@@ -758,5 +758,5 @@ public class SubmittedMouse {
   public Properties getProperties() {
     return properties;
   }
-  
+
 }

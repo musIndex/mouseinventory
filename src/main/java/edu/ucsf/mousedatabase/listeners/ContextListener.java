@@ -56,32 +56,32 @@ public class ContextListener implements ServletContextListener
 
     Log.Info("Mouse Inventory Web App Starting.");
 
-    
-    
-    
+
+
+
 
     ImportHandler.InitializeDefinitions();
-    
+
     Context initCtx;
-    try 
+    try
     {
       initCtx = new InitialContext();
-    
+
         Context envCtx = (Context) initCtx.lookup("java:comp/env");
-               
-        MGIConnect.Initialize((String)envCtx.lookup("MOUSEDATABASE_MGI_DRIVER_NAME"), 
-          (String)envCtx.lookup("MOUSEDATABASE_MGI_DATABASE_URL"), 
-          (String)envCtx.lookup("MOUSEDATABASE_MGI_DATABASE_USER"), 
+
+        MGIConnect.Initialize((String)envCtx.lookup("MOUSEDATABASE_MGI_DRIVER_NAME"),
+          (String)envCtx.lookup("MOUSEDATABASE_MGI_DATABASE_URL"),
+          (String)envCtx.lookup("MOUSEDATABASE_MGI_DATABASE_USER"),
           (String)envCtx.lookup("MOUSEDATABASE_MGI_DATABASE_PW"));
-        
+
 
         HTMLGeneration.setGoogleAnalyticsId(
             (String)envCtx.lookup("GOOGLE_ANALYTICS_ACCOUNT"),
             (String)envCtx.lookup("GOOGLE_ANALYTICS_DOMAIN_SUFFIX"));
         HTMLGeneration.SiteName = (String)envCtx.lookup("MOUSEDATABASE_SITE_NAME");
         HTMLGeneration.AdminEmail = (String)envCtx.lookup("MOUSEDATABASE_ADMINISTRATOR_EMAIL");
-    
-    } 
+
+    }
     catch (NamingException e) {
       // TODO Auto-generated catch block
       Log.Error("Naming exception getting environment value",e);

@@ -42,7 +42,7 @@
       </tr>
       <tr>
         <td colspan="2"><span id="nonJaxUrlField"
-          <%=nonJaxElementStyle%>> Catalog URL:&nbsp; 
+          <%=nonJaxElementStyle%>> Catalog URL:&nbsp;
           <input  type="text" name="ISSupplierCatalogUrl" id="ISSupplierCatalogUrl"
             size="60"
             onkeyup="validateInput('ISSupplierCatalogNumber','ISSupplierValidation','jaxID',',')"
