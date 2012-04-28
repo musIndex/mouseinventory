@@ -1,5 +1,4 @@
 body {
-  background-color: #F8F8FF;
   color: #336699;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
@@ -206,7 +205,7 @@ a.navBarAnchor:visited {
 }
 
 .facilityTable {
-
+  
 }
 
 .mouseSubDetail {
@@ -286,8 +285,8 @@ tr.formFieldAlt {
 }
 
 .formbody {
-  margin:auto;
-  margin-top:10px;
+  margin: auto;
+  margin-top: 10px;
   width: 920px;
   background-color: #CDC9A5;
   padding: 5px;
@@ -371,7 +370,7 @@ table.editMouseColumn {
 }
 
 div.editMouseFormContainer {
-
+  
 }
 
 div.editMouseFormLeftColumn {
@@ -441,8 +440,8 @@ th {
 .pagecontent-leftaligned {
   padding: 5px;
 }
-.pagecontent {
-  /* width: 90%;
+
+.pagecontent { /* width: 90%;
   min-width: 940px;
   margin: auto; */
   padding: 5px;
@@ -479,7 +478,7 @@ table.inputForm {
 }
 
 .geneName {
-
+  
 }
 
 .endangered {
@@ -488,7 +487,7 @@ table.inputForm {
 }
 
 .mgiGeneLink {
-
+  
 }
 
 a.MP:hover {
@@ -542,7 +541,7 @@ a:hover {
 }
 
 div.reportBody {
-
+  
 }
 
 div.reportEntry {
@@ -677,7 +676,7 @@ td.mouselistcolumn-details {
 }
 
 td.mouselistcolumn-comment {
-
+  
 }
 
 td.mouselistcolumn-holders {
@@ -685,14 +684,50 @@ td.mouselistcolumn-holders {
 }
 
 .search-box {
-  margin-top: 50px;
   vertical-align: middle;
+}
+
+.search-box a {
+  text-decoration: none;
+  color: blue;
+}
+
+
+.search-box a:visited {
+  color: blue;
+}
+
+.search-resultcount {
+  color: gray;
+  margin-left: 15px;
+  font-style: italic;
+  font-size: 120%;
+  clear:both;
+}
+
+.search-box-small img {
+  width: 100px;
+  float: left;
+}
+
+.search-box-small .search-box-inner {
+  float: left;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.search-box-primary input[type=text] {
+  margin-left: 100px;
+}
+
+.search-box-primary .search-instructions {
+  margin: auto;
 }
 
 .search-instructions {
   width: 600px;
-  margin: auto;
   display: none;
+  text-align: left;
 }
 
 div.centered {
@@ -705,8 +740,6 @@ form.centered-left {
 }
 
 /* overriding bootstrap */
-
-input[type="image"], input[type="checkbox"], input[type="radio"] {
-  margin-right:3px;
+input[type="image"],input[type="checkbox"],input[type="radio"] {
+  margin-right: 3px;
 }
-
