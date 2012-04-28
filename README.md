@@ -13,4 +13,4 @@ See the installation <a href="https://github.com/UCSF-MouseDB/mouseinventory/wik
 
 ## Developing
 
-See the [development notes wiki](https://github.com/UCSF-MouseDB/mouseinventory/wiki/Development-not) to learn about how to work with the code.
+See the [development notes wiki](https://github.com/UCSF-MouseDB/mouseinventory/wiki/Development-notes) to learn about how to work with the code.
