@@ -17,9 +17,11 @@ import edu.ucsf.mousedatabase.dataimport.ImportHandler.ImportObjectType;
 import edu.ucsf.mousedatabase.objects.*;
 import edu.ucsf.mousedatabase.servlets.ReportServlet;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class DBConnect {
 
-  private static final boolean logQueries = false;
+  private static final boolean logQueries = true;
 
 
   private static final String mouseRecordTableColumns =
@@ -1331,6 +1333,8 @@ public class DBConnect {
   //HELPER Methods
   //************************************************************
 
+  
+  
   public static void updateMouseSearchTable(String recordID)
   {
     ArrayList<MouseRecord> records = getMouseRecord(Integer.parseInt(recordID));
@@ -1340,54 +1344,59 @@ public class DBConnect {
     }
     MouseRecord record = records.get(0);
 
-    StringBuilder flattenedString = new StringBuilder();
+    ArrayList<String> list = new ArrayList<String>();
 
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getBackgroundStrain() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getExpressedSequence() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getGeneID() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getGeneName() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getGeneralComment() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getGeneSymbol() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getGensat() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getModificationType() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getMouseID() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getMouseName() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getOtherComment() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getRegulatoryElement() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getReporter() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getRepositoryCatalogNumber() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getSource() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getTargetGeneID() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getTargetGeneName() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getTargetGeneSymbol() + " "));
-    flattenedString.append(HTMLGeneration.emptyIfNull(record.getTransgenicType() + " "));
+    addFlattenedData(list, record.getBackgroundStrain());    
+    addFlattenedData(list, record.getExpressedSequence());   
+    addFlattenedData(list, record.getGeneID());    
+    addFlattenedData(list, record.getGeneName());    
+    addFlattenedData(list, record.getGeneralComment());
+    addFlattenedData(list, record.getGeneSymbol());
+    addFlattenedData(list, record.getGensat());
+    addFlattenedData(list, record.getModificationType());
+    addFlattenedData(list, record.getMouseID());
+    addFlattenedData(list, record.getMouseName());
+    addFlattenedData(list, record.getOtherComment());
+    addFlattenedData(list, record.getRegulatoryElement());
+    addFlattenedData(list, record.getReporter());
+    addFlattenedData(list, record.getRepositoryCatalogNumber());
+    addFlattenedData(list, record.getSource());
+    addFlattenedData(list, record.getTargetGeneID());
+    addFlattenedData(list, record.getTargetGeneName());
+    addFlattenedData(list, record.getTargetGeneSymbol());   
+    addFlattenedData(list, record.getTransgenicType());
+    
 
     if(record.isEndangered())
     {
-      flattenedString.append("endangered ");
+      addFlattenedData(list, "endangered ");
     }
+
     if(record.getCryopreserved() != null && record.getCryopreserved().equalsIgnoreCase("yes"))
     {
-      flattenedString.append("cryopreserved ");
+      addFlattenedData(list, "cryopreserved ");
     }
 
     for(MouseHolder hldr : record.getHolders())
     {
-      flattenedString.append(hldr.getFullname() + " ");
+      addFlattenedData(list, hldr.getFullname() + " ");
     }
+
     for(String pmid : record.getPubmedIDs())
     {
-      flattenedString.append(pmid + " ");
+      addFlattenedData(list, pmid + " ");
     }
 
     String query = "DELETE from flattened_mouse_search WHERE mouse_id='" + recordID + "'";
     executeNonQuery(query);
 
     query = "INSERT into flattened_mouse_search (mouse_id,searchtext) VALUES ('" +
-    recordID + "', '" + addMySQLEscapes(flattenedString.toString()) + "')";
+    recordID + "', '" + addMySQLEscapes(StringUtils.join(list, " :: ")) + "')";
     executeNonQuery(query);
-
-
+  }
+  
+  private static void addFlattenedData(ArrayList<String> list, Object value) {
+    if (value != null) list.add(value.toString());
   }
 
   private static void updateMouseHolders(MouseRecord r)
