@@ -17,12 +17,15 @@ $(document).ready(function(){
   var search_button = $("#search_button");
   var page_content = $(".pagecontent");
   var siteRoot = "<%=siteRoot %>";
+  var search_box = $('input[name=searchterms]');
   instr_link.toggle(function(){
       instr.slideDown();
       instr_link.text("hide search help");
+      search_box.focus();
     },function(){
       instr.slideUp();
       instr_link.text("how do I search?")
+      search_box.focus();
    });
   
   
