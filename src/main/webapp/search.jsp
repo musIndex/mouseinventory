@@ -162,7 +162,7 @@ $(document).ready(function(){
             <dd>Show record numbers 101 and 102</dd>
           </dl>
         </div>
-        <br><a href="#" id="show_search_instructions">how do I search?</a>
+        <p><a href="#" id="show_search_instructions">how do I search?</a></p>
       </div>
       <p class="search-resultcount"><% if(searchPerformed){ %> <%=mouseCount %> records match <%= displayedMice > 0 ? " [" + displayedMice + " shown]" : ""%><%} %></p>
     </div> 

@@ -16,7 +16,7 @@ Log.Info("Admin loging in");
     <tr>
       <td>Username:</td>
       <td><input type="text" name="j_username"></td>
-      <td style="vertical-align:top" rowspan="2"><input class='btn btn-primary btn-large' type="submit" value="&nbsp;&nbsp;Login&nbsp;&nbsp;"></td>
+      <td style="vertical-align:top" rowspan="2"><input class='btn btn-primary' type="submit" value="&nbsp;&nbsp;Login&nbsp;&nbsp;"></td>
     </tr>
     <tr>
       <td>Password:</td>
