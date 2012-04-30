@@ -724,6 +724,15 @@ td.mouselistcolumn-holders {
   margin: auto;
 }
 
+.search-instructions dt {
+  font-family: courier;
+  font-size: 115%;
+  font-weight: bold;
+}
+.search-instructions dd {
+  font-style: italic;
+}
+
 .search-instructions {
   width: 600px;
   display: none;
