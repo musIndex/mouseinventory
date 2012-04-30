@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="edu.ucsf.mousedatabase.*"%>
@@ -24,13 +25,18 @@ $(document).ready(function(){
       instr_link.text("how do I search?")
    });
   
-  search_button.click(function(){
-    
+  
+  
+  search_button.click(do_search_ajax);
+  $("#limit").change(do_search_ajax);
+  $(".page-select-link").click(do_search_ajax);
+  
+  function do_search_ajax(){
     page_content.load(siteRoot + 'search.jsp?' + $('#searchForm').serialize() + '&xhr=true');
     $(".search-resultcount").text("searching...");
-    //page_content.load(siteRoot + 'search.jsp?searchterms=cre&xhr=true');
+    //TODO update page location, use hash
     return false;
-  });
+  }
   $('input[name=searchterms]').focus();
 });
 </script>
@@ -43,12 +49,31 @@ $(document).ready(function(){
     response.setDateHeader("Expires", 0);
 
     String searchterms = request.getParameter("searchterms");
+    int pagenum = stringToInt(request.getParameter("pagenum"));
+    int limit = stringToInt(request.getParameter("limit"));
     String searchsource = request.getParameter("search-source");
 
+    if (limit == -1)
+    {
+      if (session.getAttribute("limit") != null)
+      {
+        limit = Integer.parseInt(session.getAttribute("limit").toString());
+      }
+      else
+      {
+        limit = 25;
+      }
+    }
+    session.setAttribute("limit",limit);
+    if (pagenum == -1)
+    {
+      pagenum = 1;
+    }
+    int offset = limit * (pagenum - 1);
+    
     String whereClause = "";
-    String resultCount = "";
-    String newResults = "";
-
+    StringBuilder results = new StringBuilder();
+    int mouseCount = 0;
     boolean searchPerformed = false;
 
     
@@ -64,31 +89,19 @@ $(document).ready(function(){
   	    {
   	      whereClause = " mouse.id=" + extractFirstGroup(mouseIDregex,searchterms);
   	    }
-        //TODO rework this, not robust to spaces, need support for quoted groups
-        searchterms = searchterms.toLowerCase();
-        ArrayList<MouseRecord> mice = new ArrayList<MouseRecord>();
-        String[] andClasues = searchterms.split("and");
+
         
-        for (String andClause : andClasues) {
-          ArrayList<MouseRecord> mouseGroup = new ArrayList<MouseRecord>();
-          String[] orClauses = andClause.split("or");
-          for (String orClause : orClauses) {
-          	mouseGroup = addMice(mouseGroup, DBConnect.getMouseRecords(-1, null, -1, -1, "live", orClause.trim()));
-          }
-          if (mice.isEmpty()) {
-            mice = mouseGroup;
-          }
-          else
-          {
-            mice.retainAll(mouseGroup);
-          }
-        }
+  	    mouseCount = DBConnect.countMouseRecords(-1, null, -1,-1, "live", searchterms, false,-1,-1);
+    	String topPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,true);
+        String bottomPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,true);
+        ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(-1, null, -1, -1, "live", searchterms, false,-1, -1, limit, offset);
         
-        
-        resultCount = mice.size() + " records found";
         if(mice.size() > 0)
         {
-          newResults = HTMLGeneration.getMouseTable(mice, false, true, false);
+          
+          results.append(topPageSelectionLinks);
+          results.append(HTMLGeneration.getMouseTable(mice, false, true, false));
+          results.append(bottomPageSelectionLinks);
         }
         /*
         for(String term : mouseSearchCache.getTermsToHighlight())
@@ -105,13 +118,14 @@ $(document).ready(function(){
     }
     catch(Exception e)
     {
-      newResults = "<p class='red'><b>We're sorry, but an error prevented us from completing your search.  Please let the administrator know about this!</b></p>";
+      results = new StringBuilder();
+      results.append("<p class='red'><b>We're sorry, but an error prevented us from completing your search.  Please let the administrator know about this!</b></p>");
       Log.Error("Error searching", e);
     }
   }
   if (searchPerformed) {
-    Log.Info("Search performed with terms \"" + searchterms + "\", " + resultCount);
-    Log.Info("Search:" + (searchsource != null ? searchsource : "search") + ":[[[" + searchterms + "]]]:" + resultCount);
+    Log.Info("Search performed with terms \"" + searchterms + "\", " + mouseCount);
+    Log.Info("Search:" + (searchsource != null ? searchsource : "search") + ":[[[" + searchterms + "]]]:" + mouseCount);
   }
   else
   {
@@ -120,36 +134,38 @@ $(document).ready(function(){
 %>
 
 <div class="pagecontent">
-  <div class="search-box search-box<%= searchPerformed ?  "-small" : "-primary centered" %> clearfix">
-    <img src="<%=imageRoot %>mouse-img-istock.jpg"/>
-    <div class="search-box-inner">
-      <form id="searchForm" action="search.jsp" class="form-search" method="get">
-          <input type="text" class="input-xlarge search-query" name="searchterms" value="<%=searchterms%>">
-          <input id="search_button" class="btn" type="submit" value="Mouse Search">
-      </form>
-      <div class="search-instructions">
-        <b>Examples:</b>
-        <br>
-        shh null
-        <br>
-        Search for all records which <b>include the exact string</b> shh&lt;space&gt;null
-        <br><br>
-        shh or null
-        <br>
-        Search for all records which <b>include</b> shh <b>or</b> null
-        <br><br>
-        shh and null
-        <br>
-        Search for all records which include the shh <b>and</b> null
-        <br><br>
-        #101
-        <br>
-        Search for record #101
+  <form id="searchForm" action="search.jsp" class="form-search" method="get">
+    <div class="search-box search-box<%= searchPerformed ?  "-small" : "-primary centered" %> clearfix">
+      <img src="<%=imageRoot %>mouse-img-istock.jpg"/>
+      <div class="search-box-inner">
+        
+            <input type="text" class="input-xlarge search-query" name="searchterms" value="<%=searchterms%>">
+            <input id="search_button" class="btn" type="submit" value="Mouse Search">
+        
+        <div class="search-instructions">
+          <b>Examples:</b>
+          <br>
+          shh null
+          <br>
+          Search for all records which <b>include the exact string</b> shh&lt;space&gt;null
+          <br><br>
+          shh or null
+          <br>
+          Search for all records which <b>include</b> shh <b>or</b> null
+          <br><br>
+          shh and null
+          <br>
+          Search for all records which include the shh <b>and</b> null
+          <br><br>
+          #101
+          <br>
+          Search for record #101
+        </div>
+        <a href="#" id="show_search_instructions">how do I search?</a>
       </div>
-      <a href="#" id="show_search_instructions">how do I search?</a>
-    </div>
-    <p class="search-resultcount"><%=resultCount %></p>
-  </div> 
-  <%= newResults %>
+      <p class="search-resultcount"><% if(searchPerformed){ %> <%=mouseCount %> records match <%} %></p>
+    </div> 
+    <%= results.toString() %>
+  </form>
 </div>
 

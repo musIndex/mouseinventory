@@ -21,7 +21,8 @@ import org.apache.commons.lang3.StringUtils;
 
 public class DBConnect {
 
-  private static final boolean logQueries = true;
+  //set this to true for debugging
+  private static final boolean logQueries = false;
 
 
   private static final String mouseRecordTableColumns =
@@ -80,7 +81,7 @@ public class DBConnect {
 
   private static final String geneQueryHeader = "SELECT id,fullname,symbol,mgi \r\n FROM gene\r\n ";
 
-  private static final String mouseIDSearchTermsRegex = "^#([0-9]+)$";
+  private static final String mouseIDSearchTermsRegex = "^(#[0-9]+,?)+$";
 
 
 
@@ -203,6 +204,8 @@ public class DBConnect {
     String constraints = buildMouseQueryConstraints(null, whereTerms, null, -1, -1);
       return new MouseRecordResultGetter().Get(buildMouseQuery(mouseRecordQueryHeader, constraints));
   }
+ 
+  
   public static ArrayList<MouseRecord> getMouseRecordFromSubmission(int submissionID)
   {
     ArrayList<String> whereTerms = new ArrayList<String>();
@@ -333,7 +336,7 @@ public class DBConnect {
 
     String constraints = buildMouseQueryConstraints(additionalJoins, whereTerms, orderBy, limit, offset);
 
-      return new MouseRecordResultGetter().Get(buildMouseQuery(mouseRecordQueryHeader, constraints));
+    return new MouseRecordResultGetter().Get(buildMouseQuery(mouseRecordQueryHeader, constraints));
   }
 
   private static String buildMouseQueryJoins(int holderID, int facilityID, String searchTerms)
@@ -365,41 +368,52 @@ public class DBConnect {
     }
     if (mouseTypeID != -1) {
           whereTerms.add("mousetype.id=" + mouseTypeID);
-      }
-      if (geneRecordID != -1)
+    }
+    if (geneRecordID != -1)
+    {
+      whereTerms.add("(gene_id=" + geneRecordID + " or target_gene_id=" + geneRecordID + ")");
+    }
+    if (facilityID != -1)
+    {
+      whereTerms.add("(facility_id=" + facilityID + ")");
+    }
+    if(holderID != -1)
+    {
+      whereTerms.add("holder_id=" + holderID);
+      whereTerms.add("covert=false");
+    }
+    if(searchTerms != null && !searchTerms.isEmpty())
+    {
+      ArrayList<Integer> mouseIds = new ArrayList<Integer>();
+      //if the user enters '#101', we give them record 101 only.
+      //if they enter '#101,#102', we give them records 101 and 102.
+      if(searchTerms.matches(mouseIDSearchTermsRegex))
       {
-        whereTerms.add("(gene_id=" + geneRecordID + " or target_gene_id=" + geneRecordID + ")");
+        for(String token : StringUtils.splitByCharacterType(searchTerms)) {
+          if (token.matches("[0-9]+")) {
+            mouseIds.add(Integer.parseInt(token));
+          }
+        }
       }
-      if (facilityID != -1)
+      else
       {
-        whereTerms.add("(facility_id=" + facilityID + ")");
+        //String whereClause = " searchtext LIKE ('%" + addMySQLEscapes(searchTerms) + "%')"; 
+        String whereClause = "match(searchtext) against('" + addMySQLEscapes(searchTerms) + "' IN BOOLEAN MODE)";
+        mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
       }
-      if(holderID != -1)
-      {
-        whereTerms.add("holder_id=" + holderID);
-        whereTerms.add("covert=false");
-      }
-      if(searchTerms != null && !searchTerms.isEmpty())
-      {
+      whereTerms.add("mouse.id in(" + (mouseIds.size() > 0 ? StringUtils.join(mouseIds, ",") : "0") + ")");
+      
+    }
+    if(endangeredOnly)
+    {
+      whereTerms.add("endangered=true");
+    }
+    if(creOnly > 0)
+    {
+      whereTerms.add("expressedsequence.expressedsequence='Cre'");
+    }
 
-        if(searchTerms.matches(mouseIDSearchTermsRegex))
-        {
-          whereTerms.add("mouse.id=" + HTMLUtilities.extractFirstGroup(mouseIDSearchTermsRegex,searchTerms));
-        }
-        else
-        {
-          whereTerms.add("searchtext LIKE '%" + searchTerms + "%'");
-        }
-      }
-      if(endangeredOnly)
-      {
-        whereTerms.add("endangered=true");
-      }
-      if(creOnly > 0)
-      {
-        whereTerms.add("expressedsequence.expressedsequence='Cre'");
-      }
-      return whereTerms;
+    return whereTerms;
   }
 
   private static String buildMouseQueryConstraints(String additionalJoins, ArrayList<String> whereTerms, String orderBy,int limit, int offset)
@@ -437,27 +451,6 @@ public class DBConnect {
   {
     return selectFrom + "\r\n " + constraints;
   }
-
-  public static ArrayList<MouseRecord> findMice(String searchterms, String whereClause, String status)
-  {
-    //TODO move search where clause building HERE
-
-    if(status.equalsIgnoreCase("all"))
-    {
-      whereClause = "mouse.status<>'incomplete'" + whereClause;
-    }
-    else
-    {
-      whereClause = "mouse.status='" + status + "' and " + whereClause;
-    }
-
-
-    String q = mouseRecordQueryHeader
-      + "  left join flattened_mouse_search on mouse.id=flattened_mouse_search.mouse_id"
-      + " WHERE " + whereClause;
-    return MouseRecordResultGetter.getInstance().Get(q);
-  }
-
 
   public static ArrayList<MouseHolder> getAllMouseHolders()
   {
@@ -1333,7 +1326,12 @@ public class DBConnect {
   //HELPER Methods
   //************************************************************
 
-  
+  public static void updateSearchIndex() {
+    ArrayList<String> mouseIds = StringResultGetter.getInstance("id").Get("select id from mouse");
+    for(String mouseId : mouseIds) {
+      updateMouseSearchTable(mouseId);
+    }
+  }
   
   public static void updateMouseSearchTable(String recordID)
   {
