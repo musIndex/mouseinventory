@@ -86,15 +86,7 @@ $(document).ready(function(){
     {
       try
       {
-  	    
-  	    String mouseIDregex = "^#([0-9]+)$";
-
-  	    if(searchterms != null && searchterms.matches(mouseIDregex))
-  	    {
-  	      whereClause = " mouse.id=" + extractFirstGroup(mouseIDregex,searchterms);
-  	    }
-
-        
+  	           
   	    mouseCount = DBConnect.countMouseRecords(-1, null, -1,-1, "live", searchterms, false,-1,-1);
     	String topPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,true);
         String bottomPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,false);
