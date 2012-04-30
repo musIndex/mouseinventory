@@ -93,15 +93,15 @@ $(document).ready(function(){
         
   	    mouseCount = DBConnect.countMouseRecords(-1, null, -1,-1, "live", searchterms, false,-1,-1);
     	String topPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,true);
-        String bottomPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,true);
+        String bottomPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,false);
         ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(-1, null, -1, -1, "live", searchterms, false,-1, -1, limit, offset);
         
         if(mice.size() > 0)
         {
           
-          results.append(topPageSelectionLinks);
+          if (mouseCount > limit) results.append(topPageSelectionLinks);
           results.append(HTMLGeneration.getMouseTable(mice, false, true, false));
-          results.append(bottomPageSelectionLinks);
+          if (mouseCount > limit) results.append(bottomPageSelectionLinks);
         }
         /*
         for(String term : mouseSearchCache.getTermsToHighlight())
@@ -144,28 +144,31 @@ $(document).ready(function(){
         
         <div class="search-instructions">
           <b>Examples:</b>
-          <br>
-          shh null
-          <br>
-          Search for all records which <b>include the exact string</b> shh&lt;space&gt;null
-          <br><br>
-          shh or null
-          <br>
-          Search for all records which <b>include</b> shh <b>or</b> null
-          <br><br>
-          shh and null
-          <br>
-          Search for all records which include the shh <b>and</b> null
-          <br><br>
-          #101
-          <br>
-          Search for record #101
+          <dl>
+            <dt>shh null</dt>
+            <dd>Match records containing either the words 'shh' <b>or</b> 'null'</dd>
+            <dt>"shh null"</dt>
+            <dd>Match only records that <b>include the exact string</b> 'shh null'</dd>
+            <dt>Htr*</dt>
+            <dd>'*' is a wildcard. Matches words that start with Htr, such as Htr2c, or Htr1a</dd>
+            <dt>+shh +null</dt>
+            <dd>'+' means a word is required. Matches records that contain <b>both</b> shh <b>and</b> null</dd>
+            <dt>+shh -null</dt>
+            <dd>'-' excludes a word. Matches records with shh, <b>minus</b> those containing null</dd>
+            <dt>#101</dt>
+            <dd>Show record number 101</dd>
+            <dt>#101,#102</dt>
+            <dd>Show record numbers 101 and 102</dd>
+          </dl>
         </div>
-        <a href="#" id="show_search_instructions">how do I search?</a>
+        <br><a href="#" id="show_search_instructions">how do I search?</a>
       </div>
       <p class="search-resultcount"><% if(searchPerformed){ %> <%=mouseCount %> records match <%} %></p>
     </div> 
     <%= results.toString() %>
+    <% if(searchPerformed && mouseCount == 0){ %>
+      <p>Adding an asterisk will broaden your search.  Instead of 'adc', try 'adc*'.</p>
+    <% } %>
   </form>
 </div>
 
