@@ -74,6 +74,7 @@ $(document).ready(function(){
     String whereClause = "";
     StringBuilder results = new StringBuilder();
     int mouseCount = 0;
+    int displayedMice = 0;
     boolean searchPerformed = false;
 
     
@@ -95,13 +96,13 @@ $(document).ready(function(){
     	String topPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,true);
         String bottomPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,false);
         ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(-1, null, -1, -1, "live", searchterms, false,-1, -1, limit, offset);
-        
+        displayedMice = mice.size();
         if(mice.size() > 0)
         {
           
-          if (mouseCount > limit) results.append(topPageSelectionLinks);
+          results.append(topPageSelectionLinks);
           results.append(HTMLGeneration.getMouseTable(mice, false, true, false));
-          if (mouseCount > limit) results.append(bottomPageSelectionLinks);
+          results.append(bottomPageSelectionLinks);
         }
         /*
         for(String term : mouseSearchCache.getTermsToHighlight())
@@ -150,7 +151,7 @@ $(document).ready(function(){
             <dt>"shh null"</dt>
             <dd>Match only records that <b>include the exact string</b> 'shh null'</dd>
             <dt>Htr*</dt>
-            <dd>'*' is a wildcard. Matches words that start with Htr, such as Htr2c, or Htr1a</dd>
+            <dd>An asterisk is a wildcard. Matches words that start with Htr, such as Htr2c, or Htr1a</dd>
             <dt>+shh +null</dt>
             <dd>'+' means a word is required. Matches records that contain <b>both</b> shh <b>and</b> null</dd>
             <dt>+shh -null</dt>
@@ -163,7 +164,7 @@ $(document).ready(function(){
         </div>
         <br><a href="#" id="show_search_instructions">how do I search?</a>
       </div>
-      <p class="search-resultcount"><% if(searchPerformed){ %> <%=mouseCount %> records match <%} %></p>
+      <p class="search-resultcount"><% if(searchPerformed){ %> <%=mouseCount %> records match <%= displayedMice > 0 ? " [" + displayedMice + " shown]" : ""%><%} %></p>
     </div> 
     <%= results.toString() %>
     <% if(searchPerformed && mouseCount == 0){ %>
