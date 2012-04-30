@@ -397,9 +397,27 @@ public class DBConnect {
       }
       else
       {
-        //String whereClause = " searchtext LIKE ('%" + addMySQLEscapes(searchTerms) + "%')"; 
-        String whereClause = "match(searchtext) against('" + addMySQLEscapes(searchTerms) + "' IN BOOLEAN MODE)";
+        
+        
+        
+        
+        ArrayList<String> terms = new ArrayList<String>();
+        for(String token : StringUtils.split(searchTerms," ")) {
+          if (token.length() > 2) {
+            terms.add("+(*" + addMySQLEscapes(token) + "*)");
+          } else {
+            terms.add("+(" + addMySQLEscapes(token) + ")");
+          }
+        }
+        
+        String whereClause = "match(searchtext) against('" + StringUtils.join(terms," ") + "' IN BOOLEAN MODE)";
+        System.out.println(" Matching: " + whereClause);
         mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
+        if (mouseIds.size() == 0 && searchTerms.length() > 2) {
+          whereClause = " searchtext LIKE ('%" + addMySQLEscapes(searchTerms) + "%')"; 
+          System.out.println(" No results for match, trying LIKE " + whereClause);
+          mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
+        }
       }
       whereTerms.add("mouse.id in(" + (mouseIds.size() > 0 ? StringUtils.join(mouseIds, ",") : "0") + ")");
       
