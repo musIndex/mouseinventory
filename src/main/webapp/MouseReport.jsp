@@ -39,39 +39,39 @@
   }
 
   if (limit == -1)
+  {
+    if (session.getAttribute("limit") != null)
     {
-      if (session.getAttribute("limit") != null)
-      {
-        limit = Integer.parseInt(session.getAttribute("limit").toString());
-      }
-      else
-      {
-        limit = 25;
-      }
+      limit = Integer.parseInt(session.getAttribute("limit").toString());
     }
+    else
+    {
+      limit = 25;
+    }
+  }
   session.setAttribute("limit",limit);
-    if (pagenum == -1)
-    {
-      pagenum = 1;
-    }
-    int offset = limit * (pagenum - 1);
+  if (pagenum == -1)
+  {
+    pagenum = 1;
+  }
+  int offset = limit * (pagenum - 1);
 
-    ArrayList<String> query = new ArrayList<String>();
-    query.add("holder_id=" + holderID);
-    query.add("orderby=" + orderBy);
-    query.add("geneID=" + geneID);
-    query.add("creonly=" + creOnly);
-    query.add("mousetype_id=" + mouseTypeID);
-    query.add("facility_id=" + facilityID);
+  ArrayList<String> query = new ArrayList<String>();
+  query.add("holder_id=" + holderID);
+  query.add("orderby=" + orderBy);
+  query.add("geneID=" + geneID);
+  query.add("creonly=" + creOnly);
+  query.add("mousetype_id=" + mouseTypeID);
+  query.add("facility_id=" + facilityID);
 
-    String queryString = "";
+  String queryString = "";
 
-    for (String s : query)
-    {
-        queryString += s + "&";
-    }
+  for (String s : query)
+  {
+      queryString += s + "&";
+  }
 
-    int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID);
+  int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID);
   ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID,limit,offset);
 
     String table = getMouseTable(mice, false, true, false);
