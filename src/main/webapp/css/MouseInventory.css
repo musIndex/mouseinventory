@@ -757,3 +757,9 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
   background-color: orange;
   
 }
+
+.search-notices {
+  width:320px;
+  float:right;
+}
+

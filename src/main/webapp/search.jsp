@@ -19,6 +19,7 @@ $(document).ready(function(){
     var instr = $(".search-instructions");
     var search_button = $("#search_button");
     var results_div = $("#searchresults");
+    var search_notices = $(".search-notices");
     var siteRoot = "<%=siteRoot %>";
     var search_box = $('input[name=searchterms]');
     instr_link.toggle(show_help,hide_help);
@@ -34,6 +35,29 @@ $(document).ready(function(){
       search_box.focus();
     }
     
+    function show_notices(){
+      search_notices.find(".alert").each(function(index,alert){
+        var $alert = $(alert);
+        var date = Date.parse($alert.data("date"));
+        var name = $alert.data("name");
+        var today = new Date();
+        if (date < new Date(today.getTime()-1000*60*60*24*30)) {
+          $alert.remove();
+        }
+      });
+      if (search_notices.children().length == 0) {
+        hide_notices();
+        return;
+      }
+      search_notices.show();
+      $(".search-box").css("margin-right","320px");
+    }
+    
+    function hide_notices(){
+      search_notices.hide();
+      $(".search-box").css("margin-right","0px");
+    }
+    
     function display(){
       
       var searchTerms = search_box.val().split(/[\s-]+/);
@@ -47,16 +71,23 @@ $(document).ready(function(){
       if (searchTerms != null && searchTerms != "")
       {
       	$(".search-box").removeClass("search-box-primary").removeClass("centered").addClass("search-box-small");  
+      	hide_notices();
       }
       else
       {
-        $(".search-box").removeClass("search-box-small").addClass("centered").addClass("search-box-primary");  
+        $(".search-box").removeClass("search-box-small").addClass("centered").addClass("search-box-primary");
+        show_notices();
       }
       $(".chzn-select").chosen();
     }
     
     display();
     
+    
+    $(".alert .close").click(function(){
+      $(this).parent().remove();
+      //TODO set cookie that it was dismissed!
+    });
     search_button.click(do_search_ajax);
     $("#limit").change(do_search_ajax);
     $(".page-select-link").click(do_search_ajax);
@@ -159,6 +190,9 @@ $(document).ready(function(){
 %>
   
 <div class="pagecontent">
+  <div class="search-notices">
+    <%@ include file="notices.jspf" %>
+  </div>
   <form id="searchForm" action="search.jsp" class="form-search" method="get">
     <div class="search-box search-box<%= searchPerformed ?  "-small" : "-primary centered" %> clearfix">
       <img src="<%=imageRoot %>mouse-img-istock.jpg"/>
