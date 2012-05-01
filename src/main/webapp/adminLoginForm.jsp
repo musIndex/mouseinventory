@@ -4,7 +4,7 @@
 <%=HTMLGeneration.getNavBar(null, true, false) %>
 
 <%
-Log.Info("Admin loging in");
+Log.Info("Admin logging in");
 %>
 
 <div class="pagecontent centered">

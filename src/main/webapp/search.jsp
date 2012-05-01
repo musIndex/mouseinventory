@@ -10,37 +10,66 @@
   <%=getPageHeader(null,false,false, null) %>
   <%=getNavBar("search.jsp", false) %>
 <% } %> 
+<script type="text/javascript" src="<%=scriptRoot%>jquery.highlight.js" ></script>
 <script type="text/javascript">
 $(document).ready(function(){
-  var instr_link = $("#show_search_instructions");
-  var instr = $(".search-instructions");
-  var search_button = $("#search_button");
-  var page_content = $(".pagecontent");
-  var siteRoot = "<%=siteRoot %>";
-  var search_box = $('input[name=searchterms]');
-  instr_link.toggle(function(){
-      instr.slideDown();
-      instr_link.text("hide search help");
-      search_box.focus();
-    },function(){
+
+  	
+    var instr_link = $("#show_search_instructions");
+    var instr = $(".search-instructions");
+    var search_button = $("#search_button");
+    var results_div = $("#searchresults");
+    var siteRoot = "<%=siteRoot %>";
+    var search_box = $('input[name=searchterms]');
+    instr_link.toggle(show_help,hide_help);
+    
+    function hide_help(){
       instr.slideUp();
       instr_link.text("how do I search?")
       search_box.focus();
-   });
-  
-  
-  
-  search_button.click(do_search_ajax);
-  $("#limit").change(do_search_ajax);
-  $(".page-select-link").click(do_search_ajax);
-  
+    }
+    function show_help(){
+      instr.slideDown();
+      instr_link.text("hide search help");
+      search_box.focus();
+    }
+    
+    function display(){
+      
+      var searchTerms = search_box.val().split(/[\s-]+/);
+      $('.mouselist, .mouselistAlt').highlight(searchTerms, { className: 'highlight-searchterm' });
+      if (results_div.text().trim() != "0 records match") {
+      	hide_help();
+      } else {
+        show_help();
+      }
+        
+      if (searchTerms != null && searchTerms != "")
+      {
+      	$(".search-box").removeClass("search-box-primary").removeClass("centered").addClass("search-box-small");  
+      }
+      else
+      {
+        $(".search-box").removeClass("search-box-small").addClass("centered").addClass("search-box-primary");  
+      }
+      $(".chzn-select").chosen();
+    }
+    
+    display();
+    
+    search_button.click(do_search_ajax);
+    $("#limit").change(do_search_ajax);
+    $(".page-select-link").click(do_search_ajax);
+    $('input[name=searchterms]').focus();
+
   function do_search_ajax(){
-    page_content.load(siteRoot + 'search.jsp?' + $('#searchForm').serialize() + '&xhr=true');
-    $(".search-resultcount").text("searching...");
+    results_div.load(siteRoot + 'search.jsp?' + $('#searchForm').serialize() + '&xhr=true #searchresults', display);
+    if (search_box.val().trim().length != "")
+    	$(".search-resultcount").text("searching...");
     //TODO update page location, use hash
     return false;
   }
-  $('input[name=searchterms]').focus();
+  
 });
 </script>
 
@@ -125,32 +154,24 @@ $(document).ready(function(){
   }
   else
   {
-    searchterms = ""; 
+    searchterms = "";
   }
 %>
-
+  
 <div class="pagecontent">
   <form id="searchForm" action="search.jsp" class="form-search" method="get">
     <div class="search-box search-box<%= searchPerformed ?  "-small" : "-primary centered" %> clearfix">
       <img src="<%=imageRoot %>mouse-img-istock.jpg"/>
       <div class="search-box-inner">
-        
-            <input type="text" class="input-xlarge search-query" name="searchterms" value="<%=searchterms%>">
-            <input id="search_button" class="btn" type="submit" value="Mouse Search">
-        
+        <input type="text" class="input-xlarge search-query" name="searchterms" value="<%=searchterms%>">
+        <input id="search_button" class="btn" type="submit" value="Mouse Search">
         <div class="search-instructions">
-          <b>Examples:</b>
+          <b>Search examples:</b>
           <dl>
             <dt>shh null</dt>
-            <dd>Match records containing either the words 'shh' <b>or</b> 'null'</dd>
-            <dt>"shh null"</dt>
-            <dd>Match only records that <b>include the exact string</b> 'shh null'</dd>
-            <dt>Htr*</dt>
-            <dd>An asterisk is a wildcard. Matches words that start with Htr, such as Htr2c, or Htr1a</dd>
-            <dt>+shh +null</dt>
-            <dd>'+' means a word is required. Matches records that contain <b>both</b> shh <b>and</b> null</dd>
-            <dt>+shh -null</dt>
-            <dd>'-' excludes a word. Matches records with shh, <b>minus</b> those containing null</dd>
+            <dd>Match records that have words like 'shh' <b>and</b> like 'null'</dd>
+            <dt>Htr</dt>
+            <dd>Matches words that start with Htr, such as Htr2c, or Htr1a</dd>
             <dt>#101</dt>
             <dd>Show record number 101</dd>
             <dt>#101,#102</dt>
@@ -159,12 +180,13 @@ $(document).ready(function(){
         </div>
         <p><a href="#" id="show_search_instructions">how do I search?</a></p>
       </div>
-      <p class="search-resultcount"><% if(searchPerformed){ %> <%=mouseCount %> records match <%= displayedMice > 0 ? " [" + displayedMice + " shown]" : ""%><%} %></p>
     </div> 
-    <%= results.toString() %>
-    <% if(searchPerformed && mouseCount == 0){ %>
-      <p>Adding an asterisk will broaden your search.  Instead of 'adc', try 'adc*'.</p>
-    <% } %>
+    <div id="searchresults">
+      <p class="search-resultcount"><% if(searchPerformed){ %> <%=mouseCount %> records match <%= displayedMice > 0 ? " [" + displayedMice + " shown]" : ""%><%} %></p>
+      <%= results.toString() %>      
+      <% if(searchPerformed && mouseCount == 0){ %>
+        <% //TODO show some suggestions if they don't find anything %>
+      <% } %>
+    </div>
   </form>
 </div>
-
