@@ -118,21 +118,18 @@ function UpdateModificationTypeEdit()
 
 function clearHolder(id)
 {
-  var ele = document.getElementById("holder_id-" + id);
-  ele.value = "1";
-  ele = document.getElementById("facility_id-" + id);
-  ele.value = "1";
+  SetFieldValue("holder_id-" + id, "1");
+  SetFieldValue("facility_id-"+id, "1");
 }
 
 function clearFieldValue(elementName)
 {
-  var ele = document.getElementById(elementName);
-  ele.value = "";
+  SetFieldValue(elementName, "");
 }
 
 function SetFieldValue(elementName, value)
 {
-  $("#" + elementName).val(value).trigger("liszt:updated");;
+  $("#" + elementName).val(value).trigger("liszt:updated");
 }
 
 function UpdateTransgenicType()
