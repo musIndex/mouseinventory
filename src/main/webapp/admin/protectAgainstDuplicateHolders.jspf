@@ -13,8 +13,8 @@ function getSelectedHolders() {
 
 function protectAgainstDuplicateHolderSelection(obj) {
   var holder = obj.val();
+  if (holder == "1") return;
   var selected_holders = getSelectedHolders();
-
 
   var count = 0;
   for (var i = 0; i < selected_holders.length; i++) {
