@@ -384,43 +384,8 @@ public class DBConnect {
     }
     if(searchTerms != null && !searchTerms.isEmpty())
     {
-      ArrayList<Integer> mouseIds = new ArrayList<Integer>();
-      //if the user enters '#101', we give them record 101 only.
-      //if they enter '#101,#102', we give them records 101 and 102.
-      if(searchTerms.matches(mouseIDSearchTermsRegex))
-      {
-        for(String token : StringUtils.splitByCharacterType(searchTerms)) {
-          if (token.matches("[0-9]+")) {
-            mouseIds.add(Integer.parseInt(token));
-          }
-        }
-      }
-      else
-      {
-        
-        
-        
-        
-        ArrayList<String> terms = new ArrayList<String>();
-        for(String token : StringUtils.split(searchTerms," ")) {
-          if (token.length() > 2) {
-            terms.add("+(*" + addMySQLEscapes(token) + "*)");
-          } else {
-            terms.add("+(" + addMySQLEscapes(token) + ")");
-          }
-        }
-        
-        String whereClause = "match(searchtext) against('" + StringUtils.join(terms," ") + "' IN BOOLEAN MODE)";
-        System.out.println(" Matching: " + whereClause);
-        mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
-        if (mouseIds.size() == 0 && searchTerms.length() > 2) {
-          whereClause = " searchtext LIKE ('%" + addMySQLEscapes(searchTerms) + "%')"; 
-          System.out.println(" No results for match, trying LIKE " + whereClause);
-          mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
-        }
-      }
-      whereTerms.add("mouse.id in(" + (mouseIds.size() > 0 ? StringUtils.join(mouseIds, ",") : "0") + ")");
       
+      whereTerms.add(getMouseSearchWhereTerm(searchTerms));
     }
     if(endangeredOnly)
     {
@@ -432,6 +397,63 @@ public class DBConnect {
     }
 
     return whereTerms;
+  }
+  
+  private static String getMouseSearchWhereTerm(String searchTerms){
+  //TODO move this out of this code path, separate methods for searching      
+    ArrayList<Integer> mouseIds = new ArrayList<Integer>();
+    //if the user enters '#101', we give them record 101 only.
+    //if they enter '#101,#102', we give them records 101 and 102.
+    if(searchTerms.matches(mouseIDSearchTermsRegex))
+    {
+      Log.Info("SearchDebug: loading record numbers from terms " + searchTerms);
+      for(String token : StringUtils.splitByCharacterType(searchTerms)) {
+        if (token.matches("[0-9]+")) {
+          mouseIds.add(Integer.parseInt(token));
+        }
+      }
+      Log.Info("SearchDebug: loaded record numbers from terms " + searchTerms + " => " + StringUtils.join(mouseIds,","));
+    }
+    else
+    {
+      //TODO limits!
+      String whereClause = "match(searchtext) against(" + buildMouseSearchQuery(searchTerms, false) + ")";
+      Log.Info("SearchDebug: Matching: " + whereClause);
+      mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
+      if (mouseIds.size() == 0) {
+        whereClause = "match(searchtext) against(" + buildMouseSearchQuery(searchTerms, true) + ")"; 
+        Log.Info("SearchDebug: No results for match, adding wildcards: " + whereClause);
+        mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
+      }
+      if (mouseIds.size() == 0) {
+        whereClause = " searchtext LIKE ('" + addMySQLEscapes(searchTerms) + "%')";
+        Log.Info("SearchDebug: No results for match, trying LIKE: " + whereClause);
+        mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
+      }
+      if (mouseIds.size() == 0) {
+        whereClause = " searchtext LIKE ('%" + addMySQLEscapes(searchTerms) + "%')";
+        Log.Info("SearchDebug: No results for match, trying double-wildcard LIKE: " + whereClause);
+        mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
+      }
+      
+    }
+    return "mouse.id in(" + (mouseIds.size() > 0 ? StringUtils.join(mouseIds, ",") : "0") + ")";
+  }
+  
+  private static String buildMouseSearchQuery(String searchTerms, boolean expand) {
+    ArrayList<String> terms = new ArrayList<String>();
+    StringUtils.remove(searchTerms, '"');
+    StringUtils.remove(searchTerms, '\'');
+    for(String token1 : StringUtils.split(searchTerms," ")) {
+      for(String token : StringUtils.split(token1, "-")){
+        if (expand && token.length() > 2) {
+          terms.add("+" + token + "*)");
+        } else {
+          terms.add("+" + token);
+        }
+      }
+    }
+    return "'" + StringUtils.join(terms," ") + "' IN BOOLEAN MODE";
   }
 
   private static String buildMouseQueryConstraints(String additionalJoins, ArrayList<String> whereTerms, String orderBy,int limit, int offset)

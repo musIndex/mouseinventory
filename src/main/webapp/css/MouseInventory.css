@@ -699,10 +699,10 @@ td.mouselistcolumn-holders {
 
 .search-resultcount {
   color: gray;
-  margin-left: 15px;
+  margin-left: 25px;
   font-style: italic;
-  font-size: 120%;
-  clear:both;
+  font-size: 150%;
+  clear: both;
 }
 
 .search-box-small img {
@@ -751,4 +751,9 @@ form.centered-left {
 /* overriding bootstrap */
 input[type="image"],input[type="checkbox"],input[type="radio"] {
   margin-right: 3px;
+}
+
+.highlight-searchterm {
+  background-color: orange;
+  
 }
