@@ -1,0 +1,18 @@
+<%//The entries on this page will be shown to the user until the user dismissed them (clicks the x button),
+  //or they are older than one month%>
+<div class="alert alert-info" data-date='5/1/2012' data-name='search-updates'>
+  <button class="close" data-dismiss="alert">×</button>
+  <b>Improved search page.</b>
+  <br> The search page has been redesigned to be easier to use and more responsive.  
+  Also, search results should be more accurate.  You'll also see your search terms highlighted in <span class='highlight-searchterm'>orange</span>
+</div>
+<div class="alert alert-info" data-date='4/21/2012' data-name='pdf-downloads'>
+  <button class="close" data-dismiss="alert">×</button>
+  <b>PDF mouse lists</b>
+  <br>
+   It is now possible to download a PDF showing the records for all the
+   mice listed for an individual holder.  To do this, go to the "Holder List," find the name of the holder,
+   and click on the number on the extreme right ("Mice Held"). The page
+   that comes up, showing the list of all the mice held, has a button that
+   can be clicked to download the list.
+</div>
