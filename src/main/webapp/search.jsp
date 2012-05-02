@@ -68,7 +68,7 @@ $(document).ready(function(){
       } else {
         show_help();
       }
-        
+      //todo delegate this to pure css
       if (searchTerms != null && searchTerms != "")
       {
       	$(".search-box").removeClass("search-box-primary").removeClass("centered").addClass("search-box-small");  
@@ -160,17 +160,6 @@ $(document).ready(function(){
           results.append(HTMLGeneration.getMouseTable(mice, false, true, false));
           results.append(bottomPageSelectionLinks);
         }
-        /*
-        for(String term : mouseSearchCache.getTermsToHighlight())
-        {
-          Pattern pattern = Pattern.compile("(>[A-Za-z0-9\\s'\"]+)(" + term + ")([A-Za-z0-9\\s'\"]+<)",Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-
-              // Replace all occurrences of pattern in input
-              Matcher matcher = pattern.matcher(newResults);
-              String output = matcher.replaceAll("$1<b>$2</b>$3");
-          newResults = output;
-        }
-        */
         searchPerformed = true;
     }
     catch(Exception e)
@@ -204,13 +193,13 @@ $(document).ready(function(){
           <b>Search examples:</b>
           <dl>
             <dt>shh null</dt>
-            <dd>Match records that have words like 'shh' <b>and</b> like 'null'</dd>
-            <dt>Htr</dt>
-            <dd>Matches words that start with Htr, such as Htr2c, or Htr1a</dd>
-            <dt>#101</dt>
-            <dd>Show record number 101</dd>
-            <dt>#101,#102</dt>
-            <dd>Show record numbers 101 and 102</dd>
+            <dd>Match records that contain both 'shh' <b>and</b> 'null'</dd>
+            <dt>htr</dt>
+            <dd>Match words start with htr, such as htr2c, or htr1a</dd>
+            <dt>htr2c</dt>
+            <dd>Match the specific gene 'htr2c'</dd>
+            <dt>#101,#103</dt>
+            <dd>Show record numbers 101 and 103</dd>
           </dl>
         </div>
         <p><a href="#" id="show_search_instructions">how do I search?</a></p>
