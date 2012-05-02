@@ -143,6 +143,7 @@
     <%= mouseTypeSelectionLinks %>
     <%= topPageSelectionLinks %>
     <a class="btn btn-small btn-info" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
+    <br>
     <%= table %>
     <%= bottomPageSelectionLinks %>
   </form>

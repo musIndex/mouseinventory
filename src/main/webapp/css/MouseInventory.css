@@ -705,6 +705,25 @@ td.mouselistcolumn-holders {
   clear: both;
 }
 
+.search-strategy-comment {
+  font-size: 80%;
+  font-style: normal;
+}
+
+.quality-good {
+  color: #008000;
+}
+.quality-ok {
+  color: #008000;
+}
+.quality-poor {
+  color: #CCCC00;
+}
+.quality-bad {
+  color: #990033;
+}
+
+
 .search-box-small img {
   width: 100px;
   float: left;
@@ -754,7 +773,7 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
 }
 
 .highlight-searchterm {
-  background-color: orange;
+  background-color: violet;
   
 }
 

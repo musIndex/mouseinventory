@@ -2,7 +2,7 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="edu.ucsf.mousedatabase.*"%>
-<%@page import="edu.ucsf.mousedatabase.objects.MouseRecord"%>
+<%@page import="edu.ucsf.mousedatabase.objects.*"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLUtilities.*"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <% boolean isXhr = request.getParameter("xhr") != null; %>
@@ -141,21 +141,31 @@ $(document).ready(function(){
     int displayedMice = 0;
     boolean searchPerformed = false;
 
+    SearchResult result = null;
     
 
     if(searchterms != null && !searchterms.isEmpty())
     {
       try
       {
-  	           
-  	    mouseCount = DBConnect.countMouseRecords(-1, null, -1,-1, "live", searchterms, false,-1,-1);
+    	result = DBConnect.doMouseSearch(searchterms, "live");
+  	    mouseCount = result.getTotal();
     	String topPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,true);
         String bottomPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,false);
-        ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(-1, null, -1, -1, "live", searchterms, false,-1, -1, limit, offset);
+        
+        int startIndex = 0;
+        int endIndex = mouseCount;
+        if (offset + limit < mouseCount) {
+          endIndex = offset + limit;
+        }
+        if (offset < mouseCount){
+         startIndex = offset; 
+        }
+        
+        ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex));
         displayedMice = mice.size();
         if(mice.size() > 0)
         {
-          
           results.append(topPageSelectionLinks);
           results.append(HTMLGeneration.getMouseTable(mice, false, true, false));
           results.append(bottomPageSelectionLinks);
@@ -170,8 +180,7 @@ $(document).ready(function(){
     }
   }
   if (searchPerformed) {
-    Log.Info("Search performed with terms \"" + searchterms + "\", " + mouseCount);
-    Log.Info("Search:" + (searchsource != null ? searchsource : "search") + ":[[[" + searchterms + "]]]:" + mouseCount);
+    Log.Info("Search:" + (searchsource != null ? searchsource : "search") + "(" + result.getStrategy().getName() + "):[[[" + searchterms + "]]]:" + mouseCount);
   }
   else
   {
@@ -206,7 +215,13 @@ $(document).ready(function(){
       </div>
     </div> 
     <div id="searchresults">
-      <p class="search-resultcount"><% if(searchPerformed){ %> <%=mouseCount %> records match <%= displayedMice > 0 ? " [" + displayedMice + " shown]" : ""%><%} %></p>
+      <p class="search-resultcount">
+      <% if(searchPerformed){ %> 
+        <%=mouseCount %> records match<% if( displayedMice > 0 ) { %>, <%=displayedMice%> shown
+          <br>
+         <span class='search-strategy-comment quality-<%=result.getStrategy().getQuality()%>'><%=result.getComment() %></span>
+        <%} %>
+      <%} %></p>
       <%= results.toString() %>      
       <% if(searchPerformed && mouseCount == 0){ %>
         <% //TODO show some suggestions if they don't find anything %>

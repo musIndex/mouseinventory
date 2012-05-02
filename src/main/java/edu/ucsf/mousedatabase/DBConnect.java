@@ -204,6 +204,13 @@ public class DBConnect {
     String constraints = buildMouseQueryConstraints(null, whereTerms, null, -1, -1);
       return new MouseRecordResultGetter().Get(buildMouseQuery(mouseRecordQueryHeader, constraints));
   }
+  
+  public static ArrayList<MouseRecord> getMouseRecords(List<Integer> mouseIds) {
+    ArrayList<String> whereTerms = new ArrayList<String>();
+    whereTerms.add("mouse.id in(" + (mouseIds.size() > 0 ? StringUtils.join(mouseIds, ",") : "0") + ")");
+    String constraints = buildMouseQueryConstraints(null, whereTerms, null, -1, -1);
+    return new MouseRecordResultGetter().Get(buildMouseQuery(mouseRecordQueryHeader, constraints));
+  }
  
   
   public static ArrayList<MouseRecord> getMouseRecordFromSubmission(int submissionID)
@@ -338,6 +345,8 @@ public class DBConnect {
 
     return new MouseRecordResultGetter().Get(buildMouseQuery(mouseRecordQueryHeader, constraints));
   }
+  
+  
 
   private static String buildMouseQueryJoins(int holderID, int facilityID, String searchTerms)
   {
@@ -384,8 +393,8 @@ public class DBConnect {
     }
     if(searchTerms != null && !searchTerms.isEmpty())
     {
-      
-      whereTerms.add(getMouseSearchWhereTerm(searchTerms));
+      SearchResult match = doMouseSearch(searchTerms, status);
+      whereTerms.add("mouse.id in(" + (match.getTotal() > 0 ? StringUtils.join(match.getMatchingIds(), ",") : "0") + ")");
     }
     if(endangeredOnly)
     {
@@ -399,54 +408,113 @@ public class DBConnect {
     return whereTerms;
   }
   
-  private static String getMouseSearchWhereTerm(String searchTerms){
-  //TODO move this out of this code path, separate methods for searching      
+  
+  public static SearchResult doMouseSearch(String searchTerms, String status) {
+    SearchResult results = new SearchResult();
     ArrayList<Integer> mouseIds = new ArrayList<Integer>();
-    //if the user enters '#101', we give them record 101 only.
-    //if they enter '#101,#102', we give them records 101 and 102.
     if(searchTerms.matches(mouseIDSearchTermsRegex))
     {
+      
+      //if the user enters '#101', we give them record 101 only.
+      //if they enter '#101,#102', we give them records 101 and 102.
       Log.Info("SearchDebug: loading record numbers from terms " + searchTerms);
       for(String token : StringUtils.splitByCharacterType(searchTerms)) {
         if (token.matches("[0-9]+")) {
           mouseIds.add(Integer.parseInt(token));
         }
+        results.setStrategy(new SearchStrategy(0, "record-id", "Exact record number lookup"));
       }
       Log.Info("SearchDebug: loaded record numbers from terms " + searchTerms + " => " + StringUtils.join(mouseIds,","));
     }
     else
     {
-      //TODO limits!
-      String whereClause = "match(searchtext) against(" + buildMouseSearchQuery(searchTerms, false) + ")";
-      Log.Info("SearchDebug: Matching: " + whereClause);
-      mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
-      if (mouseIds.size() == 0) {
-        whereClause = "match(searchtext) against(" + buildMouseSearchQuery(searchTerms, true) + ")"; 
-        Log.Info("SearchDebug: No results for match, adding wildcards: " + whereClause);
-        mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
-      }
-      if (mouseIds.size() == 0) {
-        whereClause = " searchtext LIKE ('%" + addMySQLEscapes(searchTerms) + "%')";
-        Log.Info("SearchDebug: No results for match, trying double-wildcard LIKE: " + whereClause);
-        mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
-      }
+      List<SearchStrategy> strategies = new ArrayList<SearchStrategy>();
+      //strategies.put("natural","Natural language match");
+      strategies.add(new SearchStrategy(0,"word","Exact match"));
+      strategies.add(new SearchStrategy(2,"word-expanded","Expanded match"));
+      strategies.add(new SearchStrategy(5,"word-chartype","Partial word match"));
+      strategies.add(new SearchStrategy(8,"word-chartype-expanded","Partial word match"));
+      strategies.add(new SearchStrategy(10,"like-wildcard","No word matches, just partial matches."));
       
+      for(SearchStrategy strategy : strategies) {
+        mouseIds = doMouseSearchQuery(searchTerms, strategy, status);
+        if (mouseIds.size() > 0) {
+          results.setStrategy(strategy);
+          break;
+        }
+       }
     }
-    return "mouse.id in(" + (mouseIds.size() > 0 ? StringUtils.join(mouseIds, ",") : "0") + ")";
+    results.setMatchingIds(mouseIds);
+    return results;
   }
   
-  private static String buildMouseSearchQuery(String searchTerms, boolean expand) {
-    ArrayList<String> terms = new ArrayList<String>();
+  
+  private static ArrayList<Integer> doMouseSearchQuery(String searchTerms, SearchStrategy strategy, String status){
+    
+    String query = "select mouse_id from flattened_mouse_search, mouse";
+    String statusTerm;
+    if(status.equalsIgnoreCase("all"))
+    {
+      statusTerm = " and mouse.status<>'incomplete'";
+    }
+    else
+    {
+      statusTerm = " and mouse.status='" + status + "'";
+    }
     StringUtils.remove(searchTerms, '"');
     StringUtils.remove(searchTerms, '\'');
-    for(String token1 : StringUtils.split(searchTerms," ")) {
-      for(String token : StringUtils.split(token1, "-")){
-        if (expand && token.length() > 2) {
-          terms.add("+" + token + "*)");
-        } else {
-          terms.add("+" + token);
-        }
+    if (strategy.getName().equals("natural"))
+    {
+      query += " WHERE match(searchtext) against('" + searchTerms + "')";
+    }
+    else if (strategy.getName().equals("word"))
+    {
+      query += " WHERE match(searchtext) against(" + tokenizeBoolean(searchTerms, false, false) + ")";
+    }
+    else if (strategy.getName().equals("word-expanded"))
+    {
+      query += " WHERE match(searchtext) against(" + tokenizeBoolean(searchTerms, true, false) + ")";
+    }
+    else if (strategy.getName().equals("word-chartype"))
+    {
+      query += " WHERE match(searchtext) against(" + tokenizeBoolean(searchTerms, false, true) + ")";
+    }
+    else if (strategy.getName().equals("word-chartype-expanded"))
+    {
+      query += " WHERE match(searchtext) against(" + tokenizeBoolean(searchTerms, true, true) + ")";
+    }
+    else if (strategy.getName().equals("like-wildcard"))
+    {
+      query += " WHERE searchtext LIKE ('%" + addMySQLEscapes(searchTerms) + "%')";
+    }
+    else
+    {
+      //invalid search strategy, default to natural
+      Log.Error("Invalid search strategy: " + strategy + ", defaulting to natural language search");
+      query += " WHERE match(searchtext) against(" + searchTerms + ")";
+    }
+    query += " and mouse_id=mouse.id" + statusTerm;
+    Log.Info("SearchDebug:[" + strategy.getName() + "] " + query);
+    return IntResultGetter.getInstance("mouse_id").Get(query);    
+  }
+  
+  private static String tokenizeBoolean(String searchTerms, boolean expand, boolean charType) {
+    ArrayList<String> terms = new ArrayList<String>();
+    
+    String[] tokens;
+    if (charType) {
+      tokens = StringUtils.splitByCharacterType(searchTerms);
+    }
+    else
+    {
+      tokens = StringUtils.split(searchTerms," -");
+    }
+    for(String token : tokens) {
+      String term = "+" + token;
+      if (expand) {
+        term += "*";
       }
+      terms.add(term);
     }
     return "'" + StringUtils.join(terms," ") + "' IN BOOLEAN MODE";
   }
