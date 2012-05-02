@@ -426,11 +426,6 @@ public class DBConnect {
         mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
       }
       if (mouseIds.size() == 0) {
-        whereClause = " searchtext LIKE ('" + addMySQLEscapes(searchTerms) + "%')";
-        Log.Info("SearchDebug: No results for match, trying LIKE: " + whereClause);
-        mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
-      }
-      if (mouseIds.size() == 0) {
         whereClause = " searchtext LIKE ('%" + addMySQLEscapes(searchTerms) + "%')";
         Log.Info("SearchDebug: No results for match, trying double-wildcard LIKE: " + whereClause);
         mouseIds = IntResultGetter.getInstance("mouse_id").Get("select mouse_id from flattened_mouse_search WHERE " + whereClause);
