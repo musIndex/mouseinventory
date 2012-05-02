@@ -1,20 +1,21 @@
 <%@page import="java.net.URLEncoder"%>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="edu.ucsf.mousedatabase.*"%>
-<%@ page import="edu.ucsf.mousedatabase.objects.MouseRecord"%>
-<%@ page import="static edu.ucsf.mousedatabase.HTMLUtilities.*"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="edu.ucsf.mousedatabase.*"%>
+<%@page import="edu.ucsf.mousedatabase.objects.MouseRecord"%>
+<%@page import="static edu.ucsf.mousedatabase.HTMLUtilities.*"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <% boolean isXhr = request.getParameter("xhr") != null; %>
 <% if(!isXhr){ %>
   <%=getPageHeader(null,false,false, null) %>
   <%=getNavBar("search.jsp", false) %>
 <% } %> 
+
 <script type="text/javascript" src="<%=scriptRoot%>jquery.highlight.js" ></script>
+<%@include file="mouselistcommon.jspf" %>
 <script type="text/javascript">
 $(document).ready(function(){
-
-  	
+ 	
     var instr_link = $("#show_search_instructions");
     var instr = $(".search-instructions");
     var search_button = $("#search_button");
