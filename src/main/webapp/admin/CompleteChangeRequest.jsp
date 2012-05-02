@@ -61,7 +61,7 @@
 %>
 
 
-<div class="pagecontent-leftaligned">
+<div class="pagecontent pagecontent-leftaligned">
 <h2>Completing change request #<%=requestID %> on record #<%=record.getMouseID() %>: <%=record.getMouseName() %> (<%= record.getMouseType() %>  )
 </h2>
 <h3>Change Request:</h3>

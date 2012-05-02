@@ -210,7 +210,7 @@
 
 %>
 <div id="mousecount" style="display:none"><%=mice.size() %></div>
-<div class="pagecontent-leftaligned">
+<div class="pagecontent pagecontent-leftaligned">
 
 <h2><%=mouseTypeStr %></h2>
 <h4><%=mouseCountStr %></h4>

@@ -8,7 +8,7 @@
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("ManageChangeRequests.jsp", true) %>
 
-<div class="pagecontent-leftaligned">
+<div class="pagecontent pagecontent-leftaligned">
 
 
 
