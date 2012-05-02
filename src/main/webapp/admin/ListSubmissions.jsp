@@ -76,7 +76,7 @@
 
 %>
 <%=HTMLGeneration.getNavBar("ListSubmissions.jsp?status="+status+"&entered="+entered, true) %>
-<div class="pagecontent-leftaligned">
+<div class="pagecontent pagecontent-leftaligned">
 <h2><%= statusString %></h2>
 <h4><%= kount %> found.</h4>
 <%= sortBuf.toString()%>
