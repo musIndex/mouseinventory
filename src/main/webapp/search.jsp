@@ -180,7 +180,7 @@ $(document).ready(function(){
     }
   }
   if (searchPerformed) {
-    Log.Info("Search:" + (searchsource != null ? searchsource : "search") + "(" + result.getStrategy().getName() + "):[[[" + searchterms + "]]]:" + mouseCount);
+    Log.Info("Search:" + (searchsource != null ? searchsource : "search") + "(" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + "):[[[" + searchterms + "]]]:" + mouseCount);
   }
   else
   {
