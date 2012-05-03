@@ -132,6 +132,13 @@ $(document).ready(function(){
      //var current = $.deparam(search_form.serialize());
      //if (current.searchterms != hash.searchterms || current.limit != hash.limit) {
      //console.log("hashchange, searching!")
+     
+     var query = $.deparam.querystring();
+     
+     if (hash.searchterms == null || hash.searchterms == "" && query != null && query.searchterms != null) {
+       hash.searchterms = query.searchterms;
+     }
+     
      search_box.val(hash.searchterms);
      $("#limit").val(hash.limit);
      
