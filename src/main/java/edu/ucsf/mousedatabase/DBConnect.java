@@ -414,21 +414,42 @@ public class DBConnect {
     ArrayList<Integer> mouseIds = new ArrayList<Integer>();
     if(searchTerms.matches(mouseIDSearchTermsRegex))
     {
-      
+      SearchStrategy strat = new SearchStrategy(0, "record-id", "Exact record number lookup");
       //if the user enters '#101', we give them record 101 only.
       //if they enter '#101,#102', we give them records 101 and 102.
       Log.Info("SearchDebug: loading record numbers from terms " + searchTerms);
+      ArrayList<Integer> notFound = new ArrayList<Integer>();
       for(String token : StringUtils.splitByCharacterType(searchTerms)) {
         if (token.matches("[0-9]+")) {
-          mouseIds.add(Integer.parseInt(token));
+          int id = Integer.parseInt(token);
+          if (getMouseRecord(id).size() > 0) {
+            mouseIds.add(id);
+          }
+          else
+          {
+            notFound.add(id);
+          }
         }
-        results.setStrategy(new SearchStrategy(0, "record-id", "Exact record number lookup"));
       }
+      String badcomment = "";
+      for(int badId : notFound) {
+        if (badcomment.length() == 0){
+          badcomment += ": no match for #";
+        }else{
+          badcomment += ", #";
+        }
+        badcomment+= badId;
+        strat.setQuality(10);
+      }
+      strat.setComment(strat.getComment() + badcomment);
+      results.setStrategy(strat);
+      
       Log.Info("SearchDebug: loaded record numbers from terms " + searchTerms + " => " + StringUtils.join(mouseIds,","));
     }
     else
     {
       List<SearchStrategy> strategies = new ArrayList<SearchStrategy>();
+      //TODO analyze the query, choose a strategy more intelligently  if they included special characters, maybe do an exact lookup?
       //strategies.put("natural","Natural language match");
       strategies.add(new SearchStrategy(0,"word","Exact match"));
       strategies.add(new SearchStrategy(2,"word-expanded","Expanded match"));

@@ -1,9 +1,5 @@
 package edu.ucsf.mousedatabase.objects;
 
-import java.util.ArrayList;
-
-import org.apache.commons.lang3.StringUtils;
-
 public class SearchStrategy {
   private int quality;
   private String name;
@@ -37,6 +33,15 @@ public class SearchStrategy {
   public String getComment() {
     return comment;
   }
+
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+
+  public void setQuality(int quality) {
+    this.quality = quality;
+  }
+  
   
  
   

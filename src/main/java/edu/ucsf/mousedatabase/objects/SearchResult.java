@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class SearchResult {
   private SearchStrategy strategy;
-  private String comment;
   private ArrayList<Integer> matchingIds;
   
   public String getComment() {
