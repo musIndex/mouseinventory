@@ -14,8 +14,10 @@
 <script type="text/javascript" src="<%=scriptRoot%>jquery.highlight.js" ></script>
 <%@include file="mouselistcommon.jspf" %>
 <script type="text/javascript">
+
+
 $(document).ready(function(){
- 	
+ 	var search_form = $("#searchForm");
     var instr_link = $("#show_search_instructions");
     var instr = $(".search-instructions");
     var search_button = $("#search_button");
@@ -60,7 +62,7 @@ $(document).ready(function(){
     }
     
     function display(){
-      
+      search_button.val("Mouse Search");
       var searchTerms = search_box.val().split(/[\s-]+/);
       $('.mouselist, .mouselistAlt').highlight(searchTerms, { className: 'highlight-searchterm' });
       if (results_div.text().trim() != "0 records match") {
@@ -79,6 +81,8 @@ $(document).ready(function(){
         $(".search-box").removeClass("search-box-small").addClass("centered").addClass("search-box-primary");
         show_notices();
       }
+      $("#limit").change(search);
+      $(".page-select-link").click(search);
       $(".chzn-select").chosen();
     }
     
@@ -89,20 +93,48 @@ $(document).ready(function(){
       $(this).parent().remove();
       //TODO set cookie that it was dismissed!
     });
-    search_button.click(do_search_ajax);
-    $("#limit").change(do_search_ajax);
-    $(".page-select-link").click(do_search_ajax);
+    search_button.click(search);
+    
     $('input[name=searchterms]').focus();
 
+  function search(){
+    var search_query = $.deparam(search_form.serialize());
+    if (!search_query.limit) search_query.limit = 25;
+    if (!search_query.pagenum) search_query.pagenum = 1;
+    if (window.searchQuery != search_query ) {
+      window.searchQuery = search_query;
+      do_search_ajax();
+      $.bbq.pushState(search_query);
+  	}
+    return false;
+  }
+    
   function do_search_ajax(){
     results_div.load(siteRoot + 'search.jsp?' + $('#searchForm').serialize() + '&xhr=true #searchresults', display);
     if (search_box.val().trim().length != "")
-    	$(".search-resultcount").text("searching...");
-    //TODO update page location, use hash
-    return false;
+    	search_button.val("Searching...");
   }
   
+  
+   // Bind a callback that executes when document.location.hash changes.
+   $(window).bind( "hashchange", function(e) {
+     var hash = $.bbq.getState( );
+     var current = $.deparam(search_form.serialize());
+     if (current.searchterms != hash.searchterms || current.limit != hash.limit) {
+       console.log("hashchange, searching!")
+       search_box.val(hash.searchterms);
+       $("#limit").val(hash.limit);
+       //TODO page number
+       search();
+     }
+   });
+
+   // Since the event is only triggered when the hash changes, we need
+   // to trigger the event now, to handle the hash the page may have
+   // loaded with.
+   $(window).trigger( "hashchange" );
 });
+
 </script>
 
 <%
