@@ -685,6 +685,7 @@ td.mouselistcolumn-holders {
 
 .search-box {
   vertical-align: middle;
+  text-align: center;
 }
 
 .search-box a {
@@ -692,9 +693,50 @@ td.mouselistcolumn-holders {
   color: blue;
 }
 
-
 .search-box a:visited {
   color: blue;
+}
+
+.search-box-small {
+  text-align: left;
+}
+
+.search-box-small img {
+  width: 100px;
+  float: left;
+}
+
+.search-box-small .search-box-inner {
+  float: left;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.search-box input[type=text] {
+  margin-left: 100px;
+}
+.search-box-small input[type=text] {
+  margin-left:0px;
+}
+
+.search-instructions dt {
+  font-family: courier;
+  font-size: 115%;
+  font-weight: bold;
+}
+.search-instructions dd {
+  font-style: italic;
+}
+
+.search-instructions {
+  width: 500px;
+  display: none;
+  text-align: left;
+  margin: auto;
+}
+
+.search-box .search-box-small .search-instructions {
+  margin: 0px;
 }
 
 .search-resultcount {
@@ -725,39 +767,7 @@ td.mouselistcolumn-holders {
 }
 
 
-.search-box-small img {
-  width: 100px;
-  float: left;
-}
 
-.search-box-small .search-box-inner {
-  float: left;
-  margin-left: 10px;
-  margin-top: 5px;
-}
-
-.search-box-primary input[type=text] {
-  margin-left: 100px;
-}
-
-.search-box-primary .search-instructions {
-  margin: auto;
-}
-
-.search-instructions dt {
-  font-family: courier;
-  font-size: 115%;
-  font-weight: bold;
-}
-.search-instructions dd {
-  font-style: italic;
-}
-
-.search-instructions {
-  width: 500px;
-  display: none;
-  text-align: left;
-}
 
 div.centered {
   text-align: center;

@@ -452,11 +452,12 @@ public class DBConnect {
       //TODO analyze the query, choose a strategy more intelligently  if they included special characters, maybe do an exact lookup?
       //strategies.put("natural","Natural language match");
       strategies.add(new SearchStrategy(0,"word","Exact match"));
-      strategies.add(new SearchStrategy(2,"word-expanded","Expanded match"));
-      strategies.add(new SearchStrategy(5,"word-chartype","Partial word match"));
-      strategies.add(new SearchStrategy(8,"word-chartype-expanded","Partial word match"));
-      strategies.add(new SearchStrategy(10,"like-wildcard","No word matches, showing partial matches."));
-      
+      if (searchTerms.length() > 1){  //TODO why don't we get single digit record matches??
+        strategies.add(new SearchStrategy(2,"word-expanded","Expanded match"));
+        strategies.add(new SearchStrategy(5,"word-chartype","Partial word match"));
+        strategies.add(new SearchStrategy(8,"word-chartype-expanded","Partial word match"));
+        strategies.add(new SearchStrategy(10,"like-wildcard","No word matches, showing partial matches."));
+      }
       for(SearchStrategy strategy : strategies) {
         mouseIds = doMouseSearchQuery(searchTerms, strategy, status);
         if (mouseIds.size() > 0) {

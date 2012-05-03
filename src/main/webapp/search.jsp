@@ -27,6 +27,20 @@ $(document).ready(function(){
   var search_box = $('input[name=searchterms]');
   instr_link.toggle(show_help,hide_help);
   
+  
+  search_notices.find(".alert").each(function(index,alert){
+    var $alert = $(alert);
+    var date = Date.parse($alert.data("date"));
+    var name = $alert.data("name");
+    var today = new Date();
+    if (date < new Date(today.getTime()-1000*60*60*24*30)) {
+      $alert.remove();
+    }
+  });
+  if (search_notices.children().length == 0) {
+    search_notices.remove();
+  }
+  
   function hide_help(){
     instr.slideUp();
     instr_link.text("how do I search?")
@@ -37,32 +51,13 @@ $(document).ready(function(){
     instr_link.text("hide search help");
     search_box.focus();
   }
-  
-  function show_notices(){
-    search_notices.find(".alert").each(function(index,alert){
-      var $alert = $(alert);
-      var date = Date.parse($alert.data("date"));
-      var name = $alert.data("name");
-      var today = new Date();
-      if (date < new Date(today.getTime()-1000*60*60*24*30)) {
-        $alert.remove();
-      }
-    });
-    if (search_notices.children().length == 0) {
-      hide_notices();
-      return;
-    }
-    search_notices.show();
-    $(".search-box").css("margin-right","320px");
-  }
-  
-  function hide_notices(){
-    search_notices.hide();
-    $(".search-box").css("margin-right","0px");
-  }
+
   
   function display(){
     var searchTerms = search_box.val().split(/[\s-\/\\]+/);
+    if (searchTerms != null && searchTerms != "") {
+      search_notices.remove();
+    }
     $('.mouselist, .mouselistAlt').highlight(searchTerms, { className: 'highlight-searchterm' });
     if (results_div.text().trim() != "0 records match") {
       hide_help();
@@ -72,13 +67,11 @@ $(document).ready(function(){
     //todo delegate this to pure css
     if (searchTerms != null && searchTerms != "")
     {
-    	$(".search-box").removeClass("search-box-primary").removeClass("centered").addClass("search-box-small");  
-    	hide_notices();
+      $(".search-box").addClass("search-box-small");  
     }
     else
     {
-      $(".search-box").removeClass("search-box-small").addClass("centered").addClass("search-box-primary");
-      show_notices();
+      $(".search-box").removeClass("search-box-small");
     }
     $("#limit").change(function(){
       $.bbq.pushState({limit:$(this).val()});
@@ -95,12 +88,6 @@ $(document).ready(function(){
   }
   
   display();
-  
-  
-  $(".alert .close").click(function(){
-    $(this).parent().remove();
-    //TODO set cookie that it was dismissed!
-  });
   
   search_button.click(function(){
     $.bbq.pushState({searchterms: search_box.val(), pagenum: 1});
@@ -221,9 +208,11 @@ $(document).ready(function(){
 %>
   
 <div class="pagecontent">
+  <% if (request.getParameter("welcome") != null) {%>
   <div class="search-notices">
     <%@ include file="notices.jspf" %>
   </div>
+  <% } %>
   <form id="searchForm" action="search.jsp" class="form-search" method="get">
     <div class="search-box search-box<%= searchPerformed ?  "-small" : "-primary centered" %> clearfix">
       <img src="<%=imageRoot %>mouse-img-istock.jpg"/>
