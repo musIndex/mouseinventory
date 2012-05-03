@@ -81,8 +81,14 @@ $(document).ready(function(){
         $(".search-box").removeClass("search-box-small").addClass("centered").addClass("search-box-primary");
         show_notices();
       }
-      $("#limit").change(search);
-      $(".page-select-link").click(search);
+      $("#limit").change(function(){
+        $.bbq.pushState({limit:$(this).val()});
+        return false;
+        });
+      $("a.pagelink").click(function(){
+        $.bbq.pushState({pagenum:$(this).text()});
+        return false;
+        });
       $(".chzn-select").chosen();
     }
     
@@ -93,40 +99,44 @@ $(document).ready(function(){
       $(this).parent().remove();
       //TODO set cookie that it was dismissed!
     });
-    search_button.click(search);
+    search_button.click(function(){
+      $.bbq.pushState({searchterms: search_box.val()});
+      return false;
+    });
     
     $('input[name=searchterms]').focus();
 
-  function search(){
-    var search_query = $.deparam(search_form.serialize());
+  function search(search_query){
+    var $this = $(this);
     if (!search_query.limit) search_query.limit = 25;
     if (!search_query.pagenum) search_query.pagenum = 1;
+    
     if (window.searchQuery != search_query ) {
       window.searchQuery = search_query;
-      do_search_ajax();
-      $.bbq.pushState(search_query);
+      results_div.load(siteRoot + 'search.jsp?' + $.param(window.searchQuery) + '&xhr=true #searchresults', display);
+      /* if (search_box.val().trim().length != "")
+      	search_button.val("Searching..."); */
   	}
     return false;
-  }
+  } 
     
   function do_search_ajax(){
-    results_div.load(siteRoot + 'search.jsp?' + $('#searchForm').serialize() + '&xhr=true #searchresults', display);
-    if (search_box.val().trim().length != "")
-    	search_button.val("Searching...");
+    
   }
   
+
   
    // Bind a callback that executes when document.location.hash changes.
    $(window).bind( "hashchange", function(e) {
      var hash = $.bbq.getState( );
-     var current = $.deparam(search_form.serialize());
-     if (current.searchterms != hash.searchterms || current.limit != hash.limit) {
-       console.log("hashchange, searching!")
-       search_box.val(hash.searchterms);
-       $("#limit").val(hash.limit);
-       //TODO page number
-       search();
-     }
+     //var current = $.deparam(search_form.serialize());
+     //if (current.searchterms != hash.searchterms || current.limit != hash.limit) {
+     //console.log("hashchange, searching!")
+     search_box.val(hash.searchterms);
+     $("#limit").val(hash.limit);
+     
+     search(hash);
+     //}
    });
 
    // Since the event is only triggered when the hash changes, we need
@@ -182,8 +192,8 @@ $(document).ready(function(){
       {
     	result = DBConnect.doMouseSearch(searchterms, "live");
   	    mouseCount = result.getTotal();
-    	String topPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,true);
-        String bottomPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,false);
+    	String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
+        String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
         
         int startIndex = 0;
         int endIndex = mouseCount;

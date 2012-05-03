@@ -2784,6 +2784,48 @@ public class HTMLGeneration {
     buf.append("</table>");
     return buf.toString();
   }
+  
+  public static String getNewPageSelectionLinks(int limit, int pageNum,
+      int total, boolean includeLimitSelector) {
+    StringBuffer buf = new StringBuffer();
+
+    String[] values = new String[] { "10", "25", "50", "100", "500", "-2" };
+    String[] labels = new String[] { "10", "25", "50", "100", "500", "All" };
+
+    String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px'");
+    buf.append("<table>");
+    if (includeLimitSelector) {
+      buf.append("<tr>" + "<td>" + "Records per page: &nbsp;"  + perPageDropDown + "</td></tr>");
+    }
+
+    if (limit > 0)
+    {
+      buf.append("<tr><td>Page ");
+      int pageCount = (total + limit - 1) / limit;
+      // int buttonCount = 0;
+      // int maxButtons = 10;
+      boolean skipping = false;
+      for (int i = 1; i <= pageCount; i++) {
+        String cssClass = "pagelink";
+        if (i == pageNum) {
+          cssClass = "pagelink current";
+        }
+        if (i != 1 && i != pageCount && i != (pageCount - 1) && (Math.abs(pageNum - i) > 4)) {
+          if (!skipping) {
+            buf.append("...");
+          }
+          skipping = true;
+          continue;
+        }
+        skipping = false;
+
+        buf.append("<a class=\"" + cssClass + "\" href=\"#pagenum=" + i + "\">" + i + "</a>\r\n");
+      }
+      buf.append("</td>" + "</tr>");
+    }
+    buf.append("</table>");
+    return buf.toString();
+  }
 
   private static String gimmeSortRadio(String param, String niceName,
       String current) {
