@@ -17,94 +17,95 @@
 
 
 $(document).ready(function(){
- 	var search_form = $("#searchForm");
-    var instr_link = $("#show_search_instructions");
-    var instr = $(".search-instructions");
-    var search_button = $("#search_button");
-    var results_div = $("#searchresults");
-    var search_notices = $(".search-notices");
-    var siteRoot = "<%=siteRoot %>";
-    var search_box = $('input[name=searchterms]');
-    instr_link.toggle(show_help,hide_help);
-    
-    function hide_help(){
-      instr.slideUp();
-      instr_link.text("how do I search?")
-      search_box.focus();
-    }
-    function show_help(){
-      instr.slideDown();
-      instr_link.text("hide search help");
-      search_box.focus();
-    }
-    
-    function show_notices(){
-      search_notices.find(".alert").each(function(index,alert){
-        var $alert = $(alert);
-        var date = Date.parse($alert.data("date"));
-        var name = $alert.data("name");
-        var today = new Date();
-        if (date < new Date(today.getTime()-1000*60*60*24*30)) {
-          $alert.remove();
-        }
-      });
-      if (search_notices.children().length == 0) {
-        hide_notices();
-        return;
+  var search_form = $("#searchForm");
+  var instr_link = $("#show_search_instructions");
+  var instr = $(".search-instructions");
+  var search_button = $("#search_button");
+  var results_div = $("#searchresults");
+  var search_notices = $(".search-notices");
+  var siteRoot = "<%=siteRoot %>";
+  var search_box = $('input[name=searchterms]');
+  instr_link.toggle(show_help,hide_help);
+  
+  function hide_help(){
+    instr.slideUp();
+    instr_link.text("how do I search?")
+    search_box.focus();
+  }
+  function show_help(){
+    instr.slideDown();
+    instr_link.text("hide search help");
+    search_box.focus();
+  }
+  
+  function show_notices(){
+    search_notices.find(".alert").each(function(index,alert){
+      var $alert = $(alert);
+      var date = Date.parse($alert.data("date"));
+      var name = $alert.data("name");
+      var today = new Date();
+      if (date < new Date(today.getTime()-1000*60*60*24*30)) {
+        $alert.remove();
       }
-      search_notices.show();
-      $(".search-box").css("margin-right","320px");
-    }
-    
-    function hide_notices(){
-      search_notices.hide();
-      $(".search-box").css("margin-right","0px");
-    }
-    
-    function display(){
-      search_button.val("Mouse Search");
-      var searchTerms = search_box.val().split(/[\s-\/\\]+/);
-      $('.mouselist, .mouselistAlt').highlight(searchTerms, { className: 'highlight-searchterm' });
-      if (results_div.text().trim() != "0 records match") {
-      	hide_help();
-      } else {
-        show_help();
-      }
-      //todo delegate this to pure css
-      if (searchTerms != null && searchTerms != "")
-      {
-      	$(".search-box").removeClass("search-box-primary").removeClass("centered").addClass("search-box-small");  
-      	hide_notices();
-      }
-      else
-      {
-        $(".search-box").removeClass("search-box-small").addClass("centered").addClass("search-box-primary");
-        show_notices();
-      }
-      $("#limit").change(function(){
-        $.bbq.pushState({limit:$(this).val()});
-        return false;
-        });
-      $("a.pagelink").click(function(){
-        $.bbq.pushState({pagenum:$(this).text()});
-        return false;
-        });
-      $(".chzn-select").chosen();
-    }
-    
-    display();
-    
-    
-    $(".alert .close").click(function(){
-      $(this).parent().remove();
-      //TODO set cookie that it was dismissed!
     });
-    search_button.click(function(){
-      $.bbq.pushState({searchterms: search_box.val(), pagenum: 1});
+    if (search_notices.children().length == 0) {
+      hide_notices();
+      return;
+    }
+    search_notices.show();
+    $(".search-box").css("margin-right","320px");
+  }
+  
+  function hide_notices(){
+    search_notices.hide();
+    $(".search-box").css("margin-right","0px");
+  }
+  
+  function display(){
+    var searchTerms = search_box.val().split(/[\s-\/\\]+/);
+    $('.mouselist, .mouselistAlt').highlight(searchTerms, { className: 'highlight-searchterm' });
+    if (results_div.text().trim() != "0 records match") {
+      hide_help();
+    } else {
+      show_help();
+    }
+    //todo delegate this to pure css
+    if (searchTerms != null && searchTerms != "")
+    {
+    	$(".search-box").removeClass("search-box-primary").removeClass("centered").addClass("search-box-small");  
+    	hide_notices();
+    }
+    else
+    {
+      $(".search-box").removeClass("search-box-small").addClass("centered").addClass("search-box-primary");
+      show_notices();
+    }
+    $("#limit").change(function(){
+      $.bbq.pushState({limit:$(this).val()});
       return false;
     });
-    
-    $('input[name=searchterms]').focus();
+    $(".pagination a").click(function(){
+      if (!($(this).parent().hasClass("disabled"))){
+      	$.bbq.pushState({pagenum:$(this).data("pagenum")});
+      }
+      return false;
+    });
+    $(".chzn-select").chosen(); //for the page selector, returned with results
+    search_box.focus();
+  }
+  
+  display();
+  
+  
+  $(".alert .close").click(function(){
+    $(this).parent().remove();
+    //TODO set cookie that it was dismissed!
+  });
+  
+  search_button.click(function(){
+    $.bbq.pushState({searchterms: search_box.val(), pagenum: 1});
+    return false;
+  });
 
   function search(search_query){
     var $this = $(this);
@@ -114,42 +115,24 @@ $(document).ready(function(){
     if (window.searchQuery != search_query ) {
       window.searchQuery = search_query;
       results_div.load(siteRoot + 'search.jsp?' + $.param(window.searchQuery) + '&xhr=true #searchresults', display);
-      /* if (search_box.val().trim().length != "")
-      	search_button.val("Searching..."); */
   	}
     return false;
   } 
-    
-  function do_search_ajax(){
-    
-  }
   
+  $(window).bind( "hashchange", function(e) {
+    var hash = $.bbq.getState( );
+    var query = $.deparam.querystring();
+     
+    if ((hash == null || hash.searchterms == undefined) && query != null && query.searchterms != null) {
+      hash.searchterms = query.searchterms;
+    }
+     
+    search_box.val(hash.searchterms);
+    $("#limit").val(hash.limit);
+    search(hash);
+  });
 
-  
-   // Bind a callback that executes when document.location.hash changes.
-   $(window).bind( "hashchange", function(e) {
-     var hash = $.bbq.getState( );
-     //var current = $.deparam(search_form.serialize());
-     //if (current.searchterms != hash.searchterms || current.limit != hash.limit) {
-     //console.log("hashchange, searching!")
-     
-     var query = $.deparam.querystring();
-     
-     if (hash.searchterms == null || hash.searchterms == "" && query != null && query.searchterms != null) {
-       hash.searchterms = query.searchterms;
-     }
-     
-     search_box.val(hash.searchterms);
-     $("#limit").val(hash.limit);
-     
-     search(hash);
-     //}
-   });
-
-   // Since the event is only triggered when the hash changes, we need
-   // to trigger the event now, to handle the hash the page may have
-   // loaded with.
-   $(window).trigger( "hashchange" );
+  $(window).trigger( "hashchange" );
 });
 
 </script>
@@ -199,8 +182,8 @@ $(document).ready(function(){
       {
     	result = DBConnect.doMouseSearch(searchterms, "live");
   	    mouseCount = result.getTotal();
-    	String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
-        String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
+    	String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
+        String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
         
         int startIndex = 0;
         int endIndex = mouseCount;

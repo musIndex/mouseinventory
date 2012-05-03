@@ -2789,41 +2789,39 @@ public class HTMLGeneration {
       int total, boolean includeLimitSelector) {
     StringBuffer buf = new StringBuffer();
 
-    String[] values = new String[] { "10", "25", "50", "100", "500", "-2" };
-    String[] labels = new String[] { "10", "25", "50", "100", "500", "All" };
-
-    String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px'");
-    buf.append("<table>");
-    if (includeLimitSelector) {
-      buf.append("<tr>" + "<td>" + "Records per page: &nbsp;"  + perPageDropDown + "</td></tr>");
-    }
-
+    
     if (limit > 0)
     {
-      buf.append("<tr><td>Page ");
+      buf.append("<div class='pagination'>\r\n<ul>\r\n");
       int pageCount = (total + limit - 1) / limit;
-      // int buttonCount = 0;
-      // int maxButtons = 10;
-      boolean skipping = false;
-      for (int i = 1; i <= pageCount; i++) {
-        String cssClass = "pagelink";
-        if (i == pageNum) {
-          cssClass = "pagelink current";
-        }
-        if (i != 1 && i != pageCount && i != (pageCount - 1) && (Math.abs(pageNum - i) > 4)) {
-          if (!skipping) {
-            buf.append("...");
-          }
-          skipping = true;
-          continue;
-        }
-        skipping = false;
+      buf.append("<li" + ((pageNum <= 1) ? " class='disabled'":"") +
+          "><a href='#' data-pagenum='" + (pageNum - 1) +"'>&lt; Previous</a></li>\r\n");
+      
+//      for (int i = 1; i <= pageCount; i++) {
+//        String cssClass = "";
+//        if (i == pageNum) {
+//          cssClass = " class='active'";
+//        }
+//        if ((Math.abs(pageNum - i) > 3)) {
+//          continue;
+//        }
+//
+//        buf.append("<li" + cssClass + "><a href='#' data-pagenum='"+i+"'>" + i + "</a></li>\r\n");
+//      }
+      buf.append("<li class='disabled'><a href='#'>Page " + pageNum + " of " + pageCount + "</a></li>");
 
-        buf.append("<a class=\"" + cssClass + "\" href=\"#pagenum=" + i + "\">" + i + "</a>\r\n");
+      buf.append("<li" + ((pageNum >= pageCount) ? " class='disabled'":"") 
+          + "><a href='#' data-pagenum='" + (pageNum + 1) +"'>Next &gt;</a></li>\r\n");
+      buf.append("</ul>\r\n</div>\r\n");
+      if (includeLimitSelector) {
+
+        String[] values = new String[] { "10", "25", "50", "100", "500", "-2" };
+        String[] labels = new String[] { "10", "25", "50", "100", "500", "All" };
+
+        String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px'");
+        buf.append("<div>Show: &nbsp;"  + perPageDropDown + " per page</div>");
       }
-      buf.append("</td>" + "</tr>");
     }
-    buf.append("</table>");
     return buf.toString();
   }
 
