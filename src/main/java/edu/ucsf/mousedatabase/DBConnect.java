@@ -461,8 +461,10 @@ public class DBConnect {
     {
       statusTerm = " and mouse.status='" + status + "'";
     }
-    StringUtils.remove(searchTerms, '"');
-    StringUtils.remove(searchTerms, '\'');
+    searchTerms = StringUtils.remove(searchTerms, '"');
+    searchTerms = StringUtils.remove(searchTerms, '\'');
+    searchTerms = StringUtils.replace(searchTerms, "\\", " ");
+    
     if (strategy.getName().equals("natural"))
     {
       query += " WHERE match(searchtext) against('" + searchTerms + "')";

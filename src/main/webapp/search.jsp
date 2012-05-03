@@ -63,7 +63,7 @@ $(document).ready(function(){
     
     function display(){
       search_button.val("Mouse Search");
-      var searchTerms = search_box.val().split(/[\s-]+/);
+      var searchTerms = search_box.val().split(/[\s-\/\\]+/);
       $('.mouselist, .mouselistAlt').highlight(searchTerms, { className: 'highlight-searchterm' });
       if (results_div.text().trim() != "0 records match") {
       	hide_help();
@@ -100,7 +100,7 @@ $(document).ready(function(){
       //TODO set cookie that it was dismissed!
     });
     search_button.click(function(){
-      $.bbq.pushState({searchterms: search_box.val()});
+      $.bbq.pushState({searchterms: search_box.val(), pagenum: 1});
       return false;
     });
     
