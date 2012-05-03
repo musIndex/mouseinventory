@@ -703,6 +703,7 @@ td.mouselistcolumn-holders {
   font-style: italic;
   font-size: 150%;
   clear: both;
+  min-height:50px;
 }
 
 .search-strategy-comment {

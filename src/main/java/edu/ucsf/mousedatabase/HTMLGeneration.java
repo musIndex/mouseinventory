@@ -89,6 +89,7 @@ public class HTMLGeneration {
     buf.append("<script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js'></script>\r\n");
     buf.append("<link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css 'rel='stylesheet' type='text/css' />");
     buf.append("<script src=\"" + scriptRoot + "chosen.jquery.min.js\"></script>\r\n");
+    buf.append("<script src=\"" + scriptRoot + "jquery.ba-bbq.min.js\"></script>\r\n");
     buf.append("<script type=\"text/javascript\">\r\n" +
         "$(document).ready(function(){\r\n" +
           "$('.chzn-select').chosen();" +
