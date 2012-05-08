@@ -784,7 +784,8 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
 }
 
 .highlight-searchterm {
-  background-color: violet;
+ color: #DB7093;
+ font-weight: bold;
   
 }
 
