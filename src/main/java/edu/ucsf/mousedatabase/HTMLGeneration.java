@@ -147,10 +147,13 @@ public class HTMLGeneration {
     {
       table.append("<div id=\"quickSearchContainer\">");
       table.append("<form id=\"quickSearchForm\"action=\"" + siteRoot + "search.jsp\" method=\"get\">\r\n");
-      table.append("<input type=\"text\" class=\"input-medium search-query\"  name=\"searchterms\" >");
-      table.append("<input type='hidden' name='search-source' value='quicksearch:" + currentPageFilename + "'>");
-      table.append("<input class=\"btn search-query\" type=\"submit\" value=\"Quick Search\">");
-      table.append("<script type='text/javascript'>$('input[name=searchterms]').focus()</script>");
+      table.append("<input type=\"text\" class=\"input-medium search-query\"  name=\"searchterms\" >\r\n");
+      table.append("<input type='hidden' name='search-source' value='quicksearch:" + currentPageFilename + "'>\r\n");
+      table.append("<input id='quicksearchbutton' class=\"btn search-query\" type=\"submit\" value=\"Quick Search\">\r\n");
+      table.append("<script type='text/javascript'>\r\n$('input[name=searchterms]').focus()\r\n");
+      table.append("$(\"#quicksearchbutton\").click(function(){ \r\n");
+      table.append("window.location.href = 'search.jsp#' + $(\"#quickSearchForm\").serialize();\r\nreturn false; });");
+      table.append("</script>\r\n");
       table.append("</form>");
       table.append("</div>");
 
