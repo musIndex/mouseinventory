@@ -393,8 +393,12 @@ public class DBConnect {
     }
     if(searchTerms != null && !searchTerms.isEmpty())
     {
-      SearchResult match = doMouseSearch(searchTerms, status);
-      whereTerms.add("mouse.id in(" + (match.getTotal() > 0 ? StringUtils.join(match.getMatchingIds(), ",") : "0") + ")");
+      ArrayList<SearchResult> results = doMouseSearch(searchTerms, status);
+      ArrayList<Integer> allMatches = new ArrayList<Integer>();
+      for(SearchResult result : results) {
+        allMatches.addAll(result.getMatchingIds());
+      }
+      whereTerms.add("mouse.id in(" + (allMatches.size() > 0 ? StringUtils.join(allMatches, ",") : "0") + ")");
     }
     if(endangeredOnly)
     {
@@ -409,11 +413,14 @@ public class DBConnect {
   }
   
   
-  public static SearchResult doMouseSearch(String searchTerms, String status) {
-    SearchResult results = new SearchResult();
-    ArrayList<Integer> mouseIds = new ArrayList<Integer>();
+  public static ArrayList<SearchResult> doMouseSearch(String searchTerms, String status) {
+    ArrayList<SearchResult> resultSets = new ArrayList<SearchResult>();
+    
+    
     if(searchTerms.matches(mouseIDSearchTermsRegex))
     {
+      SearchResult result = new SearchResult();
+      ArrayList<Integer> mouseIds = new ArrayList<Integer>();
       SearchStrategy strat = new SearchStrategy(0, "record-id", "Exact record number lookup");
       //if the user enters '#101', we give them record 101 only.
       //if they enter '#101,#102', we give them records 101 and 102.
@@ -442,8 +449,8 @@ public class DBConnect {
         strat.setQuality(10);
       }
       strat.setComment(strat.getComment() + badcomment);
-      results.setStrategy(strat);
-      
+      result.setStrategy(strat);
+      resultSets.add(result);
       Log.Info("SearchDebug: loaded record numbers from terms " + searchTerms + " => " + StringUtils.join(mouseIds,","));
     }
     else
@@ -458,16 +465,31 @@ public class DBConnect {
         strategies.add(new SearchStrategy(8,"word-chartype-expanded","Partial word match"));
         strategies.add(new SearchStrategy(10,"like-wildcard","No word matches, showing partial matches."));
       }
+      ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
-        mouseIds = doMouseSearchQuery(searchTerms, strategy, status);
-        if (mouseIds.size() > 0) {
-          results.setStrategy(strategy);
-          break;
+        SearchResult result = new SearchResult();
+        ArrayList<Integer> mouseIds = doMouseSearchQuery(searchTerms, strategy, status);
+        if (!allMouseIds.isEmpty())
+        {
+          ArrayList<Integer> temp = new ArrayList<Integer>();
+          for(int id : mouseIds) {
+            if (!allMouseIds.contains(id)) {
+              temp.add(id);
+            }
+          }
+          mouseIds = temp;
         }
-       }
+        
+        allMouseIds.addAll(mouseIds);
+        //if (mouseIds.size() > 0) {
+          result.setStrategy(strategy);
+          result.setMatchingIds(mouseIds);
+        //}
+        resultSets.add(result);
+      }
     }
-    results.setMatchingIds(mouseIds);
-    return results;
+    
+    return resultSets;
   }
   
   
