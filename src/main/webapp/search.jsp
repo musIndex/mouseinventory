@@ -5,11 +5,11 @@
 <%@page import="edu.ucsf.mousedatabase.objects.*"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLUtilities.*"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
-<% boolean isXhr = request.getParameter("xhr") != null; %>
-<% if(!isXhr){ %>
+<%// boolean isXhr = request.getParameter("xhr") != null; %>
+<%// if(!isXhr){ %>
   <%=getPageHeader(null,false,false, null) %>
   <%=getNavBar("search.jsp", false) %>
-<% } %> 
+<%// } %> 
 
 <script type="text/javascript" src="<%=scriptRoot%>jquery.highlight.js" ></script>
 <%@include file="mouselistcommon.jspf" %>
@@ -22,25 +22,16 @@ $(document).ready(function(){
   var instr = $(".search-instructions");
   var search_button = $("#search_button");
   var results_div = $("#searchresults");
-  var search_notices = $(".search-notices");
   var siteRoot = "<%=siteRoot %>";
   var search_box = $('input[name=searchterms]');
+  var search_container = $(".search-box");
+  
+  display();
   instr_link.toggle(show_help,hide_help);
-  
-  
-  search_notices.find(".alert").each(function(index,alert){
-    var $alert = $(alert);
-    var date = Date.parse($alert.data("date"));
-    var name = $alert.data("name");
-    var today = new Date();
-    if (date < new Date(today.getTime()-1000*60*60*24*30)) {
-      $alert.remove();
-    }
-  });
-  if (search_notices.children().length == 0) {
-    search_notices.remove();
-  }
-  
+  search_button.click(search_button_clicked);
+  $(window).bind("hashchange", hash_changed);
+  $(window).trigger("hashchange");
+
   function hide_help(){
     instr.slideUp();
     instr_link.text("how do I search?")
@@ -52,47 +43,50 @@ $(document).ready(function(){
     search_box.focus();
   }
 
-  
   function display(){
-    var searchTerms = search_box.val().split(/[\s-\/\\]+/);
-    if (searchTerms != null && searchTerms != "") {
-      search_notices.remove();
+    var hash = extract_search_params();
+
+    //todo make the search results a js object
+    if (hash.searchterms) {
+    	$('.mouselist, .mouselistAlt').highlight(hash.searchterms.split(/[ -\/\\]/), { className: 'highlight-searchterm' });
     }
-    $('.mouselist, .mouselistAlt').highlight(searchTerms, { className: 'highlight-searchterm' });
     if (results_div.text().trim() != "0 records match") {
       hide_help();
     } else {
       show_help();
     }
     //todo delegate this to pure css
-    if (searchTerms != null && searchTerms != "")
-    {
-      $(".search-box").addClass("search-box-small");  
+    if (hash.searchterms != null && hash.searchterms != "") {
+      search_container.addClass("search-box-small");  
     }
-    else
-    {
-      $(".search-box").removeClass("search-box-small");
+    else {
+      search_container.removeClass("search-box-small");
     }
+    search_container.show();
+    
+    //update the handlers for the pagination controls, which are returned by the search
     $("#limit").change(function(){
       $.bbq.pushState({limit:$(this).val()});
       return false;
-    });
+    }).chosen();
     $(".pagination a").click(function(){
       if (!($(this).parent().hasClass("disabled"))){
       	$.bbq.pushState({pagenum:$(this).data("pagenum")});
       }
       return false;
     });
-    $(".chzn-select").chosen(); //for the page selector, returned with results
-    search_box.focus();
   }
   
-  display();
   
-  search_button.click(function(){
+  
+  function search_button_clicked(){
     $.bbq.pushState({searchterms: search_box.val(), pagenum: 1});
     return false;
-  });
+  }
+  
+  function hash_changed(){
+    search(extract_search_params());
+  }
 
   function search(search_query){
     var $this = $(this);
@@ -101,25 +95,25 @@ $(document).ready(function(){
     
     if (window.searchQuery != search_query ) {
       window.searchQuery = search_query;
-      results_div.load(siteRoot + 'search.jsp?' + $.param(window.searchQuery) + '&xhr=true #searchresults', display);
+      results_div.load(siteRoot + 'search.jsp?' + $.param(window.searchQuery) + ' #searchresults', display);
   	}
     return false;
   } 
   
-  $(window).bind( "hashchange", function(e) {
+  function extract_search_params(){
     var hash = $.bbq.getState( );
     var query = $.deparam.querystring();
      
     if ((hash == null || hash.searchterms == undefined) && query != null && query.searchterms != null) {
       hash.searchterms = query.searchterms;
     }
-     
+    
     search_box.val(hash.searchterms);
     $("#limit").val(hash.limit);
-    search(hash);
-  });
+    return hash;
+  }
 
-  $(window).trigger( "hashchange" );
+  
 });
 
 </script>
@@ -214,7 +208,7 @@ $(document).ready(function(){
   </div>
   <% } %>
   <form id="searchForm" action="search.jsp" class="form-search" method="get">
-    <div class="search-box search-box<%= searchPerformed ?  "-small" : "-primary centered" %> clearfix">
+    <div class="search-box search-box<%= searchPerformed ?  "-small" : "" %> clearfix" style="display:none">
       <img src="<%=imageRoot %>mouse-img-istock.jpg"/>
       <div class="search-box-inner">
         <input type="text" class="input-xlarge search-query" name="searchterms" value="<%=searchterms%>">
