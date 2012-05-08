@@ -154,36 +154,59 @@ $(document).ready(function(){
     int displayedMice = 0;
     boolean searchPerformed = false;
 
-    SearchResult result = null;
+    
     
 
     if(searchterms != null && !searchterms.isEmpty())
     {
       try
       {
-    	result = DBConnect.doMouseSearch(searchterms, "live");
-  	    mouseCount = result.getTotal();
-    	String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
-        String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
-        
-        int startIndex = 0;
-        int endIndex = mouseCount;
-        if (offset + limit < mouseCount) {
-          endIndex = offset + limit;
+        ArrayList<SearchResult> searchresults =  DBConnect.doMouseSearch(searchterms, "live");
+        ArrayList<Integer> allMatches = new ArrayList<Integer>();
+        for(SearchResult result : searchresults) {
+          allMatches.addAll(result.getMatchingIds());
         }
-        if (offset < mouseCount){
-         startIndex = offset; 
-        }
-        
-        ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex));
-        displayedMice = mice.size();
-        if(mice.size() > 0)
+        mouseCount = allMatches.size();
+        String mouseTable = "";
+        if (allMatches.size() > 0)
         {
-          results.append(topPageSelectionLinks);
+    	  String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
+    	  results.append(topPageSelectionLinks);
+        }
+        int miceSeen = 0;
+        String resultLog = "Search:[[[" + searchterms + "]]]" + (searchsource != null ? searchsource : "search");
+    	for (SearchResult result : searchresults){
+          
+    	  int resultMouseCount = result.getTotal();
+      	  //if (offset < )
+          
+          int startIndex = 0;
+          int endIndex = resultMouseCount;
+          /* if (offset + limit < resultMouseCount) {
+            endIndex = offset + limit;
+          }
+          if (offset < resultMouseCount){
+           startIndex = offset; 
+          } */
+          
+          ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex));
+          displayedMice += mice.size();
+          
+          searchPerformed = true;
+          results.append("<br><span class='search-strategy-comment quality-" + result.getStrategy().getQuality()+ "'>");
+          results.append(result.getStrategy().getComment());
+          results.append(" (" + result.getTotal() + " matches total)");
+          results.append("</span><br>");
           results.append(HTMLGeneration.getMouseTable(mice, false, true, false));
+          resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + result.getTotal();
+    	}
+    	Log.Info("::" + mouseCount);
+
+    	if (allMatches.size() > 0)
+        {
+          String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
           results.append(bottomPageSelectionLinks);
         }
-        searchPerformed = true;
     }
     catch(Exception e)
     {
@@ -193,8 +216,7 @@ $(document).ready(function(){
     }
   }
   if (searchPerformed) {
-    Log.Info("Search:" + (searchsource != null ? searchsource : "search") + "(" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + "):[[[" + searchterms + "]]]:" + mouseCount);
-  }
+      }
   else
   {
     searchterms = "";
@@ -234,7 +256,7 @@ $(document).ready(function(){
       <% if(searchPerformed){ %> 
         <%=mouseCount %> records match<% if( displayedMice > 0 ) { %>, <%=displayedMice%> shown
           <br>
-         <span class='search-strategy-comment quality-<%=result.getStrategy().getQuality()%>'><%=result.getComment() %></span>
+         
         <%} %>
       <%} %></p>
       <%= results.toString() %>      

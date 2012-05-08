@@ -6,9 +6,6 @@ public class SearchResult {
   private SearchStrategy strategy;
   private ArrayList<Integer> matchingIds;
   
-  public String getComment() {
-    return getStrategy().getComment();
-  }
   public int getTotal() {
     if (getMatchingIds() == null) return -1;
     return getMatchingIds().size();
