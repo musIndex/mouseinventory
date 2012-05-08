@@ -1,4 +1,26 @@
 <%//The entries on this page will be shown to the user until they are older than one month%>
+<script type='text/javascript'>
+$(document).ready(function(){
+  //remove old notices
+  var search_notices = $(".search-notices");
+  search_notices.find(".alert").each(function(index,alert){
+    var $alert = $(alert);
+    var date = Date.parse($alert.data("date"));
+    var name = $alert.data("name");
+    var today = new Date();
+    if (date < new Date(today.getTime()-1000*60*60*24*30)) {
+      $alert.remove();
+    }
+  });
+  
+  //if no notices, or anything is in the hash, remove notices container
+  if (search_notices.children().length == 0 || window.location.hash.length > 0 ) {
+    search_notices.remove();
+  }
+});
+</script>
+
+
 <div class="alert alert-info" data-date='5/1/2012' data-name='search-updates'>
   <b>Improved search page.</b>
   <br> The search page has been redesigned to be easier to use and more responsive.  
