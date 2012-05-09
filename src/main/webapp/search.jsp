@@ -213,7 +213,7 @@ $(document).ready(function(){
             if (displayedMice > 0) {
              results.append("<br><br>"); 
             }
-            if (!result.getStrategy().getComment().startsWith("Exact")) {
+            if (!result.getStrategy().getComment().startsWith("Exact record")) {
              results.append("<div class='search-strategy-header'>" + result.getStrategy().getComment() + ":</div>");
             }
             results.append(HTMLGeneration.getMouseTable(mice, false, true, false));
