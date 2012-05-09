@@ -48,7 +48,7 @@ $(document).ready(function(){
 
     //todo make the search results a js object
     if (hash.searchterms) {
-    	$('.mouselist, .mouselistAlt').highlight(hash.searchterms.split(/[ -\/\\]/), { className: 'highlight-searchterm' });
+    	$('.mouselist, .mouselistAlt').highlight(hash.searchterms.split(/[ -\\]/), { className: 'highlight-searchterm' });
     }
     if (results_div.text().trim() != "0 total matches") {
       hide_help();
