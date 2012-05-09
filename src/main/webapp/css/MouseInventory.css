@@ -744,8 +744,13 @@ td.mouselistcolumn-holders {
   margin-left: 25px;
   font-style: italic;
   font-size: 150%;
-  clear: both;
-  min-height:50px;
+  clear:both;
+  margin-top:5px;
+  margin-bottom:0px;
+}
+
+.search-resultcount-comment {
+  font-size: 9pt;
 }
 
 .search-strategy-comment {
@@ -804,3 +809,19 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
   float:right;
 }
 
+.pagination-container {
+  clear:both;
+  
+}
+.pagination-container > div{
+  float:left;
+  margin-right: 10px;
+}
+.pagination ul {
+  margin-left:0px;
+  padding-left:0px;
+}
+
+.pagination {
+  margin 5px;
+}
