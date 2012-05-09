@@ -458,10 +458,10 @@ public class DBConnect {
     {
       List<SearchStrategy> strategies = new ArrayList<SearchStrategy>();
        //strategies.put("natural","Natural language match");
-      if (searchTerms.indexOf("-") >= 0){
+      if (searchTerms.indexOf("-") > 0 || searchTerms.indexOf("/") > 0){
           strategies.add(new SearchStrategy(0,"like-wildcard","Exact string matches"));
           strategies.add(new SearchStrategy(2,"word","Partial word matches"));
-          strategies.add(new SearchStrategy(2,"word-expanded","Parital word matches"));
+          strategies.add(new SearchStrategy(2,"word-expanded","Parital matches"));
           
           strategies.add(new SearchStrategy(8,"word-chartype","Chartype-split partial word matches"));
           strategies.add(new SearchStrategy(8,"word-chartype-expanded","Expanded chartype-split partial word matches"));
