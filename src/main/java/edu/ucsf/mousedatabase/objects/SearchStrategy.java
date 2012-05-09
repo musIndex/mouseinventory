@@ -12,6 +12,10 @@ public class SearchStrategy {
     this.name = name;
     this.comment = comment;
   }
+  
+  public int getQualityValue(){
+    return this.quality;
+  }
 
   public String getQuality() {
     if (quality < 2)

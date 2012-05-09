@@ -154,7 +154,7 @@ $(document).ready(function(){
     int displayedMice = 0;
     boolean searchPerformed = false;
 
-    
+    String resultSummary = "";
     
 
     if(searchterms != null && !searchterms.isEmpty())
@@ -176,31 +176,39 @@ $(document).ready(function(){
         int miceSeen = 0;
         String resultLog = "Search:[[[" + searchterms + "]]]" + (searchsource != null ? searchsource : "search");
     	for (SearchResult result : searchresults){
-          
+          //TODO simplfy this.  We already just have next/prev buttons, so keep it dirt simple
     	  int resultMouseCount = result.getTotal();
-      	  //if (offset < )
+      	  int resultOffset = offset - miceSeen;
           
           int startIndex = 0;
           int endIndex = resultMouseCount;
-          /* if (offset + limit < resultMouseCount) {
-            endIndex = offset + limit;
+          if (resultOffset + limit < resultMouseCount) {
+            endIndex = resultOffset + limit;
           }
-          if (offset < resultMouseCount){
+          if (resultOffset < resultMouseCount){
            startIndex = offset; 
-          } */
+          } 
           
-          ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex));
-          displayedMice += mice.size();
-          
-          searchPerformed = true;
-          results.append("<br><span class='search-strategy-comment quality-" + result.getStrategy().getQuality()+ "'>");
-          results.append(result.getStrategy().getComment());
-          results.append(" (" + result.getTotal() + " matches total)");
-          results.append("</span><br>");
-          results.append(HTMLGeneration.getMouseTable(mice, false, true, false));
+          miceSeen += result.getTotal();
+          if (result.getTotal() > 0 || displayedMice == 0){
+            ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex));
+            displayedMice += mice.size();
+            
+            searchPerformed = true;
+            String start = "<span class='quality-" + result.getStrategy().getQuality();
+            String summary = (result.getStrategy().getComment());
+            summary += (" (" + result.getTotal() + ")");
+            summary += ("</span><br>");
+            results.append(start + "'>Showing " + summary);
+            resultSummary+=(start + " search-strategy-comment' >" + summary);
+            results.append(HTMLGeneration.getMouseTable(mice, false, true, false));
+          }
           resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + result.getTotal();
-    	}
-    	Log.Info("::" + mouseCount);
+    	  if (displayedMice >= limit) {
+            break;
+    	  }
+        }
+    	Log.Info(resultLog + "::" + mouseCount);
 
     	if (allMatches.size() > 0)
         {
@@ -254,9 +262,8 @@ $(document).ready(function(){
     <div id="searchresults">
       <p class="search-resultcount">
       <% if(searchPerformed){ %> 
-        <%=mouseCount %> records match<% if( displayedMice > 0 ) { %>, <%=displayedMice%> shown
-          <br>
-         
+        <%=mouseCount %> matching records<% if( displayedMice > 0 ) { %>, <%=displayedMice%> shown
+          <br><%=resultSummary %>
         <%} %>
       <%} %></p>
       <%= results.toString() %>      

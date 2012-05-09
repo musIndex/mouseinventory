@@ -458,15 +458,19 @@ public class DBConnect {
       List<SearchStrategy> strategies = new ArrayList<SearchStrategy>();
       //TODO analyze the query, choose a strategy more intelligently  if they included special characters, maybe do an exact lookup?
       //strategies.put("natural","Natural language match");
-      strategies.add(new SearchStrategy(0,"word","Exact match"));
-      if (searchTerms.length() > 1){  //TODO why don't we get single digit record matches??
-        strategies.add(new SearchStrategy(2,"word-expanded","Expanded match"));
-        strategies.add(new SearchStrategy(5,"word-chartype","Partial word match"));
-        strategies.add(new SearchStrategy(8,"word-chartype-expanded","Partial word match"));
-        strategies.add(new SearchStrategy(10,"like-wildcard","No word matches, showing partial matches."));
-      }
+      strategies.add(new SearchStrategy(0,"word","Exact word matches"));
+      //TODO why don't we get single digit record matches??
+        strategies.add(new SearchStrategy(2,"word-expanded","Expanded word matches"));
+        strategies.add(new SearchStrategy(5,"like-wildcard","Partial matches."));
+        strategies.add(new SearchStrategy(8,"word-chartype","Chartype-split partial word matches"));
+        strategies.add(new SearchStrategy(8,"word-chartype-expanded","Expanded chartype-split partial word matches"));
+        
+      
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
+        if (allMouseIds.size() > 10 && strategy.getQualityValue() > 5) {
+          continue;
+        }
         SearchResult result = new SearchResult();
         ArrayList<Integer> mouseIds = doMouseSearchQuery(searchTerms, strategy, status);
         if (!allMouseIds.isEmpty())
