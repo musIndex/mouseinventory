@@ -65,7 +65,7 @@ $(document).ready(function(){
     search_container.show();
     
     //update the handlers for the pagination controls, which are returned by the search
-    $("#limit").change(function(){
+    $("select[name=limit]").change(function(){
       $.bbq.pushState({limit:$(this).val()});
       return false;
     }).chosen();
@@ -110,7 +110,7 @@ $(document).ready(function(){
     if (!hash.pagenum) hash.pagenum = 1;
     
     search_box.val(hash.searchterms);
-    $("#limit").val(hash.limit);
+    $("select[name=limit]").val(hash.limit);
     return hash;
   }
 
@@ -156,7 +156,8 @@ $(document).ready(function(){
     boolean searchPerformed = false;
 
     String resultSummary = "";
-    
+    int exactMatches = 0;
+    int partialMatches = 0;
 
     if(searchterms != null && !searchterms.isEmpty())
     {
@@ -171,7 +172,7 @@ $(document).ready(function(){
         String mouseTable = "";
         if (allMatches.size() > 0)
         {
-    	  String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
+    	  String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
     	  results.append(topPageSelectionLinks);
         }
         int miceSeen = 0;
@@ -192,10 +193,16 @@ $(document).ready(function(){
           
           miceSeen += result.getTotal();
           
+          if (result.getStrategy().getQualityValue() == 0){
+           exactMatches += result.getTotal(); 
+          }
+          else
+          {
+           partialMatches += result.getTotal(); 
+          }
           
-          
-          String summary = result.getTotal() + " " + result.getStrategy().getComment();
-          resultSummary+=("<br><span class='quality-" + result.getStrategy().getQuality() + " search-strategy-comment' >" + summary + "</span>");
+          //String summary = result.getTotal() + " " + result.getStrategy().getComment();
+          //resultSummary+=("<br><span class='quality-" + result.getStrategy().getQuality() + " search-strategy-comment' >" + summary + "</span>");
           if (miceSeen < offset || displayedMice >= limit || resultMouseCount == 0) {
               continue; 
             }
@@ -279,10 +286,10 @@ $(document).ready(function(){
       </div>
     </div> 
     <div id="searchresults">
-      <p class="search-resultcount"><%
+      <div class="search-resultcount"><%
       %><% if(searchPerformed){ %> 
-        <%=mouseCount %> total matches<% if( displayedMice > 0 ) { %><%=resultSummary %><%} %>
-      <%} %></p>
+        <%=mouseCount %> total matches <span class='search-resultcount-comment'>(<%=exactMatches %> exact, <%=partialMatches %> partial)</span>
+      <%} %></div>
       <%= results.toString() %>      
       <% if(searchPerformed && mouseCount == 0){ %>
         <% //TODO show some suggestions if they don't find anything %>
