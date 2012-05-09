@@ -50,7 +50,7 @@ $(document).ready(function(){
     if (hash.searchterms) {
     	$('.mouselist, .mouselistAlt').highlight(hash.searchterms.split(/[ -\/\\]/), { className: 'highlight-searchterm' });
     }
-    if (results_div.text().trim() != "0 records match") {
+    if (results_div.text().trim() != "0 total matches") {
       hide_help();
     } else {
       show_help();
@@ -90,8 +90,7 @@ $(document).ready(function(){
 
   function search(search_query){
     var $this = $(this);
-    if (!search_query.limit) search_query.limit = 25;
-    if (!search_query.pagenum) search_query.pagenum = 1;
+    
     
     if (window.searchQuery != search_query ) {
       window.searchQuery = search_query;
@@ -107,6 +106,8 @@ $(document).ready(function(){
     if ((hash == null || hash.searchterms == undefined) && query != null && query.searchterms != null) {
       hash.searchterms = query.searchterms;
     }
+    if (!hash.limit) hash.limit = 25;
+    if (!hash.pagenum) hash.pagenum = 1;
     
     search_box.val(hash.searchterms);
     $("#limit").val(hash.limit);
@@ -178,35 +179,50 @@ $(document).ready(function(){
     	for (SearchResult result : searchresults){
           //TODO simplfy this.  We already just have next/prev buttons, so keep it dirt simple
     	  int resultMouseCount = result.getTotal();
-      	  int resultOffset = offset - miceSeen;
+      	  //int resultOffset = offset;
           
           int startIndex = 0;
           int endIndex = resultMouseCount;
-          if (resultOffset + limit < resultMouseCount) {
-            endIndex = resultOffset + limit;
+          if (offset + limit - miceSeen < resultMouseCount) {
+            endIndex = offset + limit - miceSeen;
           }
-          if (resultOffset < resultMouseCount){
+          if (offset < resultMouseCount){
            startIndex = offset; 
-          } 
+          }
           
           miceSeen += result.getTotal();
+          
+          
+          
+          String summary = result.getTotal() + " " + result.getStrategy().getComment();
+          resultSummary+=("<br><span class='quality-" + result.getStrategy().getQuality() + " search-strategy-comment' >" + summary + "</span>");
+          if (miceSeen < offset || displayedMice >= limit || resultMouseCount == 0) {
+              continue; 
+            }
+          
+          
           if (result.getTotal() > 0 || displayedMice == 0){
-            ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex));
-            displayedMice += mice.size();
+            ArrayList<MouseRecord> mice = new ArrayList<MouseRecord>();
+            if (endIndex > 0)
+            {
+              mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex));
+            }
             
-            searchPerformed = true;
-            String start = "<span class='quality-" + result.getStrategy().getQuality();
-            String summary = (result.getStrategy().getComment());
-            summary += (" (" + result.getTotal() + ")");
-            summary += ("</span><br>");
-            results.append(start + "'>Showing " + summary);
-            resultSummary+=(start + " search-strategy-comment' >" + summary);
+           
+            
+            if (displayedMice > 0) {
+             results.append("<br><br>"); 
+            }
+            if (!result.getStrategy().getComment().startsWith("Exact")) {
+             results.append("<div class='search-strategy-header'>" + result.getStrategy().getComment() + ":</div>");
+            }
             results.append(HTMLGeneration.getMouseTable(mice, false, true, false));
+            displayedMice += mice.size();
           }
           resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + result.getTotal();
-    	  if (displayedMice >= limit) {
+    	  /* if (displayedMice >= limit) {
             break;
-    	  }
+    	  } */
         }
     	Log.Info(resultLog + "::" + mouseCount);
 
@@ -215,6 +231,7 @@ $(document).ready(function(){
           String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
           results.append(bottomPageSelectionLinks);
         }
+    	searchPerformed = true;
     }
     catch(Exception e)
     {
@@ -251,7 +268,9 @@ $(document).ready(function(){
             <dt>htr</dt>
             <dd>Match words start with htr, such as htr2c, or htr1a</dd>
             <dt>htr2c</dt>
-            <dd>Match the specific gene 'htr2c'</dd>
+            <dd>Find the specific gene 'htr2c'</dd>
+            <dt>1346833</dt>
+            <dd>Look up MGI ID 1346833</dd>
             <dt>#101,#103</dt>
             <dd>Show record numbers 101 and 103</dd>
           </dl>
@@ -260,11 +279,9 @@ $(document).ready(function(){
       </div>
     </div> 
     <div id="searchresults">
-      <p class="search-resultcount">
-      <% if(searchPerformed){ %> 
-        <%=mouseCount %> matching records<% if( displayedMice > 0 ) { %>, <%=displayedMice%> shown
-          <br><%=resultSummary %>
-        <%} %>
+      <p class="search-resultcount"><%
+      %><% if(searchPerformed){ %> 
+        <%=mouseCount %> total matches<% if( displayedMice > 0 ) { %><%=resultSummary %><%} %>
       <%} %></p>
       <%= results.toString() %>      
       <% if(searchPerformed && mouseCount == 0){ %>

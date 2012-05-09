@@ -449,6 +449,7 @@ public class DBConnect {
         strat.setQuality(10);
       }
       strat.setComment(strat.getComment() + badcomment);
+      result.setMatchingIds(mouseIds);
       result.setStrategy(strat);
       resultSets.add(result);
       Log.Info("SearchDebug: loaded record numbers from terms " + searchTerms + " => " + StringUtils.join(mouseIds,","));
@@ -460,15 +461,18 @@ public class DBConnect {
       //strategies.put("natural","Natural language match");
       strategies.add(new SearchStrategy(0,"word","Exact word matches"));
       //TODO why don't we get single digit record matches??
-        strategies.add(new SearchStrategy(2,"word-expanded","Expanded word matches"));
-        strategies.add(new SearchStrategy(5,"like-wildcard","Partial matches."));
+        strategies.add(new SearchStrategy(2,"word-expanded","Parital word matches"));
+        strategies.add(new SearchStrategy(5,"like-wildcard","Partial matches"));
         strategies.add(new SearchStrategy(8,"word-chartype","Chartype-split partial word matches"));
         strategies.add(new SearchStrategy(8,"word-chartype-expanded","Expanded chartype-split partial word matches"));
         
       
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
-        if (allMouseIds.size() > 10 && strategy.getQualityValue() > 5) {
+        if (allMouseIds.size() > 10 && strategy.getQualityValue() > 2) {
+          continue;
+        }
+        if (allMouseIds.size() > 0 && strategy.getQualityValue() > 5) {
           continue;
         }
         SearchResult result = new SearchResult();
