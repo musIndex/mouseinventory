@@ -749,21 +749,31 @@ td.mouselistcolumn-holders {
 }
 
 .search-strategy-comment {
-  font-size: 80%;
+  font-size: 9pt;
   font-style: normal;
+}
+
+.search-strategy-header {
+  font-size: 14pt;
+  border-radius: 10px 10px 0px 0px;
+  padding-left: 10px;
+  padding-bottom: 5px;
+  padding-top:5px;
+  margin-bottom: 0px;
+  background-color: lightCyan;
 }
 
 .quality-good {
   color: #008000;
 }
 .quality-ok {
-  color: #008000;
+  color: yellowgreen;
 }
 .quality-poor {
-  color: #CCCC00;
+  color: darkgoldenrod;
 }
 .quality-bad {
-  color: #990033;
+  color: darkred;
 }
 
 
