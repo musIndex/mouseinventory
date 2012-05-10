@@ -79,10 +79,10 @@ $(document).ready(function(){
   
   function highlight_searchterms(searchterms){
     var words = searchterms.split(/[ \\\/\(\)-]/);
-    $('.searchresults-mice.word, .searchresults-mice.word-expanded, .searchresults-mice.natural').highlight(words, { className: 'highlight-searchterm' });
-    $('.searchresults-mice.word-chartype, .searchresults-mice.word-chartype-expanded').highlight(split_words_by_chartype(words), { className: 'highlight-searchterm' });
-    $('.searchresults-mice.like-wildcard').highlight(searchterms, { className: 'highlight-searchterm' });
-    $('.searchresults-mice.record-id').highlight(searchterms.split(/[ ,]/), { className: 'highlight-searchterm' });
+    $('.searchresults-mice.word, .searchresults-mice.word-expanded, .searchresults-mice.natural').find(".mouselist, .mouselistAlt").highlight(words, { className: 'highlight-searchterm' });
+    $('.searchresults-mice.word-chartype, .searchresults-mice.word-chartype-expanded').find(".mouselist, .mouselistAlt").highlight(split_words_by_chartype(words), { className: 'highlight-searchterm' });
+    $('.searchresults-mice.like-wildcard').find(".mouselist, .mouselistAlt").highlight(searchterms, { className: 'highlight-searchterm' });
+    $('.searchresults-mice.record-id').find(".mouselist, .mouselistAlt").highlight(searchterms.split(/[ ,]/), { className: 'highlight-searchterm' });
     
     //if the search term is a holder name that is collapsed, show it
     $("span.highlight-searchterm").parent().parent().each(function(){
