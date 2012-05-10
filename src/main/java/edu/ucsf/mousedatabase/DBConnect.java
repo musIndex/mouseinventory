@@ -457,7 +457,7 @@ public class DBConnect {
     else
     {
       List<SearchStrategy> strategies = new ArrayList<SearchStrategy>();
-       //strategies.put("natural","Natural language match");
+      
       if (searchTerms.indexOf(" ") > 0 || 
           searchTerms.indexOf("-") > 0 || 
           searchTerms.indexOf("/") > 0 || 
@@ -465,19 +465,13 @@ public class DBConnect {
           searchTerms.indexOf("(") > 0) {
           strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches"));
       }
-          strategies.add(new SearchStrategy(0,"word","Exact word matches"));
-          strategies.add(new SearchStrategy(2,"word-expanded","Partial word matches"));
-          strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
-          strategies.add(new SearchStrategy(8,"word-chartype-expanded","Partial expanded sub-word matches"));
-      
-//      else{
-//        strategies.add(new SearchStrategy(0,"word","Exact word matches"));
-//        //TODO why don't we get single digit record matches??
-//        strategies.add(new SearchStrategy(2,"word-expanded","Partial word matches"));
-//        strategies.add(new SearchStrategy(5,"like-wildcard","Partial matches"));
-//        strategies.add(new SearchStrategy(8,"word-chartype","Chartype-split partial word matches"));
-//        strategies.add(new SearchStrategy(8,"word-chartype-expanded","Expanded chartype-split partial word matches"));
-//      } 
+      strategies.add(new SearchStrategy(0,"word","Exact word matches"));
+      strategies.add(new SearchStrategy(2,"word-expanded","Partial word matches"));
+      if (searchTerms.indexOf(" ") > 0){
+        strategies.add(new SearchStrategy(5,"natural","Partial matches"));
+      }
+      strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
+      strategies.add(new SearchStrategy(8,"word-chartype-expanded","Partial expanded sub-word matches"));
       
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
@@ -532,7 +526,7 @@ public class DBConnect {
     
     if (strategy.getName().equals("natural"))
     {
-      query += "match(searchtext) against('" + searchTerms + "')";
+      query += "match(searchtext) against('" + searchTerms + "') > 5";
     }
     else if (strategy.getName().equals("word"))
     {
