@@ -515,7 +515,7 @@ public class DBConnect {
   
   private static ArrayList<Integer> doMouseSearchQuery(String searchTerms, SearchStrategy strategy, String status){
     
-    String query = "select mouse_id from flattened_mouse_search, mouse";
+    String query = "select mouse_id from flattened_mouse_search, mouse WHERE ";
     String statusTerm;
     if(status.equalsIgnoreCase("all"))
     {
@@ -532,33 +532,33 @@ public class DBConnect {
     
     if (strategy.getName().equals("natural"))
     {
-      query += " WHERE match(searchtext) against('" + searchTerms + "')";
+      query += "match(searchtext) against('" + searchTerms + "')";
     }
     else if (strategy.getName().equals("word"))
     {
-      query += " WHERE match(searchtext) against(" + tokenizeBoolean(searchTerms, false, false) + ")";
+      query += "match(searchtext) against(" + tokenizeBoolean(searchTerms, false, false) + ")";
     }
     else if (strategy.getName().equals("word-expanded"))
     {
-      query += " WHERE match(searchtext) against(" + tokenizeBoolean(searchTerms, true, false) + ")";
+      query += "match(searchtext) against(" + tokenizeBoolean(searchTerms, true, false) + ")";
     }
     else if (strategy.getName().equals("word-chartype"))
     {
-      query += " WHERE match(searchtext) against(" + tokenizeBoolean(searchTerms, false, true) + ")";
+      query += "match(searchtext) against(" + tokenizeBoolean(searchTerms, false, true) + ")";
     }
     else if (strategy.getName().equals("word-chartype-expanded"))
     {
-      query += " WHERE match(searchtext) against(" + tokenizeBoolean(searchTerms, true, true) + ")";
+      query += "match(searchtext) against(" + tokenizeBoolean(searchTerms, true, true) + ")";
     }
     else if (strategy.getName().equals("like-wildcard"))
     {
-      query += " WHERE searchtext LIKE ('%" + addMySQLEscapes(searchTerms) + "%')";
+      query += "searchtext LIKE ('%" + addMySQLEscapes(searchTerms) + "%')";
     }
     else
     {
       //invalid search strategy, default to natural
       Log.Error("Invalid search strategy: " + strategy + ", defaulting to natural language search");
-      query += " WHERE match(searchtext) against(" + searchTerms + ")";
+      query += "match(searchtext) against(" + searchTerms + ")";
     }
     query += " and mouse_id=mouse.id" + statusTerm;
     Log.Info("SearchDebug:[" + strategy.getName() + "] " + query);
