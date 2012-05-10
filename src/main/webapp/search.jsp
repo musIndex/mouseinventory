@@ -48,24 +48,7 @@ $(document).ready(function(){
 
     //todo make the search results a js object
     if (hash.searchterms) {
-      var words = hash.searchterms.split(/[ \\\/\(\)-]/);
-      $('.searchresults-mice.word, .searchresults-mice.word-expanded, .searchresults-mice.natural').highlight(words, { className: 'highlight-searchterm' });
-
-      //TODO split words by char type
-      $('.searchresults-mice.word-chartype, .searchresults-mice.word-chartype-expanded').highlight(words, { className: 'highlight-searchterm' });
-
-      $('.searchresults-mice.like-wildcard').highlight(hash.searchterms, { className: 'highlight-searchterm' });
-      
-      $('.searchresults-mice.record-id').highlight(hash.searchterms.split(/[ ,]/), { className: 'highlight-searchterm' });
-      
-      $("span.highlight-searchterm").parent().parent().each(function(){
-        var $element = $(this);
-        if($element.is("dt")) {
-          if($element.parent().hasClass("mouselist-holderlist")){
-            $element.show();
-          }
-        }
-      });
+      highlight_searchterms(hash.searchterms);
     }
     if (results_div.text().trim() != "0 total matches") {
       hide_help();
@@ -94,7 +77,43 @@ $(document).ready(function(){
     });
   }
   
+  function highlight_searchterms(searchterms){
+    var words = searchterms.split(/[ \\\/\(\)-]/);
+    $('.searchresults-mice.word, .searchresults-mice.word-expanded, .searchresults-mice.natural').highlight(words, { className: 'highlight-searchterm' });
+    $('.searchresults-mice.word-chartype, .searchresults-mice.word-chartype-expanded').highlight(split_words_by_chartype(words), { className: 'highlight-searchterm' });
+    $('.searchresults-mice.like-wildcard').highlight(searchterms, { className: 'highlight-searchterm' });
+    $('.searchresults-mice.record-id').highlight(searchterms.split(/[ ,]/), { className: 'highlight-searchterm' });
+    
+    //if the search term is a holder name that is collapsed, show it
+    $("span.highlight-searchterm").parent().parent().each(function(){
+      var $element = $(this);
+      if($element.is("dt")) {
+        if($element.parent().hasClass("mouselist-holderlist")){
+          $element.show();
+        }
+      }
+    });
+  }
   
+  //if given words ['abc123', 'def', '456', '2ab32'], 
+  // return ['abc','123','def','456','2','ab','32']
+  function split_words_by_chartype(words){
+    var split_words = [];
+    for(var word_index in words){
+      var word = words[word_index];
+      var pos = 0;
+      for(var i = 1; i < word.length; i=i+1){
+        if (word[i].match(/\d/) && word[i-1].match(/\w/) ||  word[i].match(/\w/) && word[i-1].match(/\d/)) {
+          split_words.push(word.substring(pos,i));
+          pos = i;
+        }
+      }
+      if (pos < word.length) {
+        split_words.push(word.substring(pos,word.length));
+      }
+    }
+    return split_words;
+  }
   
   function search_button_clicked(){
     $.bbq.pushState({searchterms: search_box.val(), pagenum: 1});
