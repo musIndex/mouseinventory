@@ -467,8 +467,8 @@ public class DBConnect {
       }
           strategies.add(new SearchStrategy(0,"word","Exact word matches"));
           strategies.add(new SearchStrategy(2,"word-expanded","Partial word matches"));
-          strategies.add(new SearchStrategy(8,"word-chartype","Chartype-split partial word matches"));
-          strategies.add(new SearchStrategy(8,"word-chartype-expanded","Expanded chartype-split partial word matches"));
+          strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
+          strategies.add(new SearchStrategy(8,"word-chartype-expanded","Partial expanded sub-word matches"));
       
 //      else{
 //        strategies.add(new SearchStrategy(0,"word","Exact word matches"));
