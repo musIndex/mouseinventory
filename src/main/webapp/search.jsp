@@ -48,7 +48,15 @@ $(document).ready(function(){
 
     //todo make the search results a js object
     if (hash.searchterms) {
-    	$('.mouselist, .mouselistAlt').highlight(hash.searchterms.split(/[ -\\]/), { className: 'highlight-searchterm' });
+      var words = hash.searchterms.split(/[ \\\/\(\)-]/);
+      $('.searchresults-mice.word, .searchresults-mice.word-expanded, .searchresults-mice.natural').highlight(words, { className: 'highlight-searchterm' });
+
+      //TODO split words by char type
+      $('.searchresults-mice.word-chartype, .searchresults-mice.word-chartype-expanded').highlight(words, { className: 'highlight-searchterm' });
+
+      $('.searchresults-mice.like-wildcard').highlight(hash.searchterms, { className: 'highlight-searchterm' });
+      
+      $('.searchresults-mice.record-id').highlight(hash.searchterms.split(/[ ,]/), { className: 'highlight-searchterm' });
     }
     if (results_div.text().trim() != "0 total matches") {
       hide_help();
@@ -204,8 +212,8 @@ $(document).ready(function(){
           //String summary = result.getTotal() + " " + result.getStrategy().getComment();
           //resultSummary+=("<br><span class='quality-" + result.getStrategy().getQuality() + " search-strategy-comment' >" + summary + "</span>");
           if (miceSeen < offset || displayedMice >= limit || resultMouseCount == 0) {
-              continue; 
-            }
+            continue; 
+          }
           
           
           if (result.getTotal() > 0 || displayedMice == 0){
@@ -214,16 +222,16 @@ $(document).ready(function(){
             {
               mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex));
             }
-            
-           
-            
+
             if (displayedMice > 0) {
              results.append("<br><br>"); 
             }
             if (!result.getStrategy().getComment().startsWith("Exact record")) {
              results.append("<div class='search-strategy-header'>" + result.getStrategy().getComment() + ":</div>");
             }
+            results.append("<div class='searchresults-mice " + result.getStrategy().getName() + "'>");
             results.append(HTMLGeneration.getMouseTable(mice, false, true, false));
+            results.append("</div>");
             displayedMice += mice.size();
           }
           resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + result.getTotal();

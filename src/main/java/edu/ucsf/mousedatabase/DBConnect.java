@@ -81,7 +81,7 @@ public class DBConnect {
 
   private static final String geneQueryHeader = "SELECT id,fullname,symbol,mgi \r\n FROM gene\r\n ";
 
-  private static final String mouseIDSearchTermsRegex = "^(#[0-9]+,?)+$";
+  private static final String mouseIDSearchTermsRegex = "^(#[0-9]+,?\\s*)+$";
 
 
 
@@ -415,7 +415,7 @@ public class DBConnect {
   
   public static ArrayList<SearchResult> doMouseSearch(String searchTerms, String status) {
     ArrayList<SearchResult> resultSets = new ArrayList<SearchResult>();
-    
+    searchTerms = searchTerms.trim();
     
     if(searchTerms.matches(mouseIDSearchTermsRegex))
     {
@@ -458,22 +458,26 @@ public class DBConnect {
     {
       List<SearchStrategy> strategies = new ArrayList<SearchStrategy>();
        //strategies.put("natural","Natural language match");
-      if (searchTerms.indexOf("-") > 0 || searchTerms.indexOf("/") > 0){
-          strategies.add(new SearchStrategy(0,"like-wildcard","Exact string matches"));
-          strategies.add(new SearchStrategy(2,"word","Partial word matches"));
-          strategies.add(new SearchStrategy(2,"word-expanded","Parital matches"));
-          
+      if (searchTerms.indexOf(" ") > 0 || 
+          searchTerms.indexOf("-") > 0 || 
+          searchTerms.indexOf("/") > 0 || 
+          searchTerms.indexOf(")") > 0 || 
+          searchTerms.indexOf("(") > 0) {
+          strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches"));
+      }
+          strategies.add(new SearchStrategy(0,"word","Exact word matches"));
+          strategies.add(new SearchStrategy(2,"word-expanded","Partial word matches"));
           strategies.add(new SearchStrategy(8,"word-chartype","Chartype-split partial word matches"));
           strategies.add(new SearchStrategy(8,"word-chartype-expanded","Expanded chartype-split partial word matches"));
-      }
-      else{
-        strategies.add(new SearchStrategy(0,"word","Exact word matches"));
-        //TODO why don't we get single digit record matches??
-        strategies.add(new SearchStrategy(2,"word-expanded","Parital word matches"));
-        strategies.add(new SearchStrategy(5,"like-wildcard","Partial matches"));
-        strategies.add(new SearchStrategy(8,"word-chartype","Chartype-split partial word matches"));
-        strategies.add(new SearchStrategy(8,"word-chartype-expanded","Expanded chartype-split partial word matches"));
-      } 
+      
+//      else{
+//        strategies.add(new SearchStrategy(0,"word","Exact word matches"));
+//        //TODO why don't we get single digit record matches??
+//        strategies.add(new SearchStrategy(2,"word-expanded","Partial word matches"));
+//        strategies.add(new SearchStrategy(5,"like-wildcard","Partial matches"));
+//        strategies.add(new SearchStrategy(8,"word-chartype","Chartype-split partial word matches"));
+//        strategies.add(new SearchStrategy(8,"word-chartype-expanded","Expanded chartype-split partial word matches"));
+//      } 
       
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
@@ -525,6 +529,7 @@ public class DBConnect {
     searchTerms = StringUtils.remove(searchTerms, '\'');
     searchTerms = StringUtils.replace(searchTerms, "\\", " ");
     
+    
     if (strategy.getName().equals("natural"))
     {
       query += " WHERE match(searchtext) against('" + searchTerms + "')";
@@ -569,7 +574,7 @@ public class DBConnect {
     }
     else
     {
-      tokens = StringUtils.split(searchTerms," -");
+      tokens = StringUtils.split(searchTerms," -\\()/");
     }
     for(String token : tokens) {
       String term = "+" + token;
