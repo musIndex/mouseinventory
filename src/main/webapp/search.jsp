@@ -79,6 +79,7 @@ $(document).ready(function(){
   
   function highlight_searchterms(searchterms){
     var words = searchterms.split(/[ \\\/\(\)-]/);
+    words = remove_small_words(words);
     $('.searchresults-mice.word, .searchresults-mice.word-expanded, .searchresults-mice.natural').find(".mouselist, .mouselistAlt").highlight(words, { className: 'highlight-searchterm' });
     $('.searchresults-mice.word-chartype, .searchresults-mice.word-chartype-expanded').find(".mouselist, .mouselistAlt").highlight(split_words_by_chartype(words), { className: 'highlight-searchterm' });
     $('.searchresults-mice.like-wildcard').find(".mouselist, .mouselistAlt").highlight(searchterms, { className: 'highlight-searchterm' });
@@ -112,7 +113,17 @@ $(document).ready(function(){
         split_words.push(word.substring(pos,word.length));
       }
     }
-    return split_words;
+    return remove_small_words(split_words);
+  }
+  
+  function remove_small_words(words){
+    var temp = [];
+    for (var i=0; i< words.length; i=i+1) {
+      if (words[i].length > 1) {
+        temp.push(words[i]);
+      }
+    }
+    return temp;
   }
   
   function search_button_clicked(){

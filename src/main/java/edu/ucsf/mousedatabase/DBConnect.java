@@ -458,26 +458,24 @@ public class DBConnect {
     {
       List<SearchStrategy> strategies = new ArrayList<SearchStrategy>();
       
-      if (searchTerms.indexOf(" ") > 0 || 
-          searchTerms.indexOf("-") > 0 || 
-          searchTerms.indexOf("/") > 0 || 
-          searchTerms.indexOf(")") > 0 || 
-          searchTerms.indexOf("(") > 0) {
+      boolean wildcardAdded = false;
+      if (searchTerms.matches(".*[ -/\\)\\(].*")) {
           strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches"));
+          wildcardAdded = true;
       }
       strategies.add(new SearchStrategy(0,"word","Exact word matches"));
       strategies.add(new SearchStrategy(2,"word-expanded","Partial word matches"));
-      if (searchTerms.indexOf(" ") > 0){
+      if (searchTerms.indexOf(" ") > 0) {
         strategies.add(new SearchStrategy(5,"natural","Partial matches"));
+      } else if (!wildcardAdded && searchTerms.matches(".*\\w.*") && searchTerms.matches(".*\\d.*")){
+        strategies.add(new SearchStrategy(5,"like-wildcard","Partial phrase matches"));
+        wildcardAdded = true;
       }
       strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
       strategies.add(new SearchStrategy(8,"word-chartype-expanded","Partial expanded sub-word matches"));
       
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
-        if (allMouseIds.size() > 10 && strategy.getQualityValue() > 2) {
-          continue;
-        }
         if (allMouseIds.size() > 0 && strategy.getQualityValue() > 5) {
           continue;
         }
