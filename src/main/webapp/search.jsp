@@ -57,6 +57,15 @@ $(document).ready(function(){
       $('.searchresults-mice.like-wildcard').highlight(hash.searchterms, { className: 'highlight-searchterm' });
       
       $('.searchresults-mice.record-id').highlight(hash.searchterms.split(/[ ,]/), { className: 'highlight-searchterm' });
+      
+      $("span.highlight-searchterm").parent().parent().each(function(){
+        var $element = $(this);
+        if($element.is("dt")) {
+          if($element.parent().hasClass("mouselist-holderlist")){
+            $element.show();
+          }
+        }
+      });
     }
     if (results_div.text().trim() != "0 total matches") {
       hide_help();
@@ -234,7 +243,7 @@ $(document).ready(function(){
             results.append("</div>");
             displayedMice += mice.size();
           }
-          resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + result.getTotal();
+          resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + "=" + result.getTotal();
     	  /* if (displayedMice >= limit) {
             break;
     	  } */

@@ -1712,19 +1712,15 @@ public class HTMLGeneration {
       if (nextRecord.getHolders() != null) {
         boolean overMax = false;
         for (MouseHolder holder : nextRecord.getHolders()) {
-
           if (holder.isCovert() && !edit) {
             continue;
           }
-
           if (holder.getFirstname() == null
               && holder.getLastname() == null) {
             continue;
           }
-
           if (holderCount == maxHolders && !showAllHolders) {
             overMax = true;
-            holderBuf.append("<dt><a class=\"mouselist-holderlist-showall btn btn-mini\" style='text-decoration:none'  href='#'>show all</a></dt>");
           }
 
           String cryoLiveStatus = "";
@@ -1768,6 +1764,9 @@ public class HTMLGeneration {
               + "</dt>");
 
           holderCount++;
+        }
+        if (overMax) {
+          holderBuf.append("<dt><a class=\"mouselist-holderlist-showall btn btn-mini\" style='text-decoration:none'  href='#'>show all</a></dt>");
         }
       }
       holderBuf.append("</dl>");
