@@ -55,16 +55,27 @@ ul.navLinkUL {
   text-decoration: none;
 }
 
-.titleSubText {
-  color: #FFFFFF;
+.titleSubText a {
+  color: black;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   line-height: 16px;
+  text-decoration: none;
+  font-weight:bold;
+  background-color: lavender;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  padding: 1px 7px;
 }
-
+.titleSubText a:hover {
+  background-color: grey;
+  color: white;
+}
+ 
 #quickSearchContainer {
   float: right;
-  margin-top: 4px;
+  margin-top: 6px;
   margin-right: 4px;
 }
 
@@ -699,6 +710,7 @@ td.mouselistcolumn-holders {
 
 .search-box-small {
   text-align: left;
+  margin-top: 3px;
 }
 
 .search-box-small img {
@@ -707,9 +719,10 @@ td.mouselistcolumn-holders {
 }
 
 .search-box-small .search-box-inner {
-  float: left;
-  margin-left: 10px;
-  margin-top: 5px;
+  width:510px;
+}
+.search-box-small .search-box-inner input {
+  margin-bottom:5px;
 }
 
 .search-box input[type=text] {
@@ -735,18 +748,22 @@ td.mouselistcolumn-holders {
   margin: auto;
 }
 
-.search-box .search-box-small .search-instructions {
-  margin: 0px;
+.search-box-small .search-instructions {
+  width: 500px;
+  text-align: left;
+  margin-left: 104px;
+}
+
+.search-box-small .search-instructions-show {
+  float:right;
 }
 
 .search-resultcount {
   color: gray;
-  margin-left: 25px;
+  margin-left: 5px;
   font-style: italic;
-  font-size: 150%;
-  clear:both;
-  margin-top:5px;
-  margin-bottom:0px;
+  font-size: 130%;
+  float:left;
 }
 
 .search-resultcount-comment {
@@ -759,12 +776,12 @@ td.mouselistcolumn-holders {
 }
 
 .search-strategy-header {
-  font-size: 14pt;
+  font-size: 12pt;
   border-radius: 10px 10px 0px 0px;
+  -moz-border-radius: 10px 10px 0px 0px;
+  -webkit-border-radius: 10px 10px 0px 0px;
   padding-left: 10px;
-  padding-bottom: 5px;
-  padding-top:5px;
-  margin:0px 2px;
+  margin: 10px 2px 0px 2px;
   background-color: gainsboro;
 }
 
@@ -780,9 +797,6 @@ td.mouselistcolumn-holders {
 .quality-bad {
   color: darkred;
 }
-
-
-
 
 div.centered {
   text-align: center;
@@ -806,22 +820,27 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
 
 .search-notices {
   width:320px;
-  float:right;
+  float:left;
+}
+
+.search-box-notices-visible {
+  float:left;
+  margin-left: 50px;
+}
+
+.pagination-container a {
+  text-decoration: none;
 }
 
 .pagination-container {
   clear:both;
-  
+  padding:5px;
 }
 .pagination-container > div{
   float:left;
   margin-right: 10px;
 }
-.pagination ul {
-  margin-left:0px;
-  padding-left:0px;
-}
 
-.pagination {
-  margin 5px;
+a.btn {
+  text-decoration:none;
 }

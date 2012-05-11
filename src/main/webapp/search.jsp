@@ -5,17 +5,12 @@
 <%@page import="edu.ucsf.mousedatabase.objects.*"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLUtilities.*"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
-<%// boolean isXhr = request.getParameter("xhr") != null; %>
-<%// if(!isXhr){ %>
-  <%=getPageHeader(null,false,false, null) %>
-  <%=getNavBar("search.jsp", false) %>
-<%// } %> 
-
+<%=getPageHeader(null,false,false, null) %>
+<%=getNavBar("search.jsp", false) %>
 <script type="text/javascript" src="<%=scriptRoot%>jquery.highlight.js" ></script>
 <%@include file="mouselistcommon.jspf" %>
+
 <script type="text/javascript">
-
-
 $(document).ready(function(){
   var search_form = $("#searchForm");
   var instr_link = $("#show_search_instructions");
@@ -25,7 +20,7 @@ $(document).ready(function(){
   var siteRoot = "<%=siteRoot %>";
   var search_box = $('input[name=searchterms]');
   var search_container = $(".search-box");
-  
+  $(".search-notices").find("h4").append("&nbsp;&nbsp;(<a href='about.jsp'>read more about the database</a>)");
   display();
   instr_link.toggle(show_help,hide_help);
   search_button.click(search_button_clicked);
@@ -33,12 +28,12 @@ $(document).ready(function(){
   $(window).trigger("hashchange");
 
   function hide_help(){
-    instr.slideUp();
+    instr.hide();
     instr_link.text("how do I search?")
     search_box.focus();
   }
   function show_help(){
-    instr.slideDown();
+    instr.show();
     instr_link.text("hide search help");
     search_box.focus();
   }
@@ -50,12 +45,8 @@ $(document).ready(function(){
     if (hash.searchterms) {
       highlight_searchterms(hash.searchterms);
     }
-    if (results_div.text().trim() != "0 total matches") {
-      hide_help();
-    } else {
-      show_help();
-    }
-    //todo delegate this to pure css
+    hide_help(); 
+    
     if (hash.searchterms != null && hash.searchterms != "") {
       search_container.addClass("search-box-small");  
     }
@@ -66,11 +57,11 @@ $(document).ready(function(){
     
     //update the handlers for the pagination controls, which are returned by the search
     $("select[name=limit]").change(function(){
-      $.bbq.pushState({limit:$(this).val()});
+      $.bbq.pushState({limit:$(this).val(), pagenum:1});
       return false;
     }).chosen();
-    $(".pagination a").click(function(){
-      if (!($(this).parent().hasClass("disabled"))){
+    $(".pagination-container a").click(function(){
+      if (!($(this).hasClass("disabled"))){
       	$.bbq.pushState({pagenum:$(this).data("pagenum")});
       }
       return false;
@@ -132,6 +123,9 @@ $(document).ready(function(){
   }
   
   function hash_changed(){
+    if (clear_notices()) {
+      search_container.removeClass("search-box-notices-visible");
+    }
     search(extract_search_params());
   }
 
@@ -141,7 +135,7 @@ $(document).ready(function(){
     
     if (window.searchQuery != search_query ) {
       window.searchQuery = search_query;
-      results_div.load(siteRoot + 'search.jsp?' + $.param(window.searchQuery) + ' #searchresults', display);
+      $("#searchresults-container").load(siteRoot + 'search.jsp?' + $.param(window.searchQuery) + ' #searchresults', display);
   	}
     return false;
   } 
@@ -227,33 +221,29 @@ $(document).ready(function(){
     	for (SearchResult result : searchresults){
           //TODO simplfy this.  We already just have next/prev buttons, so keep it dirt simple
     	  int resultMouseCount = result.getTotal();
-      	  //int resultOffset = offset;
-          
+
           int startIndex = 0;
           int endIndex = resultMouseCount;
           if (offset + limit - miceSeen < resultMouseCount) {
             endIndex = offset + limit - miceSeen;
           }
           if (offset < resultMouseCount){
-           startIndex = offset; 
+           startIndex = offset - (pagenum > 1 ? miceSeen : 0); 
           }
           
           miceSeen += result.getTotal();
           
           if (result.getStrategy().getQualityValue() == 0){
-           exactMatches += result.getTotal(); 
+            exactMatches += result.getTotal(); 
           }
           else
           {
-           partialMatches += result.getTotal(); 
+            partialMatches += result.getTotal(); 
           }
-          
-          //String summary = result.getTotal() + " " + result.getStrategy().getComment();
-          //resultSummary+=("<br><span class='quality-" + result.getStrategy().getQuality() + " search-strategy-comment' >" + summary + "</span>");
+
           if (miceSeen < offset || displayedMice >= limit || resultMouseCount == 0) {
             continue; 
           }
-          
           
           if (result.getTotal() > 0 || displayedMice == 0){
             ArrayList<MouseRecord> mice = new ArrayList<MouseRecord>();
@@ -274,12 +264,19 @@ $(document).ready(function(){
             displayedMice += mice.size();
           }
           resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + "=" + result.getTotal();
-    	  /* if (displayedMice >= limit) {
-            break;
-    	  } */
+          /* System.out.println("Debug: record Ids for " + result.getStrategy().getName() + " (" + result.getTotal() + ")");
+          int printed = 0;
+          for(Integer mouseId : result.getMatchingIds()) {
+              System.out.print(StringUtils.leftPad(Integer.toString(mouseId), 4) + " ");
+              printed++;
+              if (printed % limit == 0){
+               System.out.println(); 
+              }
+          }
+          System.out.println(); */
         }
     	Log.Info(resultLog + "::" + mouseCount);
-
+        
     	if (allMatches.size() > 0)
         {
           String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
@@ -295,7 +292,7 @@ $(document).ready(function(){
     }
   }
   if (searchPerformed) {
-      }
+  }
   else
   {
     searchterms = "";
@@ -303,17 +300,18 @@ $(document).ready(function(){
 %>
   
 <div class="pagecontent">
-  <% if (request.getParameter("welcome") != null) {%>
+ 
   <div class="search-notices">
     <%@ include file="notices.jspf" %>
   </div>
-  <% } %>
+
   <form id="searchForm" action="search.jsp" class="form-search" method="get">
-    <div class="search-box search-box<%= searchPerformed ?  "-small" : "" %> clearfix" style="display:none">
+    <div class="search-box <%= searchPerformed ?  "search-box-small" : "" %> search-box-notices-visible" style="display:none">
       <img src="<%=imageRoot %>mouse-img-istock.jpg"/>
       <div class="search-box-inner">
         <input type="text" class="input-xlarge search-query" name="searchterms" value="<%=searchterms%>">
-        <input id="search_button" class="btn" type="submit" value="Mouse Search">
+        <input id="search_button" class="btn btn-primary" type="submit" value="Mouse Search">
+        <div class="search-instructions-show"><a href="#" id="show_search_instructions">how do I search?</a></div>
         <div class="search-instructions">
           <b>Search examples:</b>
           <dl>
@@ -329,18 +327,20 @@ $(document).ready(function(){
             <dd>Show record numbers 101 and 103</dd>
           </dl>
         </div>
-        <p><a href="#" id="show_search_instructions">how do I search?</a></p>
       </div>
-    </div> 
-    <div id="searchresults">
-      <div class="search-resultcount"><%
-      %><% if(searchPerformed){ %> 
-        <%=mouseCount %> total matches <span class='search-resultcount-comment'>(<%=exactMatches %> exact, <%=partialMatches %> partial)</span>
-      <%} %></div>
-      <%= results.toString() %>      
-      <% if(searchPerformed && mouseCount == 0){ %>
-        <% //TODO show some suggestions if they don't find anything %>
-      <% } %>
+    </div>
+    <div id="searchresults-container">
+      <div id="searchresults">
+        <div class="search-resultcount">
+          <% if(searchPerformed && mouseCount > 0){ %> 
+            <span class='<%=exactMatches > 0 ? "quality-good" : "quality-bad" %>'>
+            <%=exactMatches > 0 ? exactMatches : "No" %> exact matches</span>, <%=partialMatches %> partial
+          <%} else if(searchPerformed && mouseCount ==0){ %>
+            No records match your query
+          <%} %>
+        </div>
+        <%= results.toString() %>      
+      </div>
     </div>
   </form>
 </div>

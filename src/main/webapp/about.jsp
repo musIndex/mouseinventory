@@ -13,33 +13,16 @@ $(document).ready(function(){
 <div class="pagecontent">
 <div class="textwrapper">
   <div class="whatsnew">
-    <div class="borderbox">
-    <h3>Welcome to the <%=HTMLGeneration.SiteName %>!</h3>
-    <div style="position: relative;top: 43px;">
-      <img src="img/new.png">
+    <%@include file="notices.jspf" %>
+    <div class='alert alert-success'>
+    <b>Site Feedback:</b>
+    <br>
+    We'd like to hear from you!  Please use the 'Submit Feedback' link at the top of the page
+    if you would like to report an issue or have any other comments regarding the database.
     </div>
-    <dl>
-      <dt><b>Recent changes:</b></dt>
-      <dd><b>It is now possible to download a PDF showing the records for all the
-      mice listed for an individual holder.</b><br>
-       To do this, go to the "Holder List," find the name of the holder,
-       and click on the number on the extreme right ("Mice Held"). The page
-       that comes up, showing the list of all the mice held, has a button that
-       can be clicked to download the list.</dd>
-      <dd><b>It is now easier to submit a new mouse to the database.</b>
-      <br>The mouse submission form has been updated.  When submitting a published mutant
-      allele or transgene, some data (such as the gene and pubmed IDs, as well as a description)
-      is automatically filled in once the MGI ID for the mouse is entered.
-      </dd>
-      <dt><b>Site Feedback:</b></dt>
-      <dd>We'd like to hear from you!  Please use the 'Submit Feedback' link at the top of the page
-      if you would like to report an issue or have any other comments regarding the database.
-      <br>
-      <br>
-      </dd>
-
-      <dd><b>If you contact a holder and find that s/he is no longer keeping a particular mouse, please inform admin.</b></dd>
-    </dl>
+    <div class='alert alert-warning'>
+    <b>Database accuracy</b><br>
+    If you contact a holder and find that s/he is no longer keeping a particular mouse, please inform admin.
     </div>
   </div>
 <div class="about">
