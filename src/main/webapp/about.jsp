@@ -1,7 +1,7 @@
 <%@page contentType="text/html;charset=UTF-8" language="java"%>
 <%@page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
 <%=HTMLGeneration.getPageHeader(null, false,false,"onload=\"setFocus('quickSearchForm', 'searchterms')\"") %>
-<%=HTMLGeneration.getNavBar(null, false) %>
+<%=HTMLGeneration.getNavBar("about.jsp", false) %>
 
 <script type="text/javascript">
 $(document).ready(function(){

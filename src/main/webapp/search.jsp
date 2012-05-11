@@ -217,8 +217,9 @@ $(document).ready(function(){
     	  results.append(topPageSelectionLinks);
         }
         int miceSeen = 0;
-        String resultLog = "Search:[[[" + searchterms + "]]]" + (searchsource != null ? searchsource : "search");
+        String resultLog = "Search:[[" + searchterms + "]]:source=" + (searchsource != null ? searchsource : "search");
     	for (SearchResult result : searchresults){
+    	  resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + "=" + result.getTotal();
           //TODO simplfy this.  We already just have next/prev buttons, so keep it dirt simple
     	  int resultMouseCount = result.getTotal();
 
@@ -263,7 +264,7 @@ $(document).ready(function(){
             results.append("</div>");
             displayedMice += mice.size();
           }
-          resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + "=" + result.getTotal();
+          
           /* System.out.println("Debug: record Ids for " + result.getStrategy().getName() + " (" + result.getTotal() + ")");
           int printed = 0;
           for(Integer mouseId : result.getMatchingIds()) {
@@ -275,8 +276,9 @@ $(document).ready(function(){
           }
           System.out.println(); */
         }
-    	Log.Info(resultLog + "::" + mouseCount);
-        
+        if (pagenum == 1) {
+    	 Log.Info(resultLog + ":total=" + mouseCount);
+        }
     	if (allMatches.size() > 0)
         {
           String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
