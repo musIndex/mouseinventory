@@ -2803,34 +2803,23 @@ public class HTMLGeneration {
     }
     buf.append("<div class='pagination-container clearfix'>");
     
-    buf.append("<div class='pagination'>\r\n<ul>\r\n");
+    buf.append("<div class='btn-group'>\r\n");
     int pageCount = (total + limit - 1) / limit;
-    buf.append("<li" + ((pageNum <= 1) ? " class='disabled'":"") +
-        "><a href='#' data-pagenum='" + (pageNum - 1) +"'>&lt; Previous</a></li>\r\n");
-    
-//      for (int i = 1; i <= pageCount; i++) {
-//        String cssClass = "";
-//        if (i == pageNum) {
-//          cssClass = " class='active'";
-//        }
-//        if ((Math.abs(pageNum - i) > 3)) {
-//          continue;
-//        }
-//
-//        buf.append("<li" + cssClass + "><a href='#' data-pagenum='"+i+"'>" + i + "</a></li>\r\n");
-//      }
-    buf.append("<li class='disabled'><a href='#'>Page " + pageNum + " of " + pageCount + "</a></li>");
+    buf.append("<a class='btn" + ((pageNum <= 1) ? " disabled":"" ) + "'href='#' data-pagenum='" + 
+        (pageNum - 1) +"'>&lt; Previous</a>\r\n");
 
-    buf.append("<li" + ((pageNum >= pageCount) ? " class='disabled'":"") 
-        + "><a href='#' data-pagenum='" + (pageNum + 1) +"'>Next &gt;</a></li>\r\n");
-    buf.append("</ul>\r\n</div>\r\n");
+    buf.append("<a class='btn disabled' href='#'>Page " + pageNum + " of " + pageCount + "</a>\r\n");
+
+    buf.append("<a class='btn" + ((pageNum >= pageCount) ? " disabled":"" ) + "' href='#' data-pagenum='" + 
+        (pageNum + 1) +"'>Next &gt;</a>\r\n");
+    buf.append("</div>\r\n");
     if (includeLimitSelector) {
 
       String[] values = new String[] { "10", "25", "50", "100", "500", "-2" };
       String[] labels = new String[] { "10", "25", "50", "100", "500", "All" };
 
       String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px'",false);
-      buf.append("<div class='pagination'>"  + perPageDropDown + " <span style='vertical-align:top'>per page</span></div>");
+      buf.append("<div>"  + perPageDropDown + " <span style='vertical-align:top'>records per page</span></div>");
     }
    
     buf.append("</div>");
