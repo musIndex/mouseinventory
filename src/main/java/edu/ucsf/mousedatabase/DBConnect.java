@@ -1539,7 +1539,7 @@ public class DBConnect {
 
     for(MouseHolder hldr : record.getHolders())
     {
-      addFlattenedData(list, hldr.getFullname() + " ");
+      addFlattenedData(list, hldr.getLastname() + " ");
     }
 
     for(String pmid : record.getPubmedIDs())
