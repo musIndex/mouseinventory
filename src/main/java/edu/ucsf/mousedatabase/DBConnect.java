@@ -471,8 +471,8 @@ public class DBConnect {
         strategies.add(new SearchStrategy(5,"like-wildcard","Partial phrase matches"));
         wildcardAdded = true;
       }
-      strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
-      strategies.add(new SearchStrategy(8,"word-chartype-expanded","Partial expanded sub-word matches"));
+      //strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
+      strategies.add(new SearchStrategy(8,"word-chartype-expanded","Partial sub-word matches"));
       
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {

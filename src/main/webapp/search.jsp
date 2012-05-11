@@ -95,9 +95,10 @@ $(document).ready(function(){
       var word = words[word_index];
       var pos = 0;
       for(var i = 1; i < word.length; i=i+1){
-        if (word[i].match(/\d/) && word[i-1].match(/\w/) ||  word[i].match(/\w/) && word[i-1].match(/\d/)) {
+        if (word[i].match(/\d/) && word[i-1].match(/[A-Za-z]/) ||  word[i].match(/[A-Za-z]/) && word[i-1].match(/\d/)) {
           split_words.push(word.substring(pos,i));
           pos = i;
+          i = i+1;
         }
       }
       if (pos < word.length) {
