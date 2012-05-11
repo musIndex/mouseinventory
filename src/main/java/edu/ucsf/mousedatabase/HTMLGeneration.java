@@ -422,6 +422,9 @@ public class HTMLGeneration {
       buf.append("<td colspan=\"2\"><div style=\"position: relative\">Holder:&nbsp;");
       buf.append(HTMLGeneration.genSelect("holder_id-" + k, holderIDs,
           holderNames, String.valueOf(holder.getHolderID()), null));
+      buf.append("&nbsp;<a class='btn btn-mini btn-warning' href=\"javascript:\" onclick=\"clearHolder('"
+          + k
+          + "')\"><i class='icon-remove icon-white'></i></a>");
       buf.append("<br>Facility:");
       buf.append("&nbsp;");
       buf.append(HTMLGeneration.genSelect("facility_id-" + k,
@@ -438,9 +441,7 @@ public class HTMLGeneration {
       buf.append("&nbsp;");
       buf.append(HTMLGeneration.genCheckbox("covertHolder_-" + k,
           covertOptions, (holder.isCovert() ? "Covert" : "")));
-      buf.append("<div style=\"position: absolute; top: 0pt; left: 310pt;\"><a href=\"javascript:\" onclick=\"clearHolder('"
-          + k
-          + "')\" ><img width=\"15\" src=\"../img/delete-icon2.png\" alt=\"\"></a></div></div>");
+      buf.append("</div>");
       buf.append("</td>");
       buf.append("</tr>\n");
       if (holder.isNewlyAdded())

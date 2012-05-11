@@ -313,7 +313,7 @@ $(document).ready(function(){
       <img src="<%=imageRoot %>mouse-img-istock.jpg"/>
       <div class="search-box-inner">
         <input type="text" class="input-xlarge search-query" name="searchterms" value="<%=searchterms%>">
-        <input id="search_button" class="btn btn-primary" type="submit" value="Mouse Search">
+        <button id="search_button" class="btn btn-primary" type="submit" ><i class='icon-white icon-search'></i> Mouse Search</button>
         <div class="search-instructions-show"><a href="#" id="show_search_instructions">how do I search?</a></div>
         <div class="search-instructions">
           <b>Search examples:</b>
