@@ -72,9 +72,9 @@ ul.navLinkUL {
 }
  
 #quickSearchContainer {
-  float: right;
-  margin-top: 6px;
-  margin-right: 4px;
+  position:absolute;
+  right:6px;
+  top:6px;
 }
 
 .searchButton {

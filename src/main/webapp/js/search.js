@@ -39,7 +39,7 @@ $(document).ready(function(){
       search_container.removeClass("search-box-small");
     }
     search_container.show();
-    
+    search_box.focus();
     //update the handlers for the pagination controls, which are returned by the search
     $("select[name=limit]").change(function(){
       $.bbq.pushState({limit:$(this).val(), pagenum:1});
