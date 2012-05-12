@@ -164,7 +164,7 @@
         <div class="search-resultcount" data-resultcount="<%=mouseCount %>">
           <% if (searchPerformed && mouseCount > 0) { %> 
             <span class='<%=exactMatches > 0 ? "quality-good" : "quality-bad" %>'>
-            <%=exactMatches > 0 ? exactMatches : "No" %> exact matches</span>, <%=partialMatches %> partial
+            <%=exactMatches > 0 ? exactMatches : "No" %> exact match<%=exactMatches == 1 ? "" : "es" %></span>, <%=partialMatches %> partial
           <%} else if (searchPerformed && mouseCount ==0) { %>
             No records match your query
           <%} %>
