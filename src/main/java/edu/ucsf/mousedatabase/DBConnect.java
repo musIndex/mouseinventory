@@ -455,8 +455,10 @@ public class DBConnect {
       if (searchTerms.matches(".*[-/\\)\\(\\.].*")) {
           strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches", "Matches records with the exact phrase as you typed it"));
           wildcardAdded = true;
-          strategies.add(new SearchStrategy(0,"like-wildcard-split-special",
-              "Exact term matches","Matches records that contain the terms you entered, anywhere in the text"));
+          if (searchTerms.indexOf(" ") > 0) {
+            strategies.add(new SearchStrategy(0,"like-wildcard-split-special",
+                "Exact term matches","Matches records that contain the terms you entered, anywhere in the text"));
+          }
           strategies.add(new SearchStrategy(2,"word","Partial word matches",
               "Splits your query into words, ignoring special characters like hyphens and parentheses; matches occurrences of those words.  <br>Any words with fewer than 2 characters are ignored."));
           strategies.add(new SearchStrategy(2,"word-expanded","Partial expanded word matches",
