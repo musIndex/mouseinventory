@@ -455,6 +455,8 @@ public class DBConnect {
       if (searchTerms.matches(".*[-/\\)\\(\\.].*")) {
           strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches", "Matches records with the exact phrase as you typed it"));
           wildcardAdded = true;
+          strategies.add(new SearchStrategy(0,"like-wildcard-split-special",
+              "Exact term matches","Matches records that contain the terms you entered, anywhere in the text"));
           strategies.add(new SearchStrategy(2,"word","Partial word matches",
               "Splits your query into words, ignoring special characters like hyphens and parentheses; matches occurrences of those words.  <br>Any words with fewer than 2 characters are ignored."));
           strategies.add(new SearchStrategy(2,"word-expanded","Partial expanded word matches",
@@ -474,7 +476,7 @@ public class DBConnect {
       }
         
       if (searchTerms.indexOf(" ") > 0) {
-        strategies.add(new SearchStrategy(5,"natural","Partial matches","Performs advanced matching based on natural language parsing rules."));
+        strategies.add(new SearchStrategy(5,"natural","Partial matches","Matches records that contain most of the words in your query"));
       } else if (!wildcardAdded && searchTerms.matches(".*\\w.*") && searchTerms.matches(".*\\d.*")){
         strategies.add(new SearchStrategy(5,"like-wildcard",
             "Partial phrase matches","Matches records that contain the exact phrase you entered, anywhere in the text"));
@@ -540,7 +542,7 @@ public class DBConnect {
     searchTerms = StringUtils.remove(searchTerms, '\'');
     searchTerms = StringUtils.replace(searchTerms, "\\", " ");
     
-    String[] tokens = tokenize(searchTerms, false);
+    String[] tokens = tokenize(searchTerms, false, false);
     if (strategy.getName().equals("natural"))
     {
       query += "match(searchtext) against('" + searchTerms + "') > 5";
@@ -555,12 +557,12 @@ public class DBConnect {
     }
     else if (strategy.getName().equals("word-chartype"))
     {
-      tokens = tokenize(searchTerms, true);
+      tokens = tokenize(searchTerms, true, false);
       query += "match(searchtext) against(" + tokenizeBoolean(tokens, false) + ")";
     }
     else if (strategy.getName().equals("word-chartype-expanded"))
     {
-      tokens = tokenize(searchTerms, true);
+      tokens = tokenize(searchTerms, true, false);
       query += "match(searchtext) against(" + tokenizeBoolean(tokens, true) + ")";
     }
     else if (strategy.getName().equals("like-wildcard"))
@@ -583,7 +585,21 @@ public class DBConnect {
     }
     else if (strategy.getName().equals("like-wildcard-split-chartype"))
     {
-      tokens = tokenize(searchTerms, true);
+      tokens = tokenize(searchTerms, true, false);
+      boolean first = true;
+      for(String token : tokens){
+        if (first){
+          first = false;
+        }
+        else {
+          query += " AND ";
+        }
+        query += "searchtext LIKE ('%" + addMySQLEscapes(token) + "%')";
+      }
+    }
+    else if (strategy.getName().equals("like-wildcard-split-special"))
+    {
+      tokens = tokenize(searchTerms, false, true);
       boolean first = true;
       for(String token : tokens){
         if (first){
@@ -607,10 +623,14 @@ public class DBConnect {
     return IntResultGetter.getInstance("mouse_id").Get(query);    
   }
   
-  private static String[] tokenize(String searchTerms, boolean charType) {
+  private static String[] tokenize(String searchTerms, boolean charType, boolean spacesOnly) {
     String[] tokens;
     if (charType) {
       tokens = StringUtils.splitByCharacterType(searchTerms);
+    }
+    else if(spacesOnly)
+    {
+      tokens = StringUtils.split(searchTerms," ");
     }
     else
     {
