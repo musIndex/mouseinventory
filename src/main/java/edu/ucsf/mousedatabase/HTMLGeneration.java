@@ -2799,13 +2799,16 @@ public class HTMLGeneration {
       int total, boolean includeLimitSelector) {
     StringBuffer buf = new StringBuffer();
 
-    if (limit < 0) {
+    if (limit == -1) {
       return "";
     }
     buf.append("<div class='pagination-container clearfix'>");
     
     buf.append("<div class='btn-group'>\r\n");
     int pageCount = (total + limit - 1) / limit;
+    if (limit == -2){
+      pageCount = 1;
+    }
     buf.append("<a class='btn" + ((pageNum <= 1) ? " disabled":"" ) + "'href='#' data-pagenum='" + 
         (pageNum - 1) +"'>&lt; Previous</a>\r\n");
 

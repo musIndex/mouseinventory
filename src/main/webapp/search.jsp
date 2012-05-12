@@ -35,7 +35,7 @@
       pagenum = 1;
     }
     int offset = limit * (pagenum - 1);
-    
+
     String whereClause = "";
     StringBuilder results = new StringBuilder();
     int mouseCount = 0;
@@ -76,6 +76,10 @@
           if (offset < resultMouseCount) {
            startIndex = offset - (pagenum > 1 ? miceSeen : 0); 
           }
+          if (limit == -2) { //all
+            startIndex = 0;
+            endIndex = resultMouseCount;
+          }
           
           miceSeen += result.getTotal();
           
@@ -86,7 +90,7 @@
             partialMatches += result.getTotal(); 
           }
 
-          if (miceSeen < offset || displayedMice >= limit || resultMouseCount == 0) {
+          if (miceSeen < offset || (displayedMice >= limit && limit != -2) || resultMouseCount == 0) {
             continue; 
           }
           
