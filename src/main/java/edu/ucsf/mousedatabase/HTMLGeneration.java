@@ -1446,6 +1446,10 @@ public class HTMLGeneration {
 
   public static String getMouseTable(ArrayList<MouseRecord> mice, boolean edit,
       boolean showChangeRequest, boolean showAllHolders) {
+    return getMouseTable(mice, edit, showChangeRequest, showAllHolders, true);
+  }
+  public static String getMouseTable(ArrayList<MouseRecord> mice, boolean edit,
+      boolean showChangeRequest, boolean showAllHolders, boolean showHeader) {
     StringBuffer table = new StringBuffer();
     table.append("<div class=\"mouseTable\">\r\n");
     table.append("<table style='width:100%'>\r\n");
@@ -1454,7 +1458,7 @@ public class HTMLGeneration {
     for (MouseRecord nextRecord : mice) {
       String rowStyle = getRowStyle(numMice, "mouselist", "mouselistAlt");
 
-      if (numMice % 25 == 0)
+      if (numMice % 25 == 0 && showHeader)
         table.append(getMouseTableHeaders());
 
       table.append("<tr class='" + rowStyle + "'>\r\n");

@@ -109,7 +109,7 @@
             results.append("</div></div>");
             
             results.append("<div class='searchresults-mice " + result.getStrategy().getName() + "'>");
-            results.append(HTMLGeneration.getMouseTable(mice, false, true, false));
+            results.append(HTMLGeneration.getMouseTable(mice, false, true, false,displayedMice == 0));
             results.append("</div>");
             displayedMice += mice.size();
           }
