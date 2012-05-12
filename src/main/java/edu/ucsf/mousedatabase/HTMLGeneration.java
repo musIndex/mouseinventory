@@ -23,7 +23,7 @@ public class HTMLGeneration {
         + "  var _gaq = _gaq || [];\r\n"
         + "  _gaq.push(['_setAccount', '" + id  + "']);\r\n"
         + "  _gaq.push(['_setDomainName', '"+ domainSuffix + "']);\r\n"
-        + "  _gaq.push(['_trackPageview']);\r\n"
+        + "  _gaq.push(['_trackPageview',location.pathname + location.search  + location.hash]);\r\n"
         + "  (function() {\r\n"
         + "    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;\r\n"
         + "    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';\r\n"
