@@ -492,7 +492,9 @@ public class DBConnect {
       
       strategies.add(new SearchStrategy(8,"like-wildcard-split",
           "Partial split matches","Splits your query into words, and matches records that contain the letters of each word you entered, anywhere in the text"));
-      
+      strategies.add(new SearchStrategy(8,"like-wildcard-split-chartype",
+          "Partial sub-word split matches","Splits your query into words based on character type, such as letters, number or special charachters, and matches records that contain the letters of each word you entered, anywhere in the text"));
+     
       
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
@@ -574,7 +576,21 @@ public class DBConnect {
         else {
           query += " AND ";
         }
-      query += "searchtext LIKE ('%" + addMySQLEscapes(token) + "%')";
+        query += "searchtext LIKE ('%" + addMySQLEscapes(token) + "%')";
+      }
+    }
+    else if (strategy.getName().equals("like-wildcard-split-chartype"))
+    {
+      tokens = tokenize(searchTerms, true);
+      boolean first = true;
+      for(String token : tokens){
+        if (first){
+          first = false;
+        }
+        else {
+          query += " AND ";
+        }
+        query += "searchtext LIKE ('%" + addMySQLEscapes(token) + "%')";
       }
     }
     else
@@ -1579,7 +1595,7 @@ public class DBConnect {
 
     for(MouseHolder hldr : record.getHolders())
     {
-      addFlattenedData(list, hldr.getLastname() + " ");
+      addFlattenedData(list, hldr.getLastname() + " " + hldr.getFacilityName());
     }
 
     for(String pmid : record.getPubmedIDs())
