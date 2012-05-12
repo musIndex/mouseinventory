@@ -764,6 +764,7 @@ legend + .control-group {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  color:black;
 }
 .btn-large {
   padding: 9px 14px;
@@ -1077,6 +1078,11 @@ border-bottom-right-radius: 4px;
   background-color: #d9edf7;
   border-color: #bce8f1;
   color: #3a87ad;
+}
+.alert-lovely {
+  background-color: lavender;
+  border-color: #D6E6DA;
+  color: #9466CC;
 }
 .alert-block {
   padding-top: 14px;

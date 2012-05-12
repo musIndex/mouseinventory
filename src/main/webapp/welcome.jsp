@@ -1,3 +1,3 @@
 <%
-response.sendRedirect("search.jsp");
+response.sendRedirect("about.jsp");
 %>
