@@ -1472,13 +1472,13 @@ public class HTMLGeneration {
             + nextRecord.getMouseID() + "\">Edit record #"
             + nextRecord.getMouseID() + "</a></dt>\r\n");
       } else {
-        table.append("<dt>Record #" + nextRecord.getMouseID()
+        table.append("<dt><span class='lbl'>Record</span> #" + nextRecord.getMouseID()
             + "</dt>\r\n");
       }
       if (showChangeRequest) {
         table.append("<dt><span class='changerequest'><a class=\"SL\" href=ChangeRequestForm.jsp?mouseID="
             + nextRecord.getMouseID()
-            + ">request change in record</a></span></dt>\r\n");
+            + "><span class='lbl'>request change in record</span></a></span></dt>\r\n");
       }
       if (edit && nextRecord.getStatus() != null) {
         String style = "";
@@ -1496,8 +1496,8 @@ public class HTMLGeneration {
 
       // SECOND COLUMN - category
       table.append("<td class='mouselistcolumn-category'><dl>\r\n");
-      table.append("<dt class='mouseType'>\r\n"
-          + nextRecord.getMouseType());
+      table.append("<dt class='mouseType'>\r\n<span class='lbl'>"
+          + nextRecord.getMouseType() + "</span>");
       if (nextRecord.getMouseType().equalsIgnoreCase("transgenic")) {
         if (nextRecord.getExpressedSequence() != null) {
           if (nextRecord.getExpressedSequence().equalsIgnoreCase(
@@ -1505,24 +1505,24 @@ public class HTMLGeneration {
               || nextRecord
                   .getExpressedSequence()
                   .equalsIgnoreCase("Mouse Gene (unmodified)")) {
-            table.append("<dt><b>Expressed Sequence:</b></dt>\r\n");
+            table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b></dt>\r\n");
             table.append(formatGene(
                 nextRecord.getTargetGeneSymbol(),
                 nextRecord.getTargetGeneName(),
                 nextRecord.getTargetGeneID()));
           } else if (nextRecord.getExpressedSequence()
               .equalsIgnoreCase("reporter")) {
-            table.append("<dt><b>Expressed Sequence:</b>\r\n");
+            table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b>\r\n");
             table.append(nextRecord.getReporter() + "</dt>\r\n");
           } else if (nextRecord.getExpressedSequence()
               .equalsIgnoreCase("other")
               || nextRecord.getExpressedSequence()
                   .equalsIgnoreCase(
                       "Modified mouse gene or Other")) {
-            table.append("<dt><b>Expressed Sequence:</b>\r\n");
+            table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b>\r\n");
             table.append(nextRecord.getOtherComment() + "</dt>\r\n");
           } else {
-            table.append("<dt><b>Expressed Sequence:</b> "
+            table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b> "
                 + nextRecord.getExpressedSequence()
                 + "</dt>\r\n");
           }
@@ -1530,7 +1530,7 @@ public class HTMLGeneration {
         if (nextRecord.getTransgenicType() != null
             && nextRecord.getTransgenicType().equalsIgnoreCase(
                 "knock-in")) {
-          table.append("<dt><b>Knocked-in to:</b></dt>\r\n");
+          table.append("<dt><b><span class='lbl'>Knocked-in to:</span></b></dt>\r\n");
           table.append(formatGene(nextRecord.getTargetGeneSymbol(),
               nextRecord.getTargetGeneName(),
               nextRecord.getTargetGeneID()));
@@ -1538,7 +1538,7 @@ public class HTMLGeneration {
         } else if (nextRecord.getTransgenicType() != null
             && nextRecord.getTransgenicType().equalsIgnoreCase(
                 "random insertion")) {
-          table.append("<dt><b>Regulatory element:</b> "
+          table.append("<dt><b><span class='lbl'>Regulatory element:</span></b> "
               + nextRecord.getRegulatoryElement() + "</dt>\r\n");
         }
       } else if (nextRecord.getMouseType().equalsIgnoreCase(
@@ -1546,7 +1546,7 @@ public class HTMLGeneration {
         table.append("</dt>\r\n");
         table.append(formatGene(nextRecord.getGeneSymbol(),
             nextRecord.getGeneName(), nextRecord.getGeneID()));
-        table.append("<dt><b>Modification Type:</b> "
+        table.append("<dt><b><span class='lbl'>Modification Type:</span></b> "
             + nextRecord.getModificationType() + "</dt>\r\n");
 
         if (!(nextRecord.getModificationType() == null || nextRecord
@@ -1559,14 +1559,14 @@ public class HTMLGeneration {
                   || nextRecord.getExpressedSequence()
                       .equalsIgnoreCase(
                           "Mouse Gene (unmodified)")) {
-                table.append("<dt><b>Expressed Sequence:</b></dt>\r\n");
+                table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b></dt>\r\n");
                 table.append(formatGene(
                     nextRecord.getTargetGeneSymbol(),
                     nextRecord.getTargetGeneName(),
                     nextRecord.getTargetGeneID()));
               } else if (nextRecord.getExpressedSequence()
                   .equalsIgnoreCase("reporter")) {
-                table.append("<dt><b>Expressed Sequence:</b>\r\n");
+                table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b>\r\n");
                 table.append(nextRecord.getReporter()
                     + "</dt>\r\n");
               } else if (nextRecord.getExpressedSequence()
@@ -1575,16 +1575,16 @@ public class HTMLGeneration {
                       .getExpressedSequence()
                       .equalsIgnoreCase(
                           "Modified mouse gene or Other")) {
-                table.append("<dt><b>Expressed Sequence:</b>\r\n");
+                table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b>\r\n");
                 table.append(nextRecord.getOtherComment()
                     + "</dt>\r\n");
               } else {
-                table.append("<dt><b>Expressed Sequence:</b> "
+                table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b> "
                     + nextRecord.getExpressedSequence()
                     + "</dt>\r\n");
               }
             } else {
-              table.append("<dt><b>Expressed Sequence:</b> "
+              table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b> "
                   + nextRecord.getExpressedSequence()
                   + "</dt>\r\n");
             }
@@ -1594,7 +1594,7 @@ public class HTMLGeneration {
       } else if (nextRecord.getMouseType().equalsIgnoreCase(
           "inbred strain")) {
         table.append("</dt>\r\n");
-        table.append("<dt>Supplier and link to on-line catalog page (if available): "
+        table.append("<dt><span class='lbl'>Supplier and link to on-line catalog page (if available):</span> "
             + formatInbredStrainURL(nextRecord.getSource())
             + "</dt>\r\n");
       }
@@ -1627,14 +1627,14 @@ public class HTMLGeneration {
           repositoryCatalogNumber = formatMGI(repositoryCatalogNumber);
         }
 
-        table.append("<dt>Official Symbol: " + source + "</dt>\r\n");
+        table.append("<dt><span class='lbl'>Official Symbol:</span> " + source + "</dt>\r\n");
         String officialName = nextRecord.getOfficialMouseName();
         if (officialName != null && !officialName.isEmpty()) {
           table.append("<dt>(");
           table.append(officialName);
           table.append(")</dt>\r\n");
         }
-        table.append("<dt>MGI: " + repositoryCatalogNumber
+        table.append("<dt><span class='lbl'>MGI:</span> " + repositoryCatalogNumber
             + "</dt>\r\n");
         if (nextRecord.getPubmedIDs() == null
             || nextRecord.getPubmedIDs().isEmpty()) {
@@ -1653,12 +1653,12 @@ public class HTMLGeneration {
             allIDs += formatPubMedID(pmid);
           }
           if (hasValidPmIds)
-            table.append("<dt>PubMed: " + allIDs + "</dt>\r\n");
+            table.append("<dt><span class='lbl'>PubMed:</span> " + allIDs + "</dt>\r\n");
         }
 
         if (nextRecord.getBackgroundStrain() != null
             && !nextRecord.getBackgroundStrain().isEmpty()) {
-          table.append("<dt>Background Strain: "
+          table.append("<dt><span class='lbl'>Background Strain:</span> "
               + nextRecord.getBackgroundStrain() + "</dt>\r\n");
         }
         if (nextRecord.getMtaRequired() != null) {
@@ -1675,14 +1675,14 @@ public class HTMLGeneration {
 
         if (nextRecord.getGensat() != null
             && !nextRecord.getGensat().isEmpty()) {
-          table.append("<dt>Gensat founder line: "
+          table.append("<dt><span class='lbl'>Gensat founder line:</span> "
               + formatGensat(nextRecord.getGensat())
               + "</dt>\r\n");
         }
 
       }
       if (nextRecord.isCryoOnly()) {
-        table.append("<dt><b>Cryopreserved only</b></dt>\r\n");
+        table.append("<dt><b>Cryopreserved <span class='lbl'>only</span></b></dt>\r\n");
       }
       if (nextRecord.getCryopreserved() != null
           && nextRecord.getCryopreserved().equalsIgnoreCase("Y")) {
@@ -1761,13 +1761,13 @@ public class HTMLGeneration {
               + nextRecord.getMouseName() + "-Record#%20"
               + nextRecord.getMouseID() +"'>" + firstInitial
               + holder.getLastname()  + "</a>" + facilityName
-              + cryoLiveStatus
+              + "<span class='lbl'>" + cryoLiveStatus + "</span>"
               + "</dt>");
 
           holderCount++;
         }
         if (overMax) {
-          holderBuf.append("<dt><a class=\"mouselist-holderlist-showall btn btn-mini\" style='text-decoration:none'  href='#'>show all</a></dt>");
+          holderBuf.append("<dt><a class=\"mouselist-holderlist-showall btn btn-mini\" style='text-decoration:none'  href='#'><span class='lbl'>show all</span></a></dt>");
         }
       }
       holderBuf.append("</dl>");
@@ -2276,7 +2276,7 @@ public class HTMLGeneration {
         + "</span> - <span class='geneName'>"
         + name
         + "</span></dd>\r\n"
-        + "<dd class=\"mouseSubDetail\"><span class='mgiGeneLink'>MGI: "
+        + "<dd class=\"mouseSubDetail\"><span class='mgiGeneLink'><span class='lbl'>MGI:</span> "
         + formatMGI(mgi) + "</span></dd>\r\n";
   }
 

@@ -63,6 +63,7 @@ $(document).ready(function(){
       var $header = $(this).prev();
       var tokens = $header.data('tokens').toString().split(',');
       $results.find(".mouselist, .mouselistAlt").highlight(tokens,{className: 'highlight-searchterm'});
+      $results.find(".lbl").unhighlight({className: 'highlight-searchterm'});
     });
 
     $("span.highlight-searchterm").parent().parent().each(function(){
