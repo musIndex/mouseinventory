@@ -1,3 +1,4 @@
+<%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="java.util.ArrayList"%>
@@ -20,11 +21,10 @@ $(document).ready(function(){
   var siteRoot = "<%=siteRoot %>";
   var search_box = $('input[name=searchterms]');
   var search_container = $(".search-box");
-  
-  display();
+
   instr_link.toggle(show_help,hide_help);
   search_button.click(search_button_clicked);
-  $(window).bind("hashchange", hash_changed);
+  $(window).bind("hashchange", function(){search(extract_search_params();});
   $(window).trigger("hashchange");
 
   function hide_help(){
@@ -38,10 +38,10 @@ $(document).ready(function(){
     search_box.focus();
   }
 
-  function display(){
+  function search_results_loaded(){
     var hash = extract_search_params();
 
-    //todo make the search results a js object
+    //todo make the search results a js object, load them here after parsing some stuff out
     if (hash.searchterms) {
       highlight_searchterms(hash.searchterms);
     }
@@ -66,17 +66,20 @@ $(document).ready(function(){
       }
       return false;
     });
+    $("a.search-strategy-show-details").click(function(){
+      $(this).siblings().toggle();
+      return false;
+    })
   }
   
   function highlight_searchterms(searchterms){
-    var words = searchterms.split(/[ \\\/\(\)-]/);
-    words = remove_small_words(words);
-    $('.searchresults-mice.word, .searchresults-mice.word-expanded, .searchresults-mice.natural').find(".mouselist, .mouselistAlt").highlight(words, { className: 'highlight-searchterm' });
-    $('.searchresults-mice.word-chartype, .searchresults-mice.word-chartype-expanded').find(".mouselist, .mouselistAlt").highlight(split_words_by_chartype(words), { className: 'highlight-searchterm' });
-    $('.searchresults-mice.like-wildcard').find(".mouselist, .mouselistAlt").highlight(searchterms, { className: 'highlight-searchterm' });
-    $('.searchresults-mice.record-id').find(".mouselist, .mouselistAlt").highlight(searchterms.split(/[ ,]/), { className: 'highlight-searchterm' });
-    
-    //if the search term is a holder name that is collapsed, show it
+    $('.searchresults-mice').each(function(){
+      var $results = $(this);
+      var $header = $(this).prev();
+      var tokens = $header.data('tokens').split(',');
+      $results.highlight(tokens,{className: 'highlight-searchterm'});
+    });
+
     $("span.highlight-searchterm").parent().parent().each(function(){
       var $element = $(this);
       if($element.is("dt")) {
@@ -86,54 +89,18 @@ $(document).ready(function(){
       }
     });
   }
-  
-  //if given words ['abc123', 'def', '456', '2ab32'], 
-  // return ['abc','123','def','456','2','ab','32']
-  function split_words_by_chartype(words){
-    var split_words = [];
-    for(var word_index in words){
-      var word = words[word_index];
-      var pos = 0;
-      for(var i = 1; i < word.length; i=i+1){
-        if (word[i].match(/\d/) && word[i-1].match(/[A-Za-z]/) ||  word[i].match(/[A-Za-z]/) && word[i-1].match(/\d/)) {
-          split_words.push(word.substring(pos,i));
-          pos = i;
-          i = i+1;
-        }
-      }
-      if (pos < word.length) {
-        split_words.push(word.substring(pos,word.length));
-      }
-    }
-    return remove_small_words(split_words);
-  }
-  
-  function remove_small_words(words){
-    var temp = [];
-    for (var i=0; i< words.length; i=i+1) {
-      if (words[i].length > 1) {
-        temp.push(words[i]);
-      }
-    }
-    return temp;
-  }
-  
+    
   function search_button_clicked(){
     $.bbq.pushState({searchterms: search_box.val(), pagenum: 1});
     return false;
   }
   
-  function hash_changed(){
-    search(extract_search_params());
-  }
-
   function search(search_query){
     var $this = $(this);
-    
-    
+
     if (window.searchQuery != search_query ) {
       window.searchQuery = search_query;
-      $("#searchresults-container").load(siteRoot + 'search.jsp?' + $.param(window.searchQuery) + ' #searchresults', display);
+      $("#searchresults-container").load(siteRoot + 'search.jsp?' + $.param(window.searchQuery) + ' #searchresults', search_results_loaded);
   	}
     return false;
   } 
@@ -153,14 +120,9 @@ $(document).ready(function(){
     return hash;
   }
 
-  
 });
-
 </script>
-
 <%
-
-    
     response.setHeader("Cache-Control", "no-cache");
     response.setHeader("Pragma", "no-cache");
     response.setDateHeader("Expires", 0);
@@ -255,7 +217,12 @@ $(document).ready(function(){
              results.append("<br><br>"); 
             }
             if (!result.getStrategy().getComment().startsWith("Exact record")) {
-             results.append("<div class='search-strategy-header'>" + result.getStrategy().getComment() + ":</div>");
+             results.append("<div class='search-strategy-header' data-tokens='" + 
+                     StringUtils.join(result.getStrategy().getTokens(), ",") + "'>" + result.getStrategy().getComment() + ":");
+             results.append("<a href='#' class='search-strategy-show-details'>Explain these results</a>");
+             results.append("<div class='search-strategy-details'>" + 
+                 result.getStrategy().getDetails());
+             results.append("</div></div>");
             }
             results.append("<div class='searchresults-mice " + result.getStrategy().getName() + "'>");
             results.append(HTMLGeneration.getMouseTable(mice, false, true, false));

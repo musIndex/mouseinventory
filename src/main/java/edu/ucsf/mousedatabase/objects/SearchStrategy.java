@@ -4,13 +4,16 @@ public class SearchStrategy {
   private int quality;
   private String name;
   private String comment;
+  private String details;
+  private String[] tokens;
   
   
-  public SearchStrategy(int quality, String name, String comment) {
+  public SearchStrategy(int quality, String name, String comment, String details) {
     super();
     this.quality = quality;
     this.name = name;
     this.comment = comment;
+    this.details = details;
   }
   
   public int getQualityValue(){
@@ -44,6 +47,26 @@ public class SearchStrategy {
 
   public void setQuality(int quality) {
     this.quality = quality;
+  }
+
+  public String getDetails() {
+    return details;
+  }
+
+  public void setDetails(String details) {
+    this.details = details;
+  }
+
+  public String[] getTokens() {
+    return tokens;
+  }
+
+  public void setTokens(String[] tokens) {
+    this.tokens = tokens;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
   
   
