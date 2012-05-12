@@ -490,6 +490,9 @@ public class DBConnect {
         wildcardAdded = true;
       }
       
+      strategies.add(new SearchStrategy(8,"like-wildcard-split",
+          "Partial split matches","Splits your query into words, and matches records that contain the letters of each word you entered, anywhere in the text"));
+      
       
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
@@ -560,6 +563,19 @@ public class DBConnect {
     {
       tokens = new String[]{searchTerms};
       query += "searchtext LIKE ('%" + addMySQLEscapes(searchTerms) + "%')";
+    }
+    else if (strategy.getName().equals("like-wildcard-split"))
+    {
+      boolean first = true;
+      for(String token : tokens){
+        if (first){
+          first = false;
+        }
+        else {
+          query += " AND ";
+        }
+      query += "searchtext LIKE ('%" + addMySQLEscapes(token) + "%')";
+      }
     }
     else
     {
