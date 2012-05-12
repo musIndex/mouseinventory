@@ -477,7 +477,7 @@ public class DBConnect {
       //strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
       strategies.add(new SearchStrategy(8,"word-chartype-expanded",
           "Partial sub-word matches",
-          "Splits your query into words based on character type, such as letters, numbers, or special characters.  I.E., wnt12 is split into 'wnt' and '12'.  Matches records that contain words starting with those letters or numbers."));
+          "Splits your query into words based on character type, such as letters, numbers, or special characters.  Any resulting words that are less than 2 characters are ignored.  I.E., wnt12a is split into 'wnt' and '12'.  Matches records that contain words starting with those letters or numbers."));
       if (!wildcardAdded) {
         strategies.add(new SearchStrategy(8,"like-wildcard",
             "Partial phrase matches","Matches records that contain the exact phrase you entered, anywhere in the text"));
@@ -487,9 +487,6 @@ public class DBConnect {
       
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
-//        if (allMouseIds.size() > 0 && strategy.getQualityValue() > 5) {
-//          continue;
-//        }
         SearchResult result = new SearchResult();
         ArrayList<Integer> mouseIds = doMouseSearchQuery(searchTerms, strategy, status);
         if (!allMouseIds.isEmpty())
@@ -571,15 +568,19 @@ public class DBConnect {
   }
   
   private static String[] tokenize(String searchTerms, boolean charType) {
-    String[] tokens;
     if (charType) {
-      tokens = StringUtils.splitByCharacterType(searchTerms);
+      List<String> acceptableTokens = new ArrayList<String>();
+      for(String token : StringUtils.splitByCharacterType(searchTerms)){
+        if (token.length() > 1) {
+          acceptableTokens.add(token);
+        }
+      }
+      return acceptableTokens.toArray(new String[acceptableTokens.size()]);
     }
     else
     {
-      tokens = StringUtils.split(searchTerms," -\\()/");
+      return StringUtils.split(searchTerms," -\\()/");
     }
-    return tokens;
   }
   
   private static String tokenizeBoolean(String[] tokens, boolean expand) {
@@ -1521,7 +1522,7 @@ public class DBConnect {
     MouseRecord record = records.get(0);
 
     ArrayList<String> list = new ArrayList<String>();
-
+    
     addFlattenedData(list, record.getBackgroundStrain());    
     addFlattenedData(list, record.getExpressedSequence());   
     addFlattenedData(list, record.getGeneID());    
@@ -1532,6 +1533,7 @@ public class DBConnect {
     addFlattenedData(list, record.getModificationType());
     addFlattenedData(list, record.getMouseID());
     addFlattenedData(list, record.getMouseName());
+    addFlattenedData(list, record.getOfficialMouseName());
     addFlattenedData(list, record.getOtherComment());
     addFlattenedData(list, record.getRegulatoryElement());
     addFlattenedData(list, record.getReporter());
@@ -1540,8 +1542,6 @@ public class DBConnect {
     addFlattenedData(list, record.getTargetGeneID());
     addFlattenedData(list, record.getTargetGeneName());
     addFlattenedData(list, record.getTargetGeneSymbol());   
-    addFlattenedData(list, record.getTransgenicType());
-    
 
     if(record.isEndangered())
     {
