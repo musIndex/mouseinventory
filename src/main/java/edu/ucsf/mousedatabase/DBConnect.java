@@ -452,7 +452,7 @@ public class DBConnect {
       List<SearchStrategy> strategies = new ArrayList<SearchStrategy>();
       
       boolean wildcardAdded = false;
-      if (searchTerms.matches(".*[-/\\)\\(].*")) {
+      if (searchTerms.matches(".*[-/\\)\\(\\.].*")) {
           strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches", "Matches records with the exact phrase as you typed it"));
           wildcardAdded = true;
           strategies.add(new SearchStrategy(2,"word","Partial word matches",
@@ -612,7 +612,7 @@ public class DBConnect {
     }
     else
     {
-      tokens = StringUtils.split(searchTerms," -\\()/");
+      tokens = StringUtils.split(searchTerms," -\\()/.");
     }
     List<String> acceptableTokens = new ArrayList<String>();
     for(String token : tokens){
