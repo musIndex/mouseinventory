@@ -421,7 +421,8 @@ public class DBConnect {
     {
       SearchResult result = new SearchResult();
       ArrayList<Integer> mouseIds = new ArrayList<Integer>();
-      SearchStrategy strat = new SearchStrategy(0, "record-id", "Exact record number lookup","Preceding numbers with the '#' sign caused only the record number to matched.");
+      SearchStrategy strat = new SearchStrategy(0, "record-id", 
+          "Exact record number lookup","Preceding numbers with the '#' sign caused only the record number to matched.");
       //if the user enters '#101', we give them record 101 only.
       //if they enter '#101,#102', we give them records 101 and 102.
       Log.Info("SearchDebug: loading record numbers from terms " + searchTerms);
@@ -451,7 +452,7 @@ public class DBConnect {
       List<SearchStrategy> strategies = new ArrayList<SearchStrategy>();
       
       boolean wildcardAdded = false;
-      if (searchTerms.matches(".*[ -/\\)\\(].*")) {
+      if (searchTerms.matches(".*[-/\\)\\(].*")) {
           strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches", "Matches records with the exact phrase as you typed it"));
           wildcardAdded = true;
           strategies.add(new SearchStrategy(2,"word","Partial word matches",
@@ -459,8 +460,10 @@ public class DBConnect {
           strategies.add(new SearchStrategy(2,"word-expanded","Partial expanded word matches",
               "Splits your query into words, ignoring special characters like hyphens and parentheses; matches words that begin with those letters."));
       } else {
-        strategies.add(new SearchStrategy(0,"word","Exact word matches", "Matches records containing all of the words in your query"));
-        strategies.add(new SearchStrategy(2,"word-expanded","Partial word matches", "Matches records containing words that begin with the letters of the words in your query."));
+        strategies.add(new SearchStrategy(0,"word",
+            "Exact word matches", "Matches records containing all of the words in your query"));
+        strategies.add(new SearchStrategy(2,"word-expanded",
+            "Partial word matches", "Matches records containing words that begin with the letters of the words in your query."));
       }
         
       
@@ -473,13 +476,20 @@ public class DBConnect {
       }
       //strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
       strategies.add(new SearchStrategy(8,"word-chartype-expanded",
-          "Partial sub-word matches","Splits your query into words based on character type, such as letters, numbers, or special characters.  I.E., wnt12 is split into 'wnt' and '12'.  Matches records that contain words starting with those words."));
+          "Partial sub-word matches",
+          "Splits your query into words based on character type, such as letters, numbers, or special characters.  I.E., wnt12 is split into 'wnt' and '12'.  Matches records that contain words starting with those letters or numbers."));
+      if (!wildcardAdded) {
+        strategies.add(new SearchStrategy(8,"like-wildcard",
+            "Partial phrase matches","Matches records that contain the exact phrase you entered, anywhere in the text"));
+        wildcardAdded = true;
+      }
+      
       
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
-        if (allMouseIds.size() > 0 && strategy.getQualityValue() > 5) {
-          continue;
-        }
+//        if (allMouseIds.size() > 0 && strategy.getQualityValue() > 5) {
+//          continue;
+//        }
         SearchResult result = new SearchResult();
         ArrayList<Integer> mouseIds = doMouseSearchQuery(searchTerms, strategy, status);
         if (!allMouseIds.isEmpty())
@@ -540,6 +550,7 @@ public class DBConnect {
     }
     else if (strategy.getName().equals("word-chartype-expanded"))
     {
+      tokens = tokenize(searchTerms, true);
       query += "match(searchtext) against(" + tokenizeBoolean(tokens, true) + ")";
     }
     else if (strategy.getName().equals("like-wildcard"))

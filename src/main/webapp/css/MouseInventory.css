@@ -762,6 +762,10 @@ td.mouselistcolumn-holders {
   float:right;
 }
 
+.searchresults-mice {
+  margin-bottom: 15px;
+}
+
 .search-resultcount {
   color: gray;
   margin-left: 5px;
