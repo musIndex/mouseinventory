@@ -85,7 +85,7 @@ $(document).ready(function(){
 
     if (window.searchQuery != search_query ) {
       window.searchQuery = search_query;
-      _gaq.push(['_trackPageview', window.location + '?' + window.location.hash.substring(1)]);
+      _gaq.push(['_trackPageview', window.location.pathname + '?' + window.location.hash.substring(1)]);
       $("#searchresults-container").load('search.jsp?' + $.param(window.searchQuery) + ' #searchresults', search_results_loaded);
     }
     return false;
