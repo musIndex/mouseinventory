@@ -61,7 +61,7 @@ $(document).ready(function(){
     $('.searchresults-mice').each(function(){
       var $results = $(this);
       var $header = $(this).prev();
-      var tokens = $header.data('tokens').toString().split(',');
+      var tokens = $header.attr('data-tokens').split(',');
       $results.find(".mouselist, .mouselistAlt").highlight(tokens,{className: 'highlight-searchterm'});
       $results.find(".lbl").unhighlight({className: 'highlight-searchterm'});
     });
