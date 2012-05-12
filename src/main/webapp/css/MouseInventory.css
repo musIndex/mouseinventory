@@ -849,12 +849,11 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
   margin-right: 10px;
 }
 
-a.btn {
+/* a.btn {
   text-decoration:none;
 }
 
 a {
-  color:blue;
   text-decoration:none;
 }
 
@@ -863,4 +862,4 @@ a:hover {
 }
 a:visited {
   color:blue;
-}
+} */
