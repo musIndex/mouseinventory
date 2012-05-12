@@ -24,7 +24,7 @@ $(document).ready(function(){
 
   instr_link.toggle(show_help,hide_help);
   search_button.click(search_button_clicked);
-  $(window).bind("hashchange", function(){search(extract_search_params();});
+  $(window).bind("hashchange", function(){search(extract_search_params());});
   $(window).trigger("hashchange");
 
   function hide_help(){
