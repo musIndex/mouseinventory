@@ -421,12 +421,13 @@ public class DBConnect {
     {
       SearchResult result = new SearchResult();
       ArrayList<Integer> mouseIds = new ArrayList<Integer>();
-      SearchStrategy strat = new SearchStrategy(0, "record-id", "Exact record number lookup");
+      SearchStrategy strat = new SearchStrategy(0, "record-id", "Exact record number lookup","Preceding numbers with the '#' sign caused only the record number to matched.");
       //if the user enters '#101', we give them record 101 only.
       //if they enter '#101,#102', we give them records 101 and 102.
       Log.Info("SearchDebug: loading record numbers from terms " + searchTerms);
       ArrayList<Integer> notFound = new ArrayList<Integer>();
-      for(String token : StringUtils.splitByCharacterType(searchTerms)) {
+      String[] tokens = StringUtils.splitByCharacterType(searchTerms);
+      for(String token : tokens) {
         if (token.matches("[0-9]+")) {
           int id = Integer.parseInt(token);
           if (getMouseRecord(id).size() > 0) {
@@ -438,17 +439,8 @@ public class DBConnect {
           }
         }
       }
-      String badcomment = "";
-      for(int badId : notFound) {
-        if (badcomment.length() == 0){
-          badcomment += ": no match for #";
-        }else{
-          badcomment += ", #";
-        }
-        badcomment+= badId;
-        strat.setQuality(10);
-      }
-      strat.setComment(strat.getComment() + badcomment);
+
+      strat.setTokens(tokens);
       result.setMatchingIds(mouseIds);
       result.setStrategy(strat);
       resultSets.add(result);
@@ -460,19 +452,28 @@ public class DBConnect {
       
       boolean wildcardAdded = false;
       if (searchTerms.matches(".*[ -/\\)\\(].*")) {
-          strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches"));
+          strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches", "Matches records with the exact phrase as you typed it"));
           wildcardAdded = true;
+          strategies.add(new SearchStrategy(2,"word","Partial word matches",
+              "Splits your query into words, ignoring special characters like hyphens and parentheses; matches occurrences of those words."));
+          strategies.add(new SearchStrategy(2,"word-expanded","Partial expanded word matches",
+              "Splits your query into words, ignoring special characters like hyphens and parentheses; matches words that begin with those letters."));
+      } else {
+        strategies.add(new SearchStrategy(0,"word","Exact word matches", "Matches records containing all of the words in your query"));
+        strategies.add(new SearchStrategy(2,"word-expanded","Partial word matches", "Matches records containing words that begin with the letters of the words in your query."));
       }
-      strategies.add(new SearchStrategy(0,"word","Exact word matches"));
-      strategies.add(new SearchStrategy(2,"word-expanded","Partial word matches"));
+        
+      
       if (searchTerms.indexOf(" ") > 0) {
-        strategies.add(new SearchStrategy(5,"natural","Partial matches"));
+        strategies.add(new SearchStrategy(5,"natural","Partial matches","Performs advanced matching based on natural language parsing rules."));
       } else if (!wildcardAdded && searchTerms.matches(".*\\w.*") && searchTerms.matches(".*\\d.*")){
-        strategies.add(new SearchStrategy(5,"like-wildcard","Partial phrase matches"));
+        strategies.add(new SearchStrategy(5,"like-wildcard",
+            "Partial phrase matches","Matches records that contain the exact phrase you entered, anywhere in the text"));
         wildcardAdded = true;
       }
       //strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
-      strategies.add(new SearchStrategy(8,"word-chartype-expanded","Partial sub-word matches"));
+      strategies.add(new SearchStrategy(8,"word-chartype-expanded",
+          "Partial sub-word matches","Splits your query into words based on character type, such as letters, numbers, or special characters.  I.E., wnt12 is split into 'wnt' and '12'.  Matches records that contain words starting with those words."));
       
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
@@ -493,10 +494,8 @@ public class DBConnect {
         }
         
         allMouseIds.addAll(mouseIds);
-        //if (mouseIds.size() > 0) {
-          result.setStrategy(strategy);
-          result.setMatchingIds(mouseIds);
-        //}
+        result.setStrategy(strategy);
+        result.setMatchingIds(mouseIds);
         resultSets.add(result);
       }
     }
@@ -521,29 +520,31 @@ public class DBConnect {
     searchTerms = StringUtils.remove(searchTerms, '\'');
     searchTerms = StringUtils.replace(searchTerms, "\\", " ");
     
-    
+    String[] tokens = tokenize(searchTerms, false);
     if (strategy.getName().equals("natural"))
     {
       query += "match(searchtext) against('" + searchTerms + "') > 5";
     }
     else if (strategy.getName().equals("word"))
     {
-      query += "match(searchtext) against(" + tokenizeBoolean(searchTerms, false, false) + ")";
+      query += "match(searchtext) against(" + tokenizeBoolean(tokens, false) + ")";
     }
     else if (strategy.getName().equals("word-expanded"))
     {
-      query += "match(searchtext) against(" + tokenizeBoolean(searchTerms, true, false) + ")";
+      query += "match(searchtext) against(" + tokenizeBoolean(tokens, true) + ")";
     }
     else if (strategy.getName().equals("word-chartype"))
     {
-      query += "match(searchtext) against(" + tokenizeBoolean(searchTerms, false, true) + ")";
+      tokens = tokenize(searchTerms, true);
+      query += "match(searchtext) against(" + tokenizeBoolean(tokens, false) + ")";
     }
     else if (strategy.getName().equals("word-chartype-expanded"))
     {
-      query += "match(searchtext) against(" + tokenizeBoolean(searchTerms, true, true) + ")";
+      query += "match(searchtext) against(" + tokenizeBoolean(tokens, true) + ")";
     }
     else if (strategy.getName().equals("like-wildcard"))
     {
+      tokens = new String[]{searchTerms};
       query += "searchtext LIKE ('%" + addMySQLEscapes(searchTerms) + "%')";
     }
     else
@@ -552,14 +553,13 @@ public class DBConnect {
       Log.Error("Invalid search strategy: " + strategy + ", defaulting to natural language search");
       query += "match(searchtext) against(" + searchTerms + ")";
     }
+    strategy.setTokens(tokens);
     query += " and mouse_id=mouse.id" + statusTerm;
     Log.Info("SearchDebug:[" + strategy.getName() + "] " + query);
     return IntResultGetter.getInstance("mouse_id").Get(query);    
   }
   
-  private static String tokenizeBoolean(String searchTerms, boolean expand, boolean charType) {
-    ArrayList<String> terms = new ArrayList<String>();
-    
+  private static String[] tokenize(String searchTerms, boolean charType) {
     String[] tokens;
     if (charType) {
       tokens = StringUtils.splitByCharacterType(searchTerms);
@@ -568,6 +568,11 @@ public class DBConnect {
     {
       tokens = StringUtils.split(searchTerms," -\\()/");
     }
+    return tokens;
+  }
+  
+  private static String tokenizeBoolean(String[] tokens, boolean expand) {
+    ArrayList<String> terms = new ArrayList<String>();
     for(String token : tokens) {
       String term = "+" + token;
       if (expand) {
