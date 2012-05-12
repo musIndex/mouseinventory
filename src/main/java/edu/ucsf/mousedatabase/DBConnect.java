@@ -480,6 +480,13 @@ public class DBConnect {
             "Partial phrase matches","Matches records that contain the exact phrase you entered, anywhere in the text"));
         wildcardAdded = true;
       }
+      
+      strategies.add(new SearchStrategy(5,"like-wildcard-split",
+          "Partial split matches","Splits your query into words, and matches records that contain the letters of each word you entered, anywhere in the text"));
+      strategies.add(new SearchStrategy(5,"like-wildcard-split-chartype",
+          "Partial sub-word split matches","Splits your query into words based on character type, such as letters, number or special charachters, and matches records that contain the letters of each word you entered, anywhere in the text"));
+     
+      
       //strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
       strategies.add(new SearchStrategy(8,"word-chartype-expanded",
           "Partial sub-word matches",
@@ -490,12 +497,7 @@ public class DBConnect {
         wildcardAdded = true;
       }
       
-      strategies.add(new SearchStrategy(8,"like-wildcard-split",
-          "Partial split matches","Splits your query into words, and matches records that contain the letters of each word you entered, anywhere in the text"));
-      strategies.add(new SearchStrategy(8,"like-wildcard-split-chartype",
-          "Partial sub-word split matches","Splits your query into words based on character type, such as letters, number or special charachters, and matches records that contain the letters of each word you entered, anywhere in the text"));
      
-      
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
         SearchResult result = new SearchResult();
