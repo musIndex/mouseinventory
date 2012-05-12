@@ -15,12 +15,12 @@ $(document).ready(function(){
   function hide_help(){
     instr.hide();
     instr_link.text("how do I search?")
-    search_box.focus();
+    search_box.focus().select();
   }
   function show_help(){
     instr.show();
     instr_link.text("hide search help");
-    search_box.focus();
+    search_box.focus().select();
   }
 
   function search_results_loaded(){
@@ -39,7 +39,7 @@ $(document).ready(function(){
       search_container.removeClass("search-box-small");
     }
     search_container.show();
-    search_box.focus();
+    search_box.focus().select();
     //update the handlers for the pagination controls, which are returned by the search
     $("select[name=limit]").change(function(){
       $.bbq.pushState({limit:$(this).val(), pagenum:1});
