@@ -134,11 +134,11 @@ public class HTMLGeneration {
     // About, faq, contact links
     table.append("<div>");
     table.append("<span class=\"titleSubText\">");
-    table.append("&nbsp;<a href=\"" + siteRoot
+    table.append("<a href=\"" + siteRoot
         + "about.jsp\">About</a>&nbsp;");
     // table.append("&nbsp;<a href=\""+siteRoot+"faq.jsp\">FAQ</a>&nbsp;");
     table.append("&nbsp;<a href=\"" + siteRoot
-        + "contact.jsp\">Submit Feedback</a>&nbsp;");
+        + "contact.jsp\">Submit Feedback</a>");
     table.append("</span>");
     table.append("</div>");
     table.append("</div>");
@@ -160,7 +160,7 @@ public class HTMLGeneration {
     }
     table.append("</div>");
     // Navigation Bar
-    table.append("<div id=\"navigationLinksContainer\">");
+    table.append("<div id=\"navigationLinksContainer\" class='clearfix'>");
     table.append("<ul class=\"navLinkUL\">");
     table.append(addNavLink("Search", "search.jsp", null,
         currentPageFilename, false));
@@ -183,7 +183,7 @@ public class HTMLGeneration {
 
     // Admin Row
     if (isAdminPage && showAdminControls) {
-      table.append("<div id=\"adminLinksContainer\">");
+      table.append("<div id=\"adminLinksContainer\" class='clearfix'>");
       table.append("<ul class=\"navLinkUL\">");
       table.append(addNavLink("Admin Home", "admin.jsp", null,
           currentPageFilename, true));

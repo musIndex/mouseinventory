@@ -1,10 +1,7 @@
 body {
   color: #336699;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  line-height: 24px;
   padding: 0px;
-  margin: 0px;
+  margin: 0px; 
 }
 
 div.duplicateDescriptor {
@@ -39,7 +36,7 @@ ul.navLinkUL {
 }
 
 #pageHeaderContainer {
-  padding: 0px 5px;
+  padding: 1px 5px;
   background-color: #77aaaa;
 }
 
@@ -49,13 +46,12 @@ ul.navLinkUL {
 
 #pageTitle a {
   color: #FFFFFF;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 28px;
+  font-size: 30px;
+  line-height: 30px;
   text-decoration: none;
 }
 
 .titleSubText a {
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 11px;
   line-height: 13px;
   background-color: lavender;
@@ -121,30 +117,25 @@ ul.navLinkUL {
   background-color: #8EE5EE;
 }
 
-#navigationLinksContainer {
-  -moz-background-clip: border;
-  -moz-background-inline-policy: continuous;
-  -moz-background-origin: padding;
-  background: #99bbcc none repeat scroll 0 0;
-  font-size: 13px;
-  font-weight: bold;
-  height: 24px;
-  min-width: 800px;
-  margin: 0px;
-  padding: 0;
-}
 
+#navigationLinksContainer,
 #adminLinksContainer {
   -moz-background-clip: border;
   -moz-background-inline-policy: continuous;
   -moz-background-origin: padding;
-  background: #666699 none repeat scroll 0 0;
   font-size: 13px;
   font-weight: bold;
-  height: 24px;
+  line-height: 23px;
   min-width: 800px;
   margin: 0px;
   padding: 0;
+}
+#navigationLinksContainer {
+  background: #99bbcc none repeat scroll 0 0;
+}
+
+#adminLinksContainer {
+  background: #666699 none repeat scroll 0 0;
 }
 
 #submissionLinksContainer {
@@ -152,7 +143,6 @@ ul.navLinkUL {
   -moz-background-inline-policy: continuous;
   -moz-background-origin: padding;
   background: #5577AA none repeat scroll 0 0;
-  font-family: Verdana, Arial, Helvetica;
   font-size: 13px;
   font-weight: bold;
   height: 24px;
@@ -166,6 +156,7 @@ li.NavLinkItem {
   padding: 0;
   list-style-type: none;
   float: left;
+  border-radius:5px;
 }
 
 li.NavLinkItem:hover {
@@ -182,6 +173,7 @@ li.currentNavLinkItem {
   list-style-type: none;
   float: left;
   background: #335599;
+  border-radius:5px;
 }
 
 li.currentNavLinkItem:hover {
@@ -227,11 +219,7 @@ a.navBarAnchor:visited {
 }
 
 .mouseComment {
-  line-height: 170%;
-}
-
-dl {
-  line-height: 180%;
+  line-height: 130%;
 }
 
 .bp_invalid {
@@ -246,8 +234,6 @@ dl {
 
 tr {
   border-style: none;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
   padding: 5px;
   margin: 3px;
 }
@@ -454,9 +440,7 @@ th {
   padding: 5px;
 }
 
-.pagecontent { /* width: 90%;
-  min-width: 940px;
-  margin: auto; */
+.pagecontent { 
   padding: 5px;
 }
 
@@ -788,6 +772,7 @@ td.mouselistcolumn-holders {
   -moz-border-radius: 10px 10px 0px 0px;
   -webkit-border-radius: 10px 10px 0px 0px;
   padding-left: 10px;
+  padding-top: 3px;
   margin: 10px 2px 0px 2px;
   background-color: gainsboro;
 }
@@ -849,17 +834,3 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
   margin-right: 10px;
 }
 
-/* a.btn {
-  text-decoration:none;
-}
-
-a {
-  text-decoration:none;
-}
-
-a:hover {
-  text-decoration:underline;
-}
-a:visited {
-  color:blue;
-} */
