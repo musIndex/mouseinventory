@@ -75,7 +75,7 @@
     }
 
 %>
-<%=HTMLGeneration.getNavBar("ListSubmissions.jsp?status="+status+"&entered="+entered, true) %>
+<%=HTMLGeneration.getNavBar("ListSubmissions.jsp", true) %>
 <div class="pagecontent pagecontent-leftaligned">
 <h2><%= statusString %></h2>
 <h4><%= kount %> found.</h4>
