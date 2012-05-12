@@ -1609,12 +1609,12 @@ public class DBConnect {
 
     if(record.isEndangered())
     {
-      addFlattenedData(list, "endangered ");
+      addFlattenedData(list, "endangered");
     }
 
     if(record.getCryopreserved() != null && record.getCryopreserved().equalsIgnoreCase("yes"))
     {
-      addFlattenedData(list, "cryopreserved ");
+      addFlattenedData(list, "cryopreserved");
     }
 
     for(MouseHolder hldr : record.getHolders())
@@ -1625,6 +1625,11 @@ public class DBConnect {
     for(String pmid : record.getPubmedIDs())
     {
       addFlattenedData(list, pmid + " ");
+    }
+    
+    if ((record.isMA() || record.isTG()) && (record.getPubmedIDs() == null || record.getPubmedIDs().isEmpty()))
+    {
+      addFlattenedData(list, "unpublished");
     }
 
     String query = "DELETE from flattened_mouse_search WHERE mouse_id='" + recordID + "'";
