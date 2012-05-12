@@ -2,18 +2,25 @@
 <%@page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
 <%=HTMLGeneration.getPageHeader(null, false,false,"onload=\"setFocus('quickSearchForm', 'searchterms')\"") %>
 <%=HTMLGeneration.getNavBar("about.jsp", false) %>
-
-<script type="text/javascript">
-$(document).ready(function(){
-  $(".whatsnew dt").css("color","green");
-  $(".whatsnew dd b").css("color","purple");
-});
-</script>
-
+  
 <div class="pagecontent">
 <div class="textwrapper">
   <div class="whatsnew">
-    <%@include file="notices.jspf" %>
+    <h3>Recent site updates:</h3>
+    <div class="alert alert-info" data-date='5/10/2012' data-name='search-updates'>
+      <b>Improved searches.</b>
+      <br> The search page has been redesigned to be easier to use and more responsive.  
+      Additionally, search results should be more accurate.  You'll also see your search terms <span class='highlight-searchterm'>highlighted</span>.
+    </div>
+    <div class="alert alert-lovely" data-date='4/21/2012' data-name='pdf-downloads'>
+      <b>PDF mouse lists:</b>
+      <br>
+       It is now possible to download a PDF showing the records for all the
+       mice listed for an individual holder.  To do this, go to the "Holder List," find the name of the holder,
+       and click on the number on the extreme right ("Mice Held"). The page
+       that comes up, showing the list of all the mice held, has a button that
+       can be clicked to download the list.
+    </div>
     <div class='alert alert-success'>
     <b>Site Feedback:</b>
     <br>
@@ -21,7 +28,7 @@ $(document).ready(function(){
     if you would like to report an issue or have any other comments regarding the database.
     </div>
     <div class='alert alert-warning'>
-    <b>Database accuracy</b><br>
+    <b>Database accuracy:</b><br>
     If you contact a holder and find that s/he is no longer keeping a particular mouse, please inform admin.
     </div>
   </div>
@@ -70,7 +77,7 @@ all features of the database.</p>
   </li>
   <li><b>Version 2</b> has been developed by Jonathan Scoles, San
   Francisco, CA. <br>
-  The most recent update was published in April, 2012.</li>
+  The most recent update was published in May, 2012.</li>
 </ul>
 <p></p>
 

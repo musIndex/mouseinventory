@@ -20,7 +20,7 @@ $(document).ready(function(){
   var siteRoot = "<%=siteRoot %>";
   var search_box = $('input[name=searchterms]');
   var search_container = $(".search-box");
-  $(".search-notices").find("h4").append("&nbsp;&nbsp;(<a href='about.jsp'>read more about the database</a>)");
+  
   display();
   instr_link.toggle(show_help,hide_help);
   search_button.click(search_button_clicked);
@@ -124,9 +124,6 @@ $(document).ready(function(){
   }
   
   function hash_changed(){
-    if (clear_notices()) {
-      search_container.removeClass("search-box-notices-visible");
-    }
     search(extract_search_params());
   }
 
@@ -303,13 +300,8 @@ $(document).ready(function(){
 %>
   
 <div class="pagecontent">
- 
-  <div class="search-notices">
-    <%@ include file="notices.jspf" %>
-  </div>
-
   <form id="searchForm" action="search.jsp" class="form-search" method="get">
-    <div class="search-box <%= searchPerformed ?  "search-box-small" : "" %> search-box-notices-visible" style="display:none">
+    <div class="search-box <%= searchPerformed ?  "search-box-small" : "" %> " style="display:none">
       <img src="<%=imageRoot %>mouse-img-istock.jpg"/>
       <div class="search-box-inner">
         <input type="text" class="input-xlarge search-query" name="searchterms" value="<%=searchterms%>">

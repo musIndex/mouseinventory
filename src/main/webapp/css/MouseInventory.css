@@ -68,6 +68,9 @@ ul.navLinkUL {
   -webkit-border-radius: 5px;
   padding: 1px 7px;
 }
+.titleSubText a:visited {
+  color: black;
+}
 .titleSubText a:hover {
   background-color: grey;
   color: white;
@@ -819,16 +822,6 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
   
 }
 
-.search-notices {
-  width:320px;
-  float:left;
-}
-
-.search-box-notices-visible {
-  float:left;
-  margin-left: 50px;
-}
-
 .pagination-container a {
   text-decoration: none;
 }
@@ -844,4 +837,16 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
 
 a.btn {
   text-decoration:none;
+}
+
+a {
+  color:blue;
+  text-decoration:none;
+}
+
+a:hover {
+  text-decoration:underline;
+}
+a:visited {
+  color:blue;
 }
