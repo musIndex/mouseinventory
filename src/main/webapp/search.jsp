@@ -147,6 +147,8 @@
             <dd>Find the specific gene 'htr2c'</dd>
             <dt>1346833</dt>
             <dd>Look up MGI ID 1346833</dd>
+            <dt>12590258</dt>
+            <dd>Look up Pubmed ID 1346833</dd>
             <dt>#101,#103</dt>
             <dd>Show record numbers 101 and 103</dd>
           </dl>
