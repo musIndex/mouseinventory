@@ -456,17 +456,23 @@ public class DBConnect {
           strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches", "Matches records with the exact phrase as you typed it"));
           wildcardAdded = true;
           strategies.add(new SearchStrategy(2,"word","Partial word matches",
-              "Splits your query into words, ignoring special characters like hyphens and parentheses; matches occurrences of those words."));
+              "Splits your query into words, ignoring special characters like hyphens and parentheses; matches occurrences of those words.  <br>Any words with fewer than 2 characters are ignored."));
           strategies.add(new SearchStrategy(2,"word-expanded","Partial expanded word matches",
-              "Splits your query into words, ignoring special characters like hyphens and parentheses; matches words that begin with those letters."));
+              "Splits your query into words, ignoring special characters like hyphens and parentheses; matches words that begin with those letters. <br>Any words with fewer than 2 characters are ignored."));
+      } else if (searchTerms.matches(".* .*")){
+        strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches", "Matches records with the exact phrase as you typed it"));
+        wildcardAdded = true;
+        strategies.add(new SearchStrategy(0,"word","Exact word matches",
+            "Matches records that contain all of the words in your query, in any order or position.  <br>Any words with fewer than 2 characters are ignored."));
+        strategies.add(new SearchStrategy(2,"word-expanded","Partial expanded word matches",
+            "Splits your query into words, ignoring special characters like hyphens and parentheses; matches words that begin with those letters.  <br>Any words with fewer than 2 characters are ignored."));
       } else {
         strategies.add(new SearchStrategy(0,"word",
             "Exact word matches", "Matches records containing all of the words in your query"));
         strategies.add(new SearchStrategy(2,"word-expanded",
-            "Partial word matches", "Matches records containing words that begin with the letters of the words in your query."));
+            "Partial word matches", "Matches records containing words that begin with the letters of the words in your query. <br>Any words with fewer than 2 characters are ignored."));
       }
         
-      
       if (searchTerms.indexOf(" ") > 0) {
         strategies.add(new SearchStrategy(5,"natural","Partial matches","Performs advanced matching based on natural language parsing rules."));
       } else if (!wildcardAdded && searchTerms.matches(".*\\w.*") && searchTerms.matches(".*\\d.*")){
@@ -477,7 +483,7 @@ public class DBConnect {
       //strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
       strategies.add(new SearchStrategy(8,"word-chartype-expanded",
           "Partial sub-word matches",
-          "Splits your query into words based on character type, such as letters, numbers, or special characters.  Any resulting words that are less than 2 characters are ignored.  I.E., wnt12a is split into 'wnt' and '12'.  Matches records that contain words starting with those letters or numbers."));
+          "Splits your query into words based on character type, such as letters, numbers, or special characters.  <br>Any words with fewer than 2 characters are ignored.  I.E., wnt12a is split into 'wnt' and '12'.  Matches records that contain words starting with those letters or numbers."));
       if (!wildcardAdded) {
         strategies.add(new SearchStrategy(8,"like-wildcard",
             "Partial phrase matches","Matches records that contain the exact phrase you entered, anywhere in the text"));
@@ -568,19 +574,21 @@ public class DBConnect {
   }
   
   private static String[] tokenize(String searchTerms, boolean charType) {
+    String[] tokens;
     if (charType) {
-      List<String> acceptableTokens = new ArrayList<String>();
-      for(String token : StringUtils.splitByCharacterType(searchTerms)){
-        if (token.length() > 1) {
-          acceptableTokens.add(token);
-        }
-      }
-      return acceptableTokens.toArray(new String[acceptableTokens.size()]);
+      tokens = StringUtils.splitByCharacterType(searchTerms);
     }
     else
     {
-      return StringUtils.split(searchTerms," -\\()/");
+      tokens = StringUtils.split(searchTerms," -\\()/");
     }
+    List<String> acceptableTokens = new ArrayList<String>();
+    for(String token : tokens){
+      if (token.length() > 1) {
+        acceptableTokens.add(token);
+      }
+    }
+    return acceptableTokens.toArray(new String[acceptableTokens.size()]);
   }
   
   private static String tokenizeBoolean(String[] tokens, boolean expand) {
