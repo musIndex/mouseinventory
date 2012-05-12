@@ -87,10 +87,22 @@ $(document).ready(function(){
     if (window.searchQuery != search_query ) {
       window.searchQuery = search_query;
       _gaq.push(['_trackPageview', window.location.pathname + '?' + window.location.hash.substring(1)]);
-      $("#searchresults-container").load('search.jsp?' + $.param(window.searchQuery) + ' #searchresults', search_results_loaded);
+      if (search_query.searchterms){
+        $("#searchresults-container").fadeOut(50,function(){
+          $(this).html("<div class='search-load-message'>Searching...</div>").fadeIn(50,do_search_ajax);
+        });
+      }
+      else {
+        do_search_ajax();
+      }
+      
     }
     return false;
-  } 
+  }
+  
+  function do_search_ajax(){
+    $("#searchresults-container").load('search.jsp?' + $.param(window.searchQuery) + ' #searchresults', search_results_loaded);
+  }
   
   function extract_search_params(){
     var hash = $.bbq.getState( );

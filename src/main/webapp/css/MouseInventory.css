@@ -821,6 +821,13 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
   
 }
 
+.search-load-message {
+  font-size: 16px;
+  font-style: italic;
+  color: grey;
+  margin-left: 100px;
+}
+
 .pagination-container a {
   text-decoration: none;
 }
