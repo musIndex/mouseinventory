@@ -759,8 +759,8 @@ legend + .control-group {
   cursor: default;
   background-color: #e6e6e6;
   background-image: none;
-  opacity: 0.65;
-  filter: alpha(opacity=65);
+  opacity: 0.45;
+  filter: alpha(opacity=45);
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
