@@ -1596,6 +1596,7 @@ public class DBConnect {
     addFlattenedData(list, record.getGensat());
     addFlattenedData(list, record.getModificationType());
     addFlattenedData(list, record.getMouseID());
+    addFlattenedData(list, "#" + record.getMouseID());
     addFlattenedData(list, record.getMouseName());
     addFlattenedData(list, record.getOfficialMouseName());
     addFlattenedData(list, record.getOtherComment());
