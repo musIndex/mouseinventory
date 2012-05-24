@@ -163,7 +163,7 @@ public class HTMLGeneration {
     table.append("<div id=\"navigationLinksContainer\" class='clearfix'>");
     table.append("<ul class=\"navLinkUL\">");
     table.append(addNavLink("Search", "search.jsp", null,
-        currentPageFilename, false));
+        currentPageFilename, false,"nav-search-link"));
     table.append(addNavLink("Mouse List", "MouseReport.jsp", null,
         currentPageFilename, false));
     table.append(addNavLink("Gene List", "GeneReport.jsp", null,
@@ -219,10 +219,15 @@ public class HTMLGeneration {
   private static String addNavLink(String targetNiceName,
       String targetPageFilename, String targetPageArguments,
       String currentPageFilename, boolean isAdminPage) {
+    return addNavLink(targetNiceName, targetPageFilename, targetPageArguments, currentPageFilename, isAdminPage,"");
+  }
+  private static String addNavLink(String targetNiceName,
+      String targetPageFilename, String targetPageArguments,
+      String currentPageFilename, boolean isAdminPage, String cssClass) {
 
-    String cssClass = targetPageFilename.equals(currentPageFilename) ? "current"
+    cssClass += targetPageFilename.equals(currentPageFilename) ? " current"
         : "";
-    cssClass += "NavLinkItem";
+    cssClass += " NavLinkItem";
 
     String url = (isAdminPage ? adminRoot : siteRoot) + targetPageFilename;
     if (targetPageArguments != null) {

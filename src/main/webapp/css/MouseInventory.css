@@ -151,12 +151,20 @@ ul.navLinkUL {
   padding: 0;
 }
 
-li.NavLinkItem {
+.NavLinkItem {
   margin: 0;
   padding: 0;
   list-style-type: none;
   float: left;
-  border-radius:5px;
+ 
+}
+.NavLinkItem.current {
+  background: #335599;
+}
+
+.NavLinkItem.nav-search-link,
+.NavLinkItem.nav-search-link.current {
+  background-color: #BE1607;
 }
 
 li.NavLinkItem:hover {
@@ -165,23 +173,7 @@ li.NavLinkItem:hover {
   list-style-type: none;
   float: left;
   background-color: #00008B;
-}
-
-li.currentNavLinkItem {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  float: left;
-  background: #335599;
-  border-radius:5px;
-}
-
-li.currentNavLinkItem:hover {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  float: left;
-  background-color: #00008B;
+  
 }
 
 a.navBarAnchor:hover {
