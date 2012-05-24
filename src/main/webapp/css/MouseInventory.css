@@ -833,4 +833,7 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
   float:left;
   margin-right: 10px;
 }
-
+.searchtips p {
+  font-style: italic;
+  font-size: 14px;
+}
