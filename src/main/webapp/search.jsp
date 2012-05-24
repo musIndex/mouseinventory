@@ -38,6 +38,7 @@
 
     String whereClause = "";
     StringBuilder results = new StringBuilder();
+    StringBuilder searchTips = new StringBuilder();
     int mouseCount = 0;
     int displayedMice = 0;
     boolean searchPerformed = false;
@@ -45,9 +46,30 @@
     String resultSummary = "";
     int exactMatches = 0;
     int partialMatches = 0;
+    
+    
 
     if(searchterms != null && !searchterms.isEmpty())
     {
+      
+      if (!searchterms.toLowerCase().equals(searchterms)) {
+       searchTips.append("<p>Tip: searches are case-insensitive</p>");
+      }
+      String trimmedTerms = searchterms.trim().toLowerCase();
+      if (!trimmedTerms.matches(".*[-/\\)\\(\\.].*")){
+        ArrayList<Holder> holders = DBConnect.getAllHolders();
+        for(Holder holder : holders){
+          if (holder.getLastname().toLowerCase().equals(trimmedTerms) ||
+              holder.getFullname().toLowerCase().equals(trimmedTerms)) {
+            searchTips.append("<p>Are you looking for <a href='" + siteRoot + 
+                                "MouseReport.jsp?holder_id="+ holder.getHolderID() +
+                                 "'>" + holder.getFullname() + "'s mouse list?</a>" +
+                                 " (found on the <a href='" + siteRoot + 
+                                 "HolderReport.jsp'>Holder List</a>)");
+          }
+        }
+      }
+      
       try
       {
         ArrayList<SearchResult> searchresults =  DBConnect.doMouseSearch(searchterms, "live");
@@ -146,7 +168,7 @@
             <dt>shh null</dt>
             <dd>Match records that contain both 'shh' <b>and</b> 'null'</dd>
             <dt>htr</dt>
-            <dd>Match words start with htr, such as htr2c, or htr1a</dd>
+            <dd>Match words that start with htr, such as htr2c, or htr1a</dd>
             <dt>htr2c</dt>
             <dd>Find the specific gene 'htr2c'</dd>
             <dt>1346833</dt>
@@ -168,6 +190,10 @@
           <%} else if (searchPerformed && mouseCount ==0) { %>
             No records match your query
           <%} %>
+        </div>
+        <div class="clearfix"></div>
+        <div class="searchtips" >
+        <%=searchTips.toString() %>
         </div>
         <%= results.toString() %>      
       </div>
