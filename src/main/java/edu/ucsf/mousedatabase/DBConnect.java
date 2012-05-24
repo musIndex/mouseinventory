@@ -543,6 +543,7 @@ public class DBConnect {
     searchTerms = StringUtils.remove(searchTerms, '"');
     searchTerms = StringUtils.remove(searchTerms, '\'');
     searchTerms = StringUtils.replace(searchTerms, "\\", " ");
+    searchTerms = StringUtils.replace(searchTerms, "#", " ");
     
     String[] tokens = tokenize(searchTerms, false, false);
     if (strategy.getName().equals("natural"))

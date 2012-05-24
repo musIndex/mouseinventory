@@ -152,7 +152,7 @@ public class HTMLGeneration {
       table.append("<input id='quicksearchbutton' class=\"btn search-query\" type=\"submit\" value=\"Quick Search\">\r\n");
       table.append("<script type='text/javascript'>\r\n$('input[name=searchterms]').focus()\r\n");
       table.append("$(\"#quicksearchbutton\").click(function(){ \r\n");
-      table.append("window.location.href = 'search.jsp#' + $(\"#quickSearchForm\").serialize();\r\nreturn false; });");
+      table.append("window.location.href = '" + siteRoot + "search.jsp#' + $(\"#quickSearchForm\").serialize();\r\nreturn false; });");
       table.append("</script>\r\n");
       table.append("</form>");
       table.append("</div>");
