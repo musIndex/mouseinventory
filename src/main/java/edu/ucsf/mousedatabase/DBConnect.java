@@ -484,7 +484,8 @@ public class DBConnect {
       } 
       else if (!wildcardAdded && searchTerms.matches(".*\\w.*") && searchTerms.matches(".*\\d.*")){
         strategies.add(new SearchStrategy(5,"like-wildcard",
-            "Partial phrase matches","Matches records that contain the exact phrase you entered, anywhere in the text"));
+            "Partial phrase matches",
+            "When the query contains both letters and numbers, matches records that contain the exact phrase you entered, anywhere in the text"));
         wildcardAdded = true;
       }
       
@@ -494,7 +495,7 @@ public class DBConnect {
       //strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
       strategies.add(new SearchStrategy(8,"word-chartype-expanded",
           "Partial sub-term matches",
-          "Splits your query into terms based on character type, such as letters, numbers, or special characters, and matches records that contain all of those terms.  <br>Single-character terms are ignored.  I.E., wnt12a is split into 'wnt' and '12'.  Matches records that contain terms starting with those letters or numbers."));
+          "Splits your query into terms based on character type, such as letters, numbers, or special characters, and matches records that contain all of those terms,  e.g. wnt12 is split into 'wnt' and '12'.  Matches records that contain terms starting with those letters or numbers. <br>Single-character terms are ignored."));
       strategies.add(new SearchStrategy(8,"like-wildcard-split-chartype",
           "Partial sub-term split matches",
           "Splits your query into terms based on character type, such as letters, number or special characters, and matches records that contain the letters of each term you entered, anywhere in the text"));
