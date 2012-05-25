@@ -453,29 +453,30 @@ public class DBConnect {
       
       boolean wildcardAdded = false;
       if (searchTerms.matches(".*[-/\\)\\(\\.].*")) {
-          strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches", "Matches records with the exact phrase as you typed it"));
+          strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches", 
+              "Matches records with the exact phrase as you typed it"));
           wildcardAdded = true;
           if (searchTerms.indexOf(" ") > 0) {
-            strategies.add(new SearchStrategy(0,"like-wildcard-split-special",
-                "Exact term matches","Matches records that contain the terms you entered, anywhere in the text"));
+            strategies.add(new SearchStrategy(0,"like-wildcard-split-special", "Exact term matches",
+                "Matches records that contain the terms you entered, anywhere in the text"));
           }
-          strategies.add(new SearchStrategy(2,"word","Partial term matches",
-              "Splits your query into terms, ignoring special characters like hyphens and parentheses; matches occurrences of those terms.  <br>Single-character terms are ignored."));
-          strategies.add(new SearchStrategy(2,"word-expanded","Partial expanded term matches",
-              "Splits your query into terms, ignoring special characters like hyphens and parentheses; matches terms that begin with those letters. <br>Single-character terms are ignored."));
+          strategies.add(new SearchStrategy(0,"word","Exact term matches",
+              "Interprets special characters such as hyphens and parentheses as spaces, thereby splitting the query into separate terms, then matches records containing all the terms in your query, in any order or position. <br>Single-character terms are ignored."));
+          strategies.add(new SearchStrategy(2,"word-expanded","Partial term matches",
+              "Interprets special characters such as hyphens and parentheses as spaces, thereby splitting the query into separate terms, then matches records containing terms that begin with the letters of the terms in your query. <br>Single-character terms are ignored."));
       } else if (searchTerms.matches("(.* .*)+")){
         strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches", "Matches records with the exact phrase as you typed it"));
         wildcardAdded = true;
         strategies.add(new SearchStrategy(0,"word","Exact term matches",
             "Matches records that contain all of the terms in your query, in any order or position.  <br>Single-character terms are ignored."));
         strategies.add(new SearchStrategy(2,"word-expanded","Partial term matches",
-            "Splits your query into terms, ignoring special characters like hyphens and parentheses; matches terms that begin with those letters.  <br>Single-character terms are ignored."));
+            "Interprets special characters such as hyphens and parentheses as spaces, thereby splitting the query into separate terms, then matches records containing terms that begin with the letters of the terms in your query. <br>Single-character terms are ignored."));
       } 
       else {
         strategies.add(new SearchStrategy(0,"word",
-            "Exact term matches", "Matches records containing all of the terms in your query"));
+            "Exact term matches", "Matches records containing the term in your query"));
         strategies.add(new SearchStrategy(2,"word-expanded",
-            "Partial term matches", "Matches records containing terms that begin with the letters of the terms in your query. <br>Single-character terms are ignored."));
+            "Partial term matches", "Matches records containing terms that begin with the letters of the term in your query. <br>Single-character terms are ignored."));
       }
         
       if (searchTerms.indexOf(" ") > 0) {
@@ -493,10 +494,10 @@ public class DBConnect {
       //strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
       strategies.add(new SearchStrategy(8,"word-chartype-expanded",
           "Partial sub-term matches",
-          "Splits your query into terms based on character type, such as letters, numbers, or special characters.  <br>Single-character terms are ignored.  I.E., wnt12a is split into 'wnt' and '12'.  Matches records that contain terms starting with those letters or numbers."));
+          "Splits your query into terms based on character type, such as letters, numbers, or special characters, and matches records that contain all of those terms.  <br>Single-character terms are ignored.  I.E., wnt12a is split into 'wnt' and '12'.  Matches records that contain terms starting with those letters or numbers."));
       strategies.add(new SearchStrategy(8,"like-wildcard-split-chartype",
           "Partial sub-term split matches",
-          "Splits your query into terms based on character type, such as letters, number or special charachters, and matches records that contain the letters of each term you entered, anywhere in the text"));
+          "Splits your query into terms based on character type, such as letters, number or special characters, and matches records that contain the letters of each term you entered, anywhere in the text"));
     
       if (!wildcardAdded) {
         strategies.add(new SearchStrategy(8,"like-wildcard",
