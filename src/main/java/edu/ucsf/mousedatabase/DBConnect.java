@@ -463,14 +463,15 @@ public class DBConnect {
               "Splits your query into words, ignoring special characters like hyphens and parentheses; matches occurrences of those words.  <br>Any words with fewer than 2 characters are ignored."));
           strategies.add(new SearchStrategy(2,"word-expanded","Partial expanded word matches",
               "Splits your query into words, ignoring special characters like hyphens and parentheses; matches words that begin with those letters. <br>Any words with fewer than 2 characters are ignored."));
-      } else if (searchTerms.matches(".* .*")){
+      } else if (searchTerms.matches("(.* .*)+")){
         strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches", "Matches records with the exact phrase as you typed it"));
         wildcardAdded = true;
         strategies.add(new SearchStrategy(0,"word","Exact word matches",
             "Matches records that contain all of the words in your query, in any order or position.  <br>Any words with fewer than 2 characters are ignored."));
         strategies.add(new SearchStrategy(2,"word-expanded","Partial expanded word matches",
             "Splits your query into words, ignoring special characters like hyphens and parentheses; matches words that begin with those letters.  <br>Any words with fewer than 2 characters are ignored."));
-      } else {
+      } 
+      else {
         strategies.add(new SearchStrategy(0,"word",
             "Exact word matches", "Matches records containing all of the words in your query"));
         strategies.add(new SearchStrategy(2,"word-expanded",
@@ -479,7 +480,8 @@ public class DBConnect {
         
       if (searchTerms.indexOf(" ") > 0) {
         strategies.add(new SearchStrategy(5,"natural","Partial matches","Matches records that contain most of the words in your query"));
-      } else if (!wildcardAdded && searchTerms.matches(".*\\w.*") && searchTerms.matches(".*\\d.*")){
+      } 
+      else if (!wildcardAdded && searchTerms.matches(".*\\w.*") && searchTerms.matches(".*\\d.*")){
         strategies.add(new SearchStrategy(5,"like-wildcard",
             "Partial phrase matches","Matches records that contain the exact phrase you entered, anywhere in the text"));
         wildcardAdded = true;
@@ -487,14 +489,15 @@ public class DBConnect {
       
       strategies.add(new SearchStrategy(5,"like-wildcard-split",
           "Partial split matches","Splits your query into words, and matches records that contain the letters of each word you entered, anywhere in the text"));
-      strategies.add(new SearchStrategy(5,"like-wildcard-split-chartype",
-          "Partial sub-word split matches","Splits your query into words based on character type, such as letters, number or special charachters, and matches records that contain the letters of each word you entered, anywhere in the text"));
-     
       
       //strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
       strategies.add(new SearchStrategy(8,"word-chartype-expanded",
           "Partial sub-word matches",
           "Splits your query into words based on character type, such as letters, numbers, or special characters.  <br>Any words with fewer than 2 characters are ignored.  I.E., wnt12a is split into 'wnt' and '12'.  Matches records that contain words starting with those letters or numbers."));
+      strategies.add(new SearchStrategy(8,"like-wildcard-split-chartype",
+          "Partial sub-word split matches",
+          "Splits your query into words based on character type, such as letters, number or special charachters, and matches records that contain the letters of each word you entered, anywhere in the text"));
+    
       if (!wildcardAdded) {
         strategies.add(new SearchStrategy(8,"like-wildcard",
             "Partial phrase matches","Matches records that contain the exact phrase you entered, anywhere in the text"));
@@ -629,7 +632,7 @@ public class DBConnect {
   private static String[] tokenize(String searchTerms, boolean charType, boolean spacesOnly) {
     String[] tokens;
     if (charType) {
-      tokens = StringUtils.splitByCharacterType(searchTerms);
+      tokens = StringUtils.splitByCharacterType(searchTerms.toLowerCase());
     }
     else if(spacesOnly)
     {
