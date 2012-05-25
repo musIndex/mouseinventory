@@ -495,8 +495,8 @@ public class DBConnect {
         wildcardAdded = true;
       }
       
-      strategies.add(new SearchStrategy(5,"like-wildcard-split",
-          "Partial split matches","Splits your query into terms, and matches records that contain the letters of each term you entered, anywhere in the text"));
+      strategies.add(new SearchStrategy(5,"like-wildcard-split", "Partial split matches",
+          "Splits your query into terms, and matches records that contain the letters of each term you entered, anywhere in the text"));
       
       //strategies.add(new SearchStrategy(8,"word-chartype","Partial sub-word matches"));
       strategies.add(new SearchStrategy(8,"word-chartype-expanded",
@@ -513,13 +513,23 @@ public class DBConnect {
       }
       
       if (searchTerms.indexOf(" ") > 0) {
-        strategies.add(new SearchStrategy(9,"natural","Partial matches","Matches records that contain most of the terms in your query"));
+        strategies.add(new SearchStrategy(8,"natural-5","Partial matches","Matches records that contain most of the terms in your query.  Records that are the best matches appear at the top of the list."));
+        strategies.add(new SearchStrategy(9,"natural-0","Possible matches","Matches records that contain any of the terms in your query.  Records that are the best matches appear at the top of the list."));
+        
       } 
+      else {
+        strategies.add(new SearchStrategy(8,"natural-tokenize-5","Partial matches",
+            "Interprets special characters such as hyphens and parentheses as spaces, thereby splitting the query into separate terms, and matches records that contain most of those terms.  Records that are the best matches appear at the top of the list. <br>Single-character terms are ignored."));
+
+        strategies.add(new SearchStrategy(9,"natural-tokenize-0","Possible matches",
+            "Interprets special characters such as hyphens and parentheses as spaces, thereby splitting the query into separate terms, and matches records that contain any of those terms. Records that are the best matches appear at the top of the list.  <br>Single-character terms are ignored."));
+
+      }
       
      
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
-        if (allMouseIds.size() > 0 && strategy.getQualityValue() > 8) {
+        if (allMouseIds.size() > 10 && strategy.getQualityValue() > 8) {
           continue;
         }
           
@@ -566,11 +576,25 @@ public class DBConnect {
     searchTerms = StringUtils.replace(searchTerms, "#", " ");
     
     String[] tokens = tokenize(searchTerms, false, false);
-    if (strategy.getName().equals("natural"))
+    if (strategy.getName().equals("natural-5"))
+    {
+      query += "match(searchtext) against('" + searchTerms + "') > 5";
+      orderBy = "match(searchtext) against('" + searchTerms + "') desc";
+    }
+    else if (strategy.getName().equals("natural-0"))
     {
       query += "match(searchtext) against('" + searchTerms + "') > 0";
       orderBy = "match(searchtext) against('" + searchTerms + "') desc";
-      //TODO these should be sorted, need a way to sort results by match score.
+    }
+    else if (strategy.getName().equals("natural-tokenize-5"))
+    {
+      query += "match(searchtext) against('" + StringUtils.join(tokens,' ') + "') > 5";
+      orderBy = "match(searchtext) against('" + searchTerms + "') desc";
+    }
+    else if (strategy.getName().equals("natural-tokenize-0"))
+    {
+      query += "match(searchtext) against('" + StringUtils.join(tokens,' ') + "') > 0";
+      orderBy = "match(searchtext) against('" + searchTerms + "') desc";
     }
     else if (strategy.getName().equals("word"))
     {
