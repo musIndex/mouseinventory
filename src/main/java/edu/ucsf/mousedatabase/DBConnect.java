@@ -460,9 +460,9 @@ public class DBConnect {
             strategies.add(new SearchStrategy(0,"like-wildcard-split-special", "Exact term matches",
                 "Matches records that contain the terms you entered, anywhere in the text"));
           }
-          strategies.add(new SearchStrategy(0,"word","Exact term matches",
+          strategies.add(new SearchStrategy(2,"word","Partial term matches",
               "Interprets special characters such as hyphens and parentheses as spaces, thereby splitting the query into separate terms, then matches records containing all the terms in your query, in any order or position. <br>Single-character terms are ignored."));
-          strategies.add(new SearchStrategy(2,"word-expanded","Partial term matches",
+          strategies.add(new SearchStrategy(2,"word-expanded","Partial term matches (expanded)",
               "Interprets special characters such as hyphens and parentheses as spaces, thereby splitting the query into separate terms, then matches records containing terms that begin with the letters of the terms in your query. <br>Single-character terms are ignored."));
       } else if (searchTerms.matches("(.* .*)+")){
         strategies.add(new SearchStrategy(0,"like-wildcard","Exact phrase matches", "Matches records with the exact phrase as you typed it"));
