@@ -56,11 +56,15 @@
        searchTips.append("<p>Tip: searches are not case-sensitive</p>");
       }
       String trimmedTerms = searchterms.trim().toLowerCase();
-      if (!trimmedTerms.matches(".*[-/\\)\\(\\.].*")){
+      if (!trimmedTerms.matches(".*[/\\)\\(\\.].*")){
         ArrayList<Holder> holders = DBConnect.getAllHolders();
         for(Holder holder : holders){
+          if (holder.getHolderID() == 1) {
+           continue; 
+          }
           if (holder.getLastname().toLowerCase().equals(trimmedTerms) ||
-              holder.getFullname().toLowerCase().equals(trimmedTerms)) {
+              holder.getFullname().toLowerCase().equals(trimmedTerms) ||
+              trimmedTerms.matches("(.*[\\s]+)*" + holder.getLastname().toLowerCase() + "([\\s]+.*)*")) {
             searchTips.append("<p>Are you looking for <a href='" + siteRoot + 
                                 "MouseReport.jsp?holder_id="+ holder.getHolderID() +
                                  "'>" + holder.getFullname() + "'s mouse list?</a>" +
