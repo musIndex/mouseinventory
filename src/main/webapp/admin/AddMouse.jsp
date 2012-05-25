@@ -13,15 +13,15 @@
 New Submission category:
 </td>
 <td style="width:150px">
-<input type="radio"  value="Mutant Allele" name="mouseType" 
+<input type="radio"  value="Mutant Allele" name="mouseType"
 <%=HTMLGeneration.isChecked(newMouse.isMA()) %> />
 Mutant Allele
 <br/>
-<input type="radio" value="Transgenic" name="mouseType" 
+<input type="radio" value="Transgenic" name="mouseType"
 <%=HTMLGeneration.isChecked(newMouse.isTG()) %>/>
 Transgenic
 <br/>
-<input type="radio" value="Inbred Strain" name="mouseType" 
+<input type="radio" value="Inbred Strain" name="mouseType"
 <%=HTMLGeneration.isChecked(newMouse.isIS()) %> />
 Inbred Strain
 </td>

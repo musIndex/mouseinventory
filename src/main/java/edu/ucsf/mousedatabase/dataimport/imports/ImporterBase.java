@@ -7,12 +7,12 @@ import edu.ucsf.mousedatabase.dataimport.Importer;
 
 public class ImporterBase implements Importer {
 
-	@Override
-	public void HandleImport(int importTaskId,
-			ArrayList<HashMap<String, String>> csvData,
-			HashMap<String, String> parameters) {
-		// TODO Auto-generated method stub
+  @Override
+  public void HandleImport(int importTaskId,
+      ArrayList<HashMap<String, String>> csvData,
+      HashMap<String, String> parameters) {
+    // TODO Auto-generated method stub
 
-	}
+  }
 
 }

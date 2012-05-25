@@ -3,9 +3,9 @@
   <role rolename="administrator"/>
   <user username="admin" password="change_this_password" roles="administrator"/>
 <!-- Uncomment this section if you want to use the tomcat manager for deployment.
-	if using the maven tomcat plugin to deploy, the installer username/password
-	must match what you've configured in ~/.m2/settings.xml
-	
+  if using the maven tomcat plugin to deploy, the installer username/password
+  must match what you've configured in ~/.m2/settings.xml
+
   <role rolename="manager"/>
   <role rolename="admin"/>
   <user name="installer" password="change_this_other_password" roles="manager,admin"/>

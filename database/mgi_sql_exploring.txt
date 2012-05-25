@@ -3,7 +3,7 @@
 --**allele key from mouse MGI ID**
 select _Object_key
 	from ACC_Accession left join ACC_MGIType on ACC_Accession._MGIType_key=ACC_MGIType._MGIType_key
-	where numericPart=3809524 
+	where numericPart=3809524
 	and prefixPart='MGI:'
 	and ACC_Accession._MGIType_key=11
 
@@ -31,7 +31,7 @@ select numericPart from ACC_Accession
 select _Refs_key from MGI_Reference_Allele_View where _Object_key=63704 and assocType='Original'
 
 --pubmed details
-select _primary,title from BIB_refs where _Refs_key = 
+select _primary,title from BIB_refs where _Refs_key =
 (select _Refs_key from MGI_Reference_Allele_View where _Object_key=63704 and assocType='Original')
 
 --pubmed accession ID

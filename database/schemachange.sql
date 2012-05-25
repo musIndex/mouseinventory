@@ -27,7 +27,7 @@ CREATE TABLE `property_definitions` (
 LOCK TABLES `property_definitions` WRITE;
 /*!40000 ALTER TABLE `property_definitions` DISABLE KEYS */;
 
-INSERT INTO `property_definitions` VALUES 
+INSERT INTO `property_definitions` VALUES
 (1,'Modification Type',		3,1,NULL,1,	'targeted disruption|conditional allele (loxP/frt)|gene trap insertion|Chemically induced (ENU)|spontaneous mutation'),
 (2,'Expressed Sequence',	3,1,NULL,1,	'mouse gene|Cre'),
 (3,'Regulatory Element',	2,1,NULL,0,	NULL),
@@ -47,7 +47,7 @@ CREATE TABLE `property_categories` (
 
 LOCK TABLES `property_categories` WRITE;
 /*!40000 ALTER TABLE `property_categories` DISABLE KEYS */;
-INSERT INTO `property_categories` VALUES 
+INSERT INTO `property_categories` VALUES
 (1,'Category'),
 (2,'Details'),
 (3,'Comments');
@@ -65,7 +65,7 @@ CREATE TABLE `property_definition_categories` (
 
 LOCK TABLES `property_definition_categories` WRITE;
 /*!40000 ALTER TABLE `property_definition_categories` DISABLE KEYS */;
-INSERT INTO `property_definition_categories` VALUES 
+INSERT INTO `property_definition_categories` VALUES
 (1,1,1),
 (2,2,1),
 (3,3,2),
@@ -89,26 +89,26 @@ INSERT INTO mouse_property_values (mouseId,property_definitionId,valueText)
 	from mouse
 	where mousetype_id=1
 	and modification_type is not null;
-	
+
 -- expressed sequence
 
 INSERT INTO mouse_property_values (mouseId,property_definitionId,valueText)
 	SELECT mouse.id, 2, expressedsequence
 	from mouse left join expressedsequence on mouse.expressedsequence_id=expressedsequence.id
 	where mouse.expressedsequence_id = 1 or mouse.expressedsequence_id = 2;
-	
+
 INSERT INTO mouse_property_values (mouseId,property_definitionId,valueText)
 	SELECT mouse.id, 2, other_comment
 	from mouse
 	where mouse.expressedsequence_id = 4
 	and other_comment is not null;
-	
+
 INSERT INTO mouse_property_values (mouseId,property_definitionId,valueText)
 	SELECT mouse.id, 2, reporter_comment
 	from mouse
 	where mouse.expressedsequence_id = 3
 	and reporter_comment is not null;
-	
+
 -- regulatory element
 
 INSERT INTO mouse_property_values (mouseId,property_definitionId,valueText)
@@ -116,39 +116,39 @@ INSERT INTO mouse_property_values (mouseId,property_definitionId,valueText)
 	where regulatory_element_comment is not null
 	and regulatory_element_comment <> '';
 
--- gensat	
+-- gensat
 
-INSERT INTO mouse_property_values (mouseId,property_definitionId,valueText)	
+INSERT INTO mouse_property_values (mouseId,property_definitionId,valueText)
 	select mouse.id,4,gensat from mouse
 	where gensat is not null
 	and gensat <> '';
 
 -- endangered
-	
+
 INSERT INTO mouse_property_values (mouseId,property_definitionId,valueText)
 	select mouse.id,5,1 from mouse
 	where endangered is not null
 	and endangered = 1;
-	
+
 INSERT INTO mouse_property_values (mouseId,property_definitionId,valueText)
 	select mouse.id,5,0 from mouse
 	where endangered is not null
 	and endangered = 0;
-	
-	
+
+
 -- mta status
 INSERT INTO mouse_property_values (mouseId,property_definitionId,valueText)
 	select mouse.id,6,'Yes' from mouse
 	where mta_required = 'Y';
-	
+
 INSERT INTO mouse_property_values (mouseId,property_definitionId,valueText)
 	select mouse.id,6,'No' from mouse
 	where mta_required = 'N';
-	
+
 INSERT INTO mouse_property_values (mouseId,property_definitionId,valueText)
 	select mouse.id,6,'Unknown' from mouse
 	where mta_required = 'D';
-	
+
 
 -- create mouse gene table
 CREATE TABLE `mouse_gene` (
@@ -182,7 +182,7 @@ CREATE TABLE `mouse_repository` (
   PRIMARY KEY  (`mouse_repositoryId`)
 );
 
-ALTER TABLE `repository` 
+ALTER TABLE `repository`
 	ADD COLUMN displayformat text;
 
 -- populate mouse repository table
@@ -209,7 +209,7 @@ CREATE TABLE `suppliers` (
 
 LOCK TABLES `suppliers` WRITE;
 /*!40000 ALTER TABLE `suppliers` DISABLE KEYS */;
-INSERT INTO `suppliers` VALUES 
+INSERT INTO `suppliers` VALUES
 (1,'JAX Mice','http://jaxmice.jax.org/strain/${catalog_number}.html'),
 (2,'Charles River',''),
 (3,'Taconic',''),
@@ -238,25 +238,25 @@ CREATE TABLE `mouse_suppliers` (
 
 insert into mouse_suppliers (mouseId,supplierId,catalogNumber)
 	select mouse.id,1,left(substring(source,6),6)
-	from mouse 
+	from mouse
 	where mousetype_id=3
 	and source regexp('^JAX, [0-9]{6}');
-	
-insert into mouse_suppliers (mouseId,supplierId,catalogNumber)	
+
+insert into mouse_suppliers (mouseId,supplierId,catalogNumber)
 	select mouse.id,1,left(substring(source,5),6)
-	from mouse 
+	from mouse
 	where mousetype_id=3
 	and source regexp('^JAX [0-9]{6}');
-	
-insert into mouse_suppliers (mouseId,supplierId,catalogNumber)		
+
+insert into mouse_suppliers (mouseId,supplierId,catalogNumber)
 	select mouse.id,1,left(substring(source,11),6)
-	from mouse 
+	from mouse
 	where mousetype_id=3
 	and source regexp('^JAX Mice, [0-9]{6}');
-	
-insert into mouse_suppliers (mouseId,supplierId,catalogNumber)			
+
+insert into mouse_suppliers (mouseId,supplierId,catalogNumber)
 	select mouse.id,1,concat('000',left(substring(source,6),3))
-	from mouse 
+	from mouse
 	where mousetype_id=3
 	and source regexp('^JAX, [0-9]{3}, ');
 
@@ -264,64 +264,64 @@ insert into mouse_suppliers (mouseId,supplierId,catalogNumber)
 
 insert into mouse_suppliers (mouseId,supplierId,catalogUrl)
 	select mouse.id,2,substring(source,instr(source,'||')+2)
-	from mouse 
+	from mouse
 	where mousetype_id=3
-	and source regexp('Charles River')	
+	and source regexp('Charles River')
 	and instr(source,'||') > 0;
 
 insert into mouse_suppliers (mouseId,supplierId)
 	select mouse.id,2
-	from mouse 
+	from mouse
 	where mousetype_id=3
-	and source regexp('Charles River')	
+	and source regexp('Charles River')
 	and instr(source,'||') = 0;
 
 -- Taconic
 
 insert into mouse_suppliers (mouseId,supplierId,catalogUrl)
 	select mouse.id,3,substring(source,instr(source,'||')+2)
-	from mouse 
+	from mouse
 	where mousetype_id=3
-	and source regexp('Taconic')	
+	and source regexp('Taconic')
 	and instr(source,'||') > 0;
 
 insert into mouse_suppliers (mouseId,supplierId)
 	select mouse.id,3
-	from mouse 
+	from mouse
 	where mousetype_id=3
-	and source regexp('Taconic')	
+	and source regexp('Taconic')
 	and instr(source,'||') = 0;
 
 -- Harlan
 
 insert into mouse_suppliers (mouseId,supplierId,catalogUrl)
 	select mouse.id,4,substring(source,instr(source,'||')+2)
-	from mouse 
+	from mouse
 	where mousetype_id=3
-	and source regexp('Harlan')	
+	and source regexp('Harlan')
 	and instr(source,'||') > 0;
 
 insert into mouse_suppliers (mouseId,supplierId)
 	select mouse.id,4
-	from mouse 
+	from mouse
 	where mousetype_id=3
-	and source regexp('Harlan')	
+	and source regexp('Harlan')
 	and instr(source,'||') = 0;
 
 -- Not Commerical
 
 insert into mouse_suppliers (mouseId,supplierId,catalogUrl)
 	select mouse.id,5,substring(source,instr(source,'||')+2)
-	from mouse 
+	from mouse
 	where mousetype_id=3
-	and source regexp('Not commercial')	
+	and source regexp('Not commercial')
 	and instr(source,'||') > 0;
 
 insert into mouse_suppliers (mouseId,supplierId)
 	select mouse.id,5
-	from mouse 
+	from mouse
 	where mousetype_id=3
-	and source regexp('Not commercial')	
+	and source regexp('Not commercial')
 	and instr(source,'||') = 0;
 
 
@@ -338,7 +338,7 @@ CREATE TABLE `status` (
 
 LOCK TABLES `status` WRITE;
 /*!40000 ALTER TABLE `status` DISABLE KEYS */;
-INSERT INTO `status` VALUES 
+INSERT INTO `status` VALUES
 (1,'live'),
 (2,'deleted'),
 (3,'incomplete');
@@ -358,8 +358,8 @@ UPDATE mouse
 	WHERE status='deleted';
 UPDATE mouse
 	SET statusId=3
-	WHERE status='incomplete';	
-	
+	WHERE status='incomplete';
+
 
 
 -- mouse_holder_status table
@@ -372,7 +372,7 @@ CREATE TABLE `mouse_holder_status` (
 
 LOCK TABLES `mouse_holder_status` WRITE;
 /*!40000 ALTER TABLE `mouse_holder_status` DISABLE KEYS */;
-INSERT INTO `mouse_holder_status` VALUES 
+INSERT INTO `mouse_holder_status` VALUES
 (1,''),
 (2,'Live only'),
 (3,'Cryo only'),
@@ -392,14 +392,14 @@ UPDATE `mouse_holder_facility`
 UPDATE `mouse_holder_facility`
 	SET mouse_holder_statusId=2
 	WHERE cryo_live_status='Cryo only';
-	
+
 UPDATE `mouse_holder_facility`
 	SET mouse_holder_statusId=3
 	WHERE cryo_live_status='Live and Cryo';
-	
+
 ALTER TABLE `mouse_holder_facility`
 	DROP COLUMN cryo_live_status;
-	
+
 -- removed unused tables
 DROP TABLE IF EXISTS `expressedsequence`;
 DROP TABLE IF EXISTS `modification_type`;
@@ -407,11 +407,11 @@ DROP TABLE IF EXISTS `reference`;
 DROP TABLE IF EXISTS `source`;
 DROP TABLE IF EXISTS `strain`;
 DROP TABLE IF EXISTS `transgenictype`;
-	
+
 -- remove unused columns from tables;
 ALTER TABLE mouse
 	DROP COLUMN modification_type,
-	DROP COLUMN expressedsequence_id,	
+	DROP COLUMN expressedsequence_id,
 	drop column strain_comment,
 	drop column transgenictype_id,
 	drop column regulatory_element_comment,

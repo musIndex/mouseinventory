@@ -7,8 +7,8 @@
 
 <%
 
-	ArrayList<ImportReport> reports = DBConnect.getAllImportReports();
-	String table = HTMLGeneration.getImportReportTable(reports,false);
+  ArrayList<ImportReport> reports = DBConnect.getAllImportReports();
+  String table = HTMLGeneration.getImportReportTable(reports,false);
 
 
 %>

@@ -21,77 +21,77 @@
 
 <%
 
-	
-	int mouseID = HTMLGeneration.stringToInt(request.getParameter("mouseID"));
-	String errors = "";
-	String errortext = "";
-	String resultingRecord = "";
-	String previousRecord = null;
-	String recordUpdateResult = null;
-   	String pageHeader = "";
-   	boolean errorsEncountered = false;
-   	
-  //TODO combine code in updatemouse,updatechangerequest,updatesubmission into servlet
-  
-   	PopulateMouseResult result = RecordManager.PopulateMouseDataFromRequest(updatedRecord,request);
-   	if (!result.Success)
-   	{
-   		errorsEncountered = true;
-   		errortext += result.Message;
-   	}
-   	else if( mouseID > 0)
-	{
-		previousRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false,true);
-		
-		int existingRecordID = RecordManager.RecordExists(updatedRecord);
-		
-		if(existingRecordID > 0)
-		{
-			//dupicate found
-			String table = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(existingRecordID),true,false, true);
-			errors += "Duplicate record found with MGI Allele/Transgene ID " + updatedRecord.getRepositoryCatalogNumber();
-			errortext += "<h3>Existing Record:</h3>";
-			errortext += table;
-			errorsEncountered = true;
-		}
-		else
-		{
-			//update the record
-			recordUpdateResult = DBConnect.updateMouseRecord(updatedRecord);
-			pageHeader = "Updated Record #" + mouseID;
-		}
-	}
-	else
-	{
-		errors += "Mouse ID not found, cannot update";
-		errorsEncountered = true;
-	}
-	
 
-	if(recordUpdateResult != null)
-	{
-		errors += recordUpdateResult;
-	}
-	else
-	{
-	    resultingRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false, true);
-	}
+  int mouseID = HTMLGeneration.stringToInt(request.getParameter("mouseID"));
+  String errors = "";
+  String errortext = "";
+  String resultingRecord = "";
+  String previousRecord = null;
+  String recordUpdateResult = null;
+     String pageHeader = "";
+     boolean errorsEncountered = false;
+
+  //TODO combine code in updatemouse,updatechangerequest,updatesubmission into servlet
+
+     PopulateMouseResult result = RecordManager.PopulateMouseDataFromRequest(updatedRecord,request);
+     if (!result.Success)
+     {
+       errorsEncountered = true;
+       errortext += result.Message;
+     }
+     else if( mouseID > 0)
+  {
+    previousRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false,true);
+
+    int existingRecordID = RecordManager.RecordExists(updatedRecord);
+
+    if(existingRecordID > 0)
+    {
+      //dupicate found
+      String table = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(existingRecordID),true,false, true);
+      errors += "Duplicate record found with MGI Allele/Transgene ID " + updatedRecord.getRepositoryCatalogNumber();
+      errortext += "<h3>Existing Record:</h3>";
+      errortext += table;
+      errorsEncountered = true;
+    }
+    else
+    {
+      //update the record
+      recordUpdateResult = DBConnect.updateMouseRecord(updatedRecord);
+      pageHeader = "Updated Record #" + mouseID;
+    }
+  }
+  else
+  {
+    errors += "Mouse ID not found, cannot update";
+    errorsEncountered = true;
+  }
+
+
+  if(recordUpdateResult != null)
+  {
+    errors += recordUpdateResult;
+  }
+  else
+  {
+      resultingRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false, true);
+  }
 %>
 <div class="pagecontent">
 <h2><%=pageHeader %></h2>
 <%if(errors.isEmpty())
-{ 
-	%>
-	<h3>Before:</h3>
-	<%= previousRecord %>
-	<h3>After:</h3>
-	<%= resultingRecord %>
-	<%	
+{
+  %>
+  <h3>Before:</h3>
+  <%= previousRecord %>
+  <h3>After:</h3>
+  <%= resultingRecord %>
+  <%
 }
 else
 { %>
-	<h3 class="validationError"><%=errors %></h3>
-	<%=errortext %>
+  <h3 class="validationError"><%=errors %></h3>
+  <%=errortext %>
 <%
 } %>
 </div>
