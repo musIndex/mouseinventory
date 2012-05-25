@@ -53,7 +53,7 @@
     {
       
       if (!searchterms.toLowerCase().equals(searchterms)) {
-       searchTips.append("<p>Tip: searches are <b>not</b> case-sensitive</p>");
+       searchTips.append("<p>Tip: searches are not case-sensitive</p>");
       }
       String trimmedTerms = searchterms.trim().toLowerCase();
       if (!trimmedTerms.matches(".*[-/\\)\\(\\.].*")){
