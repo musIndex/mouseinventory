@@ -51,10 +51,7 @@
 
     if(searchterms != null && !searchterms.isEmpty())
     {
-      
-      if (!searchterms.toLowerCase().equals(searchterms)) {
-       searchTips.append("<p>Tip: searches are not case-sensitive</p>");
-      }
+
       String trimmedTerms = searchterms.trim().toLowerCase();
       if (!trimmedTerms.matches(".*[/\\)\\(\\.].*")){
         ArrayList<Holder> holders = DBConnect.getAllHolders();
@@ -85,8 +82,15 @@
         String mouseTable = "";
         if (allMatches.size() > 0)
         {
+          if (!searchterms.toLowerCase().equals(searchterms)) {
+ 	       searchTips.append("<p>Tip: searches are not case-sensitive</p>");
+ 	      } 
     	  String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
     	  results.append(topPageSelectionLinks);
+        }
+        else
+        {
+          searchTips.append("<p>Tip: searches are not case-sensitive</p>");
         }
         int miceSeen = 0;
         String resultLog = "Search=" + searchterms + "||:source=" + (searchsource != null ? searchsource : "search");
