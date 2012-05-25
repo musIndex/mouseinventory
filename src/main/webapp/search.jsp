@@ -128,7 +128,7 @@
             ArrayList<MouseRecord> mice = new ArrayList<MouseRecord>();
             if (endIndex > 0)
             {
-              mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex));
+              mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex),result.getStrategy().getName().equals("natural"));
             }
  
             results.append("<div class='search-strategy-header' data-tokens='" + 
