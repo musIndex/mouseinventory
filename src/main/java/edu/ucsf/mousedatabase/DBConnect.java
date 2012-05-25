@@ -529,7 +529,7 @@ public class DBConnect {
      
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
-        if (allMouseIds.size() > 10 && strategy.getQualityValue() > 8) {
+        if (allMouseIds.size() > 0 && strategy.getQualityValue() > 8) {
           continue;
         }
           
