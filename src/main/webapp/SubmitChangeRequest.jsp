@@ -10,17 +10,17 @@
 
 
 <%!
-    private boolean paramOK(String value) 
-	{
+    private boolean paramOK(String value)
+  {
         return value != null && value.trim().length() > 0 && value.toLowerCase().indexOf("http") == -1;
     }
 %>
 <%
-   
+
     String err = "";
     String insertString = null;
     StringBuffer buf = new StringBuffer();
-   
+
     //String firstname = request.getParameter("firstName");
     //String lastname = request.getParameter("lastName");
     //String email = request.getParameter("email");
@@ -33,108 +33,108 @@
     String otherFacility = request.getParameter("otherHolderFacility");
     String cryoLiveStatus = request.getParameter("cryoLiveStatus");
     String backgroundInfo = request.getParameter("backgroundInfo");
-    
+
     if(holderName != null && holderName.equalsIgnoreCase("Other(specify)"))
-    	holderName = otherHolder;
+      holderName = otherHolder;
 
     if(facilityName != null && facilityName.equalsIgnoreCase("Other(specify)"))
-    	facilityName = otherFacility;
+      facilityName = otherFacility;
 
     boolean fieldMissing = false;
-    
+
     if(!paramOK(changeRequest.getFirstname()))
-		{
-    		err += "First name is required<br>";
-    		fieldMissing=true;
-		}
+    {
+        err += "First name is required<br>";
+        fieldMissing=true;
+    }
     if(!paramOK(changeRequest.getLastname()))
     {
-    	err += "Last name is required<br>";
-    	fieldMissing=true;
+      err += "Last name is required<br>";
+      fieldMissing=true;
     }
     if(!paramOK(changeRequest.getEmail()))
     {
-    	err += "Email address is required<br>";
-    	fieldMissing=true;
+      err += "Email address is required<br>";
+      fieldMissing=true;
     }
     if(changeRequest.getEmail() != null && changeRequest.getEmail().indexOf("@") == -1)
     {
-    	err += "Invalid email address<br>";
-    	fieldMissing = true;
+      err += "Invalid email address<br>";
+      fieldMissing = true;
     }
     if(!paramOK(requestType))
     {
-    	err += "Please select the change request type (add holder, delete holder, or other)";
-    	fieldMissing = true;
+      err += "Please select the change request type (add holder, delete holder, or other)";
+      fieldMissing = true;
     }
     if(changeRequest.getMouseID() < 0)
     {
-    	err += "Error processing request - no mouse was specified.  Please try again.";
-    	fieldMissing = true;
+      err += "Error processing request - no mouse was specified.  Please try again.";
+      fieldMissing = true;
     }
-    
-    if(!fieldMissing && (requestType.equalsIgnoreCase("addHolder") || 
-    		requestType.equalsIgnoreCase("deleteHolder")) && 
-    		(!paramOK(holderName) || !paramOK(facilityName)))
+
+    if(!fieldMissing && (requestType.equalsIgnoreCase("addHolder") ||
+        requestType.equalsIgnoreCase("deleteHolder")) &&
+        (!paramOK(holderName) || !paramOK(facilityName)))
     {
-    	err += "Please provide both the holder name and facility.";
-    	fieldMissing = true;
+      err += "Please provide both the holder name and facility.";
+      fieldMissing = true;
     }
-    
-    if(!fieldMissing && (requestType.equalsIgnoreCase("addHolder") || 
-    		requestType.equalsIgnoreCase("deleteHolder")) && 
-    			(holderName.equalsIgnoreCase("Choose one") || 
-    			 facilityName.equalsIgnoreCase("Choose one")))
+
+    if(!fieldMissing && (requestType.equalsIgnoreCase("addHolder") ||
+        requestType.equalsIgnoreCase("deleteHolder")) &&
+          (holderName.equalsIgnoreCase("Choose one") ||
+           facilityName.equalsIgnoreCase("Choose one")))
     {
-    	err += "Please provide both the holder name and facility.";
-    	fieldMissing = true;
+      err += "Please provide both the holder name and facility.";
+      fieldMissing = true;
     }
-    
-    if(!fieldMissing && requestType.equalsIgnoreCase("other") && 
-    		!paramOK(changeRequest.getUserComment()))
+
+    if(!fieldMissing && requestType.equalsIgnoreCase("other") &&
+        !paramOK(changeRequest.getUserComment()))
     {
-    	err += "Please specify the changes that should be made for this record";
-    	fieldMissing = true;
+      err += "Please specify the changes that should be made for this record";
+      fieldMissing = true;
     }
-    
+
     boolean ok = true;
-    if (!fieldMissing) 
+    if (!fieldMissing)
     {
        String comment = changeRequest.getUserComment();
        if(requestType.equalsIgnoreCase("addHolder"))
        {
-       		comment += " \r\nADD HOLDER: " + holderName + 
-       		" (" + facilityName + ")" + " (" + cryoLiveStatus + ")";
-       		Properties props = new Properties();    		
-    		props.setProperty("Add Holder Name", holderName);
-    		props.setProperty("Add Facility Name", facilityName);
-    		changeRequest.setProperties(props);
-       		
+           comment += " \r\nADD HOLDER: " + holderName +
+           " (" + facilityName + ")" + " (" + cryoLiveStatus + ")";
+           Properties props = new Properties();
+        props.setProperty("Add Holder Name", holderName);
+        props.setProperty("Add Facility Name", facilityName);
+        changeRequest.setProperties(props);
+
        }
        else if(requestType.equalsIgnoreCase("deleteHolder"))
        {
-       		comment += " \r\nDELETE HOLDER: " + holderName + 
-       		" (" + facilityName + ")" + " (" + cryoLiveStatus + ")";
+           comment += " \r\nDELETE HOLDER: " + holderName +
+           " (" + facilityName + ")" + " (" + cryoLiveStatus + ")";
        }
        else if(requestType.equalsIgnoreCase("markEndangered"))
        {
-    	   comment += " \r\nMARK AS ENDANGERED";
+         comment += " \r\nMARK AS ENDANGERED";
        }
-       
+
        if (backgroundInfo != null && !backgroundInfo.isEmpty())
        {
-    	   comment += " \r\nADD BACKGROUND INFO: " + backgroundInfo;
+         comment += " \r\nADD BACKGROUND INFO: " + backgroundInfo;
        }
        changeRequest.setUserComment(comment);
        changeRequest.setStatus("new");
-       
+
        int existingRequest = DBConnect.changeRequestExists(changeRequest);
 
-       if (existingRequest < 0) 
+       if (existingRequest < 0)
        {
-    	   int requestID = DBConnect.insertChangeRequest(changeRequest);
-       } 
-       else 
+         int requestID = DBConnect.insertChangeRequest(changeRequest);
+       }
+       else
        {
            ok = false;
            err = "Duplicate request not added.";
@@ -145,7 +145,7 @@
         err = "Fields missing or problematic input, please go back to the change record form and correct the following:<br><br>" + err;
     }
 
-    
+
 %>
 <div class="pagecontent">
 <% if(!ok || fieldMissing) { %>
@@ -159,9 +159,9 @@
     will be reviewed
     by the
     administrator. Thank you very much.</font>
-    
-    
-    
-    
+
+
+
+
 <% } %>
 </div>

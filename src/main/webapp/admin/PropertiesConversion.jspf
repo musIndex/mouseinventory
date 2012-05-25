@@ -2,7 +2,7 @@
 <%@ page import="java.util.Properties" %>
 <%@ page import="java.util.Enumeration" %>
 <%!
-	@SuppressWarnings("rawtypes")
+  @SuppressWarnings("rawtypes")
     private String propertiesToTabDelimitedString(Properties props) {
         StringBuffer propsBuf = new StringBuffer();
         Enumeration names = props.propertyNames();

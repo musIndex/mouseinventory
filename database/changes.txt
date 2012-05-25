@@ -20,7 +20,7 @@ new table - status
 statusId	int(10)
 statusName	varchar(255)
 --------------
-id  statusName	
+id  statusName
 --------------
 1	live
 2	deleted
@@ -40,7 +40,7 @@ id  mouse_id	repository_id	catalog_number	symbol
 ---------------------------------------------------
 1	1			1				12312441		ssh<null>
 2	2			1				34235235325		fgfgh<sp1h3>
-3	3			2				12553				
+3	3			2				12553
 
 
 edit repository table
@@ -49,7 +49,7 @@ name
 displayformat
 
 ---------------------------------------------------
-id  name	  validation_target	displayformat		
+id  name	  validation_target	displayformat
 ---------------------------------------------------
 1	mgi			MgiValidate					http://www.informatics.jax.org/${catalog_number}.html
 2	jax			JaxValidate						....
@@ -87,11 +87,11 @@ property_id
 category_id
 position
 ---------------------------------------------------
-id  mousetype_id	  property_id	category_id		
+id  mousetype_id	  property_id	category_id
 ---------------------------------------------------
-1	1					1			1				
+1	1					1			1
 2	1					2			1
-3	1					
+3	1
 4	1
 
 
@@ -104,14 +104,14 @@ listvalues	 			text
 allow_custom_listvalue 	tinyint(1)
 
 
---------------------------------	
-id  name			  type_id		validation	allow_custom_listvalue		listvalues										
---------------------------------	            
-1	?modification type?	3			[NULL]		true						targeted disruption|spontaneous mutation,...	
-2	expressed sequence	3			[NULL]		true						lacz|eGFP|gfP|Cre,...							
-3	regulatory element  2			[NULL]		[NULL]						[NULL]											
-7   mta required		3			[NULL]		false						Yes|No|Don't know								
-9	comment				4			[NULL]		[NULL]						[NULL]											
+--------------------------------
+id  name			  type_id		validation	allow_custom_listvalue		listvalues
+--------------------------------
+1	?modification type?	3			[NULL]		true						targeted disruption|spontaneous mutation,...
+2	expressed sequence	3			[NULL]		true						lacz|eGFP|gfP|Cre,...
+3	regulatory element  2			[NULL]		[NULL]						[NULL]
+7   mta required		3			[NULL]		false						Yes|No|Don't know
+9	comment				4			[NULL]		[NULL]						[NULL]
 
 
 
@@ -120,18 +120,18 @@ id  int(11)
 type_name	varchar(255)
 
 ----------------
-id  type_name	
+id  type_name
 ----------------
-1	int			
-2	string		
-3	list		
-4	text		
+1	int
+2	string
+3	list
+4	text
 5 	boolean
 
 
 property_int_values table
 id
-value 
+value
 
 property_string_values table
 id
@@ -148,11 +148,11 @@ category_id
 value_id
 
 ---------------------------------------------------------------------------------------
-id  mouse_id	property_id		category_id 	label						value		
+id  mouse_id	property_id		category_id 	label						value
 ---------------------------------------------------------------------------------------
-1	1			1				1				null						targeted..	
-2	1			2				1				null						Cre			
-3	1			2				1				Secondary expressed sequence lacz		
+1	1			1				1				null						targeted..
+2	1			2				1				null						Cre
+3	1			2				1				Secondary expressed sequence lacz
 
 
 property_categories table
@@ -160,11 +160,11 @@ id
 name
 min_width
 --------------
-id  name		
+id  name
 --------------
-1   Category	
-2   Details		
-3   Comment		
+1   Category
+2   Details
+3   Comment
 
 
 

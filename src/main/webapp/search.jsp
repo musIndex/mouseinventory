@@ -1,35 +1,210 @@
+<%@page import="org.apache.commons.lang3.StringUtils"%>
+<%@page import="java.net.URLEncoder"%>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
-<%@page import="edu.ucsf.mousedatabase.HTMLGeneration" %>
-<%=HTMLGeneration.getPageHeader(null,false,false, "onload=\"setFocus('searchForm', 'searchterms')\"") %>
-<%=HTMLGeneration.getNavBar("search.jsp", false) %>
+<%@page import="java.util.ArrayList"%>
+<%@page import="edu.ucsf.mousedatabase.*"%>
+<%@page import="edu.ucsf.mousedatabase.objects.*"%>
+<%@page import="static edu.ucsf.mousedatabase.HTMLUtilities.*"%>
+<%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
+<%=getPageHeader(null,true,false, null) %>
+<%=getNavBar("search.jsp", false) %>
+<script type="text/javascript" src="<%=scriptRoot%>jquery.highlight.js" ></script>
+<script type="text/javascript" src="<%=scriptRoot%>search.js"></script>
+<%@include file="mouselistcommon.jspf" %>
 
+<%
+    String searchterms = request.getParameter("searchterms");
+    int pagenum = stringToInt(request.getParameter("pagenum"));
+    int limit = stringToInt(request.getParameter("limit"));
+    String searchsource = request.getParameter("search-source");
+
+    if (limit == -1)
+    {
+      if (session.getAttribute("limit") != null)
+      {
+        limit = Integer.parseInt(session.getAttribute("limit").toString());
+      }
+      else
+      {
+        limit = 25;
+      }
+    }
+    session.setAttribute("limit",limit);
+    if (pagenum == -1)
+    {
+      pagenum = 1;
+    }
+    int offset = limit * (pagenum - 1);
+
+    String whereClause = "";
+    StringBuilder results = new StringBuilder();
+    StringBuilder searchTips = new StringBuilder();
+    int mouseCount = 0;
+    int displayedMice = 0;
+    boolean searchPerformed = false;
+
+    String resultSummary = "";
+    int exactMatches = 0;
+    int partialMatches = 0;
+    
+    
+
+    if(searchterms != null && !searchterms.isEmpty())
+    {
+
+      String trimmedTerms = searchterms.trim().toLowerCase();
+      if (!trimmedTerms.matches(".*[/\\)\\(\\.].*")){
+        ArrayList<Holder> holders = DBConnect.getAllHolders();
+        for(Holder holder : holders){
+          if (holder.getHolderID() == 1) {
+           continue; 
+          }
+          if (holder.getLastname().toLowerCase().equals(trimmedTerms) ||
+              holder.getFullname().toLowerCase().equals(trimmedTerms) ||
+              trimmedTerms.matches("(.*[\\s]+)*" + holder.getLastname().toLowerCase() + "([\\s]+.*)*")) {
+            searchTips.append("<p>Are you looking for <a href='" + siteRoot + 
+                                "MouseReport.jsp?holder_id="+ holder.getHolderID() +
+                                 "'>" + holder.getFullname() + "'s mouse list?</a>" +
+                                 " (found on the <a href='" + siteRoot + 
+                                 "HolderReport.jsp'>Holder List</a>)");
+          }
+        }
+      }
+      
+      try
+      {
+        ArrayList<SearchResult> searchresults =  DBConnect.doMouseSearch(searchterms, "live");
+        ArrayList<Integer> allMatches = new ArrayList<Integer>();
+        for(SearchResult result : searchresults) {
+          allMatches.addAll(result.getMatchingIds());
+        }
+        mouseCount = allMatches.size();
+        String mouseTable = "";
+        if (allMatches.size() > 0)
+        {
+          if (!searchterms.toLowerCase().equals(searchterms)) {
+ 	       searchTips.append("<p>Tip: searches are not case-sensitive</p>");
+ 	      } 
+    	  String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
+    	  results.append(topPageSelectionLinks);
+        }
+        else
+        {
+          searchTips.append("<p>Tip: searches are not case-sensitive</p>");
+        }
+        int miceSeen = 0;
+        String resultLog = "Search=" + searchterms + "||:source=" + (searchsource != null ? searchsource : "search");
+    	for (SearchResult result : searchresults){
+    	  resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + "=" + result.getTotal();
+          int resultMouseCount = result.getTotal();
+
+          int startIndex = 0;
+          int endIndex = resultMouseCount;
+          if (offset + limit - miceSeen < resultMouseCount) {
+            endIndex = offset + limit - miceSeen;
+          }
+          if (offset < resultMouseCount) {
+           startIndex = offset - (pagenum > 1 ? miceSeen : 0); 
+          }
+          if (limit == -2) { //all
+            startIndex = 0;
+            endIndex = resultMouseCount;
+          }
+          
+          miceSeen += result.getTotal();
+          
+          if (result.getStrategy().getQualityValue() == 0){
+            exactMatches += result.getTotal(); 
+          }
+          else {
+            partialMatches += result.getTotal(); 
+          }
+
+          if (miceSeen < offset || (displayedMice >= limit && limit != -2) || resultMouseCount == 0) {
+            continue; 
+          }
+          
+          if (result.getTotal() > 0 || displayedMice == 0){
+            ArrayList<MouseRecord> mice = new ArrayList<MouseRecord>();
+            if (endIndex > 0)
+            {
+              mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex),result.getStrategy().getName().startsWith("natural"));
+            }
+ 
+            results.append("<div class='search-strategy-header' data-tokens='" + 
+                     StringUtils.join(result.getStrategy().getTokens(), ",") + "'>" + result.getStrategy().getComment() + ":");
+            results.append("<a href='#' class='search-strategy-show-details'>Explain these results</a>");
+            results.append("<div class='search-strategy-details'>" + 
+                 result.getStrategy().getDetails());
+            results.append("</div></div>");
+            
+            results.append("<div class='searchresults-mice " + result.getStrategy().getName() + "'>");
+            results.append(HTMLGeneration.getMouseTable(mice, false, true, false,displayedMice == 0));
+            results.append("</div>");
+            displayedMice += mice.size();
+          }
+        }
+       
+    	Log.Info(resultLog + ":total=" + mouseCount + ":page=" + pagenum + ":limit=" + limit);
+    	if (allMatches.size() > 0)
+        {
+          String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
+          results.append(bottomPageSelectionLinks);
+        }
+    	searchPerformed = true;
+    }
+    catch(Exception e)
+    {
+      results = new StringBuilder();
+      results.append("<p class='red'><b>We're sorry, but an error prevented us from completing your search.  Please let the administrator know about this!</b></p>");
+      Log.Error("Error searching", e);
+    }
+  }
+%>
+  
 <div class="pagecontent">
-<p>
-    <b><font size="3">Search for Mice</font></b>
-  </p>
-
-<font size="2">
-    Enter search terms separated by spaces. <br>
-
-</font>
-
-<FORM  id="searchForm" ACTION="handlemousesearch.jsp" METHOD="POST">
-    <INPUT TYPE="TEXT" size="50" NAME="searchterms" VALUE="">
-    <INPUT class="searchButton" TYPE="SUBMIT" VALUE="Search">
-</form>
-
-Use "-" before a term to exclude it. Enclose exact phrase in quotes. Punctuation marks such as ,.?! will be ignored.<br><br>
-<b>Examples:</b><br>
-cre hedgehog
-<dl><dd>Search for all records which <b>include both</b> cre <b>and</b> hedgehog</dd></dl>
-
-cre -hedgehog
-<dl><dd>Search for all records which <b>include</b> cre and do <b>NOT include</b> hedgehog</dd></dl>
-
-"fibroblast growth factor 10"
-<dl><dd>Search for all records which include the <b>exact phrase</b> fibroblast growth factor 10. Compare to unquoted search
-    for same phrase which also returns <b>fibroblast growth factor</b> 9, MGI <b>10</b>4723 (Fgf9)
-</dd></dl>
-
-<b>IMPORTANT:</b> You may limit the search to mouse type by adding "Mutant Allele", "Transgenic", or "Inbred Strain" to your search terms.
+  <form id="searchForm" action="search.jsp" class="form-search" method="get">
+    <div class="search-box <%= searchPerformed ?  "search-box-small" : "" %> " style="display:none">
+      <img src="<%=imageRoot %>mouse-img-istock.jpg"/>
+      <div class="search-box-inner">
+        <input type="text" class="input-xlarge search-query" name="searchterms" value="<%=searchterms %>">
+        <button id="search_button" class="btn btn-primary" type="submit" ><i class='icon-white icon-search'></i> Mouse Search</button>
+        <div class="search-instructions-show"><a href="#" id="show_search_instructions">how do I search?</a></div>
+        <div class="search-instructions">
+          <b>Search examples:</b>
+          <dl>
+            <dt>shh null</dt>
+            <dd>Match records that contain both 'shh' <b>and</b> 'null'</dd>
+            <dt>htr</dt>
+            <dd>Match words that start with htr, such as htr2c, or htr1a</dd>
+            <dt>htr2c</dt>
+            <dd>Find the specific gene 'htr2c'</dd>
+            <dt>1346833</dt>
+            <dd>Look up MGI ID 1346833</dd>
+            <dt>12590258</dt>
+            <dd>Look up Pubmed ID 1346833</dd>
+            <dt>#101,#103</dt>
+            <dd>Show record numbers 101 and 103</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div id="searchresults-container">
+      <div id="searchresults">
+        <div class="search-resultcount" data-resultcount="<%=mouseCount %>">
+          <% if (searchPerformed && mouseCount > 0) { %> 
+            <span class='<%=exactMatches > 0 ? "quality-good" : "quality-bad" %>'>
+            <%=exactMatches > 0 ? exactMatches : "No" %> exact match<%=exactMatches == 1 ? "" : "es" %></span>, <%=partialMatches %> partial
+          <%} else if (searchPerformed && mouseCount ==0) { %>
+            No records match your query
+          <%} %>
+        </div>
+        <div class="clearfix"></div>
+        <div class="searchtips" >
+        <%=searchTips.toString() %>
+        </div>
+        <%= results.toString() %>      
+      </div>
+    </div>
+  </form>
 </div>

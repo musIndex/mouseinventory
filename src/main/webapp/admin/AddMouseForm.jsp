@@ -9,27 +9,27 @@
 <jsp:setProperty property="*" name="newMouse"/>
 
 <%
-	String mouseType = request.getParameter("mouseType");
-	if (mouseType == null || mouseType.isEmpty())
-	{
-		%>
-		<div class="pagecontent">
-		<h2>Error - no mouse type received</h2>
-		</div>
-		
-		<%
-		return;
-	}
-	
+  String mouseType = request.getParameter("mouseType");
+  if (mouseType == null || mouseType.isEmpty())
+  {
+    %>
+    <div class="pagecontent">
+    <h2>Error - no mouse type received</h2>
+    </div>
+
+    <%
+    return;
+  }
+
     String editForm = HTMLGeneration.getNewMouseForm(newMouse);
     ArrayList<MouseRecord> records = new ArrayList<MouseRecord>();
     records.add(newMouse);
     String recordPreview = HTMLGeneration.getMouseTable(records,false,false,true);
-    
+
 %>
 
 
-<div class="pagecontent">
+<div class="pagecontent pagecontent-leftaligned">
 <h2>Creating new record: <%=HTMLGeneration.emptyIfNull(newMouse.getMouseName()) %> (<%= newMouse.getMouseType() %>)
 </h2>
 <h2>Record Preview:</h2>
