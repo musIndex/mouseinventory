@@ -205,7 +205,15 @@ public class DBConnect {
       return new MouseRecordResultGetter().Get(buildMouseQuery(mouseRecordQueryHeader, constraints));
   }
   
-  public static ArrayList<MouseRecord> getMouseRecords(List<Integer> mouseIds) {
+  public static ArrayList<MouseRecord> getMouseRecords(List<Integer> mouseIds,boolean preserveOrder) {
+    if(preserveOrder){
+      //TODO make this more efficient
+      ArrayList<MouseRecord> records = new ArrayList<MouseRecord>();
+      for(Integer mouseId : mouseIds){
+        records.addAll(getMouseRecord(mouseId));
+      }
+      return records;
+    }
     ArrayList<String> whereTerms = new ArrayList<String>();
     whereTerms.add("mouse.id in(" + (mouseIds.size() > 0 ? StringUtils.join(mouseIds, ",") : "0") + ")");
     String constraints = buildMouseQueryConstraints(null, whereTerms, null, -1, -1);
@@ -479,10 +487,8 @@ public class DBConnect {
             "Partial term matches", "Matches records containing terms that begin with the letters of the term in your query. <br>Single-character terms are ignored."));
       }
         
-      if (searchTerms.indexOf(" ") > 0) {
-        strategies.add(new SearchStrategy(5,"natural","Partial matches","Matches records that contain most of the terms in your query"));
-      } 
-      else if (!wildcardAdded && searchTerms.matches(".*\\w.*") && searchTerms.matches(".*\\d.*")){
+      
+      if (!wildcardAdded && !searchTerms.matches(".* .*") && searchTerms.matches(".*\\w.*") && searchTerms.matches(".*\\d.*")){
         strategies.add(new SearchStrategy(5,"like-wildcard",
             "Partial phrase matches",
             "When the query contains both letters and numbers, matches records that contain the exact phrase you entered, anywhere in the text"));
@@ -506,9 +512,17 @@ public class DBConnect {
         wildcardAdded = true;
       }
       
+      if (searchTerms.indexOf(" ") > 0) {
+        strategies.add(new SearchStrategy(9,"natural","Partial matches","Matches records that contain most of the terms in your query"));
+      } 
+      
      
       ArrayList<Integer> allMouseIds = new ArrayList<Integer>();
       for(SearchStrategy strategy : strategies) {
+        if (allMouseIds.size() > 0 && strategy.getQualityValue() > 8) {
+          continue;
+        }
+          
         SearchResult result = new SearchResult();
         ArrayList<Integer> mouseIds = doMouseSearchQuery(searchTerms, strategy, status);
         if (!allMouseIds.isEmpty())
@@ -537,6 +551,7 @@ public class DBConnect {
     
     String query = "select mouse_id from flattened_mouse_search, mouse WHERE ";
     String statusTerm;
+    String orderBy = null;
     if(status.equalsIgnoreCase("all"))
     {
       statusTerm = " and mouse.status<>'incomplete'";
@@ -553,7 +568,9 @@ public class DBConnect {
     String[] tokens = tokenize(searchTerms, false, false);
     if (strategy.getName().equals("natural"))
     {
-      query += "match(searchtext) against('" + searchTerms + "') > 5";
+      query += "match(searchtext) against('" + searchTerms + "') > 0";
+      orderBy = "match(searchtext) against('" + searchTerms + "') desc";
+      //TODO these should be sorted, need a way to sort results by match score.
     }
     else if (strategy.getName().equals("word"))
     {
@@ -627,6 +644,9 @@ public class DBConnect {
     }
     strategy.setTokens(tokens);
     query += " and mouse_id=mouse.id" + statusTerm;
+    if (orderBy != null) {
+      query += " ORDER BY " + orderBy;
+    }
     Log.Info("SearchDebug:[" + strategy.getName() + "] " + query);
     return IntResultGetter.getInstance("mouse_id").Get(query);    
   }
