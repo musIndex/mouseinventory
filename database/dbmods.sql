@@ -131,7 +131,7 @@ alter table mouse modify column strain text;
 alter table holder add column alternate_email varchar(80);
 
 #31 - add fulltext index to mouse search
-#IMPORTANT - make sure you set ft_min_word_length=2 in my.cnf under [mysqld]
+#IMPORTANT - make sure you set ft_min_word_len=2 in my.cnf under [mysqld]
 #IMPORTANT - also set ft_stopword_file='' in my.cnf under [mysqld]
 #            These two options make searching more useful for scientific searches
 alter table flattened_mouse_search add fulltext(searchtext);
