@@ -77,7 +77,7 @@ $(document).ready(function(){
   }
     
   function search_button_clicked(){
-    $.bbq.pushState({searchterms: search_box.val(), pagenum: 1});
+    $.bbq.pushState({searchterms: search_box.val(), pagenum: 1, 'search-source': 'search' });
     return false;
   }
   
