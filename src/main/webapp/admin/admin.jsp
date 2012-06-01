@@ -1,4 +1,3 @@
-
 <%@page import="edu.ucsf.mousedatabase.*" %>
 <%@page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@page import="java.util.ArrayList" %>
@@ -44,9 +43,12 @@
         if (mouse.getProperties().containsKey(SubmittedMouse.SubmissionSourceKey))
         {
           String submissionSource = mouse.getProperties().getProperty(SubmittedMouse.SubmissionSourceKey);
-          if (submissionSource.equals(SubmittedMouse.DataImport))
+          if (submissionSource.equals(SubmittedMouse.PurchaseImport))
           {
             action = "purchased by";
+          }
+          else if (submissionSource.equals(SubmittedMouse.OtherInstitutionImport)){
+           action = "imported by";
           }
 
         }
