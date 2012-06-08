@@ -20,9 +20,11 @@ public class ReportServlet extends HttpServlet
   public static final String HolderReportName = "Holder Report";
   public static final String RecordsReportName = "Records Report";
   public static final String LarcRecordHolderReportName = "LARC Record Holder Report";
-  public static final String PPTChangeRequestImportReportName = "PPT Change Request Data Import Report";
-  public static final String PurchaseChangeRequestImportReportName = "Purchases Change Request Data Import Report";
-  public static final String PurchaseSubmissionsImportReportName = "Purchases Submissions Data Import Report";
+  public static final String PPTChangeRequestImportReportName = "PPT Change Request Data Upload Report";
+  public static final String PurchaseChangeRequestImportReportName = "Purchases Change Request Data Upload Report";
+  public static final String PurchaseSubmissionsImportReportName = "Purchases Submissions Data Upload Report";
+  public static final String OtherInstitutionsChangeRequestImportReportName = "Transfer from other Instutions Change Request Data Upload Report";
+  public static final String OtherInstitutionsSubmissionsImportReportName = "Transfer from other Instutions Submissions Data Upload Report";
 
   public void doGet(HttpServletRequest request, HttpServletResponse  response)
       throws IOException, ServletException {
@@ -35,7 +37,9 @@ public class ReportServlet extends HttpServlet
     {
       filename = "holderreport.csv";
     }
-    if (reportName.equals(PPTChangeRequestImportReportName) || reportName.equals(PurchaseChangeRequestImportReportName) || reportName.equals(PurchaseSubmissionsImportReportName))
+    if (reportName.equals(PPTChangeRequestImportReportName) || reportName.equals(PurchaseChangeRequestImportReportName) || 
+        reportName.equals(PurchaseSubmissionsImportReportName) || reportName.equals(OtherInstitutionsChangeRequestImportReportName) ||
+        reportName.equals(OtherInstitutionsSubmissionsImportReportName))
     {
       args = new Object[1];
       args[0] = request.getParameter("importReportId");
