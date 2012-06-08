@@ -93,9 +93,9 @@
           searchTips.append("<p>Tip: searches are not case-sensitive</p>");
         }
         int miceSeen = 0;
-        String resultLog = "Search=" + searchterms + "||:source=" + (searchsource != null ? searchsource : "search");
+        //String resultLog = "Search=" + searchterms + "||:source=" + (searchsource != null ? searchsource : "search");
     	for (SearchResult result : searchresults){
-    	  resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + "=" + result.getTotal();
+    	  //resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + "=" + result.getTotal();
           int resultMouseCount = result.getTotal();
 
           int startIndex = 0;
@@ -145,7 +145,7 @@
           }
         }
        
-    	Log.Info(resultLog + ":total=" + mouseCount + ":page=" + pagenum + ":limit=" + limit);
+    	Log.Info("Search='" + searchterms + "', resultcount=" + mouseCount + ", pagenum=" + pagenum + ", perpage=" + limit);
     	if (allMatches.size() > 0)
         {
           String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);

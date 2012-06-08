@@ -671,7 +671,7 @@ public class DBConnect {
     if (orderBy != null) {
       query += " ORDER BY " + orderBy;
     }
-    Log.Info("SearchDebug:[" + strategy.getName() + "] " + query);
+    //Log.Info("SearchDebug:[" + strategy.getName() + "] " + query);
     return IntResultGetter.getInstance("mouse_id").Get(query);    
   }
   
