@@ -26,7 +26,7 @@ private String getReportSelector(ImportObjectType reportType, String name)
      reportNames[i] = importReports.get(i).getName();
    }
 
-   return HTMLGeneration.genSelect("importReportId",reportIds,reportNames,null,null,false);
+   return HTMLGeneration.genSelect("importReportId",reportIds,reportNames,null,"style='width: 300px'",false);
 }
 
 private String getReportForm(String reportName, String reportDescription, String extraListItem)
