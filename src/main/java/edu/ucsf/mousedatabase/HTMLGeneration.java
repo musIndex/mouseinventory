@@ -204,7 +204,7 @@ public class HTMLGeneration {
       table.append(addNavLink("Reports", "Reports.jsp", null,
           currentPageFilename, true));
 
-      table.append(addNavLink("Data Import", "ImportReports.jsp", null,
+      table.append(addNavLink("Data Upload", "ImportReports.jsp", null,
           currentPageFilename, true));
       table.append(addNavLink("Log out", "logout.jsp", null,
           currentPageFilename, false));

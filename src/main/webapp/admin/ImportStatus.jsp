@@ -84,13 +84,13 @@ for (int importId : ImportStatusTracker.ImportsInProgress())
 }
 if (sb.length() == 0)
 {
-  sb.append("<h3>No active imports</h3>");
+  sb.append("<h3>No active uploads</h3>");
 }
 
 %>
 
 <div class="pagecontent">
-<h2>Import Status</h2>
+<h2>Upload Status</h2>
 <a href="ImportReports.jsp">View Reports</a>
 <br>
 <br>
