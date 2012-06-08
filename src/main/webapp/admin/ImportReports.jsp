@@ -21,11 +21,11 @@ $(document).ready(function(){
 });
 </script>
 <div class="pagecontent">
-<h2>Data Imports History</h2>
+<h2>Data Uploads History</h2>
 
-<a href="ImportData.jsp">Import new data...</a>
+<a href="ImportData.jsp">Upload new data...</a>
 <br>
-<a href="ImportStatus.jsp">Status of imports in progress...</a>
+<a href="ImportStatus.jsp">Status of uploads in progress...</a>
 <br>
 
 <%if(reports.size() > 0) {%>
