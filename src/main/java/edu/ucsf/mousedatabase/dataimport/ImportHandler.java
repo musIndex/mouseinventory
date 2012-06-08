@@ -753,11 +753,19 @@ public class ImportHandler
               ", purchased by " + formatHolderName(purchase.purchaserName)
               + " for " + formatHolderName(purchase.holderName) + purchase.rawRecord );
           } else if(importDefinition.Id == 2){
+            String emailBodyText = getCombinedImportEmail(null,purchase.strain,null,purchase,importDefinition);
+            String subjectText = "Listing " + formatHolderName(purchase.holderName) +
+                " as a holder of " + purchase.strain + " in the UCSF Mouse Database";
+            String emailLink = getMailToLink(importDefinition.Id == 1 ? purchase.purchaserEmail : purchase.recipientEmail, 
+                    purchase.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchase.holderName));
+
+            
             invalidPurchases.add("<span class='importAction'>Invalid import (No MGI IDs found)</span>. Strain: " 
                 + purchase.strain
                 + ", PMID: <span class='pubmed_number'>" + purchase.pmid + "</span>" 
                 + ", imported from " + purchase.senderInstitution
-                + " for " + formatHolderName(purchase.holderName) + purchase.rawRecord 
+                + " by " + formatHolderName(purchase.recipientName)
+                + " for " + formatHolderName(purchase.holderName) + " " + emailLink + purchase.rawRecord 
                 + (purchase.notes != null && !purchase.notes.isEmpty() ? "<br><b>Notes:</b> " + purchase.notes :"") );
           }
         }
