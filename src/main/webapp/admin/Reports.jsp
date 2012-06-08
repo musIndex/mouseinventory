@@ -26,7 +26,7 @@ private String getReportSelector(ImportObjectType reportType, String name)
      reportNames[i] = importReports.get(i).getName();
    }
 
-   return HTMLGeneration.genSelect(name,reportIds,reportNames,null,null);
+   return HTMLGeneration.genSelect("importReportId",reportIds,reportNames,null,null,false);
 }
 
 private String getReportForm(String reportName, String reportDescription, String extraListItem)
@@ -34,13 +34,14 @@ private String getReportForm(String reportName, String reportDescription, String
   StringBuilder sb = new StringBuilder();
   sb.append("<form method=\"get\" action=\"" + HTMLGeneration.siteRoot + "report\"\r\n");
   sb.append("<dl>\r\n");
-  sb.append("<dt><button type=\"submit\" name=\"reportName\" class=\"btn\" value=\"" + reportName
-      + "\" />Download <b>" + reportName + "</b></button></dt>\r\n");
+  sb.append("<dt><b>" + reportName + "</b></dt>\r\n");
   sb.append("<dd>" + reportDescription + "</dd>\r\n");
   if (extraListItem != null)
   {
     sb.append("<dd>" + extraListItem + "</dd>");
   }
+  sb.append("<dd><button type='submit' name='reportName' class='btn btn-mini btn-primary' value='" + reportName
+          + "' />Download</button>");
   sb.append("</dl>\r\n");
   sb.append("</form>\r\n");
   return sb.toString();
@@ -53,6 +54,8 @@ private String getReportForm(String reportName, String reportDescription, String
    String pptReportSelector = getReportSelector(ImportObjectType.PPTCHANGEREQUEST,"importReportId-ppt");
    String purchaseSubmissionReportSelector = getReportSelector(ImportObjectType.PURCHASESUBMISSION,"importReportId-purchase_sub");
    String purchaseChangeRequestReportSelector = getReportSelector(ImportObjectType.PURCHASECHANGEREQUEST,"importReportId-purchase_ppt");
+   String otherInstitutionsSubmissionReportSelector = getReportSelector(ImportObjectType.OTHERINSTITUTIONSUBMISSION,"importReportId-otherinstitutions_sub");
+   String otherInstitutionsChangeRequestReportSelector = getReportSelector(ImportObjectType.OTHERINSTITUTIONSCHANGEREQUEST,"importReportId-otherinstitutions_chrq");
 %>
 <div class="pagecontent">
 
@@ -60,8 +63,10 @@ private String getReportForm(String reportName, String reportDescription, String
 <%=getReportForm(ReportServlet.HolderReportName,"Lists all holders, name, department, email, number of mice held, and date of last review.",null ) %>
 <%=getReportForm(ReportServlet.RecordsReportName,"Lists all live records, basic details, submitter name, and up to 5 holders.",null ) %>
 <%=getReportForm(ReportServlet.LarcRecordHolderReportName,"Used by LARC to automatically populate dropdowns on their site.",null ) %>
-<%=getReportForm(ReportServlet.PPTChangeRequestImportReportName,"Shows change requests created by PPT data imports.","Select import report: " + pptReportSelector ) %>
-<%=getReportForm(ReportServlet.PurchaseSubmissionsImportReportName,"Shows submissions created by Purchase data imports.","Select import report: " + purchaseSubmissionReportSelector ) %>
-<%=getReportForm(ReportServlet.PurchaseChangeRequestImportReportName,"Shows change requests created by Purchase data imports.","Select import report: " + purchaseChangeRequestReportSelector ) %>
+<%=getReportForm(ReportServlet.PPTChangeRequestImportReportName,"Change requests created by PPT data uploads.","Select report: " + pptReportSelector ) %>
+<%=getReportForm(ReportServlet.PurchaseSubmissionsImportReportName,"Submissions created by Purchase data uploads.","Select report: " + purchaseSubmissionReportSelector ) %>
+<%=getReportForm(ReportServlet.PurchaseChangeRequestImportReportName,"Change requests created by Purchase data uploads.","Select report: " + purchaseChangeRequestReportSelector ) %>
+<%=getReportForm(ReportServlet.OtherInstitutionsSubmissionsImportReportName,"Submissions created by Transfers from other Institutions data uploads.","Select report: " + otherInstitutionsSubmissionReportSelector ) %>
+<%=getReportForm(ReportServlet.OtherInstitutionsChangeRequestImportReportName,"Change requests created by Transfers from other Institutions data uploads.","Select report: " + otherInstitutionsChangeRequestReportSelector ) %>
 
 </div>

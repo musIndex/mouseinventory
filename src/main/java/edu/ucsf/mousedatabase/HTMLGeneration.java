@@ -2454,7 +2454,8 @@ public class HTMLGeneration {
       String[] niceNames, String current, String selectParams) {
     return genSelect(name,values,niceNames,current,selectParams,true);
   }
-    public static String genSelect(String name, String[] values,
+  
+  public static String genSelect(String name, String[] values,
         String[] niceNames, String current, String selectParams,boolean includeId) {
     if (selectParams == null) selectParams = "";
     StringBuffer b = new StringBuffer();

@@ -891,7 +891,7 @@ public class ImportHandler
           }
           else if (importDefinition.Id == 2){
             props.setProperty("Sender institution", purchase.senderInstitution);
-            props.setProperty("Reipient", purchase.recipientName);
+            props.setProperty("Recipient", purchase.recipientName);
             props.setProperty("Recipient Email", purchase.recipientEmail);
             props.setProperty("Import Notes",purchase.notes != null && !purchase.notes.isEmpty() ? purchase.notes :"");
           }
@@ -1005,10 +1005,10 @@ public class ImportHandler
               props.setProperty("Purchaser email-" + i, nextPurchase.purchaserEmail);
             }
             else if (importDefinition.Id == 2){
-              props.setProperty("Sender institution", nextPurchase.senderInstitution);
-              props.setProperty("Recipient", nextPurchase.recipientName);
-              props.setProperty("Recipient Email", nextPurchase.recipientEmail);
-              props.setProperty("Import notes", (nextPurchase.notes != null && !nextPurchase.notes.isEmpty() ? nextPurchase.notes :""));
+              props.setProperty("Sender institution-" +i, nextPurchase.senderInstitution);
+              props.setProperty("Recipient-" + i, nextPurchase.recipientName);
+              props.setProperty("Recipient Email-" + i, nextPurchase.recipientEmail);
+              props.setProperty("Import notes-" + i, (nextPurchase.notes != null && !nextPurchase.notes.isEmpty() ? nextPurchase.notes :""));
             }
             props.setProperty("New Holder Email-" + i,nextPurchase.holderEmail);
 

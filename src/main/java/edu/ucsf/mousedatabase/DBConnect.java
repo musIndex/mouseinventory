@@ -1950,6 +1950,24 @@ public class DBConnect {
       int reportId =  Integer.parseInt((String)args[0]);
       return runImportPurchaseSubmissionReport(reportId);
     }
+    else if (reportName.equals(ReportServlet.OtherInstitutionsChangeRequestImportReportName))
+    {
+     if (args == null)
+     {
+       throw new IndexOutOfBoundsException("No report specified for other institutions transfer change request report");
+     }
+     int reportId =  Integer.parseInt((String)args[0]);
+     return runImportOtherInstitutionsChangeRequestReport(reportId);
+    }
+    else if (reportName.equals(ReportServlet.OtherInstitutionsSubmissionsImportReportName))
+    {
+     if (args == null)
+     {
+       throw new IndexOutOfBoundsException("No report specified for other institutions transfer change request report");
+     }
+     int reportId =  Integer.parseInt((String)args[0]);
+     return runImportOtherInstitutionsSubmissionReport(reportId);
+    }
     else
     {
       throw new IndexOutOfBoundsException("Report " + reportName + " not found.  " );
@@ -2196,6 +2214,63 @@ public class DBConnect {
     }
     return result.toString();
   }
+  
+  private static String runImportOtherInstitutionsChangeRequestReport(int reportId)
+  {
+    ArrayList<Integer> changeRequestIds = getImportNewObjectIds(reportId);
+    if (changeRequestIds.size() <= 0)
+    {
+      return "No change requests were created for report id " + reportId;
+    }
+
+    String additionalJoins = "left join import_new_objects on changerequest.id=import_new_objects.object_id";
+    ArrayList<String> whereTerms = new ArrayList<String>();
+    whereTerms.add("import_new_objects.import_report_id=" + reportId);
+    StringBuilder result = new StringBuilder();
+    result.append("Message Sent,Response,Request Number,PI Recipient,Mouse Name,Record #,MGI ID,Sender Institution,Recipient,Email Recipient 1, Email Recipient 2");
+    result.append("\r\n");
+
+    List<ChangeRequest> requests = getChangeRequests(additionalJoins, whereTerms,null);
+
+    Comparator<ChangeRequest> comparator = new Comparator<ChangeRequest>(){
+      public int compare(ChangeRequest a, ChangeRequest b)
+      {
+        return HTMLGeneration.emptyIfNull(a.Properties().getProperty("Recipient PI Name"))
+          .compareTo(HTMLGeneration.emptyIfNull(b.Properties().getProperty("Recipient PI Name")));
+      }
+    };
+
+    Collections.sort(requests, comparator);
+
+    for (ChangeRequest request : requests)
+    {
+      Properties props = request.Properties();
+          result.append(",");
+          result.append(",");
+      result.append(request.getRequestID());
+      result.append(",\"");
+      result.append(HTMLGeneration.emptyIfNull(props.getProperty("Recipient PI Name")));
+      result.append("\",\"");
+      result.append(request.getMouseName());
+      result.append("\",");
+      result.append(request.getMouseID());
+      result.append(",");
+      result.append(HTMLGeneration.emptyIfNull(props.getProperty("MouseMGIID")));
+      result.append(",\"");
+      result.append(HTMLGeneration.emptyIfNull(props.getProperty("Sender institution")));
+      result.append("\",\"");
+      result.append(HTMLGeneration.emptyIfNull(props.getProperty("Recipient")));
+      result.append("\",\"");
+      result.append(HTMLGeneration.emptyIfNull(props.getProperty("New Holder Email")));
+      result.append("\",\"");
+      result.append(HTMLGeneration.emptyIfNull(props.getProperty("Recipient Email")));
+      result.append("\"");
+      result.append("\r\n");
+
+    }
+    return result.toString();
+  }
+  
   private static final class Sub {
     public String PIName;
     public String Line;
@@ -2205,6 +2280,7 @@ public class DBConnect {
       Line = line;
     }
   }
+  
   private static String runImportPurchaseSubmissionReport(int reportId)
   {
     ArrayList<Integer> submissionIds = getImportNewObjectIds(reportId);
@@ -2277,6 +2353,104 @@ public class DBConnect {
         line.append(HTMLGeneration.emptyIfNull(props.getProperty("New Holder Email")));
         line.append("\",\"");
         line.append(HTMLGeneration.emptyIfNull(props.getProperty("Purchaser email")));
+        line.append("\"");
+        line.append("\r\n");
+        linesByRecipientPI.add(new Sub(piName, line.toString()));
+      }
+    }
+
+
+
+    /*Comparator<Sub> comparator = new Comparator<Sub>(){
+      public int compare(Sub a, Sub b)
+      {
+        return HTMLGeneration.emptyIfNull(a.PIName)
+          .compareTo(HTMLGeneration.emptyIfNull(b.PIName));
+      }
+    };
+    Collections.sort(linesByRecipientPI,comparator);
+    */
+    for (Sub sub : linesByRecipientPI) {
+      //TODO why don't we want the PIName as well??
+      result.append(sub.Line);
+    }
+
+
+    return result.toString();
+  }
+  
+  private static String runImportOtherInstitutionsSubmissionReport(int reportId)
+  {
+    ArrayList<Integer> submissionIds = getImportNewObjectIds(reportId);
+    if (submissionIds.size() <= 0)
+    {
+      return "No submissions were created for report id " + reportId;
+    }
+
+    String additionalJoins = "left join import_new_objects on submittedmouse.id=import_new_objects.object_id";
+    ArrayList<String> whereTerms = new ArrayList<String>();
+    whereTerms.add("import_new_objects.import_report_id=" + reportId);
+    StringBuilder result = new StringBuilder();
+    result.append("Message Sent,Response,Submission Number,PI Recipient,Mouse Name,MGI ID,Source Institution,Recipient,Email Recipient 1, Email Recipient 2");
+    result.append("\r\n");
+
+    List<SubmittedMouse> submissions = getSubmissions(additionalJoins, whereTerms,null);
+
+    List<Sub> linesByRecipientPI = new ArrayList<Sub>();
+
+
+    for (SubmittedMouse submission : submissions)
+    {
+      Properties props = submission.getProperties();
+
+      if (props.containsKey("holderCount"))
+      {
+        int holderCount = Integer.parseInt(props.getProperty("holderCount"));
+        for(int i =0; i< holderCount;i++)
+        {
+          StringBuilder line = new StringBuilder();
+          String piName = HTMLGeneration.emptyIfNull(props.getProperty("Recipient PI Name-"+i ));
+          line.append(",");
+          line.append(",");
+          line.append(submission.getSubmissionID());
+          line.append(",\"");
+          line.append(piName);
+          line.append("\",\"");
+          line.append(HTMLGeneration.emptyIfNull(props.getProperty("NewMouseName")));
+          line.append("\",\"");
+          line.append(HTMLGeneration.emptyIfNull(props.getProperty("MouseMGIID")));
+          line.append("\",\"");
+          line.append(HTMLGeneration.emptyIfNull(props.getProperty("Sender institution-"+i)));
+          line.append("\",\"");
+          line.append(HTMLGeneration.emptyIfNull(props.getProperty("Recipient-"+i)));
+          line.append("\",\"");
+          line.append(HTMLGeneration.emptyIfNull(props.getProperty("New Holder Email-"+i)));
+          line.append("\",\"");
+          line.append(HTMLGeneration.emptyIfNull(props.getProperty("Recipient Email-"+i)));
+          line.append("\"");
+          line.append("\r\n");
+          linesByRecipientPI.add(new Sub(piName, line.toString()));
+        }
+      }
+      else
+      {
+        StringBuilder line = new StringBuilder();
+        String piName = HTMLGeneration.emptyIfNull(props.getProperty("Recipient PI Name" ));
+            line.append(submission.getSubmissionID());
+        line.append(",\"");
+        line.append(piName);
+        line.append("\",\"");
+        line.append(HTMLGeneration.emptyIfNull(props.getProperty("NewMouseName")));
+        line.append("\",\"");
+        line.append(HTMLGeneration.emptyIfNull(props.getProperty("MouseMGIID")));
+        line.append("\",\"");
+        line.append(HTMLGeneration.emptyIfNull(props.getProperty("Sender institution")));
+        line.append("\",\"");
+        line.append(HTMLGeneration.emptyIfNull(props.getProperty("Recipient")));
+        line.append("\",\"");
+        line.append(HTMLGeneration.emptyIfNull(props.getProperty("New Holder Email")));
+        line.append("\",\"");
+        line.append(HTMLGeneration.emptyIfNull(props.getProperty("Recipient Email")));
         line.append("\"");
         line.append("\r\n");
         linesByRecipientPI.add(new Sub(piName, line.toString()));
