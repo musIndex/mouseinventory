@@ -1874,7 +1874,25 @@ public class HTMLGeneration {
       table.append("</dt>\r\n");
 
       table.append("<dt>\r\n");
-      table.append(formatEmail(nextRequest.getEmail(),
+      
+      
+      String holderEmail = null;
+      if (nextRequest.Properties() != null)
+      {
+        String holderName = (String)nextRequest.Properties().get("Add Holder");
+        if (holderName == null){
+          holderName = (String)nextRequest.Properties().get("Add Holder Name");
+        }
+        if (holderName != null){
+          Holder holder = DBConnect.findHolder(holderName);
+          if (holder != null){
+            holderEmail = holder.getEmail();
+          }
+        }
+      }
+      
+      
+      table.append(formatEmail(nextRequest.getEmail(),holderEmail,
           nextRequest.getEmail(),
           "Mouse Inventory Database Change Request for record #" + nextRequest.getMouseID() + " - " + nextRequest.getMouseName()));
       table.append("</dt>\r\n");
@@ -2387,12 +2405,18 @@ public class HTMLGeneration {
     }
   }
 
-  public static String formatEmail(String emailAddress, String linkText,
-      String subject) {
+  public static String formatEmail(String emailAddress, String linkText, String subject) {
+    return formatEmail(emailAddress, null, linkText, subject);
+  }
+  
+  public static String formatEmail(String emailAddress, String ccAddress, String linkText, String subject) {
     subject = subject.replace(" ", "%20");
 
-    return "<a href=\"mailto:" + emailAddress + "?subject=" + subject
-        + "\">" + linkText + "</a>";
+    String link = "<a href=\"mailto:" + emailAddress + "?subject=" + subject;
+    if (ccAddress != null && !ccAddress.equals(emailAddress)) {
+      link += "&cc=" + ccAddress;
+    }
+    return link + "\">" + linkText + "</a>";
   }
 
   public static String getMultiSelectWidget(String name,
