@@ -13,6 +13,7 @@ public class ImportReport
   private Date creationDate;
   private String reportText;
   private Collection<Integer> newObjectIds;
+  private Collection<String> newObjects;
   public int getImportReportID() {
     return importReportID;
   }
@@ -48,6 +49,12 @@ public class ImportReport
   }
   public void setNewObjectIds(Collection<Integer> newObjectIds) {
     this.newObjectIds = newObjectIds;
+  }
+  public Collection<String> getNewObjects() {
+    return newObjects;
+  }
+  public void setNewObjects(Collection<String> newObjects) {
+    this.newObjects = newObjects;
   }
 
 }

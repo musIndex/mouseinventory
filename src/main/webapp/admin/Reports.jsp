@@ -56,6 +56,8 @@ private String getReportForm(String reportName, String reportDescription, String
    String purchaseChangeRequestReportSelector = getReportSelector(ImportObjectType.PURCHASECHANGEREQUEST,"importReportId-purchase_ppt");
    String otherInstitutionsSubmissionReportSelector = getReportSelector(ImportObjectType.OTHERINSTITUTIONSUBMISSION,"importReportId-otherinstitutions_sub");
    String otherInstitutionsChangeRequestReportSelector = getReportSelector(ImportObjectType.OTHERINSTITUTIONSCHANGEREQUEST,"importReportId-otherinstitutions_chrq");
+   String otherInstitutionsUnpublishedReportSelector = getReportSelector(ImportObjectType.OTHERINSTITUTIONSUNPUBLISHED,"importReportId-otherinstitutions_unpub");
+
 %>
 <div class="pagecontent">
 
@@ -68,5 +70,6 @@ private String getReportForm(String reportName, String reportDescription, String
 <%=getReportForm(ReportServlet.PurchaseChangeRequestImportReportName,"Change requests created by Purchase data uploads.","Select report: " + purchaseChangeRequestReportSelector ) %>
 <%=getReportForm(ReportServlet.OtherInstitutionsSubmissionsImportReportName,"Submissions created by Transfers from other Institutions data uploads.","Select report: " + otherInstitutionsSubmissionReportSelector ) %>
 <%=getReportForm(ReportServlet.OtherInstitutionsChangeRequestImportReportName,"Change requests created by Transfers from other Institutions data uploads.","Select report: " + otherInstitutionsChangeRequestReportSelector ) %>
+<%=getReportForm(ReportServlet.OtherInstitutionsUnpublishedImportReportName,"Unpublished transfers from other Institutions data uploads..","Select report: " + otherInstitutionsUnpublishedReportSelector ) %>
 
 </div>
