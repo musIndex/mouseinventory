@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.ucsf.mousedatabase.*;
 import edu.ucsf.mousedatabase.beans.MouseSubmission;
 import edu.ucsf.mousedatabase.beans.UserData;
@@ -43,7 +45,8 @@ public class ImportHandler
     PURCHASESUBMISSION (2),
     PURCHASECHANGEREQUEST (3),
     OTHERINSTITUTIONSUBMISSION (4),
-    OTHERINSTITUTIONSCHANGEREQUEST (5);
+    OTHERINSTITUTIONSCHANGEREQUEST (5),
+    OTHERINSTITUTIONSUNPUBLISHED (6);
 
     public final int Id;
 
@@ -67,6 +70,8 @@ public class ImportHandler
         return ImportObjectType.OTHERINSTITUTIONSUBMISSION;
       case 5:
         return ImportObjectType.OTHERINSTITUTIONSCHANGEREQUEST;
+      case 6:
+        return ImportObjectType.OTHERINSTITUTIONSUNPUBLISHED;
     }
     return ImportObjectType.UNKNOWN;
   }
@@ -674,6 +679,7 @@ public class ImportHandler
     ArrayList<String> invalidMGIEntries = new ArrayList<String>();
     ArrayList<String> invalidPurchases = new ArrayList<String>();
     ArrayList<String> unpublishedTransfers = new ArrayList<String>();
+    ArrayList<String> unpublishedTransfersObjects = new ArrayList<String>();
 
     //HashMap<Integer,Integer> newSubmissionsByMgiId = new HashMap<Integer, Integer>();
     
@@ -789,6 +795,10 @@ public class ImportHandler
                   + blurb);
             }
             else {
+              //Request Number,PI Recipient,Mouse Name,Record #,MGI ID,Sender Institution,Recipient,Email Recipient 1, Email Recipient 2
+              unpublishedTransfersObjects.add(StringUtils.join(new String[]{
+                  purchase.holderName,purchase.strain,purchase.pmid,purchase.senderInstitution,
+                  purchase.recipientName,purchase.recipientEmail,purchase.holderEmail},'|'));
               unpublishedTransfers.add("<span class='importAction'>Unpublished import</span>. " + blurb);
             }
             duplicateInvalidTransfers.add(purchase.strain + "_" + purchase.recipientEmail + "_" + purchase.holderEmail);
@@ -1133,6 +1143,7 @@ public class ImportHandler
 
     StringBuilder submissionReport = new StringBuilder();
     StringBuilder changeRequestReport = new StringBuilder();
+    StringBuilder unpublishedRequestReport = new StringBuilder();
 
     if (csvData.size() > 0)
     {
@@ -1145,7 +1156,7 @@ public class ImportHandler
       buildReport(submissionReport,"Invalid MGI IDs", invalidMGIEntries);
       buildReport(submissionReport, importDefinition.Id == 1 ? "Invalid purchases" : "Invalid imports",invalidPurchases);
       if (importDefinition.Id == 2){
-        buildReport(submissionReport, "Unpublished imports",unpublishedTransfers);
+        buildReport(unpublishedRequestReport, "Unpublished imports",unpublishedTransfers);
       }
     }
     else
@@ -1174,6 +1185,16 @@ public class ImportHandler
 
       DBConnect.insertImportReport(newReport);
     }
+    
+    if (importDefinition.Id == 2){
+      newReport = new ImportReport();
+      newReport.setImportType(ImportObjectType.OTHERINSTITUTIONSUNPUBLISHED);
+      newReport.setNewObjects(unpublishedTransfersObjects);
+      newReport.setName(reportName);
+      newReport.setReportText(unpublishedRequestReport.toString());
+      DBConnect.insertImportReport(newReport);
+    }
+    
     ImportStatusTracker.AppendMessage(importTaskId, "Import complete.  Report #" +reportId);
     ImportStatusTracker.UpdateHeader(importTaskId, "");
     ImportStatusTracker.UpdateStatus(importTaskId, ImportStatus.COMPLETED);

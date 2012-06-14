@@ -25,6 +25,7 @@ public class ReportServlet extends HttpServlet
   public static final String PurchaseSubmissionsImportReportName = "PDU new submissions report";
   public static final String OtherInstitutionsChangeRequestImportReportName = "IDU change request report";
   public static final String OtherInstitutionsSubmissionsImportReportName = "IDU new submissions report";
+  public static final String OtherInstitutionsUnpublishedImportReportName = "IDU unpublished transfers report";
 
   public void doGet(HttpServletRequest request, HttpServletResponse  response)
       throws IOException, ServletException {
@@ -39,7 +40,7 @@ public class ReportServlet extends HttpServlet
     }
     if (reportName.equals(PPTChangeRequestImportReportName) || reportName.equals(PurchaseChangeRequestImportReportName) || 
         reportName.equals(PurchaseSubmissionsImportReportName) || reportName.equals(OtherInstitutionsChangeRequestImportReportName) ||
-        reportName.equals(OtherInstitutionsSubmissionsImportReportName))
+        reportName.equals(OtherInstitutionsSubmissionsImportReportName) || reportName.equals(OtherInstitutionsUnpublishedImportReportName))
     {
       args = new Object[1];
       args[0] = request.getParameter("importReportId");

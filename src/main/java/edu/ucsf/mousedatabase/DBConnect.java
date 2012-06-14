@@ -1508,11 +1508,10 @@ public class DBConnect {
         + "')";
     int reportId = executeNonQuery(query,true);
 
-    if (newReport.getNewObjectIds() != null && newReport.getNewObjectIds().size() > 0)
-    {
+    boolean first = true;
+    if (newReport.getNewObjectIds() != null && newReport.getNewObjectIds().size() > 0) {
       query = "INSERT into import_new_objects (import_report_id,object_id) VALUES ";
-      boolean first = true;
-      for(int objectId : newReport.getNewObjectIds())
+      for (int objectId : newReport.getNewObjectIds())
       {
         if (first)
           first = false;
@@ -1521,11 +1520,23 @@ public class DBConnect {
 
         query += "(" + reportId + "," + objectId + ")";
       }
-
-      query += ";";
-      executeNonQuery(query);
     }
+    else if (newReport.getNewObjects() != null && newReport.getNewObjects().size() > 0) {
+      query = "INSERT into import_new_objects (import_report_id,object_data) VALUES ";
+      for (String object : newReport.getNewObjects())
+      {
+        if (first)
+          first = false;
+        else
+          query += ",";
 
+        query += "(" + reportId + ", '" + addMySQLEscapes(object) + "')";
+      }
+    }
+    
+
+    query += ";";
+    executeNonQuery(query);
 
     return reportId;
   }
@@ -1533,6 +1544,10 @@ public class DBConnect {
   public static ArrayList<Integer> getImportNewObjectIds(int reportId)
   {
     return IntResultGetter.getInstance("object_id").Get("SELECT * FROM import_new_objects WHERE import_report_id=" + reportId);
+  }
+  
+  public static ArrayList<String> getImportNewObjects(int reportId){
+    return StringResultGetter.getInstance("object_data").Get("SELECT object_data from import_new_objects WHERE import_report_id=" + reportId);
   }
 
   //************************************************************
@@ -1968,6 +1983,15 @@ public class DBConnect {
      int reportId =  Integer.parseInt((String)args[0]);
      return runImportOtherInstitutionsSubmissionReport(reportId);
     }
+    else if (reportName.equals(ReportServlet.OtherInstitutionsUnpublishedImportReportName))
+    {
+     if (args == null)
+     {
+       throw new IndexOutOfBoundsException("No report specified for other institutions transfer unpublished report");
+     }
+     int reportId =  Integer.parseInt((String)args[0]);
+     return runImportOtherInstitutionsUnpublishedReport(reportId);
+    }
     else
     {
       throw new IndexOutOfBoundsException("Report " + reportName + " not found.  " );
@@ -2264,6 +2288,54 @@ public class DBConnect {
       result.append(HTMLGeneration.emptyIfNull(props.getProperty("New Holder Email")));
       result.append("\",\"");
       result.append(HTMLGeneration.emptyIfNull(props.getProperty("Recipient Email")));
+      result.append("\"");
+      result.append("\r\n");
+
+    }
+    return result.toString();
+  }
+  
+  private static String runImportOtherInstitutionsUnpublishedReport(int reportId)
+  {
+    ArrayList<String> unpublishedTransfers = getImportNewObjects(reportId);
+    if (unpublishedTransfers.size() <= 0)
+    {
+      return "No unpublished transfers were found in report id " + reportId;
+    }
+
+
+    StringBuilder result = new StringBuilder();
+    result.append("Message Sent,Response,PI Recipient,Strain,Sender Institution,Recipient,Email Recipient 1, Email Recipient 2");
+    result.append("\r\n");
+
+    // see importhandler.java where this is inserted (unpublishedTransfersObjects)
+    // 0 purchase.holderName, 1 purchase.strain, 2 purchase.pmid, 3 purchase.senderInstitution,
+    // 4 purchase.recipientName, 5 purchase.recipientEmail, 6 purchase.holderEmail
+    
+    Comparator<String> comparator = new Comparator<String>(){
+      public int compare(String a, String b) {
+        return HTMLGeneration.emptyIfNull(a.split("\\|")[0]).compareTo(HTMLGeneration.emptyIfNull(b.split("\\|")[0]));
+      }
+    };
+
+    Collections.sort(unpublishedTransfers, comparator);
+
+    for (String str : unpublishedTransfers)
+    {
+      String[] transfer = str.split("\\|");
+      result.append(",");
+      result.append(",\"");
+      result.append(HTMLGeneration.emptyIfNull(transfer[0]));
+      result.append("\",\"");
+      result.append(HTMLGeneration.emptyIfNull(transfer[1]));
+      result.append("\",\"");
+      result.append(HTMLGeneration.emptyIfNull(transfer[3]));
+      result.append("\",\"");
+      result.append(HTMLGeneration.emptyIfNull(transfer[4]));
+      result.append("\",\"");
+      result.append(HTMLGeneration.emptyIfNull(transfer[5]));
+      result.append("\",\"");
+      result.append(HTMLGeneration.emptyIfNull(transfer[6]));
       result.append("\"");
       result.append("\r\n");
 
