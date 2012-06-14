@@ -837,3 +837,28 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
   font-style: italic;
   font-size: 14px;
 }
+
+.import_title_0{
+  color: purple;
+}
+.import_title_1{
+  color: blue;
+}
+.import_title_2{
+  color: green;
+}
+.import_title_3{
+  color: red;
+}
+.import_title_4{
+  color: orange;
+}
+.import_title_5{
+  color: magenta;
+}
+
+.import_section.obscured {
+  filter: alpha(opacity=50);
+  opacity: 0.5;
+}
+
