@@ -1205,7 +1205,7 @@ public class ImportHandler
        emailBodyText.append("a new database record can be created with the PI who " + action_past + " it listed as a holder"); 
       }
     }
-    emailBodyText.append("\n\nA mouse carrying:  " + officialSymbol + ", ");
+    emailBodyText.append("\n\nA mouse (mice) described as " + officialSymbol + ", ");
     if (officialMouseName != null){
       emailBodyText.append(officialMouseName + ", ");
     }
@@ -1217,10 +1217,7 @@ public class ImportHandler
     emailBodyText.append( ", by " + formatHolderName((definition.Id == 1 ? purchase.purchaserName : purchase.recipientName)));
     emailBodyText.append(" for the " + holderLastName(purchase.holderName) +  " lab.");
     if (definition.Id == 2 && !purchase.published){
-      emailBodyText.append("\n\nWe would like to list all mice that are imported into the UCSF barrier in the database, ");
-      emailBodyText.append("even if the allele(s) or transgene(s) they carry have not yet been published, and are therefore ");
-      emailBodyText.append("writing to ask if you would be willing to provide the information necessary to create a record ");
-      emailBodyText.append("for the mouse that was imported in the database.");
+      emailBodyText.append("\n\nWe would like to list all alleles and transgenes that are imported into the UCSF barrier in the database, even if they have not yet been published, and are therefore writing to ask if you would be willing to provide the information necessary to create a record(s) in the database for the allele(s) or transgene(s) carried by the mice you imported.");
     }
     try {
       return URLEncoder.encode(emailBodyText.toString(),"ISO-8859-1");
