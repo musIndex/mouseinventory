@@ -17,14 +17,14 @@ public class ReportServlet extends HttpServlet
    */
   private static final long serialVersionUID = 1L;
 
-  public static final String HolderReportName = "Holder Report";
-  public static final String RecordsReportName = "Records Report";
-  public static final String LarcRecordHolderReportName = "LARC Record Holder Report";
-  public static final String PPTChangeRequestImportReportName = "PPT Change Request Data Upload Report";
-  public static final String PurchaseChangeRequestImportReportName = "Purchases Change Request Data Upload Report";
-  public static final String PurchaseSubmissionsImportReportName = "Purchases Submissions Data Upload Report";
-  public static final String OtherInstitutionsChangeRequestImportReportName = "Transfer from other Instutions Change Request Data Upload Report";
-  public static final String OtherInstitutionsSubmissionsImportReportName = "Transfer from other Instutions Submissions Data Upload Report";
+  public static final String HolderReportName = "Holder report";
+  public static final String RecordsReportName = "Records report";
+  public static final String LarcRecordHolderReportName = "LARC record holder report";
+  public static final String PPTChangeRequestImportReportName = "TDU change request report";
+  public static final String PurchaseChangeRequestImportReportName = "PDU change request report";
+  public static final String PurchaseSubmissionsImportReportName = "PDU new submissions report";
+  public static final String OtherInstitutionsChangeRequestImportReportName = "IDU change request report";
+  public static final String OtherInstitutionsSubmissionsImportReportName = "IDU new submissions report";
 
   public void doGet(HttpServletRequest request, HttpServletResponse  response)
       throws IOException, ServletException {
