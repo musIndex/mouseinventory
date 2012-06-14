@@ -1108,7 +1108,8 @@ public class ImportHandler
             " as a holder of " + sub.getOfficialSymbol() + " in the UCSF Mouse Database";
             String emailBodyText = getCombinedImportEmail(null,sub.getOfficialMouseName(),sub.getOfficialSymbol(),purchaseInfo, importDefinition);
 
-            String emailLink = getMailToLink(purchaseInfo.purchaserEmail, purchaseInfo.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchaseInfo.holderName));
+            String emailLink = getMailToLink(importDefinition.Id == 1 ? purchaseInfo.purchaserEmail : purchaseInfo.recipientEmail,
+                            purchaseInfo.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchaseInfo.holderName));
 
             sb.append(emailLink 
                 + (purchaseInfo.notes != null && !purchaseInfo.notes.isEmpty() ? "<br><b>Notes:</b> " + purchaseInfo.notes :"")
