@@ -1,5 +1,7 @@
 package edu.ucsf.mousedatabase.dataimport;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -337,19 +339,25 @@ public class ImportHandler
 
         String twoWeeksFromNow = dateFormat.format(cal.getTime());
 
-        String subjectText = "Listing " + nicelyFormattedAddedHolder +
+        String subjectText = "";
+        String emailBodyText = "";
+        
+        try{
+        subjectText = URLEncoder.encode("Listing " + nicelyFormattedAddedHolder +
         " as a holder of " + mouse.getMouseName() + ", record number " + mouse.getMouseID() +
-        ", in the UCSF Mouse Database";
-        String emailBodyText =
+        ", in the UCSF Mouse Database","ISO-8859-1");
+        emailBodyText = URLEncoder.encode(
         "In an effort to keep the UCSF mouse inventory database up-to-date, we have implemented a system " +
         "that tracks PI to PI transfers, and when a PI receives a mouse carrying a mutant allele or transgene " +
         "that is listed in the database from another PI, the recipient PI's name is automatically added to the list of " +
         "holders for that mouse." +
-        "%0D%0DA mouse carrying:  " + mouse.getMouseName() + ", database record number #" + mouseId + " " +
+        "\n\n mouse carrying:  " + mouse.getMouseName() + ", database record number #" + mouseId + " " +
         "was recently transferred from " + nicelyFormattedCurrentHolder + "'s colony to your laboratory's colony." +
-        "%0D%0D If you do not reply by " + twoWeeksFromNow + ", it will be assumed that it is OK to " +
-        "list you as a holder of the mouse.";
-
+        "\n\n If you do not reply by " + twoWeeksFromNow + ", it will be assumed that it is OK to " +
+        "list you as a holder of the mouse.","ISO-8859-1");
+        }catch(Exception e){
+          Log.Error("Failed to encode subject or body",e);
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("<span class='importAction'>Created change request <span class='changerequest_number'>#" 
             + "</span>" + request.getRequestID() +  ": Add "
@@ -1197,7 +1205,7 @@ public class ImportHandler
        emailBodyText.append("a new database record can be created with the PI who " + action_past + " it listed as a holder"); 
       }
     }
-    emailBodyText.append("%0D%0DA mouse carrying:  " + officialSymbol + ", ");
+    emailBodyText.append("\n\nA mouse carrying:  " + officialSymbol + ", ");
     if (officialMouseName != null){
       emailBodyText.append(officialMouseName + ", ");
     }
@@ -1209,12 +1217,17 @@ public class ImportHandler
     emailBodyText.append( ", by " + formatHolderName((definition.Id == 1 ? purchase.purchaserName : purchase.recipientName)));
     emailBodyText.append(" for the " + holderLastName(purchase.holderName) +  " lab.");
     if (definition.Id == 2 && !purchase.published){
-      emailBodyText.append("%0D%0DWe would like to list all mice that are imported into the UCSF barrier in the database, ");
+      emailBodyText.append("\n\nWe would like to list all mice that are imported into the UCSF barrier in the database, ");
       emailBodyText.append("even if the allele(s) or transgene(s) they carry have not yet been published, and are therefore ");
       emailBodyText.append("writing to ask if you would be willing to provide the information necessary to create a record ");
       emailBodyText.append("for the mouse that was imported in the database.");
     }
-    return emailBodyText.toString();
+    try {
+      return URLEncoder.encode(emailBodyText.toString(),"ISO-8859-1");
+    } catch (UnsupportedEncodingException e) {
+      Log.Error("Failed to encode email body text",e);
+      return "Error.";
+    }
   }
 
 
