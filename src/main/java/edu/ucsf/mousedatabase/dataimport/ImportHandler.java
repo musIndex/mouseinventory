@@ -456,7 +456,7 @@ public class ImportHandler
     String jaxMouseIdCol = "strain";
     String mgiMouseIdCol = "mgi id";
 
-    String roomNameCol = "room";
+    String roomNameCol = "final destination";
 
     String recipientPIEmailCol = "recipient pi email";
     String purchaserNameCol = "purchaser name";
