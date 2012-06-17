@@ -1716,21 +1716,21 @@ public class DBConnect {
     //delete all existing holders
 
     String query = "DELETE FROM mouse_holder_facility WHERE mouse_id='" + r.getMouseID() + "'";
-      executeNonQuery(query);
+    executeNonQuery(query);
 
-     //add all holders from the record
-      for(MouseHolder holder : r.getHolders())
-      {
-          if (holder.getHolderID() != 1)
-          {
-              query = "INSERT INTO mouse_holder_facility (mouse_id, holder_id, facility_id," +
-                  "covert,cryo_live_status) "
-                      + " VALUES ('" + r.getMouseID() + "', " + holder.getHolderID() + ", " +
-                      holder.getFacilityID() + ", " + holder.isCovert() + ", '" +
-                      holder.getCryoLiveStatus() + "')";
-              executeNonQuery(query);
-          }
-      }
+   //add all holders from the record
+    for(MouseHolder holder : r.getHolders())
+    {
+        if (holder.getHolderID() != 1)
+        {
+            query = "INSERT INTO mouse_holder_facility (mouse_id, holder_id, facility_id," +
+                "covert,cryo_live_status) "
+                    + " VALUES ('" + r.getMouseID() + "', " + holder.getHolderID() + ", " +
+                    holder.getFacilityID() + ", " + holder.isCovert() + ", '" +
+                    holder.getCryoLiveStatus() + "')";
+            executeNonQuery(query);
+        }
+    }
 
 
   }

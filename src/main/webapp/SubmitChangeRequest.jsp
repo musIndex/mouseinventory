@@ -158,7 +158,7 @@
 <font size="4"><br>We have received your request to change information about mouse <%= changeRequest.getMouseID() %> in our inventory. It
     will be reviewed
     by the
-    administrator. Thank you very much.</font>
+    administrator.<br><br>Thank you for helping to keep the database up-to-date!.</font>
 
 
 
