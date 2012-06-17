@@ -29,23 +29,31 @@ private String getReportSelector(ImportObjectType reportType, String name)
    return HTMLGeneration.genSelect("importReportId",reportIds,reportNames,null,"style='width: 300px'",false);
 }
 
-private String getReportForm(String reportName, String reportDescription, String extraListItem)
+private String getReportForm(String reportName, String reportDescription, String extraListItem){
+ return getReportForm(reportName, reportDescription, extraListItem, null);
+}
+
+private String getReportForm(String reportName, String reportDescription, String extraListItem, String cssClass)
 {
   StringBuilder sb = new StringBuilder();
   sb.append("<form method=\"get\" action=\"" + HTMLGeneration.siteRoot + "report\"\r\n");
   sb.append("<dl>\r\n");
-  sb.append("<dt><b>" + reportName + "</b></dt>\r\n");
+  sb.append("<dt" + (cssClass != null ? " class='" + cssClass + "'" : "") + "><b>" + reportName + "</b></dt>\r\n");
   sb.append("<dd>" + reportDescription + "</dd>\r\n");
   if (extraListItem != null)
   {
     sb.append("<dd>" + extraListItem + "</dd>");
   }
   sb.append("<dd><button type='submit' name='reportName' class='btn btn-mini btn-primary' value='" + reportName
-          + "' />Download</button>");
+          + "' />Download csv</button>");
   sb.append("</dl>\r\n");
   sb.append("</form>\r\n");
   return sb.toString();
 
+}
+
+private String getAllRecordsPDFLink(){
+ return "<a class='btn btn-info btn-mini' href='" + HTMLGeneration.siteRoot + "MouseList?status=live'>Download PDF</a><br>"; 
 }
 
 
@@ -62,14 +70,17 @@ private String getReportForm(String reportName, String reportDescription, String
 <div class="pagecontent">
 
 <h2>Reports</h2>
+<%=getReportForm(ReportServlet.PPTChangeRequestImportReportName,"Change requests created by PI-to-PI transfer data uploads.","Select report: " + pptReportSelector,"upload-tdu" ) %>
+
+<%=getReportForm(ReportServlet.PurchaseChangeRequestImportReportName,"Change requests created by purchase data uploads.","Select report: " + purchaseChangeRequestReportSelector , "upload-pdu") %>
+<%=getReportForm(ReportServlet.PurchaseSubmissionsImportReportName,"Submissions created by purchase data uploads.","Select report: " + purchaseSubmissionReportSelector, "upload-pdu") %>
+
+<%=getReportForm(ReportServlet.OtherInstitutionsChangeRequestImportReportName,"Change requests created by import data uploads.","Select report: " + otherInstitutionsChangeRequestReportSelector,"upload-idu" ) %>
+<%=getReportForm(ReportServlet.OtherInstitutionsSubmissionsImportReportName,"Submissions created by import data uploads.","Select report: " + otherInstitutionsSubmissionReportSelector,"upload-idu" ) %>
+<%=getReportForm(ReportServlet.OtherInstitutionsUnpublishedImportReportName,"Unpublished imports from import data uploads..","Select report: " + otherInstitutionsUnpublishedReportSelector,"upload-idu" ) %>
+
 <%=getReportForm(ReportServlet.HolderReportName,"Lists all holders, name, department, email, number of mice held, and date of last review.",null ) %>
-<%=getReportForm(ReportServlet.RecordsReportName,"Lists all live records, basic details, submitter name, and up to 5 holders.",null ) %>
+<%=getReportForm(ReportServlet.RecordsReportName,"Lists all live records, basic details, submitter name, and up to 5 holders.  PDF report contains full details for all live records.", getAllRecordsPDFLink() ) %>
 <%=getReportForm(ReportServlet.LarcRecordHolderReportName,"Used by LARC to automatically populate dropdowns on their site.",null ) %>
-<%=getReportForm(ReportServlet.PPTChangeRequestImportReportName,"Change requests created by PPT data uploads.","Select report: " + pptReportSelector ) %>
-<%=getReportForm(ReportServlet.PurchaseSubmissionsImportReportName,"Submissions created by Purchase data uploads.","Select report: " + purchaseSubmissionReportSelector ) %>
-<%=getReportForm(ReportServlet.PurchaseChangeRequestImportReportName,"Change requests created by Purchase data uploads.","Select report: " + purchaseChangeRequestReportSelector ) %>
-<%=getReportForm(ReportServlet.OtherInstitutionsSubmissionsImportReportName,"Submissions created by Transfers from other Institutions data uploads.","Select report: " + otherInstitutionsSubmissionReportSelector ) %>
-<%=getReportForm(ReportServlet.OtherInstitutionsChangeRequestImportReportName,"Change requests created by Transfers from other Institutions data uploads.","Select report: " + otherInstitutionsChangeRequestReportSelector ) %>
-<%=getReportForm(ReportServlet.OtherInstitutionsUnpublishedImportReportName,"Unpublished transfers from other Institutions data uploads..","Select report: " + otherInstitutionsUnpublishedReportSelector ) %>
 
 </div>

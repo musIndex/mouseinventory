@@ -197,11 +197,9 @@ public class HTMLGeneration {
           null, currentPageFilename, true));
       table.append(addNavLink("Edit Facilities",
           "EditFacilityChooser.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Data Upload", "ImportReports.jsp", null,
           currentPageFilename, true));
       table.append(addNavLink("Reports", "Reports.jsp", null,
-          currentPageFilename, true));
-
-      table.append(addNavLink("Data Upload", "ImportReports.jsp", null,
           currentPageFilename, true));
       table.append(addNavLink("Log out", "logout.jsp", null,
           currentPageFilename, false));
@@ -2185,7 +2183,7 @@ public class HTMLGeneration {
     table.append("Details");
     table.append("</td>\r\n");
     table.append("<td style='min-width:500px'\">\r\n");
-    table.append("Data Import Results");
+    table.append("Data Upload Results");
     table.append("</td>\r\n");
     // if (edit)
     // {

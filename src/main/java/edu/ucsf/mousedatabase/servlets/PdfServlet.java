@@ -8,6 +8,7 @@ import static edu.ucsf.mousedatabase.HTMLGeneration.*;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -79,32 +80,35 @@ public class PdfServlet extends HttpServlet {
       Log.Info("Exported pdf - " + documentName);
     } catch (Exception e) {
       response.setContentType("text/html");
-      response.getWriter().write("Error processing pdf!");
+      response.getWriter().write("Error processing pdf: " + e.getLocalizedMessage());
       Log.Error("Error processing pdf!",e);
     }
   }
 
-  private Element getMouseListPdf(HttpServletRequest request) throws IOException, DocumentException
+  private Element getMouseListPdf(HttpServletRequest request) throws Exception
   {
     int holderID = stringToInt(request.getParameter("holder_id"));
     int geneID = stringToInt(request.getParameter("geneID"));
-      int mouseTypeID = stringToInt(request.getParameter("mousetype_id"));
-      int creOnly = stringToInt(request.getParameter("creonly"));
-      int facilityID = stringToInt(request.getParameter("facility_id"));
-      int offset = -1;
-      int limit = -1;
+    int mouseTypeID = stringToInt(request.getParameter("mousetype_id"));
+    int creOnly = stringToInt(request.getParameter("creonly"));
+    int facilityID = stringToInt(request.getParameter("facility_id"));
+    int offset = -1;
+    int limit = -1;
 
-      String orderBy = request.getParameter("orderby");
-      String searchTerms = request.getParameter("searchterms");
-      String status = request.getParameter("status");
+    String orderBy = request.getParameter("orderby");
+    String searchTerms = request.getParameter("searchterms");
+    String status = request.getParameter("status");
 
-      if (orderBy == null || orderBy.isEmpty()) {
-        orderBy = "mouse.name";
-      }
+    if (orderBy == null || orderBy.isEmpty()) {
+      orderBy = "mouse.name";
+    }
 
-      if(status == null)
+    if(status == null)
     {
       status = "all";
+    }
+    if (status == "all" && !request.isUserInRole("administrator")) {
+      throw new Exception("You must be an administrator to view all mouse records");
     }
 
     if(creOnly < 0){
@@ -161,10 +165,10 @@ public class PdfServlet extends HttpServlet {
         mouseTypeStr += " matching search term '" + searchTerms + "'";
       }
 
-      if(!status.equals("all"))
-    {
-      mouseTypeStr += " with status='" + status + "'";
-    }
+      if(!status.equals("live") && !status.equals("all") && request.isUserInRole("administrator"))
+      {
+        mouseTypeStr += " with status='" + status + "'";
+      }
 
 
     PdfPTable table = new PdfPTable(2);

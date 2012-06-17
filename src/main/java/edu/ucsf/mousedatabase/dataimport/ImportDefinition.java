@@ -5,8 +5,9 @@ package edu.ucsf.mousedatabase.dataimport;
 public class ImportDefinition
 {
   public int Id;
-    public String Name;
+  public String Name;
   public String Description;
+  public String ShortName;
   //public List<ImportAction> rowActions;
 
   public ImportDefinition()
@@ -14,11 +15,12 @@ public class ImportDefinition
 
   }
 
-  public ImportDefinition(int id, String name, String description)
+  public ImportDefinition(int id, String shortName, String name, String description)
   {
     this.Id = id;
     this.Name = name;
     this.Description = description;
+    this.ShortName = shortName;
   }
 
   public ImportDefinition(String definitionXml)

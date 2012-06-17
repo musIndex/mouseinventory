@@ -1,3 +1,4 @@
+<%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="java.util.concurrent.TimeUnit"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -63,13 +64,9 @@
   query.add("creonly=" + creOnly);
   query.add("mousetype_id=" + mouseTypeID);
   query.add("facility_id=" + facilityID);
+  query.add("status=live");
 
-  String queryString = "";
-
-  for (String s : query)
-  {
-      queryString += s + "&";
-  }
+  String queryString = StringUtils.join(query, "&");
 
   int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID);
   ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID,limit,offset);

@@ -93,9 +93,9 @@ public class ImportHandler
     //todo read from user-defined xml file at runtime
     importDefinitions = new ArrayList<ImportDefinition>();
     //make sure the ID is the same as the position in the collection
-    importDefinitions.add(new ImportDefinition(0,"Transfer Data Upload (TDU)","Create change requests to add holder to mice based on LARC mouse transfer report"));
-    importDefinitions.add(new ImportDefinition(1,"Purchase Data Upload (PDU)","Create submissions for new mice or change requests to add holders to existing mice based on a LARC mouse purchases report"));
-    importDefinitions.add(new ImportDefinition(2,"Import Data Upload (IDU)","Create submissions for new mice or change requests to add holders to existing mice based on a LARC institutional transfer report"));
+    importDefinitions.add(new ImportDefinition(0,"tdu","Transfer Data Upload (TDU)","Create change requests to add holder to mice based on LARC mouse transfer report"));
+    importDefinitions.add(new ImportDefinition(1,"pdu","Purchase Data Upload (PDU)","Create submissions for new mice or change requests to add holders to existing mice based on a LARC mouse purchases report"));
+    importDefinitions.add(new ImportDefinition(2,"idu","Import Data Upload (IDU)","Create submissions for new mice or change requests to add holders to existing mice based on a LARC institutional transfer report"));
     
   }
 
