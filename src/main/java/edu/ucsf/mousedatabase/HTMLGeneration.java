@@ -191,15 +191,12 @@ public class HTMLGeneration {
           currentPageFilename, true));
       table.append(addNavLink("Change Requests",
           "ManageChangeRequests.jsp", null, currentPageFilename, true));
-      table.append(addNavLink("MGI Submission", "SubmissionFromMgi.jsp",
-          null, currentPageFilename, true));
       table.append(addNavLink("Edit Mice", "EditMouseSelection.jsp",
           null, currentPageFilename, true));
       table.append(addNavLink("Edit Holders", "EditHolderChooser.jsp",
           null, currentPageFilename, true));
       table.append(addNavLink("Edit Facilities",
           "EditFacilityChooser.jsp", null, currentPageFilename, true));
-      table.append(addNavLink("Edit Genes", "EditGeneChooser.jsp", null,
           currentPageFilename, true));
       table.append(addNavLink("Reports", "Reports.jsp", null,
           currentPageFilename, true));
