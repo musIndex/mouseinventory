@@ -713,8 +713,16 @@ td.mouselistcolumn-holders {
   margin-bottom:5px;
 }
 
+.search-box img.woodmouse {
+  padding-right: 50px;
+}
+
+.search-box-small img.woodmouse {
+  padding-right: 0px;
+}
+
 .search-box input[type=text] {
-  margin-left: 100px;
+  margin-left: 60px;
 }
 .search-box-small input[type=text] {
   margin-left:0px;
