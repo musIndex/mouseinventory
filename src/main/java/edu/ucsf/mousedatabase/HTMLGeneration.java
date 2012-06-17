@@ -1,5 +1,7 @@
 package edu.ucsf.mousedatabase;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -1755,19 +1757,17 @@ public class HTMLGeneration {
                 + ". ";
           }
 
+          
+          String mailLink = getMailToLink(holder.getAlternateEmail(), holder.getEmail(), 
+              "Regarding%20" + nextRecord.getMouseName() + "-Record#%20" + nextRecord.getMouseID(), null, firstInitial + holder.getLastname(),
+              holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")");
+          
           holderBuf.append("<dt" + (overMax ? " style='display:none'" : "") + ">"
               + (holder.isCovert() ? "<b>CVT</b>-" : "")
-              + "<a title='" + holder.getFirstname() + " "
-              + holder.getLastname() + " (" + holder.getDept()
-              + ")' href='mailto:" + holder.getEmail()
-              + (holder.getAlternateEmail() != null && !holder.getAlternateEmail().equals("") ? "?cc=" + holder.getAlternateEmail() + "&" : "?" )
-              + "subject=Regarding%20"
-              + nextRecord.getMouseName() + "-Record#%20"
-              + nextRecord.getMouseID() +"'>" + firstInitial
-              + holder.getLastname()  + "</a>" + facilityName
+              + mailLink + facilityName
               + "<span class='lbl'>" + cryoLiveStatus + "</span>"
               + "</dt>");
-
+          
           holderCount++;
         }
         if (overMax) {
@@ -2417,13 +2417,7 @@ public class HTMLGeneration {
   }
   
   public static String formatEmail(String emailAddress, String ccAddress, String linkText, String subject) {
-    subject = subject.replace(" ", "%20");
-
-    String link = "<a href=\"mailto:" + emailAddress + "?subject=" + subject;
-    if (ccAddress != null && !ccAddress.equals(emailAddress)) {
-      link += "&cc=" + ccAddress;
-    }
-    return link + "\">" + linkText + "</a>";
+    return getMailToLink(emailAddress, ccAddress, subject, null, linkText);
   }
 
   public static String getMultiSelectWidget(String name,
@@ -2909,4 +2903,36 @@ public class HTMLGeneration {
         + (params != null ? params : "") + ">\r\n";
   }
 
+  public static String getMailToLink(String address, String cc, String subject, String body, String linkText)
+  {
+    return getMailToLink(address, cc, subject, body, linkText, null); 
+  }
+  
+  public static String getMailToLink(String address, String cc, String subject, String body, String linkText, String linkTitle)
+  {
+    String ccAddr = "?";
+    if (cc != null && !cc.equals(address))
+    {
+      ccAddr = "?cc=" + cc + "&";
+    }
+    if (cc != null && address == null){
+      address = cc;
+      ccAddr = "?";
+    }
+    return "<a" + (linkTitle != null ? " title='" + linkTitle + "'":"") + 
+            " href=\"mailto:" + address + ccAddr + 
+            "subject=" + urlEncode(subject) + 
+            (body != null ? "&body=" + urlEncode(body) : "") + "\">" + linkText + "</a>";
+  }
+  
+  public static String urlEncode(String text){
+    
+    try {
+      return URLEncoder.encode(text,"ISO-8859-1");
+    } catch (UnsupportedEncodingException e) {
+      Log.Error("Failed to encode text with ISO-8859-1 encoding",e);
+      return "failed to encode";
+    }
+  }
+  
 }
