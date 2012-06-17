@@ -1731,6 +1731,10 @@ public class DBConnect {
             executeNonQuery(query);
         }
     }
+    if (r.getHolders() == null || r.getHolders().size() == 0){
+      query = "UPDATE mouse set status='deleted' where id=" + r.getMouseID() + ";";
+      executeNonQuery(query);
+    }
 
 
   }
