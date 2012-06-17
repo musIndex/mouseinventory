@@ -140,3 +140,6 @@ repair table flattened_mouse_search;
 #32 - add object data table to import_new_objects
 alter table import_new_objects add column object_data text;
 
+#33 - add alternate lab manager name
+alter table holder add column alternate_name varchar(80);
+

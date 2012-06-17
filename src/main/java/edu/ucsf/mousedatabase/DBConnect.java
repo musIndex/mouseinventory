@@ -75,7 +75,7 @@ public class DBConnect {
 
   private static final String mouseHolderQueryHeader =
     "SELECT holder_id, facility_id, covert, cryo_live_status, firstname, lastname, " +
-    "department, email, alternate_email, tel, facility" +
+    "department, email, alternate_email, alternate_name, tel, facility" +
     "\r\n FROM mouse_holder_facility t1 left join holder on t1.holder_id=holder.id " +
     "left join facility on t1.facility_id=facility.id \r\n";
 
@@ -1298,6 +1298,7 @@ public class DBConnect {
         + "',department='" + addMySQLEscapes(updatedHolder.getDept())
         + "',email='" + addMySQLEscapes(updatedHolder.getEmail())
         + "',alternate_email='" + addMySQLEscapes(updatedHolder.getAlternateEmail())
+         + "',alternate_name='" + addMySQLEscapes(updatedHolder.getAlternateName())
         + "',tel='" + addMySQLEscapes(updatedHolder.getTel())
         + "',datevalidated=" + dateValidated
         + "\r\nWHERE id=" + updatedHolder.getHolderID();
@@ -1455,13 +1456,14 @@ public class DBConnect {
 
   public static int insertHolder(Holder newHolder)
   {
-    String query = "INSERT into holder (id,firstname,lastname,department,email,alternate_email,tel) " +
+    String query = "INSERT into holder (id,firstname,lastname,department,email,alternate_email,alternate_name,tel) " +
         "VALUES (NULL"
         + ",'"  + addMySQLEscapes(newHolder.getFirstname())
         + "','" + addMySQLEscapes(newHolder.getLastname())
         + "','" + addMySQLEscapes(newHolder.getDept())
         + "','" + addMySQLEscapes(newHolder.getEmail())
         + "','" + addMySQLEscapes(newHolder.getAlternateEmail())
+        + "','" + addMySQLEscapes(newHolder.getAlternateName())
         + "','" + addMySQLEscapes(newHolder.getTel())
         + "')";
     return executeNonQuery(query,true);
@@ -2926,6 +2928,7 @@ public class DBConnect {
         holder.setDept(_resultSet.getString("department"));
         holder.setEmail(_resultSet.getString("email"));
         holder.setAlternateEmail(_resultSet.getString("alternate_email"));
+        holder.setAlternateName(_resultSet.getString("alternate_name"));
         holder.setTel(_resultSet.getString("tel"));
 
         holder.setFacilityID(_resultSet.getInt("facility_id"));
@@ -2976,6 +2979,7 @@ public class DBConnect {
         result.setDept(_resultSet.getString("department"));
         result.setEmail(_resultSet.getString("email"));
         result.setAlternateEmail(_resultSet.getString("alternate_email"));
+        result.setAlternateName(_resultSet.getString("alternate_name"));
         result.setTel(_resultSet.getString("tel"));
         result.setVisibleMouseCount(_resultSet.getInt("mice held"));
         result.setDateValidated(_resultSet.getString("datevalidated"));

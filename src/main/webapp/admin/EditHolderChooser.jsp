@@ -48,14 +48,21 @@
                 <td><input type=text name="email" size=40></td>
             </tr>
             <tr>
-                <td>Alternate Email</td>
-                <td><input type=text name="alternateEmail" size=40>
-                <br><i>This email will be added as a cc on email links for this holder in the mouse list</i></td>
-            </tr>
-            <tr>
                 <td>Tel</td>
                 <td><input type=text name="tel" size=20></td>
             </tr>
+            
+            <tr>
+                <td>Alternate Contact Name</td>
+                <td><input type=text name="alternateName" size=40>
+                <br><i>An alternative contact for the PI, such as a lab manager</i></td>
+            </tr>
+            <tr>
+                <td>Alternate Contact Email</td>
+                <td><input type=text name="alternateEmail" size=40>
+                <br><i>This email will be added as a cc on email links for this holder in the mouse list</i></td>
+            </tr>
+            
             <tr><td colspan=2 align="center">
             <input type="hidden" name="command" value="Insert">
             <input type="submit" class="btn btn-success" value="Create Holder"></td></tr>
