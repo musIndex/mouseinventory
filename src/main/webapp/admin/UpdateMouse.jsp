@@ -28,18 +28,18 @@
   String resultingRecord = "";
   String previousRecord = null;
   String recordUpdateResult = null;
-     String pageHeader = "";
-     boolean errorsEncountered = false;
+  String pageHeader = "";
+  boolean errorsEncountered = false;
 
-  //TODO combine code in updatemouse,updatechangerequest,updatesubmission into servlet
+//TODO combine code in updatemouse,updatechangerequest,updatesubmission into servlet
 
-     PopulateMouseResult result = RecordManager.PopulateMouseDataFromRequest(updatedRecord,request);
-     if (!result.Success)
-     {
-       errorsEncountered = true;
-       errortext += result.Message;
-     }
-     else if( mouseID > 0)
+  PopulateMouseResult result = RecordManager.PopulateMouseDataFromRequest(updatedRecord,request);
+  if (!result.Success)
+  {
+    errorsEncountered = true;
+    errortext += result.Message;
+  }
+  else if( mouseID > 0)
   {
     previousRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false,true);
 
