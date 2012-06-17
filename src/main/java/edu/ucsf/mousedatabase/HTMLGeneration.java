@@ -1878,6 +1878,9 @@ public class HTMLGeneration {
         if (holderName == null){
           holderName = (String)nextRequest.Properties().get("Add Holder Name");
         }
+        if (holderName == null){
+          holderName = (String)nextRequest.Properties().get("Delete Holder Name");
+        }
         if (holderName != null){
           Holder holder = DBConnect.findHolder(holderName);
           if (holder != null){

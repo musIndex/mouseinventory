@@ -115,6 +115,10 @@
        {
            comment += " \r\nDELETE HOLDER: " + holderName +
            " (" + facilityName + ")" + " (" + cryoLiveStatus + ")";
+           Properties props = new Properties();
+           props.setProperty("Delete Holder Name", holderName);
+           props.setProperty("Delete Facility Name", facilityName);
+           changeRequest.setProperties(props);
        }
        else if(requestType.equalsIgnoreCase("markEndangered"))
        {
