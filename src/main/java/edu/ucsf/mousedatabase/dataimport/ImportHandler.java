@@ -1,7 +1,5 @@
 package edu.ucsf.mousedatabase.dataimport;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -28,6 +26,7 @@ import edu.ucsf.mousedatabase.objects.MouseHolder;
 import edu.ucsf.mousedatabase.objects.MouseRecord;
 import edu.ucsf.mousedatabase.objects.SubmittedMouse;
 import edu.ucsf.mousedatabase.servlets.ImportServlet;
+import static edu.ucsf.mousedatabase.HTMLGeneration.*;
 
 public class ImportHandler
 {
@@ -347,11 +346,11 @@ public class ImportHandler
         String subjectText = "";
         String emailBodyText = "";
         
-        try{
-        subjectText = URLEncoder.encode("Listing " + nicelyFormattedAddedHolder +
+
+        subjectText = "Listing " + nicelyFormattedAddedHolder +
         " as a holder of " + mouse.getMouseName() + ", record number " + mouse.getMouseID() +
-        ", in the UCSF Mouse Database","ISO-8859-1");
-        emailBodyText = URLEncoder.encode(
+        ", in the UCSF Mouse Database";
+        emailBodyText = 
         "In an effort to keep the UCSF mouse inventory database up-to-date, we have implemented a system " +
         "that tracks PI to PI transfers, and when a PI receives a mouse carrying a mutant allele or transgene " +
         "that is listed in the database from another PI, the recipient PI's name is automatically added to the list of " +
@@ -359,10 +358,8 @@ public class ImportHandler
         "\n\n mouse carrying:  " + mouse.getMouseName() + ", database record number #" + mouseId + " " +
         "was recently transferred from " + nicelyFormattedCurrentHolder + "'s colony to your laboratory's colony." +
         "\n\n If you do not reply by " + twoWeeksFromNow + ", it will be assumed that it is OK to " +
-        "list you as a holder of the mouse.","ISO-8859-1");
-        }catch(Exception e){
-          Log.Error("Failed to encode subject or body",e);
-        }
+        "list you as a holder of the mouse.";
+
         StringBuilder sb = new StringBuilder();
         sb.append("<span class='importAction'>Created change request <span class='changerequest_number'>#" 
             + "</span>" + request.getRequestID() +  ": Add "
@@ -1240,28 +1237,12 @@ public class ImportHandler
     if (definition.Id == 2 && !purchase.published){
       emailBodyText.append("\n\nWe would like to list all alleles and transgenes that are imported into the UCSF barrier in the database, even if they have not yet been published, and are therefore writing to ask if you would be willing to provide the information necessary to create a record(s) in the database for the allele(s) or transgene(s) carried by the mice you imported.");
     }
-    try {
-      return URLEncoder.encode(emailBodyText.toString(),"ISO-8859-1");
-    } catch (UnsupportedEncodingException e) {
-      Log.Error("Failed to encode email body text",e);
-      return "Error.";
-    }
+    return emailBodyText.toString();
+
   }
 
 
-  private static String getMailToLink(String address, String cc, String subject, String body, String linkText)
-  {
-    String ccAddr = "?";
-    if (cc != null && !cc.equals(address))
-    {
-      ccAddr = "?cc=" + cc + "&";
-    }
-    if (cc != null && address == null){
-      address = cc;
-      ccAddr = "?";
-    }
-    return "<a href=\"mailto:" + address + ccAddr + "subject=" + subject + "&body=" + body + "\">" + linkText + "</a>";
-  }
+  
 
 
   private static void buildReport(StringBuilder sb, String requestType, ArrayList<String> requests)

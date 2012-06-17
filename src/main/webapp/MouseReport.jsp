@@ -191,14 +191,13 @@
     "</li>" +
     "</ul>" +
     "</div>" +
-    "Use this " +
-    "<a href='mailto:" + AdminEmail + "?" +
-    "subject=" + holder.getLastname() + " mouse list reviewed" +
-    "&body=The list of mice held by "+ holder.getFullname() + " " +
-    "was thoroughly reviewed and any necessary deletions/additions/corrections " +
-    "were made today" +
-    "%0D(If mice still need to be added, please provide a list of " +
-    "their names below.)'>email link</a> " +
+    "Use this " + 
+    getMailToLink(AdminEmail, null, holder.getLastname() + " mouse list reviewed", 
+                "The list of mice held by "+ holder.getFullname() + " " +
+                "was thoroughly reviewed and any necessary deletions/additions/corrections " +
+                "were made today" +
+                "\n(If mice still need to be added, please provide a list of " +
+                "their names below.)", "email link") +
     "to notify admin when the list of mice has been thorougly reviewed and updated. " +
     "(Please add any feedback about the database to the e-mail)" +
     "</div>";
