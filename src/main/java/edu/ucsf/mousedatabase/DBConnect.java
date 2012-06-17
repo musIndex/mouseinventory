@@ -2047,7 +2047,7 @@ public class DBConnect {
       result.append(",Holder " + (i + 1));
     }
     result.append("\r\n");
-    ArrayList<MouseRecord> records = getMouseRecords(-1,null,-1,-1,"live");
+    ArrayList<MouseRecord> records = getMouseRecords(-1,"mouse.name",-1,-1,"live");
     for (MouseRecord mouseRecord : records)
     {
       int submissionID = -1;

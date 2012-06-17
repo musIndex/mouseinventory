@@ -18,16 +18,13 @@ $(document).ready(function(){
 <div class="pagecontent">
 
 <%
-int i = 0;
 for(ImportDefinition importReportDefinition : ImportHandler.getImportDefinitions() )
 {
-  i++;
-  i = i % 5;
   %>
   <div class='import_section'>
   <form action="<%=HTMLGeneration.adminRoot %>Import"
     enctype="multipart/form-data" method="post">
-    <h3 class='import_title_<%=i%>'><%=importReportDefinition.Name %></h3>
+    <h3 class='upload-<%=importReportDefinition.ShortName%>'><%=importReportDefinition.Name %></h3>
     <p><%=importReportDefinition.Description %></p>
     <table>
       <tr>

@@ -847,23 +847,15 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
   font-size: 14px;
 }
 
-.import_title_0{
-  color: purple;
-}
-.import_title_1{
+
+.upload-tdu {
   color: blue;
 }
-.import_title_2{
+.upload-pdu {
   color: green;
 }
-.import_title_3{
+.upload-idu {
   color: red;
-}
-.import_title_4{
-  color: orange;
-}
-.import_title_5{
-  color: magenta;
 }
 
 .import_section.obscured {
