@@ -165,7 +165,7 @@ public class HTMLGeneration {
     table.append(addNavLink("Search", "search.jsp", null,
         currentPageFilename, false,"nav-search-link"));
     table.append(addNavLink("Mouse List", "MouseReport.jsp", null,
-        currentPageFilename, false));
+        currentPageFilename, false,"nav-mouselist"));
     table.append(addNavLink("Gene List", "GeneReport.jsp", null,
         currentPageFilename, false));
     table.append(addNavLink("Holder List", "HolderReport.jsp", null,
@@ -176,8 +176,8 @@ public class HTMLGeneration {
     // null,currentPageFilename,false));
     table.append(addNavLink("Submit Mice", "submitforminit.jsp", null,
         currentPageFilename, false));
-    table.append(addNavLink("Administration", "admin.jsp", null,
-        isAdminPage ? "admin.jsp" : currentPageFilename, true));
+    table.append(addNavLink("Admin use only", "admin.jsp", null,
+        isAdminPage ? "admin.jsp" : currentPageFilename, true, "pull-right small"));
     table.append("</ul>");
     table.append("</div>");
 
