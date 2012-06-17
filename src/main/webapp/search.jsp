@@ -165,7 +165,7 @@
 <div class="pagecontent">
   <form id="searchForm" action="search.jsp" class="form-search" method="get">
     <div class="search-box <%= searchPerformed ?  "search-box-small" : "" %> " style="display:none">
-      <img src="<%=imageRoot %>mouse-img-istock.jpg"/>
+      <img src="<%=imageRoot %>mouse-img-istock.jpg" class="woodmouse"/>
       <div class="search-box-inner">
         <input type="text" class="input-xlarge search-query" name="searchterms" value="<%=searchterms %>">
         <button id="search_button" class="btn btn-primary" type="submit" ><i class='icon-white icon-search'></i> Mouse Search</button>
