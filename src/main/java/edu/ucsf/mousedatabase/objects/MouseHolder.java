@@ -73,6 +73,12 @@ public class MouseHolder {
   public void setAlternateEmail(String email) {
     this.holder.setAlternateEmail(email);
   }
+  public String getAlternateName() {
+    return holder.getAlternateName();
+  }
+  public void setAlternateName(String name) {
+    this.holder.setAlternateName(name);
+  }
   public String getDept() {
     return holder.getDept();
   }
