@@ -198,7 +198,7 @@
                 "were made today" +
                 "\n(If mice still need to be added, please provide a list of " +
                 "their names below.)", "email link") +
-    "to notify admin when the list of mice has been thorougly reviewed and updated. " +
+    " to notify admin when the list of mice has been thorougly reviewed and updated. " +
     "(Please add any feedback about the database to the e-mail)" +
     "</div>";
     }
