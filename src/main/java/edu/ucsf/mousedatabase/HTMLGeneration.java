@@ -2928,7 +2928,7 @@ public class HTMLGeneration {
   public static String urlEncode(String text){
     
     try {
-      return URLEncoder.encode(text,"ISO-8859-1");
+      return URLEncoder.encode(text,"ISO-8859-1").replace("+", "%20");
     } catch (UnsupportedEncodingException e) {
       Log.Error("Failed to encode text with ISO-8859-1 encoding",e);
       return "failed to encode";
