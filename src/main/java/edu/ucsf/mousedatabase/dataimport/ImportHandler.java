@@ -463,8 +463,9 @@ public class ImportHandler
     String recipientPiNameCol = "pi (recipient)";
 
     String sourceCol = "vendor";
-    String jaxMouseIdCol = "strain";
+    String strainCol = "strain";
     String mgiMouseIdCol = "mgi id";
+    String stockNumberCol = "stock no";
 
     String roomNameCol = "final destination";
 
@@ -492,7 +493,8 @@ public class ImportHandler
       PurchaseInfo purchase = new PurchaseInfo();
 
       purchase.source = record.get(sourceCol);
-      purchase.strain = extractStockNumber(purchase.source, record.get(jaxMouseIdCol));
+      purchase.strain = record.get(strainCol); 
+      purchase.stockNumber = extractStockNumber(purchase.source, record.get(stockNumberCol));
 
       purchase.holderName = record.get(recipientPiNameCol);
       purchase.holderEmail = record.get(recipientPIEmailCol);
@@ -576,7 +578,7 @@ public class ImportHandler
           ArrayList<Integer> allMgiIds = null;
           if(purchaseInfo.source.equalsIgnoreCase(JacksonLaboratory))
           {
-            allMgiIds = JaxMiceConnect.GetMGINumbersFromJax(purchaseInfo.strain);
+            allMgiIds = JaxMiceConnect.GetMGINumbersFromJax(purchaseInfo.stockNumber);
           }
           else if(purchaseInfo.source != null && purchaseInfo.source.contains(Mmmrrc))
           {
@@ -588,7 +590,7 @@ public class ImportHandler
             }
             if (mmrrcData.isAvailable())
             {
-              allMgiIds = mmrrcData.lookupStrain(purchaseInfo.strain);
+              allMgiIds = mmrrcData.lookupStrain(purchaseInfo.stockNumber);
             }
           }
           else
@@ -627,7 +629,7 @@ public class ImportHandler
         {
           if (importDefinition.Id == 1){
             ImportStatusTracker.AppendMessage(importTaskId, "Unable to lookup MGI based on catalog information (source:'" + purchaseInfo.source + "', strain:'"
-                +purchaseInfo.strain +"'); using manually entered MGI ID: " +purchaseInfo.mgiId);
+                +purchaseInfo.stockNumber +"'); using manually entered MGI ID: " +purchaseInfo.mgiId);
           }
           else if (importDefinition.Id == 2){
             ImportStatusTracker.AppendMessage(importTaskId, "Adding manually entered MGI ID: " +purchaseInfo.mgiId);
@@ -646,7 +648,7 @@ public class ImportHandler
           purchasesByMgi.put(mgiId, new ArrayList<PurchaseInfo>());
         }
         if (importDefinition.Id == 1){
-          ImportStatusTracker.AppendMessage(importTaskId, purchaseInfo.source + " " + purchaseInfo.strain + " -> MGI:"+ mgiId);
+          ImportStatusTracker.AppendMessage(importTaskId, purchaseInfo.source + " " + purchaseInfo.stockNumber + " -> MGI:"+ mgiId);
         }
         purchasesByMgi.get(mgiId).add(purchaseInfo);
       }
@@ -798,7 +800,7 @@ public class ImportHandler
                   purchase.recipientName,purchase.recipientEmail,purchase.holderEmail},'|'));
               unpublishedTransfers.add("<span class='importAction'>Unpublished import</span>. " + blurb);
             }
-            duplicateInvalidTransfers.add(purchase.strain + "_" + purchase.recipientEmail + "_" + purchase.holderEmail);
+            duplicateInvalidTransfers.add(purchase.stockNumber + "_" + purchase.recipientEmail + "_" + purchase.holderEmail);
           }
         }
 
@@ -911,7 +913,7 @@ public class ImportHandler
             props.setProperty("Import Notes",purchase.notes != null && !purchase.notes.isEmpty() ? purchase.notes :"");
           }
           props.setProperty("MouseMGIID", Integer.toString(catalogMgiId));
-          props.setProperty("CatalogNumber",purchase.strain);
+          props.setProperty("CatalogNumber",purchase.stockNumber);
 
           ChangeRequest request = createChangeRequest(Integer.parseInt(mouse.getMouseID()), purchase.holderEmail, purchase.holderName,
               localAddedHolder, localAddedFacility, purchase.holderName, purchase.roomName, props);
@@ -988,7 +990,7 @@ public class ImportHandler
           if (sub.getMouseType() == "Inbred Strain")
           {
             sub.setISSupplier(getMouseSourceShortName(firstPurchase.source));
-            sub.setISSupplierCatalogNumber(firstPurchase.strain);
+            sub.setISSupplierCatalogNumber(firstPurchase.stockNumber);
           }
 
           Properties props = MouseSubmission.GetPropertiesString(submitterData,sub);
@@ -1059,7 +1061,7 @@ public class ImportHandler
 
           props.setProperty("NewMouseName", sub.getOfficialSymbol() + ", " + sub.getOfficialMouseName());
           props.setProperty("MouseMGIID", Integer.toString(catalogMgiId));
-          props.setProperty("CatalogNumber",firstPurchase.strain);
+          props.setProperty("CatalogNumber",firstPurchase.stockNumber);
 
           props.setProperty(SubmittedMouse.SubmissionSourceKey, importDefinition.Id == 1 ? SubmittedMouse.PurchaseImport : SubmittedMouse.OtherInstitutionImport);
 
@@ -1407,13 +1409,8 @@ public class ImportHandler
     if(purchase.source != null){
       String shortName = getMouseSourceShortName(purchase.source) + ",";
       String catalogDescription = purchase.strain;
-      try
-      {
-        Integer.parseInt(purchase.strain);
-        catalogDescription = " catalog #" + purchase.strain;
-      }
-      catch (Exception e) {
-  
+      if (purchase.stockNumber != null && purchase.stockNumber.length() > 0){
+        catalogDescription = " catalog #" + purchase.stockNumber;
       }
   
       description += shortName + catalogDescription;
@@ -1428,7 +1425,7 @@ public class ImportHandler
         String jaxUrl = "http://jaxmice.jax.org/strain/";
         String jaxUrlTail = ".html";
 
-        String fixedUrl = jaxUrl + purchase.strain + jaxUrlTail;
+        String fixedUrl = jaxUrl + purchase.stockNumber + jaxUrlTail;
 
         description = "<a class=\"MP\" target=\"_blank\" href='" + fixedUrl + "'>"
         + description + "</a>";
@@ -1496,6 +1493,7 @@ public class ImportHandler
 
     public String source;
     public String strain;
+    public String stockNumber;
 
     public String holderName;
     public String holderEmail;
