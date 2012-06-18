@@ -29,7 +29,8 @@
     </div>
     <div class='alert alert-warning'>
     <b>Database accuracy:</b><br>
-    If you contact a holder and find that s/he is no longer keeping a particular mouse, please inform admin.
+    If you contact a holder and find that s/he is no longer keeping a particular mouse, please inform admin
+    by using the 'Submit feedback' link.
     </div>
   </div>
 <div class="about">
