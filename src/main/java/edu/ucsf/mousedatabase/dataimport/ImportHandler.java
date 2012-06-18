@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.ucsf.mousedatabase.*;
 import edu.ucsf.mousedatabase.beans.MouseSubmission;
 import edu.ucsf.mousedatabase.beans.UserData;
@@ -24,6 +26,7 @@ import edu.ucsf.mousedatabase.objects.MouseHolder;
 import edu.ucsf.mousedatabase.objects.MouseRecord;
 import edu.ucsf.mousedatabase.objects.SubmittedMouse;
 import edu.ucsf.mousedatabase.servlets.ImportServlet;
+import static edu.ucsf.mousedatabase.HTMLGeneration.*;
 
 public class ImportHandler
 {
@@ -39,7 +42,10 @@ public class ImportHandler
     UNKNOWN (0),
     PPTCHANGEREQUEST (1),
     PURCHASESUBMISSION (2),
-    PURCHASECHANGEREQUEST (3);
+    PURCHASECHANGEREQUEST (3),
+    OTHERINSTITUTIONSUBMISSION (4),
+    OTHERINSTITUTIONSCHANGEREQUEST (5),
+    OTHERINSTITUTIONSUNPUBLISHED (6);
 
     public final int Id;
 
@@ -59,6 +65,12 @@ public class ImportHandler
         return ImportObjectType.PURCHASESUBMISSION;
       case 3:
         return ImportObjectType.PURCHASECHANGEREQUEST;
+      case 4:
+        return ImportObjectType.OTHERINSTITUTIONSUBMISSION;
+      case 5:
+        return ImportObjectType.OTHERINSTITUTIONSCHANGEREQUEST;
+      case 6:
+        return ImportObjectType.OTHERINSTITUTIONSUNPUBLISHED;
     }
     return ImportObjectType.UNKNOWN;
   }
@@ -80,8 +92,10 @@ public class ImportHandler
     //todo read from user-defined xml file at runtime
     importDefinitions = new ArrayList<ImportDefinition>();
     //make sure the ID is the same as the position in the collection
-    importDefinitions.add(new ImportDefinition(0,"PI to PI Transfer Import","Create change requests to add holder to mice based on LARC mouse transfer report"));
-    importDefinitions.add(new ImportDefinition(1,"New Purchases Import","Create submissions for new mice or change requests to add holders to existing mice based on a LARC mouse purchases report"));
+    importDefinitions.add(new ImportDefinition(0,"tdu","Transfer Data Upload (TDU)","Create change requests to add holder to mice based on LARC mouse transfer report"));
+    importDefinitions.add(new ImportDefinition(1,"pdu","Purchase Data Upload (PDU)","Create submissions for new mice or change requests to add holders to existing mice based on a LARC mouse purchases report"));
+    importDefinitions.add(new ImportDefinition(2,"idu","Import Data Upload (IDU)","Create submissions for new mice or change requests to add holders to existing mice based on a LARC institutional transfer report"));
+    
   }
 
   public static void handleImport(ArrayList<HashMap<String, String>> csvData, int importDefinitionId, HashMap<String, String> parameters) throws Exception
@@ -113,7 +127,8 @@ public class ImportHandler
         handlePPTTransferImport(taskId,csvData,importDef,parameters);
         break;
       case 1:
-        handlePurchaseImport(taskId,csvData,importDef,parameters);
+      case 2:
+        handleCombinedImport(taskId,csvData,importDef,parameters);
         break;
     }
 
@@ -121,8 +136,8 @@ public class ImportHandler
     }
     catch(Exception e)
     {
-      Log.Error("Unhandled exception handling import",e);
-      ImportStatusTracker.AppendMessage(taskId, "Unhnadled exception processing import : " + e.getMessage());
+      Log.Error("Unhandled exception handling upload",e);
+      ImportStatusTracker.AppendMessage(taskId, "Unhnadled exception processing upload : " + e.getMessage());
       ImportStatusTracker.UpdateStatus(taskId, ImportStatus.ERROR);
     }
   }
@@ -328,21 +343,26 @@ public class ImportHandler
 
         String twoWeeksFromNow = dateFormat.format(cal.getTime());
 
-        String subjectText = "Listing " + nicelyFormattedAddedHolder +
+        String subjectText = "";
+        String emailBodyText = "";
+        
+
+        subjectText = "Listing " + nicelyFormattedAddedHolder +
         " as a holder of " + mouse.getMouseName() + ", record number " + mouse.getMouseID() +
         ", in the UCSF Mouse Database";
-        String emailBodyText =
+        emailBodyText = 
         "In an effort to keep the UCSF mouse inventory database up-to-date, we have implemented a system " +
         "that tracks PI to PI transfers, and when a PI receives a mouse carrying a mutant allele or transgene " +
         "that is listed in the database from another PI, the recipient PI's name is automatically added to the list of " +
         "holders for that mouse." +
-        "%0D%0DA mouse carrying:  " + mouse.getMouseName() + ", database record number #" + mouseId + " " +
+        "\n\n mouse carrying:  " + mouse.getMouseName() + ", database record number #" + mouseId + " " +
         "was recently transferred from " + nicelyFormattedCurrentHolder + "'s colony to your laboratory's colony." +
-        "%0D%0D If you do not reply by " + twoWeeksFromNow + ", it will be assumed that it is OK to " +
+        "\n\n If you do not reply by " + twoWeeksFromNow + ", it will be assumed that it is OK to " +
         "list you as a holder of the mouse.";
 
         StringBuilder sb = new StringBuilder();
-        sb.append("<span class='importAction'>Created change request #" + request.getRequestID() +  ": Add "
+        sb.append("<span class='importAction'>Created change request <span class='changerequest_number'>#" 
+            + "</span>" + request.getRequestID() +  ": Add "
             + nicelyFormattedAddedHolder + " to " + mouse.getMouseName() + " #" + mouseId + ".</span>  " +
                 "(Transferred from " + nicelyFormattedCurrentHolder + "; ");
         sb.append("Recipient: " + recipientName + ")<br>");
@@ -410,7 +430,7 @@ public class ImportHandler
     ImportStatusTracker.UpdateStatus(importTaskId, ImportStatus.COMPLETED);
   }
 
-  private static void handlePurchaseImport(int importTaskId,ArrayList<HashMap<String, String>> csvData,
+  private static void handleCombinedImport(int importTaskId,ArrayList<HashMap<String, String>> csvData,
       ImportDefinition importDefinition, HashMap<String, String> parameters) throws Exception
   {
     DateFormat dateFormat = new SimpleDateFormat("MMMM dd");
@@ -440,22 +460,25 @@ public class ImportHandler
     MmrrcConnect mmrrcData = null;
 
 
-    String recipientNameCol = "pi (recipient)";
+    String recipientPiNameCol = "pi (recipient)";
 
     String sourceCol = "vendor";
     String jaxMouseIdCol = "strain";
     String mgiMouseIdCol = "mgi id";
-    //String officialSymbolCol = "Official symbol";
-    //String geneticBackgroundCol = "genetic background";
-    String roomNameCol = "room";
+
+    String roomNameCol = "final destination";
 
     String recipientPIEmailCol = "recipient pi email";
     String purchaserNameCol = "purchaser name";
     String purchaserEmailCol = "purchaser email";
-//    String purchaserPhoneCol = "purchaser phone";
-//
-//    String dateReceivedCol = "received";
-
+    String senderInformationCol = "sender institution";
+    String officialSymbolCol = "official symbol";
+    String notesCol = "notes";
+    String pmidCol = "pmid (if published)";
+    String recipientNameCol = "recipient name";
+    String recipientEmailCol = "recipient email";
+    String publishedCol = "published y/n";
+    
     String facilityCodeRegex = "(.*)-[0-9]+";
 
     //List<Integer> purchasedMGIs = new ArrayList<Integer>();
@@ -471,23 +494,26 @@ public class ImportHandler
       purchase.source = record.get(sourceCol);
       purchase.strain = extractStockNumber(purchase.source, record.get(jaxMouseIdCol));
 
-      purchase.holderName = record.get(recipientNameCol);
+      purchase.holderName = record.get(recipientPiNameCol);
       purchase.holderEmail = record.get(recipientPIEmailCol);
 
       purchase.roomName = record.get(roomNameCol);
-
-      String mgiNumber = HTMLUtilities.extractFirstGroup("([0-9]+)", record.get(mgiMouseIdCol));
-
+      purchase.senderInstitution = record.get(senderInformationCol);
+      purchase.officialSymbol = record.get(officialSymbolCol);
+      purchase.notes = record.get(notesCol);
+      String rawMgi = record.get(mgiMouseIdCol);
+      purchase.pmid = record.get(pmidCol);
+      purchase.recipientName = record.get(recipientNameCol);
+      purchase.recipientEmail = record.get(recipientEmailCol);
+      purchase.published = record.get(publishedCol) != null && record.get(publishedCol).equalsIgnoreCase("y");
+       
+      String mgiNumber = HTMLUtilities.extractFirstGroup("([0-9]+)", rawMgi);
+      
       purchase.mgiId = toInt(mgiNumber);
       purchase.catalogMgiIds = new ArrayList<Integer>();
-      //purchase.officialSymbol = record.get(officialSymbolCol);
-      //purchase.geneticBackground = record.get(geneticBackgroundCol);
 
       purchase.purchaserName = record.get(purchaserNameCol);
       purchase.purchaserEmail = record.get(purchaserEmailCol);
-//      purchase.purchaserPhone = record.get(purchaserPhoneCol);
-//
-//      purchase.dateReceived = record.get(dateReceivedCol);
 
       purchase.rawRecord = "<span class='rawRecord'><br>Raw data:";
       for (Object key : record.keySet())
@@ -498,11 +524,16 @@ public class ImportHandler
 
       //filter out duplicate purchase of same mouse by same PI
       boolean isDuplicate = false;
+      if (importDefinition.Id == 2 && rawMgi != null && rawMgi.trim().equalsIgnoreCase("duplicate")){
+        isDuplicate = true;
+      }
       for (PurchaseInfo exisitingPurchase : purchases)
       {
         if (exisitingPurchase.holderName.equals(purchase.holderName)
             && exisitingPurchase.holderEmail.equals(purchase.holderEmail)
+            && exisitingPurchase.source != null
             && exisitingPurchase.source.equals(purchase.source)
+            && exisitingPurchase.strain != null
             && exisitingPurchase.strain.equals(purchase.strain)
             && exisitingPurchase.mgiId == purchase.mgiId)
         {
@@ -524,7 +555,8 @@ public class ImportHandler
     double numPurchases = purchases.size();
     NumberFormat formatter = NumberFormat.getNumberInstance();
     formatter.setMaximumFractionDigits(0);
-    ImportStatusTracker.AppendMessage(importTaskId, "Done reading CSV data - found " + formatter.format(numPurchases) + " purchases");
+    ImportStatusTracker.AppendMessage(importTaskId, "Done reading CSV data - found " + formatter.format(numPurchases) 
+        + (importDefinition.Id == 1 ? " purchases " : " imports "));
     //TODO report status, now can estimate total based on # of purchases
 
     //Look up MGI ids in catalogs, and group purchases by common MGI IDs
@@ -537,7 +569,7 @@ public class ImportHandler
       ImportStatusTracker.SetProgress(importTaskId, purchaseNumber / numPurchases);
 
       purchaseNumber++;
-      if (purchaseInfo.strain != null && !purchaseInfo.strain.equals(""))
+      if (importDefinition.Id == 2 || (purchaseInfo.strain != null && !purchaseInfo.strain.equals("")))
       {
         if (purchaseInfo.source != null)
         {
@@ -593,9 +625,13 @@ public class ImportHandler
         }
         if (purchaseInfo.catalogMgiIds.size() == 0)
         {
-
-          ImportStatusTracker.AppendMessage(importTaskId, "Unable to lookup MGI based on catalog information (source:'" + purchaseInfo.source + "', strain:'"
-              +purchaseInfo.strain +"'); using manually entered MGI ID: " +purchaseInfo.mgiId);
+          if (importDefinition.Id == 1){
+            ImportStatusTracker.AppendMessage(importTaskId, "Unable to lookup MGI based on catalog information (source:'" + purchaseInfo.source + "', strain:'"
+                +purchaseInfo.strain +"'); using manually entered MGI ID: " +purchaseInfo.mgiId);
+          }
+          else if (importDefinition.Id == 2){
+            ImportStatusTracker.AppendMessage(importTaskId, "Adding manually entered MGI ID: " +purchaseInfo.mgiId);
+          }
           purchaseInfo.catalogMgiIds.add(purchaseInfo.mgiId);
         }
 
@@ -609,7 +645,9 @@ public class ImportHandler
         {
           purchasesByMgi.put(mgiId, new ArrayList<PurchaseInfo>());
         }
-        ImportStatusTracker.AppendMessage(importTaskId, purchaseInfo.source + " " + purchaseInfo.strain + " -> MGI:"+ mgiId);
+        if (importDefinition.Id == 1){
+          ImportStatusTracker.AppendMessage(importTaskId, purchaseInfo.source + " " + purchaseInfo.strain + " -> MGI:"+ mgiId);
+        }
         purchasesByMgi.get(mgiId).add(purchaseInfo);
       }
     }
@@ -637,8 +675,12 @@ public class ImportHandler
 
     ArrayList<String> invalidMGIEntries = new ArrayList<String>();
     ArrayList<String> invalidPurchases = new ArrayList<String>();
+    ArrayList<String> unpublishedTransfers = new ArrayList<String>();
+    ArrayList<String> unpublishedTransfersObjects = new ArrayList<String>();
 
     //HashMap<Integer,Integer> newSubmissionsByMgiId = new HashMap<Integer, Integer>();
+    
+    ArrayList<String> duplicateInvalidTransfers = new ArrayList<String>();
 
     dateFormat = new SimpleDateFormat("EEEE, MMMM dd");
 
@@ -665,7 +707,7 @@ public class ImportHandler
       ArrayList<PurchaseInfo> currentPurchases = purchasesByMgi.get(catalogMgiId);
 
       ImportStatusTracker.SetProgress(importTaskId, purchaseNumber / numMgiIds);
-      ImportStatusTracker.AppendMessage(importTaskId, "Processing purchase of MGI:" + catalogMgiId);
+      ImportStatusTracker.AppendMessage(importTaskId, "Processing " + (importDefinition.Id == 1 ? "purchase" : "import") + " of MGI:" + catalogMgiId);
       purchaseNumber++;
 
       if (catalogMgiId == MultipleAlleleMiceMgiId)
@@ -695,12 +737,23 @@ public class ImportHandler
 
           String subjectText = "Listing " + formatHolderName(purchase.holderName) +
             " as a holder of " + getPurchaseDescription(purchase) + " in the UCSF Mouse Database";
-          String emailBodyText = getPurchaseNewSubmissionEmail(null, null, purchase.strain, holderLastName(purchase.holderName),purchase.source);
+          String emailBodyText = getCombinedImportEmail(null,null, null, purchase, importDefinition);
 
-          String emailLink = getMailToLink(purchase.purchaserEmail, purchase.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchase.holderName));
+          String emailLink = getMailToLink(importDefinition.Id == 1 ? purchase.purchaserEmail : purchase.recipientEmail, 
+              purchase.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchase.holderName));
 
-          noActionTakenPurchases.add("<span class='importAction'>No action taken for purchase of "
-              + getPurchaseDescription(purchase,true)  + "</span> purchased by " + formatHolderName(purchase.purchaserName)
+          String noAction = "<span class='importAction'>No action taken for purchase of "
+              + getPurchaseDescription(purchase,true)  + "</span>";
+          if (importDefinition.Id == 1){
+            noAction += " purchased by " + formatHolderName(purchase.purchaserName);
+          }
+          
+          if(importDefinition.Id == 2) {
+            noAction += " imported from " + purchase.senderInstitution + " by " + formatHolderName(purchase.recipientName);
+            noAction += (purchase.notes != null && !purchase.notes.isEmpty() ? "<br><b>Notes:</b> " + purchase.notes :"");
+          }
+          
+          noActionTakenPurchases.add( noAction
             + " for " + formatHolderName(purchase.holderName) + " " +  emailLink + multipleMgisLabel + purchase.rawRecord );
 
           continue;
@@ -710,9 +763,43 @@ public class ImportHandler
       {
         for (PurchaseInfo purchase : currentPurchases)
         {
-          invalidPurchases.add("<span class='importAction'>Invalid purchase (No MGI IDs found)</span>.  Strain: " + getPurchaseDescription(purchase,true) +
+          if (importDefinition.Id == 1){
+            invalidPurchases.add("<span class='importAction'>Invalid purchase (No MGI IDs found)</span>.  Strain: " 
+              + getPurchaseDescription(purchase,true) +
               ", purchased by " + formatHolderName(purchase.purchaserName)
               + " for " + formatHolderName(purchase.holderName) + purchase.rawRecord );
+          } else if(importDefinition.Id == 2){
+            if (duplicateInvalidTransfers.contains(purchase.strain + "_" + purchase.recipientEmail + "_" + purchase.holderEmail)) {
+              continue;
+            }
+            String emailBodyText = getCombinedImportEmail(null,null,purchase.strain,purchase,importDefinition);
+            String subjectText = "Listing " + formatHolderName(purchase.holderName) +
+                " as a holder of " + purchase.strain + " in the UCSF Mouse Database";
+            String emailLink = getMailToLink(importDefinition.Id == 1 ? purchase.purchaserEmail : purchase.recipientEmail, 
+                    purchase.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchase.holderName));
+
+            
+            String blurb = "Strain: " + purchase.strain
+                + ", imported from " + purchase.senderInstitution
+                + " by " + formatHolderName(purchase.recipientName)
+                + " for " + formatHolderName(purchase.holderName) + " " + emailLink + purchase.rawRecord 
+                + (purchase.notes != null && !purchase.notes.isEmpty() ? "<br><b>Notes:</b> " + purchase.notes :"") ;
+            
+            
+            if(purchase.published){
+              invalidPurchases.add("<span class='importAction'>Invalid import (No MGI IDs found)</span>. " 
+                  + " PMID: <span class='pubmed_number'>" + purchase.pmid + "</span>"
+                  + blurb);
+            }
+            else {
+              //Request Number,PI Recipient,Mouse Name,Record #,MGI ID,Sender Institution,Recipient,Email Recipient 1, Email Recipient 2
+              unpublishedTransfersObjects.add(StringUtils.join(new String[]{
+                  purchase.holderName,purchase.strain,purchase.pmid,purchase.senderInstitution,
+                  purchase.recipientName,purchase.recipientEmail,purchase.holderEmail},'|'));
+              unpublishedTransfers.add("<span class='importAction'>Unpublished import</span>. " + blurb);
+            }
+            duplicateInvalidTransfers.add(purchase.strain + "_" + purchase.recipientEmail + "_" + purchase.holderEmail);
+          }
         }
 
       }
@@ -720,9 +807,18 @@ public class ImportHandler
       {
         for (PurchaseInfo purchase : currentPurchases)
         {
-          invalidMGIEntries.add("<span class='importAction'>Ignored invalid (not an Allele) MGI ID: " + catalogMgiId
+          if (importDefinition.Id == 1){
+            invalidMGIEntries.add("<span class='importAction'>Ignored invalid (not an Allele) MGI ID: " + catalogMgiId
               + "</span>, purchase of " + getPurchaseDescription(purchase)  + " purchased by " + formatHolderName(purchase.purchaserName)
               + " for " + formatHolderName(purchase.holderName) + purchase.rawRecord );
+          }else if (importDefinition.Id == 2){
+            invalidMGIEntries.add("<span class='importAction'>Ignored invalid (not an Allele) MGI ID: " + catalogMgiId
+                + "</span>, purchase of " + getPurchaseDescription(purchase)  + " imported from " + purchase.senderInstitution
+                + " by " + formatHolderName(purchase.recipientName) + " for " + formatHolderName(purchase.holderName)
+                + (purchase.notes != null && !purchase.notes.isEmpty() ? "<br><b>Notes:</b> " + purchase.notes :"") 
+                + purchase.rawRecord );
+          }
+          
         }
         continue;
       }
@@ -737,9 +833,17 @@ public class ImportHandler
 
           if (purchase.catalogMgiIds.size() < 0)
           {
-            invalidPurchases.add("<span class='importAction'>Invalid purchase (No MGI IDs found)</span>.  Strain: " +
+            if (importDefinition.Id == 1){
+              invalidPurchases.add("<span class='importAction'>Invalid purchase (No MGI IDs found)</span>.  Strain: " +
                 getPurchaseDescription(purchase) + ", purchased by " + formatHolderName(purchase.purchaserName)
                 + " for " + formatHolderName(purchase.holderName) + purchase.rawRecord );
+            } else if(importDefinition.Id == 2){
+              invalidPurchases.add("<span class='importAction'>Invalid purchase (No MGI IDs found)</span>.  Strain: " +
+                  getPurchaseDescription(purchase) + ", imported from " + purchase.senderInstitution 
+                  + " by " + formatHolderName(purchase.recipientName) + " for " + formatHolderName(purchase.holderName) 
+                  + (purchase.notes != null && !purchase.notes.isEmpty() ? "<br><b>Notes:</b> " + purchase.notes :"") 
+                  + purchase.rawRecord );
+            }
             continue;
           }
 
@@ -768,9 +872,18 @@ public class ImportHandler
               {
                 Log.Info("Duplicate - " + purchase.holderName + " (" + purchase.holderEmail + ") already listed as holder of mouse #" + mouse.getMouseID());
 
-                duplicateHolders.add("<span class='importAction'>Ignored duplicate MGI:" + catalogMgiId + "</span>, purchase of "
-                    + mouse.getSource()  +  " purchased by " + formatHolderName(purchase.purchaserName) + " for  " +
-                    formatHolderName(purchase.holderName) + " (already a holder of record #" + mouse.getMouseID() + ")"+ purchase.rawRecord );
+                if (importDefinition.Id == 1){
+                  duplicateHolders.add("<span class='importAction'>Ignored duplicate MGI:" + catalogMgiId + "</span>, purchase of "
+                      + mouse.getSource()  +  " purchased by " + formatHolderName(purchase.purchaserName) + " for  " +
+                      formatHolderName(purchase.holderName) + " (already a holder of record #" + mouse.getMouseID() + ")"+ purchase.rawRecord );
+                } else if (importDefinition.Id == 2){
+                  duplicateHolders.add("<span class='importAction'>Ignored duplicate MGI:" + catalogMgiId + "</span>, "
+                      + mouse.getSource()  + " imported from " + purchase.senderInstitution 
+                      + " by " + formatHolderName(purchase.recipientName) + " for  " +
+                      formatHolderName(purchase.holderName) + " (already a holder of record #" + mouse.getMouseID() + ")"
+                      + (purchase.notes != null && !purchase.notes.isEmpty() ? "<br><b>Notes:</b> " + purchase.notes :"")
+                      + purchase.rawRecord );
+                }
                 isDuplicate = true;
                 break;
               }
@@ -787,8 +900,16 @@ public class ImportHandler
 
 
           props.setProperty("New Holder Email", purchase.holderEmail);
-          props.setProperty("Purchaser", purchase.purchaserName);
-          props.setProperty("Purchaser email", purchase.purchaserEmail);
+          if (importDefinition.Id == 1){
+            props.setProperty("Purchaser", purchase.purchaserName);
+            props.setProperty("Purchaser email", purchase.purchaserEmail);
+          }
+          else if (importDefinition.Id == 2){
+            props.setProperty("Sender institution", purchase.senderInstitution);
+            props.setProperty("Recipient", purchase.recipientName);
+            props.setProperty("Recipient Email", purchase.recipientEmail);
+            props.setProperty("Import Notes",purchase.notes != null && !purchase.notes.isEmpty() ? purchase.notes :"");
+          }
           props.setProperty("MouseMGIID", Integer.toString(catalogMgiId));
           props.setProperty("CatalogNumber",purchase.strain);
 
@@ -800,19 +921,25 @@ public class ImportHandler
           Log.Info("Created change request #" + requestId + " to add holder " + purchase.holderName + " to record " + mouse.getMouseID() + " for purchase of MGI ID " + catalogMgiId);
 
           StringBuilder sb = new StringBuilder();
-          sb.append("<span class='importAction'>Created change request #" + requestId +  ": Add "
+          sb.append("<span class='importAction'>Created change request <span class='changerequest_number'>#" 
+              + requestId +  "</span>: Add "
               + formatHolderName(purchase.holderName) + " to " + mouse.getMouseName() + " #"
-              + mouse.getMouseID() + ".</span>  " +
-              "(purchased by " + formatHolderName(purchase.purchaserName) + ") ");
-
+              + mouse.getMouseID() + ".</span>  ");
+          if(importDefinition.Id == 1) {
+              sb.append("(purchased by " + formatHolderName(purchase.purchaserName) + ") ");
+          }
+          else if(importDefinition.Id == 2) {
+            sb.append("(imported from " + purchase.senderInstitution + " by " + formatHolderName(purchase.recipientName)+ ") ");
+          }
 
           String subjectText = "Listing " + formatHolderName(purchase.holderName) +
           " as a holder of " + mouse.getSource() + ", record number " + mouse.getMouseID() + ", in the UCSF Mouse Database";
           String
 
-          emailBodyText = getPurchaseChangeRequestEmailBody(mouse.getSource(),mouse.getOfficialMouseName(),mouse.getMouseID(),formatHolderName(purchase.purchaserName),getPurchaseDescription(purchase));
+          emailBodyText = getCombinedImportEmail(mouse.getMouseID(),mouse.getOfficialMouseName(),mouse.getSource(),purchase,importDefinition);
 
-          String emailLink = getMailToLink(purchase.purchaserEmail, purchase.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchase.holderName));
+          String emailLink = getMailToLink(importDefinition.Id == 1 ? purchase.purchaserEmail : purchase.recipientEmail, 
+                  purchase.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchase.holderName));
 
           sb.append(emailLink + purchase.rawRecord );
           DBConnect.updateChangeRequest(request.getRequestID(), "pending", request.getUserComment() + "<br>" + emailLink);
@@ -831,12 +958,21 @@ public class ImportHandler
           String officialSymbol = sub.getOfficialSymbol();
           if (officialSymbol != null && !(officialSymbol.contains("<tm") || officialSymbol.contains("Tg(")))
           {
-                    for (PurchaseInfo purchase : currentPurchases) {
-
-
-              noActionTakenPurchases.add("<span class='importAction'>No action taken for mouse with suspect symbol:</span> purchase of "
-                  + getPurchaseDescription(purchase,true)  + " MGI: " + HTMLGeneration.formatMGI(Integer.toString(catalogMgiId)) + " " + HTMLUtilities.getCommentForDisplay(officialSymbol) + " purchased by " + formatHolderName(purchase.purchaserName)
-                + " for " + formatHolderName(purchase.holderName) +  purchase.rawRecord );
+            for (PurchaseInfo purchase : currentPurchases) {
+              if (importDefinition.Id == 1){
+                noActionTakenPurchases.add("<span class='importAction'>No action taken for mouse with suspect symbol:</span> purchase of "
+                  + getPurchaseDescription(purchase,true)  + " MGI: " + HTMLGeneration.formatMGI(Integer.toString(catalogMgiId)) + " " 
+                  + HTMLUtilities.getCommentForDisplay(officialSymbol) + " purchased by " + formatHolderName(purchase.purchaserName)
+                  + " for " + formatHolderName(purchase.holderName)
+                  +  purchase.rawRecord );
+              } else if(importDefinition.Id == 2){
+                noActionTakenPurchases.add("<span class='importAction'>No action taken for mouse with suspect symbol:</span> purchase of "
+                  + getPurchaseDescription(purchase,true)  + " MGI: " + HTMLGeneration.formatMGI(Integer.toString(catalogMgiId)) + " " 
+                  + HTMLUtilities.getCommentForDisplay(officialSymbol) + " imported from " + purchase.senderInstitution
+                  + " by " + formatHolderName(purchase.recipientName) + " for " + formatHolderName(purchase.holderName)
+                  + (purchase.notes != null && !purchase.notes.isEmpty() ? "<br><b>Notes:</b> " + purchase.notes :"")
+                  +  purchase.rawRecord );
+              }
             }
 
             continue;
@@ -879,8 +1015,16 @@ public class ImportHandler
 
             props.setProperty("Recipient PI Name-" + i, nextPurchase.holderName);
             props.setProperty("Recipient Facility-" + i, facilityName);
-            props.setProperty("Purchaser-" + i,nextPurchase.purchaserName);
-            props.setProperty("Purchaser email-" + i, nextPurchase.purchaserEmail);
+            if (importDefinition.Id == 1){
+              props.setProperty("Purchaser-" + i,nextPurchase.purchaserName);
+              props.setProperty("Purchaser email-" + i, nextPurchase.purchaserEmail);
+            }
+            else if (importDefinition.Id == 2){
+              props.setProperty("Sender institution-" +i, nextPurchase.senderInstitution);
+              props.setProperty("Recipient-" + i, nextPurchase.recipientName);
+              props.setProperty("Recipient Email-" + i, nextPurchase.recipientEmail);
+              props.setProperty("Import notes-" + i, (nextPurchase.notes != null && !nextPurchase.notes.isEmpty() ? nextPurchase.notes :""));
+            }
             props.setProperty("New Holder Email-" + i,nextPurchase.holderEmail);
 
             allPurchasedHoldersComment += "\r\n*Purchased by " + nextPurchase.holderName + "(" + nextPurchase.holderEmail + ") " + nextPurchase.roomName + "*";
@@ -896,7 +1040,7 @@ public class ImportHandler
             else
             {
               holderFacilities.add("0-0");
-              additionalHoldersComment += "\r\n*Purchased by unrecognized holder: " + nextPurchase.holderName + " (" + nextPurchase.holderEmail + ") - " + facilityName + "*";
+              additionalHoldersComment += "\r\n*" + (importDefinition.Id == 1 ? "Purchased" : "Imported") + " by unrecognized holder: " + nextPurchase.holderName + " (" + nextPurchase.holderEmail + ") - " + facilityName + "*";
             }
 
           }
@@ -917,7 +1061,7 @@ public class ImportHandler
           props.setProperty("MouseMGIID", Integer.toString(catalogMgiId));
           props.setProperty("CatalogNumber",firstPurchase.strain);
 
-          props.setProperty(SubmittedMouse.SubmissionSourceKey, SubmittedMouse.DataImport);
+          props.setProperty(SubmittedMouse.SubmissionSourceKey, importDefinition.Id == 1 ? SubmittedMouse.PurchaseImport : SubmittedMouse.OtherInstitutionImport);
 
           StringBuilder sb = new StringBuilder();
 
@@ -939,45 +1083,53 @@ public class ImportHandler
                       propsBuf.append(name + "=" + exisitingProps.get(name) + "\t");
                   }
                   DBConnect.updateSubmissionProperties(submissionID, propsBuf.toString());
-                  DBConnect.updateSubmission(submissionID,"new","Added additional holder(s) from Purchase Data Import\r\n" + additionalHoldersComment);
-              sb.append("<span class='importAction'>Added holder(s) to open submission #" + submissionID +  ":   " +
+                  DBConnect.updateSubmission(submissionID,"new","Added additional holder(s) from " + importDefinition.Name + "\r\n" + additionalHoldersComment);
+              sb.append("<span class='importAction'>Added holder(s) to open submission <span class='submission_number'>#" 
+                  + submissionID +  "</span>:   " +
                   HTMLUtilities.getCommentForDisplay(sub.getOfficialSymbol()) + "</span><dl>");
             }
-            else
-            {
+            else {
               //TODO properly merge exisiting holders on the submission with the new ones
               //for don't do anything fancy/automatically but make a note
-              DBConnect.updateSubmission(submissionID,"new","Added additional holder(s) from Purchase Data Import\r\n" + allPurchasedHoldersComment);
-              sb.append("<span class='importAction'>Added note to add holder(s) to open automatically-generated submission #" + submissionID +  ":   " +
-                  HTMLUtilities.getCommentForDisplay(sub.getOfficialSymbol()) + "</span><dl>");
+              DBConnect.updateSubmission(submissionID,"new","Added additional holder(s) from " + importDefinition.Name + "\r\n" + allPurchasedHoldersComment);
+              sb.append("<span class='importAction'>Added note to add holder(s) to open automatically-generated submission <span class='changerequest_number'>#" 
+              + submissionID +  "</span>:   " +  HTMLUtilities.getCommentForDisplay(sub.getOfficialSymbol()) + "</span><dl>");
             }
-
           }
-          else
-          {
-
+          else {
             submissionID = DBConnect.insertSubmission(submitterData,sub,props);
-            DBConnect.updateSubmission(submissionID,"new","Auto-generated from Purchase Data Import\r\n" + additionalHoldersComment);
+            DBConnect.updateSubmission(submissionID,"new","Auto-generated from " + importDefinition.Name + "\r\n" + additionalHoldersComment);
 
-            sb.append("<span class='importAction'>Created submission #" + submissionID +  ":   " +
+            sb.append("<span class='importAction'>Created submission <span class='submission_number'>#" 
+            + submissionID +  "</span>:   " +
                 HTMLUtilities.getCommentForDisplay(sub.getOfficialSymbol()) + "</span><dl>");
           }
           subIds.add(submissionID);
           //newSubmissionsByMgiId.put(catalogMgiId, submissionID);
 
-
           for (PurchaseInfo purchaseInfo : currentPurchases)
           {
-            sb.append("<dd>Purchased from " + getPurchaseDescription(purchaseInfo)
-                + " by " + formatHolderName(purchaseInfo.purchaserName) + " " +
-            "for " + formatHolderName(purchaseInfo.holderName) + " ");
+            sb.append("<dd>");
+            if (importDefinition.Id == 1){
+              sb.append("Purchased from " + getPurchaseDescription(purchaseInfo)
+                  + " by " + formatHolderName(purchaseInfo.purchaserName));
+            }
+            else if (importDefinition.Id == 2){
+              sb.append("Imported from " + purchaseInfo.senderInstitution 
+                  + " by " + formatHolderName(purchaseInfo.recipientName));
+            }
+            sb.append(" for " + formatHolderName(purchaseInfo.holderName) + " ");
             String subjectText = "Listing " + formatHolderName(purchaseInfo.holderName) +
             " as a holder of " + sub.getOfficialSymbol() + " in the UCSF Mouse Database";
-            String emailBodyText = getPurchaseNewSubmissionEmail(sub.getOfficialMouseName(),sub.getOfficialSymbol(),purchaseInfo.strain,holderLastName(purchaseInfo.holderName), purchaseInfo.source);
+            String emailBodyText = getCombinedImportEmail(null,sub.getOfficialMouseName(),sub.getOfficialSymbol(),purchaseInfo, importDefinition);
 
-            String emailLink = getMailToLink(purchaseInfo.purchaserEmail, purchaseInfo.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchaseInfo.holderName));
+            String emailLink = getMailToLink(importDefinition.Id == 1 ? purchaseInfo.purchaserEmail : purchaseInfo.recipientEmail,
+                            purchaseInfo.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchaseInfo.holderName));
 
-            sb.append(emailLink + "</dd>" + purchaseInfo.rawRecord );
+            sb.append(emailLink 
+                + (purchaseInfo.notes != null && !purchaseInfo.notes.isEmpty() ? "<br><b>Notes:</b> " + purchaseInfo.notes :"")
+                + "</dd>"
+                + purchaseInfo.rawRecord );
           }
 
 
@@ -988,6 +1140,7 @@ public class ImportHandler
 
     StringBuilder submissionReport = new StringBuilder();
     StringBuilder changeRequestReport = new StringBuilder();
+    StringBuilder unpublishedRequestReport = new StringBuilder();
 
     if (csvData.size() > 0)
     {
@@ -998,7 +1151,10 @@ public class ImportHandler
 
       buildReport(changeRequestReport,"Duplicates", duplicateHolders);
       buildReport(submissionReport,"Invalid MGI IDs", invalidMGIEntries);
-      buildReport(submissionReport,"Invalid purchases",invalidPurchases);
+      buildReport(submissionReport, importDefinition.Id == 1 ? "Invalid purchases" : "Invalid imports",invalidPurchases);
+      if (importDefinition.Id == 2){
+        buildReport(unpublishedRequestReport, "Unpublished imports",unpublishedTransfers);
+      }
     }
     else
     {
@@ -1009,7 +1165,7 @@ public class ImportHandler
 
 
     ImportReport newReport = new ImportReport();
-    newReport.setImportType(ImportObjectType.PURCHASESUBMISSION);
+    newReport.setImportType((importDefinition.Id == 1 ? ImportObjectType.PURCHASESUBMISSION : ImportObjectType.OTHERINSTITUTIONSUBMISSION));
     newReport.setNewObjectIds(subIds);
     newReport.setName(reportName);
     newReport.setReportText(submissionReport.toString());
@@ -1019,13 +1175,23 @@ public class ImportHandler
     if (csvData.size() > 0)
     {
       newReport = new ImportReport();
-      newReport.setImportType(ImportObjectType.PURCHASECHANGEREQUEST);
+      newReport.setImportType((importDefinition.Id == 1 ? ImportObjectType.PURCHASECHANGEREQUEST : ImportObjectType.OTHERINSTITUTIONSCHANGEREQUEST));
       newReport.setNewObjectIds(requestIds);
       newReport.setName(reportName);
       newReport.setReportText(changeRequestReport.toString());
 
       DBConnect.insertImportReport(newReport);
     }
+    
+    if (importDefinition.Id == 2){
+      newReport = new ImportReport();
+      newReport.setImportType(ImportObjectType.OTHERINSTITUTIONSUNPUBLISHED);
+      newReport.setNewObjects(unpublishedTransfersObjects);
+      newReport.setName(reportName);
+      newReport.setReportText(unpublishedRequestReport.toString());
+      DBConnect.insertImportReport(newReport);
+    }
+    
     ImportStatusTracker.AppendMessage(importTaskId, "Import complete.  Report #" +reportId);
     ImportStatusTracker.UpdateHeader(importTaskId, "");
     ImportStatusTracker.UpdateStatus(importTaskId, ImportStatus.COMPLETED);
@@ -1033,70 +1199,50 @@ public class ImportHandler
 
     return;
   }
+  
+  private static String getCombinedImportEmail(String mouseID, String officialMouseName, String officialSymbol, 
+                                               PurchaseInfo purchase,  ImportDefinition definition){
 
+    String action = definition.Id == 1 ? "purchase" : "import";
+    String action_past = definition.Id == 1 ? "purchased" : "imported";
+    String pi_desc = definition.Id == 1 ? "purchasing PI's name" : "name of the PI who imported it";
+    String mouseDescription = getPurchaseDescription(purchase);
+    
+    StringBuilder emailBodyText = new StringBuilder();
+    emailBodyText.append(
+      "In an effort to keep the UCSF mouse inventory database up-to-date, we have implemented a system that tracks " +
+      "mouse " + action + "s.  ");
+    if (definition.Id == 1 || purchase.published){
+      emailBodyText.append("When a mouse carrying a published mutant allele or transgene that is ");
+      emailBodyText.append(mouseID != null ? "already listed " : "not yet listed ");
+      emailBodyText.append("in the database is " +  action_past + ", ");
+      if (mouseID != null){
+        emailBodyText.append("the " + pi_desc + " can be added to the list of holders for that mouse.");
+      }
+      else {
+       emailBodyText.append("a new database record can be created with the PI who " + action_past + " it listed as a holder"); 
+      }
+    }
+    emailBodyText.append("\n\nA mouse (mice) described as " + officialSymbol + ", ");
+    if (officialMouseName != null){
+      emailBodyText.append(officialMouseName + ", ");
+    }
+    if (mouseID != null){
+      emailBodyText.append("which is described in record number " + mouseID + " in the database, ");
+    }
+    emailBodyText.append("was " + action_past + " from ");
+    emailBodyText.append(definition.Id == 1 ? mouseDescription : purchase.senderInstitution);
+    emailBodyText.append( ", by " + formatHolderName((definition.Id == 1 ? purchase.purchaserName : purchase.recipientName)));
+    emailBodyText.append(" for the " + holderLastName(purchase.holderName) +  " lab.");
+    if (definition.Id == 2 && !purchase.published){
+      emailBodyText.append("\n\nWe would like to list all alleles and transgenes that are imported into the UCSF barrier in the database, even if they have not yet been published, and are therefore writing to ask if you would be willing to provide the information necessary to create a record(s) in the database for the allele(s) or transgene(s) carried by the mice you imported.");
+    }
+    return emailBodyText.toString();
 
-//  private static ArrayList<Integer> getAlleleMgiIds(ArrayList<Integer> allMgiIds, int importTaskId)
-//  {
-//    if (allMgiIds.size() <= 1)
-//    {
-//      return allMgiIds;
-//    }
-//    ArrayList<Integer> alleleMgiIds = new ArrayList<Integer>();
-//
-//    for(int mgiId : allMgiIds)
-//    {
-//      ImportStatusTracker.AppendMessage(importTaskId, "Checking if catalog mgi number MGI:" + mgiId + " is valid");
-//      MGIResult result = MGIConnect.DoMGIAlleleQuery(Integer.toString(mgiId));
-//      ImportStatusTracker.AppendMessage(importTaskId, " >> " + HTMLUtilities.getCommentForDisplay(result.getSymbol()));
-//      if(result.isValid())
-//      {
-//        //Log.Info("mgi: " + mgiId + " is a valid allele.  Adding.");
-//        alleleMgiIds.add(mgiId);
-//      }
-//
-//    }
-//    return alleleMgiIds;
-//  }
-
-  private static String getPurchaseChangeRequestEmailBody(String source,
-      String officialMouseName, String mouseID,
-      String formattedHolderName, String mouseDescription) {
-    String emailBodyText =
-      "&body=In an effort to keep the UCSF mouse inventory database up-to-date, we have implemented a system that tracks " +
-      "mouse purchases.  When a mouse carrying a mutant allele or transgene that is already listed in the database is purchased, " +
-      "the purchasing PI's name can be added to the list of holders for that mouse." +
-      "%0D%0DA mouse carrying:  " + source + ", " + officialMouseName + ", which is described in record number "
-      + mouseID + " in the database, was purchased from " + mouseDescription + " by " + formattedHolderName + ".";
-    return emailBodyText;
   }
 
-  private static String getPurchaseNewSubmissionEmail(String officialMouseName, String officialSymbol, String strain,  String labName, String mouseSource) {
-    String emailBodyText =
-      "In an effort to keep the UCSF mouse inventory database up-to-date, we have implemented a system that tracks mouse purchases.  When a mouse carrying a mutant " +
-      "allele or transgene that is not yet listed in the database is purchased, a new database record can be added with the PI " +
-      "who purchased it listed as a holder.";
 
-    if (officialMouseName != null)
-    {
-      emailBodyText += "%0D%0DA mouse carrying: " + officialSymbol + ", " + officialMouseName + ", ";
-    }
-    else
-    {
-      emailBodyText += "%0D%0DA mouse ";
-    }
-    emailBodyText += "was purchased from " + getMouseSourceShortName(mouseSource) + " " + strain + " for the " + labName +  " lab.";
-    return emailBodyText;
-  }
-
-  private static String getMailToLink(String address, String cc, String subject, String body, String linkText)
-  {
-    String ccAddr = "?";
-    if (cc != null && !cc.equals(address))
-    {
-      ccAddr = "?cc=" + cc + "&";
-    }
-    return "<a href=\"mailto:" + address + ccAddr + "subject=" + subject + "&body=" + body + "\">" + linkText + "</a>";
-  }
+  
 
 
   private static void buildReport(StringBuilder sb, String requestType, ArrayList<String> requests)
@@ -1257,22 +1403,27 @@ public class ImportHandler
   private static String getPurchaseDescription(PurchaseInfo purchase, boolean generateLink)
   {
 
-    String shortName = getMouseSourceShortName(purchase.source);
-    String catalogDescription = purchase.strain;
-    try
-    {
-      Integer.parseInt(purchase.strain);
-      catalogDescription = "catalog #" + purchase.strain;
+    String description = "";
+    if(purchase.source != null){
+      String shortName = getMouseSourceShortName(purchase.source) + ",";
+      String catalogDescription = purchase.strain;
+      try
+      {
+        Integer.parseInt(purchase.strain);
+        catalogDescription = " catalog #" + purchase.strain;
+      }
+      catch (Exception e) {
+  
+      }
+  
+      description += shortName + catalogDescription;
     }
-    catch (Exception e) {
-
+    else {
+      description += purchase.officialSymbol;
     }
-
-    String description = shortName + " " + catalogDescription;
-
     if (generateLink)
     {
-      if (purchase.source.equals(JacksonLaboratory))
+      if (purchase.source != null && purchase.source.equals(JacksonLaboratory))
       {
         String jaxUrl = "http://jaxmice.jax.org/strain/";
         String jaxUrlTail = ".html";
@@ -1352,14 +1503,16 @@ public class ImportHandler
 
     public String purchaserName;
     public String purchaserEmail;
-//    public String purchaserPhone;
-//
-//    public String dateReceived;
-
+    public String senderInstitution;
+    public String officialSymbol;
+    public String notes;
+    public String pmid;
+    public String recipientName;
+    public String recipientEmail;
+    public boolean published;
+    
     public int mgiId;
     public ArrayList<Integer> catalogMgiIds;
-    //public String officialSymbol;
-    //public String geneticBackground;
 
     public String rawRecord;
 

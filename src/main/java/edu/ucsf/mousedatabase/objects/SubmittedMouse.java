@@ -10,7 +10,8 @@ public class SubmittedMouse {
 
   public static final String SubmissionSourceKey = "Submisison Source";
   public static final String ManualSubmission = "Manual Submission";
-  public static final String DataImport = "Data Import";
+  public static final String PurchaseImport = "Data Import";
+  public static final String OtherInstitutionImport = "Other Institution Import";
 
   int submissionID;
   int mouseRecordID;

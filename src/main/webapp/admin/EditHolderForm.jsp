@@ -48,16 +48,23 @@
             <td>Email</td>
             <td><input type=text name="email" size=40 value="<%= holder.getEmail() %>"></td>
         </tr>
+         <tr>
+            <td>Tel</td>
+            <td><input type=text name="tel" size=20 value="<%= holder.getTel() %>"></td>
+        </tr>
         <tr>
-            <td>Alternate Email
+            <td>Alternate Contact Name
+            </td>
+            <td><input type=text name="alternateName" size=40 value="<%= HTMLGeneration.emptyIfNull(holder.getAlternateName()) %>">
+            <br><i>An alternate contact for the PI, such as a lab manager</i></td>
+        </tr>
+        <tr>
+            <td>Alternate Contact Email
             </td>
             <td><input type=text name="alternateEmail" size=40 value="<%= HTMLGeneration.emptyIfNull(holder.getAlternateEmail()) %>">
             <br><i>This email will be added as a cc on email links for this holder in the mouse list</i></td>
         </tr>
-        <tr>
-            <td>Tel</td>
-            <td><input type=text name="tel" size=20 value="<%= holder.getTel() %>"></td>
-        </tr>
+       
     <tr>
             <td>Last review date: (format: yyyy-mm-dd)</td>
             <td><input type=text name="dateValidated" size=20

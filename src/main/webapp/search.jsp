@@ -93,9 +93,9 @@
           searchTips.append("<p>Tip: searches are not case-sensitive</p>");
         }
         int miceSeen = 0;
-        String resultLog = "Search=" + searchterms + "||:source=" + (searchsource != null ? searchsource : "search");
+        //String resultLog = "Search=" + searchterms + "||:source=" + (searchsource != null ? searchsource : "search");
     	for (SearchResult result : searchresults){
-    	  resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + "=" + result.getTotal();
+    	  //resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + "=" + result.getTotal();
           int resultMouseCount = result.getTotal();
 
           int startIndex = 0;
@@ -145,7 +145,7 @@
           }
         }
        
-    	Log.Info(resultLog + ":total=" + mouseCount + ":page=" + pagenum + ":limit=" + limit);
+    	Log.Info("Search='" + searchterms + "', resultcount=" + mouseCount + ", pagenum=" + pagenum + ", perpage=" + limit);
     	if (allMatches.size() > 0)
         {
           String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
@@ -165,7 +165,7 @@
 <div class="pagecontent">
   <form id="searchForm" action="search.jsp" class="form-search" method="get">
     <div class="search-box <%= searchPerformed ?  "search-box-small" : "" %> " style="display:none">
-      <img src="<%=imageRoot %>mouse-img-istock.jpg"/>
+      <img src="<%=imageRoot %>mouse-img-istock.jpg" class="woodmouse"/>
       <div class="search-box-inner">
         <input type="text" class="input-xlarge search-query" name="searchterms" value="<%=searchterms %>">
         <button id="search_button" class="btn btn-primary" type="submit" ><i class='icon-white icon-search'></i> Mouse Search</button>

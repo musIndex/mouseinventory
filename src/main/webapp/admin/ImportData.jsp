@@ -5,15 +5,26 @@
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("ImportData.jsp", true) %>
 
+<script type='text/javascript'>
+$(document).ready(function(){
+  $(".pagecontent").on('click','.import_section',function(){
+    $(this).removeClass("obscured").siblings().addClass("obscured");
+  });
+});
+
+</script>
+
+
 <div class="pagecontent">
 
 <%
 for(ImportDefinition importReportDefinition : ImportHandler.getImportDefinitions() )
 {
   %>
+  <div class='import_section'>
   <form action="<%=HTMLGeneration.adminRoot %>Import"
     enctype="multipart/form-data" method="post">
-    <h3><%=importReportDefinition.Name %></h3>
+    <h3 class='upload-<%=importReportDefinition.ShortName%>'><%=importReportDefinition.Name %></h3>
     <p><%=importReportDefinition.Description %></p>
     <table>
       <tr>
@@ -32,7 +43,7 @@ for(ImportDefinition importReportDefinition : ImportHandler.getImportDefinitions
       </tr>
     </table>
   </form>
-
+  </div>
 <%
 }
 %>

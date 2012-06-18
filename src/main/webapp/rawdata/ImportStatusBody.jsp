@@ -23,7 +23,7 @@ if (taskIdParm != null && command != null)
   }
   catch(Exception e)
   {
-    Log.Error("Error getting import status body",e);
+    Log.Error("Error getting upload status body",e);
   }
 }
 %>
