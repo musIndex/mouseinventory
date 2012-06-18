@@ -115,6 +115,10 @@
        {
            comment += " \r\nDELETE HOLDER: " + holderName +
            " (" + facilityName + ")" + " (" + cryoLiveStatus + ")";
+           Properties props = new Properties();
+           props.setProperty("Delete Holder Name", holderName);
+           props.setProperty("Delete Facility Name", facilityName);
+           changeRequest.setProperties(props);
        }
        else if(requestType.equalsIgnoreCase("markEndangered"))
        {
@@ -158,7 +162,7 @@
 <font size="4"><br>We have received your request to change information about mouse <%= changeRequest.getMouseID() %> in our inventory. It
     will be reviewed
     by the
-    administrator. Thank you very much.</font>
+    administrator.<br><br>Thank you for helping to keep the database up-to-date!.</font>
 
 
 

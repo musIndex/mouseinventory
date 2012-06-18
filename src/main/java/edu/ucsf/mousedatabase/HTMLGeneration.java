@@ -1,5 +1,7 @@
 package edu.ucsf.mousedatabase;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -165,7 +167,7 @@ public class HTMLGeneration {
     table.append(addNavLink("Search", "search.jsp", null,
         currentPageFilename, false,"nav-search-link"));
     table.append(addNavLink("Mouse List", "MouseReport.jsp", null,
-        currentPageFilename, false));
+        currentPageFilename, false,"nav-mouselist"));
     table.append(addNavLink("Gene List", "GeneReport.jsp", null,
         currentPageFilename, false));
     table.append(addNavLink("Holder List", "HolderReport.jsp", null,
@@ -176,8 +178,8 @@ public class HTMLGeneration {
     // null,currentPageFilename,false));
     table.append(addNavLink("Submit Mice", "submitforminit.jsp", null,
         currentPageFilename, false));
-    table.append(addNavLink("Administration", "admin.jsp", null,
-        isAdminPage ? "admin.jsp" : currentPageFilename, true));
+    table.append(addNavLink("Admin use only", "admin.jsp", null,
+        isAdminPage ? "admin.jsp" : currentPageFilename, true, "pull-right small"));
     table.append("</ul>");
     table.append("</div>");
 
@@ -191,20 +193,15 @@ public class HTMLGeneration {
           currentPageFilename, true));
       table.append(addNavLink("Change Requests",
           "ManageChangeRequests.jsp", null, currentPageFilename, true));
-      table.append(addNavLink("MGI Submission", "SubmissionFromMgi.jsp",
-          null, currentPageFilename, true));
       table.append(addNavLink("Edit Mice", "EditMouseSelection.jsp",
           null, currentPageFilename, true));
       table.append(addNavLink("Edit Holders", "EditHolderChooser.jsp",
           null, currentPageFilename, true));
       table.append(addNavLink("Edit Facilities",
           "EditFacilityChooser.jsp", null, currentPageFilename, true));
-      table.append(addNavLink("Edit Genes", "EditGeneChooser.jsp", null,
+      table.append(addNavLink("Data Upload", "ImportReports.jsp", null,
           currentPageFilename, true));
       table.append(addNavLink("Reports", "Reports.jsp", null,
-          currentPageFilename, true));
-
-      table.append(addNavLink("Data Import", "ImportReports.jsp", null,
           currentPageFilename, true));
       table.append(addNavLink("Log out", "logout.jsp", null,
           currentPageFilename, false));
@@ -1760,19 +1757,17 @@ public class HTMLGeneration {
                 + ". ";
           }
 
+          
+          String mailLink = getMailToLink(holder.getAlternateEmail(), holder.getEmail(), 
+              "Regarding%20" + nextRecord.getMouseName() + "-Record#%20" + nextRecord.getMouseID(), null, firstInitial + holder.getLastname(),
+              holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")");
+          
           holderBuf.append("<dt" + (overMax ? " style='display:none'" : "") + ">"
               + (holder.isCovert() ? "<b>CVT</b>-" : "")
-              + "<a title='" + holder.getFirstname() + " "
-              + holder.getLastname() + " (" + holder.getDept()
-              + ")' href='mailto:" + holder.getEmail()
-              + (holder.getAlternateEmail() != null && !holder.getAlternateEmail().equals("") ? "?cc=" + holder.getAlternateEmail() + "&" : "?" )
-              + "subject=Regarding%20"
-              + nextRecord.getMouseName() + "-Record#%20"
-              + nextRecord.getMouseID() +"'>" + firstInitial
-              + holder.getLastname()  + "</a>" + facilityName
+              + mailLink + facilityName
               + "<span class='lbl'>" + cryoLiveStatus + "</span>"
               + "</dt>");
-
+          
           holderCount++;
         }
         if (overMax) {
@@ -1874,7 +1869,28 @@ public class HTMLGeneration {
       table.append("</dt>\r\n");
 
       table.append("<dt>\r\n");
-      table.append(formatEmail(nextRequest.getEmail(),
+      
+      
+      String holderEmail = null;
+      if (nextRequest.Properties() != null)
+      {
+        String holderName = (String)nextRequest.Properties().get("Add Holder");
+        if (holderName == null){
+          holderName = (String)nextRequest.Properties().get("Add Holder Name");
+        }
+        if (holderName == null){
+          holderName = (String)nextRequest.Properties().get("Delete Holder Name");
+        }
+        if (holderName != null){
+          Holder holder = DBConnect.findHolder(holderName);
+          if (holder != null){
+            holderEmail = holder.getEmail();
+          }
+        }
+      }
+      
+      
+      table.append(formatEmail(nextRequest.getEmail(),holderEmail,
           nextRequest.getEmail(),
           "Mouse Inventory Database Change Request for record #" + nextRequest.getMouseID() + " - " + nextRequest.getMouseName()));
       table.append("</dt>\r\n");
@@ -2086,6 +2102,11 @@ public class HTMLGeneration {
     table.append("<td style='min-width:300px'\">\r\n");
     table.append("Contact Information");
     table.append("</td>\r\n");
+    if (edit){
+      table.append("<td style='min-width:200px'\">\r\n");
+      table.append("Alternate Contact");
+      table.append("</td>\r\n");
+    }
     table.append("<td >\r\n");
     table.append("Last Review Date");
     table.append("</td>\r\n");
@@ -2130,12 +2151,16 @@ public class HTMLGeneration {
           + "</div>");
       table.append(" <div style=\"position: relative; right: 10px; float:right;\">Tel: "
           + holder.getTel() + "</div>");
+      table.append("</td>\r\n");
       if (edit)
       {
-        table.append("<div style='clear:both'>Alternate email: " + HTMLGeneration.emptyIfNull(holder.getAlternateEmail()) + "</div>");
+        table.append("<td>\r\n");
+        table.append(HTMLGeneration.emptyIfNull(holder.getAlternateName()));
+        table.append(" " + HTMLGeneration.emptyIfNull(holder.getAlternateEmail()) );
+        table.append("</td>\r\n");
       }
 
-      table.append("</td>\r\n");
+      
       table.append("<td>\r\n");
       if (holder.getDateValidated() != null) {
         table.append(holder.getDateValidated());
@@ -2170,7 +2195,7 @@ public class HTMLGeneration {
     table.append("Details");
     table.append("</td>\r\n");
     table.append("<td style='min-width:500px'\">\r\n");
-    table.append("Data Import Results");
+    table.append("Data Upload Results");
     table.append("</td>\r\n");
     // if (edit)
     // {
@@ -2387,12 +2412,12 @@ public class HTMLGeneration {
     }
   }
 
-  public static String formatEmail(String emailAddress, String linkText,
-      String subject) {
-    subject = subject.replace(" ", "%20");
-
-    return "<a href=\"mailto:" + emailAddress + "?subject=" + subject
-        + "\">" + linkText + "</a>";
+  public static String formatEmail(String emailAddress, String linkText, String subject) {
+    return formatEmail(emailAddress, null, linkText, subject);
+  }
+  
+  public static String formatEmail(String emailAddress, String ccAddress, String linkText, String subject) {
+    return getMailToLink(emailAddress, ccAddress, subject, null, linkText);
   }
 
   public static String getMultiSelectWidget(String name,
@@ -2454,7 +2479,8 @@ public class HTMLGeneration {
       String[] niceNames, String current, String selectParams) {
     return genSelect(name,values,niceNames,current,selectParams,true);
   }
-    public static String genSelect(String name, String[] values,
+  
+  public static String genSelect(String name, String[] values,
         String[] niceNames, String current, String selectParams,boolean includeId) {
     if (selectParams == null) selectParams = "";
     StringBuffer b = new StringBuffer();
@@ -2877,4 +2903,36 @@ public class HTMLGeneration {
         + (params != null ? params : "") + ">\r\n";
   }
 
+  public static String getMailToLink(String address, String cc, String subject, String body, String linkText)
+  {
+    return getMailToLink(address, cc, subject, body, linkText, null); 
+  }
+  
+  public static String getMailToLink(String address, String cc, String subject, String body, String linkText, String linkTitle)
+  {
+    String ccAddr = "?";
+    if (cc != null && !cc.equals(address))
+    {
+      ccAddr = "?cc=" + cc + "&";
+    }
+    if (cc != null && address == null){
+      address = cc;
+      ccAddr = "?";
+    }
+    return "<a" + (linkTitle != null ? " title='" + linkTitle + "'":"") + 
+            " href=\"mailto:" + address + ccAddr + 
+            "subject=" + urlEncode(subject) + 
+            (body != null ? "&body=" + urlEncode(body) : "") + "\">" + linkText + "</a>";
+  }
+  
+  public static String urlEncode(String text){
+    
+    try {
+      return URLEncoder.encode(text,"ISO-8859-1").replace("+", "%20");
+    } catch (UnsupportedEncodingException e) {
+      Log.Error("Failed to encode text with ISO-8859-1 encoding",e);
+      return "failed to encode";
+    }
+  }
+  
 }

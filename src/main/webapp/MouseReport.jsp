@@ -1,3 +1,4 @@
+<%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="java.util.concurrent.TimeUnit"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -63,13 +64,9 @@
   query.add("creonly=" + creOnly);
   query.add("mousetype_id=" + mouseTypeID);
   query.add("facility_id=" + facilityID);
+  query.add("status=live");
 
-  String queryString = "";
-
-  for (String s : query)
-  {
-      queryString += s + "&";
-  }
+  String queryString = StringUtils.join(query, "&");
 
   int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID);
   ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID,limit,offset);
@@ -194,15 +191,14 @@
     "</li>" +
     "</ul>" +
     "</div>" +
-    "Use this " +
-    "<a href='mailto:" + AdminEmail + "?" +
-    "subject=" + holder.getLastname() + " mouse list reviewed" +
-    "&body=The list of mice held by "+ holder.getFullname() + " " +
-    "was thoroughly reviewed and any necessary deletions/additions/corrections " +
-    "were made today" +
-    "%0D(If mice still need to be added, please provide a list of " +
-    "their names below.)'>email link</a> " +
-    "to notify admin when the list of mice has been thorougly reviewed and updated. " +
+    "Use this " + 
+    getMailToLink(AdminEmail, null, holder.getLastname() + " mouse list reviewed", 
+                "The list of mice held by "+ holder.getFullname() + " " +
+                "was thoroughly reviewed and any necessary deletions/additions/corrections " +
+                "were made today" +
+                "\n(If mice still need to be added, please provide a list of " +
+                "their names below.)", "email link") +
+    " to notify admin when the list of mice has been thorougly reviewed and updated. " +
     "(Please add any feedback about the database to the e-mail)" +
     "</div>";
     }

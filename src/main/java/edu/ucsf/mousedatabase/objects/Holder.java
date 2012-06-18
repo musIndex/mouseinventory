@@ -8,6 +8,7 @@ public class Holder {
   private String lastname;
   private String email;
   private String alternateEmail;
+  private String alternateName;
   private String dept;
   private String tel;
   private String dateValidated;
@@ -53,11 +54,17 @@ public class Holder {
     return alternateEmail;
   }
 
-
   public void setAlternateEmail(String alternateEmail) {
     this.alternateEmail = alternateEmail;
   }
 
+  public String getAlternateName() {
+    return alternateName;
+  }
+
+  public void setAlternateName(String alternateName) {
+    this.alternateName = alternateName;
+  }
 
   public String getDept() {
     return dept;
