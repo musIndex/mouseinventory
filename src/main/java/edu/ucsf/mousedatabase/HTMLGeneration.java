@@ -1759,7 +1759,7 @@ public class HTMLGeneration {
 
           
           String mailLink = getMailToLink(holder.getAlternateEmail(), holder.getEmail(), 
-              "Regarding%20" + nextRecord.getMouseName() + "-Record#%20" + nextRecord.getMouseID(), null, firstInitial + holder.getLastname(),
+              "Regarding " + nextRecord.getMouseName() + "-Record# " + nextRecord.getMouseID(), null, firstInitial + holder.getLastname(),
               holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")");
           
           holderBuf.append("<dt" + (overMax ? " style='display:none'" : "") + ">"
