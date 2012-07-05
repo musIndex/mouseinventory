@@ -439,8 +439,12 @@ public class DBConnect {
       for(String token : tokens) {
         if (token.matches("[0-9]+")) {
           int id = Integer.parseInt(token);
-          if (getMouseRecord(id).size() > 0) {
-            mouseIds.add(id);
+          ArrayList<MouseRecord> mice = getMouseRecord(id);
+          if (mice.size() > 0){
+            MouseRecord mouse = mice.get(0);
+            if (mouse.getStatus().equals(status)) {
+              mouseIds.add(id);
+            }
           }
           else
           {
