@@ -1427,7 +1427,7 @@ public class ImportHandler
 
         String fixedUrl = jaxUrl + purchase.stockNumber + jaxUrlTail;
 
-        description = "<a class=\"MP\" target=\"_blank\" href='" + fixedUrl + "'>"
+        description = "<a target=\"_blank\" href='" + fixedUrl + "'>"
         + description + "</a>";
       }
     }
