@@ -1482,7 +1482,7 @@ public class HTMLGeneration {
             + "</dt>\r\n");
       }
       if (showChangeRequest) {
-        table.append("<dt><span class='changerequest'><a class=\"SL\" href=ChangeRequestForm.jsp?mouseID="
+        table.append("<dt><span class='changerequest'><a href=ChangeRequestForm.jsp?mouseID="
             + nextRecord.getMouseID()
             + "><span class='lbl'>request change in record</span></a></span></dt>\r\n");
       }
@@ -2009,7 +2009,7 @@ public class HTMLGeneration {
           + facility.getFacilityDescription());
 
       table.append("</td><td>");
-      table.append("<span style=\"position:relative;left:5px\"><a class=\"TL\" href=\""
+      table.append("<span style=\"position:relative;left:5px\"><a href=\""
           + siteRoot
           + "MouseReport.jsp?facility_id="
           + facility.getFacilityID()
@@ -2070,7 +2070,7 @@ public class HTMLGeneration {
 
       table.append("</td>\r\n<td>\r\n");
       table.append("<span style=\"position:relative;left:5px\">"
-          + "<a class=\"TL\" href=\"" + siteRoot
+          + "<a href=\"" + siteRoot
           + "MouseReport.jsp?&geneID=" + gene.getGeneRecordID()
           + "&orderby=mouse.id&mousetype_id=-1\">"
           + gene.getRecordCount() + " record"
@@ -2168,7 +2168,7 @@ public class HTMLGeneration {
       table.append("</td>\r\n");
 
       table.append("<td >\r\n");
-      table.append("<a class=\"TL\" href=\"" + siteRoot
+      table.append("<a href=\"" + siteRoot
           + "MouseReport.jsp?holder_id=" + holder.getHolderID()
           + "&mousetype_id=-1\">" + holder.getVisibleMouseCount()
           + " records</a>");
@@ -2325,7 +2325,7 @@ public class HTMLGeneration {
     String url = "http://www.informatics.jax.org/accession/MGI:"
         + id.trim();
     StringBuffer link = new StringBuffer();
-    link.append("<a class=\"MP\" href=\"" + url + "\" target=\"_blank\">");
+    link.append("<a href=\"" + url + "\" target=\"_blank\">");
     link.append(id);
     link.append("</a>");
     return link.toString();
@@ -2337,7 +2337,7 @@ public class HTMLGeneration {
 
     if (value.equalsIgnoreCase("null"))
       return "";
-    return "<a class=\"MP\" href=\"http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids="
+    return "<a href=\"http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids="
         + value
         + "&amp;dopt=Abstract\" target=\"_blank\">"
         + value
@@ -2383,8 +2383,7 @@ public class HTMLGeneration {
 
     }
 
-    return "<a class=\"MP\" target=\"_blank\" href='" + fixedUrl + "'>"
-        + label + "</a>";
+    return "<a target=\"_blank\" href='" + fixedUrl + "'>" + label + "</a>";
   }
 
   public static String formatGensat(String value) {
@@ -2392,8 +2391,7 @@ public class HTMLGeneration {
       return "";
     String gensatUrl = "http://www.gensat.org/ShowFounderLineImages.jsp?gensatFounderLine=";
     String gensatUrlTail = "";
-    return "<a class=\"MP\" href='" + gensatUrl + value + gensatUrlTail
-        + "'>" + value + "</a>";
+    return "<a href='" + gensatUrl + value + gensatUrlTail + "'>" + value + "</a>";
   }
 
   // To be retired
