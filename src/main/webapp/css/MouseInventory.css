@@ -100,10 +100,6 @@ ul.navLinkUL {
   color: blue;
 }
 
-.linkButton:hover {
-  background-color: #8EE5EE;
-}
-
 .linkButtonCurrent {
   border-style: none;
   background-color: #AAB3E2;
@@ -112,10 +108,6 @@ ul.navLinkUL {
   cursor: pointer;
   cursor: hand;
   color: blue;
-}
-
-.linkButtonCurrent:hover {
-  background-color: #8EE5EE;
 }
 
 
@@ -488,55 +480,6 @@ table.inputForm {
   
 }
 
-a.MP:hover {
-  background-color: #C7E3FE;
-  color: #CC0000;
-  text-decoration: none;
-}
-
-a.MP:link {
-  text-decoration: none;
-}
-
-a.MP:visited {
-  color: #660099;
-  text-decoration: none;
-}
-
-a.SL:hover {
-  color: #CC0000;
-  text-decoration: none;
-}
-
-a.SL:link {
-  text-decoration: none;
-  font-size: 11px;
-}
-
-a.SL:visited {
-  font-size: 11px;
-  text-decoration: none;
-}
-
-a.TL:hover {
-  color: #CC0000;
-  text-decoration: none;
-}
-
-a.TL:link {
-  text-decoration: none;
-  font-size: 13px;
-}
-
-a.TL:visited {
-  font-size: 13px;
-  text-decoration: none;
-}
-
-a:hover {
-  color: #FF2222;
-  text-decoration: none;
-}
 
 div.reportBody {
   
@@ -577,15 +520,10 @@ div.holderNotice {
   margin-bottom: 3px;
 }
 
-span.redboldheading {
-  font-size: 12px;
-  font-weight: bold;
-  color: red;
-}
-
 span.boldheading {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
+  line-height: 18px;
 }
 
 span.importStatusTitle {

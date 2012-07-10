@@ -1663,7 +1663,7 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: #005580;
+  color: purple;
   text-decoration: underline;
 }
 .well {
