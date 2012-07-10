@@ -136,7 +136,7 @@
     if (holder != null)
     {
       String holderStatusHeading = "";
-    String holderStatusHeadingStyle = "redboldheading";
+    String holderStatusHeadingStyle = "red";
     if (holder.getDateValidated() != null)
     {
       DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -146,16 +146,7 @@
 
       holderStatusHeading = "It has been " + days + " day" + (days != 1 ? "s" : "")
         + " since this list was thoroughly reviewed.";
-      holderStatusHeadingStyle = "boldheading";
-      //if (days >= holderReviewDays)
-      //{
-      //  holderStatusHeading += " Please update.";
-      //}
-      //else
-      //{
-      //  holderStatusHeading += " The list is up-to-date.  Thank you.";
-      //  holderStatusHeadingStyle = "boldheading";
-      //}
+      holderStatusHeadingStyle = "";
 
       mouseTypeStr += " (Last reviewed: " + holder.getDateValidated() + ")";
     }
@@ -163,10 +154,19 @@
     {
       holderStatusHeading = "Please take this opportunity to update the list.";
     }
+    
+    String emailAdminLink = getMailToLink(AdminEmail, null, holder.getLastname() + " mouse list reviewed", 
+            "The list of mice held by "+ holder.getFullname() + " " +
+            "was thoroughly reviewed and any necessary deletions/additions/corrections " +
+            "were made today" +
+            "\n(If mice still need to be added, please provide a list of " +
+            "their names below.)", "email link");
 
-    holderData = "<div class='holderData'><div class='holderNotice'>" +
-    "<span class='"+holderStatusHeadingStyle + "'>" + holderStatusHeading + "</span><br><br>" +
-
+    holderData = "<div class='holderData'>" +
+    "<span class='boldheading "+holderStatusHeadingStyle + "'>" + holderStatusHeading + "<br>" +
+	"Use this " +  emailAdminLink +
+    " to notify admin when update is complete</span>" +
+    "<div class='holderNotice'>" +
     "<b>To delete a mouse</b> that is no longer being maintained " +
     "but is still listed here, go to the record for that mouse, " +
     "click on 'request change in record,' and follow the instructions " +
@@ -191,15 +191,6 @@
     "</li>" +
     "</ul>" +
     "</div>" +
-    "Use this " + 
-    getMailToLink(AdminEmail, null, holder.getLastname() + " mouse list reviewed", 
-                "The list of mice held by "+ holder.getFullname() + " " +
-                "was thoroughly reviewed and any necessary deletions/additions/corrections " +
-                "were made today" +
-                "\n(If mice still need to be added, please provide a list of " +
-                "their names below.)", "email link") +
-    " to notify admin when the list of mice has been thorougly reviewed and updated. " +
-    "(Please add any feedback about the database to the e-mail)" +
     "</div>";
     }
 
@@ -221,7 +212,7 @@
 <%
 if (holder != null)
     { %>
-<a class="btn btn-small btn-info" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
+<a class="btn btn-primary" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
 <%} %>
 <%= table %>
 <div id="bottomControls">
