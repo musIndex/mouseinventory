@@ -221,7 +221,7 @@
 <%
 if (holder != null)
     { %>
-<a class="btn btn-small btn-info" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
+<a class="btn btn-primary" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
 <%} %>
 <%= table %>
 <div id="bottomControls">
