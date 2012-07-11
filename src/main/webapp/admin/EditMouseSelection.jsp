@@ -5,6 +5,7 @@
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%@include file="../mouselistcommon.jspf" %>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
+<script type="text/javascript" src="<%=scriptRoot%>jquery.highlight.js" ></script>
 
 <%
 
@@ -139,12 +140,37 @@
     <h2><%=mouseTypeStr %></h2>
     <h4><%=mouseCountStr %></h4>
     <a href="CovertMice.jsp">Covert Mice</a>
-  <form action="EditMouseSelection.jsp" method="post">
+  <form action="EditMouseSelection.jsp" method="get">
     <%= mouseTypeSelectionLinks %>
     <%= topPageSelectionLinks %>
-    <a class="btn btn-small btn-info" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
+    <a class="btn btn-primary" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
     <br>
     <%= table %>
     <%= bottomPageSelectionLinks %>
   </form>
 </div>
+
+<script type='text/javascript'>
+function highlight_searchterms(searchterms){
+  $('.mouseTable').each(function(){
+    var $results = $(this);
+    $results.find(".mouselist, .mouselistAlt").highlight(searchterms.split(' '),{className: 'highlight-searchterm'});
+    $results.find(".lbl").unhighlight({className: 'highlight-searchterm'});
+  });
+
+  $("span.highlight-searchterm").parent().parent().each(function(){
+    var $element = $(this);
+    if($element.is("dt")) {
+      if($element.parent().hasClass("mouselist-holderlist")){
+        $element.show();
+      }
+    }
+  });
+}
+
+var searchterms = $("#mousetypeselection_searchterms").val();
+
+if (searchterms) {
+  highlight_searchterms(searchterms);
+}
+</script>
