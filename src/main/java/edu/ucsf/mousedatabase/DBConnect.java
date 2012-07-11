@@ -442,7 +442,7 @@ public class DBConnect {
           ArrayList<MouseRecord> mice = getMouseRecord(id);
           if (mice.size() > 0){
             MouseRecord mouse = mice.get(0);
-            if (mouse.getStatus().equals(status)) {
+            if (status.equalsIgnoreCase("all") || mouse.getStatus().equals(status)) {
               mouseIds.add(id);
             }
           }
