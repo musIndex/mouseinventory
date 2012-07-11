@@ -2723,7 +2723,7 @@ public class HTMLGeneration {
     StringBuffer buf = new StringBuffer();
     buf.append("<table style=\"line-height:12px;\">");
     if (status != null) {
-      buf.append("<tr><td colspan=\"3\">Search: <input type=\"text\" size=\"20\" name=\"searchterms\""
+      buf.append("<tr><td colspan=\"3\">Search: <input type=\"text\" size=\"20\" id='mousetypeselection_searchterms' name=\"searchterms\""
           + (searchTerms != null ? "value=\"" + searchTerms + "\""
               : "") + "></td></tr>");
     }
