@@ -154,7 +154,7 @@
     }
      }
 %>
-<div class="pagecontent">
+<div class="pagecontent-leftaligned">
 
 <%if(errors.isEmpty())
 {

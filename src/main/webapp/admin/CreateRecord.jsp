@@ -55,7 +55,7 @@
 
   if (!result.Success) {
 %>
-<div class="pagecontent">
+<div class="pagecontent-leftaligned">
   <%=result.Message%>
 </div>
 <%
@@ -101,7 +101,7 @@
     pageHeader = "Created new record #" + mouseID + ":";
   }
 %>
-<div class="pagecontent">
+<div class="pagecontent-leftaligned">
 
   <h2><%=pageHeader%></h2>
 

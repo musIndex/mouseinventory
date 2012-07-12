@@ -128,22 +128,23 @@ public class HTMLGeneration {
 
     // Page header
     table.append("<div id=\"pageHeaderContainer\" class='clearfix'>");
+    table.append("<div id='pageHeader'>");
     table.append("<div id=\"pageTitleContainer\">");
-    table.append("<div>");
+    table.append("<div>"); //pagetitle
     table.append("<span id=\"pageTitle\">" +
         "<a href='" + siteRoot + "'>" + SiteName + "</a></span>");
     table.append("</div>");
-    // About, faq, contact links
-    table.append("<div>");
+    
+    table.append("<div>"); // About, faq, contact links
     table.append("<span class=\"titleSubText\">");
     table.append("<a href=\"" + siteRoot
-        + "about.jsp\">About</a>&nbsp;");
+        + "about.jsp\">Home</a>&nbsp;");
     // table.append("&nbsp;<a href=\""+siteRoot+"faq.jsp\">FAQ</a>&nbsp;");
     table.append("&nbsp;<a href=\"" + siteRoot
         + "contact.jsp\">Submit Feedback</a>");
     table.append("</span>");
-    table.append("</div>");
-    table.append("</div>");
+    table.append("</div>"); // About, faq, contact links
+    table.append("</div>"); //pagetitle
     // Quick Search bar
     if (currentPageFilename == null || !currentPageFilename.equals("search.jsp"))
     {
@@ -160,13 +161,16 @@ public class HTMLGeneration {
       table.append("</div>");
 
     }
-    table.append("</div>");
+    table.append("</div>"); //pagetitlecontainer
+    table.append("</div>"); //pageheader
+    table.append("</div>"); //pageheadercontainer
     // Navigation Bar
     table.append("<div id=\"navigationLinksContainer\" class='clearfix'>");
+    table.append("<div id='navigationLinks'>");
     table.append("<ul class=\"navLinkUL\">");
     table.append(addNavLink("Search", "search.jsp", null,
         currentPageFilename, false,"nav-search-link"));
-    table.append(addNavLink("Mouse List", "MouseReport.jsp", null,
+    table.append(addNavLink("Mouse Records", "MouseReport.jsp", null,
         currentPageFilename, false,"nav-mouselist"));
     table.append(addNavLink("Gene List", "GeneReport.jsp", null,
         currentPageFilename, false));
@@ -181,11 +185,13 @@ public class HTMLGeneration {
     table.append(addNavLink("Admin use only", "admin.jsp", null,
         isAdminPage ? "admin.jsp" : currentPageFilename, true, "pull-right small"));
     table.append("</ul>");
-    table.append("</div>");
+    table.append("</div>"); //navigationlinks
+    table.append("</div>"); //navigationlinkscontainer
 
     // Admin Row
     if (isAdminPage && showAdminControls) {
       table.append("<div id=\"adminLinksContainer\" class='clearfix'>");
+      table.append("<div id='adminLinks'>");
       table.append("<ul class=\"navLinkUL\">");
       table.append(addNavLink("Admin Home", "admin.jsp", null,
           currentPageFilename, true));
@@ -204,12 +210,13 @@ public class HTMLGeneration {
       table.append(addNavLink("Reports", "Reports.jsp", null,
           currentPageFilename, true));
       table.append(addNavLink("Log out", "logout.jsp", null,
-          currentPageFilename, false));
+          currentPageFilename, false,"pull-right small"));
       table.append("</ul>");
-      table.append("</div>");
+      table.append("</div>"); //adminlinks
+      table.append("</div>"); //adminlinkscontainer
     }
 
-    table.append("</div>");
+    table.append("</div>"); //navbarcontainer
     return table.toString();
   }
 
