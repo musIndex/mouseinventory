@@ -76,7 +76,7 @@ $(document).ready(function(){
               $("#PMID").val("");
               $("#PMIDValid").val(false);
               $("#PMIDValidation").html("");
-              notes += "NOTE: A Pubmed reference was not found for this mouse.";
+              notes += "NOTE: A Pubmed reference was not found for this mouse.  If this mouse is unpublished, please go back to step 2 and select 'unpublished'.";
               success = false;
             }
 
