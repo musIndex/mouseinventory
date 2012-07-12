@@ -34,6 +34,7 @@ $(document).ready(function(){
 <a style="display:none" id="hideImpData" href="javascript:" onclick="changecss('span.rawRecord','display','none');setTwoElementVisibility('showImpData','','hideImpData','none')">Hide Raw Data</a>
 </p>
 <%} %>
+</div><div class='pagecontent-leftaligned'>
 <%=table %>
 
 

@@ -68,7 +68,7 @@
   }
 
 %>
-<div class="pagecontent">
+<div class="pagecontent-leftaligned">
 
     <h2><%=mouseTypeStr %></h2>
     <h4><%=mice.size() %> records found.</h4>

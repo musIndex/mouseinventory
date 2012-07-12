@@ -4,7 +4,6 @@
 <%=HTMLGeneration.getNavBar("about.jsp", false) %>
   
 <div class="pagecontent">
-<div class="textwrapper">
   <div class="whatsnew">
     <h3>Recent site updates:</h3>
     <div class="alert alert-info" data-date='5/10/2012' data-name='search-updates'>
@@ -33,7 +32,6 @@
     by using the 'Submit feedback' link.
     </div>
   </div>
-<div class="about">
 <h2>About the UCSF Mouse Inventory Database</h2>
 <ol>
   <li><a href="#faq">FAQ</a></li>
@@ -256,6 +254,4 @@ information about a mouse.</p>
 responsibility of the individual who submitted the data. Information
 provided on submission forms is not vetted by the Administrator.</p>
 
-</div>
-</div>
 </div>

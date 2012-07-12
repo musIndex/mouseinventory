@@ -51,7 +51,7 @@
 %>
 
 
-<div class="pagecontent pagecontent-leftaligned">
+<div class="pagecontent-leftaligned">
 <h2>Editing record# <%=record.getMouseID() %>: <%=record.getMouseName() %> (<%= record.getMouseType() %>  )
 </h2>
 <%=existingRecord %>
