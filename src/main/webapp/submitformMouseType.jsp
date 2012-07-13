@@ -28,8 +28,8 @@
 <h2>New Submission Step 2: Choose Mouse Category</h2>
 <a href="submitforminit.jsp">Back to step 1</a>
 <br>
-<p>For the mouse you want to submit, please select a category from the three choices listed,
-then complete the rest of the page.</p>
+<p>For the mouse you want to submit, please select a category from the three choices listed.
+For mutant alleles or transgenes, respond to the query about publication.</p>
 <p>
 <b><span class=red>Choose 'Mutant Allele'</span></b> when a gene in the mouse has been modified in some way
 (e.g. targeted disruption such as replacement with a neo cassette; creation of a floxed allele

@@ -86,7 +86,7 @@
       {
           existingRecordTable = HTMLGeneration.getMouseTable(existingMice,false,true,false);
         err = "This appears to be a duplicate entry and will not be processed.  The exisiting record is shown below.";
-          err += "<br><br>To add another holder to this mouse, click 'request change to record', and submit a change request.";
+          err += "<br><br>To add another holder to <u>this</u> mouse record, click 'request change in record,' and submit a change request.";
           isDuplicate = true;
           ok = false;
       }
