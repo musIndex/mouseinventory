@@ -54,7 +54,7 @@
     String table = HTMLGeneration.getSubmissionTable(submissions, status, entered);
 
     StringBuffer sortBuf = new StringBuffer();
-    sortBuf.append("<form action=\"ListSubmissions.jsp\" method=\"post\">");
+    sortBuf.append("<form action=\"ListSubmissions.jsp\" method=\"get\">");
     sortBuf.append("&nbsp;Show: ");
     sortBuf.append(HTMLGeneration.genFlatRadio("status",filterOptions,filterOptionNiceNames, status,""));
     sortBuf.append("<br>&nbsp;Sort by: ");

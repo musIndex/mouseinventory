@@ -2723,7 +2723,7 @@ public class HTMLGeneration {
           + (searchTerms != null ? "value=\"" + searchTerms + "\""
               : "") + "></td></tr>");
     }
-    buf.append("<tr><td>Type:</td>");
+    buf.append("<tr><td>Category:</td>");
     buf.append("<td><input type=\"radio\" name=\"mousetype_id\" value=\"-1\" "
         + checked + ">All</td>");
     for (MouseType type : mouseTypes) {
