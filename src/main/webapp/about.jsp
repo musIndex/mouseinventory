@@ -176,7 +176,7 @@ or Pubmed, respectively.</p>
 background strain of the mutant allele/transgene.</p>
 <br>
 <h3 id="search">Sort and Search functions</h3>
-<p>On the '<b>Mouse List</b>' page, the mode of display of
+<p>On the '<b>Mouse Records</b>' page, the mode of display of
 records can be selected: view all, or view records in only one of the
 three categories. The records can be sorted by Mouse Inventory
 Database ID (record) number or Mouse Name.&nbsp;&nbsp;</p>
@@ -208,7 +208,7 @@ click on 'Submit Mice' at the top of this page, and complete the <b>submission
 form</b>.</p>
 
 <p>If a mouse is already in the inventory and you want to add the
-name of an additional holder, go to 'Mouse List' and find the record for
+name of an additional holder, go to 'Mouse Records' and find the record for
 that mouse, click on 'Request change in record' (under the mouse name)
 and complete the <b>request change form</b>.</p>
 
@@ -224,7 +224,7 @@ mouse will be deleted from the database.</p>
 colony, it can be marked as "endangered" on the "request change form."
 If that holder is the only one who maintains the mouse, or if there is
 only one other holder, the mouse will be added to the "endangered mouse"
-list, which is a selection on the "Mouse List." The mouse will remain on
+list, which is a selection on the "Mouse Records." The mouse will remain on
 the "endangered list" until the holder who classified it as endangered
 asks to be deleted as a holder.</p>
 -->
