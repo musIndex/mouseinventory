@@ -204,14 +204,14 @@
   <div id="mousecount" style="display:none"><%=mice.size() %>
   </div>
   <h2><%=mouseTypeStr %></h2>
-  <h4><%=mouseCountStr %></h4>
   <form action="MouseReport.jsp" method="get">
     <div class='clearfix'>
-      <div id="controls" style='width:50%; float:left'>     
+      <div id="controls" style='width:460px; float:left'>
+      <h4 style='margin-top:0px'><%=mouseCountStr %></h4>    
         <%= mouseTypeSelectionLinks %>
         <%= topPageSelectionLinks %>      
       </div>
-      <div style='width:45% float:right'>
+      <div style='margin-left:470px'>
         <%=emptyIfNull(holderData) %>
       </div>
     </div>

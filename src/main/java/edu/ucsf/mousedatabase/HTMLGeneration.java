@@ -182,8 +182,15 @@ public class HTMLGeneration {
     // null,currentPageFilename,false));
     table.append(addNavLink("Submit Mice", "submitforminit.jsp", null,
         currentPageFilename, false));
-    table.append(addNavLink("Admin use only", "admin.jsp", null,
-        isAdminPage ? "admin.jsp" : currentPageFilename, true, "pull-right small"));
+    if (isAdminPage && showAdminControls){
+      table.append(addNavLink("Log out", "logout.jsp", null,
+          currentPageFilename, false,"pull-right small"));
+    }
+    else {
+      table.append(addNavLink("Admin use only", "admin.jsp", null,
+          isAdminPage ? "admin.jsp" : currentPageFilename, true, "pull-right small"));
+    }
+    
     table.append("</ul>");
     table.append("</div>"); //navigationlinks
     table.append("</div>"); //navigationlinkscontainer
@@ -209,8 +216,6 @@ public class HTMLGeneration {
           currentPageFilename, true));
       table.append(addNavLink("Reports", "Reports.jsp", null,
           currentPageFilename, true));
-      table.append(addNavLink("Log out", "logout.jsp", null,
-          currentPageFilename, false,"pull-right small"));
       table.append("</ul>");
       table.append("</div>"); //adminlinks
       table.append("</div>"); //adminlinkscontainer
