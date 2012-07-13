@@ -4,7 +4,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
-
+<script type="text/javascript" src="<%=HTMLGeneration.scriptRoot%>jquery.highlight.js" ></script>
 <%
 
   String orderBy = request.getParameter("orderby");
@@ -72,9 +72,33 @@
 
     <h2><%=mouseTypeStr %></h2>
     <h4><%=mice.size() %> records found.</h4>
-    <form action="CovertMice.jsp" method="post">
+    <form action="CovertMice.jsp" method="get">
      <%=mouseTypeSelectionLinks %>
   </form>
     <%= table %>
 
 </div>
+<script type='text/javascript'>
+function highlight_searchterms(searchterms){
+  $('.mouseTable').each(function(){
+    var $results = $(this);
+    $results.find(".mouselist, .mouselistAlt").highlight(searchterms.split(' '),{className: 'highlight-searchterm'});
+    $results.find(".lbl").unhighlight({className: 'highlight-searchterm'});
+  });
+
+  $("span.highlight-searchterm").parent().parent().each(function(){
+    var $element = $(this);
+    if($element.is("dt")) {
+      if($element.parent().hasClass("mouselist-holderlist")){
+        $element.show();
+      }
+    }
+  });
+}
+
+var searchterms = $("#mousetypeselection_searchterms").val();
+
+if (searchterms) {
+  highlight_searchterms(searchterms);
+}
+</script>

@@ -15,7 +15,7 @@
     <h2>Edit Facilities:</h2>
     <p><a href="EditFacilityChooser.jsp?command=add">Add Facility...</a>
     <p>Sort by <a href="EditFacilityChooser.jsp?orderby=facility&command=edit">Name</a>,
-          <a href="EditFacilityChooser.jsp?orderby=description&command=edit">Description</a>
+          <a href="EditFacilityChooser.jsp?orderby=description&command=edit">Description</a>,
           <a href="EditFacilityChooser.jsp?orderby=count&command=edit">Record count</a></p>
 
     <%= table %>
