@@ -32,7 +32,7 @@
       || !(updateCommand.equals("Create Record") || updateCommand
           .equals("Save as Incomplete"))) {
 %>
-<div class="pagecontent">
+<div class="site_container">
   <h2>
     ERROR - no valid command received. Command was:
     <%=updateCommand%>
@@ -55,7 +55,7 @@
 
   if (!result.Success) {
 %>
-<div class="pagecontent-leftaligned">
+<div class="site_container">
   <%=result.Message%>
 </div>
 <%
@@ -101,7 +101,7 @@
     pageHeader = "Created new record #" + mouseID + ":";
   }
 %>
-<div class="pagecontent-leftaligned">
+<div class="site_container">
 
   <h2><%=pageHeader%></h2>
 

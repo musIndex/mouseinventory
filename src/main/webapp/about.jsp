@@ -3,7 +3,7 @@
 <%=HTMLGeneration.getPageHeader(null, false,false,"onload=\"setFocus('quickSearchForm', 'searchterms')\"") %>
 <%=HTMLGeneration.getNavBar("about.jsp", false) %>
   
-<div class="pagecontent">
+<div class="site_container">
   <div class="whatsnew">
     <h3>Recent site updates:</h3>
     <div class="alert alert-info" data-date='5/10/2012' data-name='search-updates'>

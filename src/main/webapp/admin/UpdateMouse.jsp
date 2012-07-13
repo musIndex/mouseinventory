@@ -77,7 +77,7 @@
       resultingRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false, true);
   }
 %>
-<div class="pagecontent-leftaligned">
+<div class="site_container">
 <h2><%=pageHeader %></h2>
 <%if(errors.isEmpty())
 {

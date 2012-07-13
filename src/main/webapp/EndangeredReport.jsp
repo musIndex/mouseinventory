@@ -69,7 +69,7 @@
 
 
 %>
-<div class="pagecontent pagecontent-leftaligned">
+<div class="site_container">
 
     <h2><%=mouseTypeStr %></h2>
     <h4><%=mouseCountStr %></h4>

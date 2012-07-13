@@ -3,7 +3,7 @@
 <%@page import="java.util.ArrayList"%>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("ManageChangeRequests.jsp", true) %>
-<div class="pagecontent">
+<div class="site_container">
 <%
   int id = HTMLGeneration.stringToInt(request.getParameter("id"));
   String confirmed = request.getParameter("confirm");

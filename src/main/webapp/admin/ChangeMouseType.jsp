@@ -22,7 +22,7 @@
 
 %>
 
-<div class="pagecontent">
+<div class="site_container">
 
 <%
 if (!confirmed){

@@ -3,7 +3,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditFacilityChooser.jsp", true) %>
-<div class="pagecontent">
+<div class="site_container">
 <%
   String command = request.getParameter("command");
   String orderby = request.getParameter("orderby");

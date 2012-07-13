@@ -128,7 +128,7 @@ public class HTMLGeneration {
 
     // Page header
     table.append("<div id=\"pageHeaderContainer\" class='clearfix'>");
-    table.append("<div id='pageHeader'>");
+    table.append("<div class='site_container'>");
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div>"); //pagetitle
     table.append("<span id=\"pageTitle\">" +
@@ -166,7 +166,7 @@ public class HTMLGeneration {
     table.append("</div>"); //pageheadercontainer
     // Navigation Bar
     table.append("<div id=\"navigationLinksContainer\" class='clearfix'>");
-    table.append("<div id='navigationLinks'>");
+    table.append("<div id='navigationLinks' class='site_container'>");
     table.append("<ul class=\"navLinkUL\">");
     table.append(addNavLink("Search", "search.jsp", null,
         currentPageFilename, false,"nav-search-link"));
@@ -191,7 +191,7 @@ public class HTMLGeneration {
     // Admin Row
     if (isAdminPage && showAdminControls) {
       table.append("<div id=\"adminLinksContainer\" class='clearfix'>");
-      table.append("<div id='adminLinks'>");
+      table.append("<div id='adminLinks' class='site_container'>");
       table.append("<ul class=\"navLinkUL\">");
       table.append(addNavLink("Admin Home", "admin.jsp", null,
           currentPageFilename, true));

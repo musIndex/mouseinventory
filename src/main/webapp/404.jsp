@@ -7,7 +7,7 @@
 
 %>
 
-<div class="pagecontent">
+<div class="site_container">
 <h2>Page not found.</h2>
 <p>We're sorry, but the page you've requested cannot be found.</p>
 

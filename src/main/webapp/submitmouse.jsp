@@ -9,7 +9,7 @@
 <%=HTMLGeneration.getNavBar("submitforminit.jsp", false) %>
 <jsp:useBean id="newMouse" class="edu.ucsf.mousedatabase.beans.MouseSubmission" scope="session" />
 <jsp:useBean id="submitterData" class="edu.ucsf.mousedatabase.beans.UserData" scope="session" />
-<div class="pagecontent">
+<div class="site_container">
 
 <%
     if(!submitterData.ValidateContactInfo() || ! newMouse.ValidateHolderInfo())

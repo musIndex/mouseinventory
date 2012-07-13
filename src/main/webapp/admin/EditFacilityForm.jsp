@@ -20,14 +20,14 @@
   catch (Exception e)
   {
     %>
-    <div class="pagecontent">
+    <div class="site_container">
     <h2>Facility not found</h2>
     </div>
     <%
     return;
   }
 %>
-<div class="pagecontent">
+<div class="site_container">
 <h2>Edit Facility  #<%=facility.getFacilityID() %></h2>
 
 <form action="UpdateFacility.jsp" method="post">

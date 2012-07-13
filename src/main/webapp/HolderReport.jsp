@@ -10,7 +10,7 @@
 
 %>
 
-<div class="pagecontent">
+<div class="site_container">
     <h2>Holder List</h2>
     <p>Sort by <a href="HolderReport.jsp?orderby=firstname,lastname">First Name</a>,
           <a href="HolderReport.jsp?orderby=lastname,firstname">Last name</a>,

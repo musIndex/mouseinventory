@@ -89,7 +89,7 @@ if (sb.length() == 0)
 
 %>
 
-<div class="pagecontent">
+<div class="site_container">
 <h2>Upload Status</h2>
 <a href="ImportReports.jsp">View Reports</a>
 <br>
