@@ -56,8 +56,8 @@ submission form, use the Search feature above to determine if the mouse
 is already listed in the inventory.</span> If it is, and if you want to note
 that it is also being housed by another investigator or to add
 information about the mouse, <span class=red>do not</span> use this
-form. Instead, go to the "<a href="MouseReport.jsp">Mouse List</a>," find the
-record for that mouse, click on "Request change" (under the mouse name of that mouse),
+form. Instead, go to the "<a href="MouseReport.jsp">Mouse Records</a>" page, find the
+one for that mouse, click on "Request change in record" (under the name of that mouse),
 and complete the form.
 <br>
 <br>
