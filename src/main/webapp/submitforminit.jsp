@@ -39,7 +39,7 @@
 
 
 %>
-<div class="pagecontent">
+<div class="site_container">
 <div class="formbody">
 <div class="introduction">
 <h2>New Submission: Step 1</h2>

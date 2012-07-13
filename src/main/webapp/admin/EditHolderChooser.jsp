@@ -7,7 +7,7 @@
 
     //todo Order by links
 %>
-<div class="pagecontent-leftaligned">
+<div class="site_container">
 <%
   String command = request.getParameter("command");
   String orderby = request.getParameter("orderby");

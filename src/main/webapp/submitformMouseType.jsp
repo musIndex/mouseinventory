@@ -9,7 +9,7 @@
 <jsp:setProperty property="*" name="newMouse"/>
 <jsp:useBean id="submitterData" class="edu.ucsf.mousedatabase.beans.UserData" scope="session"></jsp:useBean>
 <jsp:setProperty property="*" name="submitterData"/>
-<div class="pagecontent">
+<div class="site_container">
 <%
 
   if(!submitterData.ValidateContactInfo())

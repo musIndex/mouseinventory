@@ -3,7 +3,7 @@
 <%=HTMLGeneration.getPageHeader(null, false,false,"onload=\"setFocus('quickSearchForm', 'searchterms')\"") %>
 <%=HTMLGeneration.getNavBar(null, false) %>
 
-<div class="pagecontent">
+<div class="site_container">
   <div class="textwrapper">
   <h2>Licenses</h2>
   The full source of this application is available under the under the AGPL, 

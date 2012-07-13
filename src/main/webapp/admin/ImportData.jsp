@@ -7,7 +7,7 @@
 
 <script type='text/javascript'>
 $(document).ready(function(){
-  $(".pagecontent").on('click','.import_section',function(){
+  $(".site_container").on('click','.import_section',function(){
     $(this).removeClass("obscured").siblings().addClass("obscured");
   });
 });
@@ -15,7 +15,7 @@ $(document).ready(function(){
 </script>
 
 
-<div class="pagecontent">
+<div class="site_container">
 
 <%
 for(ImportDefinition importReportDefinition : ImportHandler.getImportDefinitions() )

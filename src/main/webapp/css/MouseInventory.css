@@ -40,11 +40,29 @@ ul.navLinkUL {
   background-color: #77aaaa;
 }
 
-#pageHeader {
-  min-width: 940px;
-  max-width: 1400px;
-  margin: 0px 5%;
+
+
+@media all and (min-width: 1601px) {
+  .site_container {
+    width: 1520px;
+  }
 }
+
+@media all and (min-width: 1041px) and (max-width: 1600px) {
+  .site_container {
+    margin: 0px 40px !important;
+  }
+}
+@media all and (max-width: 1040px){
+  .site_container {
+    width: 940px;
+  }
+}
+
+.site_container {
+  margin: 0px auto;
+}
+
 
 #pageTitleContainer {
   float: left;
@@ -128,12 +146,7 @@ ul.navLinkUL {
   background-color: #666699;
 }
 
-#navigationLinks,
-#adminLinks {
-  min-width: 940px;
-  max-width: 1400px;
-  margin: 0px 5%;
-}
+
 
 #submissionLinksContainer {
   -moz-background-clip: border;
@@ -172,7 +185,7 @@ ul.navLinkUL {
 }
 
 #navigationLinks li:nth-child(3) {
-  background-color: #B83884;
+  background-color: #CFB650;
 }
 
 #navigationLinks li:nth-child(4) {
@@ -180,11 +193,11 @@ ul.navLinkUL {
 }
 
 #navigationLinks li:nth-child(5) {
-  background-color: #B66E14;
+  background-color: #BB8F59;
 }
 
 #navigationLinks li:nth-child(6) {
-  background-color: #DAB215;
+  background-color: #B83884;
 }
 
 #adminLinks li {
@@ -454,15 +467,6 @@ th {
   font-weight: bold;
 }
 
-.pagecontent,
-.pagecontent-leftaligned,
-.pagecontent.pagecontent-leftaligned {
-  padding: 5px 0px;
-  min-width: 940px;
-  max-width: 1400px;
-  margin: 0px 5%;
-}
-
 .whatsnew {
   float: right;
   width: 35%;
@@ -551,8 +555,7 @@ span.importAction {
 }
 
 div.holderData {
-  width: 600px;
-  float: right;
+  
   line-height: 14px;
 }
 

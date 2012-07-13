@@ -1,7 +1,7 @@
 <script type="text/javascript">
 !function($){
   $(document).ready(function(){
-    $('.pagecontent').on('click', '.mouselist-holderlist-showall',function(){
+    $('.site_container').on('click', '.mouselist-holderlist-showall',function(){
       $(this).hide().parent().siblings().show();
       return false;
       });

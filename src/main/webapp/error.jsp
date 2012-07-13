@@ -9,7 +9,7 @@
   Log.Error("Unhandled Exception",exception);
 %>
 
-<div class="pagecontent">
+<div class="site_container">
 <h2>Unknown Error.</h2>
 <p>We're sorry, but the Mouse Inventory Database has encountered an error.
 Please notify the administrator.</p>

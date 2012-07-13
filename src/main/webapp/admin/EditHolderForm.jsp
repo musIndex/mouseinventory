@@ -20,14 +20,14 @@
   catch (Exception e)
   {
     %>
-    <div class="pagecontent">
+    <div class="site_container">
     <h2>Holder not found</h2>
     </div>
     <%
     return;
   }
 %>
-<div class="pagecontent">
+<div class="site_container">
 <h2>Edit Holder #<%=holder.getHolderID() %></h2>
 
 <form action="UpdateHolder.jsp" method="post">

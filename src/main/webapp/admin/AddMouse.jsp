@@ -5,7 +5,7 @@
 <jsp:useBean id="newMouse" class="edu.ucsf.mousedatabase.objects.MouseRecord" scope="session"></jsp:useBean>
 <jsp:setProperty property="*" name="newMouse"/>
 
-<div class="pagecontent">
+<div class="site_container">
 <form name="MouseTypeForm" id="MouseTypeForm" method="post" action="AddMouseForm.jsp">
 <table class="inputForm">
 <tr class="formField">

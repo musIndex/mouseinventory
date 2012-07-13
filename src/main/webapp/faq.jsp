@@ -2,7 +2,7 @@
 <%@page import="edu.ucsf.mousedatabase.HTMLGeneration" %>
 <%=HTMLGeneration.getPageHeader(null, false,false,"onload=\"setFocus('quickSearchForm', 'searchterms')\"") %>
 <%=HTMLGeneration.getNavBar(null, false) %>
-<div class="pagecontent">
+<div class="site_container">
 <h2 id="faq">Mouse Inventory FAQ</h2>
 <div class="about">
 <dl>

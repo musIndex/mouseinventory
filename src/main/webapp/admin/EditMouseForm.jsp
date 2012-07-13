@@ -13,7 +13,7 @@
   if (request.getParameter("id") == null)
   {
     %>
-    <div class="pagecontent">
+    <div class="site_container">
     <h2>No record specified</h2>
     </div>
     <%
@@ -26,7 +26,7 @@
     if(records.size() < 1)
     {
       %>
-    <div class="pagecontent">
+    <div class="site_container">
     <h2>Record #<%=mouseID %> not found</h2>
     </div>
     <%
@@ -38,7 +38,7 @@
     if(record.getStatus() != null && record.getStatus().equalsIgnoreCase("incomplete"))
   {
     %>
-    <div class="pagecontent">
+    <div class="site_container">
     <h2>This record is part of an incomplete submission.  Please go to the 'hold' submissions page and click the 'create new record' link to edit.</h2>
     </div>
     <%
@@ -51,7 +51,7 @@
 %>
 
 
-<div class="pagecontent-leftaligned">
+<div class="site_container">
 <h2>Editing record# <%=record.getMouseID() %>: <%=record.getMouseName() %> (<%= record.getMouseType() %>  )
 </h2>
 <%=existingRecord %>

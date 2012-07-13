@@ -76,7 +76,7 @@
 
 %>
 
-<div class="pagecontent-leftaligned">
+<div class="site_container">
 <h2><%= statusString %></h2>
 <h4><%= kount %> found.</h4>
 <%= sortBuf.toString()%>
