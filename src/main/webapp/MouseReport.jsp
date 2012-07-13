@@ -196,7 +196,7 @@
 
 
 %>
-<div class='pagecontent'>
+<div class='pagecontent-leftaligned'>
 <div id="mousecount" style="display:none"><%=mice.size() %></div>
 
 
@@ -215,8 +215,6 @@ if (holder != null)
     { %>
 <a class="btn btn-primary" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
 <%} %>
-</div>
-<div class="pagecontent-leftaligned">
 <%= table %>
 <div id="bottomControls">
 <%= bottomPageSelectionLinks %>

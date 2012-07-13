@@ -86,7 +86,7 @@ public class SubmittedMouse {
   public boolean hasOtherHolderName() { return holderName != null && holderName.equalsIgnoreCase("Other(specify)");};
   public boolean hasOtherFacilityName() { return holderFacility != null && holderFacility.equalsIgnoreCase("Other(specify)");};
   public boolean isMA(){ return mouseType!= null && mouseType.equalsIgnoreCase("Mutant Allele");}
-  public boolean isTG(){ return mouseType!= null && mouseType.equalsIgnoreCase("Transgenic");}
+  public boolean isTG(){ return mouseType!= null && (mouseType.equalsIgnoreCase("Transgene") || (mouseType.equalsIgnoreCase("Transgenic")));}
   public boolean isIS(){return mouseType!= null && mouseType.equalsIgnoreCase("Inbred Strain");}
   public boolean isKnockIn() { return transgenicType != null && transgenicType.equalsIgnoreCase("Knock-in");}
   public boolean isRandomInsertion() { return transgenicType != null && transgenicType.equalsIgnoreCase("Random insertion");}
@@ -293,11 +293,15 @@ public class SubmittedMouse {
 
   public MouseRecord toMouseRecord()
   {
+    if (isTG()){
+      //for legacy submissions that are set to 'transgenic' instead of 'transgene'
+      mouseType = "Transgene";
+    }
     MouseRecord r = new MouseRecord();
     r.setMouseName(mouseName);
     r.setOfficialMouseName(officialMouseName);
     r.setMouseType(mouseType);
-
+    
     r.setGeneID(MAMgiGeneID);
     r.setTargetGeneID(TGMouseGene);
 
@@ -309,7 +313,7 @@ public class SubmittedMouse {
     if(transgenicType != null && !transgenicType.equalsIgnoreCase("Select One"))
       r.setTransgenicType(transgenicType);
 
-    if(mouseType.equalsIgnoreCase("transgenic") && transgenicType == null)
+    if(isTG() && transgenicType == null)
     {
       r.setTransgenicType("Random Insertion");
     }
@@ -409,7 +413,7 @@ public class SubmittedMouse {
     }
     else if (isTG())
     {
-      mouseTypeTitle = "Transgenic";
+      mouseTypeTitle = "Transgene";
       if (isKnockIn())
       {
         mouseTypeTitle += " Knock-in";

@@ -7,7 +7,7 @@
 
     //todo Order by links
 %>
-<div class="pagecontent">
+<div class="pagecontent-leftaligned">
 <%
   String command = request.getParameter("command");
   String orderby = request.getParameter("orderby");
@@ -22,7 +22,6 @@
           <a href="EditHolderChooser.jsp?orderby=lastname,firstname&command=edit">Last name</a>,
           <a href="EditHolderChooser.jsp?orderby=department&command=edit">Department</a>,
           <a href="EditHolderChooser.jsp?orderby=count&command=edit">Mice Held</a></p>
-    </div><div class='pagecontent-leftaligned'>
     <%= table %>
     <%
   }

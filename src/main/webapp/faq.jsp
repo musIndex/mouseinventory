@@ -17,7 +17,7 @@
   <dt><b>Are investigators required to list all the mice in their colonies?</b></dt>
 
   <dd>The goal is for the database to provide a list of all the mutant allele and
-  transgenic mice, as well as inbred strains, that are being maintained at UCSF.
+  transgene mice, as well as inbred strains, that are being maintained at UCSF.
   However, there is no official requirement that a particular mouse be listed, and
   the decision as to whether to list it is up to the investigator.
   <br><br>
@@ -46,7 +46,7 @@
   another institution or one that has been generated at UCSF but it has
   not yet been published, you are welcome to enter it into the database.
   However, it is best not to enter a mouse until it is relatively
-  well-characterized (e.g. do not enter G<sub>0</sub> transgenics).
+  well-characterized (e.g. do not enter G<sub>0</sub> transgenes).
   <br><br>
   Since the database is private, there should be no issue of 'prior
   publication' when it comes to submitting a manuscript about the

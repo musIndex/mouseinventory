@@ -135,7 +135,7 @@
   }
 
 %>
-<div class="pagecontent">
+<div class="pagecontent-leftaligned">
 
     <h2><%=mouseTypeStr %></h2>
     <h4><%=mouseCountStr %></h4>
@@ -145,7 +145,6 @@
     <%= topPageSelectionLinks %>
     <a class="btn btn-primary" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
     <br>
-    </div><div class='pagecontent-leftaligned'>
     <%= table %>
     <%= bottomPageSelectionLinks %>
   </form>

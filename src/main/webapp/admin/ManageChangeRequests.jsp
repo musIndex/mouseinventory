@@ -8,7 +8,7 @@
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("ManageChangeRequests.jsp", true) %>
 
-<div class="pagecontent">
+<div class="pagecontent-leftaligned">
 
 
 
@@ -75,8 +75,7 @@
 <h4><%= kount %> found.</h4>
 <%= updateMessage %>
 <%= sortBuf.toString() %>
-</div>
-<div class="pagecontent-leftaligned">
+
 <%= newTable.toString() %>
 
 </div>

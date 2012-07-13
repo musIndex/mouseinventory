@@ -2,7 +2,7 @@
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
-
+<%=HTMLGeneration.getNavBar("ListSubmissions.jsp", true) %>8
 <%
 
 
@@ -75,11 +75,10 @@
     }
 
 %>
-<%=HTMLGeneration.getNavBar("ListSubmissions.jsp", true) %>
-<div class="pagecontent">
+
+<div class="pagecontent-leftaligned">
 <h2><%= statusString %></h2>
 <h4><%= kount %> found.</h4>
 <%= sortBuf.toString()%>
-</div><div class='pagecontent-leftaligned'>
 <%= table%>
 </div>

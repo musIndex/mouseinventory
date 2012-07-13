@@ -32,6 +32,7 @@
     by using the 'Submit feedback' link.
     </div>
   </div>
+<div class='about'>
 <h2>About the UCSF Mouse Inventory Database</h2>
 <ol>
   <li><a href="#faq">FAQ</a></li>
@@ -115,7 +116,7 @@ is classified in one of three categories:</p>
   provided). <br>
   </dd>
 
-  <dt><b>2) Transgenic</b></dt>
+  <dt><b>2) Transgene</b></dt>
 
   <dd>This category comprises transgenes that express a
   particular sequence, and that have been <b>randomly inserted</b> in the genome.
@@ -144,7 +145,7 @@ is classified in one of three categories:</p>
 <p>All entries (records) in the Inventory can be viewed by clicking on 'Mouse
 List'. Each record includes the 'informal' mouse name provided
 by the person who submitted the entry, the mouse category (Mutant
-Allele, Transgenic, or Inbred Strain) and the name of the 'holder'
+Allele, Transgene, or Inbred Strain) and the name of the 'holder'
 (investigator with an approved protocol in whose colony the mouse line
 is housed) as well as the UCSF animal facility in which the mouse is
 housed.</p>
@@ -254,4 +255,5 @@ information about a mouse.</p>
 responsibility of the individual who submitted the data. Information
 provided on submission forms is not vetted by the Administrator.</p>
 
+</div>
 </div>

@@ -204,7 +204,7 @@ public class MouseSubmission {
 
 
   public boolean isMA(){ return mouseType!= null && mouseType.equalsIgnoreCase("Mutant Allele");}
-  public boolean isTG(){ return mouseType!= null && mouseType.equalsIgnoreCase("Transgenic");}
+  public boolean isTG(){ return mouseType!= null && mouseType.equalsIgnoreCase("Transgene");}
   public boolean isIS(){return mouseType!= null && mouseType.equalsIgnoreCase("Inbred Strain");}
 
   public boolean hasType() { return mouseType != null; }
@@ -674,9 +674,9 @@ public class MouseSubmission {
 
   public String getNiceMouseType()
   {
-    if(mouseType.equalsIgnoreCase("Transgenic"))
+    if(mouseType.equalsIgnoreCase("Transgene"))
     {
-      return "Transgenic mouse";
+      return "Transgene mouse";
     }
     return mouseType;
   }

@@ -162,7 +162,7 @@
   }
 %>
   
-<div class="pagecontent">
+<div class="pagecontent-leftaligned">
   <form id="searchForm" action="search.jsp" class="form-search" method="get">
     <div class="search-box <%= searchPerformed ?  "search-box-small" : "" %> " style="display:none">
       <img src="<%=imageRoot %>mouse-img-istock.jpg" class="woodmouse"/>
