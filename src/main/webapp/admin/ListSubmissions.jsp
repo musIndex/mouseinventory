@@ -2,7 +2,7 @@
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
-<%=HTMLGeneration.getNavBar("ListSubmissions.jsp", true) %>8
+<%=HTMLGeneration.getNavBar("ListSubmissions.jsp", true) %>
 <%
 
 
