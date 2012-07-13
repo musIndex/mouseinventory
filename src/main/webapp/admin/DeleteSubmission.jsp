@@ -5,7 +5,7 @@
 <%=HTMLGeneration.getNavBar(null, true) %>
 
 <%@page import="edu.ucsf.mousedatabase.objects.SubmittedMouse"%>
-<div class="pagecontent">
+<div class="site_container">
 <%
   String confirmed = request.getParameter("confirm");
   int submissionID = HTMLGeneration.stringToInt(request.getParameter("submissionID"));

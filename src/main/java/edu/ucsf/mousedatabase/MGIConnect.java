@@ -168,7 +168,7 @@ public class MGIConnect {
           {
             if(expectedTypeID == MGI_REFERENCE)
             {
-              result.setErrorString("Warning: Pubmed ID not listed in MGI database. Pubmed ID may be incorrect. Here is a link to the publication with that PMID:");
+              result.setErrorString("Not found.  Please confirm that you have the correct Pubmed ID.");
               result.setValid(false);
             }
             else
@@ -292,7 +292,7 @@ public class MGIConnect {
             }
             else if (value.startsWith("Transgenic"))
             {
-              sub.setMouseType("Transgenic");
+              sub.setMouseType("Transgene");
               sub.setTransgenicType("undetermined");
               sub.setTGExpressedSequence("undetermined");
               //extract from 'Transgenic (Reporter)'
@@ -682,7 +682,7 @@ public class MGIConnect {
 
   public static MGIResult DoReferenceQuery(String refAccessionID)
   {
-    return doMGIQuery(refAccessionID, MGI_REFERENCE, "Warning: Pubmed ID not listed in MGI database. Pubmed ID may be incorrect. Here is a link to the publication with that PMID:");
+    return doMGIQuery(refAccessionID, MGI_REFERENCE, "Pubmed ID not found.  Please confirm that you entered it correctly.");
   }
 
     public static MGIResult DoMGIModifiedGeneQuery(String geneAccessionID)

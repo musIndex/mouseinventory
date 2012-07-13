@@ -2,7 +2,7 @@
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
-
+<%=HTMLGeneration.getNavBar("ListSubmissions.jsp", true) %>
 <%
 
 
@@ -54,7 +54,7 @@
     String table = HTMLGeneration.getSubmissionTable(submissions, status, entered);
 
     StringBuffer sortBuf = new StringBuffer();
-    sortBuf.append("<form action=\"ListSubmissions.jsp\" method=\"post\">");
+    sortBuf.append("<form action=\"ListSubmissions.jsp\" method=\"get\">");
     sortBuf.append("&nbsp;Show: ");
     sortBuf.append(HTMLGeneration.genFlatRadio("status",filterOptions,filterOptionNiceNames, status,""));
     sortBuf.append("<br>&nbsp;Sort by: ");
@@ -75,8 +75,8 @@
     }
 
 %>
-<%=HTMLGeneration.getNavBar("ListSubmissions.jsp", true) %>
-<div class="pagecontent pagecontent-leftaligned">
+
+<div class="site_container">
 <h2><%= statusString %></h2>
 <h4><%= kount %> found.</h4>
 <%= sortBuf.toString()%>

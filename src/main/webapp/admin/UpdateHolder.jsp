@@ -24,7 +24,7 @@
     catch (Exception e)
     {
       %>
-      <div class="pagecontent">
+      <div class="site_container">
       <h2>Holder not found</h2>
       </div>
       <%
@@ -102,6 +102,6 @@
     buf.append("<h2>Unrecognized command '" + command + "'.  Expected 'Edit','Delete',or 'Insert'</h2>");
   }
 %>
-<div class="pagecontent">
+<div class="site_container">
 <%= buf.toString() %>
 </div>

@@ -20,7 +20,7 @@ $(document).ready(function(){
 
 });
 </script>
-<div class="pagecontent">
+<div class="site_container">
 <h2>Data Uploads History</h2>
 
 <a href="ImportData.jsp">Upload new data...</a>
@@ -34,6 +34,7 @@ $(document).ready(function(){
 <a style="display:none" id="hideImpData" href="javascript:" onclick="changecss('span.rawRecord','display','none');setTwoElementVisibility('showImpData','','hideImpData','none')">Hide Raw Data</a>
 </p>
 <%} %>
+</div><div class='site_container'>
 <%=table %>
 
 

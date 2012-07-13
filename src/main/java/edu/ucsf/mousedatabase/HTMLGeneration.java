@@ -128,22 +128,23 @@ public class HTMLGeneration {
 
     // Page header
     table.append("<div id=\"pageHeaderContainer\" class='clearfix'>");
+    table.append("<div class='site_container'>");
     table.append("<div id=\"pageTitleContainer\">");
-    table.append("<div>");
+    table.append("<div>"); //pagetitle
     table.append("<span id=\"pageTitle\">" +
         "<a href='" + siteRoot + "'>" + SiteName + "</a></span>");
     table.append("</div>");
-    // About, faq, contact links
-    table.append("<div>");
+    
+    table.append("<div>"); // About, faq, contact links
     table.append("<span class=\"titleSubText\">");
     table.append("<a href=\"" + siteRoot
-        + "about.jsp\">About</a>&nbsp;");
+        + "about.jsp\">Home</a>&nbsp;");
     // table.append("&nbsp;<a href=\""+siteRoot+"faq.jsp\">FAQ</a>&nbsp;");
     table.append("&nbsp;<a href=\"" + siteRoot
         + "contact.jsp\">Submit Feedback</a>");
     table.append("</span>");
-    table.append("</div>");
-    table.append("</div>");
+    table.append("</div>"); // About, faq, contact links
+    table.append("</div>"); //pagetitle
     // Quick Search bar
     if (currentPageFilename == null || !currentPageFilename.equals("search.jsp"))
     {
@@ -160,13 +161,16 @@ public class HTMLGeneration {
       table.append("</div>");
 
     }
-    table.append("</div>");
+    table.append("</div>"); //pagetitlecontainer
+    table.append("</div>"); //pageheader
+    table.append("</div>"); //pageheadercontainer
     // Navigation Bar
     table.append("<div id=\"navigationLinksContainer\" class='clearfix'>");
+    table.append("<div id='navigationLinks' class='site_container'>");
     table.append("<ul class=\"navLinkUL\">");
     table.append(addNavLink("Search", "search.jsp", null,
         currentPageFilename, false,"nav-search-link"));
-    table.append(addNavLink("Mouse List", "MouseReport.jsp", null,
+    table.append(addNavLink("Mouse Records", "MouseReport.jsp", null,
         currentPageFilename, false,"nav-mouselist"));
     table.append(addNavLink("Gene List", "GeneReport.jsp", null,
         currentPageFilename, false));
@@ -178,14 +182,23 @@ public class HTMLGeneration {
     // null,currentPageFilename,false));
     table.append(addNavLink("Submit Mice", "submitforminit.jsp", null,
         currentPageFilename, false));
-    table.append(addNavLink("Admin use only", "admin.jsp", null,
-        isAdminPage ? "admin.jsp" : currentPageFilename, true, "pull-right small"));
+    if (isAdminPage && showAdminControls){
+      table.append(addNavLink("Log out", "logout.jsp", null,
+          currentPageFilename, false,"pull-right small"));
+    }
+    else {
+      table.append(addNavLink("Admin use only", "admin.jsp", null,
+          isAdminPage ? "admin.jsp" : currentPageFilename, true, "pull-right small"));
+    }
+    
     table.append("</ul>");
-    table.append("</div>");
+    table.append("</div>"); //navigationlinks
+    table.append("</div>"); //navigationlinkscontainer
 
     // Admin Row
     if (isAdminPage && showAdminControls) {
       table.append("<div id=\"adminLinksContainer\" class='clearfix'>");
+      table.append("<div id='adminLinks' class='site_container'>");
       table.append("<ul class=\"navLinkUL\">");
       table.append(addNavLink("Admin Home", "admin.jsp", null,
           currentPageFilename, true));
@@ -203,13 +216,12 @@ public class HTMLGeneration {
           currentPageFilename, true));
       table.append(addNavLink("Reports", "Reports.jsp", null,
           currentPageFilename, true));
-      table.append(addNavLink("Log out", "logout.jsp", null,
-          currentPageFilename, false));
       table.append("</ul>");
-      table.append("</div>");
+      table.append("</div>"); //adminlinks
+      table.append("</div>"); //adminlinkscontainer
     }
 
-    table.append("</div>");
+    table.append("</div>"); //navbarcontainer
     return table.toString();
   }
 
@@ -458,16 +470,14 @@ public class HTMLGeneration {
 
     // boolean MGIConnectionAvailable = true;
 
-    // Mutant Allele and Transgenic mice
-    if (r.getMouseType().equalsIgnoreCase("Mutant Allele")
-        || r.getMouseType().equalsIgnoreCase("Transgenic")) {
-      if (r.getMouseType().equalsIgnoreCase("Mutant Allele")) {
+    // Mutant Allele and Transgene mice
+    if (r.isMA() || r.isTG()) {
+      if (r.isMA()) {
         // Gene Section
         String mgiID = r.getGeneID();
         if ((mgiID == null || mgiID.isEmpty())
             && sub != null
-            && (sub.getMAMgiGeneID() != null && !sub
-                .getMAMgiGeneID().isEmpty())) {
+            && (sub.getMAMgiGeneID() != null && !sub.getMAMgiGeneID().isEmpty())) {
           mgiID = sub.getMAMgiGeneID();
         }
 
@@ -531,8 +541,7 @@ public class HTMLGeneration {
           "Modification Type",
           genRadio("modificationType", values,
               r.getModificationType(), "onChange=\"UpdateModificationTypeEdit()\""),
-           "style=\""  + rowVisibility(r.getMouseType().equalsIgnoreCase(
-                  "mutant allele")) + "\"", "editMouseRow");
+           "style=\""  + rowVisibility(r.isMA()) + "\"", "editMouseRow");
 
       // Expressed Sequence section
       String[] exprSeqValues = { "Reporter", "Cre",
@@ -543,18 +552,14 @@ public class HTMLGeneration {
           genRadio("expressedSequence", exprSeqValues,
               r.getExpressedSequence(), "onChange=\"UpdateExpressedSequenceEdit()\""),
           "id=\"trExprSeqRow\" style=\""
-              + rowVisibility(r.getMouseType().equalsIgnoreCase(
-                  "Transgenic")
-                  || (r.getModificationType() != null && r
-                      .getModificationType()
-                      .equalsIgnoreCase("targeted knock-in"))) + "\"",
+              + rowVisibility(r.isTG() || (r.getModificationType() != null 
+                && r.getModificationType().equalsIgnoreCase("targeted knock-in"))) + "\"",
           "editMouseRow");
 
       String mgiID = r.getTargetGeneID();
       if ((mgiID == null || mgiID.isEmpty())
           && sub != null
-          && (sub.getTGMouseGene() != null && !sub.getTGMouseGene()
-              .isEmpty())) {
+          && (sub.getTGMouseGene() != null && !sub.getTGMouseGene().isEmpty())) {
         mgiID = sub.getTGMouseGene();
       }
       // Mouse Gene section
@@ -654,7 +659,7 @@ public class HTMLGeneration {
               + "\"", "editMouseRow", "trDescRow");
 
       // Regulatory Element
-      if (r.getMouseType().equalsIgnoreCase("Transgenic")) {
+      if (r.isTG()) {
         field = "<textarea id=\"regulatoryElement\" name=\"regulatoryElement\" rows=\"2\" cols=\"40\" >"
           + emptyIfNull(r.getRegulatoryElement()) + "</textarea>\r\n";
         getInputRow(buf, "Regulatory Element", field,null, "editMouseRow");
@@ -665,10 +670,10 @@ public class HTMLGeneration {
     buf.append("</div>\r\n");
     buf.append("<div class=\"editMouseFormRightColumn\">");
     buf.append("<table class=\"editMouseColumn\">\r\n");
-    if (r.getMouseType().equalsIgnoreCase("Mutant Allele")
-        || r.getMouseType().equalsIgnoreCase("Transgenic")) {
+    if (r.isMA()
+        || r.isTG()) {
       // Allele or Transgene MGI ID
-      String mgiType = r.getMouseType().equalsIgnoreCase("mutant allele") ? "Allele"
+      String mgiType = r.isMA() ? "Allele"
           : "Transgene";
 
       String mgiID = r.getRepositoryCatalogNumber();
@@ -700,7 +705,7 @@ public class HTMLGeneration {
         if (r.getSource() == null || r.getSource().isEmpty()
             || officialMouseName == null
             || officialMouseName.isEmpty()) {
-          if (r.getMouseType().equalsIgnoreCase("mutant allele")) {
+          if (r.isMA()) {
             mouseResult = MGIConnect
                 .doMGIQuery(
                     mgiID,
@@ -840,7 +845,7 @@ public class HTMLGeneration {
         + emptyIfNull(r.getGeneralComment()) + "</textarea>\r\n";
     getInputRow(buf, "Comment", field, null, "editMouseRow");
     buf.append("<tr class=editMouseRow><td colspan=2>To make links, use [URL]http://example.com[/URL].  For bold, use [B]bold text here[/B]</td></tr>");
-    // if (r.getMouseType().equalsIgnoreCase("transgenic"))
+    // if (r.isTG())
     // {
     // String[] transgenicTypes = { "Random Insertion" };
     // field = genSelect("transgenicType", transgenicTypes,
@@ -858,8 +863,8 @@ public class HTMLGeneration {
     // getInputRow(buf, "Cryopreserved only? (DEPRECATED)", field, null,
     // "editMouseRow");
 
-    if (r.getMouseType().equalsIgnoreCase("Mutant Allele")
-        || r.getMouseType().equalsIgnoreCase("Transgenic")) {
+    if (r.isMA()
+        || r.isTG()) {
       field = "<textarea name=\"backgroundStrain\" rows=\"10\" cols=\"60\"  >"
           + emptyIfNull(r.getBackgroundStrain()) + "</textarea>\r\n";
       getInputRow(buf, "Background Strain", field, null, "editMouseRow");
@@ -1129,10 +1134,8 @@ public class HTMLGeneration {
       if (nextSubmission.getMouseType() != null) {
         table.append("<dt class='mouseType'>\r\n"
             + nextSubmission.getMouseType());
-        if (nextSubmission.getMouseType()
-            .equalsIgnoreCase("transgenic")) {
-          if (nextSubmission.getTransgenicType().equalsIgnoreCase(
-              "knock-in")) {
+        if (nextSubmission.isTG()) {
+          if (nextSubmission.getTransgenicType().equalsIgnoreCase("knock-in")) {
             table.append(" - <b>Knock-in</b></dt>\r\n");
           } else if (nextSubmission.getTransgenicType()
               .equalsIgnoreCase("random insertion")) {
@@ -1186,14 +1189,12 @@ public class HTMLGeneration {
             // .getTargetGeneName(), nextSubmission
             // .getTargetGeneID()));
 
-          } else if (nextSubmission.getTransgenicType()
-              .equalsIgnoreCase("random insertion")) {
+          } else if (nextSubmission.getTransgenicType().equalsIgnoreCase("random insertion")) {
             table.append("<dt><b>Regulatory element:</b> "
                 + nextSubmission.getTGRegulatoryElement()
                 + "</dt>\r\n");
           }
-        } else if (nextSubmission.getMouseType().equalsIgnoreCase(
-            "mutant allele")) {
+        } else if (nextSubmission.isMA()) {
           table.append("</dt>\r\n");
           table.append("<dd>"
               + formatMGI(nextSubmission.getMAMgiGeneID())
@@ -1300,9 +1301,7 @@ public class HTMLGeneration {
       table.append("<td valign='top'>\r\n");
       table.append("<dl>\r\n");
       if (nextSubmission.getMouseType() != null
-          && (nextSubmission.getMouseType().equalsIgnoreCase(
-              "transgenic") || nextSubmission.getMouseType()
-              .equalsIgnoreCase("mutant allele"))) {
+          && (nextSubmission.isTG() || nextSubmission.isMA())) {
         String source = "";
         if (nextSubmission.getOfficialSymbol() == null
             || nextSubmission.getOfficialSymbol().equals("")) {
@@ -1502,9 +1501,8 @@ public class HTMLGeneration {
 
       // SECOND COLUMN - category
       table.append("<td class='mouselistcolumn-category'><dl>\r\n");
-      table.append("<dt class='mouseType'>\r\n<span class='lbl'>"
-          + nextRecord.getMouseType() + "</span>");
-      if (nextRecord.getMouseType().equalsIgnoreCase("transgenic")) {
+      table.append("<dt class='mouseType'>\r\n<span class='lbl'>" + nextRecord.getMouseType() + "</span>");
+      if (nextRecord.isTG()) {
         if (nextRecord.getExpressedSequence() != null) {
           if (nextRecord.getExpressedSequence().equalsIgnoreCase(
               "mouse gene")
@@ -1547,8 +1545,7 @@ public class HTMLGeneration {
           table.append("<dt><b><span class='lbl'>Regulatory element:</span></b> "
               + nextRecord.getRegulatoryElement() + "</dt>\r\n");
         }
-      } else if (nextRecord.getMouseType().equalsIgnoreCase(
-          "mutant allele")) {
+      } else if (nextRecord.isMA()) {
         table.append("</dt>\r\n");
         table.append(formatGene(nextRecord.getGeneSymbol(),
             nextRecord.getGeneName(), nextRecord.getGeneID()));
@@ -1610,9 +1607,8 @@ public class HTMLGeneration {
       // COLUMN - details (transgenic and mutant allele)
       table.append("<td class='mouselistcolumn-details'>\r\n");
       table.append("<dl>\r\n");
-      if (nextRecord.getMouseType().equalsIgnoreCase("transgenic")
-          || nextRecord.getMouseType().equalsIgnoreCase(
-              "mutant allele")) {
+      if (nextRecord.isTG()
+          || nextRecord.isMA()) {
         String source = "";
         if (nextRecord.getSource() == null
             || nextRecord.getSource().equals("")) {
@@ -2531,7 +2527,7 @@ public class HTMLGeneration {
   public static String getMouseTypeSelectWithParams(String current,
       String selectParams) {
     String name = "MouseType";
-    String[] values = { "Select one", "Mutant Allele", "Transgenic",
+    String[] values = { "Select one", "Mutant Allele", "Transgene",
         "Inbred Strain" };
     return genSelect(name, values, current, selectParams);
   }
@@ -2636,7 +2632,7 @@ public class HTMLGeneration {
   public static String getMouseTypeRadioWithParams(String current,
       String selectParams) {
     String name = "mouseType";
-    String[] values = { "Mutant Allele", "Transgenic", "Inbred Strain" };
+    String[] values = { "Mutant Allele", "Transgene", "Inbred Strain" };
     return genRadio(name, values, current, selectParams);
   }
 
@@ -2727,7 +2723,7 @@ public class HTMLGeneration {
           + (searchTerms != null ? "value=\"" + searchTerms + "\""
               : "") + "></td></tr>");
     }
-    buf.append("<tr><td>Type:</td>");
+    buf.append("<tr><td>Category:</td>");
     buf.append("<td><input type=\"radio\" name=\"mousetype_id\" value=\"-1\" "
         + checked + ">All</td>");
     for (MouseType type : mouseTypes) {

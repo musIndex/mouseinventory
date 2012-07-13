@@ -36,9 +36,33 @@ ul.navLinkUL {
 }
 
 #pageHeaderContainer {
-  padding: 1px 5px;
+  padding: 1px 0px;
   background-color: #77aaaa;
 }
+
+
+
+@media all and (min-width: 1601px) {
+  .site_container {
+    width: 1520px;
+  }
+}
+
+@media all and (min-width: 1041px) and (max-width: 1600px) {
+  .site_container {
+    margin: 0px 40px !important;
+  }
+}
+@media all and (max-width: 1040px){
+  .site_container {
+    width: 940px;
+  }
+}
+
+.site_container {
+  margin: 0px auto;
+}
+
 
 #pageTitleContainer {
   float: left;
@@ -52,30 +76,27 @@ ul.navLinkUL {
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.25);
 }
 
+.titleSubText {
+  line-height: 25px;
+}
+
 .titleSubText a {
-  font-size: 11px;
-  line-height: 13px;
-  background-color: lavender;
-  color: #6C136C;
+  font-size: 12px;
+  background-color: #E7E7F5;
   border-radius: 3px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
-  padding: 1px 3px;
+  padding: 1px 5px;
 }
 
 .titleSubText a:hover {
-  background-color: grey;
+  background-color: lightgrey;
   text-decoration:none;
-}
-
-.titleSubText a:visited {
-  color: #6C136C;
 }
  
 #quickSearchContainer {
-  position:absolute;
-  right:6px;
-  top:6px;
+  float:right;
+  margin-right:6px;
 }
 
 .searchButton {
@@ -113,22 +134,19 @@ ul.navLinkUL {
 
 #navigationLinksContainer,
 #adminLinksContainer {
-  -moz-background-clip: border;
-  -moz-background-inline-policy: continuous;
-  -moz-background-origin: padding;
   font-size: 15px;
-  line-height: 23px;
-  min-width: 800px;
   margin: 0px;
   padding: 0;
 }
 #navigationLinksContainer {
-  background: #99bbcc none repeat scroll 0 0;
+  background-color: #99bbcc;
 }
 
 #adminLinksContainer {
-  background: #666699 none repeat scroll 0 0;
+  background-color: #666699;
 }
+
+
 
 #submissionLinksContainer {
   -moz-background-clip: border;
@@ -144,24 +162,46 @@ ul.navLinkUL {
 }
 
 .NavLinkItem {
-  margin: 0 3px 0 0;
+  margin: 3px 3px 3px 0px;
   padding: 0;
   list-style-type: none;
   float: left;
- 
+  border-radius: 4px;
+  moz-border-radius: 4px;
+  border: 2px solid transparent;
 }
 .NavLinkItem.current,
-.NavLinkItem.nav-search-link.current,
 .NavLinkItem.nav-mouselist.current {
-  background: #335599;
+  background-color: #335599;
+  border: 2px solid #E6E6E6;
 }
 
-.NavLinkItem.nav-search-link {
+#navigationLinks li:nth-child(1) {
   background-color: #408DE0;
 }
 
-.NavLinkItem.nav-mouselist {
+#navigationLinks li:nth-child(2) {
   background-color: #9460CC;
+}
+
+#navigationLinks li:nth-child(3) {
+  background-color: #B1B62C;
+}
+
+#navigationLinks li:nth-child(4) {
+  background-color: #C75E6A;
+}
+
+#navigationLinks li:nth-child(5) {
+  background-color: #BB8F59;
+}
+
+#navigationLinks li:nth-child(6) {
+  background-color: #B83884;
+}
+
+#adminLinks li {
+  background-color: #4DA0C0;
 }
 
 .NavLinkItem.pull-right {
@@ -174,8 +214,9 @@ ul.navLinkUL {
   font-size: 12px;
 }
 
-li.NavLinkItem:hover {
-  background-color: #00008B;
+#navigationLinks li:hover,
+#adminLinks li:hover {
+  background-color: #00008B !important;
 }
 
 a.navBarAnchor {
@@ -277,9 +318,6 @@ tr.formFieldAlt {
 }
 
 .formbody {
-  margin: auto;
-  margin-top: 10px;
-  width: 920px;
   background-color: #CDC9A5;
   padding: 5px;
 }
@@ -429,27 +467,37 @@ th {
   font-weight: bold;
 }
 
-.pagecontent-leftaligned {
-  padding: 5px;
+.whatsnew {
+  float: right;
+  width: 35%;
+  margin-right: 10px;
 }
 
-.pagecontent { 
-  padding: 5px;
+.whatsnew h3:nth-child(1){
+  margin-top:5px;
 }
 
 .about {
-  float: left;
-  width: 600px;
+  float:left;
+  width:60%;
 }
 
-.whatsnew {
-  float: right;
-  width: 400px;
+.about-summary {
+  margin-top: 5px;
+  border: 1px solid #F0D5A4;
+  background-color: #F8F8E1;
+  padding: 10px;
+  border-radius: 5px;
+  moz-border-radius: 5px;
 }
 
-.textwrapper {
-  margin-left: 30px;
-  width: 1020px;
+.about-summary h2:nth-child(1) {
+  margin-top:0px;
+}
+
+
+.about-summary a {
+  font-size: 120%;
 }
 
 .borderbox {
@@ -507,9 +555,7 @@ span.importAction {
 }
 
 div.holderData {
-  width: 750px;
-  position: absolute;
-  left: 490px;
+  
   line-height: 14px;
 }
 

@@ -151,7 +151,7 @@
 
 
 %>
-<div class="pagecontent">
+<div class="site_container">
 <% if(!ok || fieldMissing) { %>
 
 <font color="red" size="3"><%= err %></font>

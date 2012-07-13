@@ -7,7 +7,7 @@
 Log.Info("Admin logging in");
 %>
 
-<div class="pagecontent centered">
+<div class="site_container centered">
   <br>
   <br>
   <form style="width:400px" class="centered-left" id="loginform" name="loginform" action="j_security_check" method="post">

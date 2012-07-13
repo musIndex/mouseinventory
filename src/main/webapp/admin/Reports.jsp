@@ -67,7 +67,7 @@ private String getAllRecordsPDFLink(){
    String otherInstitutionsUnpublishedReportSelector = getReportSelector(ImportObjectType.OTHERINSTITUTIONSUNPUBLISHED,"importReportId-otherinstitutions_unpub");
 
 %>
-<div class="pagecontent">
+<div class="site_container">
 
 <h2>Reports</h2>
 <%=getReportForm(ReportServlet.PPTChangeRequestImportReportName,"Change requests created by PI-to-PI transfer data uploads.","Select report: " + pptReportSelector,"upload-tdu" ) %>
