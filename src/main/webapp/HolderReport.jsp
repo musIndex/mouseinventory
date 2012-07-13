@@ -18,9 +18,10 @@
           <a href="HolderReport.jsp?orderby=datevalidated">Date reviewed,</a>
           <a href="HolderReport.jsp?orderby=count">Mice Held</a></p>
 
-<div style="width: 700px;"><b>
+<div style="width: 720px;"><b>
 'Last review date' shows when the most recent update of the list of mice held by each investigator
 was carried out.</b>
+<br>
 <br>To perform a review and notify admin that it has been done,
 go to the page listing the mice held by an individual investigator (click on the
 number in the last column on the right).
