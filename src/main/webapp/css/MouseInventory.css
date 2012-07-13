@@ -469,9 +469,31 @@ th {
   margin-right: 10px;
 }
 
+.whatsnew h3:nth-child(1){
+  margin-top:5px;
+}
+
 .about {
   float:left;
   width:60%;
+}
+
+.about-summary {
+  margin-top: 5px;
+  border: 1px solid #F0D5A4;
+  background-color: #F8F8E1;
+  padding: 10px;
+  border-radius: 5px;
+  moz-border-radius: 5px;
+}
+
+.about-summary h2:nth-child(1) {
+  margin-top:0px;
+}
+
+
+.about-summary a {
+  font-size: 120%;
 }
 
 .borderbox {

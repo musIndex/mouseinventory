@@ -33,9 +33,9 @@
     </div>
   </div>
 <div class='about'>
+<div class='about-summary'>
 <h2>About the UCSF Mouse Inventory Database</h2>
 <ol>
-  <li><a href="#faq">FAQ</a></li>
   <li><a href="#introduction">Introduction</a></li>
   <li><a href="#purpose">Purpose</a></li>
   <li><a href="#how">How mice are listed</a></li>
@@ -43,25 +43,12 @@
   <li><a href="#search">Search and sort functions</a></li>
   <li><a href="#submitting">Submitting mice, adding/removing
   holders, and other changes to information in the inventory</a></li>
+  <li><b><a href="#faq">FAQ</a></b></li>
   <li><a href="#disclaimer">Disclaimer</a></li>
 </ol>
+</div>
 
-
-<h2 id="faq">Frequently Asked Questions</h2>
-
-<ul>
-  <li><a href="faq.jsp">Who has access to the UCSF mouse inventory database?</a></li>
-  <li><a href="faq.jsp">Are investigators required to list all the mice in their colonies?</a></li>
-  <li><a href="faq.jsp">Does listing a mouse in the database obligate an investigator to provide
-  it to other investigators at UCSF?</a></li>
-  <li><a href="faq.jsp">Should unpublished mice be entered?</a></li>
-  <li><a href="faq.jsp">If a mouse was originally obtained pursuant to a material transfer agreement (MTA),
-  or if a mouse was produced at UCSF using materials obtained pursuant to an MTA, can the mouse
-  (or its descendants) be passed to another investigator at UCSF without completing a new MTA?</a></li>
-</ul>
-
-
-<h2 id="introduction">Introduction</h2>
+<h3 id="introduction">Introduction</h3>
 <p>The Mouse Inventory Database is a web application consisting of
 Java Server Pages (JSP) running under Nginx/Tomcat, custom Java
 libraries, and a MySQL database.  JavaScript must be enabled to access
@@ -83,7 +70,7 @@ all features of the database.</p>
 
 
 
-<h2 id="purpose">Purpose</h2>
+<h3 id="purpose">Purpose</h3>
 
 <p>The purpose of the Mouse Inventory Database is to provide the
 university community with a central online resource that describes mice
@@ -140,7 +127,7 @@ is classified in one of three categories:</p>
 </dl>
 
 <br>
-<h2 id="info">Information provided about each mouse</h2>
+<h3 id="info">Information provided about each mouse</h3>
 
 <p>All entries (records) in the Inventory can be viewed by clicking on 'Mouse
 List'. Each record includes the 'informal' mouse name provided
@@ -188,7 +175,7 @@ or Pubmed, respectively.</p>
 <p>When it has been provided, there is information about the
 background strain of the mutant allele/transgene.</p>
 <br>
-<h2 id="search">Sort and Search functions</h2>
+<h3 id="search">Sort and Search functions</h3>
 <p>On the '<b>Mouse List</b>' page, the mode of display of
 records can be selected: view all, or view records in only one of the
 three categories. The records can be sorted by Mouse Inventory
@@ -210,9 +197,9 @@ the mice maintained by that holder.</p>
 
 <br>
 <br>
-<h2 id="submitting">Submitting mice, adding or deleting a
+<h3 id="submitting">Submitting mice, adding or deleting a
 holder for a particular mouse, or making other modifications to
-information in the Inventory</h2>
+information in the Inventory</h3>
 <p>Only the administrator(s) of the Mouse Inventory Database can
 make changes to the data that are on display in the database.</p>
 
@@ -249,7 +236,24 @@ the Inventory Administrator will generate a record for the mouse in the
 database or make the requested alterations in holders or other
 information about a mouse.</p>
 <br>
-<h2 id="disclaimer">Disclaimer:</h2>
+<br>
+
+<h3 id="faq">Frequently Asked Questions</h3>
+
+<ul>
+  <li><a href="faq.jsp">Who has access to the UCSF mouse inventory database?</a></li>
+  <li><a href="faq.jsp">Are investigators required to list all the mice in their colonies?</a></li>
+  <li><a href="faq.jsp">Does listing a mouse in the database obligate an investigator to provide
+  it to other investigators at UCSF?</a></li>
+  <li><a href="faq.jsp">Should unpublished mice be entered?</a></li>
+  <li><a href="faq.jsp">If a mouse was originally obtained pursuant to a material transfer agreement (MTA),
+  or if a mouse was produced at UCSF using materials obtained pursuant to an MTA, can the mouse
+  (or its descendants) be passed to another investigator at UCSF without completing a new MTA?</a></li>
+</ul>
+
+<br><br>
+
+<h3 id="disclaimer">Disclaimer:</h3>
 
 <p>The accuracy of all information about a mouse is the
 responsibility of the individual who submitted the data. Information
