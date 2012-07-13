@@ -15,4 +15,5 @@ public class MouseType {
   public void setTypeName(String typeName) {
     this.typeName = typeName;
   }
+
 }

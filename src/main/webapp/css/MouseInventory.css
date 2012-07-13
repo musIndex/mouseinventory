@@ -36,13 +36,14 @@ ul.navLinkUL {
 }
 
 #pageHeaderContainer {
-  padding: 1px 5px;
+  padding: 1px 0px;
   background-color: #77aaaa;
 }
 
 #pageHeader {
-  width: 1040px;
-  margin: auto;
+  min-width: 940px;
+  max-width: 1400px;
+  margin: 0px 5%;
 }
 
 #pageTitleContainer {
@@ -129,8 +130,9 @@ ul.navLinkUL {
 
 #navigationLinks,
 #adminLinks {
-  width:1040px;
-  margin:auto;
+  min-width: 940px;
+  max-width: 1400px;
+  margin: 0px 5%;
 }
 
 #submissionLinksContainer {
@@ -303,9 +305,6 @@ tr.formFieldAlt {
 }
 
 .formbody {
-  margin: auto;
-  margin-top: 10px;
-  width: 920px;
   background-color: #CDC9A5;
   padding: 5px;
 }
@@ -455,23 +454,24 @@ th {
   font-weight: bold;
 }
 
+.pagecontent,
 .pagecontent-leftaligned,
 .pagecontent.pagecontent-leftaligned {
-  padding: 5px;
-  width:100%;
-  margin:0px;
-}
-
-.pagecontent { 
   padding: 5px 0px;
-  width: 1040px;
-  margin: auto;
+  min-width: 940px;
+  max-width: 1400px;
+  margin: 0px 5%;
 }
 
 .whatsnew {
   float: right;
-  width: 400px;
+  width: 35%;
   margin-right: 10px;
+}
+
+.about {
+  float:left;
+  width:60%;
 }
 
 .borderbox {
@@ -529,9 +529,8 @@ span.importAction {
 }
 
 div.holderData {
-  width: 750px;
-  position: absolute;
-  left: 490px;
+  width: 600px;
+  float: right;
   line-height: 14px;
 }
 

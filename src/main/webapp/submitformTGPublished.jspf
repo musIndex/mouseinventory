@@ -217,7 +217,7 @@
 
 <tr class="formField">
   <td valign="top" class="firstColumn">
-    <b>Background strain</b> of transgenic mouse.
+    <b>Background strain</b> of transgene mouse.
     <br>
     Enter only defined background strains (i.e. do not enter 'mixed' or 'not known').
     <br>

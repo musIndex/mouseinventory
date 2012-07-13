@@ -17,9 +17,9 @@ New Submission category:
 <%=HTMLGeneration.isChecked(newMouse.isMA()) %> />
 Mutant Allele
 <br/>
-<input type="radio" value="Transgenic" name="mouseType"
+<input type="radio" value="Transgene" name="mouseType"
 <%=HTMLGeneration.isChecked(newMouse.isTG()) %>/>
-Transgenic
+Transgene
 <br/>
 <input type="radio" value="Inbred Strain" name="mouseType"
 <%=HTMLGeneration.isChecked(newMouse.isIS()) %> />

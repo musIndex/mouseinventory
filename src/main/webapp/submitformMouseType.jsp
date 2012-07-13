@@ -24,7 +24,7 @@
 %>
 
 <div class="formbody">
-<div class="introduction"><div style="width:650px">
+<div class="introduction"><div style="width:850px">
 <h2>New Submission Step 2: Choose Mouse Category</h2>
 <a href="submitforminit.jsp">Back to step 1</a>
 <br>
@@ -61,7 +61,7 @@ New Submission category:
 <input type="radio"  value="Mutant Allele" name="mouseType" <%=HTMLGeneration.isChecked(newMouse.isMA()) %>onclick="UpdateSelectedMouseType()" />
 Mutant Allele
 <br/>
-<input type="radio" value="Transgenic" name="mouseType" <%=HTMLGeneration.isChecked(newMouse.isTG()) %>onclick="UpdateSelectedMouseType()"/>
+<input type="radio" value="Transgene" name="mouseType" <%=HTMLGeneration.isChecked(newMouse.isTG()) %>onclick="UpdateSelectedMouseType()"/>
 Transgene
 <br/>
 <input type="radio" value="Inbred Strain" name="mouseType" <%=HTMLGeneration.isChecked(newMouse.isIS()) %> onclick="UpdateSelectedMouseType()"/>

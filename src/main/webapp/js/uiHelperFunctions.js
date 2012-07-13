@@ -203,7 +203,7 @@ function UpdateSelectedMouseType()
       setElementVisibility("nextButton", "block");
     }
   }
-  else if (mouseType == "Transgenic")
+  else if (mouseType == "Transgene")
   {
     setElementVisibility("nextButton", "none");
     //setElementVisibility("transgenicTypes", "");
@@ -237,7 +237,7 @@ function UpdateSelectedMouseTypeOld() {
     }
   }
   setElementVisibility("MutantAllele", "none");
-  setElementVisibility("Transgenic", "none");
+  setElementVisibility("Transgene", "none");
   setElementVisibility("InbredStrain", "none");
   //setElementVisibility("OfficialSymbol", "none");
 
@@ -247,9 +247,9 @@ function UpdateSelectedMouseTypeOld() {
     setElementVisibility("MutantAllele", "block");
     //setElementVisibility("OfficialSymbol", "block");
   }
-  else if(chosen == "Transgenic")
+  else if(chosen == "Transgene")
   {
-    setElementVisibility("Transgenic", "block");
+    setElementVisibility("Transgene", "block");
     //setElementVisibility("OfficialSymbol", "block");
   }
   else if (chosen == "Inbred Strain")

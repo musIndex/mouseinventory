@@ -292,7 +292,7 @@ public class MGIConnect {
             }
             else if (value.startsWith("Transgenic"))
             {
-              sub.setMouseType("Transgenic");
+              sub.setMouseType("Transgene");
               sub.setTransgenicType("undetermined");
               sub.setTGExpressedSequence("undetermined");
               //extract from 'Transgenic (Reporter)'

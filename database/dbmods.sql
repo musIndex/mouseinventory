@@ -143,3 +143,5 @@ alter table import_new_objects add column object_data text;
 #33 - add alternate lab manager name
 alter table holder add column alternate_name varchar(80);
 
+#34 - Transgenic -> Transgene
+update mousetype set mousetype='Transgene' where mousetype='Transgenic';
