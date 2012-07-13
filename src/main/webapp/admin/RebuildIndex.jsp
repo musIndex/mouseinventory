@@ -13,7 +13,7 @@
      %>
 
   
-<div class="pagecontent">
+<div class="site_container">
 <h2>Rebuild Search Index</h2>
 <% if(rebuild) { %>
 

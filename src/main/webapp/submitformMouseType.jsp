@@ -9,7 +9,7 @@
 <jsp:setProperty property="*" name="newMouse"/>
 <jsp:useBean id="submitterData" class="edu.ucsf.mousedatabase.beans.UserData" scope="session"></jsp:useBean>
 <jsp:setProperty property="*" name="submitterData"/>
-<div class="pagecontent">
+<div class="site_container">
 <%
 
   if(!submitterData.ValidateContactInfo())
@@ -24,12 +24,12 @@
 %>
 
 <div class="formbody">
-<div class="introduction"><div style="width:650px">
+<div class="introduction"><div style="width:850px">
 <h2>New Submission Step 2: Choose Mouse Category</h2>
 <a href="submitforminit.jsp">Back to step 1</a>
 <br>
-<p>For the mouse you want to submit, please select a category from the three choices listed,
-then complete the rest of the page.</p>
+<p>For the mouse you want to submit, please select a category from the three choices listed.
+For mutant alleles or transgenes, respond to the query about publication.</p>
 <p>
 <b><span class=red>Choose 'Mutant Allele'</span></b> when a gene in the mouse has been modified in some way
 (e.g. targeted disruption such as replacement with a neo cassette; creation of a floxed allele
@@ -61,7 +61,7 @@ New Submission category:
 <input type="radio"  value="Mutant Allele" name="mouseType" <%=HTMLGeneration.isChecked(newMouse.isMA()) %>onclick="UpdateSelectedMouseType()" />
 Mutant Allele
 <br/>
-<input type="radio" value="Transgenic" name="mouseType" <%=HTMLGeneration.isChecked(newMouse.isTG()) %>onclick="UpdateSelectedMouseType()"/>
+<input type="radio" value="Transgene" name="mouseType" <%=HTMLGeneration.isChecked(newMouse.isTG()) %>onclick="UpdateSelectedMouseType()"/>
 Transgene
 <br/>
 <input type="radio" value="Inbred Strain" name="mouseType" <%=HTMLGeneration.isChecked(newMouse.isIS()) %> onclick="UpdateSelectedMouseType()"/>

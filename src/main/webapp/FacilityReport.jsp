@@ -8,7 +8,7 @@
   ArrayList<Facility> facilities = DBConnect.getAllFacilities(false);
   String table = HTMLGeneration.getFacilityTable(facilities,false);
 %>
-<div class="pagecontent">
+<div class="site_container">
 <h2>Facility List</h2>
 <%=table%>
 </div>

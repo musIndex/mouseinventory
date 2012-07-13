@@ -3,9 +3,9 @@
 <%=HTMLGeneration.getPageHeader(null, false,false,"onload=\"setFocus('quickSearchForm', 'searchterms')\"") %>
 <%=HTMLGeneration.getNavBar("contact.jsp", false) %>
 
-<div class="pagecontent">
-    <h2>Contact info</h2>
+<div class="site_container">
+    <h2>Submit Feedback</h2>
 
-Contact <a href="mailto:<%=HTMLGeneration.AdminEmail %>">Mouse Inventory Administrator</a><br>
+Contact Adriane Joo, Ph.D., <a href="mailto:<%=HTMLGeneration.AdminEmail %>">UCSF Mouse Inventory Database Administrator</a><br>
 
 </div>

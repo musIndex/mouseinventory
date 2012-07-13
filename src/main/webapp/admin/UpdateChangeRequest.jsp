@@ -32,7 +32,7 @@
      if(updateCommand == null || updateCommand.isEmpty() || !(updateCommand.equals("Complete Change Request") || updateCommand.equals("Move to Pending")))
      {
        %>
-    <div class="pagecontent">
+    <div class="site_container">
     <h3>ERROR: No valid command received</h3>
     </div>
     <%
@@ -108,7 +108,7 @@
      }
 
 %>
-<div class="pagecontent">
+<div class="site_container">
 <h2><%=pageHeader %></h2>
 <%if(errors.isEmpty())
 {

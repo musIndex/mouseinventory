@@ -13,7 +13,7 @@
   if (mouseType == null || mouseType.isEmpty())
   {
     %>
-    <div class="pagecontent">
+    <div class="site_container">
     <h2>Error - no mouse type received</h2>
     </div>
 
@@ -29,7 +29,7 @@
 %>
 
 
-<div class="pagecontent pagecontent-leftaligned">
+<div class="site_container">
 <h2>Creating new record: <%=HTMLGeneration.emptyIfNull(newMouse.getMouseName()) %> (<%= newMouse.getMouseType() %>)
 </h2>
 <h2>Record Preview:</h2>

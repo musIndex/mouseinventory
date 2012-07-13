@@ -31,7 +31,7 @@
      if(updateCommand == null || updateCommand.isEmpty() || !(updateCommand.equals("Convert to Record") || updateCommand.equals("Move to Hold")  || updateCommand.equals("Reject Submission") || updateCommand.equals("Undo conversion to Record")))
      {
        %>
-      <div class="pagecontent">
+      <div class="site_container">
       <h2>ERROR - no valid command received. Command was: <%=updateCommand %> </h2>
       </div>
       <%
@@ -71,7 +71,7 @@
         if(records.size() > 0 && mouseID < 0)
         {
           %>
-          <div class="pagecontent">
+          <div class="site_container">
           <h3>ERROR: a record has already been created for this submission.  Please do not use the back button after creating a record.</h3>
           </div>
           <%
@@ -154,7 +154,7 @@
     }
      }
 %>
-<div class="pagecontent">
+<div class="site_container">
 
 <%if(errors.isEmpty())
 {

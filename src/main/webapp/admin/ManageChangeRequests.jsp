@@ -8,7 +8,7 @@
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("ManageChangeRequests.jsp", true) %>
 
-<div class="pagecontent pagecontent-leftaligned">
+<div class="site_container">
 
 
 
@@ -50,7 +50,7 @@
     String[] filterOptionNiceNames = new String[] {"New", "Pending", "Done","All"};
 
     StringBuffer sortBuf = new StringBuffer();
-    sortBuf.append("<form action=\"ManageChangeRequests.jsp\" method=\"post\">");
+    sortBuf.append("<form action=\"ManageChangeRequests.jsp\" method=\"get\">");
     sortBuf.append("&nbsp;Show: ");
     sortBuf.append(HTMLGeneration.genFlatRadio("status",filterOptions,filterOptionNiceNames, status,""));
     sortBuf.append("<br>&nbsp;Sort by: ");
@@ -75,6 +75,7 @@
 <h4><%= kount %> found.</h4>
 <%= updateMessage %>
 <%= sortBuf.toString() %>
+
 <%= newTable.toString() %>
 
 </div>

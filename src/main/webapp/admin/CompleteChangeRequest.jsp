@@ -14,7 +14,7 @@
   if (request.getParameter("id") == null)
   {
     %>
-    <div class="pagecontent">
+    <div class="site_container">
     <h2>No change request specified</h2>
     </div>
     <%
@@ -27,7 +27,7 @@
     if(requests.size() < 1)
     {
       %>
-    <div class="pagecontent">
+    <div class="site_container">
     <h2>Record #<%=requestID %> not found</h2>
     </div>
     <%
@@ -44,7 +44,7 @@
       requests = DBConnect.getChangeRequest(requestID);
       String changeRequestTable = HTMLGeneration.getChangeRequestsTable(requests,null);
     %>
-    <div class="pagecontent">
+    <div class="site_container">
     <h2>The record specified in this change request was not found.</h2>
     <p>This change request has been automatically marked as 'done', and a note has been added:</p>
     <%= changeRequestTable%>
@@ -61,7 +61,7 @@
 %>
 
 
-<div class="pagecontent pagecontent-leftaligned">
+<div class="site_container">
 <h2>Completing change request #<%=requestID %> on record #<%=record.getMouseID() %>: <%=record.getMouseName() %> (<%= record.getMouseType() %>  )
 </h2>
 <h3>Change Request:</h3>

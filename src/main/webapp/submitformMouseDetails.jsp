@@ -76,7 +76,7 @@ $(document).ready(function(){
               $("#PMID").val("");
               $("#PMIDValid").val(false);
               $("#PMIDValidation").html("");
-              notes += "NOTE: A Pubmed reference was not found for this mouse.";
+              notes += "NOTE: A Pubmed reference was not found for this mouse.  If this mouse is unpublished, please go back to step 2 and select 'unpublished'.";
               success = false;
             }
 
@@ -171,7 +171,7 @@ $(document).ready(function(){
   }
 %>
 
-<div class="pagecontent">
+<div class="site_container">
   <div class="formbody">
     <div class="introduction">
       <h2>New Submission Step 3: Mouse Details</h2>
@@ -181,7 +181,7 @@ $(document).ready(function(){
       </h3>
       <a href="submitformMouseType.jsp">Back to step 2</a>
       <br>
-      <span class=red>NOTE: if you leave this page without using the
+      <span class=red>WARNING: if you leave this page without using the
       save button at the bottom of the page, the data you entered will be
       lost</span>
       <br> If you encounter any difficulties while completing

@@ -15,7 +15,7 @@
     ArrayList<Gene> genes = DBConnect.getAllGenes(orderBy);
     String table = HTMLGeneration.getGeneTable(genes,false);
 %>
-<div class="pagecontent">
+<div class="site_container">
     <h2>Gene List</h2>
 
 <p>Sort by <a href="GeneReport.jsp?orderby=symbol">Symbol</a>,
