@@ -15,6 +15,7 @@ import javax.servlet.ServletContextListener;
 import edu.ucsf.mousedatabase.HTMLGeneration;
 import edu.ucsf.mousedatabase.Log;
 import edu.ucsf.mousedatabase.MGIConnect;
+import edu.ucsf.mousedatabase.MouseMail;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler;
 
 public class ContextListener implements ServletContextListener
@@ -80,6 +81,10 @@ public class ContextListener implements ServletContextListener
             (String)envCtx.lookup("GOOGLE_ANALYTICS_DOMAIN_SUFFIX"));
         HTMLGeneration.SiteName = (String)envCtx.lookup("MOUSEDATABASE_SITE_NAME");
         HTMLGeneration.AdminEmail = (String)envCtx.lookup("MOUSEDATABASE_ADMINISTRATOR_EMAIL");
+        
+        MouseMail.intitialize((String)envCtx.lookup("MOUSEDATABASE_SMTP_SERVER"),
+            (String)envCtx.lookup("MOUSEDATABASE_SMTP_USER"), 
+            (String)envCtx.lookup("MOUSEDATABASE_SMTP_PW"));
 
     }
     catch (NamingException e) {

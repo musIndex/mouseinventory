@@ -78,6 +78,18 @@
     <env-entry-type>java.lang.String</env-entry-type>
   </env-entry>
   <env-entry>
+    <env-entry-name>MOUSEDATABASE_SMTP_SERVER</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+  </env-entry>
+  <env-entry>
+    <env-entry-name>MOUSEDATABASE_SMTP_USER</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+  </env-entry>
+  <env-entry>
+    <env-entry-name>MOUSEDATABASE_SMTP_PW</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+  </env-entry>
+  <env-entry>
     <env-entry-name>GOOGLE_ANALYTICS_ACCOUNT</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value></env-entry-value>
