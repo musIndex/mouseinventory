@@ -80,7 +80,7 @@ public class DBConnect {
     "left join facility on t1.facility_id=facility.id \r\n";
 
   private static final String geneQueryHeader = "SELECT id,fullname,symbol,mgi \r\n FROM gene\r\n ";
-
+  
   private static final String mouseIDSearchTermsRegex = "^(#[0-9]+,?\\s*)+$";
 
 
@@ -1540,7 +1540,6 @@ public class DBConnect {
       }
     }
     
-
     query += ";";
     executeNonQuery(query);
 
@@ -1554,6 +1553,28 @@ public class DBConnect {
   
   public static ArrayList<String> getImportNewObjects(int reportId){
     return StringResultGetter.getInstance("object_data").Get("SELECT object_data from import_new_objects WHERE import_report_id=" + reportId);
+  }
+  
+  private static String safeText(String text){
+    return "'" + addMySQLEscapes(text) + "'";
+  }
+  
+  public static int insertEmail(MouseMail email){
+    String query = "INSERT into emails (recipients,ccs,bccs,emailType,subject,body,status)";
+      query += "VALUES (";
+      query += safeText(email.recipient) + ",";
+      query += safeText(email.ccs) + ",";
+      query += safeText(email.bccs) + ",";
+      query += safeText(email.emailType) + ",";
+      query += safeText(email.subject) + ",";
+      query += safeText(email.body) + ",";
+      query += safeText(email.status) + ",";
+      query += ");";
+    return executeNonQuery(query);
+  }
+  
+  public static ArrayList<MouseMail> getEmails(){
+    return EmailResultGetter.getInstance().Get("select * from emails");
   }
 
   //************************************************************
@@ -3151,6 +3172,30 @@ public class DBConnect {
         result.setCreationDate(_resultSet.getDate("creationdate"));
         result.setReportText(_resultSet.getString("reporttext"));
         return result;
+    }
+  }
+  
+  public static final class EmailResultGetter extends ResultGetter
+  {
+    public static EmailResultGetter getInstance()
+    {
+      return new EmailResultGetter();
+    }
+    
+    @Override
+    protected Object getNextItem() throws SQLException
+    {
+      MouseMail email = new MouseMail(
+          _resultSet.getString("recipients"), 
+          _resultSet.getString("ccs"), 
+          _resultSet.getString("subject"), 
+          _resultSet.getString("body"));
+      email.bccs = _resultSet.getString("bccs");
+      email.dateCreated = _resultSet.getDate("date_created");
+      email.status = _resultSet.getString("status");
+      email.id = _resultSet.getInt("id");
+      email.emailType = _resultSet.getString("emailType");
+      return email;
     }
   }
 

@@ -88,7 +88,6 @@ public class ContextListener implements ServletContextListener
 
     }
     catch (NamingException e) {
-      // TODO Auto-generated catch block
       Log.Error("Naming exception getting environment value",e);
     }
   }
