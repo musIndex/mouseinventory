@@ -1,5 +1,7 @@
 package edu.ucsf.mousedatabase;
 
+import java.sql.Date;
+
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
@@ -20,7 +22,44 @@ public class MouseMail {
     }
   
   
-    public static boolean sendPlainEmail(String recipient, String cc,  String subject, String body){
+    public static String PlainEmailType = "plain";
+    public static String HTMLEmailType = "html";
+    public static String MultipartEmailType = "multipart";
+    
+    public static String SentStatus = "sent";
+    public static String ErrorStatus = "error";
+
+    
+    public int id;
+    public String recipient;
+    public String ccs;
+    public String bccs;
+    public String subject;
+    public String body;
+    public String emailType;
+    public String status;
+    public Date dateCreated;
+    
+    
+    
+    public MouseMail(String recipient, String ccs, String subject, String body) {
+      super();
+      this.recipient = recipient;
+      this.ccs = ccs;
+      this.subject = subject;
+      this.body = body;
+    }
+
+
+
+    public static void send(String recipient, String cc, String subject, String body){
+      
+      MouseMail mail = new MouseMail(recipient, cc, subject, body);
+      mail.trySend();
+      mail.save();
+    }
+    
+    private void trySend(){
       try {
         Email email = new SimpleEmail();
         email.setHostName(SMTP_SERVER);
@@ -31,15 +70,22 @@ public class MouseMail {
         email.setSubject(subject);
         email.setMsg(body);
         email.addTo(recipient);
-        if (cc != null && !cc.isEmpty()){
-          email.addCc(cc);
+        if (ccs != null && !ccs.isEmpty()){
+          email.addCc(ccs);
+        }
+        if (bccs != null && !bccs.isEmpty()){
+          email.addBcc(bccs);
         }
         email.send();
-        return true;
+        status = SentStatus;
       }
       catch(Exception e){
         Log.Error("Error sending email",e);
-        return false;
+        status = ErrorStatus;
       }
+    }
+    
+    private void save(){
+      id = DBConnect.insertEmail(this);
     }
 }

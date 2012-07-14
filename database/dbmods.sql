@@ -145,3 +145,28 @@ alter table holder add column alternate_name varchar(80);
 
 #34 - Transgenic -> Transgene
 update mousetype set mousetype='Transgene' where mousetype='Transgenic';
+
+#35 - new tables - settings and sent emails
+
+CREATE TABLE `settings` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `category` varchar(255),
+  `name` varchar(255),
+  `label` varchar(255),
+  `setting_value` text,
+  `date_updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `emails` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `recipients` text,
+  `ccs` text,
+  `bccs` text,
+  `emailType` varchar(255),
+  `subject` text,
+  `body` text,
+  `status` varchar(255),
+  `date_created` TIMESTAMP NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
