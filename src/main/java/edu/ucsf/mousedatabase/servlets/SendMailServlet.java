@@ -58,7 +58,9 @@ public class SendMailServlet extends HttpServlet {
 	}
 
 	private String validate(String recipient, String cc, String subject, String body){
-	  //TODO validate
+	  System.out.println("Validate email:");
+	  System.out.println(body);
+	  System.out.println();
 	  return null;
 	}
 	

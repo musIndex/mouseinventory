@@ -12,10 +12,11 @@ import edu.ucsf.mousedatabase.objects.*;
 public class HTMLGeneration {
 
   public static final String siteRoot = "/mouseinventory/";
-  public static final String adminRoot = "/mouseinventory/admin/";
-  public static final String imageRoot = "/mouseinventory/img/";
-  public static final String scriptRoot = "/mouseinventory/js/";
-  public static final String dataRoot = "/mouseinventory/rawdata/";
+  public static final String adminRoot = siteRoot + "admin/";
+  public static final String imageRoot = siteRoot + "img/";
+  public static final String scriptRoot = siteRoot + "js/";
+  public static final String styleRoot = siteRoot + "css/";
+  public static final String dataRoot = siteRoot + "rawdata/";
 
   public static void setGoogleAnalyticsId(String id, String domainSuffix)
   {
@@ -68,14 +69,11 @@ public class HTMLGeneration {
     }
 
     buf.append("<link href=\""
-        + siteRoot
-        + "css/bootstrap.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
+        + styleRoot + "bootstrap.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
     buf.append("<link href=\""
-        + siteRoot
-        + "css/chosen.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
+        + styleRoot + "chosen.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
     buf.append("<link href=\""
-        + siteRoot
-        + "css/MouseInventory.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
+        + styleRoot + "MouseInventory.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
 
     buf.append("<title>" + SiteName + "</title>\r\n");
 

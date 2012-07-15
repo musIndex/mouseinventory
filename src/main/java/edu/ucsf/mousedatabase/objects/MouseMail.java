@@ -4,7 +4,9 @@ import java.sql.Date;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.SimpleEmail;
+import org.jsoup.Jsoup;
 
 import edu.ucsf.mousedatabase.DBConnect;
 import edu.ucsf.mousedatabase.HTMLGeneration;
@@ -56,7 +58,7 @@ public class MouseMail {
       this.ccs = ccs;
       this.subject = subject;
       this.body = body;
-      this.emailType = PlainEmailType;
+      this.emailType = HTMLEmailType;
     }
 
 
@@ -70,9 +72,9 @@ public class MouseMail {
     }
     
     private void trySend(){
-      //TODO check type, support html and multipart?
+      //TODO check type, support plain and multipart?
       try {
-        Email email = new SimpleEmail();
+        HtmlEmail email = new HtmlEmail();
         email.setHostName(SMTP_SERVER);
         email.setSmtpPort(SMTP_PORT);
         email.setAuthenticator(new DefaultAuthenticator(SMTP_USER, SMTP_PW));
@@ -81,7 +83,8 @@ public class MouseMail {
         }
         email.setFrom(HTMLGeneration.AdminEmail);
         email.setSubject(subject);
-        email.setMsg(body);
+        email.setHtmlMsg(body);
+        email.setTextMsg(stripHtml(body));
         email.addTo(recipient);
         if (ccs != null && !ccs.isEmpty()){
           email.addCc(ccs);
@@ -101,5 +104,9 @@ public class MouseMail {
     
     private void save(){
       id = DBConnect.insertEmail(this);
+    }
+    
+    private String stripHtml(String text){
+      return Jsoup.parse(text).text();
     }
 }

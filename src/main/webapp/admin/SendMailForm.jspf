@@ -1,15 +1,11 @@
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*"%>
 <%
- String category = request.getParameter("category");
- if (category != null)
- {
-    
- }
+ //EmailCategories = DBConnect.getEmailFormats()
 
 %>
 
 
-<div class="modal hide" id="sendMailModal">
+<div class="modal hide" id="sendMailModal" style='width:600px'>
 <form method='post' id='outgoing_message' action='<%=adminRoot%>SendMail' style='margin: 0px'>
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">×</button>
@@ -36,7 +32,7 @@
     <td colspan='2'>Body:</td>
     </tr>
     <tr>
-    <td colspan='2'><textarea name='body' rows='8' cols='80'></textarea></td>
+    <td colspan='2'><textarea name='body' rows='8' cols='60'></textarea></td>
     </tr>
     
     </table>
@@ -48,19 +44,23 @@
   </div>
   </form>
 </div>
+<link href='<%=styleRoot%>jquery.wysiwyg.css' type='text/css' rel='stylesheet'>
 <script type='text/javascript' src='<%=scriptRoot %>bootstrap.min.js'></script>
+<script type='text/javascript' src='<%=scriptRoot %>jquery.wysiwyg.js'></script>
 <script type='text/javascript'>
 
 $(document).ready(function(){
   $("a.adminEmailButton").click(function(){
     var $this = $(this);
-    var fields = ['recipient','cc','subject','body'];
+    var fields = ['recipient','cc','subject'];
     $.each(fields,function(i,field){
       $("#sendMailModal input[name='" + field + "']").val($this.data(field));
       $("#sendMailModal textarea[name='" + field + "']").val($this.data(field));
     });
+    $("#sendMailModal #results_container").hide();
     $("#sendMailModal div.modal-body table").show();
     $("#sendMailModal a.btn.btn-primary").removeClass('disabled');
+    $("#sendMailModal textarea[name='body']").wysiwyg({initialContent: $this.data('body')});
     $("#sendMailModal").modal("show");
     return false;
   });
@@ -74,7 +74,7 @@ $(document).ready(function(){
     $(this).text('Sending...');
     var form_data = $("#outgoing_message").serialize();
     $.ajax({
-      type: 'POST',
+      type: 'post',
       url: '<%=adminRoot%>SendMail?' + form_data,
       dataType: 'json',
       success: mailSendSuccess,
@@ -87,6 +87,7 @@ $(document).ready(function(){
     $("#sendMailModal a.btn.btn-primary").text('Sent');
     $("#sendMailModal #results_container").text('Mail sent successfully.')
       .removeClass('hide')
+      .show()
       .removeClass('alert-error')
       .addClass('alert-success');
     $("#sendMailModal div.modal-body table").slideUp(200)
