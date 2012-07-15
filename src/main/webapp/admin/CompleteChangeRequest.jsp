@@ -1,11 +1,11 @@
-
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.sql.*"%>
-<%@page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
+<%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*"%>
 <%@page import="edu.ucsf.mousedatabase.DBConnect"%>
 <%@ page import="edu.ucsf.mousedatabase.objects.*"%>
-<%=HTMLGeneration.getPageHeader(null,false,true) %>
-<%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
+<%=getPageHeader(null,false,true) %>
+<%=getNavBar("EditMouseSelection.jsp", true) %>
+<%@ include file='SendMailForm.jspf' %>
 
 <%@ include file="protectAgainstDuplicateHolders.jspf" %>
 <%
@@ -40,9 +40,9 @@
     ArrayList<MouseRecord> records = DBConnect.getMouseRecord(currentRequest.getMouseID());
     if(records.size() < 1)
     {
-      DBConnect.updateChangeRequest(currentRequest.getRequestID(),"done",HTMLGeneration.emptyIfNull(currentRequest.getAdminComment()) + " \r\nAUTOMATICALLY MOVED TO DONE - Record no longer found");
+      DBConnect.updateChangeRequest(currentRequest.getRequestID(),"done",emptyIfNull(currentRequest.getAdminComment()) + " \r\nAUTOMATICALLY MOVED TO DONE - Record no longer found");
       requests = DBConnect.getChangeRequest(requestID);
-      String changeRequestTable = HTMLGeneration.getChangeRequestsTable(requests,null);
+      String changeRequestTable = getChangeRequestsTable(requests,null);
     %>
     <div class="site_container">
     <h2>The record specified in this change request was not found.</h2>
@@ -54,9 +54,9 @@
     }
 
     MouseRecord record = records.get(0);
-    String changeRequestTable = HTMLGeneration.getChangeRequestsTable(requests,null);
-    String existingRecord = HTMLGeneration.getMouseTable(records,false,false,true);
-    String editForm = HTMLGeneration.getEditMouseForm(record,currentRequest);
+    String changeRequestTable = getChangeRequestsTable(requests,null);
+    String existingRecord = getMouseTable(records,false,false,true);
+    String editForm = getEditMouseForm(record,currentRequest);
 
 %>
 
@@ -72,3 +72,4 @@
 <%=editForm %>
 
 </div>
+

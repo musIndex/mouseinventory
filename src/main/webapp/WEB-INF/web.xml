@@ -46,9 +46,20 @@
     <servlet-name>PdfServlet</servlet-name>
     <servlet-class>edu.ucsf.mousedatabase.servlets.PdfServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<description>
+  	</description>
+  	<display-name>SendMailServlet</display-name>
+  	<servlet-name>SendMailServlet</servlet-name>
+  	<servlet-class>edu.ucsf.mousedatabase.servlets.SendMailServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>PdfServlet</servlet-name>
     <url-pattern>/MouseList</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SendMailServlet</servlet-name>
+  	<url-pattern>/admin/SendMail</url-pattern>
   </servlet-mapping>
   <listener>
     <listener-class>edu.ucsf.mousedatabase.listeners.ContextListener</listener-class>
@@ -88,6 +99,14 @@
   <env-entry>
     <env-entry-name>MOUSEDATABASE_SMTP_PW</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
+  </env-entry>
+  <env-entry>
+    <env-entry-name>MOUSEDATABASE_SMTP_PORT</env-entry-name>
+    <env-entry-type>java.lang.Integer</env-entry-type>
+  </env-entry>
+  <env-entry>
+    <env-entry-name>MOUSEDATABASE_SMTP_SSL_ENABLED</env-entry-name>
+    <env-entry-type>java.lang.Boolean</env-entry-type>
   </env-entry>
   <env-entry>
     <env-entry-name>GOOGLE_ANALYTICS_ACCOUNT</env-entry-name>

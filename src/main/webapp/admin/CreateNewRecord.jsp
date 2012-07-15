@@ -1,11 +1,11 @@
-
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.sql.*"%>
-<%@page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
+<%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*"%>
 <%@page import="edu.ucsf.mousedatabase.DBConnect"%>
 <%@ page import="edu.ucsf.mousedatabase.objects.*"%>
-<%=HTMLGeneration.getPageHeader(null,false,true) %>
-<%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
+<%=getPageHeader(null,false,true) %>
+<%=getNavBar("EditMouseSelection.jsp", true) %>
+<%@ include file='SendMailForm.jspf' %>
 <%@ include file="protectAgainstDuplicateHolders.jspf" %>
 <%
 
@@ -51,8 +51,8 @@
       records = DBConnect.getMouseRecordFromSubmission(submissionID);
          if(records.size() < 1)
          {
-           DBConnect.updateSubmission(submissionID,"new",HTMLGeneration.emptyIfNull(submission.getAdminComment()) + " \r\nAUTOMATICALLY MOVED TO 'NEW' - in holding without incomplete record");
-           String submissionTable = HTMLGeneration.getSubmissionTable(submissions,null,null,false);
+           DBConnect.updateSubmission(submissionID,"new",emptyIfNull(submission.getAdminComment()) + " \r\nAUTOMATICALLY MOVED TO 'NEW' - in holding without incomplete record");
+           String submissionTable = getSubmissionTable(submissions,null,null,false);
            %>
            <div class="site_container">
            <h2>ERROR - no incomplete record associated with this submission in holding.  Automatically moved to 'new', and a note was added:</h2>
@@ -72,11 +72,11 @@
 
 
 
-    String submissionTable = HTMLGeneration.getSubmissionTable(submissions,null,null,false);
+    String submissionTable = getSubmissionTable(submissions,null,null,false);
 
-    String editForm = HTMLGeneration.getEditMouseForm(record,submission);
+    String editForm = getEditMouseForm(record,submission);
 
-    String recordPreview = HTMLGeneration.getMouseTable(records,false,false,true);
+    String recordPreview = getMouseTable(records,false,false,true);
 
 %>
 

@@ -1,13 +1,12 @@
-
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
+<%@ page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.sql.ResultSet" %>
 
-<%@page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
-<%=HTMLGeneration.getPageHeader(null,false,true) %>
-<%=HTMLGeneration.getNavBar("ManageChangeRequests.jsp", true) %>
-
+<%=getPageHeader(null,false,true) %>
+<%=getNavBar("ManageChangeRequests.jsp", true) %>
+<%@ include file='SendMailForm.jspf' %>
 <div class="site_container">
 
 
@@ -52,15 +51,15 @@
     StringBuffer sortBuf = new StringBuffer();
     sortBuf.append("<form action=\"ManageChangeRequests.jsp\" method=\"get\">");
     sortBuf.append("&nbsp;Show: ");
-    sortBuf.append(HTMLGeneration.genFlatRadio("status",filterOptions,filterOptionNiceNames, status,""));
+    sortBuf.append(genFlatRadio("status",filterOptions,filterOptionNiceNames, status,""));
     sortBuf.append("<br>&nbsp;Sort by: ");
-    sortBuf.append(HTMLGeneration.genFlatRadio("orderby",sortOptions,sortOptionNiceNames, orderBy,""));
+    sortBuf.append(genFlatRadio("orderby",sortOptions,sortOptionNiceNames, orderBy,""));
     sortBuf.append("<br>&nbsp;<input type=\"submit\" value=\"Update\">");
     sortBuf.append("</form>");
 
   ArrayList<ChangeRequest> requests = DBConnect.getChangeRequests(status, orderBy);
 
-  String newTable = HTMLGeneration.getChangeRequestsTable(requests, status);
+  String newTable = getChangeRequestsTable(requests, status);
 
   String statusString = "Listing " + status + " change requests";
   if(status.equalsIgnoreCase("done"))

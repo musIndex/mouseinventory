@@ -3,7 +3,7 @@
 <%@page import="edu.ucsf.mousedatabase.DBConnect" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar(null, true) %>
-
+<%@ include file='SendMailForm.jspf' %>
 <%@page import="edu.ucsf.mousedatabase.objects.SubmittedMouse"%>
 <div class="site_container">
 <%

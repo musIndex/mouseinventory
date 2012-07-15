@@ -1,0 +1,103 @@
+<%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*"%>
+<%
+ String category = request.getParameter("category");
+ if (category != null)
+ {
+    
+ }
+
+%>
+
+
+<div class="modal hide" id="sendMailModal">
+<form method='post' id='outgoing_message' action='<%=adminRoot%>SendMail' style='margin: 0px'>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>Send email as <%=AdminEmail %></h3>
+  </div>
+  <div class="modal-body">
+    <div id='results_container' class='alert hide'></div>
+    <table>
+    <tr>
+    <td>To:</td>
+    <td><input type='text' name='recipient'></input></td>
+    </tr>
+    <tr>
+    <td>cc:</td>
+    <td><input type='text' name='cc'></input></td>
+    </tr>
+    <tr>
+    <td colspan='2'>Subject:</td>
+    </tr>
+    <tr>
+    <td colspan='2'><textarea name='subject' rows='2' cols='80'></textarea></td>
+    </tr>
+    <tr>
+    <td colspan='2'>Body:</td>
+    </tr>
+    <tr>
+    <td colspan='2'><textarea name='body' rows='8' cols='80'></textarea></td>
+    </tr>
+    
+    </table>
+
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+    <a href="#" class="btn btn-primary">Send</a>
+  </div>
+  </form>
+</div>
+<script type='text/javascript' src='<%=scriptRoot %>bootstrap.min.js'></script>
+<script type='text/javascript'>
+
+$(document).ready(function(){
+  $("a.adminEmailButton").click(function(){
+    var $this = $(this);
+    var fields = ['recipient','cc','subject','body'];
+    $.each(fields,function(i,field){
+      $("#sendMailModal input[name='" + field + "']").val($this.data(field));
+      $("#sendMailModal textarea[name='" + field + "']").val($this.data(field));
+    });
+    $("#sendMailModal div.modal-body table").show();
+    $("#sendMailModal a.btn.btn-primary").removeClass('disabled');
+    $("#sendMailModal").modal("show");
+    return false;
+  });
+  
+  $('#sendMailModal a.disabled').on('click', function(event){
+    event.stopImmediatePropagation();
+    event.preventDefault();
+  });
+  $("#sendMailModal a.btn.btn-primary").click(function(){
+    $(this).addClass('disabled');
+    $(this).text('Sending...');
+    var form_data = $("#outgoing_message").serialize();
+    $.ajax({
+      type: 'POST',
+      url: '<%=adminRoot%>SendMail?' + form_data,
+      dataType: 'json',
+      success: mailSendSuccess,
+      error: mailSendError,
+      async: true
+  	});
+  });
+  
+  function mailSendSuccess(data){
+    $("#sendMailModal a.btn.btn-primary").text('Sent');
+    $("#sendMailModal #results_container").text('Mail sent successfully.')
+      .removeClass('hide')
+      .removeClass('alert-error')
+      .addClass('alert-success');
+    $("#sendMailModal div.modal-body table").slideUp(200)
+  }
+  function mailSendError(data){
+    $("#sendMailModal a.btn.btn-primary").text('Send').removeClass('disabled');
+    $("#sendMailModal #results_container").text(data.error)
+    	.removeClass('hide')
+    	.removeClass('alert-success')
+    	.addClass('alert-error');
+  }
+});
+
+</script>

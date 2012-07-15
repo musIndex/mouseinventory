@@ -855,3 +855,6 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
   opacity: 0.5;
 }
 
+.modal input[type=text] {
+  width: 400px;
+}
