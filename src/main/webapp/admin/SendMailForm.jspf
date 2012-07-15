@@ -44,15 +44,15 @@
   </div>
   </form>
 </div>
-<link href='<%=styleRoot%>jquery.wysiwyg.css' type='text/css' rel='stylesheet'>
+<link href='<%=styleRoot%>jquery.cleditor.css' type='text/css' rel='stylesheet'>
 <script type='text/javascript' src='<%=scriptRoot %>bootstrap.min.js'></script>
-<script type='text/javascript' src='<%=scriptRoot %>jquery.wysiwyg.js'></script>
+<script type='text/javascript' src='<%=scriptRoot %>jquery.cleditor.js'></script>
 <script type='text/javascript'>
 
 $(document).ready(function(){
   $("a.adminEmailButton").click(function(){
     var $this = $(this);
-    var fields = ['recipient','cc','subject'];
+    var fields = ['recipient','cc','subject','body'];
     $.each(fields,function(i,field){
       $("#sendMailModal input[name='" + field + "']").val($this.data(field));
       $("#sendMailModal textarea[name='" + field + "']").val($this.data(field));
@@ -60,7 +60,12 @@ $(document).ready(function(){
     $("#sendMailModal #results_container").hide();
     $("#sendMailModal div.modal-body table").show();
     $("#sendMailModal a.btn.btn-primary").removeClass('disabled');
-    $("#sendMailModal textarea[name='body']").wysiwyg({initialContent: $this.data('body')});
+    $("#sendMailModal textarea[name='body']").cleditor({
+      controls: 
+        "bold italic underline | font size " +
+        "style | color removeformat | bullets numbering | outdent " +
+        "indent | undo redo | " + " cut copy paste pastetext",
+    });
     $("#sendMailModal").modal("show");
     return false;
   });
