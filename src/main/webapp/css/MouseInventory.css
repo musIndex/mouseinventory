@@ -185,7 +185,7 @@ ul.navLinkUL {
 }
 
 #navigationLinks li:nth-child(3) {
-  background-color: #B1B62C;
+  background-color: rgba(223, 230, 35, 0.52);
 }
 
 #navigationLinks li:nth-child(4) {
@@ -193,7 +193,7 @@ ul.navLinkUL {
 }
 
 #navigationLinks li:nth-child(5) {
-  background-color: #BB8F59;
+  background-color: rgba(187, 143, 89, 0.73);
 }
 
 #navigationLinks li:nth-child(6) {
