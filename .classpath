@@ -16,4 +16,5 @@
   <classpathentry kind="var" path="M2_REPO/com/itextpdf/itextpdf/5.2.0/itextpdf-5.2.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-email/1.2/commons-email-1.2.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jsoup/jsoup/1.6.3/jsoup-1.6.3.jar"/>
 </classpath>

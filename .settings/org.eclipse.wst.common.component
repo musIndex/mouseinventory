@@ -37,6 +37,9 @@
     <dependent-module archiveName="activation-1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/javax/activation/activation/1.1/activation-1.1.jar">
       <dependency-type>uses</dependency-type>
     </dependent-module>
+    <dependent-module archiveName="jsoup-1.6.3.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/org/jsoup/jsoup/1.6.3/jsoup-1.6.3.jar">
+      <dependency-type>uses</dependency-type>
+    </dependent-module>
     <wb-resource deploy-path="/WEB-INF/classes" source-path="src/main/java"/>
   </wb-module>
 </project-modules>
