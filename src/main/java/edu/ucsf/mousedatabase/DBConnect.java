@@ -1568,7 +1568,7 @@ public class DBConnect {
       query += safeText(email.emailType) + ",";
       query += safeText(email.subject) + ",";
       query += safeText(email.body) + ",";
-      query += safeText(email.status) + ",";
+      query += safeText(email.status);
       query += ");";
     return executeNonQuery(query);
   }

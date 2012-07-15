@@ -1,11 +1,13 @@
 <%@page import="edu.ucsf.mousedatabase.*"%>
 <%@page import="edu.ucsf.mousedatabase.objects.*"%>
+<%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%@page import="java.util.ArrayList"%>
-<%=HTMLGeneration.getPageHeader(null,false,true) %>
-<%=HTMLGeneration.getNavBar("ManageChangeRequests.jsp", true) %>
+<%=getPageHeader(null,false,true) %>
+<%=getNavBar("ManageChangeRequests.jsp", true) %>
+<%@ include file='SendMailForm.jspf' %>
 <div class="site_container">
 <%
-  int id = HTMLGeneration.stringToInt(request.getParameter("id"));
+  int id = stringToInt(request.getParameter("id"));
   String confirmed = request.getParameter("confirm");
 
   if (id < 0)
@@ -18,7 +20,7 @@
   {
 
     ArrayList<ChangeRequest> reqs = DBConnect.getChangeRequest(id);
-    String table = HTMLGeneration.getChangeRequestsTable(reqs,null);
+    String table = getChangeRequestsTable(reqs,null);
     if (reqs.size() != 1)
     {
       %>

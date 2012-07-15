@@ -11,7 +11,6 @@ import edu.ucsf.mousedatabase.objects.*;
 
 public class HTMLGeneration {
 
-  // note these are not used everywhere they should be
   public static final String siteRoot = "/mouseinventory/";
   public static final String adminRoot = "/mouseinventory/admin/";
   public static final String imageRoot = "/mouseinventory/img/";
@@ -1105,11 +1104,11 @@ public class HTMLGeneration {
       table.append("</dt>\r\n");
 
       table.append("<dt>\r\n");
-      table.append(formatEmail(
+      table.append(getMailToLink(
           nextSubmission.getEmail(),
           nextSubmission.getEmail(),
           "Mouse Inventory Database Submission - "
-              + nextSubmission.getMouseName()));
+              + nextSubmission.getMouseName(),null,nextSubmission.getEmail(),null,true));
       table.append("</dt>\r\n");
       table.append("<dt>");
       table.append("Submission date: "
@@ -1754,9 +1753,10 @@ public class HTMLGeneration {
           }
 
           
-          String mailLink = getMailToLink(holder.getAlternateEmail(), holder.getEmail(), 
-              "Regarding " + nextRecord.getMouseName() + "-Record# " + nextRecord.getMouseID(), null, firstInitial + holder.getLastname(),
-              holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")");
+          String mailLink = getMailToLink(holder.getAlternateEmail(), holder.getEmail(),
+              "Regarding " + nextRecord.getMouseName() + "-Record# " + nextRecord.getMouseID(), 
+              null, firstInitial + holder.getLastname(),
+              holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")",false);
           
           holderBuf.append("<dt" + (overMax ? " style='display:none'" : "") + ">"
               + (holder.isCovert() ? "<b>CVT</b>-" : "")
@@ -1886,9 +1886,9 @@ public class HTMLGeneration {
       }
       
       
-      table.append(formatEmail(nextRequest.getEmail(),holderEmail,
-          nextRequest.getEmail(),
-          "Mouse Inventory Database Change Request for record #" + nextRequest.getMouseID() + " - " + nextRequest.getMouseName()));
+      table.append(getMailToLink(nextRequest.getEmail(), holderEmail,
+                    "Mouse Inventory Database Change Request for record #" + nextRequest.getMouseID() 
+                    + " - " + nextRequest.getMouseName(),null, nextRequest.getEmail(), null,true));
       table.append("</dt>\r\n");
 
       table.append("</dl>\r\n");
@@ -2406,13 +2406,7 @@ public class HTMLGeneration {
     }
   }
 
-  public static String formatEmail(String emailAddress, String linkText, String subject) {
-    return formatEmail(emailAddress, null, linkText, subject);
-  }
-  
-  public static String formatEmail(String emailAddress, String ccAddress, String linkText, String subject) {
-    return getMailToLink(emailAddress, ccAddress, subject, null, linkText);
-  }
+
 
   public static String getMultiSelectWidget(String name,
       ArrayList<String> allOptions, ArrayList<String> allOptionsNiceNames,
@@ -2897,26 +2891,59 @@ public class HTMLGeneration {
         + (params != null ? params : "") + ">\r\n";
   }
 
-  public static String getMailToLink(String address, String cc, String subject, String body, String linkText)
-  {
-    return getMailToLink(address, cc, subject, body, linkText, null); 
+  public static String formatEmail(String emailAddress, String linkText, String subject) {
+    return formatEmail(emailAddress, null, linkText, subject);
   }
   
-  public static String getMailToLink(String address, String cc, String subject, String body, String linkText, String linkTitle)
+  public static String formatEmail(String emailAddress, String ccAddress, String linkText, String subject) {
+    return getMailToLink(emailAddress, ccAddress, subject, null, linkText);
+  }
+  
+  
+  public static String getMailToLink(String address, String cc, String subject, String body, String linkText)
   {
+    return getMailToLink(address, cc, subject, body, linkText, null, false); 
+  }
+  
+  public static String getMailToLink(String address, String cc, String subject, String body, String linkText, String linkTitle, boolean admin)
+  {
+    String recipient = address;
+    String ccRecipient = null;
     String ccAddr = "?";
     if (cc != null && !cc.equals(address))
     {
+      ccRecipient = cc;
       ccAddr = "?cc=" + cc + "&";
     }
     if (cc != null && address == null){
       address = cc;
       ccAddr = "?";
+      recipient = cc;
     }
-    return "<a" + (linkTitle != null ? " title='" + linkTitle + "'":"") + 
-            " href=\"mailto:" + address + ccAddr + 
-            "subject=" + urlEncode(subject) + 
-            (body != null ? "&body=" + urlEncode(body) : "") + "\">" + linkText + "</a>";
+    if (admin) {
+      String link = "<a class='adminEmailButton' href='#'" + 
+          " data-subject='" + dataEncode(subject) + "'" +  
+          " data-recipient='" + recipient + "'";
+      if (ccRecipient != null){
+       link += " data-cc='" + ccRecipient + "'";
+      }
+      link += " data-body='" + dataEncode(body) + "'" + 
+          (linkTitle != null ? " title='" + linkTitle + "'":"") + ">" + linkText + "</a>";
+      return link;
+    }
+    else {
+      return "<a" + (linkTitle != null ? " title='" + linkTitle + "'":"") + 
+              " href=\"mailto:" + address + ccAddr + 
+              "subject=" + urlEncode(subject) + 
+              (body != null ? "&body=" + urlEncode(body) : "") + "\">" + linkText + "</a>";
+    }
+  }
+  
+  public static String dataEncode(String text){
+    if (text == null || text.isEmpty()){
+      return text;
+    }
+    return text.replace("'", "&quot;");
   }
   
   public static String urlEncode(String text){

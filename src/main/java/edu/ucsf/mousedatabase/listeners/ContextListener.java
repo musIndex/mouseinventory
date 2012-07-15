@@ -15,8 +15,8 @@ import javax.servlet.ServletContextListener;
 import edu.ucsf.mousedatabase.HTMLGeneration;
 import edu.ucsf.mousedatabase.Log;
 import edu.ucsf.mousedatabase.MGIConnect;
-import edu.ucsf.mousedatabase.MouseMail;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler;
+import edu.ucsf.mousedatabase.objects.MouseMail;
 
 public class ContextListener implements ServletContextListener
 {
@@ -84,7 +84,9 @@ public class ContextListener implements ServletContextListener
         
         MouseMail.intitialize((String)envCtx.lookup("MOUSEDATABASE_SMTP_SERVER"),
             (String)envCtx.lookup("MOUSEDATABASE_SMTP_USER"), 
-            (String)envCtx.lookup("MOUSEDATABASE_SMTP_PW"));
+            (String)envCtx.lookup("MOUSEDATABASE_SMTP_PW"),
+            (Integer)envCtx.lookup("MOUSEDATABASE_SMTP_PORT"),
+            Boolean.parseBoolean((String)envCtx.lookup("MOUSEDATABASE_SMTP_SSL_ENABLED")));
 
     }
     catch (NamingException e) {

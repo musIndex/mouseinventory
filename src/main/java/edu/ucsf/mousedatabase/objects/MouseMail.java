@@ -1,10 +1,14 @@
-package edu.ucsf.mousedatabase;
+package edu.ucsf.mousedatabase.objects;
 
 import java.sql.Date;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
+
+import edu.ucsf.mousedatabase.DBConnect;
+import edu.ucsf.mousedatabase.HTMLGeneration;
+import edu.ucsf.mousedatabase.Log;
 
 //syncrhonously send email
 
@@ -13,11 +17,15 @@ public class MouseMail {
     private static String SMTP_SERVER;
     private static String SMTP_USER;
     private static String SMTP_PW;
+    private static int SMTP_PORT;
+    private static boolean SMTP_SSL_ENABLED;
   
-    public static void intitialize(String server, String user, String pw){      
+    public static void intitialize(String server, String user, String pw, int port, boolean sslEnabled){      
         SMTP_SERVER = server;
         SMTP_USER = user;
         SMTP_PW = pw;
+        SMTP_PORT = port;
+        SMTP_SSL_ENABLED = sslEnabled;
        
     }
   
@@ -48,24 +56,29 @@ public class MouseMail {
       this.ccs = ccs;
       this.subject = subject;
       this.body = body;
+      this.emailType = PlainEmailType;
     }
 
 
 
-    public static void send(String recipient, String cc, String subject, String body){
+    public static int send(String recipient, String cc, String subject, String body){
       
       MouseMail mail = new MouseMail(recipient, cc, subject, body);
       mail.trySend();
       mail.save();
+      return mail.id;
     }
     
     private void trySend(){
+      //TODO check type, support html and multipart?
       try {
         Email email = new SimpleEmail();
         email.setHostName(SMTP_SERVER);
-        email.setSmtpPort(465);
+        email.setSmtpPort(SMTP_PORT);
         email.setAuthenticator(new DefaultAuthenticator(SMTP_USER, SMTP_PW));
-        email.setSSL(true);
+        if (SMTP_SSL_ENABLED){
+          email.setSSL(true);
+        }
         email.setFrom(HTMLGeneration.AdminEmail);
         email.setSubject(subject);
         email.setMsg(body);
@@ -76,6 +89,7 @@ public class MouseMail {
         if (bccs != null && !bccs.isEmpty()){
           email.addBcc(bccs);
         }
+        Log.Info("Sending mail " + subject + " to " + recipient + " + " + ccs);
         email.send();
         status = SentStatus;
       }
