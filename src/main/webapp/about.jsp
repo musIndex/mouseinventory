@@ -41,8 +41,9 @@
   <li><a href="#how">How mice are listed</a></li>
   <li><a href="#info">Information provided about each mouse</a></li>
   <li><a href="#search">Search and sort functions</a></li>
-  <li><a href="#submitting">Submitting mice, adding/removing
-  holders, and other changes to information in the inventory</a></li>
+  <li><a href="#submitting">Submitting mice, adding or deleting a
+holder for a particular mouse, or making other modifications to
+information in the Inventory</a></li>
   <li><b><a href="#faq">FAQ</a></b></li>
   <li><a href="#disclaimer">Disclaimer</a></li>
 </ol>
@@ -88,8 +89,7 @@ description of all the mice in his/her colony can be readily obtained
 </p>
 <br>
 
-<p id="how"><b><font size="3">How mice are
-listed in the database</font></b></p>
+<h3 id="how">How mice are listed</h3>
 <p>Each entry (generically referred to as a 'mouse') in the database
 is classified in one of three categories:</p>
 
@@ -110,14 +110,12 @@ is classified in one of three categories:</p>
   <br>
   The expressed sequence is described as Cre, Reporter
   (e.g. lacZ, GFP, etc.), mouse gene, or other (e.g. human gene, rat gene, etc.)</dd>
-  <dt><b>3) Inbred Strain</b>
+  <dt><b>3) Inbred Strain</b></dt>
   <dd>This category comprises mice whose major genetic characteristic is that they
   are members of a particular inbred strain (mice that are genetically nearly
   identical as a result of extensive inbreeding - usually at least 13 generations).
-  These strains are generally purchased from commercial suppliers.  <br></dd>
-
-  </dt>
-
+  These strains are generally purchased from commercial suppliers.  </dd>
+  <dd>&nbsp;</dd>
   <dt>Each entry is for an <span class=red><b>individual</b></span>
   mutant allele or transgene (or inbred strain) - irrespective of whether
   the allele or transgene is maintained in combination with other mutant
@@ -175,7 +173,7 @@ or Pubmed, respectively.</p>
 <p>When it has been provided, there is information about the
 background strain of the mutant allele/transgene.</p>
 <br>
-<h3 id="search">Sort and Search functions</h3>
+<h3 id="search">Search and sort functions</h3>
 <p>On the '<b>Mouse Records</b>' page, the mode of display of
 records can be selected: view all, or view records in only one of the
 three categories. The records can be sorted by Mouse Inventory
