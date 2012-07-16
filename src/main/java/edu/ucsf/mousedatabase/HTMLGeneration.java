@@ -213,6 +213,8 @@ public class HTMLGeneration {
           currentPageFilename, true));
       table.append(addNavLink("Reports", "Reports.jsp", null,
           currentPageFilename, true));
+      table.append(addNavLink("Options", "Options.jsp", null,
+          currentPageFilename, true));
       table.append("</ul>");
       table.append("</div>"); //adminlinks
       table.append("</div>"); //adminlinkscontainer
