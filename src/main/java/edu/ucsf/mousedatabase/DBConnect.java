@@ -1574,7 +1574,37 @@ public class DBConnect {
   }
   
   public static ArrayList<MouseMail> getEmails(){
-    return EmailResultGetter.getInstance().Get("select * from emails");
+    return EmailResultGetter.getInstance().Get("select * from emails order by date_created desc");
+  }
+  
+  public static int insertSetting(Setting setting){
+    String query = "INSERT into settings (name,category,label,value)";
+    query += "VALUES (";
+    query += safeText(setting.name) + ",";
+    query += safeText(setting.category) + ",";
+    query += safeText(setting.label) + ",";
+    query += safeText(setting.value);
+    query += ");";
+    return executeNonQuery(query);
+  }
+  
+  public static void updateSetting(Setting setting){
+    String query = "UPDATE settings SET ";
+    query += " name=" + safeText(setting.name) + ",";
+    query += " category=" + safeText(setting.category) + ",";
+    query += " label=" + safeText(setting.label) + ",";
+    query += " value=" + safeText(setting.value);
+    query += " WHERE id=" + setting.id + ";";
+    executeNonQuery(query);
+  }
+  
+  public static Setting loadSetting(String name){
+    return (Setting)SettingResultGetter.getInstance().Get("select * from settings where name=" + safeText(name)).get(0);
+  }
+  
+  public static ArrayList<Setting> getCategorySettings(String category){
+    return SettingResultGetter.getInstance().Get("select * from settings where category=" + safeText(category));
+
   }
 
   //************************************************************
@@ -3191,11 +3221,28 @@ public class DBConnect {
           _resultSet.getString("subject"), 
           _resultSet.getString("body"));
       email.bccs = _resultSet.getString("bccs");
-      email.dateCreated = _resultSet.getDate("date_created");
+      email.dateCreated = _resultSet.getTimestamp("date_created");
       email.status = _resultSet.getString("status");
       email.id = _resultSet.getInt("id");
       email.emailType = _resultSet.getString("emailType");
       return email;
+    }
+  }
+  
+  public static final class SettingResultGetter extends ResultGetter
+  {
+    public static SettingResultGetter getInstance(){
+      return new SettingResultGetter();
+    }
+    @Override
+    protected Object getNextItem() throws SQLException{
+      Setting setting = new Setting();
+      setting.id = _resultSet.getInt("id");
+      setting.name = _resultSet.getString("name");
+      setting.category = _resultSet.getString("category");
+      setting.label = _resultSet.getString("label");
+      setting.value = _resultSet.getString("setting_value");
+      return setting;
     }
   }
 
