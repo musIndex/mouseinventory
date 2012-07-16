@@ -83,4 +83,8 @@ private String getAllRecordsPDFLink(){
 <%=getReportForm(ReportServlet.RecordsReportName,"Lists all live records, basic details, submitter name, and up to 5 holders.  PDF report contains full details for all live records.", getAllRecordsPDFLink() ) %>
 <%=getReportForm(ReportServlet.LarcRecordHolderReportName,"Used by LARC to automatically populate dropdowns on their site.",null ) %>
 
+<br>
+
+
+<br><br><br><br><br>
 </div>

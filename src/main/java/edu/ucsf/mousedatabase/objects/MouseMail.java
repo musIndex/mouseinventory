@@ -1,6 +1,7 @@
 package edu.ucsf.mousedatabase.objects;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -48,7 +49,7 @@ public class MouseMail {
     public String body;
     public String emailType;
     public String status;
-    public Date dateCreated;
+    public Timestamp dateCreated;
     
     
     
