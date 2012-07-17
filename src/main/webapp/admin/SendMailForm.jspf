@@ -90,7 +90,7 @@ $(document).ready(function(){
       $("#sendMailModal textarea[name='" + field + "']").text($this.data(field));
     });
     
-    template_selector.find().remove();
+    template_selector.children().remove();
     var category = $this.data('template_category');
     if (category) {
       templates = all_templates[category];
