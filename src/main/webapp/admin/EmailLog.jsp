@@ -11,40 +11,26 @@
 <div class='site_container'>
 <h2>Email log</h2>
 
-<table class='mouseTable' style='width:100%'>
-<tr class='mouselistH'>
-<td width='170px'>
-Date
-</td>
-<td width='200px'>
-Recipient(s)
-</td>
-<td width='20%'>
-Subject
-</td>
-<td>
-Message
-</td>
+<table class='basic'>
+  <tr>
+  <th width='170px'>Date</th>
+  <th width='170px'>Category</th>
+  <th width='200px'>Recipient(s)</th>
+  <th width='20%'>Subject</th>
+  <th>Message</th>
 </tr>
 <% for(MouseMail email : emails){ %>
-<tr class='mouselist'>
-<td>
-<%=email.status %> <%= email.dateCreated %>
-</td>
-<td>
-<%=email.recipient %>
-
-<%=email.ccs.length() > 0 ? "<br>cc: " + email.ccs : "" %>
-
-<%=email.bccs.length() > 0 ? "<br>bcc: " + email.bccs : "" %>
-</td>
-<td>
-<%=email.subject %>
-</td>
-<td>
-<%=email.body %>
-</td>
-</tr>
+  <tr class='mouselist'>
+    <td><%=email.status %> <%= email.dateCreated %></td>
+    <td><%=email.category %></td>
+    <td>
+    <%=email.recipient %> 
+    <%=email.ccs.length() > 0 ? "<br>cc: " + email.ccs : "" %>    
+    <%=email.bccs.length() > 0 ? "<br>bcc: " + email.bccs : "" %>
+    </td>
+    <td><%=email.subject %></td>
+    <td><%=email.body %></td>
+  </tr>
 <%} %>
 </table>
 </div>

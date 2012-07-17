@@ -49,24 +49,26 @@ public class MouseMail {
     public String body;
     public String emailType;
     public String status;
+    public String category;
     public Timestamp dateCreated;
     
     
     
-    public MouseMail(String recipient, String ccs, String subject, String body) {
+    public MouseMail(String recipient, String ccs, String subject, String body, String category) {
       super();
       this.recipient = recipient;
       this.ccs = ccs;
       this.subject = subject;
       this.body = body;
       this.emailType = HTMLEmailType;
+      this.category = category;
     }
 
 
 
-    public static int send(String recipient, String cc, String subject, String body){
+    public static int send(String recipient, String cc, String subject, String body, String category){
       
-      MouseMail mail = new MouseMail(recipient, cc, subject, body);
+      MouseMail mail = new MouseMail(recipient, cc, subject, body, category);
       mail.trySend();
       mail.save();
       return mail.id;
