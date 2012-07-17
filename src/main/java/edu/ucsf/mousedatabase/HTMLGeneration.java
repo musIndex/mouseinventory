@@ -67,6 +67,7 @@ public class HTMLGeneration {
       buf.append("<meta http-equiv=\"expires\" content=\"0\"> <!-- says that the cache expires 'now' -->\r\n");
       buf.append("<meta http-equiv=\"pragma\" content=\"no-cache\"> <!-- says not to use cached stuff, if there is any -->\r\n");
     }
+    buf.append("<title>" + SiteName + "</title>\r\n");
 
     buf.append("<link href=\""
         + styleRoot + "bootstrap.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
@@ -75,7 +76,9 @@ public class HTMLGeneration {
     buf.append("<link href=\""
         + styleRoot + "MouseInventory.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
 
-    buf.append("<title>" + SiteName + "</title>\r\n");
+    
+    
+    
 
     buf.append("<script language=\"javascript\" type=\"text/javascript\" src=\""
         + scriptRoot + "uiHelperFunctions.js\"></script>\r\n");
@@ -89,6 +92,12 @@ public class HTMLGeneration {
     buf.append("<link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css 'rel='stylesheet' type='text/css' />");
     buf.append("<script src=\"" + scriptRoot + "chosen.jquery.min.js\"></script>\r\n");
     buf.append("<script src=\"" + scriptRoot + "jquery.ba-bbq.min.js\"></script>\r\n");
+    if (isAdminPage) 
+    {
+      buf.append("<link href='" + styleRoot + "jquery.cleditor.css' type='text/css' rel='stylesheet'>");
+      buf.append("<script type='text/javascript' src='" + scriptRoot  + "bootstrap.min.js'></script>");
+      buf.append("<script type='text/javascript' src='" + scriptRoot  + "jquery.cleditor.js'></script>");
+    }
     buf.append("<script type=\"text/javascript\">\r\n" +
         "$(document).ready(function(){\r\n" +
           "$('.chzn-select').chosen();" +
@@ -2889,6 +2898,14 @@ public class HTMLGeneration {
         + "size=\"" + size + "\" "
         + (maxLength > 0 ? "maxlength=\"" + maxLength + "\" " : "")
         + (params != null ? params : "") + ">\r\n";
+  }
+  
+  public static String tInput(String name, String current){
+    return "<input type='text' name='" + name + (current != null ? "' value='" + current + "'" : "'") + " />";
+  }
+  
+  public static String tArea(String name, String current){
+    return "<textarea name='" + name + "'>" + (current != null ? current : "") + "</textarea>";
   }
 
   public static String formatEmail(String emailAddress, String linkText, String subject) {

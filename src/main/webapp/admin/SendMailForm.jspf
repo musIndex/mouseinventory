@@ -42,9 +42,7 @@
   </div>
   </form>
 </div>
-<link href='<%=styleRoot%>jquery.cleditor.css' type='text/css' rel='stylesheet'>
-<script type='text/javascript' src='<%=scriptRoot %>bootstrap.min.js'></script>
-<script type='text/javascript' src='<%=scriptRoot %>jquery.cleditor.js'></script>
+
 <script type='text/javascript'>
 
 $(document).ready(function(){

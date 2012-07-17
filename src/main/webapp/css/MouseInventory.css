@@ -858,3 +858,32 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
 .modal input[type=text] {
   width: 400px;
 }
+
+.emailTemplateForm td {
+  vertical-align: top;
+}
+
+.emailTemplateForm input[type=text],
+.emailTemplateForm textarea{
+  width: 500px;  
+}
+.emailTemplateForm textarea{
+  height: 100px;
+}
+.emailTemplateForm select{
+  width: 200px;
+}
+table.emailTemplate {
+  width: 100%;
+}
+table.emailTemplate th {
+  background-color: #7AC5CD;
+}
+
+table.emailTemplate > tbody > tr:nth-child(even) > td {
+  background-color: #ECF1EF;
+}
+
+table.emailTemplate > tbody > tr:nth-child(odd) > td {
+  background-color: #EEF3E2;
+}

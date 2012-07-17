@@ -18,10 +18,12 @@
 <h2>Options</h2>
 
 <h3>Email Options</h3>
-<a href='EmailLog.jsp'>Email log</a>
+
+<a href='ManageEmailTemplates.jsp'>Manage email templates</a>
 <br>
-
-
+<a href='EmailLog.jsp'>View email log</a>
+<br>
+<br>
 
 
 </div>

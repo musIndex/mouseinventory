@@ -53,6 +53,13 @@
   	<servlet-name>SendMailServlet</servlet-name>
   	<servlet-class>edu.ucsf.mousedatabase.servlets.SendMailServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<description>
+  	</description>
+  	<display-name>UpdateTemplateServlet</display-name>
+  	<servlet-name>UpdateTemplateServlet</servlet-name>
+  	<servlet-class>edu.ucsf.mousedatabase.servlets.UpdateTemplateServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>PdfServlet</servlet-name>
     <url-pattern>/MouseList</url-pattern>
@@ -60,6 +67,10 @@
   <servlet-mapping>
   	<servlet-name>SendMailServlet</servlet-name>
   	<url-pattern>/admin/SendMail</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>UpdateTemplateServlet</servlet-name>
+  	<url-pattern>/admin/UpdateTemplate</url-pattern>
   </servlet-mapping>
   <listener>
     <listener-class>edu.ucsf.mousedatabase.listeners.ContextListener</listener-class>
