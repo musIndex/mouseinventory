@@ -1606,6 +1606,35 @@ public class DBConnect {
     return SettingResultGetter.getInstance().Get("select * from settings where category=" + safeText(category));
 
   }
+  
+  public static int insertEmailTemplate(EmailTemplate template){
+    String query = "INSERT into email_templates (name,subject,body,category)";
+    query += "VALUES (";
+    query += safeText(template.name) + ",";
+    query += safeText(template.subject) + ",";
+    query += safeText(template.body) + ",";
+    query += safeText(template.category);
+    query += ");";
+    return executeNonQuery(query);
+  }
+  
+  public static void updateEmailTemplate(EmailTemplate template){
+    String query = "UPDATE email_templates SET ";
+    query += " name=" + safeText(template.name) + ",";
+    query += " subject=" + safeText(template.subject) + ",";
+    query += " body=" + safeText(template.body) + ",";
+    query += " category=" + safeText(template.category);
+    query += " WHERE id=" + template.id + ";";
+    executeNonQuery(query);
+  }
+  
+  public static EmailTemplate loadEmailTemplate(int id){
+    return (EmailTemplate)EmailTemplateResultGetter.getInstance().Get("select * from email_templates where id=" + id).get(0);
+  }
+  
+  public static ArrayList<EmailTemplate> getCategoryEmailTemplates(String category){
+    return EmailTemplateResultGetter.getInstance().Get("select * from email_templates where category=" + safeText(category));
+  }
 
   //************************************************************
   //DELETE Methods
@@ -2812,6 +2841,27 @@ public class DBConnect {
     }
 
     abstract protected Object getNextItem() throws SQLException;
+    
+    protected int g_int(String fieldName) throws SQLException {
+      return _resultSet. getInt(fieldName);
+    }
+    
+    protected String g_str(String fieldName) throws SQLException {
+      return _resultSet.getString(fieldName);
+    }
+    
+    protected Boolean g_bool(String fieldName) throws SQLException{
+      return _resultSet.getBoolean(fieldName);
+    }
+    
+    protected Date g_date(String fieldName) throws SQLException{
+      return _resultSet.getDate(fieldName);
+    }
+    
+    protected Timestamp g_ts(String fieldName) throws SQLException{
+      return _resultSet.getTimestamp(fieldName);
+    }
+    
   }
 
   private static final class MouseRecordResultGetter extends ResultGetter
@@ -2826,44 +2876,44 @@ public class DBConnect {
     {
       MouseRecord nextMouse = new MouseRecord();
 
-      nextMouse.setMouseID(_resultSet.getString("id"));
-      nextMouse.setOfficialMouseName(_resultSet.getString("official_name"));
-      nextMouse.setMouseName(_resultSet.getString("name"));
-      nextMouse.setMouseType(_resultSet.getString("mousetype"));
+      nextMouse.setMouseID(g_str("id"));
+      nextMouse.setOfficialMouseName(g_str("official_name"));
+      nextMouse.setMouseName(g_str("name"));
+      nextMouse.setMouseType(g_str("mousetype"));
 
-      nextMouse.setGeneID(_resultSet.getString("gene mgi"));
-      nextMouse.setGeneName(_resultSet.getString("gene name"));
-      nextMouse.setGeneSymbol(_resultSet.getString("gene symbol"));
+      nextMouse.setGeneID(g_str("gene mgi"));
+      nextMouse.setGeneName(g_str("gene name"));
+      nextMouse.setGeneSymbol(g_str("gene symbol"));
 
-      nextMouse.setTargetGeneID(_resultSet.getString("target gene mgi"));
-      nextMouse.setTargetGeneName(_resultSet.getString("target gene name"));
-      nextMouse.setTargetGeneSymbol(_resultSet.getString("target gene symbol"));
+      nextMouse.setTargetGeneID(g_str("target gene mgi"));
+      nextMouse.setTargetGeneName(g_str("target gene name"));
+      nextMouse.setTargetGeneSymbol(g_str("target gene symbol"));
 
-      nextMouse.setModificationType(_resultSet.getString("modification_type"));
-      nextMouse.setRegulatoryElement(_resultSet.getString("regulatory element"));
+      nextMouse.setModificationType(g_str("modification_type"));
+      nextMouse.setRegulatoryElement(g_str("regulatory element"));
 
-      nextMouse.setExpressedSequence(_resultSet.getString("expressedSequence"));
-      nextMouse.setOtherComment(_resultSet.getString("other_comment"));
-      nextMouse.setReporter(_resultSet.getString("reporter"));
-      nextMouse.setTransgenicType(_resultSet.getString("transgenictype"));
+      nextMouse.setExpressedSequence(g_str("expressedSequence"));
+      nextMouse.setOtherComment(g_str("other_comment"));
+      nextMouse.setReporter(g_str("reporter"));
+      nextMouse.setTransgenicType(g_str("transgenictype"));
 
-      nextMouse.setMtaRequired(_resultSet.getString("mta_required"));
-      nextMouse.setGeneralComment(_resultSet.getString("general_comment"));
-      nextMouse.setBackgroundStrain(_resultSet.getString("strain"));
+      nextMouse.setMtaRequired(g_str("mta_required"));
+      nextMouse.setGeneralComment(g_str("general_comment"));
+      nextMouse.setBackgroundStrain(g_str("strain"));
 
-      nextMouse.setSource(_resultSet.getString("source"));
-      nextMouse.setRepositoryTypeID(_resultSet.getString("repository_id"));
-      nextMouse.setRepositoryCatalogNumber(_resultSet.getString("repository_catalog_number"));
+      nextMouse.setSource(g_str("source"));
+      nextMouse.setRepositoryTypeID(g_str("repository_id"));
+      nextMouse.setRepositoryCatalogNumber(g_str("repository_catalog_number"));
 
-      nextMouse.setGensat(_resultSet.getString("gensat"));
+      nextMouse.setGensat(g_str("gensat"));
 
-      nextMouse.setCryopreserved(_resultSet.getString("cryopreserved"));
+      nextMouse.setCryopreserved(g_str("cryopreserved"));
 
-      nextMouse.setStatus(_resultSet.getString("status"));
+      nextMouse.setStatus(g_str("status"));
 
-      nextMouse.setEndangered(_resultSet.getBoolean("endangered"));
+      nextMouse.setEndangered(g_bool("endangered"));
 
-      nextMouse.setSubmittedMouseID(_resultSet.getString("submittedmouse_id"));
+      nextMouse.setSubmittedMouseID(g_str("submittedmouse_id"));
 
       nextMouse.setHolders(getMouseHolders(nextMouse.getMouseID()));
       nextMouse.setPubmedIDs(getMousePubmedIDs(nextMouse.getMouseID()));
@@ -2899,24 +2949,24 @@ public class DBConnect {
     {
       ChangeRequest result = new ChangeRequest();
 
-      result.setRequestID(_resultSet.getInt("changerequest.id"));
-      int mouseRecordID = _resultSet.getInt("mouse_id");
+      result.setRequestID(g_int("changerequest.id"));
+      int mouseRecordID = g_int("mouse_id");
       result.setMouseID(mouseRecordID <= 0 ? -1 : mouseRecordID);
-      result.setMouseName(_resultSet.getString("mouse.name"));
-      result.setAdminComment(_resultSet.getString("admin_comment"));
-      result.setFirstname(_resultSet.getString("firstname"));
-      result.setLastname(_resultSet.getString("lastname"));
-      result.setEmail(_resultSet.getString("email"));
-      result.setStatus(_resultSet.getString("changerequest.status"));
-      result.setAdminComment(_resultSet.getString("admin_comment"));
-      result.setUserComment(_resultSet.getString("user_comment"));
+      result.setMouseName(g_str("mouse.name"));
+      result.setAdminComment(g_str("admin_comment"));
+      result.setFirstname(g_str("firstname"));
+      result.setLastname(g_str("lastname"));
+      result.setEmail(g_str("email"));
+      result.setStatus(g_str("changerequest.status"));
+      result.setAdminComment(g_str("admin_comment"));
+      result.setUserComment(g_str("user_comment"));
 
-      result.setRequestDate(_resultSet.getDate("requestDate").toString());
+      result.setRequestDate(g_date("requestDate").toString());
 
-      Date lastAdminDate = _resultSet.getDate("lastadmindate");
+      Date lastAdminDate = g_date("lastadmindate");
       result.setLastAdminDate(lastAdminDate != null ? lastAdminDate.toString() : "");
 
-      result.setProperties(_resultSet.getString("properties"));
+      result.setProperties(g_str("properties"));
 
       return result;
     }
@@ -2933,22 +2983,22 @@ public class DBConnect {
     {
       SubmittedMouse result = new SubmittedMouse();
 
-      result.setSubmissionID(_resultSet.getInt("submittedmouse.id"));
-      int mouseRecordID = _resultSet.getInt("mouseRecordID");
+      result.setSubmissionID(g_int("submittedmouse.id"));
+      int mouseRecordID = g_int("mouseRecordID");
       result.setMouseRecordID(mouseRecordID <= 0 ? -1 : mouseRecordID);
 
-      result.setFirstName(_resultSet.getString("firstname"));
-      result.setLastName(_resultSet.getString("lastname"));
-      result.setDepartment(_resultSet.getString("dept"));
-      result.setEmail(_resultSet.getString("email"));
-      result.setTelephoneNumber(_resultSet.getString("tel"));
+      result.setFirstName(g_str("firstname"));
+      result.setLastName(g_str("lastname"));
+      result.setDepartment(g_str("dept"));
+      result.setEmail(g_str("email"));
+      result.setTelephoneNumber(g_str("tel"));
 
-      result.setSubmissionDate(_resultSet.getDate("date"));
-      result.setStatus(_resultSet.getString("status"));
-      result.setAdminComment(_resultSet.getString("admincomment"));
-      result.setEntered(_resultSet.getString("entered").equalsIgnoreCase("Y"));
+      result.setSubmissionDate(g_date("date"));
+      result.setStatus(g_str("status"));
+      result.setAdminComment(g_str("admincomment"));
+      result.setEntered(g_str("entered").equalsIgnoreCase("Y"));
 
-      result.parseProperties(_resultSet.getString("properties"));
+      result.parseProperties(g_str("properties"));
       return result;
     }
   }
@@ -2981,20 +3031,20 @@ public class DBConnect {
     protected Object getNextItem() throws SQLException
     {
       MouseHolder holder = new MouseHolder();
-        holder.setHolderID(_resultSet.getInt("holder_id"));
-        holder.setFirstname(_resultSet.getString("firstname"));
-        holder.setLastname(_resultSet.getString("lastname"));
-        holder.setDept(_resultSet.getString("department"));
-        holder.setEmail(_resultSet.getString("email"));
-        holder.setAlternateEmail(_resultSet.getString("alternate_email"));
-        holder.setAlternateName(_resultSet.getString("alternate_name"));
-        holder.setTel(_resultSet.getString("tel"));
+        holder.setHolderID(g_int("holder_id"));
+        holder.setFirstname(g_str("firstname"));
+        holder.setLastname(g_str("lastname"));
+        holder.setDept(g_str("department"));
+        holder.setEmail(g_str("email"));
+        holder.setAlternateEmail(g_str("alternate_email"));
+        holder.setAlternateName(g_str("alternate_name"));
+        holder.setTel(g_str("tel"));
 
-        holder.setFacilityID(_resultSet.getInt("facility_id"));
-        holder.setFacilityName(_resultSet.getString("facility"));
+        holder.setFacilityID(g_int("facility_id"));
+        holder.setFacilityName(g_str("facility"));
 
-        holder.setCovert(_resultSet.getBoolean("covert"));
-        holder.setCryoLiveStatus(_resultSet.getString("cryo_live_status"));
+        holder.setCovert(g_bool("covert"));
+        holder.setCryoLiveStatus(g_str("cryo_live_status"));
       return holder;
     }
   }
@@ -3010,11 +3060,11 @@ public class DBConnect {
     protected Object getNextItem() throws SQLException
     {
       Facility result = new Facility();
-      result.setFacilityID(_resultSet.getInt("id"));
-      result.setFacilityName(_resultSet.getString("facility"));
-      result.setFacilityDescription(_resultSet.getString("description"));
-      result.setFacilityCode(_resultSet.getString("code"));
-      result.setRecordCount(_resultSet.getInt("mice held"));
+      result.setFacilityID(g_int("id"));
+      result.setFacilityName(g_str("facility"));
+      result.setFacilityDescription(g_str("description"));
+      result.setFacilityCode(g_str("code"));
+      result.setRecordCount(g_int("mice held"));
       return result;
 
     }
@@ -3032,17 +3082,17 @@ public class DBConnect {
     protected Object getNextItem() throws SQLException
     {
       Holder result = new Holder();
-        result.setHolderID(_resultSet.getInt("id"));
-        result.setFirstname(_resultSet.getString("firstname"));
-        result.setLastname(_resultSet.getString("lastname"));
-        result.setDept(_resultSet.getString("department"));
-        result.setEmail(_resultSet.getString("email"));
-        result.setAlternateEmail(_resultSet.getString("alternate_email"));
-        result.setAlternateName(_resultSet.getString("alternate_name"));
-        result.setTel(_resultSet.getString("tel"));
-        result.setVisibleMouseCount(_resultSet.getInt("mice held"));
-        result.setDateValidated(_resultSet.getString("datevalidated"));
-        result.setValidationComment(_resultSet.getString("validation_comment"));
+        result.setHolderID(g_int("id"));
+        result.setFirstname(g_str("firstname"));
+        result.setLastname(g_str("lastname"));
+        result.setDept(g_str("department"));
+        result.setEmail(g_str("email"));
+        result.setAlternateEmail(g_str("alternate_email"));
+        result.setAlternateName(g_str("alternate_name"));
+        result.setTel(g_str("tel"));
+        result.setVisibleMouseCount(g_int("mice held"));
+        result.setDateValidated(g_str("datevalidated"));
+        result.setValidationComment(g_str("validation_comment"));
         return result;
     }
   }
@@ -3065,10 +3115,10 @@ public class DBConnect {
         while(_resultSet.next())
         {
           result = new Gene();
-          result.setGeneRecordID(_resultSet.getInt("id"));
-          result.setFullname(_resultSet.getString("fullname"));
-          result.setSymbol(_resultSet.getString("symbol"));
-          result.setMgiID(_resultSet.getString("mgi"));
+          result.setGeneRecordID(g_int("id"));
+          result.setFullname(g_str("fullname"));
+          result.setSymbol(g_str("symbol"));
+          result.setMgiID(g_str("mgi"));
           results.add((T)result);
           tempResults.put(result.getGeneRecordID(), result);
         }
@@ -3082,10 +3132,10 @@ public class DBConnect {
         _resultSet = _statement.executeQuery(query);
         while (_resultSet.next())
         {
-          Integer key = _resultSet.getInt("id");
+          Integer key = g_int("id");
           if (tempResults.containsKey(key))
           {
-            tempResults.get(key).setRecordCount(_resultSet.getInt("record count"));
+            tempResults.get(key).setRecordCount(g_int("record count"));
           }
         }
     }
@@ -3117,7 +3167,7 @@ public class DBConnect {
       ArrayList<String> result = new ArrayList<String>();
       for (String columnName : _columnNames)
       {
-        result.add(_resultSet.getString(columnName));
+        result.add(g_str(columnName));
       }
 
       return result;
@@ -3157,7 +3207,7 @@ public class DBConnect {
     @Override
     protected Object getNextItem() throws SQLException
     {
-      return _resultSet.getString(_columnName);
+      return g_str(_columnName);
     }
   }
 
@@ -3180,7 +3230,7 @@ public class DBConnect {
     @Override
     protected Object getNextItem() throws SQLException
     {
-      return _resultSet.getInt(_columnName);
+      return g_int(_columnName);
     }
   }
 
@@ -3196,11 +3246,11 @@ public class DBConnect {
     protected Object getNextItem() throws SQLException
     {
       ImportReport result = new ImportReport();
-        result.setImportReportID(_resultSet.getInt("id"));
-        result.setImportType(ImportHandler.GetImportType(_resultSet.getInt("report_type")));
-        result.setName(_resultSet.getString("name"));
-        result.setCreationDate(_resultSet.getDate("creationdate"));
-        result.setReportText(_resultSet.getString("reporttext"));
+        result.setImportReportID(g_int("id"));
+        result.setImportType(ImportHandler.GetImportType(g_int("report_type")));
+        result.setName(g_str("name"));
+        result.setCreationDate(g_date("creationdate"));
+        result.setReportText(g_str("reporttext"));
         return result;
     }
   }
@@ -3216,15 +3266,15 @@ public class DBConnect {
     protected Object getNextItem() throws SQLException
     {
       MouseMail email = new MouseMail(
-          _resultSet.getString("recipients"), 
-          _resultSet.getString("ccs"), 
-          _resultSet.getString("subject"), 
-          _resultSet.getString("body"));
-      email.bccs = _resultSet.getString("bccs");
-      email.dateCreated = _resultSet.getTimestamp("date_created");
-      email.status = _resultSet.getString("status");
-      email.id = _resultSet.getInt("id");
-      email.emailType = _resultSet.getString("emailType");
+          g_str("recipients"), 
+          g_str("ccs"), 
+          g_str("subject"), 
+          g_str("body"));
+      email.bccs = g_str("bccs");
+      email.dateCreated = g_ts("date_created");
+      email.status = g_str("status");
+      email.id = g_int("id");
+      email.emailType = g_str("emailType");
       return email;
     }
   }
@@ -3237,12 +3287,30 @@ public class DBConnect {
     @Override
     protected Object getNextItem() throws SQLException{
       Setting setting = new Setting();
-      setting.id = _resultSet.getInt("id");
-      setting.name = _resultSet.getString("name");
-      setting.category = _resultSet.getString("category");
-      setting.label = _resultSet.getString("label");
-      setting.value = _resultSet.getString("setting_value");
+      setting.id = g_int("id");
+      setting.name = g_str("name");
+      setting.category = g_str("category");
+      setting.label = g_str("label");
+      setting.value = g_str("setting_value");
       return setting;
+    }
+  }
+  
+  public static final class EmailTemplateResultGetter extends ResultGetter
+  {
+    public static EmailTemplateResultGetter getInstance(){
+      return new EmailTemplateResultGetter();
+    }
+    
+    @Override
+    protected Object getNextItem() throws SQLException{
+      EmailTemplate template = new EmailTemplate();
+      template.id = g_int("id");
+      template.subject = g_str("subject");
+      template.body = g_str("body");
+      template.category = g_str("category");
+      template.dateUpdated = g_ts("date_updated");
+      return template;
     }
   }
 

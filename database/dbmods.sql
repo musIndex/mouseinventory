@@ -170,3 +170,18 @@ CREATE TABLE `emails` (
   `date_created` TIMESTAMP NOT NULL DEFAULT NOW(),
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+#36 add category field to emails
+alter table `emails` add column `category` varchar(255);
+
+#37 add table email_templates
+CREATE TABLE `email_templates` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255),
+  `emailType` varchar(255),
+  `subject` text,
+  `body` text,
+  `category` varchar(255),
+  `date_updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
