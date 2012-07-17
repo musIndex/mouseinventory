@@ -1560,7 +1560,7 @@ public class DBConnect {
   }
   
   public static int insertEmail(MouseMail email){
-    String query = "INSERT into emails (recipients,ccs,bccs,emailType,subject,body,status)";
+    String query = "INSERT into emails (recipients,ccs,bccs,emailType,subject,body,status,category)";
       query += "VALUES (";
       query += safeText(email.recipient) + ",";
       query += safeText(email.ccs) + ",";
@@ -1568,7 +1568,8 @@ public class DBConnect {
       query += safeText(email.emailType) + ",";
       query += safeText(email.subject) + ",";
       query += safeText(email.body) + ",";
-      query += safeText(email.status);
+      query += safeText(email.status) + ",";
+      query += safeText(email.category);
       query += ");";
     return executeNonQuery(query);
   }
@@ -3273,7 +3274,8 @@ public class DBConnect {
           g_str("recipients"), 
           g_str("ccs"), 
           g_str("subject"), 
-          g_str("body"));
+          g_str("body"),
+          g_str("category"));
       email.bccs = g_str("bccs");
       email.dateCreated = g_ts("date_created");
       email.status = g_str("status");

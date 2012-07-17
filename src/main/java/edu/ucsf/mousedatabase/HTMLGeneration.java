@@ -1117,7 +1117,7 @@ public class HTMLGeneration {
           nextSubmission.getEmail(),
           nextSubmission.getEmail(),
           "Mouse Inventory Database Submission - "
-              + nextSubmission.getMouseName(),null,nextSubmission.getEmail(),null,true));
+              + nextSubmission.getMouseName(),null,nextSubmission.getEmail(),null,true,EmailTemplate.CATEGORY_SUBMISSION));
       table.append("</dt>\r\n");
       table.append("<dt>");
       table.append("Submission date: "
@@ -1765,7 +1765,7 @@ public class HTMLGeneration {
           String mailLink = getMailToLink(holder.getAlternateEmail(), holder.getEmail(),
               "Regarding " + nextRecord.getMouseName() + "-Record# " + nextRecord.getMouseID(), 
               null, firstInitial + holder.getLastname(),
-              holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")",false);
+              holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")",edit,EmailTemplate.CATEGORY_MOUSERECORD);
           
           holderBuf.append("<dt" + (overMax ? " style='display:none'" : "") + ">"
               + (holder.isCovert() ? "<b>CVT</b>-" : "")
@@ -1897,7 +1897,8 @@ public class HTMLGeneration {
       
       table.append(getMailToLink(nextRequest.getEmail(), holderEmail,
                     "Mouse Inventory Database Change Request for record #" + nextRequest.getMouseID() 
-                    + " - " + nextRequest.getMouseName(),null, nextRequest.getEmail(), null,true));
+                    + " - " + nextRequest.getMouseName(),null, nextRequest.getEmail(), null,true,
+                    EmailTemplate.CATEGORY_CHANGREQUEST));
       table.append("</dt>\r\n");
 
       table.append("</dl>\r\n");
@@ -2919,10 +2920,10 @@ public class HTMLGeneration {
   
   public static String getMailToLink(String address, String cc, String subject, String body, String linkText)
   {
-    return getMailToLink(address, cc, subject, body, linkText, null, false); 
+    return getMailToLink(address, cc, subject, body, linkText, null, false, null); 
   }
   
-  public static String getMailToLink(String address, String cc, String subject, String body, String linkText, String linkTitle, boolean admin)
+  public static String getMailToLink(String address, String cc, String subject, String body, String linkText, String linkTitle, boolean admin, String templateCategory)
   {
     String recipient = address;
     String ccRecipient = null;
@@ -2941,6 +2942,9 @@ public class HTMLGeneration {
       String link = "<a class='adminEmailButton' href='#'" + 
           " data-subject='" + dataEncode(subject) + "'" +  
           " data-recipient='" + recipient + "'";
+      if (templateCategory != null){
+        link += " data-template_category='" + templateCategory + "'";
+      }
       if (ccRecipient != null){
        link += " data-cc='" + ccRecipient + "'";
       }

@@ -43,11 +43,13 @@
 
 <div class='site_container'>
   <h2><%= title %></h2>
-  <b><%= message %></b>
+  <% if (message.length() > 0){ %>
+    <div class='alert alert-success'><%= message %></div>
+  <% } %>
   <br><br>
   <% if (templates != null) { %>
      <a href='ManageEmailTemplates.jsp?command=edit&id=-1'>Add new template</a>
-     <table class='emailTemplate'>
+     <table class='basic'>
      <tr>
         <th width='150px'>Category</th>
         <th width='150px'>Name</th>

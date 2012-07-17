@@ -873,17 +873,17 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
 .emailTemplateForm select{
   width: 200px;
 }
-table.emailTemplate {
+table.basic {
   width: 100%;
 }
-table.emailTemplate th {
+table.basic th {
   background-color: #7AC5CD;
 }
 
-table.emailTemplate > tbody > tr:nth-child(even) > td {
+table.basic > tbody > tr:nth-child(even) > td {
   background-color: #ECF1EF;
 }
 
-table.emailTemplate > tbody > tr:nth-child(odd) > td {
+table.basic > tbody > tr:nth-child(odd) > td {
   background-color: #EEF3E2;
 }

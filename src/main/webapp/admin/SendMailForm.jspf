@@ -1,12 +1,19 @@
+<%@page import="edu.ucsf.mousedatabase.DBConnect"%>
+<%@page import="edu.ucsf.mousedatabase.objects.*"%>
+<%@page import="com.google.gson.*" %>
+<%@page import="java.util.*" %>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*"%>
 <%
- //EmailCategories = DBConnect.getEmailFormats()
 
+  HashMap<String,ArrayList<EmailTemplate>> templates = new HashMap<String,ArrayList<EmailTemplate>>();
+  for (String category : EmailTemplate.getCategories()) {
+    templates.put(category, DBConnect.getCategoryEmailTemplates(category)); 
+  }
 %>
-
 
 <div class="modal hide" id="sendMailModal" style='width:750px; left:40%'>
 <form method='post' id='outgoing_message' action='<%=adminRoot%>SendMail' style='margin: 0px'>
+  <input type='hidden' name='category' value='' />
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">×</button>
     <h3 style="margin: 0px">Send email as <%=AdminEmail %></h3>
@@ -14,25 +21,27 @@
   <div class="modal-body">
     <div id='results_container' class='alert hide'></div>
     <table>
-    <tr>
-    <td>To:</td>
-    <td><input type='text' name='recipient'></input></td>
-    </tr>
-    <tr>
-    <td>cc:</td>
-    <td><input type='text' name='cc'></input></td>
-    </tr>
-    <tr>
-    <td >Subject:</td>
-    <td ><textarea name='subject' rows='2' cols='100'></textarea></td>
-    </tr>
-    <tr>
-    <td colspan='2'>Body:</td>
-    </tr>
-    <tr>
-    <td colspan='2'><textarea name='body'></textarea></td>
-    </tr>
-    
+      <tr>
+        <td>To:</td>
+        <td><input type='text' name='recipient'></input></td>
+      </tr>
+      <tr>
+        <td>cc:</td>
+        <td><input type='text' name='cc'></input></td>
+      </tr>
+      <tr>
+      <td colspan='2'>Template: <select name='template'></select></td>
+      </tr>
+      <tr>
+        <td >Subject:</td>
+        <td ><textarea name='subject' rows='2' cols='100'></textarea></td>
+      </tr>
+      <tr>
+        <td colspan='2'>Body:</td>
+      </tr>
+      <tr>
+        <td colspan='2'><textarea name='body'></textarea></td>
+      </tr>   
     </table>
 
   </div>
@@ -46,33 +55,20 @@
 <script type='text/javascript'>
 
 $(document).ready(function(){
-  $("a.adminEmailButton").click(function(){
-    var $this = $(this);
-    var fields = ['recipient','cc','subject','body'];
-    $.each(fields,function(i,field){
-      $("#sendMailModal input[name='" + field + "']").val($this.data(field));
-      $("#sendMailModal textarea[name='" + field + "']").val($this.data(field));
-    });
-    $("#sendMailModal #results_container").hide();
-    $("#sendMailModal div.modal-body table").show();
-    $("#sendMailModal a.btn.btn-primary").removeClass('disabled');
-    $("#sendMailModal textarea[name='body']").cleditor({
-      width: 670,
-      height: 200,
-      controls: 
-        "bold italic underline | font size " +
-        "style | color removeformat | bullets numbering | outdent " +
-        "indent | undo redo | " + " cut copy paste pastetext",
-    });
-    $("#sendMailModal").modal("show");
-    return false;
-  });
-  
+  var all_templates = <%=new Gson().toJson(templates) %>;
+  var templates = [];
+  var template_selector = $("#sendMailModal select[name='template']");
+  var editor = {};
+  $("a.adminEmailButton").click(showSendMailModal);
   $('#sendMailModal a.disabled').on('click', function(event){
     event.stopImmediatePropagation();
     event.preventDefault();
   });
-  $("#sendMailModal a.btn.btn-primary").click(function(){
+  $("#sendMailModal a.btn.btn-primary").click(sendMail);
+  
+  template_selector.change(update_template);
+  
+  function sendMail(){
     $(this).addClass('disabled');
     $(this).text('Sending...');
     var form_data = $("#outgoing_message").serialize();
@@ -84,7 +80,46 @@ $(document).ready(function(){
       error: mailSendError,
       async: true
   	});
-  });
+  }
+  
+  function showSendMailModal(){
+    var $this = $(this);
+    var fields = ['recipient','cc','subject','body','category'];
+    $.each(fields,function(i,field){
+      $("#sendMailModal input[name='" + field + "']").val($this.data(field));
+      $("#sendMailModal textarea[name='" + field + "']").text($this.data(field));
+    });
+    
+    template_selector.find().remove();
+    var category = $this.data('template_category');
+    if (category) {
+      templates = all_templates[category];
+      if (templates){
+        template_selector.append($('<option>',{value: -1, text: ''}));
+        $.each(templates,function(i,template){
+          template_selector.append($('<option>',{value: template.id, text: template.name}));
+        });
+        template_selector.parent().show();
+      }
+    }
+    else {
+      template_selector.parent().hide();
+    }
+    
+    $("#sendMailModal #results_container").hide();
+    $("#sendMailModal div.modal-body table").show();
+    $("#sendMailModal a.btn.btn-primary").removeClass('disabled');
+    editor = $("#sendMailModal textarea[name='body']").cleditor({
+      width: 670,
+      height: 200,
+      controls: 
+        "bold italic underline | font size " +
+        "style | color removeformat | bullets numbering | outdent " +
+        "indent | undo redo | " + " cut copy paste pastetext",
+    })[0];
+    $("#sendMailModal").modal("show");
+    return false;
+  }
   
   function mailSendSuccess(data){
     $("#sendMailModal a.btn.btn-primary").text('Sent');
@@ -101,6 +136,19 @@ $(document).ready(function(){
     	.removeClass('hide')
     	.removeClass('alert-success')
     	.addClass('alert-error');
+  }
+  function update_template(){
+    var template_id = parseInt($(this).val());
+    var updated = false;
+    $.each(templates,function(i,template){
+      if (updated || template.id !== template_id){
+        return;
+      }
+      $("#sendMailModal textarea[name='subject']").text(template.subject);
+      $("#sendMailModal textarea[name='body']").text(template.body);
+      updated = true;
+      editor.updateFrame();
+    })
   }
 });
 
