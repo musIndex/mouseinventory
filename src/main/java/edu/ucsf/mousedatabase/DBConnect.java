@@ -1635,6 +1635,10 @@ public class DBConnect {
   public static ArrayList<EmailTemplate> getCategoryEmailTemplates(String category){
     return EmailTemplateResultGetter.getInstance().Get("select * from email_templates where category=" + safeText(category));
   }
+  
+  public static ArrayList<EmailTemplate> getEmailTemplates(){
+    return EmailTemplateResultGetter.getInstance().Get("select * from email_templates order by category,name");
+  }
 
   //************************************************************
   //DELETE Methods
@@ -3306,6 +3310,7 @@ public class DBConnect {
     protected Object getNextItem() throws SQLException{
       EmailTemplate template = new EmailTemplate();
       template.id = g_int("id");
+      template.name = g_str("name");
       template.subject = g_str("subject");
       template.body = g_str("body");
       template.category = g_str("category");
