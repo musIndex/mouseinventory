@@ -2943,7 +2943,7 @@ public class HTMLGeneration {
           " data-subject='" + dataEncode(subject) + "'" +  
           " data-recipient='" + recipient + "'";
       if (templateCategory != null){
-        link += " data-template_category='" + templateCategory + "'";
+        link += " data-category='" + templateCategory + "'";
       }
       if (ccRecipient != null){
        link += " data-cc='" + ccRecipient + "'";

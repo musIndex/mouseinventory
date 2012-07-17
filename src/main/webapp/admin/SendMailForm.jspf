@@ -91,7 +91,7 @@ $(document).ready(function(){
     });
     
     template_selector.children().remove();
-    var category = $this.data('template_category');
+    var category = $this.data('category');
     if (category) {
       templates = all_templates[category];
       if (templates){
