@@ -36,6 +36,7 @@ public class SendMailServlet extends HttpServlet {
     String cc = request.getParameter("cc");
     String subject = request.getParameter("subject");
     String body = request.getParameter("body");
+    String category = request.getParameter("category");
     
     Properties data = new Properties();
     
@@ -49,7 +50,7 @@ public class SendMailServlet extends HttpServlet {
       data.setProperty("error","you must be an administrator to send mail");
     }
     else {
-      data.setProperty("id", Integer.toString(MouseMail.send(recipient, cc, subject, body)));
+      data.setProperty("id", Integer.toString(MouseMail.send(recipient, cc, subject, body, category)));
     }
     
     Gson gson = new Gson();
