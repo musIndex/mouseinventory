@@ -54,7 +54,7 @@
     sortBuf.append(genFlatRadio("status",filterOptions,filterOptionNiceNames, status,""));
     sortBuf.append("<br>&nbsp;Sort by: ");
     sortBuf.append(genFlatRadio("orderby",sortOptions,sortOptionNiceNames, orderBy,""));
-    sortBuf.append("<br>&nbsp;<input type=\"submit\" value=\"Update\">");
+    sortBuf.append("<br>&nbsp;<input class='btn' type='submit' value=\"Update\">");
     sortBuf.append("</form>");
 
   ArrayList<ChangeRequest> requests = DBConnect.getChangeRequests(status, orderBy);

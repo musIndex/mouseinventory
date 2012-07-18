@@ -1633,6 +1633,10 @@ public class DBConnect {
     return (EmailTemplate)EmailTemplateResultGetter.getInstance().Get("select * from email_templates where id=" + id).get(0);
   }
   
+  public static void deleteEmailTemplate(int id){
+    executeNonQuery("DELETE FROM email_templates WHERE id=" + id);
+  }
+  
   public static ArrayList<EmailTemplate> getCategoryEmailTemplates(String category){
     return EmailTemplateResultGetter.getInstance().Get("select * from email_templates where category=" + safeText(category));
   }

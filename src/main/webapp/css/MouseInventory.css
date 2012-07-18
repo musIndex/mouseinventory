@@ -873,11 +873,33 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
 .emailTemplateForm select{
   width: 200px;
 }
+
+table.email_template_template {
+  width: 100%;
+}
+
+table.email_template_template > tbody > tr > td:nth-child(1) {
+  width: 55px;
+  text-align: right;
+}
+
+table.email_template_template > tbody > tr > td:nth-child(2) {
+  background-color: white;
+  border-radius: 2px;
+  border: 1px solid black;
+}
+
 table.basic {
   width: 100%;
 }
 table.basic th {
   background-color: #7AC5CD;
+  text-align: left;
+  font-weight: normal;
+  padding: 4px;
+}
+table.basic td {
+  vertical-align: top;
 }
 
 table.basic > tbody > tr:nth-child(even) > td {
@@ -886,4 +908,8 @@ table.basic > tbody > tr:nth-child(even) > td {
 
 table.basic > tbody > tr:nth-child(odd) > td {
   background-color: #EEF3E2;
+}
+
+.template_help dt {
+  font-weight: bold;
 }

@@ -48,7 +48,7 @@ public class UpdateTemplateServlet extends HttpServlet {
     else
     {
       DBConnect.insertEmailTemplate(template);
-      message = "Added new template '" + template.name + "' successfully.";
+      message = "Added new " + template.category + " template '" + template.name + "' successfully.";
     }
     
     response.sendRedirect(HTMLGeneration.adminRoot + "ManageEmailTemplates.jsp?command=list&message=" + HTMLGeneration.urlEncode(message));

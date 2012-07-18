@@ -1,10 +1,11 @@
 <%@page import="edu.ucsf.mousedatabase.*" %>
 <%@page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@page import="java.util.ArrayList" %>
+<%@page import="java.text.SimpleDateFormat" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EmailOptions.jsp", true) %>
 <% 
-
+  SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
   ArrayList<MouseMail> emails = DBConnect.getEmails();
  
 %>
@@ -21,7 +22,7 @@
 </tr>
 <% for(MouseMail email : emails){ %>
   <tr class='mouselist'>
-    <td><%=email.status %> <%= email.dateCreated %></td>
+    <td><%=email.status %> <%= sdf.format(email.dateCreated) %></td>
     <td><%=email.category %></td>
     <td>
     <%=email.recipient %> 
