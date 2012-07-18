@@ -7,6 +7,8 @@ public class EmailTemplate {
   public static final String SUBMISSION = "Submission";
   public static final String COMPLETESUBMISSION = "Completed Submission";
   public static final String CHANGREQUEST = "Change Request";
+  public static final String CHANGEREQUESTCOMPLETED = "Completed Change Request";
+  public static final String CHANGEREQUESTINCOMPLETE = "Incomplete Change Request";
   public static final String MOUSERECORD = "Mouse Record";
   public static final String INCOMPLETESUBMISSION = "Incomplete Submission";
   
@@ -20,6 +22,8 @@ public class EmailTemplate {
         COMPLETESUBMISSION,
         INCOMPLETESUBMISSION,
         CHANGREQUEST,
+        CHANGEREQUESTCOMPLETED,
+        CHANGEREQUESTINCOMPLETE,
         MOUSERECORD
         };
   }
