@@ -89,8 +89,8 @@ $(document).ready(function(){
     var $this = $(this);
     var fields = ['recipient','cc','subject','body','category'];
     $.each(fields,function(i,field){
-      $("#sendMailModal input[name='" + field + "']").val($this.data(field));
-      $("#sendMailModal textarea[name='" + field + "']").text($this.data(field));
+      $("#sendMailModal input[name='" + field + "']").val($this.data(field) || '');
+      $("#sendMailModal textarea[name='" + field + "']").text($this.data(field) || '');
     });
     
     setupCurrentObjects($this.data('submission_id'),$this.data('request_id'),$this.data('mouse_id'));
@@ -119,9 +119,10 @@ $(document).ready(function(){
       height: 200,
       controls: 
         "bold italic underline | font size " +
-        "style | color removeformat | bullets numbering | outdent " +
+        "style |  link unlink | color removeformat | bullets numbering | outdent " +
         "indent | undo redo | " + " cut copy paste pastetext",
     })[0];
+    editor.updateFrame();
     $("#sendMailModal").modal("show");
     return false;
   }

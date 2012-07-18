@@ -122,7 +122,7 @@ $("textarea[name='body']").cleditor({
   height: 200,
   controls: 
     "bold italic underline | font size " +
-    "style | color removeformat | bullets numbering | outdent " +
+    "style | link unlink | color removeformat | bullets numbering | outdent " +
     "indent | undo redo | " + " cut copy paste pastetext",
 });
 
