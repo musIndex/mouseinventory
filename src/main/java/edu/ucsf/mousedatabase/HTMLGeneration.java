@@ -2,15 +2,26 @@ package edu.ucsf.mousedatabase;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Enumeration;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
 
-import edu.ucsf.mousedatabase.objects.*;
+import edu.ucsf.mousedatabase.objects.ChangeRequest;
+import edu.ucsf.mousedatabase.objects.EmailTemplate;
+import edu.ucsf.mousedatabase.objects.Facility;
+import edu.ucsf.mousedatabase.objects.Gene;
+import edu.ucsf.mousedatabase.objects.Holder;
+import edu.ucsf.mousedatabase.objects.ImportReport;
+import edu.ucsf.mousedatabase.objects.MGIResult;
+import edu.ucsf.mousedatabase.objects.MouseHolder;
+import edu.ucsf.mousedatabase.objects.MouseRecord;
+import edu.ucsf.mousedatabase.objects.MouseType;
+import edu.ucsf.mousedatabase.objects.SubmittedMouse;
 
 public class HTMLGeneration {
 
@@ -191,7 +202,7 @@ public class HTMLGeneration {
       table.append(addNavLink("Admin Home", "admin.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Submissions", "ListSubmissions.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Change Requests", "ManageChangeRequests.jsp", null, currentPageFilename, true));
-      table.append(addNavLink("Edit Mice", "EditMouseSelection.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Edit Records", "EditMouseSelection.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Edit Holders", "EditHolderChooser.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Edit Facilities","EditFacilityChooser.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Data Upload", "ImportReports.jsp", null,  currentPageFilename, true));
@@ -903,7 +914,7 @@ public class HTMLGeneration {
 
     buf.append("</form>\r\n");
 
-    if (r.getMouseID() != null) {
+    if (r.getMouseID() != null && req == null) {
       ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
 
       String[] mouseTypeIDs = new String[mouseTypes.size()];
@@ -923,10 +934,10 @@ public class HTMLGeneration {
       String mouseTypeOptions = genSelect("mousetype_id", mouseTypeIDs,
           mouseTypeNames, currentTypeIDstr, "style='width:150px'");
 
-      buf.append("<form name=\"changeMouseType\" action=\"ChangeMouseType.jsp\" method=\"post\">\r\n");
-      buf.append("<input type=\"hidden\" name=\"mouse_id\" value=\"" + r.getMouseID() + "\">");
-      buf.append("<br><p>Change Mouse Type to: " + mouseTypeOptions);
-      buf.append("&nbsp;&nbsp;<input type=\"submit\" class='btn btn-small' value=\"Change Type\">");
+      buf.append("<form name='changeMouseType' action='ChangeMouseType.jsp' method='post'>\r\n");
+      buf.append("<input type='hidden' name='mouse_id' value='" + r.getMouseID() + "'>");
+      buf.append("<br><p>Change Mouse Category to: " + mouseTypeOptions);
+      buf.append("&nbsp;&nbsp;<input type='submit' class='btn btn-small' value='Change Category'>");
       buf.append("</form>\r\n");
       buf.append("</div>\r\n");
       buf.append("</div>\r\n");
