@@ -131,7 +131,7 @@
        </table>
      </form>
      </div>
-     <div style='float:right; max-width:500px' class='template_help'>
+     <div style='float:left; max-width:500px' class='template_help'>
      <h3>Data interpolation guide</h3>
      <p>Use one or more of the following tags to fill in data.  For example, 
      on a change request, {{request.requestID}} will be replaced with the actual
@@ -171,17 +171,16 @@
      <dd>{{mouse.mouseName}}</dd>
      <dd>{{mouse.officialMouseName}}</dd>
      <dd>{{mouse.mouseType}}</dd>
-     <dd>{{mouse.geneID}}  (mutant allele mice)</dd>
-     <dd>{{mouse.geneSymbol}}  (mutant allele mice)</dd>
-     <dd>{{mouse.targetGeneID}}  (transgene mice)</dd>
-     <dd>{{mouse.targetGeneSymbol}} (transgene mice)</dd>
+     <dd>{{mouse.geneID}}  <i>(mutant allele mice)</i></dd>
+     <dd>{{mouse.geneSymbol}}  <i>(mutant allele mice)</i></dd>
+     <dd>{{mouse.targetGeneID}}  <i>(transgene mice)</i></dd>
+     <dd>{{mouse.targetGeneSymbol}} <i>(transgene mice)</i></dd>
      <dd>{{mouse.modificationType}}</dd>
      <dd>{{mouse.regulatoryElement}}</dd>
      <dd>{{mouse.expressedSequence}}</dd>
-     <dd>{{mouse.source}}  (official symbol)</dd>
-     <dd>{{mouse.repositoryCatalogNumber}}  (MGI ID)</dd>
+     <dd>{{mouse.source}}  <i>(official symbol)</i></dd>
+     <dd>{{mouse.repositoryCatalogNumber}}  <i>(MGI ID)</i></dd>
      <dd>{{mouse.pubmedIDs}}</dd>
-     <dd>{{mouse.holders}}</dd>
      </dl>
      </div>
   <% } %>

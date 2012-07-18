@@ -29,7 +29,7 @@ if (!confirmed){
    String table = HTMLGeneration.getMouseTable(records,false,false,false);
 %>
 
-<h2><font color="red">Please Confirm that you want to change the mouse type of record # <%= mouseID %>
+<h2><font color="red">Please Confirm that you want to change the mouse category of record # <%= mouseID %>
 from <%= record.getMouseType() %> to <%= newMouseType.getTypeName() %>
 </font></h2>
 <%= table %>
@@ -40,22 +40,21 @@ from <%= record.getMouseType() %> to <%= newMouseType.getTypeName() %>
     <input type="hidden" name="transgenictype_id" value="<%= trangenicTypeID %>">
     <input type="hidden" name="inbred_strain_id" value="<%= inbredStrainID %>">
     <input type="hidden" name="confirm" value="true" >
-    Yes, I want to change the mouse type of this mouse from <%= records.get(0).getMouseType() %> to <%= newMouseType.getTypeName() %>:
+    Yes, I want to change the category of this record from <%= records.get(0).getMouseType() %> to <%= newMouseType.getTypeName() %>:
     <input type="submit" class="btn btn-primary" value="SUBMIT">
 </form>
-Else click your browser's BACK button.
+If not click your browser's BACK button.
 
 <%}else{
   record.setMouseType(newMouseType.getTypeName());
   DBConnect.updateMouseRecord(record);
   records = DBConnect.getMouseRecord(mouseID);
 %>
-<font size="4" color="black">The type of mouse ID <%= mouseID %> has been changed. Please <a
-        href="EditMouseForm.jsp?id=<%= mouseID %>">edit it
-    now</a> to enter type-specific data.  If this is an incomplete submission, you will need to return to the sumbmission page to edit it.</font><br><br>
+<font size="4" color="black">The category of mouse ID <%= mouseID %> has been changed. <a
+        href="EditMouseForm.jsp?id=<%= mouseID %>">Click here</a> to make other changes to record.  
+        If this is an incomplete submission, you will need to 
+        return to the submission page to edit it.</font><br><br>
     <h3>Updated Record:</h3>
     <%=HTMLGeneration.getMouseTable(records, true, false, false) %>
-</div>
-
 <%} %>
 </div>
