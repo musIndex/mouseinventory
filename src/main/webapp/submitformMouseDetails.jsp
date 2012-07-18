@@ -2,13 +2,48 @@
 <%@ page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*"%>
 <%@page contentType="text/html;charset=UTF-8" language="java"%>
-<%=getPageHeader("<script language=\"javascript\" type=\"text/javascript\">document.onkeypress = checkCR;</script>\r\n",
-          true, false, "onload=\"setFocus('mouseDetails', 'mouseName')\"")%>
-<%=getNavBar("submitforminit.jsp", false)%>
-
 <jsp:useBean id="newMouse"  class="edu.ucsf.mousedatabase.beans.MouseSubmission" scope="session"></jsp:useBean>
 <jsp:setProperty property="*" name="newMouse" />
 <jsp:useBean id="submitterData" class="edu.ucsf.mousedatabase.beans.UserData" scope="session"></jsp:useBean>
+
+
+<%
+  String errorsMessage = "";
+  String savedMessage = "";
+
+  newMouse.setMtaRequired(request.getParameter("mtaRequired"));
+  newMouse.setCryopreserved(request.getParameter("cryopreserved"));
+
+  newMouse.clearAllErrors();
+
+  if ("true".equals(request.getParameter("process"))) {
+    //check for save or submit button clicked
+    if ("I'm done! Submit Mouse".equalsIgnoreCase(request.getParameter("submitButton"))) {
+      if (newMouse.validateMouseDetails()) {
+        %>
+        <jsp:forward page="submitmouse.jsp" />
+        <%
+        return;
+      }
+      errorsMessage = "Please correct the errors listed in red below.";
+    } else if ("I'm not done yet. Save data".equalsIgnoreCase(request.getParameter("submitButton"))) {
+      savedMessage = "<span style='color:green'><b>Saved. Data will be lost if you close your browser window.</b></span>";
+    }
+  }
+
+  String[] mtaOptions = {"Yes", "No", "Don't Know"};
+  String mouseTypeTitle = newMouse.getFullMouseTypeTitle();
+  String mouseNameStr = "<b>Mouse Name</b> (unofficial nomenclature used by holder):";
+  if (newMouse.isIS()) {
+    mouseNameStr = "<b>Inbred Strain Name</b>";
+  }
+%>
+
+
+
+<%=getPageHeader("<script language=\"javascript\" type=\"text/javascript\">document.onkeypress = checkCR;</script>\r\n",
+          true, false, "onload=\"setFocus('mouseDetails', 'mouseName')\"")%>
+<%=getNavBar("submitforminit.jsp", false)%>
 
 
 <script>
@@ -139,37 +174,7 @@ $(document).ready(function(){
   <div id="popupDialogMessage"></div>
 </div>
 
-<%
-  String errorsMessage = "";
-  String savedMessage = "";
 
-  newMouse.setMtaRequired(request.getParameter("mtaRequired"));
-  newMouse.setCryopreserved(request.getParameter("cryopreserved"));
-
-  newMouse.clearAllErrors();
-
-  if ("true".equals(request.getParameter("process"))) {
-    //check for save or submit button clicked
-    if ("I'm done! Submit Mouse".equalsIgnoreCase(request.getParameter("submitButton"))) {
-      if (newMouse.validateMouseDetails()) {
-        %>
-        <jsp:forward page="submitmouse.jsp" />
-        <%
-        return;
-      }
-      errorsMessage = "Please correct the errors listed in red below.";
-    } else if ("I'm not done yet. Save data".equalsIgnoreCase(request.getParameter("submitButton"))) {
-      savedMessage = "<span style='color:green'><b>Saved. Data will be lost if you close your browser window.</b></span>";
-    }
-  }
-
-  String[] mtaOptions = {"Yes", "No", "Don't Know"};
-  String mouseTypeTitle = newMouse.getFullMouseTypeTitle();
-  String mouseNameStr = "<b>Mouse Name</b> (unofficial nomenclature used by holder):";
-  if (newMouse.isIS()) {
-    mouseNameStr = "<b>Inbred Strain Name</b>";
-  }
-%>
 
 <div class="site_container">
   <div class="formbody">
