@@ -98,6 +98,22 @@
        </tr>
        </table>
      </form>
+     <div class='template_help'>
+     <dl>
+     <dt>Submissions<dt>
+     <dd>{{submission.submissionID}}</dd>
+     <dd>{{submission.mouseName}}</dd>
+     <dt>Change requests</dt>
+     <dd>{{request.requestID}}</dd>
+     <dd>{{request.firstname}}</dd>
+     <dd>{{request.lastname}}</dd>
+     <dd>{{request.mouseID}}</dd>
+     <dt>Mouse Records</dt>
+     <dd>{{mouse.mouseID}}</dd>
+     <dd>{{mouse.mouseName}}</dd>
+     <dd>{{mouse.officialSymbol}}</dd>
+     </dl>
+     </div>
   <% } %>
 </div>
 <script type='text/javascript'>

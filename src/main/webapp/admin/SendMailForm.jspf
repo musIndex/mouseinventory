@@ -59,6 +59,9 @@ $(document).ready(function(){
   var templates = [];
   var template_selector = $("#sendMailModal select[name='template']");
   var editor = {};
+  
+  var current_objects = {submission: {}, request: {}, mouse: {}};
+  
   $("a.adminEmailButton").click(showSendMailModal);
   $('#sendMailModal a.disabled').on('click', function(event){
     event.stopImmediatePropagation();
@@ -89,6 +92,8 @@ $(document).ready(function(){
       $("#sendMailModal input[name='" + field + "']").val($this.data(field));
       $("#sendMailModal textarea[name='" + field + "']").text($this.data(field));
     });
+    
+    setupCurrentObjects($this.data('submission_id'),$this.data('request_id'),$this.data('mouse_id'));
     
     template_selector.children().remove();
     var category = $this.data('category');
@@ -121,6 +126,12 @@ $(document).ready(function(){
     return false;
   }
   
+  function setupCurrentObjects(subId, requestId, mouseId){
+    current_objects.submission = MouseConf.submissions[subId];
+    current_objects.request = MouseConf.requests[requestId];
+    current_objects.mouse = MouseConf.mice[mouseId];
+  }
+  
   function mailSendSuccess(data){
     $("#sendMailModal a.btn.btn-primary").text('Sent');
     $("#sendMailModal #results_container").text('Mail sent successfully.')
@@ -144,11 +155,24 @@ $(document).ready(function(){
       if (updated || template.id !== template_id){
         return;
       }
-      $("#sendMailModal textarea[name='subject']").text(template.subject);
-      $("#sendMailModal textarea[name='body']").text(template.body);
+      $("#sendMailModal textarea[name='subject']").text(render(template.subject));
+      $("#sendMailModal textarea[name='body']").text(render(template.body));
       updated = true;
       editor.updateFrame();
     })
+  }
+  
+  function render(template){
+    var rendered = template;
+    $.each(current_objects,function(obj_type,object){
+      if (object) {
+        $.each(object,function(key,value){
+          var expr = new RegExp("{{" + obj_type + "\." + key + "}}");
+          rendered = rendered.replace(expr,value);
+        });
+      }
+    });
+    return rendered;
   }
 });
 
