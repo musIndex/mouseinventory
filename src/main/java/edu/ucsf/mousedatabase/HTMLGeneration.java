@@ -939,9 +939,13 @@ public class HTMLGeneration {
       buf.append("<br><p>Change Mouse Category to: " + mouseTypeOptions);
       buf.append("&nbsp;&nbsp;<input type='submit' class='btn btn-small' value='Change Category'>");
       buf.append("</form>\r\n");
-      buf.append("</div>\r\n");
-      buf.append("</div>\r\n");
+      
     }
+    if (req != null){
+      buf.append("<p>Should a change in mouse category be necessary, it can be made using the 'Edit Record' feature.</p>");
+    }
+    buf.append("</div>\r\n");
+    buf.append("</div>\r\n");
     return buf.toString();
   }
 
