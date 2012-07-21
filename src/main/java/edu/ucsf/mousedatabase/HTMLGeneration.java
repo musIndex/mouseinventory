@@ -306,7 +306,7 @@ public class HTMLGeneration {
       holderList = new ArrayList<MouseHolder>();
     }
 
-    if (req != null) {
+    if (req != null && req.Properties() != null) {
       int addHolderID = -1;
       int addFacilityId = -1;
       //if there is a holder and facility in the change requests, add it to the list
