@@ -55,7 +55,7 @@
 
     MouseRecord record = records.get(0);
     String changeRequestTable = getChangeRequestsTable(requests,null);
-    String existingRecord = getMouseTable(records,false,false,true);
+    String existingRecord = getMouseTable(records,true,false,true);
     String editForm = getEditMouseForm(record,currentRequest);
 
 %>
