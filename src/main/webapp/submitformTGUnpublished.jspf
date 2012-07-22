@@ -81,35 +81,6 @@
     size="20"> <span class="validationError">${newMouse.TGRegulatoryElementErr}</span>
   </td>
 </tr>
-
-<tr class="formField">
-  <td valign="top">
-    <span class=red>*</span> Was the mouse
-    produced in the laboratory of the holder?
-  </td>
-  <td valign="top"><%=genYesNoRadio("producedInLabOfHolder", newMouse.getProducedInLabOfHolder())%>
-    If not, please use the
-    comment field to provide the name and Institution of the PI in
-    whose laboratory the mouse was produced (or from whom the mouse
-    was obtained) <span class="validationError">
-      ${newMouse.producedInLabOfHolderErr}</span>
-  </td>
-</tr>
-
-<tr class="formField">
-  <td valign="top">
-    <span class=red>*</span> <b>Comment</b>
-    <br>
-    Provide a brief description of the transgene.
-    This is particularly important when there is no publication
-    describing it.</td>
-  <td valign="top"><textarea name="comment" id="comment"
-      rows="10" cols="60">${newMouse.comment}</textarea>
-    <span class="validationError">${newMouse.commentErr}</span>
-  </td>
-</tr>
-
-
 <tr class="formField">
   <td valign="top">
     Although most unpublished mice are not yet
@@ -149,6 +120,56 @@
     value="${newMouse.officialSymbol}"
     size="40"> <span id="officialSymbolSpan"><b>${newMouse.officialSymbol}</b>
   </span> <span class="validationError">${newMouse.officialSymbolErr}</span></td>
+</tr>
+
+<%
+
+String[] whereProducedLabels = new String[]{
+    "In the laboratory of the holder",
+    "In another laboratory",
+    "Gensat (Note: most Gensat mice have MGI IDs,even if they are not published)"};
+
+String[] whereProducedValues = new String[]{"Yes","No","Gensat"};
+
+%>
+
+<tr class="formField">
+  <td valign="top">
+    <span class=red>*</span> Where was the mouse produced?
+  </td>
+  <td valign="top"><%=genRadio("producedInLabOfHolder", whereProducedValues, whereProducedLabels, newMouse.getProducedInLabOfHolder(),"")%>
+    If not, please use the
+    comment field to provide the name and Institution of the PI in
+    whose laboratory the mouse was produced (or from whom the mouse
+    was obtained) <span class="validationError">
+      ${newMouse.producedInLabOfHolderErr}</span>
+  </td>
+</tr>
+
+<tr class="formField">
+  <td>If the transgene was produced by Gensat, provide 'Founder Line'.  This is included at the end of the Official Symbol, e.g.
+'Tg(Epha2-EGFP)DE51Gsat' - the 'Founder Line' here is DE51.
+    <br> <a href="http://www.gensat.org/search.jsp" target="_blank">Gensat catalog</a>
+  </td>
+  <td><input name="gensatFounderLine" id="gensatFounderLine"
+    type="text" size="40" maxlength="100"
+    onkeyup="validateInput('gensatFounderLine','gensatFounderLineValidation','gensat',',')"
+    value="${newMouse.gensatFounderLine}">
+    <span class="bp_valid" id="gensatFounderLineValidation">${newMouse.gensatFounderLineErr}</span>
+  </td>
+</tr>
+
+<tr class="formField">
+  <td valign="top">
+    <span class=red>*</span> <b>Comment</b>
+    <br>
+    Provide a brief description of the transgene.
+    This is particularly important when there is no publication
+    describing it.</td>
+  <td valign="top"><textarea name="comment" id="comment"
+      rows="10" cols="60">${newMouse.comment}</textarea>
+    <span class="validationError">${newMouse.commentErr}</span>
+  </td>
 </tr>
 
 <tr class="formField">
