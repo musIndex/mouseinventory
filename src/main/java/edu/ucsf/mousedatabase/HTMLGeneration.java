@@ -2605,6 +2605,25 @@ public class HTMLGeneration {
     }
     return b.toString();
   }
+  
+  public static String genRadio(String name, String[] values,
+      String[] niceNames, String current, String selectParams) {
+
+    StringBuffer b = new StringBuffer();
+    for (int i = 0; i < values.length; i++) {
+      String value = values[i];
+
+      String niceName = niceNames[i];
+
+      b.append("<input type=\"radio\" name=\"" + name + "\" value=\""
+          + value + "\" " + selectParams);
+      if (current != null && value.equalsIgnoreCase(current)) {
+        b.append(" checked=checked");
+      }
+      b.append(">" + niceName + "<br>\n");
+    }
+    return b.toString();
+  }
 
   /* ********************** Modification Type ******************************** */
   public static String getModificationTypeRadio(String current) {

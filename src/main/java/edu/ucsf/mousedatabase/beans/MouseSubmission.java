@@ -397,7 +397,7 @@ public class MouseSubmission {
         if(isNullOrEmpty(producedInLabOfHolder))
         {
           valid = false;
-          producedInLabOfHolderErr = "Please choose yes or no.";
+          producedInLabOfHolderErr = "Please specify where the mouse was produced.";
         }
 
         if(isNullOrEmpty(comment))
@@ -496,7 +496,7 @@ public class MouseSubmission {
         if(isNullOrEmpty(producedInLabOfHolder))
         {
           valid = false;
-          producedInLabOfHolderErr = "Please choose yes or no.";
+          producedInLabOfHolderErr = "Please specify where the mouse was produced";
         }
 
         if(isNullOrEmpty(comment))
