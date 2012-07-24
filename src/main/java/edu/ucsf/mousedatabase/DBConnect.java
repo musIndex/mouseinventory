@@ -1654,7 +1654,11 @@ public class DBConnect {
     if (orderby == null) {
       orderby = "category,name";
     }
-    else {
+    else if (orderby.equals("date_updated"))
+    {
+      orderby = "date_updated desc";
+    }
+    else { 
       orderby = addMySQLEscapes(orderby);
     }
     query += "\n ORDER BY " + orderby;

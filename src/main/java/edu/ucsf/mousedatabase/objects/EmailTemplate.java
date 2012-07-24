@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class EmailTemplate {
   
-  public static final String SUBMISSION = "Submission";
+  public static final String SUBMISSION = "Submissions";
   //public static final String COMPLETESUBMISSION = "Completed Submission";
   public static final String CHANGREQUEST = "Change Requests";
   //public static final String CHANGEREQUESTCOMPLETED = "Completed Change Request";

@@ -27,6 +27,24 @@
   if(command == null || command.isEmpty()) {
     command = "list"; 
   }
+  if(orderby == null)
+  {
+    if ((orderby = (String)session.getAttribute("manageEmailTemplateorderby")) == null)
+    {
+      orderby = "name";
+    }
+  }
+  session.setAttribute("manageEmailTemplatecategory",category);
+  if(category == null)
+  {
+    if ((category = (String)session.getAttribute("manageEmailTemplatecategory")) == null)
+    {
+      category = EmailTemplate.getCategories()[0];
+    }
+  }
+  session.setAttribute("manageEmailTemplateorderby",orderby);
+  
+  
   if (message == null){
    message = ""; 
   }
@@ -228,7 +246,7 @@
     $(".template_help p").toggleClass('hide');
   });
   $("#template_list_opts").on('change','select',function(){
-    console.log($("#template_list_opts").serialize());
+    window.location.href = '<%= adminRoot%>ManageEmailTemplates.jsp?' + $("#template_list_opts").serialize();
   });
   
 </script>
