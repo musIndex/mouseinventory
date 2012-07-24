@@ -2491,7 +2491,9 @@ public class HTMLGeneration {
         String[] niceNames, String current, String selectParams,boolean includeId) {
     if (selectParams == null) selectParams = "";
     StringBuffer b = new StringBuffer();
-    b.append("<select class='chzn-select' ");
+    
+    String cssClass = values.length > 20 ? "class='chzn-select'" : "";
+    b.append("<select " +  cssClass);
     if(includeId){
       b.append("id='" + name + "' "); 
     }
