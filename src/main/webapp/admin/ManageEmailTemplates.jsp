@@ -61,11 +61,13 @@
 %>
 
 <div class='site_container'>
-  <h2><%= title %></h2>
+  
   <% if (message.length() > 0){ %>
-    <div class='alert <%= wasError ? "alert-error" : "alert-success" %>'><%= message %></div>
+  
+    <div style='margin-top:15px;' class='alert <%= wasError ? "alert-error" : "alert-success" %>'><%= message %></div>
   <% } %>
   <% if (templates != null) { %>
+    <h2><%= title %></h2>
      <a class='btn btn-success' href='ManageEmailTemplates.jsp?command=edit&id=-1'><i class='icon-plus icon-white'></i> Add new template</a>
      <table class='basic'>
      <tr>
@@ -94,7 +96,8 @@
   <% }%>
   
   <% if (template != null){ %>
-     <div style='width:750px;float:left'>
+     <div style='width:600px;float:left'>
+     <h2><%= title %></h2>
      <form method='post' action='UpdateTemplate' id='manageEmailForm'>
        <input type='hidden' name='id' value='<%=template.id %>'/>
        <table class='emailTemplateForm'>
@@ -131,13 +134,14 @@
        </table>
      </form>
      </div>
-     <div style='float:left; max-width:500px' class='template_help'>
-     <h3>Data interpolation guide</h3>
-     <p>Use one or more of the following tags to fill in data.  For example, 
+     <div style='float:left; max-width:335px' class='template_help'>
+     <h3>Data interpolation guide: <a style='font-size:10px; text-decoration:none' href='#' class='toggle_help'>toggle help</a></h3>
+     
+     <p class='hide'>Use one or more of the following tags to fill in data.  For example, 
      on a change request, {{request.requestID}} will be replaced with the actual
      change request ID.
      </p>
-     <p>Note that sometimes, a data field may be empty.  For example, if you want
+     <p class='hide'>Note that sometimes, a data field may be empty.  For example, if you want
      to show the mouse name, and use {{mouse.mouseName}} or {{submission.submissionName}}
      but the mouse has no name, or the submission was an automatic submission and none
      was specified, then the email won't look quite right without manual editing.
@@ -171,23 +175,28 @@
      <dd>{{mouse.mouseName}}</dd>
      <dd>{{mouse.officialMouseName}}</dd>
      <dd>{{mouse.mouseType}}</dd>
-     <dd>{{mouse.geneID}}  <i>(mutant allele mice)</i></dd>
-     <dd>{{mouse.geneSymbol}}  <i>(mutant allele mice)</i></dd>
-     <dd>{{mouse.targetGeneID}}  <i>(transgene mice)</i></dd>
-     <dd>{{mouse.targetGeneSymbol}} <i>(transgene mice)</i></dd>
      <dd>{{mouse.modificationType}}</dd>
      <dd>{{mouse.regulatoryElement}}</dd>
      <dd>{{mouse.expressedSequence}}</dd>
      <dd>{{mouse.source}}  <i>(official symbol)</i></dd>
      <dd>{{mouse.repositoryCatalogNumber}}  <i>(MGI ID)</i></dd>
      <dd>{{mouse.pubmedIDs}}</dd>
+     <dt>Holders<dt>
+     <dd>{{holder.firstname}}</dd>
+     <dd>{{holder.lastname}}</dd>
+     <dd>{{holder.holderID}}</dd>
+     <dd>{{holder.email}}</dd>
+     <dd>{{holder.dept}}</dd>
+     <dd>{{holder.tel}}</dd>
+     <dd>{{holder.alternateName}}</dd>
+     <dd>{{holder.alternateEmail}</dd>
      </dl>
      </div>
   <% } %>
 </div>
 <script type='text/javascript'>
   $("textarea[name='body']").cleditor({
-    width: 670,
+    width: 500,
     height: 200,
     controls: 
       "bold italic underline | font size " +
@@ -202,5 +211,9 @@
   $(".btn_cancel_delete").click(function(){
     $(this).parent().hide().parent().find(".btn_delete").show();
     return false;
-  })
+  });
+  $(".template_help a.toggle_help").click(function(){
+    $(".template_help p").toggleClass('hide');
+  });
+  
 </script>

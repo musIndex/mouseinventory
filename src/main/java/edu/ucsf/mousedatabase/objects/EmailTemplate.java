@@ -5,26 +5,36 @@ import java.sql.Timestamp;
 public class EmailTemplate {
   
   public static final String SUBMISSION = "Submission";
-  public static final String COMPLETESUBMISSION = "Completed Submission";
-  public static final String CHANGREQUEST = "Change Request";
-  public static final String CHANGEREQUESTCOMPLETED = "Completed Change Request";
-  public static final String CHANGEREQUESTINCOMPLETE = "Incomplete Change Request";
-  public static final String MOUSERECORD = "Mouse Record";
-  public static final String INCOMPLETESUBMISSION = "Incomplete Submission";
+  //public static final String COMPLETESUBMISSION = "Completed Submission";
+  public static final String CHANGREQUEST = "Change Requests";
+  //public static final String CHANGEREQUESTCOMPLETED = "Completed Change Request";
+  //public static final String CHANGEREQUESTINCOMPLETE = "Incomplete Change Request";
+  public static final String MOUSERECORD = "Mouse Records";
+  //public static final String INCOMPLETESUBMISSION = "Incomplete Submission";
+  public static final String HOLDER = "Edit Holders";
+  public static final String PDU_SUBMISSION = "PDU - Submissions";
+  public static final String PDU_CHANGEREQUEST = "PDU - Change Requests";
+  public static final String TDU_CHANGEREQUEST = "TDU - Change Requests";
+  public static final String IDU_SUBMISSION = "IDU - Submissions";
+  public static final String IDU_CHANGEREQUEST = "IDU - Change Requests";
   
-  public static final String MOUSE_TYPE = "mouse";
-  public static final String REQUEST_TYPE = "request";
-  public static final String SUBMISSION_TYPE = "submission";
   
+   
   public static String[] getCategories(){
     return new String[]{
         SUBMISSION,
-        COMPLETESUBMISSION,
-        INCOMPLETESUBMISSION,
+        //COMPLETESUBMISSION,
+        //INCOMPLETESUBMISSION,
         CHANGREQUEST,
-        CHANGEREQUESTCOMPLETED,
-        CHANGEREQUESTINCOMPLETE,
-        MOUSERECORD
+        //CHANGEREQUESTCOMPLETED,
+        //CHANGEREQUESTINCOMPLETE,
+        MOUSERECORD,
+        HOLDER,
+        PDU_SUBMISSION,
+        PDU_CHANGEREQUEST,
+        TDU_CHANGEREQUEST,
+        IDU_SUBMISSION,
+        IDU_CHANGEREQUEST
         };
   }
   
