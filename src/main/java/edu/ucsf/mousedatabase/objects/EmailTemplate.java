@@ -15,8 +15,8 @@ public class EmailTemplate {
   public static final String PDU_SUBMISSION = "PDU - Submissions";
   public static final String PDU_CHANGEREQUEST = "PDU - Change Requests";
   public static final String TDU_CHANGEREQUEST = "TDU - Change Requests";
-  public static final String IDU_SUBMISSION = "IDU - Submissions";
-  public static final String IDU_CHANGEREQUEST = "IDU - Change Requests";
+  public static final String IDU_SUBMISSION_PUBLISHED = "IDU - Submissions (published)";
+  public static final String IDU_SUBMISSION_UNPUBLISHED = "IDU - Submissions (unpublished)";
   
   
    
@@ -33,8 +33,8 @@ public class EmailTemplate {
         PDU_SUBMISSION,
         PDU_CHANGEREQUEST,
         TDU_CHANGEREQUEST,
-        IDU_SUBMISSION,
-        IDU_CHANGEREQUEST
+        IDU_SUBMISSION_PUBLISHED,
+        IDU_SUBMISSION_UNPUBLISHED
         };
   }
   
