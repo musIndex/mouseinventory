@@ -9,7 +9,7 @@ public class EmailTemplate {
   public static final String CHANGREQUEST = "Change Requests";
   //public static final String CHANGEREQUESTCOMPLETED = "Completed Change Request";
   //public static final String CHANGEREQUESTINCOMPLETE = "Incomplete Change Request";
-  public static final String MOUSERECORD = "Mouse Records";
+  public static final String MOUSERECORD = "Edit Records";
   //public static final String INCOMPLETESUBMISSION = "Incomplete Submission";
   public static final String HOLDER = "Edit Holders";
   public static final String PDU_SUBMISSION = "PDU - Submissions";
