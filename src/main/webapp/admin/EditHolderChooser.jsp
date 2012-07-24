@@ -3,6 +3,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditHolderChooser.jsp", true) %>
+<%@include file='SendMailForm.jspf' %>
 <%
 
     //todo Order by links

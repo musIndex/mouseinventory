@@ -1100,7 +1100,7 @@ public class HTMLGeneration {
 
       table.append("<dt>\r\n");
       table.append(getAdminMailLink(nextSubmission.getEmail(),null, EmailTemplate.SUBMISSION, 
-                                    nextSubmission.getSubmissionID(),-1,null));
+                                    nextSubmission.getSubmissionID(),-1,null,-1));
       table.append("</dt>\r\n");
       table.append("<dt>");
       table.append("Submission date: "
@@ -1754,7 +1754,7 @@ public class HTMLGeneration {
                                             EmailTemplate.MOUSERECORD, 
                                             firstInitial + holder.getLastname(),
                                             holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")",
-                                            -1,-1,nextRecord.getMouseID())
+                                            -1,-1,nextRecord.getMouseID(),-1)
                                  : getMailToLink(holder.getAlternateEmail(), holder.getEmail(),  
                                      "Regarding " + nextRecord.getMouseName() + "-Record# " + nextRecord.getMouseID(), 
                                      null, firstInitial + holder.getLastname(),
@@ -1896,7 +1896,7 @@ public class HTMLGeneration {
       
       
       table.append(getAdminMailLink(nextRequest.getEmail(), holderEmail, 
-                                EmailTemplate.CHANGREQUEST, -1,nextRequest.getRequestID(), null));
+                                EmailTemplate.CHANGREQUEST, -1,nextRequest.getRequestID(), null,-1));
       table.append("</dt>\r\n");
 
       table.append("</dl>\r\n");
@@ -2154,9 +2154,11 @@ public class HTMLGeneration {
           + holder.getDept() + ")</div>");
       table.append("</td>\r\n");
       table.append("<td>\r\n");
-      table.append("<div style=\"position:relative; left:2px; float:left;\">"
-          + formatEmail(holder.getEmail(), holder.getEmail(), "")
-          + "</div>");
+      
+      String emailLink = edit ? getAdminMailLink(holder.getEmail(), null, EmailTemplate.HOLDER, -1, -1, null, holder.getHolderID())
+                              : formatEmail(holder.getEmail(), holder.getEmail(),"");
+      
+      table.append("<div style=\"position:relative; left:2px; float:left;\">" + emailLink   + "</div>");
       table.append(" <div style=\"position: relative; right: 10px; float:right;\">Tel: "
           + holder.getTel() + "</div>");
       table.append("</td>\r\n");
@@ -2190,6 +2192,11 @@ public class HTMLGeneration {
       numFacilities++;
     }
     table.append("</table>\r\n");
+    if (edit) {
+      table.append("<script type='text/javascript'>\r\n");
+      table.append("MouseConf.addHolders(" + new Gson().toJson(holders) + ")");
+      table.append("</script>");
+    }
     if (numFacilities <= 0)
       return "No results found";
     return table.toString();
@@ -2949,11 +2956,11 @@ public class HTMLGeneration {
     return getMailToLink(address, cc, subject, body, linkText, linkTitle, false, null); 
   }
   
-  public static String getAdminMailLink(String address, String cc, String templateCategory, int subId, int requestId, String mouseId){
-   return getAdminMailLink(address, cc, templateCategory, null,null, subId, requestId, mouseId); 
+  public static String getAdminMailLink(String address, String cc, String templateCategory, int subId, int requestId, String mouseId, int holderId){
+   return getAdminMailLink(address, cc, templateCategory, null,null, subId, requestId, mouseId, holderId); 
   }
   
-  public static String getAdminMailLink(String address, String cc, String templateCategory, String linkText, String linkTitle, int subId, int requestId, String mouseId){
+  public static String getAdminMailLink(String address, String cc, String templateCategory, String linkText, String linkTitle, int subId, int requestId, String mouseId, int holderId){
     Properties props = new Properties();
     if (subId > 0) {
       props.setProperty("submission_id", Integer.toString(subId));
@@ -2963,6 +2970,9 @@ public class HTMLGeneration {
     }
     if (mouseId != null) {
       props.setProperty("mouse_id", mouseId);
+    }
+    if (holderId > 0) {
+      props.setProperty("holder_id", Integer.toString(holderId));
     }
     props.setProperty("category", templateCategory);
     return getMailToLink(address, cc, null, null, linkText == null ? address : linkText, linkTitle, true, props);

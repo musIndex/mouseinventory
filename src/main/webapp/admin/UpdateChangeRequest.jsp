@@ -101,9 +101,7 @@
   if(updateCommand.equals("Move to Pending"))
   {
     %>
-    <b>Notify user of incomplete change request:</b> <%= HTMLGeneration.getAdminMailLink(changeRequest.getEmail(), null, 
-                  EmailTemplate.CHANGEREQUESTINCOMPLETE, -1, changeRequestID, updatedRecord.getMouseID()) %>
-    <h3>Change request was:</h3>
+     <h3>Change request was:</h3>
     <%= updatedRequest%>
     <h3>Unchanged record is:</h3>
     <%= previousRecord %>
@@ -114,10 +112,7 @@
   {
 
     %>
-    <b>Notify user of completed change request:</b> 
-    <%= HTMLGeneration.getAdminMailLink(changeRequest.getEmail(), null, 
-        EmailTemplate.CHANGEREQUESTCOMPLETED, -1, changeRequestID, updatedRecord.getMouseID()) %>
-    <h3>Change request was:</h3>
+     <h3>Change request was:</h3>
     <%= updatedRequest%>
     <h3>Record before changes:</h3>
     <%= previousRecord %>

@@ -177,10 +177,7 @@
     <input type="hidden" name="submittedMouseID" value="<%= submissionID %>">
     <input type="submit" class="btn btn-warning" name="submitButton" value="Undo conversion to Record">
     </form>
-    <b>Notify submitter of new record:</b>
-    <%= HTMLGeneration.getAdminMailLink(submission.getEmail(), holderEmail, 
-        EmailTemplate.COMPLETESUBMISSION, submission.getSubmissionID(), -1, updatedRecord.getMouseID()) %>
-    <%
+    
   }
   else if(updateCommand.equals("Move to Hold"))
   {
@@ -189,10 +186,7 @@
     <%= submissionTable%>
     <br>
     <h3>Incomplete Record:</h3>
-    <b>Contact submitter:</b>
-    <%= HTMLGeneration.getAdminMailLink(submission.getEmail(), holderEmail, 
-        EmailTemplate.INCOMPLETESUBMISSION, submission.getSubmissionID(), -1, updatedRecord.getMouseID()) %>
-    <%
+    
   }
 
   if(updateCommand.equals("Convert to Record") || updateCommand.equals("Move to Hold"))
