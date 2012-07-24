@@ -81,10 +81,34 @@
     size="20"> <span class="validationError">${newMouse.TGRegulatoryElementErr}</span>
   </td>
 </tr>
+
+<%
+String[] whereProducedLabels = new String[]{
+    "In the laboratory of the holder",
+    "In another laboratory"};
+
+String[] whereProducedValues = new String[]{"Yes","No"};
+%>
+
+<tr class="formField">
+  <td valign="top">
+    <span class=red>*</span> Where was the mouse produced?
+  </td>
+  <td valign="top"><%=genRadio("producedInLabOfHolder", whereProducedValues, whereProducedLabels, newMouse.getProducedInLabOfHolder(),"")%>
+    <p style='margin: 0 0 10px 14px'>Please use the
+    comment field to provide the name and Institution of the PI in
+    whose laboratory the mouse was produced (or from whom the mouse
+    was obtained)</p> 
+    <%=genRadio("producedInLabOfHolder", new String[]{"Gensat"}, newMouse.getProducedInLabOfHolder(),"")%>
+    <span class="validationError">
+      ${newMouse.producedInLabOfHolderErr}</span>
+  </td>
+</tr>
+
 <tr class="formField">
   <td valign="top">
     Although most unpublished mice are not yet
-    listed on MGI, a few are. If the transgene you want to submit has an
+    listed on MGI, a few are. This is almost certainly the case for Gensat mice.  If the transgene you want to submit has an
     <b>MGI ID</b>, please enter it here <br>
   </td>
   <td valign="top">
@@ -120,30 +144,6 @@
     value="${newMouse.officialSymbol}"
     size="40"> <span id="officialSymbolSpan"><b>${newMouse.officialSymbol}</b>
   </span> <span class="validationError">${newMouse.officialSymbolErr}</span></td>
-</tr>
-
-<%
-
-String[] whereProducedLabels = new String[]{
-    "In the laboratory of the holder",
-    "In another laboratory",
-    "Gensat (Note: most Gensat mice have MGI IDs,even if they are not published)"};
-
-String[] whereProducedValues = new String[]{"Yes","No","Gensat"};
-
-%>
-
-<tr class="formField">
-  <td valign="top">
-    <span class=red>*</span> Where was the mouse produced?
-  </td>
-  <td valign="top"><%=genRadio("producedInLabOfHolder", whereProducedValues, whereProducedLabels, newMouse.getProducedInLabOfHolder(),"")%>
-    If not, please use the
-    comment field to provide the name and Institution of the PI in
-    whose laboratory the mouse was produced (or from whom the mouse
-    was obtained) <span class="validationError">
-      ${newMouse.producedInLabOfHolderErr}</span>
-  </td>
 </tr>
 
 <tr class="formField">
