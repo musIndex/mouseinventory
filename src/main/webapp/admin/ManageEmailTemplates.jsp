@@ -9,6 +9,7 @@
   SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
   String command = request.getParameter("command");
   String orderby = request.getParameter("orderby");
+  String category = request.getParameter("category");
   String message = request.getParameter("message");
   boolean wasError = false;
   int id = stringToInt(request.getParameter("id"));
@@ -17,6 +18,9 @@
   String table = "";
   ArrayList<EmailTemplate> templates = null;
   EmailTemplate template = null;
+  
+  String[] orderOptions = new String[]{"name","date_updated","subject"};
+  String[] orderLabels = new String[]{"Template name","Date Updated", "Template subject"};
   
   boolean addingNew = id <= 0;
   
@@ -45,7 +49,8 @@
       }
     }
     title = "Email templates";
-    templates = DBConnect.getEmailTemplates();
+    
+    templates = DBConnect.getEmailTemplates(category,orderby);
   }
   else if (command.equals("edit")){
     if (addingNew) {
@@ -68,27 +73,34 @@
   <% } %>
   <% if (templates != null) { %>
     <h2><%= title %></h2>
+     <form id='template_list_opts'>
+     Show: <%=genSelect("category",EmailTemplate.getCategories(),category) %>  
+     Sort by: <%=genSelect("orderby",orderOptions,orderLabels,orderby,"") %>
+     </form>
      <a class='btn btn-success' href='ManageEmailTemplates.jsp?command=edit&id=-1'><i class='icon-plus icon-white'></i> Add new template</a>
      <table class='basic'>
      <tr>
-        <th width='300px'>Description</th>
+        <th>Category</th>
+        <th width='200px'>Name of Template</th>
         <th>Template</th>
      </tr>
      <% for (EmailTemplate t : templates) { %>
      <tr>
        <td>
+          <b><%=t.category %></b>
+       </td>
+       <td>
         <dl>
         <dt><b style='font-size: 110%'><%=t.name %></b></dt>
-        <dt>Category: <b><%=t.category %></b></dt>
         <dt>Updated: <%=sdf.format(t.dateUpdated) %></dt>
         <dt><a class='btn btn-mini' href='ManageEmailTemplates.jsp?command=edit&id=<%=t.id%>'><i class='icon-edit'></i> Edit</a></dt>
         </dl>
-        </td>
-        <td>
-          <table class='email_template_template'>
-            <tr><td>Subject:</td><td><%=t.subject %></td></tr>
-            <tr><td>Body:</td><td><%=t.body %></td></tr>
-          </table>
+       </td>
+       <td>
+        <table class='email_template_template'>
+          <tr><td>Subject:</td><td><%=t.subject %></td></tr>
+          <tr><td>Body:</td><td><%=t.body %></td></tr>
+        </table>
         </td>
        </tr>
       <% } %>
@@ -214,6 +226,9 @@
   });
   $(".template_help a.toggle_help").click(function(){
     $(".template_help p").toggleClass('hide');
+  });
+  $("#template_list_opts").on('change','select',function(){
+    console.log($("#template_list_opts").serialize());
   });
   
 </script>

@@ -1642,7 +1642,24 @@ public class DBConnect {
   }
   
   public static ArrayList<EmailTemplate> getEmailTemplates(){
-    return EmailTemplateResultGetter.getInstance().Get("select * from email_templates order by category,name");
+    return getEmailTemplates(null, null);
+  }
+  
+  public static ArrayList<EmailTemplate> getEmailTemplates(String category, String orderby){
+    
+    String query = "select * from email_templates";
+    if (category != null) {
+      query += "\n WHERE category=" + safeText(category);
+    }
+    if (orderby == null) {
+      orderby = "category,name";
+    }
+    else {
+      orderby = addMySQLEscapes(orderby);
+    }
+    query += "\n ORDER BY " + orderby;
+    
+    return EmailTemplateResultGetter.getInstance().Get(query);
   }
 
   //************************************************************
