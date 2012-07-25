@@ -55,8 +55,8 @@
 <% for (MouseMail email : emails){ %>
   <tr class='mouselist'>
     <td><%=email.status %> <%= sdf.format(email.dateCreated) %></td>
-    <td><%=email.category %></td>
-    <td><%=email.templateName %></td>
+    <td><%=emptyIfNull(email.category) %></td>
+    <td><%=emptyIfNull(email.templateName) %></td>
     <td>
     <%=email.recipient %> 
     <%=email.ccs.length() > 0 ? "<br>cc: " + email.ccs : "" %>    

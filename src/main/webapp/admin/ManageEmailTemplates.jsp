@@ -34,7 +34,7 @@
       orderby = "name";
     }
   }
-  session.setAttribute("manageEmailTemplatecategory",orderby);
+ 
   if(category == null)
   {
     if ((category = (String)session.getAttribute("manageEmailTemplatecategory")) == null)
@@ -43,6 +43,7 @@
     }
   }
   session.setAttribute("manageEmailTemplateorderby",orderby);
+  session.setAttribute("manageEmailTemplatecategory",category);
   
   
   if (message == null){
@@ -105,7 +106,7 @@
      <% for (EmailTemplate t : templates) { %>
      <tr>
        <td>
-          <b><%=t.category %></b>
+          <b><%= t.category %></b>
        </td>
        <td>
         <dl>
