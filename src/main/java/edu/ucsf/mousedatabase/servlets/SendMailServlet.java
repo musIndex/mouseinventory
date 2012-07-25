@@ -37,6 +37,7 @@ public class SendMailServlet extends HttpServlet {
     String subject = request.getParameter("subject");
     String body = request.getParameter("body");
     String category = request.getParameter("category");
+    int templateID = stringToInt(request.getParameter("template_id"));
     
     Properties data = new Properties();
     
@@ -46,11 +47,11 @@ public class SendMailServlet extends HttpServlet {
       data.setProperty("error", error);
     }
     else if(!request.isUserInRole("administrator")) {
-      //this is acturally redundant because the servlet is behind /admin but makes me feel better
+      //this is actually redundant because the servlet is behind /admin but makes me feel better
       data.setProperty("error","you must be an administrator to send mail");
     }
     else {
-      data.setProperty("id", Integer.toString(MouseMail.send(recipient, cc, subject, body, category)));
+      data.setProperty("id", Integer.toString(MouseMail.send(recipient, cc, subject, body, category,templateID)));
     }
     
     Gson gson = new Gson();
@@ -59,9 +60,7 @@ public class SendMailServlet extends HttpServlet {
 	}
 
 	private String validate(String recipient, String cc, String subject, String body){
-	  System.out.println("Validate email:");
-	  System.out.println(body);
-	  System.out.println();
+	  //TODO validate if we end up having trouble with badly formatted emails
 	  return null;
 	}
 	
