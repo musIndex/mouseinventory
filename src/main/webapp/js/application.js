@@ -1,5 +1,10 @@
 $(document).ready(function(){
   $('.chzn-select').chosen();
+  
+  $(".view_opts").on('change','select',function(){
+    var form = $(this).closest('form');
+    window.location.href = form.attr('action') + '?' + form.serialize();
+  });
 });
 
 window.MouseConf = window.MouseConf || {};

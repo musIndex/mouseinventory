@@ -20,7 +20,7 @@
   EmailTemplate template = null;
   
   String[] orderOptions = new String[]{"name","date_updated","subject"};
-  String[] orderLabels = new String[]{"Template name","Date Updated", "Template subject"};
+  String[] orderLabels = new String[]{"Template name","Date Revised", "Template subject"};
   
   boolean addingNew = id <= 0;
   
@@ -34,7 +34,7 @@
       orderby = "name";
     }
   }
-  session.setAttribute("manageEmailTemplatecategory",category);
+  session.setAttribute("manageEmailTemplatecategory",orderby);
   if(category == null)
   {
     if ((category = (String)session.getAttribute("manageEmailTemplatecategory")) == null)
@@ -91,15 +91,15 @@
   <% } %>
   <% if (templates != null) { %>
     <h2><%= title %></h2>
-     <form id='template_list_opts'>
-     Show: <%=genSelect("category",EmailTemplate.getCategories(),category) %>  
-     Sort by: <%=genSelect("orderby",orderOptions,orderLabels,orderby,"") %>
+     <form class='view_opts' action='ManageEmailTemplates.jsp'>
+      Show: <%=genSelect("category", EmailTemplate.getCategories(), category) %>  
+      Sort by: <%=genSelect("orderby", orderOptions,orderLabels, orderby,"") %>
      </form>
      <a class='btn btn-success' href='ManageEmailTemplates.jsp?command=edit&id=-1'><i class='icon-plus icon-white'></i> Add new template</a>
      <table class='basic'>
      <tr>
         <th>Category</th>
-        <th width='200px'>Name of Template</th>
+        <th>Name of Template</th>
         <th>Template</th>
      </tr>
      <% for (EmailTemplate t : templates) { %>
@@ -121,6 +121,9 @@
         </table>
         </td>
        </tr>
+      <% } %>
+      <% if (templates.size() == 0){ %>
+        <tr><td style='text-align: center' colspan='3'>No templates yet</td></tr>
       <% } %>
       </table>
   <% }%>
@@ -245,8 +248,5 @@
   $(".template_help a.toggle_help").click(function(){
     $(".template_help p").toggleClass('hide');
   });
-  $("#template_list_opts").on('change','select',function(){
-    window.location.href = '<%= adminRoot%>ManageEmailTemplates.jsp?' + $("#template_list_opts").serialize();
-  });
-  
+
 </script>

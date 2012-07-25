@@ -1574,8 +1574,25 @@ public class DBConnect {
     return executeNonQuery(query);
   }
   
-  public static ArrayList<MouseMail> getEmails(){
-    return EmailResultGetter.getInstance().Get("select * from emails order by date_created desc");
+  public static ArrayList<MouseMail> getEmails(String category, String orderby){
+    
+    String query = "select * from emails";
+    if (category != null && !category.equals("all")) {
+      query += "\n WHERE category=" + safeText(category);
+    }
+    if (orderby == null) {
+      orderby = "date_created";
+    }
+    else if (orderby.equals("date_created"))
+    {
+      orderby = "date_created desc";
+    }
+    else { 
+      orderby = addMySQLEscapes(orderby);
+    }
+    query += "\n ORDER BY " + orderby;
+     
+    return EmailResultGetter.getInstance().Get(query);
   }
   
   public static int insertSetting(Setting setting){
