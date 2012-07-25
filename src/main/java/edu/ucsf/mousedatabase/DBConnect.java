@@ -1560,7 +1560,7 @@ public class DBConnect {
   }
   
   public static int insertEmail(MouseMail email){
-    String query = "INSERT into emails (recipients,ccs,bccs,emailType,subject,body,status,category)";
+    String query = "INSERT into emails (recipients,ccs,bccs,emailType,subject,body,status,category,template_name)";
       query += "VALUES (";
       query += safeText(email.recipient) + ",";
       query += safeText(email.ccs) + ",";
@@ -1569,7 +1569,8 @@ public class DBConnect {
       query += safeText(email.subject) + ",";
       query += safeText(email.body) + ",";
       query += safeText(email.status) + ",";
-      query += safeText(email.category);
+      query += safeText(email.category) + ",";
+      query += safeText(email.templateName);
       query += ");";
     return executeNonQuery(query);
   }
@@ -1583,9 +1584,11 @@ public class DBConnect {
     if (orderby == null) {
       orderby = "date_created";
     }
-    else if (orderby.equals("date_created"))
-    {
+    else if (orderby.equals("date_created")) {
       orderby = "date_created desc";
+    }
+    else if (orderby.equals("date_crated_inv")) {
+      orderby= "date_created";
     }
     else { 
       orderby = addMySQLEscapes(orderby);
@@ -3317,7 +3320,8 @@ public class DBConnect {
           g_str("ccs"), 
           g_str("subject"), 
           g_str("body"),
-          g_str("category"));
+          g_str("category"),
+          g_str("template_name"));
       email.bccs = g_str("bccs");
       email.dateCreated = g_ts("date_created");
       email.status = g_str("status");

@@ -185,3 +185,7 @@ CREATE TABLE `email_templates` (
   `date_updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+#38 add template_name field to emails
+alter table `emails` add column `template_name` varchar(255);

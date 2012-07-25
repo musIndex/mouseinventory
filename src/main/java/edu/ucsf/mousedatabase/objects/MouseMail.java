@@ -29,7 +29,6 @@ public class MouseMail {
         SMTP_PW = pw;
         SMTP_PORT = port;
         SMTP_SSL_ENABLED = sslEnabled;
-       
     }
   
   
@@ -50,11 +49,12 @@ public class MouseMail {
     public String emailType;
     public String status;
     public String category;
+    public String templateName;
     public Timestamp dateCreated;
     
     
     
-    public MouseMail(String recipient, String ccs, String subject, String body, String category) {
+    public MouseMail(String recipient, String ccs, String subject, String body, String category, String templateName) {
       super();
       this.recipient = recipient;
       this.ccs = ccs;
@@ -62,13 +62,20 @@ public class MouseMail {
       this.body = body;
       this.emailType = HTMLEmailType;
       this.category = category;
+      this.templateName = templateName;
     }
 
 
 
-    public static int send(String recipient, String cc, String subject, String body, String category){
+    public static int send(String recipient, String cc, String subject, String body, String category, int templateID){
       
-      MouseMail mail = new MouseMail(recipient, cc, subject, body, category);
+      String templateName = null;
+      if (templateID > 0) {
+        EmailTemplate template = DBConnect.loadEmailTemplate(templateID);
+        templateName = template.name;
+      }
+      
+      MouseMail mail = new MouseMail(recipient, cc, subject, body, category, templateName);
       mail.trySend();
       mail.save();
       return mail.id;

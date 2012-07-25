@@ -25,9 +25,9 @@
   ArrayList<MouseMail> emails = DBConnect.getEmails(category,orderby);
   session.setAttribute("emailLogcategory",category);
   session.setAttribute("emailLogorderby",orderby);
- 
-  String[] orderOptions = new String[]{"date_created","category","subject"};
-  String[] orderLabels = new String[]{"Date sent", "Category","Email subject"};
+
+  String[] orderOptions = new String[]{"date_created","date_created_inv","category","template_name","recipients"};
+  String[] orderLabels = new String[]{"Date sent", "Date sent (reverse)","Category","Template name","Recipient"};
  
   String[] categories = EmailTemplate.getCategories();
   
@@ -46,15 +46,17 @@
 <table class='basic'>
   <tr>
   <th width='170px'>Date</th>
-  <th width='170px'>Category</th>
-  <th width='200px'>Recipient(s)</th>
-  <th width='20%'>Subject</th>
+  <th>Category</th>
+  <th>Template Name</th>
+  <th style='max-width: 200px'>Recipient(s)</th>
+  <th style='width: 20'>Subject</th>
   <th>Message</th>
 </tr>
 <% for (MouseMail email : emails){ %>
   <tr class='mouselist'>
     <td><%=email.status %> <%= sdf.format(email.dateCreated) %></td>
     <td><%=email.category %></td>
+    <td><%=email.templateName %></td>
     <td>
     <%=email.recipient %> 
     <%=email.ccs.length() > 0 ? "<br>cc: " + email.ccs : "" %>    
@@ -65,7 +67,7 @@
   </tr>
 <%} %>
 <% if (emails.size() == 0){ %>
-  <tr><td style='text-align: center' colspan='5'>No emails yet</td></tr>
+  <tr><td style='text-align: center' colspan='6'>No emails yet</td></tr>
 <% } %>
 </table>
 </div>

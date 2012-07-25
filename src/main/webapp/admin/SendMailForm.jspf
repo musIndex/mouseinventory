@@ -30,7 +30,7 @@
         <td><input type='text' name='cc'></input></td>
       </tr>
       <tr>
-      <td colspan='2'>Template: <select name='template'></select></td>
+      <td colspan='2'>Template: <select name='template_id'></select></td>
       </tr>
       <tr>
         <td >Subject:</td>
@@ -57,7 +57,7 @@
 $(document).ready(function(){
   var all_templates = <%=new Gson().toJson(templates) %>;
   var templates = [];
-  var template_selector = $("#sendMailModal select[name='template']");
+  var template_selector = $("#sendMailModal select[name='template_id']");
   var editor = {};
   
   var current_objects = {submission: {}, request: {}, mouse: {}};
