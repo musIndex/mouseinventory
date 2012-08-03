@@ -82,10 +82,10 @@ public class HTMLGeneration {
     buf.append("<link href='" + styleRoot + "bootstrap.css' rel='stylesheet' type='text/css'>\r\n");
     buf.append("<link href='" + styleRoot + "chosen.css' rel='stylesheet' type='text/css'>\r\n");
     buf.append("<link href='" + styleRoot + "MouseInventory.css' rel='stylesheet' type='text/css'>\r\n");
-    buf.append("<link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css 'rel='stylesheet' type='text/css' />");
+    buf.append("<link href='" + styleRoot + "jquery-ui.css 'rel='stylesheet' type='text/css' />");
     
-    buf.append("<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js'></script>\r\n");
-    buf.append("<script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js'></script>\r\n");
+    buf.append("<script src='" + scriptRoot + "jquery.min.js'></script>\r\n");
+    buf.append("<script src='" + scriptRoot + "jquery-ui.min.js'></script>\r\n");
     buf.append("<script src='" + scriptRoot + "chosen.jquery.min.js'></script>\r\n");
     buf.append("<script src='" + scriptRoot + "jquery.ba-bbq.min.js'></script>\r\n");
     buf.append("<script src='" + scriptRoot + "uiHelperFunctions.js'></script>\r\n");
@@ -95,8 +95,8 @@ public class HTMLGeneration {
     
     if (isAdminPage) {
       buf.append("<link href='" + styleRoot + "jquery.cleditor.css' type='text/css' rel='stylesheet'>");
-      buf.append("<script type='text/javascript' src='" + scriptRoot  + "bootstrap.min.js'></script>");
-      buf.append("<script type='text/javascript' src='" + scriptRoot  + "jquery.cleditor.js'></script>");
+      buf.append("<script src='" + scriptRoot  + "bootstrap.min.js'></script>");
+      buf.append("<script src='" + scriptRoot  + "jquery.cleditor.js'></script>");
     }
 
     buf.append(googleAnalyticsScript + "\r\n");
