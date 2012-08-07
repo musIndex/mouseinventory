@@ -104,7 +104,10 @@
             endIndex = offset + limit - miceSeen;
           }
           if (offset < resultMouseCount) {
-           startIndex = offset - (pagenum > 1 ? miceSeen : 0); 
+        	  startIndex = offset;
+            if (pagenum > 1) {
+              startIndex -= (miceSeen - displayedMice);
+            }
           }
           if (limit == -2) { //all
             startIndex = 0;
