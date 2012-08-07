@@ -195,7 +195,7 @@ $(document).ready(function(){
       </h3>
       <a href="submitformMouseType.jsp">Back to step 2</a>
       <br>
-      <span class=red>WARNING: if you leave this page without using the
+      <span style='font-size:120%;font-weight:bold' class=red>WARNING: if you leave this page without using the
       save button at the bottom of the page, the data you entered will be
       lost</span>
       <br> If you encounter any difficulties while completing
