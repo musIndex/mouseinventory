@@ -19,61 +19,7 @@
   String[] changeRequestListLabels = new String[]{"new","pending"};
 
   StringBuffer buf = new StringBuffer();
-  for(int i =0; i< submissionLists.size(); i++)
-  {
-    ArrayList<SubmittedMouse> newSubmissions = submissionLists.get(i);
-    String label = submissionListLabels[i];
-    if(newSubmissions.size() > 0)
-    {
-
-      buf.append("<dl>");
-      buf.append("<dt><font color='green'><b>There are " + newSubmissions.size() + " " + label + "!</b></font></dt>");
-      for(SubmittedMouse mouse : newSubmissions)
-      {
-        String mouseName = "";
-        if (mouse.getOfficialSymbol() == null || mouse.getOfficialSymbol().isEmpty())
-        {
-          mouseName = mouse.getMouseName();
-          if(mouseName == null || mouseName.isEmpty())
-          {
-            mouseName = mouse.getOfficialMouseName();
-          }
-        }
-        String action = "held by";
-        if (mouse.getProperties().containsKey(SubmittedMouse.SubmissionSourceKey))
-        {
-          String submissionSource = mouse.getProperties().getProperty(SubmittedMouse.SubmissionSourceKey);
-          if (submissionSource.equals(SubmittedMouse.PurchaseImport))
-          {
-            action = "purchased by";
-          }
-          else if (submissionSource.equals(SubmittedMouse.OtherInstitutionImport)){
-           action = "imported by";
-          }
-
-        }
-        String holders = "";
-        ArrayList<MouseHolder> mouseHolders = mouse.getHolders();
-        if (mouse.getHolderName() != null && !mouse.getHolderName().equals("unassigned"))
-        {
-          holders += mouse.getHolderName();
-        }
-        if (mouseHolders != null)
-        {
-          for (MouseHolder holder : mouseHolders)
-          {
-            if (holders.length() > 0) holders += ", ";
-            holders += holder.getFullname();
-          }
-        }
-        buf.append("<dd><span class='mouseName'>" + mouseName
-            + HTMLUtilities.getCommentForDisplay(HTMLGeneration.emptyIfNull(mouse.getOfficialSymbol()))
-            + "</span> " + action + "  " + holders
-            + " - <a href=\"CreateNewRecord.jsp?id=" + mouse.getSubmissionID() + "\">Convert to record</a></dd>");
-      }
-      buf.append("</dl>");
-    }
-  }
+  
 
 
   for (int i = 0; i < changeRequestLists.size();i++)
@@ -133,6 +79,62 @@
               + changeRequest.getRequestID() + "\">Edit record #"
               + changeRequest.getMouseID() + "</a>");
         }
+      }
+      buf.append("</dl>");
+    }
+  }
+  
+  for(int i =0; i< submissionLists.size(); i++)
+  {
+    ArrayList<SubmittedMouse> newSubmissions = submissionLists.get(i);
+    String label = submissionListLabels[i];
+    if(newSubmissions.size() > 0)
+    {
+
+      buf.append("<dl>");
+      buf.append("<dt><font color='green'><b>There are " + newSubmissions.size() + " " + label + "!</b></font></dt>");
+      for(SubmittedMouse mouse : newSubmissions)
+      {
+        String mouseName = "";
+        if (mouse.getOfficialSymbol() == null || mouse.getOfficialSymbol().isEmpty())
+        {
+          mouseName = mouse.getMouseName();
+          if(mouseName == null || mouseName.isEmpty())
+          {
+            mouseName = mouse.getOfficialMouseName();
+          }
+        }
+        String action = "held by";
+        if (mouse.getProperties().containsKey(SubmittedMouse.SubmissionSourceKey))
+        {
+          String submissionSource = mouse.getProperties().getProperty(SubmittedMouse.SubmissionSourceKey);
+          if (submissionSource.equals(SubmittedMouse.PurchaseImport))
+          {
+            action = "purchased by";
+          }
+          else if (submissionSource.equals(SubmittedMouse.OtherInstitutionImport)){
+           action = "imported by";
+          }
+
+        }
+        String holders = "";
+        ArrayList<MouseHolder> mouseHolders = mouse.getHolders();
+        if (mouse.getHolderName() != null && !mouse.getHolderName().equals("unassigned"))
+        {
+          holders += mouse.getHolderName();
+        }
+        if (mouseHolders != null)
+        {
+          for (MouseHolder holder : mouseHolders)
+          {
+            if (holders.length() > 0) holders += ", ";
+            holders += holder.getFullname();
+          }
+        }
+        buf.append("<dd><span class='mouseName'>" + mouseName
+            + HTMLUtilities.getCommentForDisplay(HTMLGeneration.emptyIfNull(mouse.getOfficialSymbol()))
+            + "</span> " + action + "  " + holders
+            + " - <a href=\"CreateNewRecord.jsp?id=" + mouse.getSubmissionID() + "\">Convert to record</a></dd>");
       }
       buf.append("</dl>");
     }
