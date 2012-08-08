@@ -39,11 +39,11 @@
 
   ArrayList<SubmittedMouse> submissions = DBConnect.getMouseSubmissions(status, entered, orderBy);
 
-  String[] sortOptions = new String[] {"submittedmouse.id","mouse.id","firstname","lastname","date"};
-  String[] sortOptionNiceNames = new String[] {"Submission #", "Record #", "Submitter first name", "Submitter last name", "Submission date"};
+  String[] sortOptions = new String[] {"submittedmouse.id","date","date DESC","mouse.id","mouse.id DESC", "firstname","lastname"};
+  String[] sortOptionNiceNames = new String[] {"Submission #", "Submission date","Reverse Submission date", "Record #", "Reverse Record #","Submitter first name", "Submitter last name"};
 
   String[] filterOptions = new String[] {"new","need more info","rejected","accepted","all"};
-  String[] filterOptionNiceNames = new String[] {"New", "Hold", "Rejected","Currently Housed","All"};
+  String[] filterOptionNiceNames = new String[] {"New", "Hold", "Rejected","Converted to records","All"};
 
   int kount = submissions.size();
 
