@@ -38,15 +38,12 @@
   {
     session.setAttribute("manageChangeRequestOrderBy",orderBy);
   }
-
-
-
-
-    String[] sortOptions = new String[] {"changerequest.id","requestdate","mouse_id","firstname","lastname"};
-    String[] sortOptionNiceNames = new String[] {"Request #","Request date", "Record #", "Submitter first name", "Submitter last name"};
+  
+    String[] sortOptions = new String[] {"changerequest.id","requestdate","requestdate DESC", "mouse_id","mouse_id DESC","firstname","lastname"};
+    String[] sortOptionNiceNames = new String[] {"Request #","Request date", "Reverse request date","Record #", "Reverse Record #","Requestor first name", "Requestor last name"};
 
     String[] filterOptions = new String[] {"new","pending","done","all"};
-    String[] filterOptionNiceNames = new String[] {"New", "Pending", "Done","All"};
+    String[] filterOptionNiceNames = new String[] {"New", "Pending", "Completed","All"};
 
     StringBuffer sortBuf = new StringBuffer();
     sortBuf.append("<form action=\"ManageChangeRequests.jsp\" method=\"get\">");
