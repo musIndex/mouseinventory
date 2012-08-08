@@ -2112,7 +2112,7 @@ public class HTMLGeneration {
     table.append("</td>\r\n");
     if (edit){
       table.append("<td style='min-width:200px'\">\r\n");
-      table.append("Alternate Contact");
+      table.append("Primary Contact");
       table.append("</td>\r\n");
     }
     table.append("<td >\r\n");
