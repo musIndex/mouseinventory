@@ -200,8 +200,8 @@ public class HTMLGeneration {
       table.append("<div id='adminLinks' class='site_container'>");
       table.append("<ul class=\"navLinkUL\">");
       table.append(addNavLink("Admin Home", "admin.jsp", null, currentPageFilename, true));
-      table.append(addNavLink("Submissions", "ListSubmissions.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Change Requests", "ManageChangeRequests.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Submissions", "ListSubmissions.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Edit Records", "EditMouseSelection.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Edit Holders", "EditHolderChooser.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Edit Facilities","EditFacilityChooser.jsp", null, currentPageFilename, true));
