@@ -1058,8 +1058,8 @@ public class HTMLGeneration {
           && !nextSubmission.getStatus().equalsIgnoreCase(
               "need more info")) {
         table.append("<dt>\r\n");
-        table.append("Record #<b>" + nextSubmission.getMouseRecordID()
-            + "</b>");
+        table.append("<a href='" + adminRoot + "EditMouseSelection.jsp?searchterms=%23"+ nextSubmission.getMouseRecordID() + "'>Record #<b>" + nextSubmission.getMouseRecordID()
+            + "</b></a>");
         table.append("</dt>\r\n");
       }
       if (showStatusChangeLinks) {
