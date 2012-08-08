@@ -1984,7 +1984,7 @@ public class HTMLGeneration {
     table.append("</td>\r\n");
     if (edit) {
       table.append("<td style='min-width:60px'\">\r\n");
-      table.append("Code (for imports)");
+      table.append("Code (for data uploads)");
       table.append("</td>\r\n");
       table.append("<td style='min-width:60px'\">\r\n");
       table.append("Edit");
