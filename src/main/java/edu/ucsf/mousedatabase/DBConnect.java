@@ -2045,7 +2045,8 @@ public class DBConnect {
     {
       String query =
         "SELECT holder.id as 'Holder ID', lastname as 'Last Name',firstname as 'First Name'," +
-        "department as 'Department',email as 'E-Mail',datevalidated as 'Date of last review', " +
+        "department as 'Department',email as 'E-Mail',alternate_name as 'Primary contact name'," + 
+        "alternate_email as 'Primary contact email', datevalidated as 'Date of last review', " +
           "(select count(*) " +
           "\r\nFROM mouse_holder_facility " +
           "\r\nWHERE holder_id=holder.id) as 'Number of Mice Held'" +
@@ -2055,7 +2056,8 @@ public class DBConnect {
         "\r\nORDER BY lastname, firstname";
 
       String[] columnHeaders = new String[]{
-          "Holder ID","Last Name","First Name","Department","E-Mail","Number of mice held","Date of last review"
+          "Holder ID","Last Name","First Name","Department","E-Mail","Primary contact name",
+          "Primary contact email","Number of mice held","Date of last review"
           };
       return runSimpleReport(query,columnHeaders);
     }
