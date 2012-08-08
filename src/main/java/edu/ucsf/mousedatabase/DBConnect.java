@@ -208,6 +208,7 @@ public class DBConnect {
   public static ArrayList<MouseRecord> getMouseRecords(List<Integer> mouseIds,boolean preserveOrder) {
     if(preserveOrder){
       //TODO make this more efficient
+      //todo make this preserve the order, use a temp table and join it
       ArrayList<MouseRecord> records = new ArrayList<MouseRecord>();
       for(Integer mouseId : mouseIds){
         records.addAll(getMouseRecord(mouseId));
@@ -565,7 +566,7 @@ public class DBConnect {
     
     String query = "select mouse_id from flattened_mouse_search, mouse WHERE ";
     String statusTerm;
-    String orderBy = null;
+    String orderBy = "mouse_id";
     if(status.equalsIgnoreCase("all"))
     {
       statusTerm = " and mouse.status<>'incomplete'";
