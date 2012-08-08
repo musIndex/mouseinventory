@@ -1048,7 +1048,7 @@ public class HTMLGeneration {
 
       String statusString = nextSubmission.getStatus();
       if (statusString.equalsIgnoreCase("need more info")) {
-        statusString = "Holding";
+        statusString = "on hold";
       }
 
       table.append("Status: <b>" + statusString + "</b>");
