@@ -994,10 +994,10 @@ public class HTMLGeneration {
     table.append("<td style='min-width:250px'>\r\n");
     table.append("Submission info");
     table.append("<td style='min-width:110px'>\r\n");
-    table.append("Details");
+    table.append("Category");
     table.append("</td>\r\n");
     table.append("<td style='min-width:150px'>\r\n");
-    table.append("Mouse info");
+    table.append("Details");
     table.append("</td style='min-width:200px'>\r\n");
     table.append("<td>\r\n");
     table.append("Comment ");
