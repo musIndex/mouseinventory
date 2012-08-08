@@ -131,7 +131,7 @@
             ArrayList<MouseRecord> mice = new ArrayList<MouseRecord>();
             if (endIndex > 0)
             {
-              mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex),result.getStrategy().getName().startsWith("natural"));
+              mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex),limit < 100);
             }
  
             results.append("<div class='search-strategy-header' data-tokens='" + 
@@ -145,6 +145,7 @@
             results.append(HTMLGeneration.getMouseTable(mice, false, true, false,displayedMice == 0));
             results.append("</div>");
             displayedMice += mice.size();
+           
           }
         }
        
