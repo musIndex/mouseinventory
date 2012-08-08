@@ -804,9 +804,9 @@ public class HTMLGeneration {
       // r.getMtaRequired());
       // getInputRow(buf, "MTA Required?", field, null, "editMouseRow");
 
-      field = "<input type=\"checkbox\" value=\"true\" name=\"endangered\" "
-          + (r.isEndangered() ? "checked=\"checked\"" : "") + " >";
-      getInputRow(buf, "Endangered?", field, null, "editMouseRow");
+//      field = "<input type=\"checkbox\" value=\"true\" name=\"endangered\" "
+//          + (r.isEndangered() ? "checked=\"checked\"" : "") + " >";
+//      getInputRow(buf, "Endangered?", field, null, "editMouseRow");
 
     }
     if (r.getMouseType().equalsIgnoreCase("inbred strain")) {
