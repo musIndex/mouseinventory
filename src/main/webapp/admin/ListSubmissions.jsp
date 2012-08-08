@@ -64,7 +64,7 @@
   String statusString = "Listing " + status + " submissions";
   if(status.startsWith("need"))
   {
-    statusString = "Listing submissions in Holding";
+    statusString = "Listing submissions on hold";
     status="need";
   }else if(status.startsWith("accepted"))
   {
