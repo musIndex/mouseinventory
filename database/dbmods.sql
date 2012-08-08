@@ -189,3 +189,9 @@ CREATE TABLE `email_templates` (
 
 #38 add template_name field to emails
 alter table `emails` add column `template_name` varchar(255);
+
+#39 add indexes to speed up submission loading
+create index submittedmouse_id on mouse (submittedmouse_id);
+create index status on submittedmouse (status);
+
+

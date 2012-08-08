@@ -2865,12 +2865,13 @@ public class DBConnect {
           {
             if (logQueries)
             {
-              System.out.print("Closing connection " + _connection.toString() + "...");
+              Log.Info("Closing connection " + _connection.toString() + "...");
             }
             _connection.close();
             if (logQueries)
             {
               Log.Info("Closed!");
+              Log.Info("**************************");
             }
           }
         }
