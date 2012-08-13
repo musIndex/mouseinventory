@@ -52,7 +52,7 @@
 
 
 <div class="site_container">
-<h2>Editing record # <%=record.getMouseID() %>: <%=record.getMouseName() %> (<%= record.getMouseType() %>  )
+<h2>Editing record #<%=record.getMouseID() %>: <%=record.getMouseName() %> (<%= record.getMouseType() %>  )
 </h2>
 <%=existingRecord %>
 <%=editForm %>
