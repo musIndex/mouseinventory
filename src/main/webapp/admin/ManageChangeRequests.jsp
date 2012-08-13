@@ -1,13 +1,12 @@
-
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
+<%@ page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.sql.ResultSet" %>
 
-<%@page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
-<%=HTMLGeneration.getPageHeader(null,false,true) %>
-<%=HTMLGeneration.getNavBar("ManageChangeRequests.jsp", true) %>
-
+<%=getPageHeader(null,false,true) %>
+<%=getNavBar("ManageChangeRequests.jsp", true) %>
+<%@ include file='SendMailForm.jspf' %>
 <div class="site_container">
 
 
@@ -39,28 +38,25 @@
   {
     session.setAttribute("manageChangeRequestOrderBy",orderBy);
   }
-
-
-
-
-    String[] sortOptions = new String[] {"changerequest.id","requestdate","mouse_id","firstname","lastname"};
-    String[] sortOptionNiceNames = new String[] {"Request #","Request date", "Record #", "Submitter first name", "Submitter last name"};
+  
+    String[] sortOptions = new String[] {"changerequest.id","requestdate","requestdate DESC", "mouse_id","mouse_id DESC","firstname","lastname"};
+    String[] sortOptionNiceNames = new String[] {"Request #","Request date", "Reverse request date","Record #", "Reverse Record #","Requestor first name", "Requestor last name"};
 
     String[] filterOptions = new String[] {"new","pending","done","all"};
-    String[] filterOptionNiceNames = new String[] {"New", "Pending", "Done","All"};
+    String[] filterOptionNiceNames = new String[] {"New", "Pending", "Completed","All"};
 
     StringBuffer sortBuf = new StringBuffer();
     sortBuf.append("<form action=\"ManageChangeRequests.jsp\" method=\"get\">");
     sortBuf.append("&nbsp;Show: ");
-    sortBuf.append(HTMLGeneration.genFlatRadio("status",filterOptions,filterOptionNiceNames, status,""));
+    sortBuf.append(genFlatRadio("status",filterOptions,filterOptionNiceNames, status,""));
     sortBuf.append("<br>&nbsp;Sort by: ");
-    sortBuf.append(HTMLGeneration.genFlatRadio("orderby",sortOptions,sortOptionNiceNames, orderBy,""));
-    sortBuf.append("<br>&nbsp;<input type=\"submit\" value=\"Update\">");
+    sortBuf.append(genFlatRadio("orderby",sortOptions,sortOptionNiceNames, orderBy,""));
+    sortBuf.append("<br>&nbsp;<input class='btn' type='submit' value=\"Update\">");
     sortBuf.append("</form>");
 
   ArrayList<ChangeRequest> requests = DBConnect.getChangeRequests(status, orderBy);
 
-  String newTable = HTMLGeneration.getChangeRequestsTable(requests, status);
+  String newTable = getChangeRequestsTable(requests, status);
 
   String statusString = "Listing " + status + " change requests";
   if(status.equalsIgnoreCase("done"))

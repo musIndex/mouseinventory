@@ -3,6 +3,7 @@
 <%@page import="java.util.ArrayList"%>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditHolderChooser.jsp", true) %>
+<%@include file='SendMailForm.jspf' %>
 <jsp:useBean id="editedHolder" class="edu.ucsf.mousedatabase.objects.Holder" scope="request"></jsp:useBean>
 <jsp:setProperty property="*" name="editedHolder"/>
 <%

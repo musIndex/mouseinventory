@@ -1,0 +1,181 @@
+<%@page import="edu.ucsf.mousedatabase.DBConnect"%>
+<%@page import="edu.ucsf.mousedatabase.objects.*"%>
+<%@page import="com.google.gson.*" %>
+<%@page import="java.util.*" %>
+<%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*"%>
+<%
+
+  HashMap<String,ArrayList<EmailTemplate>> templates = new HashMap<String,ArrayList<EmailTemplate>>();
+  for (String category : EmailTemplate.getCategories()) {
+    templates.put(category, DBConnect.getCategoryEmailTemplates(category)); 
+  }
+%>
+
+<div class="modal hide" id="sendMailModal" style='width:750px; left:40%'>
+<form method='post' id='outgoing_message' action='<%=adminRoot%>SendMail' style='margin: 0px'>
+  <input type='hidden' name='category' value='' />
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3 style="margin: 0px">Send email as <%=AdminEmail %></h3>
+  </div>
+  <div class="modal-body">
+    <div id='results_container' class='alert hide'></div>
+    <table>
+      <tr>
+        <td>To:</td>
+        <td><input type='text' name='recipient'></input></td>
+      </tr>
+      <tr>
+        <td>cc:</td>
+        <td><input type='text' name='cc'></input></td>
+      </tr>
+      <tr>
+      <td colspan='2'>Template: <select name='template_id'></select></td>
+      </tr>
+      <tr>
+        <td >Subject:</td>
+        <td ><textarea name='subject' rows='2' cols='100'></textarea></td>
+      </tr>
+      <tr>
+        <td colspan='2'>Body:</td>
+      </tr>
+      <tr>
+        <td colspan='2'><textarea name='body'></textarea></td>
+      </tr>   
+    </table>
+
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+    <a href="#" class="btn btn-primary">Send</a>
+  </div>
+  </form>
+</div>
+
+<script type='text/javascript'>
+
+$(document).ready(function(){
+  var all_templates = <%=new Gson().toJson(templates) %>;
+  var templates = [];
+  var template_selector = $("#sendMailModal select[name='template_id']");
+  var editor = {};
+  
+  var current_objects = {submission: {}, request: {}, mouse: {}};
+  
+  $("a.adminEmailButton").click(showSendMailModal);
+  $('#sendMailModal a.disabled').on('click', function(event){
+    event.stopImmediatePropagation();
+    event.preventDefault();
+  });
+  $("#sendMailModal a.btn.btn-primary").click(sendMail);
+  
+  template_selector.change(update_template);
+  
+  function sendMail(){
+    $(this).addClass('disabled');
+    $(this).text('Sending...');
+    var form_data = $("#outgoing_message").serialize();
+    $.ajax({
+      type: 'post',
+      url: '<%=adminRoot%>SendMail?' + form_data,
+      dataType: 'json',
+      success: mailSendSuccess,
+      error: mailSendError,
+      async: true
+  	});
+  }
+  
+  function showSendMailModal(){
+    var $this = $(this);
+    var fields = ['recipient','cc','subject','body','category'];
+    $.each(fields,function(i,field){
+      $("#sendMailModal input[name='" + field + "']").val($this.data(field) || '');
+      $("#sendMailModal textarea[name='" + field + "']").text($this.data(field) || '');
+    });
+    
+    setupCurrentObjects($this.data('submission_id'),$this.data('request_id'),$this.data('mouse_id'),$this.data('holder_id'));
+    
+    template_selector.children().remove();
+    var category = $this.data('category');
+    if (category) {
+      templates = all_templates[category];
+      if (templates){
+        template_selector.append($('<option>',{value: -1, text: ''}));
+        $.each(templates,function(i,template){
+          template_selector.append($('<option>',{value: template.id, text: template.name}));
+        });
+        template_selector.parent().show();
+      }
+    }
+    else {
+      template_selector.parent().hide();
+    }
+    
+    $("#sendMailModal #results_container").hide();
+    $("#sendMailModal div.modal-body table").show();
+    $("#sendMailModal a.btn.btn-primary").removeClass('disabled');
+    editor = $("#sendMailModal textarea[name='body']").cleditor({
+      width: 670,
+      height: 200,
+      controls: 
+        "bold italic underline | font size " +
+        "style |  link unlink | color removeformat | bullets numbering | outdent " +
+        "indent | undo redo | " + " cut copy paste pastetext",
+    })[0];
+    editor.updateFrame();
+    $("#sendMailModal").modal("show");
+    return false;
+  }
+  
+  function setupCurrentObjects(subId, requestId, mouseId, holderId){
+    current_objects.submission = MouseConf.submissions[subId];
+    current_objects.request = MouseConf.requests[requestId];
+    current_objects.mouse = MouseConf.mice[mouseId];
+    current_objects.holder = MouseConf.holders[holderId];
+  }
+  
+  function mailSendSuccess(data){
+    $("#sendMailModal a.btn.btn-primary").text('Sent');
+    $("#sendMailModal #results_container").text('Mail sent successfully.')
+      .removeClass('hide')
+      .show()
+      .removeClass('alert-error')
+      .addClass('alert-success');
+    $("#sendMailModal div.modal-body table").slideUp(200)
+  }
+  function mailSendError(data){
+    $("#sendMailModal a.btn.btn-primary").text('Send').removeClass('disabled');
+    $("#sendMailModal #results_container").text(data.error)
+    	.removeClass('hide')
+    	.removeClass('alert-success')
+    	.addClass('alert-error');
+  }
+  function update_template(){
+    var template_id = parseInt($(this).val());
+    var updated = false;
+    $.each(templates,function(i,template){
+      if (updated || template.id !== template_id){
+        return;
+      }
+      $("#sendMailModal textarea[name='subject']").text(render(template.subject));
+      $("#sendMailModal textarea[name='body']").text(render(template.body));
+      updated = true;
+      editor.updateFrame();
+    })
+  }
+  
+  function render(template){
+    var rendered = template;
+    $.each(current_objects,function(obj_type,object){
+      if (object) {
+        $.each(object,function(key,value){
+          var expr = new RegExp("{{" + obj_type + "\." + key + "}}");
+          rendered = rendered.replace(expr,value);
+        });
+      }
+    });
+    return rendered;
+  }
+});
+
+</script>

@@ -53,16 +53,17 @@
             <td><input type=text name="tel" size=20 value="<%= holder.getTel() %>"></td>
         </tr>
         <tr>
-            <td>Alternate Contact Name
+            <td>Primary Contact Name
             </td>
             <td><input type=text name="alternateName" size=40 value="<%= HTMLGeneration.emptyIfNull(holder.getAlternateName()) %>">
-            <br><i>An alternate contact for the PI, such as a lab manager</i></td>
+            <br><i>The primary contact for communications about the database, appointed by the holder</i></td>
         </tr>
         <tr>
-            <td>Alternate Contact Email
+            <td>Primary Contact Email
             </td>
             <td><input type=text name="alternateEmail" size=40 value="<%= HTMLGeneration.emptyIfNull(holder.getAlternateEmail()) %>">
-            <br><i>This email will be added as a cc on email links for this holder in the mouse list</i></td>
+            <br><i>This email will be the recipient for email links for this holder in the mouse list,
+            with the holder's email address added as a cc.</i></td>
         </tr>
        
     <tr>

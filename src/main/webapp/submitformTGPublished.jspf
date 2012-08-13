@@ -71,7 +71,7 @@
 <tr class="formField">
   <td valign="top">
     <span class=red>*</span> <b>Pubmed ID</b>, generally for the publication in which
-    the transgene was first  described (auto/matically entered when the MGI ID
+    the transgene was first  described (automatically entered when the MGI ID
     is entered)
     <br>
     If you entered 'none' in the MGI ID field above, enter the PMID for a
@@ -96,7 +96,8 @@
 </tr>
 
 <tr class="formField">
-  <td>If the transgene was produced by Gensat, provide 'Founder Line':
+  <td>If the transgene was produced by Gensat, provide 'Founder Line'.  This is included at the end of the Official Symbol, e.g.
+'Tg(Epha2-EGFP)DE51Gsat' - the 'Founder Line' here is DE51.
     <br> <a href="http://www.gensat.org/search.jsp" target="_blank">Gensat catalog</a>
   </td>
   <td><input name="gensatFounderLine" id="gensatFounderLine"

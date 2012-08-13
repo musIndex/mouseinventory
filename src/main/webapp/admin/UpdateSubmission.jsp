@@ -9,11 +9,10 @@
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@ page import="java.util.ArrayList" %>
-
 <%@page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
-
+<%@ include file='SendMailForm.jspf' %>
 <jsp:useBean id="updatedRecord" class="edu.ucsf.mousedatabase.objects.MouseRecord" scope="request"/>
 <jsp:setProperty property="*" name="updatedRecord"/>
 
@@ -26,6 +25,8 @@
     //Log.Info(transgenicType);
     //Log.Info(request.getParameter("mouseType"));
     String submissionTable = "";
+    SubmittedMouse submission = null;
+    String holderEmail = null;
      String notes = request.getParameter("submissionNotes");
      String updateCommand = request.getParameter("submitButton");
      if(updateCommand == null || updateCommand.isEmpty() || !(updateCommand.equals("Convert to Record") || updateCommand.equals("Move to Hold")  || updateCommand.equals("Reject Submission") || updateCommand.equals("Undo conversion to Record")))
@@ -86,15 +87,19 @@
           DBConnect.updateMouseSearchTable(Integer.toString(mouseID)); //redundant, but adding in case this solves odd bug
              DBConnect.setSubmissionID(mouseID, submissionID);
         }
-        else
-        {
+        else {
           DBConnect.updateMouseRecord(updatedRecord);
         }
            pageHeader = "Created new Record #" + mouseID + ":";
            resultingRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false, true);
-
-           submissionTable = HTMLGeneration.getSubmissionTable(DBConnect.getMouseSubmission(submissionID),null,null,false);
-
+           ArrayList<SubmittedMouse> submissions = DBConnect.getMouseSubmission(submissionID);
+           submissionTable = HTMLGeneration.getSubmissionTable(submissions,null,null,false);
+           submission = submissions.get(0);
+           try{
+             holderEmail = submission.getHolders().get(0).getEmail();
+           }catch(Exception e){
+             Log.Error("no holder email for submission " + submissionID,e); 
+           }
       }
       else if(updateCommand.equals("Move to Hold"))
       {
@@ -147,8 +152,7 @@
           DBConnect.updateMouseRecord(updatedRecord);
         }
       }
-      else
-      {
+      else {
         pageHeader = "Error - failed to undo conversion; no mouseID or submissionID!";
       }
     }
@@ -173,7 +177,7 @@
     <input type="hidden" name="submittedMouseID" value="<%= submissionID %>">
     <input type="submit" class="btn btn-warning" name="submitButton" value="Undo conversion to Record">
     </form>
-    <%
+    
   }
   else if(updateCommand.equals("Move to Hold"))
   {
@@ -182,7 +186,7 @@
     <%= submissionTable%>
     <br>
     <h3>Incomplete Record:</h3>
-    <%
+    
   }
 
   if(updateCommand.equals("Convert to Record") || updateCommand.equals("Move to Hold"))
