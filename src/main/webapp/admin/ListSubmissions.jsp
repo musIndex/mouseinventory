@@ -1,12 +1,13 @@
 <%@ page import="java.util.*" %>
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
-<%=HTMLGeneration.getPageHeader(null,false,true) %>
-<%=HTMLGeneration.getNavBar("ListSubmissions.jsp", true) %>
+<%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
+<%=getPageHeader(null,false,true) %>
+<%=getNavBar("ListSubmissions.jsp", true) %>
+<%@ include file='SendMailForm.jspf' %>
 <%
 
-
-    String orderBy = request.getParameter("orderby");
+  String orderBy = request.getParameter("orderby");
   String entered = request.getParameter("entered");
   String status = request.getParameter("status");
 
@@ -36,43 +37,39 @@
   session.setAttribute("listSubmissionStatus",status);
   session.setAttribute("listSubmissionOrderBy",orderBy);
 
+  ArrayList<SubmittedMouse> submissions = DBConnect.getMouseSubmissions(status, entered, orderBy);
+
+  String[] sortOptions = new String[] {"submittedmouse.id","date","date DESC","mouse.id","mouse.id DESC", "firstname","lastname"};
+  String[] sortOptionNiceNames = new String[] {"Submission #", "Submission date","Reverse Submission date", "Record #", "Reverse Record #","Submitter first name", "Submitter last name"};
+
+  String[] filterOptions = new String[] {"new","need more info","rejected","accepted","all"};
+  String[] filterOptionNiceNames = new String[] {"New", "Hold", "Rejected","Converted to records","All"};
+
+  int kount = submissions.size();
 
 
+  String table = getSubmissionTable(submissions, status, entered);
+
+  StringBuffer sortBuf = new StringBuffer();
+  sortBuf.append("<form action='ListSubmissions.jsp' method='get'>");
+  sortBuf.append("&nbsp;Show: ");
+  sortBuf.append(genFlatRadio("status",filterOptions,filterOptionNiceNames, status,""));
+  sortBuf.append("<br>&nbsp;Sort by: ");
+  sortBuf.append(genFlatRadio("orderby",sortOptions,sortOptionNiceNames, orderBy,""));
+  sortBuf.append("<input type='hidden' name='entered' value='" + entered +"'>");
+  sortBuf.append("<br>&nbsp;<input class='btn' type='submit' value='Update'>");
+  sortBuf.append("</form>");
 
 
-    ArrayList<SubmittedMouse> submissions = DBConnect.getMouseSubmissions(status, entered, orderBy);
-
-    String[] sortOptions = new String[] {"submittedmouse.id","mouse.id","firstname","lastname","date"};
-    String[] sortOptionNiceNames = new String[] {"Submission #", "Record #", "Submitter first name", "Submitter last name", "Submission date"};
-
-    String[] filterOptions = new String[] {"new","need more info","rejected","accepted","all"};
-    String[] filterOptionNiceNames = new String[] {"New", "Hold", "Rejected","Currently Housed","All"};
-
-    int kount = submissions.size();
-
-
-    String table = HTMLGeneration.getSubmissionTable(submissions, status, entered);
-
-    StringBuffer sortBuf = new StringBuffer();
-    sortBuf.append("<form action=\"ListSubmissions.jsp\" method=\"get\">");
-    sortBuf.append("&nbsp;Show: ");
-    sortBuf.append(HTMLGeneration.genFlatRadio("status",filterOptions,filterOptionNiceNames, status,""));
-    sortBuf.append("<br>&nbsp;Sort by: ");
-    sortBuf.append(HTMLGeneration.genFlatRadio("orderby",sortOptions,sortOptionNiceNames, orderBy,""));
-    sortBuf.append("<input type=\"hidden\" name=\"entered\" value=\"" + entered +"\">");
-    sortBuf.append("<br>&nbsp;<input type=\"submit\" value=\"Update\">");
-    sortBuf.append("</form>");
-
-
-    String statusString = "Listing " + status + " submissions";
-    if(status.startsWith("need"))
-    {
-      statusString = "Listing submissions in Holding";
-      status="need";
-    }else if(status.startsWith("accepted"))
-    {
-      statusString = "Listing submissions that have been converted to records";
-    }
+  String statusString = "Listing " + status + " submissions";
+  if(status.startsWith("need"))
+  {
+    statusString = "Listing submissions on hold";
+    status="need";
+  }else if(status.startsWith("accepted"))
+  {
+    statusString = "Listing submissions that have been converted to records";
+  }
 
 %>
 

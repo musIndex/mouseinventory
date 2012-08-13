@@ -3,6 +3,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditHolderChooser.jsp", true) %>
+<%@include file='SendMailForm.jspf' %>
 <%
 
     //todo Order by links
@@ -18,10 +19,12 @@
     %>
     <h2>Edit Holders:</h2>
     <p><a href="EditHolderChooser.jsp?command=add">Add Holder...</a></p>
-    <p>Sort by <a href="EditHolderChooser.jsp?orderby=firstname,lastname&command=edit">First Name</a>,
-          <a href="EditHolderChooser.jsp?orderby=lastname,firstname&command=edit">Last name</a>,
+    <p>Sort by <a href="EditHolderChooser.jsp?orderby=firstname,lastname&command=edit">Holder First Name</a>,
+          <a href="EditHolderChooser.jsp?orderby=lastname,firstname&command=edit">Holder Last name</a>,
           <a href="EditHolderChooser.jsp?orderby=department&command=edit">Department</a>,
-          <a href="EditHolderChooser.jsp?orderby=count&command=edit">Mice Held</a></p>
+          <a href="EditHolderChooser.jsp?orderby=count&command=edit">Mice Held</a>,
+          <a href="EditHolderChooser.jsp?orderby=datevalidated&command=edit">Last Review Date</a>,
+          <a href="EditHolderChooser.jsp?orderby=datevalidated+desc&command=edit">Reverse Last Review Date</a></p>
     <%= table %>
     <%
   }
@@ -53,16 +56,16 @@
             </tr>
             
             <tr>
-                <td>Alternate Contact Name</td>
-                <td><input type=text name="alternateName" size=40>
-                <br><i>An alternative contact for the PI, such as a lab manager</i></td>
+                <td>Primary Contact Name</td>
+                <td><input type=text name="alternateName" size=40 >
+                <br><i>The primary contact for communications about the database, appointed by the holder</i></td>
             </tr>
             <tr>
-                <td>Alternate Contact Email</td>
+                <td>Primary Contact Email</td>
                 <td><input type=text name="alternateEmail" size=40>
-                <br><i>This email will be added as a cc on email links for this holder in the mouse list</i></td>
+                <br><i>This email will be the recipient for email links for this holder in the mouse list,
+                       with the holder's email address added as a cc.</i></td>
             </tr>
-            
             <tr><td colspan=2 align="center">
             <input type="hidden" name="command" value="Insert">
             <input type="submit" class="btn btn-success" value="Create Holder"></td></tr>

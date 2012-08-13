@@ -2,21 +2,35 @@ package edu.ucsf.mousedatabase;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Enumeration;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Properties;
 import java.util.Vector;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import edu.ucsf.mousedatabase.objects.*;
+import com.google.gson.Gson;
+
+import edu.ucsf.mousedatabase.objects.ChangeRequest;
+import edu.ucsf.mousedatabase.objects.EmailTemplate;
+import edu.ucsf.mousedatabase.objects.Facility;
+import edu.ucsf.mousedatabase.objects.Gene;
+import edu.ucsf.mousedatabase.objects.Holder;
+import edu.ucsf.mousedatabase.objects.ImportReport;
+import edu.ucsf.mousedatabase.objects.MGIResult;
+import edu.ucsf.mousedatabase.objects.MouseHolder;
+import edu.ucsf.mousedatabase.objects.MouseRecord;
+import edu.ucsf.mousedatabase.objects.MouseType;
+import edu.ucsf.mousedatabase.objects.SubmittedMouse;
 
 public class HTMLGeneration {
 
-  // note these are not used everywhere they should be
   public static final String siteRoot = "/mouseinventory/";
-  public static final String adminRoot = "/mouseinventory/admin/";
-  public static final String imageRoot = "/mouseinventory/img/";
-  public static final String scriptRoot = "/mouseinventory/js/";
-  public static final String dataRoot = "/mouseinventory/rawdata/";
+  public static final String adminRoot = siteRoot + "admin/";
+  public static final String imageRoot = siteRoot + "img/";
+  public static final String scriptRoot = siteRoot + "js/";
+  public static final String styleRoot = siteRoot + "css/";
+  public static final String dataRoot = siteRoot + "rawdata/";
 
   public static void setGoogleAnalyticsId(String id, String domainSuffix)
   {
@@ -54,49 +68,36 @@ public class HTMLGeneration {
       boolean disableCache, boolean isAdminPage, String bodyParams) {
 
     StringBuffer buf = new StringBuffer();
-    // TODO html5
     buf.append("<!DOCTYPE html>\r\n");
-
     buf.append("<html>\r\n");
     buf.append("<head>\r\n");
-    // buf.append("<meta content=\"text/html; charset=utf-8\" http-equiv=\"content-type\"/>\r\n");
-    buf.append("<meta name=\"robots\" content=\"noindex, nofollow\">");
-    // TODO use some sort of caching?
+    buf.append("<meta name='robots' content='noindex, nofollow'>");
     if (disableCache) {
-      buf.append("<meta http-equiv=\"cache-control\" content=\"no-cache\"> <!-- tells browser not to cache -->\r\n");
-      buf.append("<meta http-equiv=\"expires\" content=\"0\"> <!-- says that the cache expires 'now' -->\r\n");
-      buf.append("<meta http-equiv=\"pragma\" content=\"no-cache\"> <!-- says not to use cached stuff, if there is any -->\r\n");
+      buf.append("<meta http-equiv='cache-control' content='no-cache'>\r\n");
+      buf.append("<meta http-equiv='expires' content='0'>\r\n");
+      buf.append("<meta http-equiv='pragma' content='no-cache'>\r\n");
     }
-
-    buf.append("<link href=\""
-        + siteRoot
-        + "css/bootstrap.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
-    buf.append("<link href=\""
-        + siteRoot
-        + "css/chosen.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
-    buf.append("<link href=\""
-        + siteRoot
-        + "css/MouseInventory.css\" rel=\"stylesheet\" type=\"text/css\">\r\n");
-
     buf.append("<title>" + SiteName + "</title>\r\n");
 
-    buf.append("<script language=\"javascript\" type=\"text/javascript\" src=\""
-        + scriptRoot + "uiHelperFunctions.js\"></script>\r\n");
-    buf.append("<script language=\"javascript\" type=\"text/javascript\" src=\""
-        + scriptRoot + "ajaxFunctions.js\"></script>\r\n");
-    buf.append("<script language=\"javascript\" type=\"text/javascript\" src=\""
-        + scriptRoot + "validationFunctions.js\"></script>\r\n");
-    buf.append("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js\"></script>\r\n");
-
-    buf.append("<script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js'></script>\r\n");
-    buf.append("<link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css 'rel='stylesheet' type='text/css' />");
-    buf.append("<script src=\"" + scriptRoot + "chosen.jquery.min.js\"></script>\r\n");
-    buf.append("<script src=\"" + scriptRoot + "jquery.ba-bbq.min.js\"></script>\r\n");
-    buf.append("<script type=\"text/javascript\">\r\n" +
-        "$(document).ready(function(){\r\n" +
-          "$('.chzn-select').chosen();" +
-        "\r\n})\r\n" +
-        "</script>\r\n");
+    buf.append("<link href='" + styleRoot + "bootstrap.css' rel='stylesheet' type='text/css'>\r\n");
+    buf.append("<link href='" + styleRoot + "chosen.css' rel='stylesheet' type='text/css'>\r\n");
+    buf.append("<link href='" + styleRoot + "MouseInventory.css' rel='stylesheet' type='text/css'>\r\n");
+    buf.append("<link href='" + styleRoot + "jquery-ui.css 'rel='stylesheet' type='text/css' />");
+    
+    buf.append("<script src='" + scriptRoot + "jquery.min.js'></script>\r\n");
+    buf.append("<script src='" + scriptRoot + "jquery-ui.min.js'></script>\r\n");
+    buf.append("<script src='" + scriptRoot + "chosen.jquery.min.js'></script>\r\n");
+    buf.append("<script src='" + scriptRoot + "jquery.ba-bbq.min.js'></script>\r\n");
+    buf.append("<script src='" + scriptRoot + "uiHelperFunctions.js'></script>\r\n");
+    buf.append("<script src='" + scriptRoot + "ajaxFunctions.js'></script>\r\n");
+    buf.append("<script src='" + scriptRoot + "validationFunctions.js'></script>\r\n");
+    buf.append("<script src='" + scriptRoot + "application.js'></script>\r\n");
+    
+    if (isAdminPage) {
+      buf.append("<link href='" + styleRoot + "jquery.cleditor.css' type='text/css' rel='stylesheet'>");
+      buf.append("<script src='" + scriptRoot  + "bootstrap.min.js'></script>");
+      buf.append("<script src='" + scriptRoot  + "jquery.cleditor.js'></script>");
+    }
 
     buf.append(googleAnalyticsScript + "\r\n");
     if (additionalJavaScript != null) {
@@ -131,14 +132,12 @@ public class HTMLGeneration {
     table.append("<div class='site_container'>");
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div>"); //pagetitle
-    table.append("<span id=\"pageTitle\">" +
-        "<a href='" + siteRoot + "'>" + SiteName + "</a></span>");
+    table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + SiteName + "</a></span>");
     table.append("</div>");
     
     table.append("<div>"); // About, faq, contact links
     table.append("<span class=\"titleSubText\">");
-    table.append("<a href=\"" + siteRoot
-        + "about.jsp\">Home</a>&nbsp;");
+    table.append("<a href=\"" + siteRoot + "about.jsp\">Home</a>&nbsp;");
     // table.append("&nbsp;<a href=\""+siteRoot+"faq.jsp\">FAQ</a>&nbsp;");
     table.append("&nbsp;<a href=\"" + siteRoot
         + "contact.jsp\">Submit Feedback</a>");
@@ -200,22 +199,15 @@ public class HTMLGeneration {
       table.append("<div id=\"adminLinksContainer\" class='clearfix'>");
       table.append("<div id='adminLinks' class='site_container'>");
       table.append("<ul class=\"navLinkUL\">");
-      table.append(addNavLink("Admin Home", "admin.jsp", null,
-          currentPageFilename, true));
-      table.append(addNavLink("Submissions", "ListSubmissions.jsp", null,
-          currentPageFilename, true));
-      table.append(addNavLink("Change Requests",
-          "ManageChangeRequests.jsp", null, currentPageFilename, true));
-      table.append(addNavLink("Edit Mice", "EditMouseSelection.jsp",
-          null, currentPageFilename, true));
-      table.append(addNavLink("Edit Holders", "EditHolderChooser.jsp",
-          null, currentPageFilename, true));
-      table.append(addNavLink("Edit Facilities",
-          "EditFacilityChooser.jsp", null, currentPageFilename, true));
-      table.append(addNavLink("Data Upload", "ImportReports.jsp", null,
-          currentPageFilename, true));
-      table.append(addNavLink("Reports", "Reports.jsp", null,
-          currentPageFilename, true));
+      table.append(addNavLink("Admin Home", "admin.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Change Requests", "ManageChangeRequests.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Submissions", "ListSubmissions.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Edit Records", "EditMouseSelection.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Edit Holders", "EditHolderChooser.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Edit Facilities","EditFacilityChooser.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Data Upload", "ImportReports.jsp", null,  currentPageFilename, true));
+      table.append(addNavLink("Reports", "Reports.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Options", "Options.jsp", null, currentPageFilename, true));
       table.append("</ul>");
       table.append("</div>"); //adminlinks
       table.append("</div>"); //adminlinkscontainer
@@ -234,8 +226,7 @@ public class HTMLGeneration {
       String targetPageFilename, String targetPageArguments,
       String currentPageFilename, boolean isAdminPage, String cssClass) {
 
-    cssClass += targetPageFilename.equals(currentPageFilename) ? " current"
-        : "";
+    cssClass += targetPageFilename.equals(currentPageFilename) ? " current" : "";
     cssClass += " NavLinkItem";
 
     String url = (isAdminPage ? adminRoot : siteRoot) + targetPageFilename;
@@ -278,19 +269,22 @@ public class HTMLGeneration {
     StringBuilder buf = new StringBuilder();
     buf.append("<div class=\"mouseTable\">\r\n");
 
-    if (sub != null) // sub is null when editing existing mice, not null
+    if (sub != null) {// sub is null when editing existing mice, not null
     // when this is a new submission
-    {
       buf.append("<form name=\"mouseDetails\" action=\"UpdateSubmission.jsp\" method=\"post\">\r\n");
       buf.append("<input type=\"hidden\" name=\"submittedMouseID\" value=\"" + sub.getSubmissionID() + "\">");
-      if (req != null)
+      if (req != null) {
         return null;
-    } else if (req != null) {
+      }
+    } 
+    else if (req != null) {
       buf.append("<form name=\"mouseDetails\" action=\"UpdateChangeRequest.jsp\" method=\"post\">\r\n");
       buf.append("<input type=\"hidden\" name=\"changeRequestID\" value=\"" + req.getRequestID() + "\">");
-    } else if (isAdminCreating) {
+    } 
+    else if (isAdminCreating) {
       buf.append("<form name=\"mouseDetails\" action=\"CreateRecord.jsp\" method=\"post\">\r\n");
-    } else {
+    } 
+    else {
       buf.append("<form name=\"mouseDetails\" action=\"UpdateMouse.jsp\" method=\"post\">\r\n");
     }
 
@@ -308,24 +302,20 @@ public class HTMLGeneration {
 
     // holders
     ArrayList<MouseHolder> holderList = r.getHolders();
-    if (holderList == null)
+    if (holderList == null) {
       holderList = new ArrayList<MouseHolder>();
+    }
 
-    if (req != null)
-    {
+    if (req != null && req.Properties() != null) {
       int addHolderID = -1;
       int addFacilityId = -1;
       //if there is a holder and facility in the change requests, add it to the list
-      for(String propName : req.Properties().stringPropertyNames())
-      {
+      for(String propName : req.Properties().stringPropertyNames()) {
         String propertyValue = req.Properties().getProperty(propName);
-        if (propName.equals("Add Holder"))
-        {
+        if (propName.equals("Add Holder")) {
           int splitterIndex = propertyValue.indexOf('|');
-          if (splitterIndex > 0)
-          {
-            try
-            {
+          if (splitterIndex > 0) {
+            try {
               addHolderID = Integer.parseInt(propertyValue.substring(0,splitterIndex));
             }
             catch (Exception e)
@@ -814,9 +804,9 @@ public class HTMLGeneration {
       // r.getMtaRequired());
       // getInputRow(buf, "MTA Required?", field, null, "editMouseRow");
 
-      field = "<input type=\"checkbox\" value=\"true\" name=\"endangered\" "
-          + (r.isEndangered() ? "checked=\"checked\"" : "") + " >";
-      getInputRow(buf, "Endangered?", field, null, "editMouseRow");
+//      field = "<input type=\"checkbox\" value=\"true\" name=\"endangered\" "
+//          + (r.isEndangered() ? "checked=\"checked\"" : "") + " >";
+//      getInputRow(buf, "Endangered?", field, null, "editMouseRow");
 
     }
     if (r.getMouseType().equalsIgnoreCase("inbred strain")) {
@@ -924,7 +914,7 @@ public class HTMLGeneration {
 
     buf.append("</form>\r\n");
 
-    if (r.getMouseID() != null) {
+    if (r.getMouseID() != null && req == null) {
       ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
 
       String[] mouseTypeIDs = new String[mouseTypes.size()];
@@ -944,14 +934,18 @@ public class HTMLGeneration {
       String mouseTypeOptions = genSelect("mousetype_id", mouseTypeIDs,
           mouseTypeNames, currentTypeIDstr, "style='width:150px'");
 
-      buf.append("<form name=\"changeMouseType\" action=\"ChangeMouseType.jsp\" method=\"post\">\r\n");
-      buf.append("<input type=\"hidden\" name=\"mouse_id\" value=\"" + r.getMouseID() + "\">");
-      buf.append("<br><p>Change Mouse Type to: " + mouseTypeOptions);
-      buf.append("&nbsp;&nbsp;<input type=\"submit\" class='btn btn-small' value=\"Change Type\">");
+      buf.append("<form name='changeMouseType' action='ChangeMouseType.jsp' method='post'>\r\n");
+      buf.append("<input type='hidden' name='mouse_id' value='" + r.getMouseID() + "'>");
+      buf.append("<br><p>Change Mouse Category to: " + mouseTypeOptions);
+      buf.append("&nbsp;&nbsp;<input type='submit' class='btn btn-small' value='Change Category'>");
       buf.append("</form>\r\n");
-      buf.append("</div>\r\n");
-      buf.append("</div>\r\n");
+      
     }
+    if (req != null){
+      buf.append("<p>Should a change in mouse category be necessary, it can be made using the 'Edit Record' feature.</p>");
+    }
+    buf.append("</div>\r\n");
+    buf.append("</div>\r\n");
     return buf.toString();
   }
 
@@ -1000,10 +994,10 @@ public class HTMLGeneration {
     table.append("<td style='min-width:250px'>\r\n");
     table.append("Submission info");
     table.append("<td style='min-width:110px'>\r\n");
-    table.append("Details");
+    table.append("Category");
     table.append("</td>\r\n");
     table.append("<td style='min-width:150px'>\r\n");
-    table.append("Mouse info");
+    table.append("Details");
     table.append("</td style='min-width:200px'>\r\n");
     table.append("<td>\r\n");
     table.append("Comment ");
@@ -1054,7 +1048,7 @@ public class HTMLGeneration {
 
       String statusString = nextSubmission.getStatus();
       if (statusString.equalsIgnoreCase("need more info")) {
-        statusString = "Holding";
+        statusString = "on hold";
       }
 
       table.append("Status: <b>" + statusString + "</b>");
@@ -1064,8 +1058,8 @@ public class HTMLGeneration {
           && !nextSubmission.getStatus().equalsIgnoreCase(
               "need more info")) {
         table.append("<dt>\r\n");
-        table.append("Record #<b>" + nextSubmission.getMouseRecordID()
-            + "</b>");
+        table.append("<a href='" + adminRoot + "EditMouseSelection.jsp?searchterms=%23"+ nextSubmission.getMouseRecordID() + "'>Record #<b>" + nextSubmission.getMouseRecordID()
+            + "</b></a>");
         table.append("</dt>\r\n");
       }
       if (showStatusChangeLinks) {
@@ -1105,11 +1099,8 @@ public class HTMLGeneration {
       table.append("</dt>\r\n");
 
       table.append("<dt>\r\n");
-      table.append(formatEmail(
-          nextSubmission.getEmail(),
-          nextSubmission.getEmail(),
-          "Mouse Inventory Database Submission - "
-              + nextSubmission.getMouseName()));
+      table.append(getAdminMailLink(nextSubmission.getEmail(),null, EmailTemplate.SUBMISSION, 
+                                    nextSubmission.getSubmissionID(),-1,null,-1));
       table.append("</dt>\r\n");
       table.append("<dt>");
       table.append("Submission date: "
@@ -1417,6 +1408,11 @@ public class HTMLGeneration {
       numSubmissions++;
     }
     table.append("</table>\r\n");
+    
+    
+    table.append("<script type='text/javascript'>\r\n");
+    table.append("MouseConf.addSubmissions(" + new Gson().toJson(submissions) + ")");
+    table.append("</script>");
     table.append("</div>\r\n");
     if (numSubmissions <= 0)
       return "No results found";
@@ -1754,9 +1750,17 @@ public class HTMLGeneration {
           }
 
           
-          String mailLink = getMailToLink(holder.getAlternateEmail(), holder.getEmail(), 
-              "Regarding " + nextRecord.getMouseName() + "-Record# " + nextRecord.getMouseID(), null, firstInitial + holder.getLastname(),
-              holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")");
+          String mailLink = edit ? getAdminMailLink(holder.getAlternateEmail(), holder.getEmail(), 
+                                            EmailTemplate.MOUSERECORD, 
+                                            firstInitial + holder.getLastname(),
+                                            holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")",
+                                            -1,-1,nextRecord.getMouseID(),-1)
+                                 : getMailToLink(holder.getAlternateEmail(), holder.getEmail(),  
+                                     "Regarding " + nextRecord.getMouseName() + "-Record# " + nextRecord.getMouseID(), 
+                                     null, firstInitial + holder.getLastname(),
+                                     holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")");
+                                   
+                                  
           
           holderBuf.append("<dt" + (overMax ? " style='display:none'" : "") + ">"
               + (holder.isCovert() ? "<b>CVT</b>-" : "")
@@ -1780,9 +1784,14 @@ public class HTMLGeneration {
 
     table.append("</table>\r\n");
     table.append("</div>\r\n");
-    table.append("<script></script>");
-    if (numMice <= 0)
+    if (edit) {
+      table.append("<script type='text/javascript'>\r\n");
+      table.append("MouseConf.addMice(" + new Gson().toJson(mice) + ")");
+      table.append("</script>");
+    }
+    if (numMice <= 0) {
       return "No results found";
+    }
 
     return table.toString();
   }
@@ -1886,9 +1895,8 @@ public class HTMLGeneration {
       }
       
       
-      table.append(formatEmail(nextRequest.getEmail(),holderEmail,
-          nextRequest.getEmail(),
-          "Mouse Inventory Database Change Request for record #" + nextRequest.getMouseID() + " - " + nextRequest.getMouseName()));
+      table.append(getAdminMailLink(nextRequest.getEmail(), holderEmail, 
+                                EmailTemplate.CHANGREQUEST, -1,nextRequest.getRequestID(), null,-1));
       table.append("</dt>\r\n");
 
       table.append("</dl>\r\n");
@@ -1952,8 +1960,12 @@ public class HTMLGeneration {
     }
     table.append("</table>\r\n");
     table.append("</div>\r\n");
-    if (numRequests <= 0)
+    table.append("<script type='text/javascript'>\r\n");
+    table.append("MouseConf.addChangeRequests(" + new Gson().toJson(requests) + ")");
+    table.append("</script>");
+    if (numRequests <= 0) {
       return "No results found";
+    }
 
     return table.toString();
   }
@@ -1972,7 +1984,7 @@ public class HTMLGeneration {
     table.append("</td>\r\n");
     if (edit) {
       table.append("<td style='min-width:60px'\">\r\n");
-      table.append("Code (for imports)");
+      table.append("Code (for data uploads)");
       table.append("</td>\r\n");
       table.append("<td style='min-width:60px'\">\r\n");
       table.append("Edit");
@@ -2100,7 +2112,7 @@ public class HTMLGeneration {
     table.append("</td>\r\n");
     if (edit){
       table.append("<td style='min-width:200px'\">\r\n");
-      table.append("Alternate Contact");
+      table.append("Primary Contact");
       table.append("</td>\r\n");
     }
     table.append("<td >\r\n");
@@ -2142,9 +2154,11 @@ public class HTMLGeneration {
           + holder.getDept() + ")</div>");
       table.append("</td>\r\n");
       table.append("<td>\r\n");
-      table.append("<div style=\"position:relative; left:2px; float:left;\">"
-          + formatEmail(holder.getEmail(), holder.getEmail(), "")
-          + "</div>");
+      
+      String emailLink = edit ? getAdminMailLink(holder.getEmail(), null, EmailTemplate.HOLDER, -1, -1, null, holder.getHolderID())
+                              : formatEmail(holder.getEmail(), holder.getEmail(),"");
+      
+      table.append("<div style=\"position:relative; left:2px; float:left;\">" + emailLink   + "</div>");
       table.append(" <div style=\"position: relative; right: 10px; float:right;\">Tel: "
           + holder.getTel() + "</div>");
       table.append("</td>\r\n");
@@ -2178,6 +2192,11 @@ public class HTMLGeneration {
       numFacilities++;
     }
     table.append("</table>\r\n");
+    if (edit) {
+      table.append("<script type='text/javascript'>\r\n");
+      table.append("MouseConf.addHolders(" + new Gson().toJson(holders) + ")");
+      table.append("</script>");
+    }
     if (numFacilities <= 0)
       return "No results found";
     return table.toString();
@@ -2406,13 +2425,7 @@ public class HTMLGeneration {
     }
   }
 
-  public static String formatEmail(String emailAddress, String linkText, String subject) {
-    return formatEmail(emailAddress, null, linkText, subject);
-  }
-  
-  public static String formatEmail(String emailAddress, String ccAddress, String linkText, String subject) {
-    return getMailToLink(emailAddress, ccAddress, subject, null, linkText);
-  }
+
 
   public static String getMultiSelectWidget(String name,
       ArrayList<String> allOptions, ArrayList<String> allOptionsNiceNames,
@@ -2478,7 +2491,9 @@ public class HTMLGeneration {
         String[] niceNames, String current, String selectParams,boolean includeId) {
     if (selectParams == null) selectParams = "";
     StringBuffer b = new StringBuffer();
-    b.append("<select class='chzn-select' ");
+    
+    String cssClass = values.length > 20 ? "class='chzn-select'" : "";
+    b.append("<select " +  cssClass);
     if(includeId){
       b.append("id='" + name + "' "); 
     }
@@ -2596,6 +2611,25 @@ public class HTMLGeneration {
         b.append(" checked=checked");
       }
       b.append(">" + niceName + "\n");
+    }
+    return b.toString();
+  }
+  
+  public static String genRadio(String name, String[] values,
+      String[] niceNames, String current, String selectParams) {
+
+    StringBuffer b = new StringBuffer();
+    for (int i = 0; i < values.length; i++) {
+      String value = values[i];
+
+      String niceName = niceNames[i];
+
+      b.append("<input type=\"radio\" name=\"" + name + "\" value=\""
+          + value + "\" " + selectParams);
+      if (current != null && value.equalsIgnoreCase(current)) {
+        b.append(" checked=checked");
+      }
+      b.append(">" + niceName + "<br>\n");
     }
     return b.toString();
   }
@@ -2896,27 +2930,101 @@ public class HTMLGeneration {
         + (maxLength > 0 ? "maxlength=\"" + maxLength + "\" " : "")
         + (params != null ? params : "") + ">\r\n";
   }
+  
+  public static String tInput(String name, String current){
+    return "<input type='text' name='" + name + (current != null ? "' value='" + current + "'" : "'") + " />";
+  }
+  
+  public static String tArea(String name, String current){
+    return "<textarea name='" + name + "'>" + (current != null ? current : "") + "</textarea>";
+  }
 
+  public static String formatEmail(String emailAddress, String linkText, String subject) {
+    return formatEmail(emailAddress, null, linkText, subject);
+  }
+  
+  public static String formatEmail(String emailAddress, String ccAddress, String linkText, String subject) {
+    return getMailToLink(emailAddress, ccAddress, subject, null, linkText);
+  }
+  
+  
   public static String getMailToLink(String address, String cc, String subject, String body, String linkText)
   {
-    return getMailToLink(address, cc, subject, body, linkText, null); 
+    return getMailToLink(address, cc, subject, body, linkText, null, false, null); 
   }
   
   public static String getMailToLink(String address, String cc, String subject, String body, String linkText, String linkTitle)
   {
+    return getMailToLink(address, cc, subject, body, linkText, linkTitle, false, null); 
+  }
+  
+  public static String getAdminMailLink(String address, String cc, String templateCategory, int subId, int requestId, String mouseId, int holderId){
+   return getAdminMailLink(address, cc, templateCategory, null,null, subId, requestId, mouseId, holderId); 
+  }
+  
+  public static String getAdminMailLink(String address, String cc, String templateCategory, String linkText, String linkTitle, int subId, int requestId, String mouseId, int holderId){
+    Properties props = new Properties();
+    if (subId > 0) {
+      props.setProperty("submission_id", Integer.toString(subId));
+    }
+    if (requestId > 0) {
+      props.setProperty("request_id", Integer.toString(requestId));
+    }
+    if (mouseId != null) {
+      props.setProperty("mouse_id", mouseId);
+    }
+    if (holderId > 0) {
+      props.setProperty("holder_id", Integer.toString(holderId));
+    }
+    props.setProperty("category", templateCategory);
+    return getMailToLink(address, cc, null, null, linkText == null ? address : linkText, linkTitle, true, props);
+  }
+  
+  private static String getMailToLink(String address, String cc, String subject, String body, String linkText, String linkTitle, boolean admin, Properties props)
+  {
+    String recipient = address;
+    String ccRecipient = null;
     String ccAddr = "?";
     if (cc != null && !cc.equals(address))
     {
+      ccRecipient = cc;
       ccAddr = "?cc=" + cc + "&";
     }
     if (cc != null && address == null){
       address = cc;
       ccAddr = "?";
+      recipient = cc;
     }
-    return "<a" + (linkTitle != null ? " title='" + linkTitle + "'":"") + 
-            " href=\"mailto:" + address + ccAddr + 
-            "subject=" + urlEncode(subject) + 
-            (body != null ? "&body=" + urlEncode(body) : "") + "\">" + linkText + "</a>";
+    if (admin) {
+      String link = "<a class='adminEmailButton' href='#'";
+      link += " data-recipient='" + recipient + "'";
+      if (ccRecipient != null){
+       link += " data-cc='" + ccRecipient + "'";
+      }
+      if (props != null){
+        for (String key : props.stringPropertyNames()) {
+          link += " data-" + key + "='" + props.getProperty(key) + "'";
+        }
+      }
+      if (linkTitle != null){
+        link += " title='" + linkTitle + "'";
+      }
+      link += ">" + linkText + "</a>";
+      return link;
+    }
+    else {
+      return "<a" + (linkTitle != null ? " title='" + linkTitle + "'":"") + 
+              " href=\"mailto:" + address + ccAddr + 
+              "subject=" + urlEncode(subject) + 
+              (body != null ? "&body=" + urlEncode(body) : "") + "\">" + linkText + "</a>";
+    }
+  }
+  
+  public static String dataEncode(String text){
+    if (text == null || text.isEmpty()){
+      return text;
+    }
+    return text.replace("'", "&quot;");
   }
   
   public static String urlEncode(String text){

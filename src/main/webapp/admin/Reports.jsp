@@ -79,8 +79,12 @@ private String getAllRecordsPDFLink(){
 <%=getReportForm(ReportServlet.OtherInstitutionsSubmissionsImportReportName,"Submissions created by import data uploads.","Select report: " + otherInstitutionsSubmissionReportSelector,"upload-idu" ) %>
 <%=getReportForm(ReportServlet.OtherInstitutionsUnpublishedImportReportName,"Unpublished imports from import data uploads..","Select report: " + otherInstitutionsUnpublishedReportSelector,"upload-idu" ) %>
 
-<%=getReportForm(ReportServlet.HolderReportName,"Lists all holders, name, department, email, number of mice held, and date of last review.",null ) %>
+<%=getReportForm(ReportServlet.HolderReportName,"Lists all holders, name, department, email, primary contact name and email, number of mice held, and date of last review.",null ) %>
 <%=getReportForm(ReportServlet.RecordsReportName,"Lists all live records, basic details, submitter name, and up to 5 holders.  PDF report contains full details for all live records.", getAllRecordsPDFLink() ) %>
 <%=getReportForm(ReportServlet.LarcRecordHolderReportName,"Used by LARC to automatically populate dropdowns on their site.",null ) %>
 
+<br>
+
+
+<br><br><br><br><br>
 </div>

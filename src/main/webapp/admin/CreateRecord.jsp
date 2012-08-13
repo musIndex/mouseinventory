@@ -10,11 +10,11 @@
 
 <%@ page import="edu.ucsf.mousedatabase.*"%>
 <%@ page import="edu.ucsf.mousedatabase.admin.*"%>
-<%@ page import="edu.ucsf.mousedatabase.admin.RecordManager.*"%>
+<%@ page import="edu.ucsf.mousedatabase.admin.RecordManager.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*"%>
 <%@ page import="java.util.ArrayList"%>
 
-<%@page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
+<%@ page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
 <%=HTMLGeneration.getPageHeader(null, false, true)%>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true)%>
 

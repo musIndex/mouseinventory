@@ -5,6 +5,7 @@
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%@include file="../mouselistcommon.jspf" %>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
+<%@include file="SendMailForm.jspf" %>
 <script type="text/javascript" src="<%=scriptRoot%>jquery.highlight.js" ></script>
 
 <%

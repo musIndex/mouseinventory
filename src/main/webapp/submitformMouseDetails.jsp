@@ -97,7 +97,7 @@ $(document).ready(function(){
           }
           else
           {
-            var notes = "";
+            var notes = "\n\n";
             var success = true;
             $("#mouseMGIID").val(mgiNumber);
             $("#mouseMGIIDValid").val(true);
@@ -111,7 +111,7 @@ $(document).ready(function(){
               $("#PMID").val("");
               $("#PMIDValid").val(false);
               $("#PMIDValidation").html("");
-              notes += "NOTE: A Pubmed reference was not found for this mouse.  If this mouse is unpublished, please go back to step 2 and select 'unpublished'.";
+              notes += "NOTE: MGI does not show a reference for this mouse in Pubmed. If it is unpublished, please go back to step 2, select 'unpublished,' and complete the form including the MGI ID you entered here.";
               success = false;
             }
 
@@ -120,7 +120,7 @@ $(document).ready(function(){
             $("#mutantAlleleMGIValidation").html(replaceBrackets(data.geneSymbol + " - " + data.geneName) + " " + formatMgiLink(data.geneMgiID)).switchClass("bp_invalid","bp_valid");
             $("#comment").val($.trim(data.description));
             $("#rawMGIComment").val($.trim(data.description));
-            result = { success: success, message: "Properties for " + data.officialSymbol + " loaded into form.  <br>" + notes};
+            result = { success: success, message: "Properties for " + data.officialSymbol + " loaded into form.", note: notes};
           }
       }
       else
@@ -133,7 +133,12 @@ $(document).ready(function(){
       {
         message.css("color","green");
       }
-      else {  message.css("color","red");  }
+      else if (result.note){
+        message.append($("<br>")).append($("<br>")).append($("<span>",{'class':'red',text: result.note})); 
+      }
+      else {
+        message.css("color","red");  
+      }
 
     }
 
@@ -161,6 +166,10 @@ $(document).ready(function(){
     function htmlDecode(value) {
         return $('<div/>').html(value).text();
     }
+    
+    function nlToBr(text) {
+      return text.replace(/\n/g,"<br>");
+    }
 
   })();
 });
@@ -186,7 +195,7 @@ $(document).ready(function(){
       </h3>
       <a href="submitformMouseType.jsp">Back to step 2</a>
       <br>
-      <span class=red>WARNING: if you leave this page without using the
+      <span style='font-size:120%;font-weight:bold' class=red>WARNING: if you leave this page without using the
       save button at the bottom of the page, the data you entered will be
       lost</span>
       <br> If you encounter any difficulties while completing
