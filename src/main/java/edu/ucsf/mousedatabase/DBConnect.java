@@ -1600,7 +1600,7 @@ public class DBConnect {
   }
   
   public static int insertSetting(Setting setting){
-    String query = "INSERT into settings (name,category,label,value)";
+    String query = "INSERT into settings (name,category,label,setting_value)";
     query += "VALUES (";
     query += safeText(setting.name) + ",";
     query += safeText(setting.category) + ",";
@@ -1615,7 +1615,7 @@ public class DBConnect {
     query += " name=" + safeText(setting.name) + ",";
     query += " category=" + safeText(setting.category) + ",";
     query += " label=" + safeText(setting.label) + ",";
-    query += " value=" + safeText(setting.value);
+    query += " setting_value=" + safeText(setting.value);
     query += " WHERE id=" + setting.id + ";";
     executeNonQuery(query);
   }
@@ -1624,8 +1624,21 @@ public class DBConnect {
     return (Setting)SettingResultGetter.getInstance().Get("select * from settings where name=" + safeText(name)).get(0);
   }
   
+  public static Setting loadSetting(int id){
+    return (Setting)SettingResultGetter.getInstance().Get("select * from settings where id=" + id).get(0);
+  }
+  
+  public static void deleteSetting(int id){
+    executeNonQuery("DELETE from settings where id=" + id);
+  }
+  
   public static ArrayList<Setting> getCategorySettings(String category){
     return SettingResultGetter.getInstance().Get("select * from settings where category=" + safeText(category));
+
+  }
+  
+  public static ArrayList<Setting> getCategorySettings(String category, String orderby){
+    return SettingResultGetter.getInstance().Get("select * from settings where category=" + safeText(category) + " ORDER BY " + orderby);
 
   }
   
@@ -3348,6 +3361,7 @@ public class DBConnect {
       setting.category = g_str("category");
       setting.label = g_str("label");
       setting.value = g_str("setting_value");
+      setting.dateUpdated = g_ts("date_updated");
       return setting;
     }
   }
