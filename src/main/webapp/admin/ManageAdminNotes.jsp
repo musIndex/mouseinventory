@@ -59,7 +59,7 @@
         message = "Error - tried to delete note #" + id + " but it was not found."; 
       }
     }
-    title = "Email settings";
+    title = "Admin notes";
     
     settings = DBConnect.getCategorySettings(Setting.ADMIN_NOTES_CATEGORY,orderby);
   }
