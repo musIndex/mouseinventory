@@ -177,7 +177,7 @@
     <input type="hidden" name="submittedMouseID" value="<%= submissionID %>">
     <input type="submit" class="btn btn-warning" name="submitButton" value="Undo conversion to Record">
     </form>
-    
+   <%
   }
   else if(updateCommand.equals("Move to Hold"))
   {
@@ -186,7 +186,7 @@
     <%= submissionTable%>
     <br>
     <h3>Incomplete Record:</h3>
-    
+    <%
   }
 
   if(updateCommand.equals("Convert to Record") || updateCommand.equals("Move to Hold"))
