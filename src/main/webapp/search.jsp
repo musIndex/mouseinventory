@@ -103,7 +103,7 @@
           if (offset + limit - miceSeen < resultMouseCount) {
             endIndex = offset + limit - miceSeen;
           }
-          if (offset < resultMouseCount) {
+          if (offset < (resultMouseCount + miceSeen)) {
         	  startIndex = offset;
             if (pagenum > 1) {
               startIndex -= (miceSeen - displayedMice);
