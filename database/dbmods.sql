@@ -194,4 +194,9 @@ alter table `emails` add column `template_name` varchar(255);
 create index submittedmouse_id on mouse (submittedmouse_id);
 create index status on submittedmouse (status);
 
+#40 change setting category to category id
+update `settings` set category=1 where category='admin_notes';
+
+alter table `settings` CHANGE category category_id int(10);
+
 

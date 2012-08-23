@@ -1,13 +1,65 @@
 package edu.ucsf.mousedatabase.objects;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class Setting {
+      
+  public enum SettingCategory {
+    
+    UNKNOWN(0,"unkown",false,true,false),
+    ADMIN_NOTES(1,"Admin notes",true,true,true),
+    HOME_PAGE_TEXTS(2,"Home page texts",false,false,true),
+    WHATS_NEW_ITEMS(3,"Whats new items",true,false,true);
+    
+    public final int Id;
+    public final String Name;
+    public final boolean CanAddOrRemove;
+    public final boolean Excluded;
+    public final boolean RichText;
+    
+    private SettingCategory(int id, String name, boolean canAddOrRemove, boolean excluded, boolean richText) {
+      this.Id = id;
+      this.Name = name;
+      this.CanAddOrRemove = canAddOrRemove;
+      this.Excluded = excluded;
+      this.RichText = richText;
+    }
+
+  }
   
-  public static final String ADMIN_NOTES_CATEGORY = "admin_notes";
+  public static SettingCategory getSettingCategory(int id)
+  {
+    switch(id) {
+      case 1:
+        return SettingCategory.ADMIN_NOTES;
+      case 2:
+        return SettingCategory.HOME_PAGE_TEXTS;
+      case 3:
+        return SettingCategory.WHATS_NEW_ITEMS;
+    }
+    return SettingCategory.UNKNOWN;
+  }
+  
+  
+
+  
+  public static ArrayList<SettingCategory> getCategories() {
+    ArrayList<SettingCategory> categories = new ArrayList<SettingCategory>();
+    
+    for (SettingCategory category : SettingCategory.values()) {
+      if (category.Excluded) {
+        continue;
+      }
+      categories.add(category);
+    }
+    
+    return categories;
+  }
+ 
   
   public int id;
-  public String category;
+  public int category_id;
   public String name;
   public String label;
   public String value;

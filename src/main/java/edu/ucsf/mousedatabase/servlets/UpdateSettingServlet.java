@@ -33,7 +33,7 @@ public class UpdateSettingServlet extends HttpServlet {
 	  Setting setting = new Setting();
     setting.id = stringToInt(request.getParameter("id"));
     setting.name = request.getParameter("name");
-    setting.category = request.getParameter("category");
+    setting.category_id = stringToInt(request.getParameter("category_id"));
     setting.label = request.getParameter("label");
     setting.value = request.getParameter("setting_value");
     
@@ -50,7 +50,7 @@ public class UpdateSettingServlet extends HttpServlet {
     else
     {
       DBConnect.insertSetting(setting);
-      message = "Added new " + setting.category + " setting '" + setting.name + "' successfully.";
+      message = "Added new " + Setting.getSettingCategory(setting.category_id).Name + " setting '" + setting.name + "' successfully.";
     }
     
     response.sendRedirect(HTMLGeneration.adminRoot + redirectPage + "?message=" + HTMLGeneration.urlEncode(message) + "&" + redirectParams);

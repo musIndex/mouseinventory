@@ -1600,10 +1600,10 @@ public class DBConnect {
   }
   
   public static int insertSetting(Setting setting){
-    String query = "INSERT into settings (name,category,label,setting_value)";
+    String query = "INSERT into settings (name,category_id,label,setting_value)";
     query += "VALUES (";
     query += safeText(setting.name) + ",";
-    query += safeText(setting.category) + ",";
+    query += setting.category_id + ",";
     query += safeText(setting.label) + ",";
     query += safeText(setting.value);
     query += ");";
@@ -1613,7 +1613,7 @@ public class DBConnect {
   public static void updateSetting(Setting setting){
     String query = "UPDATE settings SET ";
     query += " name=" + safeText(setting.name) + ",";
-    query += " category=" + safeText(setting.category) + ",";
+    query += " category_id=" + setting.category_id + ",";
     query += " label=" + safeText(setting.label) + ",";
     query += " setting_value=" + safeText(setting.value);
     query += " WHERE id=" + setting.id + ";";
@@ -1637,8 +1637,8 @@ public class DBConnect {
 
   }
   
-  public static ArrayList<Setting> getCategorySettings(String category, String orderby){
-    return SettingResultGetter.getInstance().Get("select * from settings where category=" + safeText(category) + " ORDER BY " + orderby);
+  public static ArrayList<Setting> getCategorySettings(String category_id, String orderby){
+    return SettingResultGetter.getInstance().Get("select * from settings where category_id=" + category_id + " ORDER BY " + orderby);
 
   }
   
@@ -3358,7 +3358,7 @@ public class DBConnect {
       Setting setting = new Setting();
       setting.id = g_int("id");
       setting.name = g_str("name");
-      setting.category = g_str("category");
+      setting.category_id = g_int("category_id");
       setting.label = g_str("label");
       setting.value = g_str("setting_value");
       setting.dateUpdated = g_ts("date_updated");

@@ -51,7 +51,7 @@
       }
       if (note != null) {
         DBConnect.deleteSetting(id);
-        message = "Successfully deleted " + note.category + " note " + note.name;
+        message = "Successfully deleted admin note " + note.name;
         note = null;
       }
       else {
@@ -61,7 +61,7 @@
     }
     title = "Admin notes";
     
-    settings = DBConnect.getCategorySettings(Setting.ADMIN_NOTES_CATEGORY,orderby);
+    settings = DBConnect.getCategorySettings(Setting.SettingCategory.ADMIN_NOTES.Id,orderby);
   }
   else if (command.equals("edit")){
     if (addingNew) {
@@ -118,7 +118,7 @@
      <div style='width:600px;float:left'>
      <h2><%= title %></h2>
      <form method='post' action='UpdateSetting' id='manageAdminNotesForm'>
-       <input type='hidden' name='category' value='<%=Setting.ADMIN_NOTES_CATEGORY %>'>
+       <input type='hidden' name='category_id' value='<%=Setting.SettingCategory.ADMIN_NOTES.Id %>'>
        <input type='hidden' name='redirect_page' value='ManageAdminNotes.jsp'>
        <input type='hidden' name='redirect_params' value='command=list'>
        <input type='hidden' name='id' value='<%=note.id %>'>
