@@ -2167,7 +2167,7 @@ public class HTMLGeneration {
       {
         table.append("<td>\r\n");
         table.append(HTMLGeneration.emptyIfNull(holder.getAlternateName()));
-        table.append(" " + HTMLGeneration.emptyIfNull(holder.getAlternateEmail()) );
+        table.append(", " + HTMLGeneration.emptyIfNull(holder.getAlternateEmail()) );
         table.append("</td>\r\n");
       }
 
