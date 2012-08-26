@@ -51,6 +51,7 @@ public class MouseMail {
     public String category;
     public String templateName;
     public Timestamp dateCreated;
+    public String errorMessage;
     
     
     
@@ -67,7 +68,7 @@ public class MouseMail {
 
 
 
-    public static int send(String recipient, String cc, String subject, String body, String category, int templateID){
+    public static MouseMail send(String recipient, String cc, String subject, String body, String category, int templateID){
       
       String templateName = null;
       if (templateID > 0) {
@@ -78,7 +79,7 @@ public class MouseMail {
       MouseMail mail = new MouseMail(recipient, cc, subject, body, category, templateName);
       mail.trySend();
       mail.save();
-      return mail.id;
+      return mail;
     }
     
     private void trySend(){
@@ -109,6 +110,7 @@ public class MouseMail {
       catch(Exception e){
         Log.Error("Error sending email",e);
         status = ErrorStatus;
+        errorMessage = e.getMessage();
       }
     }
     

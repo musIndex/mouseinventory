@@ -50,7 +50,7 @@ public class UpdateSettingServlet extends HttpServlet {
     else
     {
       DBConnect.insertSetting(setting);
-      message = "Added new " + Setting.getSettingCategory(setting.category_id).Name + " setting '" + setting.name + "' successfully.";
+      message = "Added new " + Setting.getSettingCategory(setting.category_id).Name + " setting successfully.";
     }
     
     response.sendRedirect(HTMLGeneration.adminRoot + redirectPage + "?message=" + HTMLGeneration.urlEncode(message) + "&" + redirectParams);
