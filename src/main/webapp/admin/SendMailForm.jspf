@@ -136,11 +136,16 @@ $(document).ready(function(){
   
   function mailSendSuccess(data){
     $("#sendMailModal a.btn.btn-primary").text('Sent');
-    $("#sendMailModal #results_container").text('Mail sent successfully.')
+    
+    var message = data.error ? ('Send failed (' + data.error + ')') : 'Mail sent successfullly';
+    var cssClass = data.error ? 'alert-error' : 'alert-success';
+    
+    $("#sendMailModal #results_container").text(message)
       .removeClass('hide')
       .show()
       .removeClass('alert-error')
-      .addClass('alert-success');
+      .removeClass('alert-success')
+      .addClass(cssClass);
     $("#sendMailModal div.modal-body table").slideUp(200)
   }
   function mailSendError(data){

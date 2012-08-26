@@ -51,7 +51,11 @@ public class SendMailServlet extends HttpServlet {
       data.setProperty("error","you must be an administrator to send mail");
     }
     else {
-      data.setProperty("id", Integer.toString(MouseMail.send(recipient, cc, subject, body, category,templateID)));
+      MouseMail mail = MouseMail.send(recipient, cc, subject, body, category,templateID);
+      data.setProperty("id", Integer.toString(mail.id));
+      if (MouseMail.ErrorStatus.equals(mail.status)) {
+        data.setProperty("error",mail.errorMessage);
+      }
     }
     
     Gson gson = new Gson();
