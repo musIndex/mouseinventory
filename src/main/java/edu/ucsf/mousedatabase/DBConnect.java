@@ -1633,7 +1633,7 @@ public class DBConnect {
   }
   
   public static ArrayList<Setting> getCategorySettings(String category){
-    return SettingResultGetter.getInstance().Get("select * from settings where category=" + safeText(category));
+    return SettingResultGetter.getInstance().Get("select * from settings where category_id=" + safeText(category));
 
   }
   
