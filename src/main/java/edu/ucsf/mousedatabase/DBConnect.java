@@ -1637,7 +1637,7 @@ public class DBConnect {
 
   }
   
-  public static ArrayList<Setting> getCategorySettings(String category_id, String orderby){
+  public static ArrayList<Setting> getCategorySettings(int category_id, String orderby){
     return SettingResultGetter.getInstance().Get("select * from settings where category_id=" + category_id + " ORDER BY " + orderby);
 
   }

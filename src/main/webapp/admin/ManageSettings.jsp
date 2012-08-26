@@ -10,7 +10,7 @@
   SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
   String command = request.getParameter("command");
   String orderby = request.getParameter("orderby");
-  String category_id = request.getParameter("category_id");
+  int category_id = stringToInt(request.getParameter("category_id"));
   String message = request.getParameter("message");
   boolean wasError = false;
   int id = stringToInt(request.getParameter("id"));
@@ -48,11 +48,11 @@
   }
   
   
-  if(category_id == null)
+  if(category_id > 0)
   {
-    if ((category_id = (String)session.getAttribute("manageSettingcategory")) == null)
+    if ((category_id = Integer.parseInt((String)session.getAttribute("manageSettingcategory"))) == -1)
     {
-      category_id = settingCategoryIds[0];
+      category_id = Integer.parseInt(settingCategoryIds[0]);
     }
   }
   Setting.SettingCategory category = settingCategoriesMap.get(category_id);
@@ -107,7 +107,7 @@
   <% if (settings != null) { %>
     <h2><%= title %></h2>
      <form class='view_opts' action='ManageSettings.jsp'>
-      Show: <%=genSelect("category_id",settingCategoryIds,settingCategoryNames,category_id, null) %>  
+      Show: <%=genSelect("category_id",settingCategoryIds,settingCategoryNames,Integer.toString(category_id), null) %>  
       Sort by: <%=genSelect("orderby", orderOptions,orderLabels, orderby,"") %>
      </form>
      <% if (category.CanAddOrRemove) { %>

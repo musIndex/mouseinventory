@@ -4,16 +4,6 @@
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("Options.jsp", true) %>
 
-<%
-  String[] emailCategories = new String[]{"Change Request","Submission"};
-
-  HashMap<String,ArrayList<Setting>> emailTemplates = new HashMap<String,ArrayList<Setting>>();
-
-  for (String category : emailCategories) {
-    emailTemplates.put(category, DBConnect.getCategorySettings(category));
-  }
-%>
-
 <div class='site_container'>
 <h2>Options</h2>
 
