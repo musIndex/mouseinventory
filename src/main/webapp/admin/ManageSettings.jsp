@@ -38,21 +38,24 @@
  
   
   ArrayList<Setting.SettingCategory> settingCategories = Setting.getCategories();
-  HashMap<String, Setting.SettingCategory> settingCategoriesMap = new HashMap<String, Setting.SettingCategory>();
+  HashMap<Integer, Setting.SettingCategory> settingCategoriesMap = new HashMap<Integer, Setting.SettingCategory>();
   String[] settingCategoryNames = new String[settingCategories.size()];
   String[] settingCategoryIds = new String[settingCategories.size()];
   for(int i = 0; i < settingCategories.size(); i++) {
     settingCategoryNames[i] = settingCategories.get(i).Name;
     settingCategoryIds[i] = Integer.toString(settingCategories.get(i).Id);
-    settingCategoriesMap.put(Integer.toString(settingCategories.get(i).Id),settingCategories.get(i));
+    settingCategoriesMap.put(settingCategories.get(i).Id,settingCategories.get(i));
   }
   
   
-  if(category_id > 0)
+  if(category_id < 0)
   {
-    if ((category_id = Integer.parseInt((String)session.getAttribute("manageSettingcategory"))) == -1)
-    {
+    String sessionAttr = (String)session.getAttribute("manageSettingcategory");
+    if (sessionAttr == null) {
       category_id = Integer.parseInt(settingCategoryIds[0]);
+    }
+    else {
+     category_id = Integer.parseInt(sessionAttr); 
     }
   }
   Setting.SettingCategory category = settingCategoriesMap.get(category_id);
