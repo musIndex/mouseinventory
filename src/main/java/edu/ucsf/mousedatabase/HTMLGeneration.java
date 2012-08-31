@@ -2111,11 +2111,9 @@ public class HTMLGeneration {
     table.append("<td style='min-width:300px'\">\r\n");
     table.append("Contact Information");
     table.append("</td>\r\n");
-    if (edit){
-      table.append("<td style='min-width:200px'\">\r\n");
-      table.append("Primary Contact");
-      table.append("</td>\r\n");
-    }
+    table.append("<td style='min-width:150px'\">\r\n");
+    table.append("Primary Contact");
+    table.append("</td>\r\n");
     table.append("<td >\r\n");
     table.append("Last Review Date");
     table.append("</td>\r\n");
@@ -2163,15 +2161,13 @@ public class HTMLGeneration {
       table.append(" <div style=\"position: relative; right: 10px; float:right;\">Tel: "
           + holder.getTel() + "</div>");
       table.append("</td>\r\n");
-      if (edit)
-      {
-        table.append("<td>\r\n");
-        table.append(HTMLGeneration.emptyIfNull(holder.getAlternateName()));
-        if (holder.getAlternateEmail() != null && !holder.getAlternateEmail().equals("")){
-          table.append(", " + HTMLGeneration.emptyIfNull(holder.getAlternateEmail()) );
-        }
-        table.append("</td>\r\n");
+
+      table.append("<td>\r\n");
+      table.append(HTMLGeneration.emptyIfNull(holder.getAlternateName()));
+      if (holder.getAlternateEmail() != null && !holder.getAlternateEmail().equals("")){
+        table.append(", " + HTMLGeneration.emptyIfNull(holder.getAlternateEmail()) );
       }
+      table.append("</td>\r\n");
 
       
       table.append("<td>\r\n");
