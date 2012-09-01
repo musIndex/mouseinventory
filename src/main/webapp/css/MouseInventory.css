@@ -913,3 +913,13 @@ table.basic > tbody > tr:nth-child(odd) > td {
 .template_help dt {
   font-weight: bold;
 }
+
+#sendMailContainer {
+  padding: 10px 0;
+  border-bottom: 1px solid gainsboro;
+}
+
+#sendMailContainer input[type='text'],
+#sendMailContainer textarea {
+  width: 860px;
+}

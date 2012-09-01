@@ -11,14 +11,13 @@
   }
 %>
 
-<div class="modal hide" id="sendMailModal" style='width:750px; left:40%'>
+<div class="site_container hide" id="sendMailContainer">
 <form method='post' id='outgoing_message' action='<%=adminRoot%>SendMail' style='margin: 0px'>
   <input type='hidden' name='category' value='' />
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">×</button>
+  <div class="header">
     <h3 style="margin: 0px">Send email as <%=AdminEmail %></h3>
   </div>
-  <div class="modal-body">
+  <div class="body">
     <div id='results_container' class='alert hide'></div>
     <table>
       <tr>
@@ -34,7 +33,7 @@
       </tr>
       <tr>
         <td >Subject:</td>
-        <td ><textarea name='subject' rows='2' cols='100'></textarea></td>
+        <td ><textarea name='subject' rows='2' cols='150'></textarea></td>
       </tr>
       <tr>
         <td colspan='2'>Body:</td>
@@ -45,8 +44,8 @@
     </table>
 
   </div>
-  <div class="modal-footer">
-    <a href="#" class="btn" data-dismiss="modal">Close</a>
+  <div class="footer">
+    <a href="#" class="btn close-form">Close form</a>
     <a href="#" class="btn btn-primary">Send</a>
   </div>
   </form>
@@ -57,17 +56,21 @@
 $(document).ready(function(){
   var all_templates = <%=new Gson().toJson(templates) %>;
   var templates = [];
-  var template_selector = $("#sendMailModal select[name='template_id']");
+  var template_selector = $("#sendMailContainer select[name='template_id']");
   var editor = {};
   
   var current_objects = {submission: {}, request: {}, mouse: {}};
   
-  $("a.adminEmailButton").click(showSendMailModal);
-  $('#sendMailModal a.disabled').on('click', function(event){
+  $("a.adminEmailButton").click(showSendMailContainer);
+  $('#sendMailContainer a.disabled').on('click', function(event){
     event.stopImmediatePropagation();
     event.preventDefault();
   });
-  $("#sendMailModal a.btn.btn-primary").click(sendMail);
+  $("#sendMailContainer a.btn.btn-primary").click(sendMail);
+  $("#sendMailContainer a.btn.close-form, #sendMailContainer button.close").click(function(){
+    $("#sendMailContainer").slideUp();
+  });
+  
   
   template_selector.change(update_template);
   
@@ -85,12 +88,12 @@ $(document).ready(function(){
   	});
   }
   
-  function showSendMailModal(){
+  function showSendMailContainer(){
     var $this = $(this);
     var fields = ['recipient','cc','subject','body','category'];
     $.each(fields,function(i,field){
-      $("#sendMailModal input[name='" + field + "']").val($this.data(field) || '');
-      $("#sendMailModal textarea[name='" + field + "']").text($this.data(field) || '');
+      $("#sendMailContainer input[name='" + field + "']").val($this.data(field) || '');
+      $("#sendMailContainer textarea[name='" + field + "']").text($this.data(field) || '');
     });
     
     setupCurrentObjects($this.data('submission_id'),$this.data('request_id'),$this.data('mouse_id'),$this.data('holder_id'));
@@ -111,19 +114,19 @@ $(document).ready(function(){
       template_selector.parent().hide();
     }
     
-    $("#sendMailModal #results_container").hide();
-    $("#sendMailModal div.modal-body table").show();
-    $("#sendMailModal a.btn.btn-primary").removeClass('disabled');
-    editor = $("#sendMailModal textarea[name='body']").cleditor({
-      width: 670,
-      height: 200,
+    $("#sendMailContainer #results_container").hide();
+    $("#sendMailContainer div.body table").show();
+    $("#sendMailContainer a.btn.btn-primary").removeClass('disabled');
+    editor = $("#sendMailContainer textarea[name='body']").cleditor({
+      width: 925,
+      height: 270,
       controls: 
         "bold italic underline | font size " +
         "style |  link unlink | color removeformat | bullets numbering | outdent " +
         "indent | undo redo | " + " cut copy paste pastetext",
     })[0];
     editor.updateFrame();
-    $("#sendMailModal").modal("show");
+    $("#sendMailContainer").slideDown();
     return false;
   }
   
@@ -135,22 +138,22 @@ $(document).ready(function(){
   }
   
   function mailSendSuccess(data){
-    $("#sendMailModal a.btn.btn-primary").text('Sent');
+    $("#sendMailContainer a.btn.btn-primary").text('Sent');
     
     var message = data.error ? ('Send failed (' + data.error + ')') : 'Mail sent successfullly';
     var cssClass = data.error ? 'alert-error' : 'alert-success';
     
-    $("#sendMailModal #results_container").text(message)
+    $("#sendMailContainer #results_container").text(message)
       .removeClass('hide')
       .show()
       .removeClass('alert-error')
       .removeClass('alert-success')
       .addClass(cssClass);
-    $("#sendMailModal div.modal-body table").slideUp(200)
+    $("#sendMailContainer div.body table").slideUp(200)
   }
   function mailSendError(data){
-    $("#sendMailModal a.btn.btn-primary").text('Send').removeClass('disabled');
-    $("#sendMailModal #results_container").text(data.error)
+    $("#sendMailContainer a.btn.btn-primary").text('Send').removeClass('disabled');
+    $("#sendMailContainer #results_container").text(data.error)
     	.removeClass('hide')
     	.removeClass('alert-success')
     	.addClass('alert-error');
@@ -162,8 +165,8 @@ $(document).ready(function(){
       if (updated || template.id !== template_id){
         return;
       }
-      $("#sendMailModal textarea[name='subject']").text(render(template.subject));
-      $("#sendMailModal textarea[name='body']").text(render(template.body));
+      $("#sendMailContainer textarea[name='subject']").text(render(template.subject));
+      $("#sendMailContainer textarea[name='body']").text(render(template.body));
       updated = true;
       editor.updateFrame();
     })

@@ -5,7 +5,7 @@
 <%@ page import="edu.ucsf.mousedatabase.objects.*"%>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
-
+<%@ include file='SendMailForm.jspf' %>
 <%@ include file="protectAgainstDuplicateHolders.jspf" %>
 <%
 
