@@ -45,7 +45,7 @@ public class UpdateSettingServlet extends HttpServlet {
     if (setting.id > 0) {
       
       DBConnect.updateSetting(setting);
-      message = "Updated setting '" + setting.name + "' successfully.";
+      message = "Updated setting '" + setting.label + "' successfully.";
     }
     else
     {

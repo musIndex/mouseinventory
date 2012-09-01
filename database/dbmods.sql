@@ -199,4 +199,5 @@ update `settings` set category=1 where category='admin_notes';
 
 alter table `settings` CHANGE category category_id int(10);
 
-
+#41 add about page content as setting
+# <<<Load external file settings_content_1.sql >>>
