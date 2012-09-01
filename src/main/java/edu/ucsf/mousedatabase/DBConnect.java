@@ -1834,6 +1834,9 @@ public class DBConnect {
 
     for(MouseHolder hldr : record.getHolders())
     {
+      if (hldr.isCovert()) {
+        continue;
+      }
       addFlattenedData(list, hldr.getLastname() + " " + hldr.getFacilityName());
     }
 
