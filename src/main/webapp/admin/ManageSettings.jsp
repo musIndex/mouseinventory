@@ -50,12 +50,12 @@
   
   if(category_id < 0)
   {
-    String sessionAttr = (String)session.getAttribute("manageSettingcategory");
+    Object sessionAttr = session.getAttribute("manageSettingcategory");
     if (sessionAttr == null) {
       category_id = Integer.parseInt(settingCategoryIds[0]);
     }
     else {
-     category_id = Integer.parseInt(sessionAttr); 
+     category_id = (Integer)sessionAttr; 
     }
   }
   Setting.SettingCategory category = settingCategoriesMap.get(category_id);
@@ -118,7 +118,7 @@
      <% } %>
      <table class='basic'>
      <tr>
-        <th>Description</th>
+        <th style='min-width:150px'>Description</th>
         <th>Value</th>
      </tr>
      <% for (Setting set : settings) { %>
@@ -130,7 +130,7 @@
         <dt><a class='btn btn-mini' href='ManageSettings.jsp?command=edit&id=<%=set.id%>'><i class='icon-edit'></i> Edit</a></dt>
         </dl>
        </td>
-       <td>
+       <td style='background-color:white;border: 1px solid gainsboro;'>
         <%= set.value %> 
        </td>
        </tr>
@@ -149,9 +149,10 @@
        <input type='hidden' name='redirect_params' value='command=list'>
        <input type='hidden' name='id' value='<%=setting.id %>'>
        <input type='hidden' name='category_id' value='<%= category_id %>'>
+       <input type='hidden' name='name' value='<%= emptyIfNull(setting.name) %>'>
        <table class='emailTemplateForm'>
          <tr>
-            <td>Name</td><td><%=tInput("label",setting.name) %></td>
+            <td>Label</td><td><%=tInput("label",setting.label) %></td>
          </tr>
          <tr>
           <% if (category.RichText) { %>
@@ -185,9 +186,9 @@
   <% } %>
 </div>
 <script type='text/javascript'>
-  $("textarea[name='value']").cleditor({
-    width: 500,
-    height: 200,
+  $("textarea[name='setting_value']").cleditor({
+    width: 800,
+    height: 300,
     controls: 
       "bold italic underline | font size " +
       "style | link unlink | color removeformat | bullets numbering | outdent " +
