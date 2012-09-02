@@ -107,10 +107,6 @@
     <env-entry-value>defaultPassword</env-entry-value>
   </env-entry>
   <env-entry>
-    <env-entry-name>MOUSEDATABASE_SITE_NAME</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-  </env-entry>
-  <env-entry>
     <env-entry-name>MOUSEDATABASE_SMTP_SERVER</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
   </env-entry>

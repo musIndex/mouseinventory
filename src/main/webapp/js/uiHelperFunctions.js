@@ -289,17 +289,6 @@ function UpdateCatalogUrlVisibility()
 
 }
 
-function AutoPopulateContactInfo()
-{
-  SetFieldValue("userid", "Lazy");
-  SetFieldValue("lastName", "Tester");
-  SetFieldValue("department", "database testing");
-  SetFieldValue("Email", "lazy.tester@ucsf.edu");
-  SetFieldValue("telephoneNumber", "555-555-5555");
-  SetFieldValue("holderName", "Martin, Gail");
-  SetFieldValue("holderFacility", "MB-RH");
-}
-
 function MouseIsPublished()
 {
   setElementVisibility("mouseDetails", "block");

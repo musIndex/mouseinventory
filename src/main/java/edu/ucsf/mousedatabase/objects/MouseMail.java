@@ -92,7 +92,7 @@ public class MouseMail {
         if (SMTP_SSL_ENABLED){
           email.setSSL(true);
         }
-        email.setFrom(HTMLGeneration.AdminEmail);
+        email.setFrom(DBConnect.loadSetting("admin_info_email").value);
         email.setSubject(subject);
         email.setHtmlMsg(body);
         email.setTextMsg(stripHtml(body));

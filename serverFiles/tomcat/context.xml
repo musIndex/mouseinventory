@@ -24,16 +24,11 @@
   <Environment name="MOUSEDATABASE_MGI_DATABASE_USER" value="user"  type="java.lang.String" override="false"/>
   <Environment name="MOUSEDATABASE_MGI_DATABASE_PW" value="password"  type="java.lang.String" override="false"/>
 
-  <Environment name="MOUSEDATABASE_SITE_NAME" value="University Name Mouse Inventory Database"  type="java.lang.String" override="false"/>
-  <Environment name="MOUSEDATABASE_ADMINISTRATOR_EMAIL" value="admin.mousedatabase@university.edu"  type="java.lang.String" override="false"/>
-
   <Environment name="MOUSEDATABASE_SMTP_SERVER" value="smtp.university.edu"  type="java.lang.String" override="false"/>
   <Environment name="MOUSEDATABASE_SMTP_USER" value="mailuser"  type="java.lang.String" override="false"/>
   <Environment name="MOUSEDATABASE_SMTP_PW" value="mailpassword"  type="java.lang.String" override="false"/>
   <Environment name="MOUSEDATABASE_SMTP_PORT" value="465"  type="java.lang.Integer" override="false"/>
   <Environment name="MOUSEDATABASE_SMTP_SSL_ENABLED" value="true"  type="java.lang.String" override="false"/>
-
-
 
   <Environment name="GOOGLE_ANALYTICS_ACCOUNT" value="" type="java.lang.String" override="false" />
   <Environment name="GOOGLE_ANALYTICS_DOMAIN_SUFFIX" value=".university.edu" type="java.lang.String" override="false" />

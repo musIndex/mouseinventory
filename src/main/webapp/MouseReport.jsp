@@ -152,7 +152,7 @@
         holderStatusHeading = "Please take this opportunity to update the list.";
       }
     
-      String emailAdminLink = getMailToLink(AdminEmail, null, holder.getLastname() + " mouse list reviewed", 
+      String emailAdminLink = getMailToLink(DBConnect.loadSetting("admin_info_email").value, null, holder.getLastname() + " mouse list reviewed", 
               "The list of mice held by "+ holder.getFullname() + " " +
               "was thoroughly reviewed and any necessary deletions/additions/corrections " +
               "were made today" +

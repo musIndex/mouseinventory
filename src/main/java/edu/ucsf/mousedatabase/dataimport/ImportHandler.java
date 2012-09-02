@@ -566,6 +566,15 @@ public class ImportHandler
 
 
     ImportStatusTracker.UpdateHeader(importTaskId, "Looking up MGI numbers from Catalog numbers (Task 1 of 3)");
+    ArrayList<Integer> ignoredJaxNumbers = new ArrayList<Integer>();
+    for (String catalogNum : DBConnect.loadSetting("import_ignored_jax_numbers").value.split(",")) {
+      try {
+        ignoredJaxNumbers.add(Integer.parseInt(catalogNum));
+      }
+      catch (Exception e){
+        ImportStatusTracker.AppendMessage(importTaskId, "***** Failed to parse ignored jax catalog setting value '" + catalogNum + "'");
+      }
+    }
     for (PurchaseInfo purchaseInfo : purchases)
     {
       ImportStatusTracker.SetProgress(importTaskId, purchaseNumber / numPurchases);
@@ -578,6 +587,16 @@ public class ImportHandler
           ArrayList<Integer> allMgiIds = null;
           if(purchaseInfo.source.equalsIgnoreCase(JacksonLaboratory))
           {
+            try {
+              if (ignoredJaxNumbers.contains(Integer.parseInt(purchaseInfo.stockNumber))) {
+                ImportStatusTracker.AppendMessage(importTaskId,"Ignoring purchase of JAX catalog number " + purchaseInfo.stockNumber + " because it is in the ignore list");
+                continue;
+              }
+            }
+            catch (Exception e){
+              ImportStatusTracker.AppendMessage(importTaskId, "Exception trying to ignore catalog number " + purchaseInfo.stockNumber + ": " + e.getMessage());
+            }
+            
             allMgiIds = JaxMiceConnect.GetMGINumbersFromJax(purchaseInfo.stockNumber);
           }
           else if(purchaseInfo.source != null && purchaseInfo.source.contains(Mmmrrc))
@@ -694,7 +713,7 @@ public class ImportHandler
     UserData submitterData = new UserData();
     submitterData.setFirstName("Database");
     submitterData.setLastName("Administrator");
-    submitterData.setEmail(HTMLGeneration.AdminEmail);
+    submitterData.setEmail(DBConnect.loadSetting("admin_info_email").value);
     submitterData.setDepartment("database admin");
     submitterData.setTelephoneNumber(" ");
 
