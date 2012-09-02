@@ -92,6 +92,7 @@ public class HTMLGeneration {
     buf.append("<script src='" + scriptRoot + "ajaxFunctions.js'></script>\r\n");
     buf.append("<script src='" + scriptRoot + "validationFunctions.js'></script>\r\n");
     buf.append("<script src='" + scriptRoot + "application.js'></script>\r\n");
+    buf.append("<script src='" + scriptRoot + "respond.min.js'></script>\r\n"); //ie8 fix
     
     if (isAdminPage) {
       buf.append("<link href='" + styleRoot + "jquery.cleditor.css' type='text/css' rel='stylesheet'>");

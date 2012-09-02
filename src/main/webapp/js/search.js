@@ -101,7 +101,7 @@ $(document).ready(function(){
   }
   
   function do_search_ajax(){
-    $("#searchresults-container").load('search.jsp?' + $.param(window.searchQuery) + ' #searchresults', search_results_loaded);
+	$("#searchresults-container").load('search.jsp?ajax=true&' + $.param(window.searchQuery) + ' #searchresults', search_results_loaded);
   }
   
   function extract_search_params(){
