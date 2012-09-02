@@ -6,10 +6,14 @@
 <%@page import="edu.ucsf.mousedatabase.objects.*"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLUtilities.*"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
+<% boolean isAjaxRequest = request.getParameter("ajax") != null; 
+	if (!isAjaxRequest) {
+%>
 <%=getPageHeader(null,true,false, null) %>
 <%=getNavBar("search.jsp", false) %>
 <script type="text/javascript" src="<%=scriptRoot%>jquery.highlight.js" ></script>
 <script type="text/javascript" src="<%=scriptRoot%>search.js"></script>
+<% } %>
 <%@include file="mouselistcommon.jspf" %>
 
 <%
@@ -165,7 +169,7 @@
     }
   }
 %>
-  
+  <% if(!isAjaxRequest){ %>
 <div class="site_container">
   <form id="searchForm" action="search.jsp" class="form-search" method="get">
     <div class="search-box <%= searchPerformed ?  "search-box-small" : "" %> " style="display:none">
@@ -194,6 +198,7 @@
       </div>
     </div>
     <div id="searchresults-container">
+    <%} %>
       <div id="searchresults">
         <div class="search-resultcount" data-resultcount="<%=mouseCount %>">
           <% if (searchPerformed && mouseCount > 0) { %> 
@@ -209,6 +214,8 @@
         </div>
         <%= results.toString() %>      
       </div>
+      <% if(!isAjaxRequest){ %>
     </div>
   </form>
 </div>
+<% } %>
