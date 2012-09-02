@@ -152,13 +152,21 @@
        <input type='hidden' name='name' value='<%= emptyIfNull(setting.name) %>'>
        <table class='emailTemplateForm'>
          <tr>
-            <td>Label</td><td><%=tInput("label",setting.label) %></td>
+            <td>Label:</td>
+            <td>
+            <% if (category.CanAddOrRemove) { %>
+            	<%=tInput("label",setting.label) %>
+            <% } else { %>
+            	<input type='hidden' name='label' value='<%=setting.label%>'>
+            	<b><%= setting.label %></b>
+            <% } %>
+            </td>
          </tr>
          <tr>
           <% if (category.RichText) { %>
-            <td>Value</td><td><%=tArea("setting_value",setting.value) %></td>
+            <td>Value:</td><td><%=tArea("setting_value",setting.value) %></td>
             <% } else { %>
-            <td>Value</td><td><%=tInput("setting_value",setting.value) %></td>
+            <td>Value:</td><td><%=tInput("setting_value",setting.value) %></td>
             <% } %>
          </tr>
        <tr>

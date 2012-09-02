@@ -10,7 +10,10 @@ public class Setting {
     UNKNOWN(0,"unkown",false,true,false),
     ADMIN_NOTES(1,"Admin notes",true,true,true),
     HOME_PAGE_TEXTS(2,"Home page texts",false,false,true),
-    WHATS_NEW_ITEMS(3,"Whats new items",true,false,true);
+    WHATS_NEW_ITEMS(3,"Whats new items",true,false,true),
+    ADMIN_DATA(4,"Admin information",false,false,false),
+    GENERAL_SITE(5,"General settings",false,false,false),
+    DATA_IMPORT(6,"Data upload settings",false,false,false);
     
     public final int Id;
     public final String Name;
@@ -37,12 +40,16 @@ public class Setting {
         return SettingCategory.HOME_PAGE_TEXTS;
       case 3:
         return SettingCategory.WHATS_NEW_ITEMS;
+      case 4:
+        return SettingCategory.ADMIN_DATA;
+      case 5:
+        return SettingCategory.GENERAL_SITE;
+      case 6:
+        return SettingCategory.DATA_IMPORT;
     }
     return SettingCategory.UNKNOWN;
   }
   
-  
-
   
   public static ArrayList<SettingCategory> getCategories() {
     ArrayList<SettingCategory> categories = new ArrayList<SettingCategory>();

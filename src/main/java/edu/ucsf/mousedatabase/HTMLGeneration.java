@@ -23,6 +23,7 @@ import edu.ucsf.mousedatabase.objects.MGIResult;
 import edu.ucsf.mousedatabase.objects.MouseHolder;
 import edu.ucsf.mousedatabase.objects.MouseRecord;
 import edu.ucsf.mousedatabase.objects.MouseType;
+import edu.ucsf.mousedatabase.objects.Setting;
 import edu.ucsf.mousedatabase.objects.SubmittedMouse;
 
 public class HTMLGeneration {
@@ -53,9 +54,6 @@ public class HTMLGeneration {
 
   private static final Pattern jaxPattern = Pattern.compile("[^\\d]*([\\d]+)");
 
-  public static String SiteName = "";
-  public static String AdminEmail = "";
-
   /**********************************************/
   /* Page utility methods */
   /*********************************************/
@@ -79,7 +77,7 @@ public class HTMLGeneration {
       buf.append("<meta http-equiv='expires' content='0'>\r\n");
       buf.append("<meta http-equiv='pragma' content='no-cache'>\r\n");
     }
-    buf.append("<title>" + SiteName + "</title>\r\n");
+    buf.append("<title>" + DBConnect.loadSetting("general_site_name").value + "</title>\r\n");
 
     buf.append("<link href='" + styleRoot + "bootstrap.css' rel='stylesheet' type='text/css'>\r\n");
     buf.append("<link href='" + styleRoot + "chosen.css' rel='stylesheet' type='text/css'>\r\n");
@@ -109,7 +107,7 @@ public class HTMLGeneration {
 
     buf.append("</head>\r\n");
     buf.append("<body " + (bodyParams == null ? "" : bodyParams) + " >\r\n");
-
+    
     return buf.toString();
   }
 
@@ -135,7 +133,7 @@ public class HTMLGeneration {
     table.append("<div class='site_container'>");
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div>"); //pagetitle
-    table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + SiteName + "</a></span>");
+    table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + DBConnect.loadSetting("general_site_name").value + "</a></span>");
     table.append("</div>");
     
     table.append("<div>"); // About, faq, contact links
@@ -218,6 +216,10 @@ public class HTMLGeneration {
     }
 
     table.append("</div>"); //navbarcontainer
+    Setting alert = DBConnect.loadSetting("general_site_alert");
+    if (alert.value != null && !alert.value.trim().isEmpty()) {
+      table.append("<div class='site_container'><div class='alert alert-error' style='margin-top: 15px'><b>" + alert.value + "</b></div></div>");
+    }
     return table.toString();
   }
 

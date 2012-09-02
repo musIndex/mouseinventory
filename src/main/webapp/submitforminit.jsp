@@ -87,27 +87,27 @@ if (request != null && request.getRemoteUser() != null && request.getRemoteUser(
 
   <tr class="formField">
     <td style="width: 40%"><font color="red">* </font>First Name</td>
-    <td><INPUT TYPE="TEXT" name="firstName" value="<%=HTMLGeneration.emptyIfNull(submitterData.getFirstName()) %>" size="40" maxlength="128"
+    <td><input type="text" name="firstName" value="<%=HTMLGeneration.emptyIfNull(submitterData.getFirstName()) %>" size="40" maxlength="128"
       id="userid"> <span class="validationError"><%=HTMLGeneration.emptyIfNull(submitterData.getFirstNameErr()) %></span></td>
   </tr>
   <tr class="formFieldAlt">
     <td><font color="red">* </font>Last Name</td>
-    <td><INPUT TYPE="TEXT" id="lastName" name="lastName" value="<%=HTMLGeneration.emptyIfNull(submitterData.getLastName()) %>" size="40" maxlength="128" >
+    <td><input type="text" id="lastName" name="lastName" value="<%=HTMLGeneration.emptyIfNull(submitterData.getLastName()) %>" size="40" maxlength="128" >
     <span class="validationError"><%=HTMLGeneration.emptyIfNull(submitterData.getLastNameErr()) %></span></td>
   </tr>
   <tr class="formField">
     <td><font color="red">* </font>Dept</td>
-    <td><INPUT TYPE="TEXT" id="department" name="department" value="<%=HTMLGeneration.emptyIfNull(submitterData.getDepartment()) %>" size="40" maxlength="255">
+    <td><input type="text" id="department" name="department" value="<%=HTMLGeneration.emptyIfNull(submitterData.getDepartment()) %>" size="40" maxlength="255">
     <span class="validationError"><%=HTMLGeneration.emptyIfNull(submitterData.getDepartmentErr()) %></span></td>
   </tr>
   <tr class="formFieldAlt">
     <td><font color="red">* </font>Email</td>
-    <td><INPUT TYPE="TEXT" name="email" id="Email" value="<%=HTMLGeneration.emptyIfNull(submitterData.getEmail()) %>" size="40" maxlength="128">
+    <td><input type="text" name="email" id="Email" value="<%=HTMLGeneration.emptyIfNull(submitterData.getEmail()) %>" size="40" maxlength="128">
     <span class="validationError"><%=HTMLGeneration.emptyIfNull(submitterData.getEmailErr()) %></span></td>
   </tr>
   <tr class="formField">
     <td><font color="red">* </font>Tel.</td>
-    <td><INPUT TYPE="TEXT" id="telephoneNumber" name="telephoneNumber" value="<%=HTMLGeneration.emptyIfNull(submitterData.getTelephoneNumber()) %>" size="40" maxlength="32">
+    <td><input type="text" id="telephoneNumber" name="telephoneNumber" value="<%=HTMLGeneration.emptyIfNull(submitterData.getTelephoneNumber()) %>" size="40" maxlength="32">
     <span class="validationError"><%=HTMLGeneration.emptyIfNull(submitterData.getTelephoneNumberErr()) %></span></td>
   </tr>
 
@@ -140,3 +140,16 @@ if (request != null && request.getRemoteUser() != null && request.getRemoteUser(
 </form>
 </div>
 </div>
+<script>
+function AutoPopulateContactInfo()
+{
+  SetFieldValue("userid", "<%= DBConnect.loadSetting("admin_info_auto_sub_firstname").value %>");
+  SetFieldValue("lastName", "<%= DBConnect.loadSetting("admin_info_auto_sub_lastname").value %>");
+  SetFieldValue("department", "<%= DBConnect.loadSetting("admin_info_auto_sub_department").value %>");
+  SetFieldValue("Email", "<%= DBConnect.loadSetting("admin_info_auto_sub_email").value %>");
+  SetFieldValue("telephoneNumber", "<%= DBConnect.loadSetting("admin_info_auto_sub_telephone").value %>");
+  SetFieldValue("holderName", "<%= DBConnect.loadSetting("admin_info_auto_sub_holder").value %>");
+  SetFieldValue("holderFacility", "<%= DBConnect.loadSetting("admin_info_auto_sub_facility").value %>");
+}
+
+</script>
