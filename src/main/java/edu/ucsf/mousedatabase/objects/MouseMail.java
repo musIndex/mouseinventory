@@ -55,10 +55,11 @@ public class MouseMail {
     
     
     
-    public MouseMail(String recipient, String ccs, String subject, String body, String category, String templateName) {
+    public MouseMail(String recipient, String ccs, String bccs, String subject, String body, String category, String templateName) {
       super();
       this.recipient = recipient;
       this.ccs = ccs;
+      this.bccs = bccs;
       this.subject = subject;
       this.body = body;
       this.emailType = HTMLEmailType;
@@ -68,7 +69,7 @@ public class MouseMail {
 
 
 
-    public static MouseMail send(String recipient, String cc, String subject, String body, String category, int templateID){
+    public static MouseMail send(String recipient, String cc, String bcc, String subject, String body, String category, int templateID){
       
       String templateName = null;
       if (templateID > 0) {
@@ -76,7 +77,7 @@ public class MouseMail {
         templateName = template.name;
       }
       
-      MouseMail mail = new MouseMail(recipient, cc, subject, body, category, templateName);
+      MouseMail mail = new MouseMail(recipient, cc, bcc, subject, body, category, templateName);
       mail.trySend();
       mail.save();
       return mail;

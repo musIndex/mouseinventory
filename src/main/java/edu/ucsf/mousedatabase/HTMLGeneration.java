@@ -1760,7 +1760,7 @@ public class HTMLGeneration {
                                             EmailTemplate.MOUSERECORD, 
                                             firstInitial + holder.getLastname(),
                                             holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")",
-                                            -1,-1,nextRecord.getMouseID(),-1)
+                                            -1,-1,nextRecord.getMouseID(),holder.getHolderID())
                                  : getMailToLink(holder.getAlternateEmail(), holder.getEmail(),  
                                      "Regarding " + nextRecord.getMouseName() + "-Record# " + nextRecord.getMouseID(), 
                                      null, firstInitial + holder.getLastname(),
