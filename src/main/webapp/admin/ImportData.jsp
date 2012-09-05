@@ -10,6 +10,20 @@ $(document).ready(function(){
   $(".site_container").on('click','.import_section',function(){
     $(this).removeClass("obscured").siblings().addClass("obscured");
   });
+  $(".site_container").on('click','input[type=submit]',function(){
+    var form = $(this).closest('form');
+    var errors = "";
+    form.find('input').each(function(i,f) {
+      var field = $(f);
+      if (field.data('validate') === 'notempty' && !field.val()) {
+      	errors += field.data('title') + ' is a required field\n';
+      }
+    });
+  	if (errors) {
+  	  alert(errors);
+  	}
+    return errors.length == 0;
+  });
 });
 
 </script>
@@ -29,11 +43,11 @@ for(ImportDefinition importReportDefinition : ImportHandler.getImportDefinitions
     <table>
       <tr>
         <td>Report Name:</td>
-        <td><input type="text" name="<%=ImportServlet.importDescriptionFieldName %>" size="30"></td>
+        <td><input type="text" data-validate='notempty' data-title='Report Name' name="<%=ImportServlet.importDescriptionFieldName %>" size="30"></td>
       </tr>
       <tr>
         <td>Input file:</td>
-        <td><input type="file" name="<%=ImportServlet.fileFieldName %>" size="75">
+        <td><input type="file" data-validate='notempty' data-title='Input file' name="<%=ImportServlet.fileFieldName %>" size="75">
         </td>
       </tr>
       <tr>
