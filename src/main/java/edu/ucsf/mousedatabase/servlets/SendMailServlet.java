@@ -34,6 +34,7 @@ public class SendMailServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  String recipient = request.getParameter("recipient");
     String cc = request.getParameter("cc");
+    String bcc = request.getParameter("bcc");
     String subject = request.getParameter("subject");
     String body = request.getParameter("body");
     String category = request.getParameter("category");
@@ -51,7 +52,7 @@ public class SendMailServlet extends HttpServlet {
       data.setProperty("error","you must be an administrator to send mail");
     }
     else {
-      MouseMail mail = MouseMail.send(recipient, cc, subject, body, category,templateID);
+      MouseMail mail = MouseMail.send(recipient, cc, bcc, subject, body, category,templateID);
       data.setProperty("id", Integer.toString(mail.id));
       if (MouseMail.ErrorStatus.equals(mail.status)) {
         data.setProperty("error",mail.errorMessage);
