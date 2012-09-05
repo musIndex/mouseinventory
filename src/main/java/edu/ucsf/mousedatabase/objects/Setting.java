@@ -10,7 +10,7 @@ public class Setting {
     UNKNOWN(0,"unkown",false,true,false),
     ADMIN_NOTES(1,"Admin notes",true,true,true),
     HOME_PAGE_TEXTS(2,"Home page texts",false,false,true),
-    WHATS_NEW_ITEMS(3,"Whats new items",true,false,true),
+    WHATS_NEW_ITEMS(3,"What's new items",true,false,true),
     ADMIN_DATA(4,"Admin information",false,false,false),
     GENERAL_SITE(5,"General settings",false,false,false),
     DATA_IMPORT(6,"Data upload settings",false,false,false);
