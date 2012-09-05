@@ -42,7 +42,7 @@ public class PdfServlet extends HttpServlet {
             FONT_TITLE;
   private static Chunk NL;
 
-  private String documentName = SiteName;
+  private String documentName = DBConnect.loadSetting("general_site_name").value;
 
   static {
     FONT_NORMAL = new Font(FontFamily.HELVETICA);
