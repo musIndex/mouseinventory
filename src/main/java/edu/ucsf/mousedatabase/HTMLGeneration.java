@@ -2166,7 +2166,9 @@ public class HTMLGeneration {
       table.append("<td>\r\n");
       table.append(HTMLGeneration.emptyIfNull(holder.getAlternateName()));
       if (holder.getAlternateEmail() != null && !holder.getAlternateEmail().equals("")){
-        table.append(", " + HTMLGeneration.emptyIfNull(holder.getAlternateEmail()) );
+        emailLink = edit ? getAdminMailLink(holder.getAlternateEmail(), null, EmailTemplate.HOLDER, -1, -1, null, holder.getHolderID())
+                         : formatEmail(holder.getAlternateEmail(), holder.getAlternateEmail(),"");
+        table.append(", " + emailLink);
       }
       table.append("</td>\r\n");
 

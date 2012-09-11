@@ -64,7 +64,8 @@
                 <td>Primary Contact Email</td>
                 <td><input type=text name="alternateEmail" size=40>
                 <br><i>This email will be the recipient for email links for this holder in the mouse list,
-                       with the holder's email address added as a cc.</i></td>
+                       with the holder's email address added as a cc.</i><br>
+                       <b>Leave this field blank if the holder is the primary contact.</b></td>
             </tr>
             <tr><td colspan=2 align="center">
             <input type="hidden" name="command" value="Insert">
