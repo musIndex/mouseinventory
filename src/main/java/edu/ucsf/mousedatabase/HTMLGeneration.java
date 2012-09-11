@@ -2986,7 +2986,7 @@ public class HTMLGeneration {
   
   private static String getMailToLink(String address, String cc, String subject, String body, String linkText, String linkTitle, boolean admin, Properties props)
   {
-    if (address == null) {
+    if (address == null || address.isEmpty()) {
       address = cc;
       cc = null;
     }
