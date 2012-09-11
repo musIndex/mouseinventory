@@ -3337,12 +3337,12 @@ public class DBConnect {
     {
       MouseMail email = new MouseMail(
           g_str("recipients"), 
-          g_str("ccs"), 
+          g_str("ccs"),
+          g_str("bccs"),
           g_str("subject"), 
           g_str("body"),
           g_str("category"),
           g_str("template_name"));
-      email.bccs = g_str("bccs");
       email.dateCreated = g_ts("date_created");
       email.status = g_str("status");
       email.id = g_int("id");
