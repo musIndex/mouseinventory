@@ -43,9 +43,7 @@
         <td colspan='2'>Body:</td>
       </tr>
       <tr>
-        <td colspan='2' >
-        <%@ include file='wysihtml5_toolbar.jspf' %>
-        <textarea id='body_area' style='width:800px;height:300px' name='body'></textarea></td>
+        <td colspan='2'><textarea name='body'></textarea></td>
       </tr>   
     </table>
 
@@ -123,11 +121,15 @@ $(document).ready(function(){
     $("#sendMailContainer #results_container").hide();
     $("#sendMailContainer div.body table").show();
     $("#sendMailContainer a.btn.btn-primary").removeClass('disabled');
-    editor = new wysihtml5.Editor("body_area", {
-      toolbar: "wysihtml5-toolbar",
-      parserRules: wysihtml5ParserRules,
-      stylesheets: ['<%=styleRoot%>wysiwyg-color.css']
-    });
+    editor = $("#sendMailContainer textarea[name='body']").cleditor({
+      width: 925,
+      height: 270,
+      controls: 
+        "bold italic underline | font size " +
+        "style |  link unlink | color removeformat | bullets numbering | outdent " +
+        "indent | undo redo | " + " cut copy paste pastetext",
+    })[0];
+    editor.updateFrame();
     $("#sendMailContainer").slideDown();
     return false;
   }
@@ -168,10 +170,9 @@ $(document).ready(function(){
         return;
       }
       $("#sendMailContainer textarea[name='subject']").val(render(template.subject));
-      var body = render(template.body);
-      $("#sendMailContainer textarea[name='body']").val(body);
+      $("#sendMailContainer textarea[name='body']").val(render(template.body));
       updated = true;
-      editor.setValue(body);
+      editor.updateFrame();
     })
   }
   

@@ -145,8 +145,7 @@
             <td>Subject</td><td><%=tInput("subject",template.subject) %></td>
          </tr>
          <tr>
-            <td>Body</td><td><%@ include file='wysihtml5_toolbar.jspf' %>
-            	<textarea id='body_area' name='body'><%=template.body %></textarea></td>
+            <td>Body</td><td><%=tArea("body",template.body) %></td>
          </tr>
        <tr>
         <td></td>
@@ -230,10 +229,13 @@
   <% } %>
 </div>
 <script type='text/javascript'>
-  var editor = new wysihtml5.Editor("body_area", {
-    toolbar: "wysihtml5-toolbar",
-    parserRules: wysihtml5ParserRules,
-    stylesheets: ['<%=styleRoot%>wysiwyg-color.css']
+  $("textarea[name='body']").cleditor({
+    width: 500,
+    height: 200,
+    controls: 
+      "bold italic underline | font size " +
+      "style | link unlink | color removeformat | bullets numbering | outdent " +
+      "indent | undo redo | " + " cut copy paste pastetext",
   });
   $(".btn_delete").click(function(){
     $(this).siblings().show();

@@ -83,8 +83,7 @@ public class HTMLGeneration {
     buf.append("<link href='" + styleRoot + "chosen.css' rel='stylesheet' type='text/css'>\r\n");
     buf.append("<link href='" + styleRoot + "MouseInventory.css' rel='stylesheet' type='text/css'>\r\n");
     buf.append("<link href='" + styleRoot + "jquery-ui.css 'rel='stylesheet' type='text/css' />");
-    buf.append("<link href='" + styleRoot + "wysiwyg-color.css' rel='stylesheet' tyle='text/css'>\r\n>");
-        
+    
     buf.append("<script src='" + scriptRoot + "jquery.min.js'></script>\r\n");
     buf.append("<script src='" + scriptRoot + "jquery-ui.min.js'></script>\r\n");
     buf.append("<script src='" + scriptRoot + "chosen.jquery.min.js'></script>\r\n");
@@ -96,9 +95,9 @@ public class HTMLGeneration {
     buf.append("<script src='" + scriptRoot + "respond.min.js'></script>\r\n"); //ie8 fix
     
     if (isAdminPage) {
+      buf.append("<link href='" + styleRoot + "jquery.cleditor.css' type='text/css' rel='stylesheet'>");
       buf.append("<script src='" + scriptRoot  + "bootstrap.min.js'></script>");
-      buf.append("<script src='" + scriptRoot  + "advanced.js'></script>");
-      buf.append("<script src='" + scriptRoot  + "wysihtml5-0.3.0.min.js'></script>");
+      buf.append("<script src='" + scriptRoot  + "jquery.cleditor.js'></script>");
     }
 
     buf.append(googleAnalyticsScript + "\r\n");
