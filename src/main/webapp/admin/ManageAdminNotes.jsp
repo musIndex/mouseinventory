@@ -130,10 +130,7 @@
             <td>Added by</td><td><%=tInput("label",note.label) %></td>
          </tr>
          <tr>
-            <td>Note</td><td>
-            	<%@ include file='wysihtml5_toolbar.jspf' %>
-            	<textarea id='setting_value' name='setting_value'><%=note.asString() %></textarea>
-            	</td>
+            <td>Note</td><td><%=tArea("setting_value",note.asString()) %></td>
          </tr>
        <tr>
         <td></td>
@@ -159,10 +156,13 @@
   <% } %>
 </div>
 <script type='text/javascript'>
-  var editor = new wysihtml5.Editor("setting_value", {
-    toolbar: "wysihtml5-toolbar",
-    parserRules: wysihtml5ParserRules,
-    stylesheets: ['<%=styleRoot%>wysiwyg-color.css']
+  $("textarea[name='setting_value']").cleditor({
+    width: 500,
+    height: 200,
+    controls: 
+      "bold italic underline | font size " +
+      "style | link unlink | color removeformat | bullets numbering | outdent " +
+      "indent | undo redo | " + " cut copy paste pastetext",
   });
   $(".btn_delete").click(function(){
     $(this).siblings().show();

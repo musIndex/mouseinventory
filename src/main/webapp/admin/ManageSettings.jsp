@@ -166,9 +166,7 @@
           <% if (category.RichText) { %>
             <td>Value:</td><td><%=tArea("setting_value",setting.value) %></td>
             <% } else { %>
-            <td>Value:</td><td>
-            <%@ include file='wysihtml5_toolbar.jspf' %>
-            	<textarea id='setting_value' name='setting_value'><%=setting.value %></textarea></td>
+            <td>Value:</td><td><%=tInput("setting_value",setting.value) %></td>
             <% } %>
          </tr>
        <tr>
@@ -196,10 +194,13 @@
   <% } %>
 </div>
 <script type='text/javascript'>
-  var editor = new wysihtml5.Editor("setting_value", {
-    toolbar: "wysihtml5-toolbar",
-    parserRules: wysihtml5ParserRules,
-    stylesheets: ['<%=styleRoot%>wysiwyg-color.css']
+  $("textarea[name='setting_value']").cleditor({
+    width: 800,
+    height: 300,
+    controls: 
+      "bold italic underline | font size " +
+      "style | link unlink | color removeformat | bullets numbering | outdent " +
+      "indent | undo redo | " + " cut copy paste pastetext",
   });
   $(".btn_delete").click(function(){
     $(this).siblings().show();
