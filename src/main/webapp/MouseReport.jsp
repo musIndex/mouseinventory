@@ -192,7 +192,7 @@
           
           
      
-      topPageSelectionLinks += "\r\n<a class='btn btn-primary' href='" + siteRoot 
+      topPageSelectionLinks += "\r\n<a class='btn btn-primary' style='position:absolute;bottom:0;right:0' href='" + siteRoot 
           + "MouseList" + (queryString.length() > 0 ? "?" + queryString : "") 
           +  "'>Download this list (pdf)</a>";
 
@@ -205,7 +205,7 @@
   </div>
   <h2><%=mouseTypeStr %></h2>
   <form action="MouseReport.jsp" method="get">
-    <div class='clearfix'>
+    <div class='clearfix' style='position:relative'>
       <div id="controls" style='width:460px; float:left'>
       <h4 style='margin-top:0px'><%=mouseCountStr %></h4>    
         <%= mouseTypeSelectionLinks %>
