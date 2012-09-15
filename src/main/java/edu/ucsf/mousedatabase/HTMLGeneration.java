@@ -1092,8 +1092,7 @@ public class HTMLGeneration {
       table.append("<dl>\r\n");
 
       table.append("<dt>\r\n");
-      table.append(nextSubmission.getFirstName() + " "
-          + nextSubmission.getLastName());
+      table.append(nextSubmission.getFirstName() + " " + nextSubmission.getLastName());
       table.append("</dt>\r\n");
 
       table.append("<dt>\r\n");
@@ -1105,32 +1104,31 @@ public class HTMLGeneration {
       table.append("</dt>\r\n");
 
       table.append("<dt>\r\n");
-      table.append(getAdminMailLink(nextSubmission.getEmail(),null, EmailTemplate.SUBMISSION, 
-                                    nextSubmission.getSubmissionID(),-1,null,-1));
+
+      for(MouseHolder holder: nextSubmission.getHolders()){
+        table.append(getAdminMailLink(nextSubmission.getEmail(),holder.getEmail(), EmailTemplate.SUBMISSION, 
+                                      nextSubmission.getSubmissionID(),-1,null,-1));
+      }
       table.append("</dt>\r\n");
       table.append("<dt>");
-      table.append("Submission date: "
-          + nextSubmission.getSubmissionDate());
+      table.append("Submission date: " + nextSubmission.getSubmissionDate());
       table.append("</dt></dl>");
       table.append("<div style='font-size:14px;font-weight:700'>Admin Comments:</div>");
-      table.append("<span class=\"mouseComment\">"
-          + emptyIfNull(HTMLUtilities.getCommentForDisplay(nextSubmission.getAdminComment())) + "</span>");
+      table.append("<span class=\"mouseComment\">" + emptyIfNull(HTMLUtilities.getCommentForDisplay(nextSubmission.getAdminComment())) + "</span>");
       table.append("</td>\r\n");
 
 
       // COLUMN - details
 
       table.append("<td valign='top'><dl>\r\n");
-      if (nextSubmission.getMouseName() != null
-          && !nextSubmission.getMouseName().isEmpty()) {
+      if (nextSubmission.getMouseName() != null && !nextSubmission.getMouseName().isEmpty()) {
         table.append("<dt class='mouseName'>\r\n");
         table.append(nextSubmission.getMouseName());
         table.append("</dt>\r\n");
       }
 
       if (nextSubmission.getMouseType() != null) {
-        table.append("<dt class='mouseType'>\r\n"
-            + nextSubmission.getMouseType());
+        table.append("<dt class='mouseType'>\r\n" + nextSubmission.getMouseType());
         if (nextSubmission.isTG()) {
           if (nextSubmission.getTransgenicType().equalsIgnoreCase("knock-in")) {
             table.append(" - <b>Knock-in</b></dt>\r\n");
@@ -1373,38 +1371,15 @@ public class HTMLGeneration {
       // COLUMN - Holder
       table.append("<td valign='top'>\r\n");
 
-      ArrayList<MouseHolder> holders = nextSubmission.getHolders();
-      if (nextSubmission.getHolderName() != null && !nextSubmission.getHolderName().equals("unassigned"))
+      for (MouseHolder mouseHolder : nextSubmission.getHolders())
       {
         table.append("<dt>\r\n");
-        table.append(nextSubmission.getHolderName());
+        table.append(mouseHolder.getFullname());
         table.append("</dt>\r\n");
-        if (nextSubmission.hasOtherHolderName()) {
-          table.append("<dd>\r\n");
-          table.append(nextSubmission.getOtherHolderName());
-          table.append("</dd>\r\n");
-        }
-        table.append("<dt>\r\n");
-        table.append("Facility: " + nextSubmission.getHolderFacility());
-        table.append("</dt>\r\n");
-        if (nextSubmission.hasOtherFacilityName()) {
-          table.append("<dd>\r\n");
-          table.append(nextSubmission.getOtherHolderFacility());
-          table.append("</dd>\r\n");
-        }
-      }
-      if (holders != null)
-      {
-        for (MouseHolder mouseHolder : holders)
-        {
-          table.append("<dt>\r\n");
-          table.append(mouseHolder.getFullname());
-          table.append("</dt>\r\n");
 
-          table.append("<dt>\r\n");
-          table.append("Facility: " + mouseHolder.getFacilityName());
-          table.append("</dt>\r\n");
-        }
+        table.append("<dt>\r\n");
+        table.append("Facility: " + mouseHolder.getFacilityName());
+        table.append("</dt>\r\n");
       }
       if (nextSubmission.getCryoLiveStatus() != null) table.append("<dt>Status: " + nextSubmission.getCryoLiveStatus()+ "</dt>");
       table.append("</td>\r\n");
