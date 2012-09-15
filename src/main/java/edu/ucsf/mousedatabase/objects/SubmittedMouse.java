@@ -241,52 +241,85 @@ public class SubmittedMouse {
 
   public ArrayList<MouseHolder> getHolders()
   {
-    String holderAndFacilityIds = null;
+    String holderAndFacilityIds = "";
+    ArrayList<MouseHolder> mouseHolders = new ArrayList<MouseHolder>();
     if (properties == null || (holderAndFacilityIds = properties.getProperty("HolderFacilityList")) == null)
     {
-      return null;
+      if (getHolderName() != null && !getHolderName().equals("unassigned"))
+      {
+        MouseHolder mouseHolder = new MouseHolder();
+        Holder holder = DBConnect.findHolder(getHolderName());
+        Facility facility = DBConnect.findFacility(getHolderFacility());
+        if (holder != null) {
+          mouseHolder.setHolderID(holder.getHolderID());
+          mouseHolder.setFirstname(holder.getFirstname());
+          mouseHolder.setLastname(holder.getLastname());
+          mouseHolder.setEmail(holder.getEmail());
+          mouseHolder.setAlternateEmail(holder.getAlternateEmail());
+          mouseHolder.setDept(holder.getDept());
+          
+        }
+        else if (hasOtherHolderName()) {
+          mouseHolder.setHolderID(-1);
+          mouseHolder.setFirstname(getOtherHolderName());
+          mouseHolder.setLastname("");
+        }
+        if (facility != null) {
+          mouseHolder.setFacilityID(facility.getFacilityID());
+          mouseHolder.setFacilityName(facility.getFacilityName());
+        }
+        else if (hasOtherFacilityName()) {
+          mouseHolder.setFacilityID(-1);
+          mouseHolder.setFacilityName(getOtherHolderFacility());
+        }
+        mouseHolders.add(mouseHolder);
+        return mouseHolders;
+      }
     }
-    ArrayList<MouseHolder> mouseHolders = new ArrayList<MouseHolder>();
-    int i = 0;
-    for (String holderAndFacilityId : holderAndFacilityIds.split(",")) {
-      String[] tokens = holderAndFacilityId.split("-");
-      int holderId = Integer.parseInt(tokens[0]);
-      int facilityId = Integer.parseInt(tokens[1]);
-      MouseHolder mouseHolder = new MouseHolder();
-
-      Holder holder = DBConnect.getHolder(holderId);
-      Facility facility = DBConnect.getFacility(facilityId);
-      mouseHolder.setHolderID(holderId);
-      if (holder == null || holder.getFirstname().isEmpty())
-      {
-        String unrecognizedHolderName = properties.getProperty("Recipient PI Name-" + i);
-        mouseHolder.setFirstname(unrecognizedHolderName);
-        mouseHolder.setLastname("");
+    else
+    {
+    
+      int i = 0;
+      for (String holderAndFacilityId : holderAndFacilityIds.split(",")) {
+        String[] tokens = holderAndFacilityId.split("-");
+        int holderId = Integer.parseInt(tokens[0]);
+        int facilityId = Integer.parseInt(tokens[1]);
+        MouseHolder mouseHolder = new MouseHolder();
+  
+        Holder holder = DBConnect.getHolder(holderId);
+        Facility facility = DBConnect.getFacility(facilityId);
+        mouseHolder.setHolderID(holderId);
+        if (holder == null || holder.getFirstname().isEmpty())
+        {
+          String unrecognizedHolderName = properties.getProperty("Recipient PI Name-" + i);
+          mouseHolder.setFirstname(unrecognizedHolderName);
+          mouseHolder.setLastname("");
+        }
+        else
+        {
+          mouseHolder.setFirstname(holder.getFirstname());
+          mouseHolder.setLastname(holder.getLastname());
+          mouseHolder.setEmail(holder.getEmail());
+          mouseHolder.setAlternateEmail(holder.getAlternateEmail());
+          mouseHolder.setDept(holder.getDept());
+        }
+  
+  
+        mouseHolder.setFacilityID(facilityId);
+        if (facility == null || facility.getFacilityName().isEmpty())
+        {
+          String unrecognizedHolderFacilityName = properties.getProperty("Recipient Facility-" + i);
+          mouseHolder.setFacilityName(unrecognizedHolderFacilityName);
+        }
+        else
+        {
+          mouseHolder.setFacilityName(facility.getFacilityName());
+        }
+  
+        mouseHolders.add(mouseHolder);
+        i++;
       }
-      else
-      {
-        mouseHolder.setFirstname(holder.getFirstname());
-        mouseHolder.setLastname(holder.getLastname());
-        mouseHolder.setEmail(holder.getEmail());
-        mouseHolder.setDept(holder.getDept());
-      }
-
-
-      mouseHolder.setFacilityID(facilityId);
-      if (facility == null || facility.getFacilityName().isEmpty())
-      {
-        String unrecognizedHolderFacilityName = properties.getProperty("Recipient Facility-" + i);
-        mouseHolder.setFacilityName(unrecognizedHolderFacilityName);
-      }
-      else
-      {
-        mouseHolder.setFacilityName(facility.getFacilityName());
-      }
-
-      mouseHolders.add(mouseHolder);
-      i++;
     }
-
 
     return mouseHolders;
   }
