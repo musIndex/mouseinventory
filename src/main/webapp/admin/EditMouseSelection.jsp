@@ -142,9 +142,13 @@
     <h4><%=mouseCountStr %></h4>
     <a href="CovertMice.jsp">Covert Mice</a>
   <form action="EditMouseSelection.jsp" method="get">
+    <div style='position:relative'>
     <%= mouseTypeSelectionLinks %>
     <%= topPageSelectionLinks %>
-    <a class="btn btn-primary" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
+    <div style='position:absolute;bottom:0;right:0;'>
+    <a class="btn" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
+    </div>
+    </div>
     <br>
     <%= table %>
     <%= bottomPageSelectionLinks %>
