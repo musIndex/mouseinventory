@@ -2727,71 +2727,52 @@ public class HTMLGeneration {
       String checkedOrderBy, int holderID, int geneRecordID,
       ArrayList<MouseType> mouseTypes, String status, String searchTerms,
       int creOnly, int facilityID) {
-    String checked = "";
-    if (checkedMouseTypeID == -1) {
-      checked = "checked";
-    }
     StringBuffer buf = new StringBuffer();
-    buf.append("<table style=\"line-height:12px;\">");
-    if (status != null) {
-      buf.append("<tr><td colspan=\"3\">Search: <input type=\"text\" size=\"20\" id='mousetypeselection_searchterms' name=\"searchterms\""
-          + (searchTerms != null ? "value=\"" + searchTerms + "\""
-              : "") + "></td></tr>");
-    }
-    buf.append("<tr><td>Category:</td>");
-    buf.append("<td><input type=\"radio\" name=\"mousetype_id\" value=\"-1\" "
-        + checked + ">All</td>");
+    buf.append("<div class='mousetype_selection_links'>");
+    buf.append("<ul>");
+    
+    buf.append("<li>Sort by: ");
+    buf.append(genSelect("orderby",new String[]{"mouse.name","mouse.id","mouse.id desc"}, 
+                        new String[]{"Mouse Name", "Record #", "Record #(reverse)"},checkedOrderBy,null));
+    buf.append("</li>\n");
+    buf.append("<li>Category: ");
+    String[] mouseTypeIds = new String[mouseTypes.size()];
+    String[] mouseTypeNames = new String[mouseTypes.size()];
+    int i = 0;
     for (MouseType type : mouseTypes) {
-      checked = "";
-      if (checkedMouseTypeID == type.getMouseTypeID()) {
-        checked = "checked";
-      }
-      buf.append("<td><input type=\"radio\" name=\"mousetype_id\" value=\""
-          + type.getMouseTypeID()
-          + "\" "
-          + checked
-          + ">"
-          + type.getTypeName() + "</td>");
+      mouseTypeIds[i] = Integer.toString(type.getMouseTypeID());
+      mouseTypeNames[i] = type.getTypeName();
+      i++;
     }
-    buf.append("</tr>");
-    if (creOnly >= 0) {
-      buf.append("<tr><td></td><td colspan=\"4\"><input type=\"checkbox\" name=\"creonly\" value=\"1\" "
-          + (creOnly == 1 ? "checked=\"checked\"" : "")
-          + ">Cre-expressing mice only.</td></tr>");
-    }
-    buf.append("</tr>\n");
+    buf.append(genSelect("mousetype_id", mouseTypeIds, mouseTypeNames, Integer.toString(checkedMouseTypeID), null) );
+    buf.append("</li>");
+    
     if (status != null) {
-      buf.append("<tr>\n");
-      buf.append("<td>Status\n");
-      buf.append(gimmeRadio("live", "Live", status, "status"));
-      buf.append(gimmeRadio("deleted", "Deleted", status, "status"));
-      buf.append(gimmeRadio("all", "All", status, "status"));
-      buf.append("</td>\n");
-      buf.append("</tr>\n");
+      buf.append("<li>Status: ");
+      buf.append(genSelect("status",new String[]{"live","deleted","all"},new String[]{"Live","Deleted","All"},status,null));
+      buf.append("</li>\n");
     }
-    buf.append("<tr><td>Sort by:</td>");
-    buf.append(gimmeSortRadio("mouse.name", "Mouse Name", checkedOrderBy));
-    buf.append(gimmeSortRadio("mouse.id", "Record #", checkedOrderBy));
-    buf.append(gimmeSortRadio("mouse.id desc", "Record #(reverse)",
-        checkedOrderBy));
-
-    buf.append("</tr>\n");
+    if (creOnly >= 0) {
+      buf.append("<li>Cre-expressing mice only. <input type='checkbox' name='creonly' value='1' "
+          + (creOnly == 1 ? "checked='checked'" : "") + "></li>");
+    }
+    if (status != null) {
+      buf.append("<li class='cf'><input type='text' size='20' id='mousetypeselection_searchterms' name='searchterms'" 
+          + (searchTerms != null ? "value='" + searchTerms + "'" : "") + ">&nbsp;");
+      buf.append("<input class='btn btn-small' type='submit' value='Search'></input></li>");
+    }
 
     if (holderID != -1) {
-      buf.append("<tr><td><input type=\"hidden\" name=\"holder_id\" value=\""
-          + holderID + "\"></td></tr>");
+      buf.append("<input type='hidden' name='holder_id' value='" + holderID + "'>");
     }
     if (geneRecordID != -1) {
-      buf.append("<tr><td><input type=\"hidden\" name=\"geneID\" value=\""
-          + geneRecordID + "\"></td></tr>");
+      buf.append("<input type='hidden' name='geneID' value='" + geneRecordID + "'>");
     }
     if (facilityID != -1) {
-      buf.append("<tr><td><input type=\"hidden\" name=\"facility_id\" value=\""
-          + facilityID + "\"></td></tr>");
+      buf.append("<input type='hidden' name='facility_id' value='" + facilityID + "'>");
     }
 
-    buf.append("<tr><td colspan=\"5\"><input type=\"submit\" class='btn btn-small' value=\"Update\"></td></tr>");
-    buf.append("</table>");
+    buf.append("</div>");
 
     return buf.toString();
   }

@@ -76,8 +76,8 @@
     String mouseTypeSelectionLinks = getMouseTypeSelectionLinks(
         mouseTypeID, orderBy,holderID,geneID,mouseTypes,null,searchTerms,creOnly,facilityID);
 
-    String topPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,true);
-    String bottomPageSelectionLinks = getPageSelectionLinks(limit,pagenum,mouseCount,false);
+    String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
+    String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
 
     Holder holder = DBConnect.getHolder(holderID);
     Gene gene = DBConnect.getGene(geneID);
@@ -204,9 +204,9 @@
   <div id="mousecount" style="display:none"><%=mice.size() %>
   </div>
   <h2><%=mouseTypeStr %></h2>
-  <form action="MouseReport.jsp" method="get">
-    <div class='clearfix' style='position:relative'>
-      <div id="controls" style='width:460px; float:left'>
+  <form class='view_opts' action="MouseReport.jsp" >
+    <div class='clearfix' style='position:relative;min-height:140px'>
+      <div id="controls" style='width:100%; position:absolute;bottom:0;left:0;'>
       <h4 style='margin-top:0px'><%=mouseCountStr %></h4>    
         <%= mouseTypeSelectionLinks %>
         <%= topPageSelectionLinks %>      

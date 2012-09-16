@@ -72,7 +72,7 @@
 
     <h2><%=mouseTypeStr %></h2>
     <h4><%=mice.size() %> records found.</h4>
-    <form action="CovertMice.jsp" method="get">
+    <form class='view_opts' action="CovertMice.jsp" >
      <%=mouseTypeSelectionLinks %>
   </form>
     <%= table %>

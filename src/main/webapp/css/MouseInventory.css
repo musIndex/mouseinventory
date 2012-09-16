@@ -942,3 +942,22 @@ html[xmlns] .cf {
 * html .cf {
 	height: 1%;
 }
+
+div.mousetype_selection_links {
+	width: 230px;
+}
+
+div.mousetype_selection_links > ul {
+	padding: 0;
+}
+
+div.mousetype_selection_links > ul > li {
+	list-style-type: none;
+	margin: 6px 0;
+}
+
+div.mousetype_selection_links > ul > li input[type=checkbox],
+div.mousetype_selection_links > ul > li input[type=submit],
+div.mousetype_selection_links > ul > li select {
+	float: right;
+}
