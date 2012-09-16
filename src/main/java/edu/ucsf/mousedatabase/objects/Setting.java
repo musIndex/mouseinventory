@@ -10,10 +10,11 @@ public class Setting {
     UNKNOWN(0,"unkown",false,true,false),
     ADMIN_NOTES(1,"Admin notes",true,true,true),
     HOME_PAGE_TEXTS(2,"Home page texts",false,false,true),
-    WHATS_NEW_ITEMS(3,"What's new items",true,false,true),
+    RECENT_SITE_UPDATES(3,"Recent site updates",true,false,true),
     ADMIN_DATA(4,"Admin information",false,false,false),
     GENERAL_SITE(5,"General settings",false,false,false),
-    DATA_IMPORT(6,"Data upload settings",false,false,false);
+    DATA_IMPORT(6,"Data upload settings",false,false,false),
+    WED_LIKE_TO_HEAR_FROM_YOU(7,"We'd like to hear from you items",true,false,true);
     
     public final int Id;
     public final String Name;
@@ -39,13 +40,15 @@ public class Setting {
       case 2:
         return SettingCategory.HOME_PAGE_TEXTS;
       case 3:
-        return SettingCategory.WHATS_NEW_ITEMS;
+        return SettingCategory.RECENT_SITE_UPDATES;
       case 4:
         return SettingCategory.ADMIN_DATA;
       case 5:
         return SettingCategory.GENERAL_SITE;
       case 6:
         return SettingCategory.DATA_IMPORT;
+      case 7:
+        return SettingCategory.WED_LIKE_TO_HEAR_FROM_YOU;
     }
     return SettingCategory.UNKNOWN;
   }

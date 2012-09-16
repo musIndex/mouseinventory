@@ -1,3 +1,4 @@
+<%@page import="java.util.HashMap"%>
 <%@page import="edu.ucsf.mousedatabase.DBConnect"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="edu.ucsf.mousedatabase.objects.*"%>
@@ -6,20 +7,24 @@
 <%=HTMLGeneration.getPageHeader(null, false,false,"onload=\"setFocus('quickSearchForm', 'searchterms')\"") %>
 <%=HTMLGeneration.getNavBar("about.jsp", false) %>
   
+<%
+HashMap<Setting.SettingCategory,String> categories = new HashMap<Setting.SettingCategory,String>();
+categories.put(Setting.SettingCategory.RECENT_SITE_UPDATES,"Recent site updates:");
+categories.put(Setting.SettingCategory.WED_LIKE_TO_HEAR_FROM_YOU,"We'd like to hear from you:");
+%>
+ 
 <div class="site_container">
-  <div class="whatsnew">
-    <h3>Recent site updates:</h3>
-    
-    <%
-    
+
+<div class="whatsnew">
+<% for(Setting.SettingCategory category : categories.keySet()){ 
     String[] styles = new String[]{"alert alert-success","alert alert-info","alert alert-warning","alert alert-lovely"};
-    
-    ArrayList<Setting> whatsNewItems = DBConnect.getCategorySettings(Setting.SettingCategory.WHATS_NEW_ITEMS.Id, "id desc");
-    
+    ArrayList<Setting> recentSiteUpdateItems = DBConnect.getCategorySettings(category.Id, "id desc");
     int i = 0;
-    for (Setting newItem : whatsNewItems) {
-      
+    for (Setting newItem : recentSiteUpdateItems) {
      %>
+      <% if (i == 0) { %>
+      	<h3><%=categories.get(category) %></h3>
+      <% } %>
       <div class="<%= styles[i]%>">
         <b><%= newItem.label %></b>
         <br><%= newItem.value %>
@@ -28,8 +33,8 @@
       i++;
       i %= styles.length;
     } %>
-    
-  </div>
+<% } %>
+</div>
 <div class='about'>
 <div class='about-summary'>
 <h2>About the UCSF Mouse Inventory Database</h2>
