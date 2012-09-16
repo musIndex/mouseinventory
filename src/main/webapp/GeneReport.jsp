@@ -12,15 +12,19 @@
         orderBy = "fullname";
     }
 
+    String[] orderOpts = new String[]{"symbol","fullname","mgi"};
+    String[] orderOptLabels = new String[]{"Symbol","Full name","MGI number"};
+    
+    
     ArrayList<Gene> genes = DBConnect.getAllGenes(orderBy);
     String table = HTMLGeneration.getGeneTable(genes,false);
 %>
 <div class="site_container">
     <h2>Gene List</h2>
 
-<p>Sort by <a href="GeneReport.jsp?orderby=symbol">Symbol</a>,
-      <a href="GeneReport.jsp?orderby=fullname">Full name</a>,
-      <a href="GeneReport.jsp?orderby=mgi">MGI</a></p>
+  <form class='view_opts' action='GeneReport.jsp'>
+ 	 Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderBy,null) %>
+  </form>
         <%= table%>
 
 </div>

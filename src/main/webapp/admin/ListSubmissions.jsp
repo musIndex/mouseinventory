@@ -51,13 +51,12 @@
   String table = getSubmissionTable(submissions, status, entered);
 
   StringBuffer sortBuf = new StringBuffer();
-  sortBuf.append("<form action='ListSubmissions.jsp' method='get'>");
+  sortBuf.append("<form class='view_opts' action='ListSubmissions.jsp' method='get'>");
   sortBuf.append("&nbsp;Show: ");
-  sortBuf.append(genFlatRadio("status",filterOptions,filterOptionNiceNames, status,""));
-  sortBuf.append("<br>&nbsp;Sort by: ");
-  sortBuf.append(genFlatRadio("orderby",sortOptions,sortOptionNiceNames, orderBy,""));
+  sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,""));
+  sortBuf.append("&nbsp;Sort by: ");
+  sortBuf.append(genSelect("orderby",sortOptions,sortOptionNiceNames, orderBy,""));
   sortBuf.append("<input type='hidden' name='entered' value='" + entered +"'>");
-  sortBuf.append("<br>&nbsp;<input class='btn' type='submit' value='Update'>");
   sortBuf.append("</form>");
 
 

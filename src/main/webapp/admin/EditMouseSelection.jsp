@@ -146,6 +146,7 @@
   <form class='view_opts' action="EditMouseSelection.jsp">
     <div style='position:relative'>
     <%= mouseTypeSelectionLinks %>
+    <br>
     <%= topPageSelectionLinks %>
     <div style='position:absolute;bottom:0;right:0;'>
     <a class="btn" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>

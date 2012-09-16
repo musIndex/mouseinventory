@@ -8,17 +8,19 @@
     ArrayList<Holder> holders = DBConnect.getAllHolders(false,orderby);
     String table = HTMLGeneration.getHolderTable(holders,false);
 
+    String[] orderOpts = new String[]{"firstname,lastname","lastname,firstname","department","count","datevalidated"};
+    String[] orderOptLabels = new String[]{"First name","Last name","Department","Mice held","Last review date"};
+    
+    
 %>
 
 <div class="site_container">
-    <h2>Holder List</h2>
-    <p>Sort by <a href="HolderReport.jsp?orderby=firstname,lastname">First Name</a>,
-          <a href="HolderReport.jsp?orderby=lastname,firstname">Last name</a>,
-          <a href="HolderReport.jsp?orderby=department">Department</a>,
-          <a href="HolderReport.jsp?orderby=datevalidated">Date reviewed,</a>
-          <a href="HolderReport.jsp?orderby=count">Mice Held</a></p>
+  <h2>Holder List</h2>
+  <form class='view_opts' action='HolderReport.jsp'>
+ 	 Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderby,null) %>
+  </form>
 
-<div style="width: 720px;"><b>
+<div style="width: 620px;"><b>
 'Last review date' shows when the most recent update of the list of mice held by each investigator
 was carried out.</b>
 <br>

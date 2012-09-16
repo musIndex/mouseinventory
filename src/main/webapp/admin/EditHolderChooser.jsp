@@ -12,19 +12,22 @@
 <%
   String command = request.getParameter("command");
   String orderby = request.getParameter("orderby");
+  
+  String[] orderOpts = new String[]{"firstname,lastname","lastname,firstname","department","count","datevalidated","datevalidated desc"};
+  String[] orderOptLabels = new String[]{"First name","Last name","Department","Mice held","Last review date","Reverse last review date"};
+  
   if (command == null || command.isEmpty() || command.equals("edit"))
   {
       ArrayList<Holder> holders = DBConnect.getAllHolders(false,orderby);
       String table = HTMLGeneration.getHolderTable(holders,true);
     %>
     <h2>Edit Holders:</h2>
-    <p><a href="EditHolderChooser.jsp?command=add">Add Holder...</a></p>
-    <p>Sort by <a href="EditHolderChooser.jsp?orderby=firstname,lastname&command=edit">Holder First Name</a>,
-          <a href="EditHolderChooser.jsp?orderby=lastname,firstname&command=edit">Holder Last name</a>,
-          <a href="EditHolderChooser.jsp?orderby=department&command=edit">Department</a>,
-          <a href="EditHolderChooser.jsp?orderby=count&command=edit">Mice Held</a>,
-          <a href="EditHolderChooser.jsp?orderby=datevalidated&command=edit">Last Review Date</a>,
-          <a href="EditHolderChooser.jsp?orderby=datevalidated+desc&command=edit">Reverse Last Review Date</a></p>
+
+	
+    <form class='view_opts' action='EditHolderChooser.jsp'>
+   	 Sort by <%= genSelect("orderby",orderOpts,orderOptLabels,orderby,null) %>
+    </form>
+    <a class='btn btn-success'href="EditHolderChooser.jsp?command=add"><i class='icon-plus icon-white'></i> Add Holder...</a>
     <%= table %>
     <%
   }
