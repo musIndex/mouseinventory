@@ -82,8 +82,8 @@
   ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
 
     String mouseTypeSelectionLinks = HTMLGeneration.getMouseTypeSelectionLinks(mouseTypeID, orderBy,holderID,geneID, mouseTypes, status,searchTerms,-1,-1);
-    String topPageSelectionLinks = HTMLGeneration.getPageSelectionLinks(limit,pagenum,mouseCount,true);
-    String bottomPageSelectionLinks = HTMLGeneration.getPageSelectionLinks(limit,pagenum,mouseCount,false);
+    String topPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
+    String bottomPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
 
 
     Holder holder = DBConnect.getHolder(holderID);
@@ -141,7 +141,9 @@
     <h2><%=mouseTypeStr %></h2>
     <h4><%=mouseCountStr %></h4>
     <a href="CovertMice.jsp">Covert Mice</a>
-  <form action="EditMouseSelection.jsp" method="get">
+    
+
+  <form class='view_opts' action="EditMouseSelection.jsp">
     <div style='position:relative'>
     <%= mouseTypeSelectionLinks %>
     <%= topPageSelectionLinks %>
