@@ -7,17 +7,22 @@
 <%
   String command = request.getParameter("command");
   String orderby = request.getParameter("orderby");
+  
+  String[] orderOpts = new String[]{"facility","description","count"};
+  String[] orderOptLabels = new String[]{"Name","Location","Record count"};
+  
+  
   if (command == null || command.isEmpty() || command.equals("edit"))
   {
     ArrayList<Facility> facilities = DBConnect.getAllFacilities(false,orderby);
     String table = HTMLGeneration.getFacilityTable(facilities,true);
     %>
     <h2>Edit Facilities:</h2>
-    <p><a href="EditFacilityChooser.jsp?command=add">Add Facility...</a>
-    <p>Sort by <a href="EditFacilityChooser.jsp?orderby=facility&command=edit">Name</a>,
-          <a href="EditFacilityChooser.jsp?orderby=description&command=edit">Location</a>,
-          <a href="EditFacilityChooser.jsp?orderby=count&command=edit">Record count</a></p>
-
+    
+    <form class='view_opts' action='EditFacilityChooser.jsp'>
+    	Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderby,null)  %>
+	</form>
+    <a class='btn btn-success' href="EditFacilityChooser.jsp?command=add"><i class='icon-plus icon-white'></i> Add Facility</a>
     <%= table %>
     <%
   }

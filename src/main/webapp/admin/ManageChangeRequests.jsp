@@ -46,12 +46,11 @@
     String[] filterOptionNiceNames = new String[] {"New", "Pending", "Completed","All"};
 
     StringBuffer sortBuf = new StringBuffer();
-    sortBuf.append("<form action=\"ManageChangeRequests.jsp\" method=\"get\">");
+    sortBuf.append("<form class='view_opts' action='ManageChangeRequests.jsp'>");
     sortBuf.append("&nbsp;Show: ");
-    sortBuf.append(genFlatRadio("status",filterOptions,filterOptionNiceNames, status,""));
-    sortBuf.append("<br>&nbsp;Sort by: ");
-    sortBuf.append(genFlatRadio("orderby",sortOptions,sortOptionNiceNames, orderBy,""));
-    sortBuf.append("<br>&nbsp;<input class='btn' type='submit' value=\"Update\">");
+    sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,null));
+    sortBuf.append("&nbsp;Sort by: ");
+    sortBuf.append(genSelect("orderby",sortOptions,sortOptionNiceNames, orderBy,null));
     sortBuf.append("</form>");
 
   ArrayList<ChangeRequest> requests = DBConnect.getChangeRequests(status, orderBy);
