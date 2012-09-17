@@ -201,3 +201,6 @@ alter table `settings` CHANGE category category_id int(10);
 
 #41 add about page content as setting
 # <<<Load external file settings_content_1.sql >>>
+
+#42 add position column to facilities
+alter table `facility` add column position int(10);
