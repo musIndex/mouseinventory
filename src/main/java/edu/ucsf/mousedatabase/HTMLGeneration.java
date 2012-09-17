@@ -1957,7 +1957,7 @@ public class HTMLGeneration {
     if (edit) {
       table.append("<td>ID</td>");
     }
-    table.append("<td style='min-width:400px'\">\r\n");
+    table.append("<td style='min-width:400px'>\r\n");
     table.append("Facility");
     table.append("</td>\r\n");
     table.append("<td style='min-width:100px'>\r\n");
@@ -1980,8 +1980,9 @@ public class HTMLGeneration {
       boolean edit) {
     StringBuilder table = new StringBuilder();
     table.append("<div class=\"facilityTable\">\r\n");
-    table.append("<table><tbody>\r\n");
+    table.append("<table><thead>\r\n");
     table.append(getFacilityTableHeaders(edit));
+    table.append("</thead><tbody>");
     int numFacilities = 0;
 
     for (Facility facility : facilities) {
@@ -1992,12 +1993,12 @@ public class HTMLGeneration {
       if (edit) {
         table.append("<td>" + facility.getFacilityID() + "</td>");
       }
-      table.append("<td>\r\n");
+      table.append("<td style='min-width:400px'>\r\n");
       table.append("<span class=\"mouseName\">"
           + facility.getFacilityName() + "</span> &nbsp;-&nbsp;"
           + facility.getFacilityDescription());
 
-      table.append("</td><td>");
+      table.append("</td><td style='min-width:100px'>");
       table.append("<span style=\"position:relative;left:5px\"><a href=\""
           + siteRoot
           + "MouseReport.jsp?facility_id="
@@ -2006,8 +2007,8 @@ public class HTMLGeneration {
           + facility.getRecordCount() + " records</a></span>\r\n");
       table.append("</td>\r\n");
       if (edit) {
-        table.append("<td>" + HTMLGeneration.emptyIfNull(facility.getFacilityCode()) + "</td>");
-        table.append("<td><a href=\"EditFacilityForm.jsp?facilityID="
+        table.append("<td style='min-width:60px'>" + HTMLGeneration.emptyIfNull(facility.getFacilityCode()) + "</td>");
+        table.append("<td style='min-width:60px'><a href=\"EditFacilityForm.jsp?facilityID="
             + facility.getFacilityID() + "\">Edit</a></td>\r\n");
       }
       table.append("</tr>");

@@ -917,7 +917,7 @@ public class DBConnect {
       query += " WHERE id > 1";
     }
     query += "\r\n ORDER BY ";
-    query += orderby != null ? orderby : "id";
+    query += orderby != null ? orderby : "position";
     return FacilityResultGetter.getInstance().Get(query);
   }
 
@@ -1279,6 +1279,11 @@ public class DBConnect {
       + "',description='" + addMySQLEscapes(updatedFacility.getFacilityDescription())
       + "',code='" + addMySQLEscapes(updatedFacility.getFacilityCode())
       + "'\r\nWHERE id=" + updatedFacility.getFacilityID();
+    executeNonQuery(query);
+  }
+  
+  public static void updateFacilityPosition(int facilityId, int position) {
+    String query = "UPDATE facility SET position=" + position + " WHERE id=" + facilityId;
     executeNonQuery(query);
   }
 
