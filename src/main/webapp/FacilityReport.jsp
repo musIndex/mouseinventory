@@ -12,3 +12,5 @@
 <h2>Facility List</h2>
 <%=table%>
 </div>
+
+

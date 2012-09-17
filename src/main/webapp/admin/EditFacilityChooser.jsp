@@ -22,7 +22,10 @@
     <form class='view_opts' action='EditFacilityChooser.jsp'>
     	Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderby,null)  %>
 	</form>
+	<br>
+	<a class='btn' href='#' id='sort_button'>Change public sort order</a>&nbsp;&nbsp;
     <a class='btn btn-success' href="EditFacilityChooser.jsp?command=add"><i class='icon-plus icon-white'></i> Add Facility</a>
+    <div class='sort-instructions' style='display:none'><h3>Click and drag rows to reorder them.  Click save when done</h3></div>
     <%= table %>
     <%
   }
@@ -56,3 +59,31 @@
   }
 %>
 </div>
+<script>
+!function($){
+	var sorting = false;
+	var table_body = $("div.facilityTable table tbody");
+	var sort_button = $("#sort_button");
+	var instructions = $(".sort-instructions");
+	sort_button.click(function(){
+		sorting = !sorting;
+		
+		if (sorting) {
+			sort_button.text('Save changes');
+			instructions.show();
+			table_body.sortable().disableSelection();
+		}
+		else {
+			alert("saving order");
+			alert("saved");
+			window.location.reload();
+		}
+		
+		
+	});
+	
+	
+
+
+}(jQuery);
+</script>
