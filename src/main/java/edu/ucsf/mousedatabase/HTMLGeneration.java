@@ -1980,7 +1980,7 @@ public class HTMLGeneration {
       boolean edit) {
     StringBuilder table = new StringBuilder();
     table.append("<div class=\"facilityTable\">\r\n");
-    table.append("<table>\r\n");
+    table.append("<table><tbody>\r\n");
     table.append(getFacilityTableHeaders(edit));
     int numFacilities = 0;
 
@@ -2013,7 +2013,7 @@ public class HTMLGeneration {
       table.append("</tr>");
       numFacilities++;
     }
-    table.append("</table>\r\n");
+    table.append("</tbody></table>\r\n");
     if (numFacilities <= 0)
       return "No results found";
     return table.toString();
