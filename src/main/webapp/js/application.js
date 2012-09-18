@@ -10,12 +10,12 @@ $(document).ready(function(){
     });
   $(".view_opts").on('change','select[name=pagenum_select]',function(e){
 	  $.proxy(submitParentForm,this)(e,{pagenum: $(this).val()});
-  })
+  });
   
   function submitParentForm(e,args){
 	  args = args || {};
 	  var form = $(this).closest('form');
-	  window.location.href = form.attr('action') + '?' + form.serialize() + "&" + $.param(args);
+	  window.location.href = form.attr('action') + '?' + form.find('select[name!=pagenum_select],form checkbox').serialize() + "&" + $.param(args);
   }
 });
 
