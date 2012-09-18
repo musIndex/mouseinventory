@@ -152,7 +152,6 @@
     <a class="btn" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
     </div>
     </div>
-    <br>
     <%= table %>
     <%= bottomPageSelectionLinks %>
   </form>
