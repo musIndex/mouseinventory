@@ -51,6 +51,10 @@ $(document).ready(function(){
       }
       return false;
     });
+    $("select[name=pagenum_select]").change(function(e){
+      $.bbq.pushState({pagenum:$(this).val()});
+      return false;
+    });
     $("a.search-strategy-show-details").click(function(){
       $(this).siblings().toggle();
       return false;

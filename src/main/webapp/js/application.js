@@ -1,13 +1,16 @@
 $(document).ready(function(){
   $('.chzn-select').chosen();
   
-  $(".view_opts").on('change','select,input[type=checkbox]',submitParentForm);
+  $(".view_opts").on('change','select[name!=pagenum_select],input[type=checkbox]',submitParentForm);
   $(".view_opts").on('click','.pagination-container a',function(e){
       if (!($(this).hasClass("disabled"))){
         $.proxy(submitParentForm,this)(e,{pagenum: $(this).data("pagenum")});
       }
       return false;
     });
+  $(".view_opts").on('change','select[name=pagenum_select]',function(e){
+	  $.proxy(submitParentForm,this)(e,{pagenum: $(this).val()});
+  })
   
   function submitParentForm(e,args){
 	  args = args || {};
