@@ -15,7 +15,9 @@ $(document).ready(function(){
   function submitParentForm(e,args){
 	  args = args || {};
 	  var form = $(this).closest('form');
-	  window.location.href = form.attr('action') + '?' + form.find('select[name!=pagenum_select],input[type=checkbox]').serialize() + "&" + $.param(args);
+	  window.location.href = form.attr('action') + '?' + 
+	  	form.find('select[name!=pagenum_select],input[type=checkbox],input[name=searchterms]').serialize() + 
+	  	"&" + $.param(args);
   }
 });
 
