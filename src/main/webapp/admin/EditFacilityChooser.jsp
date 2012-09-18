@@ -8,8 +8,8 @@
   String command = request.getParameter("command");
   String orderby = request.getParameter("orderby");
   
-  String[] orderOpts = new String[]{"position","facility","description","count"};
-  String[] orderOptLabels = new String[]{"Public-facing","Name","Location","Record count"};
+  String[] orderOpts = new String[]{"position","facility","count"};
+  String[] orderOptLabels = new String[]{"Public-facing","Name","Record count"};
   
   if (orderby == null) {
 	  orderby = orderOpts[0];
