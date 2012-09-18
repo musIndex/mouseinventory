@@ -2756,7 +2756,7 @@ public class HTMLGeneration {
       buf.append("</li>\n");
     }
     if (creOnly >= 0) {
-      buf.append("<li>Cre-expressing mice only. <input type='checkbox' name='creonly' value='1' "
+      buf.append("<li>Cre-expressing mice only: <input type='checkbox' name='creonly' value='1' "
           + (creOnly == 1 ? "checked='checked'" : "") + "></li>");
     }
     if (status != null) {
