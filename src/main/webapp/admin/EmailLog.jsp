@@ -22,7 +22,7 @@
     }
   }
 
-  ArrayList<MouseMail> emails = DBConnect.getEmails(category,orderby);
+  ArrayList<MouseMail> emails = DBConnect.getEmails(category,orderby,null);
   session.setAttribute("emailLogcategory",category);
   session.setAttribute("emailLogorderby",orderby);
 

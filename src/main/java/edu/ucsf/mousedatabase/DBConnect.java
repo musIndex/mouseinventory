@@ -1581,11 +1581,23 @@ public class DBConnect {
     return executeNonQuery(query);
   }
   
-  public static ArrayList<MouseMail> getEmails(String category, String orderby){
+  public static ArrayList<MouseMail> getEmails(String category, String orderby, String status){
     
     String query = "select * from emails";
+    boolean whereAdded = false;
     if (category != null && !category.equals("all")) {
       query += "\n WHERE category=" + safeText(category);
+      whereAdded = true;
+    }
+    if (status != null) {
+      if (whereAdded) {
+        query += "\n AND ";
+      }
+      else {
+        query += "\n WHERE ";
+        query += "status=" + safeText(status);
+        whereAdded = true;
+      }
     }
     if (orderby == null) {
       orderby = "date_created";
@@ -1602,6 +1614,10 @@ public class DBConnect {
     query += "\n ORDER BY " + orderby;
      
     return EmailResultGetter.getInstance().Get(query);
+  }
+  
+  public static void deleteEmail(int emailId) {
+    executeNonQuery("delete from emails where id=" + emailId);
   }
   
   public static int insertSetting(Setting setting){
