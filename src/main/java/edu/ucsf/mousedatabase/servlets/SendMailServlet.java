@@ -43,17 +43,17 @@ public class SendMailServlet extends HttpServlet {
     int templateID = stringToInt(request.getParameter("template_id"));
     int oldDraftID = stringToInt(request.getParameter("old_draft_id"));
     
+    int deleteEmailId = stringToInt(request.getParameter("delete"));
     boolean saveAsDraft = Boolean.parseBoolean(request.getParameter("save_as_draft"));
     Properties data = new Properties();
     
-    String error = validate(recipient,cc,subject,body);
-    
-    if (error != null) {
-      data.setProperty("error", error);
-    }
-    else if(!request.isUserInRole("administrator")) {
+    if(!request.isUserInRole("administrator")) {
       //this is actually redundant because the servlet is behind /admin but makes me feel better
       data.setProperty("error","you must be an administrator to send mail");
+    }
+    else if (deleteEmailId > 0)  {
+      DBConnect.deleteEmail(deleteEmailId);
+      data.setProperty("id",Integer.toString(deleteEmailId));
     }
     else if (saveAsDraft){
       String templateName = null;
@@ -66,7 +66,7 @@ public class SendMailServlet extends HttpServlet {
       int newDraftId = mail.saveAsDraft();
       data.setProperty("id",Integer.toString(newDraftId));
       
-      if (mail.status != MouseMail.ErrorStatus && oldDraftID > 0) {
+      if (!mail.status.equals(MouseMail.ErrorStatus) && oldDraftID > 0) {
         DBConnect.deleteEmail(oldDraftID);
       }
     }
@@ -83,9 +83,5 @@ public class SendMailServlet extends HttpServlet {
     response.setStatus(HttpServletResponse.SC_OK);
 	}
 
-	private String validate(String recipient, String cc, String subject, String body){
-	  //TODO validate if we end up having trouble with badly formatted emails
-	  return null;
-	}
 	
 }

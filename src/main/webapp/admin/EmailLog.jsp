@@ -53,8 +53,13 @@
   <th>Message</th>
 </tr>
 <% for (MouseMail email : emails){ %>
-  <tr class='mouselist'>
-    <td><%=email.status %> <%= sdf.format(email.dateCreated) %></td>
+  <tr id='email_<%=email.id %>' class='mouselist'>
+    <td><%=email.status %> <%= sdf.format(email.dateCreated) %>
+    <% if(email.status.equals(MouseMail.DraftStatus)) { %><br>
+      <a class='btn btn-mini btn-danger delete-draft-btn' data-draft_subject='<%=email.subject %>' 
+         data-draft_id='<%=email.id %>' href='#'><i class='icon-remove'></i> delete</a>
+    <% } %>
+    </td>
     <td><%=emptyIfNull(email.category) %></td>
     <td><%=emptyIfNull(email.templateName) %></td>
     <td>
@@ -71,3 +76,31 @@
 <% } %>
 </table>
 </div>
+<script>
+$("a.delete-draft-btn").click(function(){
+  if ($(this).hasClass('disabled')) { return false; }
+  var link = $(this);
+  var email_id = $(this).data('draft_id');
+  var r = confirm("Are you sure you want to delete this draft?\n\n" + $(this).data('draft_subject'));
+  if (r == true) {
+    
+    $.ajax({
+      type: 'post',
+      url: '<%=adminRoot%>SendMail?delete=' + email_id,
+      dataType: 'json',
+      success: function(data){deleteSuccess(link,data)},
+      error: function(data){deleteSuccess(link,data)},
+      async: true
+  	});
+  } 
+  return false;
+});
+
+function deleteSuccess(elem, data) {
+  elem.closest('tr').slideUp('500').remove();
+}
+function deleteError(data) {
+  alert("Error deleting draft: " + data);
+}
+
+</script>
