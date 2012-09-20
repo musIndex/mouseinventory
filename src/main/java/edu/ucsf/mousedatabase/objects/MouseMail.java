@@ -38,6 +38,7 @@ public class MouseMail {
     
     public static String SentStatus = "sent";
     public static String ErrorStatus = "error";
+    public static String DraftStatus = "draft";
 
     
     public int id;
@@ -69,7 +70,7 @@ public class MouseMail {
 
 
 
-    public static MouseMail send(String recipient, String cc, String bcc, String subject, String body, String category, int templateID){
+    public static MouseMail send(String recipient, String cc, String bcc, String subject, String body, String category, int templateID, int draftId) {
       
       String templateName = null;
       if (templateID > 0) {
@@ -80,6 +81,11 @@ public class MouseMail {
       MouseMail mail = new MouseMail(recipient, cc, bcc, subject, body, category, templateName);
       mail.trySend();
       mail.save();
+      
+      if (mail.status != ErrorStatus && draftId > 0) {
+        DBConnect.deleteEmail(draftId);
+      }
+      
       return mail;
     }
     
@@ -117,6 +123,12 @@ public class MouseMail {
     
     private void save(){
       id = DBConnect.insertEmail(this);
+    }
+   
+    public int saveAsDraft(){
+      status = DraftStatus;
+      id = DBConnect.insertEmail(this);
+      return id;
     }
     
     private String stripHtml(String text){

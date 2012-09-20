@@ -9,6 +9,12 @@
   for (String category : EmailTemplate.getCategories()) {
     templates.put(category, DBConnect.getCategoryEmailTemplates(category)); 
   }
+  
+  HashMap<Integer,MouseMail> drafts = new HashMap<Integer,MouseMail>();
+  for (MouseMail draft : DBConnect.getEmails(null, null, MouseMail.DraftStatus)) {
+    drafts.put(draft.id, draft); 
+  }
+
 %>
 
 <div class="site_container hide" id="sendMailContainer">
@@ -35,6 +41,9 @@
       <tr>
       <td colspan='2'>Template: <select name='template_id'></select></td>
       </tr>
+      <% if (drafts.size() > 0) { %>
+        <tr><td colspan='2'>Load saved draft: <select name='old_draft_id'></select></td></tr>
+      <% } %>
       <tr>
         <td >Subject:</td>
         <td ><textarea name='subject' rows='2' cols='150'></textarea></td>
@@ -50,7 +59,8 @@
   </div>
   <div class="footer">
     <a href="#" class="btn close-form">Close form</a>
-    <a href="#" class="btn btn-primary">Send</a>
+    <a href="#" class="btn btn-primary">Send</a>&nbsp;&nbsp;
+    <a href="#" class="btn btn-info">Save draft</a>
   </div>
   </form>
 </div>
@@ -59,8 +69,10 @@
 
 $(document).ready(function(){
   var all_templates = <%=new Gson().toJson(templates) %>;
+  var all_drafts = <%=new Gson().toJson(drafts) %>;
   var templates = [];
   var template_selector = $("#sendMailContainer select[name='template_id']");
+  var draft_selector = $("#sendMailContainer select[name='old_draft_id']");
   var editor = {};
   
   var current_objects = {submission: {}, request: {}, mouse: {}};
@@ -71,15 +83,31 @@ $(document).ready(function(){
     event.preventDefault();
   });
   $("#sendMailContainer a.btn.btn-primary").click(sendMail);
+  $("#sendMailContainer a.btn.btn-info").click(saveDraft);
   $("#sendMailContainer a.btn.close-form, #sendMailContainer button.close").click(function(){
     $("#sendMailContainer").slideUp();
   });
   
   
   template_selector.change(update_template);
+  draft_selector.change(update_draft);
+  
+  function saveDraft(){
+    $("#sendMailContainer a.btn-primary,#sendMailContainer a.btn.btn-info").addClass('disabled');
+    $(this).text('Saving...');
+    var form_data = $("#outgoing_message").serialize();
+    $.ajax({
+      type: 'post',
+      url: '<%=adminRoot%>SendMail?' + form_data + '&save_as_draft=true',
+      dataType: 'json',
+      success: mailSaveSuccess,
+      error: mailSaveError,
+      async: true
+  	});
+  }
   
   function sendMail(){
-    $(this).addClass('disabled');
+    $("#sendMailContainer a.btn.btn-primary,#sendMailContainer a.btn.btn-info").addClass('disabled');
     $(this).text('Sending...');
     var form_data = $("#outgoing_message").serialize();
     $.ajax({
@@ -118,9 +146,18 @@ $(document).ready(function(){
       template_selector.parent().hide();
     }
     
+    draft_selector.children().remove();
+    if (all_drafts){
+      draft_selector.append($('<option>',{value: -1, text: ''}));
+      $.each(all_drafts,function(i,draft){
+        draft_selector.append($('<option>',{value: draft.id, text: draft.dateCreated + " " +  draft.recipient + ": " + draft.subject}));
+      });
+      draft_selector.parent().show();
+    }
+    
     $("#sendMailContainer #results_container").hide();
     $("#sendMailContainer div.body table").show();
-    $("#sendMailContainer a.btn.btn-primary").removeClass('disabled');
+    $("#sendMailContainer a.btn").show().removeClass('disabled');
     editor = $("#sendMailContainer textarea[name='body']").cleditor({
       width: 925,
       height: 270,
@@ -143,6 +180,7 @@ $(document).ready(function(){
   
   function mailSendSuccess(data){
     $("#sendMailContainer a.btn.btn-primary").text('Sent');
+    $("#sendMailContainer a.btn.btn-info").hide();
     
     var message = data.error ? ('Send failed (' + data.error + ')') : 'Mail sent successfullly';
     var cssClass = data.error ? 'alert-error' : 'alert-success';
@@ -157,6 +195,32 @@ $(document).ready(function(){
   }
   function mailSendError(data){
     $("#sendMailContainer a.btn.btn-primary").text('Send').removeClass('disabled');
+    $("#sendMailContainer a.btn.btn-info").show().removeClass('disabled');
+    $("#sendMailContainer #results_container").text(data.error)
+    	.removeClass('hide')
+    	.removeClass('alert-success')
+    	.addClass('alert-error');
+  }
+  
+  function mailSaveSuccess(data){
+    $("#sendMailContainer a.btn.btn-info").text('Saved');
+    $("#sendMailContainer a.btn.btn-primary").hide();
+    
+    
+    var message = data.error ? ('Save failed (' + data.error + ')') : 'Draft saved successfullly.';
+    var cssClass = data.error ? 'alert-error' : 'alert-success';
+    
+    $("#sendMailContainer #results_container").text(message)
+      .removeClass('hide')
+      .show()
+      .removeClass('alert-error')
+      .removeClass('alert-success')
+      .addClass(cssClass);
+    $("#sendMailContainer div.body table").slideUp(200)
+  }
+  function mailSaveError(data){
+    $("#sendMailContainer a.btn.btn-info").text('Send').removeClass('disabled');
+    $("#sendMailContainer a.btn.btn-primary").show().removeClass('disabled');
     $("#sendMailContainer #results_container").text(data.error)
     	.removeClass('hide')
     	.removeClass('alert-success')
@@ -187,6 +251,23 @@ $(document).ready(function(){
       }
     });
     return rendered;
+  }
+  
+  function update_draft(){
+    var draft_id = parseInt($(this).val());
+    var updated = false;
+    $.each(all_drafts,function(i,draft){
+      if (updated || draft.id !== draft_id){
+        return;
+      }
+      $("#sendMailContainer input[name='recipient']").val(draft.recipient);
+      $("#sendMailContainer input[name='cc']").val(draft.ccs);
+      $("#sendMailContainer input[name='bcc']").val(draft.bccs);
+      $("#sendMailContainer textarea[name='subject']").val(draft.subject);
+      $("#sendMailContainer textarea[name='body']").val(draft.body);
+      updated = true;
+      editor.updateFrame();
+    })
   }
 });
 
