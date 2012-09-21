@@ -42,11 +42,11 @@
       <td>Template:</td><td><select name='template_id'></select></td>
       </tr>
       <% if (drafts.size() > 0) { %>
-        <tr><td'>Load saved draft:</td><td><select name='old_draft_id'></select></td></tr>
+        <tr><td>Load saved draft:</td><td><select name='old_draft_id'></select></td></tr>
       <% } %>
       <tr>
-        <td >Subject:</td>
-        <td ><textarea name='subject' rows='2' cols='150'></textarea></td>
+        <td>Subject:</td>
+        <td><textarea name='subject' rows='2' cols='150'></textarea></td>
       </tr>
       <tr>
       	<td>Attachments: <a href='#' class='btn btn-mini add_attachment'><i class='icon-plus'></i></a></td>
