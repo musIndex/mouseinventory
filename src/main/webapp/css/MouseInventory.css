@@ -921,7 +921,7 @@ table.basic > tbody > tr:nth-child(odd) > td {
 
 #sendMailContainer input[type='text'],
 #sendMailContainer textarea {
-  width: 860px;
+  width: 800px;
 }
 
 #sendMailContainer td {
