@@ -2845,7 +2845,7 @@ public class HTMLGeneration {
     for (int i = 0; i < pageCount; i++) {
       pageNums[i] = Integer.toString(i + 1);
     }
-    String pageSelect = genSelect("pagenum_select", pageNums, pageNums, Integer.toString(pageNum),"style=vertical-align: 0%;",false,false);
+    String pageSelect = genSelect("pagenum_select", pageNums, pageNums, Integer.toString(pageNum),"style='vertical-align: 0%;'",false,false);
     
     buf.append("<a class='btn" + ((pageNum <= 1) ? " disabled":"" ) + "'href='#' data-pagenum='" + 
         (pageNum - 1) +"'><i class='icon-chevron-left'></i> Previous</a>\r\n");
