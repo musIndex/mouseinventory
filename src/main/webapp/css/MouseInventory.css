@@ -924,6 +924,10 @@ table.basic > tbody > tr:nth-child(odd) > td {
   width: 860px;
 }
 
+#sendMailContainer td {
+  vertical-align: top;
+}
+
 .cf:after {
 	content: ".";
 	display: block;

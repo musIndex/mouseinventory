@@ -3,12 +3,20 @@ package edu.ucsf.mousedatabase.servlets;
 import static edu.ucsf.mousedatabase.HTMLGeneration.stringToInt;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.google.gson.Gson;
 
@@ -62,7 +70,7 @@ public class SendMailServlet extends HttpServlet {
         templateName = template.name;
       }
     
-      MouseMail mail = new MouseMail(recipient, cc, bcc, subject, body, category, templateName);
+      MouseMail mail = new MouseMail(recipient, cc, bcc, subject, body, category, templateName,null);
       int newDraftId = mail.saveAsDraft();
       data.setProperty("id",Integer.toString(newDraftId));
       
@@ -71,10 +79,21 @@ public class SendMailServlet extends HttpServlet {
       }
     }
     else {
-      MouseMail mail = MouseMail.send(recipient, cc, bcc, subject, body, category,templateID,oldDraftID);
-      data.setProperty("id", Integer.toString(mail.id));
-      if (MouseMail.ErrorStatus.equals(mail.status)) {
-        data.setProperty("error",mail.errorMessage);
+      boolean errors = false;
+      HashMap<String,byte[]> attachments = null;
+      try {
+        attachments = fetchAttachments(request,"attachment_");
+      }
+      catch (FileUploadException ex) {
+        data.setProperty("error", "Error fetching attachment: " + ex.getMessage());
+        errors = true;
+      }
+      if (errors == false) {
+        MouseMail mail = MouseMail.send(recipient, cc, bcc, subject, body, category,templateID,oldDraftID,attachments);
+        data.setProperty("id", Integer.toString(mail.id));
+        if (MouseMail.ErrorStatus.equals(mail.status)) {
+          data.setProperty("error",mail.errorMessage);
+        }
       }
     }
     
@@ -83,5 +102,24 @@ public class SendMailServlet extends HttpServlet {
     response.setStatus(HttpServletResponse.SC_OK);
 	}
 
+	
+	 @SuppressWarnings("rawtypes")
+	private HashMap<String,byte[]> fetchAttachments(HttpServletRequest request, String parameterName) throws FileUploadException {
+	  ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
+    List items = uploadHandler.parseRequest(request);
+    Iterator itr = items.iterator();
+    HashMap<String,byte[]> attachments = new HashMap<String, byte[]>();
+    while(itr.hasNext()) {
+      FileItem item = (FileItem) itr.next();
+
+      if(!item.isFormField()) {
+        if (item.getFieldName().startsWith(parameterName)) {
+          attachments.put(item.getName(),item.get());
+        }
+      }
+    }
+   
+    return attachments;
+	}
 	
 }

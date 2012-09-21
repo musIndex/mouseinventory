@@ -39,14 +39,18 @@
         <td><input type='text' name='bcc' value='<%=DBConnect.loadSetting("admin_info_email").value %>'></td>
       </tr>
       <tr>
-      <td colspan='2'>Template: <select name='template_id'></select></td>
+      <td>Template:</td><td><select name='template_id'></select></td>
       </tr>
       <% if (drafts.size() > 0) { %>
-        <tr><td colspan='2'>Load saved draft: <select name='old_draft_id'></select></td></tr>
+        <tr><td'>Load saved draft:</td><td><select name='old_draft_id'></select></td></tr>
       <% } %>
       <tr>
         <td >Subject:</td>
         <td ><textarea name='subject' rows='2' cols='150'></textarea></td>
+      </tr>
+      <tr>
+      	<td>Attachments: <a href='#' class='btn btn-mini add_attachment'><i class='icon-plus'></i></a></td>
+      	<td id='attachments_container'></td>
       </tr>
       <tr>
         <td colspan='2'>Body:</td>
@@ -68,6 +72,7 @@
 <script type='text/javascript'>
 
 $(document).ready(function(){
+  var email_log_link = '<a href="<%=adminRoot %>EmailLog.jsp">email log</a>';
   var all_templates = <%=new Gson().toJson(templates) %>;
   var all_drafts = <%=new Gson().toJson(drafts) %>;
   var templates = [];
@@ -92,6 +97,13 @@ $(document).ready(function(){
   template_selector.change(update_template);
   draft_selector.change(update_draft);
   
+  
+  $("#sendMailContainer .add_attachment").click(add_attachment);
+  $("#sendMailContainer #attachments_container").on('click', 'a.btn.remove_attachment',function(){
+	 $(this).closest('div').remove(); 
+  });
+  add_attachment();
+  
   function saveDraft(){
     $("#sendMailContainer a.btn-primary,#sendMailContainer a.btn.btn-info").addClass('disabled');
     $(this).text('Saving...');
@@ -109,11 +121,24 @@ $(document).ready(function(){
   function sendMail(){
     $("#sendMailContainer a.btn.btn-primary,#sendMailContainer a.btn.btn-info").addClass('disabled');
     $(this).text('Sending...');
-    var form_data = $("#outgoing_message").serialize();
+    
+    var formData = new FormData();
+    $("#outgoing_message input[type='file']").each(function(i, tag) {
+        $.each($(tag)[0].files, function(i, file) {
+            formData.append(tag.name,file);
+        });
+    });
+    
+	var form_params = $("#outgoing_message").not("input[type='file']").serialize();
+    
     $.ajax({
       type: 'post',
-      url: '<%=adminRoot%>SendMail?' + form_data,
+      url: '<%=adminRoot%>SendMail?' + form_params,
+      data: formData,
+      cache: false,
       dataType: 'json',
+      contentType: false,
+      processData: false,
       success: mailSendSuccess,
       error: mailSendError,
       async: true
@@ -182,10 +207,10 @@ $(document).ready(function(){
     $("#sendMailContainer a.btn.btn-primary").text('Sent');
     $("#sendMailContainer a.btn.btn-info").hide();
     
-    var message = data.error ? ('Send failed (' + data.error + ')') : 'Mail sent successfullly';
+    var message = data.error ? ('Send failed (' + data.error + ')') : 'Mail sent successfullly.  View ' + email_log_link;
     var cssClass = data.error ? 'alert-error' : 'alert-success';
     
-    $("#sendMailContainer #results_container").text(message)
+    $("#sendMailContainer #results_container").html(message)
       .removeClass('hide')
       .show()
       .removeClass('alert-error')
@@ -207,10 +232,10 @@ $(document).ready(function(){
     $("#sendMailContainer a.btn.btn-primary").hide();
     
     
-    var message = data.error ? ('Save failed (' + data.error + ')') : 'Draft saved successfullly.';
+    var message = data.error ? ('Save failed (' + data.error + ')') : 'Draft saved successfullly.  View ' + email_log_link
     var cssClass = data.error ? 'alert-error' : 'alert-success';
     
-    $("#sendMailContainer #results_container").text(message)
+    $("#sendMailContainer #results_container").html(message)
       .removeClass('hide')
       .show()
       .removeClass('alert-error')
@@ -269,6 +294,13 @@ $(document).ready(function(){
       editor.updateFrame();
     })
   }
+  var attach_num = 0;
+  function add_attachment(){
+	  attach_num += 1;
+	  $("#attachments_container").append($("<div><input type='file' name='attachment_" + attach_num 
+			  + "'></input><a href='#' class='btn btn-mini remove_attachment'><i class='icon-remove'></i></a></div>"));
+  }
+  
 });
 
 </script>

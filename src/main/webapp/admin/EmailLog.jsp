@@ -48,6 +48,7 @@
   <th width='170px'>Date</th>
   <th>Category</th>
   <th>Template Name</th>
+  <th>Attachment names</th>
   <th style='max-width: 200px'>Recipient(s)</th>
   <th style='width: 20'>Subject</th>
   <th>Message</th>
@@ -62,6 +63,7 @@
     </td>
     <td><%=emptyIfNull(email.category) %></td>
     <td><%=emptyIfNull(email.templateName) %></td>
+    <td><%=emptyIfNull(email.attachmentNames) %></td>
     <td>
     <%=email.recipient %> 
     <%=email.ccs.length() > 0 ? "<br>cc: " + email.ccs : "" %>    

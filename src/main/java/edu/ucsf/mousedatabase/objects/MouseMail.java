@@ -1,16 +1,18 @@
 package edu.ucsf.mousedatabase.objects;
 
+import java.io.OutputStream;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashMap;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.mail.ByteArrayDataSource;
 import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.HtmlEmail;
-import org.apache.commons.mail.SimpleEmail;
 import org.jsoup.Jsoup;
 
 import edu.ucsf.mousedatabase.DBConnect;
-import edu.ucsf.mousedatabase.HTMLGeneration;
 import edu.ucsf.mousedatabase.Log;
 
 //syncrhonously send email
@@ -53,10 +55,13 @@ public class MouseMail {
     public String templateName;
     public Timestamp dateCreated;
     public String errorMessage;
+    public String attachmentNames;
+    
+    private HashMap<String,byte[]> attachments;
     
     
     
-    public MouseMail(String recipient, String ccs, String bccs, String subject, String body, String category, String templateName) {
+    public MouseMail(String recipient, String ccs, String bccs, String subject, String body, String category, String templateName, String attachmentNames) {
       super();
       this.recipient = recipient;
       this.ccs = ccs;
@@ -66,11 +71,12 @@ public class MouseMail {
       this.emailType = HTMLEmailType;
       this.category = category;
       this.templateName = templateName;
+      this.attachmentNames = attachmentNames;
     }
 
 
-
-    public static MouseMail send(String recipient, String cc, String bcc, String subject, String body, String category, int templateID, int draftId) {
+    public static MouseMail send(String recipient, String cc, String bcc, String subject, String body, String category, 
+                                int templateID, int draftId,  HashMap<String,byte[]> attachments) {
       
       String templateName = null;
       if (templateID > 0) {
@@ -78,7 +84,12 @@ public class MouseMail {
         templateName = template.name;
       }
       
-      MouseMail mail = new MouseMail(recipient, cc, bcc, subject, body, category, templateName);
+      String attachmentNames = "";
+      if (attachments != null) {
+        attachmentNames = StringUtils.join(attachments.keySet(),", ");
+      }
+      MouseMail mail = new MouseMail(recipient, cc, bcc, subject, body, category, templateName,attachmentNames);
+      mail.attachments = attachments;
       mail.trySend();
       mail.save();
       
@@ -110,6 +121,13 @@ public class MouseMail {
         if (bccs != null && !bccs.isEmpty()){
           email.addBcc(bccs);
         }
+        
+        if (attachments != null) {
+          for(String attachmentName : attachments.keySet()) {
+            email.attach(new ByteArrayDataSource(attachments.get(attachmentName),null),attachmentName,attachmentName);
+          }
+        }
+        
         Log.Info("Sending mail " + subject + " to " + recipient + " + " + ccs);
         email.send();
         status = SentStatus;
