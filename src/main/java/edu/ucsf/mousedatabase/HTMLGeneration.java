@@ -2470,6 +2470,11 @@ public class HTMLGeneration {
   }
   
   public static String genSelect(String name, String[] values,
+      String[] niceNames, String current, String selectParams,boolean includeId) {
+    return genSelect(name, values, niceNames, current, selectParams, includeId, true);
+  }
+    
+  public static String genSelect(String name, String[] values,
         String[] niceNames, String current, String selectParams,boolean includeId,boolean chosenIfLarge) {
     if (selectParams == null) selectParams = "";
     StringBuffer b = new StringBuffer();

@@ -204,3 +204,7 @@ alter table `settings` CHANGE category category_id int(10);
 
 #42 add position column to facilities
 alter table `facility` add column position int(10);
+
+#43 add attachment names column to emails
+alter table `emails` add column attachment_names text;
+
