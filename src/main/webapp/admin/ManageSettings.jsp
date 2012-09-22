@@ -200,7 +200,7 @@
     controls: 
       "bold italic underline | font size " +
       "style | link unlink | color removeformat | bullets numbering | outdent " +
-      "indent | undo redo | cut copy paste pastetext | source",
+      "indent | undo redo | cut copy paste pastetext",
   });
   $(".btn_delete").click(function(){
     $(this).siblings().show();
