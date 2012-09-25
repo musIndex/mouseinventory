@@ -37,7 +37,11 @@ categories.put(Setting.SettingCategory.WED_LIKE_TO_HEAR_FROM_YOU,"We'd like to h
 </div>
 <div class='about'>
 <div class='about-summary'>
-<h2>About the UCSF Mouse Inventory Database</h2>
+<div class='cf'>
+<h2 style='float:left'>About the UCSF Mouse Inventory Database</h2>
+<% Setting setting = DBConnect.loadSetting("download_files_manual"); %>
+<div style='float:right'><a class='btn btn-info' href='<%= setting.value %>'><%=setting.label %></a></div>
+</div>
 <ol>
   <li><a href="#introduction">Introduction</a></li>
   <li><a href="#purpose">Purpose</a></li>

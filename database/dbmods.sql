@@ -208,3 +208,11 @@ alter table `facility` add column position int(10);
 #43 add attachment names column to emails
 alter table `emails` add column attachment_names text;
 
+#44 add download files settings
+INSERT INTO `settings` (`category_id`, `name`, `label`, `setting_value`)
+VALUES
+	(8,'download_files_manual','Download database manual','https://s3-us-west-1.amazonaws.com/mousedatabase-files/++Client+side+Database+manual-rev1.docx');
+	
+	
+	
+	

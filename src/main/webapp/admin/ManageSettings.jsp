@@ -154,7 +154,7 @@
          <tr>
             <td>Label:</td>
             <td>
-            <% if (category.CanAddOrRemove) { %>
+            <% if (category.CanChangeLabel) { %>
             	<%=tInput("label",setting.label) %>
             <% } else { %>
             	<input type='hidden' name='label' value='<%=setting.label%>'>
