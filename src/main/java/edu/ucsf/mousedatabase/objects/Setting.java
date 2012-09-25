@@ -7,27 +7,34 @@ public class Setting {
       
   public enum SettingCategory {
     
-    UNKNOWN(0,"unkown",false,true,false),
-    ADMIN_NOTES(1,"Admin notes",true,true,true),
-    HOME_PAGE_TEXTS(2,"Home page texts",false,false,true),
-    RECENT_SITE_UPDATES(3,"Recent site updates",true,false,true),
-    ADMIN_DATA(4,"Admin information",false,false,false),
-    GENERAL_SITE(5,"General settings",false,false,false),
-    DATA_IMPORT(6,"Data upload settings",false,false,false),
-    WED_LIKE_TO_HEAR_FROM_YOU(7,"We'd like to hear from you items",true,false,true);
+    UNKNOWN(0,"unkown",false,true,false,false),
+    ADMIN_NOTES(1,"Admin notes",true,true,true,true),
+    HOME_PAGE_TEXTS(2,"Home page texts",false,false,true,true),
+    RECENT_SITE_UPDATES(3,"Recent site updates",true,false,true,true),
+    ADMIN_DATA(4,"Admin information"),
+    GENERAL_SITE(5,"General settings"),
+    DATA_IMPORT(6,"Data upload settings"),
+    WED_LIKE_TO_HEAR_FROM_YOU(7,"We'd like to hear from you items",true,false,true,true),
+    DOWNLOAD_FILES(8,"Downloadable files",false,false,false,true);
     
     public final int Id;
     public final String Name;
     public final boolean CanAddOrRemove;
     public final boolean Excluded;
     public final boolean RichText;
+    public final boolean CanChangeLabel;
     
-    private SettingCategory(int id, String name, boolean canAddOrRemove, boolean excluded, boolean richText) {
+    private SettingCategory(int id, String name) {
+      this(id,name,false,false,false,false);
+    }
+    
+    private SettingCategory(int id, String name, boolean canAddOrRemove, boolean excluded, boolean richText, boolean canChangeLabel) {
       this.Id = id;
       this.Name = name;
       this.CanAddOrRemove = canAddOrRemove;
       this.Excluded = excluded;
       this.RichText = richText;
+      this.CanChangeLabel = canChangeLabel;
     }
 
   }
@@ -49,6 +56,8 @@ public class Setting {
         return SettingCategory.DATA_IMPORT;
       case 7:
         return SettingCategory.WED_LIKE_TO_HEAR_FROM_YOU;
+      case 8:
+        return SettingCategory.DOWNLOAD_FILES;
     }
     return SettingCategory.UNKNOWN;
   }
@@ -85,6 +94,11 @@ public class Setting {
   }
   
   public String asString(){
+    return value;
+  }
+  
+  @Override
+  public String toString(){
     return value;
   }
 }

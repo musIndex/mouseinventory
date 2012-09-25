@@ -1635,7 +1635,6 @@ public class DBConnect {
   public static void updateSetting(Setting setting){
     String query = "UPDATE settings SET ";
     query += " name=" + safeText(setting.name) + ",";
-    query += " category_id=" + setting.category_id + ",";
     query += " label=" + safeText(setting.label) + ",";
     query += " setting_value=" + safeText(setting.value);
     query += " WHERE id=" + setting.id + ";";
