@@ -1,3 +1,5 @@
+<%@page import="edu.ucsf.mousedatabase.DBConnect"%>
+<%@page import="edu.ucsf.mousedatabase.objects.*" %>
 <tr class="formFieldH">
   <td colspan="2">
   <div>
@@ -9,8 +11,9 @@
     <br>
     If you are not certain how to find it, click here:
     <div class=help_pdf>
-      <a href=helpdocs/HelpTextFindingTheMGIAlleleID.pdf target=_blank>
-      How to find the MGI allele detail page (PDF)
+      <% Setting s1 = DBConnect.loadSetting("download_files_allele_id"); %>
+      <a href='<%= s1.value %>' target=_blank>
+      <%= s1.label %>
       <span class=full_div_link></span>
       </a>
     </div>
@@ -87,9 +90,10 @@
     not certain how to find this information, click the 'How to find the MGI
     Gene ID' button.
     <div class=help_pdf>
-      <a href=helpdocs/HelpTextFindingTheMGIGeneID.pdf target=_blank>
+    <% Setting s2 = DBConnect.loadSetting("download_files_gene_id"); %>
+      <a href='<%= s2.value %>' target=_blank>
       <span class=full_div_link></span>
-      How to find the MGI gene ID (PDF)
+      <%= s2.label %>
       </a>
     </div>
   </td>
