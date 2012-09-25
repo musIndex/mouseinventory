@@ -1165,12 +1165,15 @@ public class ImportHandler
 
     if (csvData.size() > 0)
     {
-      buildReport(submissionReport,"Newly Created Submissions",newSubmissions);
-      buildReport(changeRequestReport,"Newly Created Change Requests",newChangeRequests);
+      buildReport(submissionReport,"Newly Created Submissions",newSubmissions,
+          "creates a draft submission for a mouse that is not yet listed in the database, with the name of a holder whose lab received the mouse");
+      buildReport(changeRequestReport,"Newly Created Change Requests",newChangeRequests,
+          "adds the name of the holder whose lab received a mouse for which there is already a record");
       buildReport(submissionReport, "Duplicate Purchasers", duplicatePurchasers);
       buildReport(submissionReport, "No Action Taken", noActionTakenPurchases);
 
-      buildReport(changeRequestReport,"Duplicates", duplicateHolders);
+      buildReport(changeRequestReport,"Duplicates", duplicateHolders,
+          "ignores transfers, purchases, and imports of mice for which there is already a record and the holder whose lab received the mouse is listed on the record");
       buildReport(submissionReport,"Invalid MGI IDs", invalidMGIEntries);
       buildReport(submissionReport, importDefinition.Id == 1 ? "Invalid purchases" : "Invalid imports",invalidPurchases);
       if (importDefinition.Id == 2){
@@ -1268,11 +1271,17 @@ public class ImportHandler
 
   private static void buildReport(StringBuilder sb, String requestType, ArrayList<String> requests)
   {
+    buildReport(sb, requestType, requests, null);
+  }
+  
+  private static void buildReport(StringBuilder sb, String requestType, ArrayList<String> requests, String description)
+  {
     if (requests.size() <= 0)
     {
       return;
     }
     sb.append("<h3>" + requestType + " (" + requests.size() + ")</h3>");
+    sb.append("<div class='description'>" + emptyIfNull(description) + "</div>");
     sb.append("<div class='reportBody'>\r\n");
     boolean alternate = true;
     for (String request : requests)
