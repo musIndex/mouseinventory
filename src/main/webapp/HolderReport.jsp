@@ -15,10 +15,11 @@
 %>
 
 <div class="site_container">
-  <h2>Holder List</h2>
-  <form class='view_opts' action='HolderReport.jsp'>
- 	 Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderby,null) %>
-  </form>
+  <h2>Holder List:</h2>
+  <p style='max-width:620px'>Provides the name of each PI whose mice are listed in the database (Holder) with contact information, including
+   - when designated - the name and contact information for the person who serves as the Primary Contact for that 
+   Holder's laboratory.</p>
+  
 
 <div style="width: 620px;"><b>
 'Last review date' shows when the most recent update of the list of mice held by each investigator
@@ -29,5 +30,8 @@ go to the page listing the mice held by an individual investigator (click on the
 number in the last column on the right).
 </div>
 <br>
+<form class='view_opts' action='HolderReport.jsp'>
+ Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderby,null) %>
+</form>
 <%= table %>
 </div>
