@@ -1,3 +1,5 @@
+<%@page import="edu.ucsf.mousedatabase.DBConnect" %>
+<%@page import="edu.ucsf.mousedatabase.objects.*" %>
 <tr class="formField">
   <td valign="top">
     <span class=red>*</span> <b>Gene</b> (MGI ID)
@@ -17,9 +19,10 @@
     <span class=red>Please make sure it is the one that is mutated in the allele
     you want to submit.</span> If not, enter the correct number.
     <div class=help_pdf>
-      <a href=helpdocs/HelpTextFindingTheMGIGeneID.pdf target=_blank>
+    <% Setting s2 = DBConnect.loadSetting("download_files_gene_id"); %>
+      <a href='<%= s2.value %>' target=_blank>
       <span class=full_div_link></span>
-      How to find the MGI gene ID (PDF)
+      <%= s2.label %>
       </a>
     </div>
   </td>

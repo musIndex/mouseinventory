@@ -208,11 +208,22 @@ alter table `facility` add column position int(10);
 #43 add attachment names column to emails
 alter table `emails` add column attachment_names text;
 
-#44 add download files settings
+#44 add download manual setting
 INSERT INTO `settings` (`category_id`, `name`, `label`, `setting_value`)
-VALUES
-	(8,'download_files_manual','Download database manual','https://s3-us-west-1.amazonaws.com/mousedatabase-files/++Client+side+Database+manual-rev1.docx');
+VALUES (8,'download_files_manual','Download database manual',
+		'https://s3-us-west-1.amazonaws.com/mousedatabase-files/++Client+side+Database+manual-rev1.docx');
+	
+#45 add download help docs settings
+INSERT INTO `settings` (`category_id`, `name`, `label`, `setting_value`)
+VALUES (8,'download_files_allele_id','How to find the MGI allele detail page (PDF)',
+		'https://s3-us-west-1.amazonaws.com/mousedatabase-files/HelpTextFindingTheMGIAlleleID.pdf'),
+	   (8,'download_files_gene_id','How to find the MGI gene ID (PDF)',
+		'https://s3-us-west-1.amazonaws.com/mousedatabase-files/HelpTextFindingTheMGIGeneID.pdf'),
+	   (8,'download_files_transgene_id','How to find the MGI transgene detail page (PDF)',
+		'https://s3-us-west-1.amazonaws.com/mousedatabase-files/HelpTextFindingTheMGITransgeneID.pdf');
+		
+
 	
 	
-	
+		
 	
