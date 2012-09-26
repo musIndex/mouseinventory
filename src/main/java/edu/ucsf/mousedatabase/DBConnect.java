@@ -806,7 +806,7 @@ public class DBConnect {
     if (!holderEmail.isEmpty())
     {
         query = holderQueryHeader +
-          " WHERE email='"
+          " WHERE email like '"
           + holderEmail + "'";
     }
     else
