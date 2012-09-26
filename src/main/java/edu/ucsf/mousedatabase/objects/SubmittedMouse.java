@@ -5,9 +5,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.ucsf.mousedatabase.DBConnect;
+import edu.ucsf.mousedatabase.HTMLGeneration;
 
 public class SubmittedMouse {
 
+  public static final String STATUS_IN_HOLDING = "need more info";
+  public static final String STATUS_REJECTED = "rejected";
+  public static final String STATUS_NEW = "new";
+  public static final String STATUS_ACCEPTED = "accepted";
+  
+  
+  
   public static final String SubmissionSourceKey = "Submisison Source";
   public static final String ManualSubmission = "Manual Submission";
   public static final String PurchaseImport = "Data Import";
@@ -82,6 +90,9 @@ public class SubmittedMouse {
   private String PMIDValid;
   private String gensatFounderLine;
   private String producedInLabOfHolder;
+  
+  //other fieds
+  private String recordPreviewLink;
 
   public boolean hasOtherHolderName() { return holderName != null && holderName.equalsIgnoreCase("Other(specify)");};
   public boolean hasOtherFacilityName() { return holderFacility != null && holderFacility.equalsIgnoreCase("Other(specify)");};
@@ -795,6 +806,29 @@ public class SubmittedMouse {
   }
   public Properties getProperties() {
     return properties;
+  }
+  
+  public String getRecordPreviewLink() {
+    return DBConnect.loadSetting("general_site_hostname").value + HTMLGeneration.siteRoot + "incomplete.jsp?com=rec&obj=" + this.mouseRecordID;
+  }
+
+  public void prepareForSerialization(){
+    if (this.isInHolding()) {
+      this.recordPreviewLink = getRecordPreviewLink();
+    }
+  }
+  
+  public boolean isNew(){
+    return status != null && status.equals(STATUS_NEW);
+  }
+  public boolean isInHolding(){
+    return status != null && status.equals(STATUS_IN_HOLDING);
+  }
+  public boolean isAccepted(){
+    return status != null && status.equals(STATUS_ACCEPTED);
+  }
+  public boolean isRejected(){
+    return status != null && status.equals(STATUS_REJECTED);
   }
 
 }

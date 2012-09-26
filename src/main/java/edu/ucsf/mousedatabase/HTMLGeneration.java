@@ -1033,7 +1033,7 @@ public class HTMLGeneration {
     int numSubmissions = 0;
 
     for (SubmittedMouse nextSubmission : submissions) {
-
+      nextSubmission.prepareForSerialization();
       if (numSubmissions % 20 == 0)
         table.append(getSubmissionTableHeaders());
 
@@ -1107,7 +1107,7 @@ public class HTMLGeneration {
 
       for(MouseHolder holder: nextSubmission.getHolders()){
         table.append(getAdminMailLink(nextSubmission.getEmail(),holder.getEmail(), EmailTemplate.SUBMISSION, 
-                                      nextSubmission.getSubmissionID(),-1,null,-1));
+                                      nextSubmission.getSubmissionID(),-1,Integer.toString(nextSubmission.getMouseRecordID()),-1));
       }
       table.append("</dt>\r\n");
       table.append("<dt>");
@@ -1428,6 +1428,11 @@ public class HTMLGeneration {
   }
   public static String getMouseTable(ArrayList<MouseRecord> mice, boolean edit,
       boolean showChangeRequest, boolean showAllHolders, boolean showHeader) {
+    return getMouseTable(mice, edit, showChangeRequest, showAllHolders, showHeader, edit);
+  }
+    
+  public static String getMouseTable(ArrayList<MouseRecord> mice, boolean edit,
+      boolean showChangeRequest, boolean showAllHolders, boolean showHeader, boolean includeJson) {
     StringBuffer table = new StringBuffer();
     table.append("<div class=\"mouseTable\">\r\n");
     table.append("<table style='width:100%'>\r\n");
@@ -1761,11 +1766,12 @@ public class HTMLGeneration {
       table.append("</td>\r\n");
       table.append("</tr>\r\n");
       numMice++;
+      nextRecord.prepareForSerialization();
     }
 
     table.append("</table>\r\n");
     table.append("</div>\r\n");
-    if (edit) {
+    if (includeJson) {
       table.append("<script type='text/javascript'>\r\n");
       table.append("MouseConf.addMice(" + new Gson().toJson(mice) + ")");
       table.append("</script>");

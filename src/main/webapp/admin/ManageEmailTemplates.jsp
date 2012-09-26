@@ -196,6 +196,7 @@
      <dd>{{submission.mouseMGIID}}</dd>
      <dd>{{submission.PMID}}</dd>
      <dd>{{submission.officialSymbol}}</dd>
+     <dd>{{submission.recordPreviewLink}} <i>Only for submissions on hold</i></dd>
      <dt>Change requests</dt>
      <dd>{{request.requestID}}</dd>
      <dd>{{request.firstname}}</dd>

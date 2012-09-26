@@ -220,6 +220,9 @@ VALUES (8,'download_files_allele_id','How to find the MGI allele detail page (PD
 		
 
 	
-	
+#46 add site hostname setting
+INSERT INTO `settings` (`category_id`, `name`, `label`, `setting_value`)
+VALUES (5,'general_site_hostname','Site protocol and hostname', 'https://mousedatabase.ucsf.edu');
+
 		
 	

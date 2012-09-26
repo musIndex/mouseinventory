@@ -59,7 +59,7 @@
       if(existingRecordID > 0)
       {
         //dupicate found
-        String table = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(existingRecordID),true,false, true);
+        String table = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(existingRecordID),true,false, true,true,true);
         errors += "Duplicate record found with MGI Allele/Transgene ID " + updatedRecord.getRepositoryCatalogNumber();
         errortext += "<h3>Existing Record:</h3>";
         errortext += table;
@@ -91,7 +91,7 @@
           DBConnect.updateMouseRecord(updatedRecord);
         }
            pageHeader = "Created new Record #" + mouseID + ":";
-           resultingRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false, true);
+           resultingRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false, true,true,true);
            ArrayList<SubmittedMouse> submissions = DBConnect.getMouseSubmission(submissionID);
            submissionTable = HTMLGeneration.getSubmissionTable(submissions,null,null,false);
            submission = submissions.get(0);
@@ -118,8 +118,10 @@
         }
         if(updateResult == null)  //null means there were no errors updating the submission
         {
-            resultingRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),false,false, true);
-
+            ArrayList<MouseRecord> records = DBConnect.getMouseRecord(mouseID);
+            resultingRecord = HTMLGeneration.getMouseTable(records,false,false, true,true,true);
+            String link = records.get(0).getPreviewLink();
+            resultingRecord += "<br><br>Public record preview link <a href='" + link + "'>" + link + "</a>";
         }
         else
         {

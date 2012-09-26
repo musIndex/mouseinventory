@@ -270,7 +270,7 @@ $(document).ready(function(){
     $.each(current_objects,function(obj_type,object){
       if (object) {
         $.each(object,function(key,value){
-          var expr = new RegExp("{{" + obj_type + "\." + key + "}}");
+          var expr = new RegExp("{{" + obj_type + "\." + key + "}}",'g');
           rendered = rendered.replace(expr,value);
         });
       }
