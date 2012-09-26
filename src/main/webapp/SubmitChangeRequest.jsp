@@ -1,5 +1,6 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Properties" %>
+<%@ page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="edu.ucsf.mousedatabase.*" %>
 <%=HTMLGeneration.getPageHeader(null, true,false) %>
@@ -100,7 +101,7 @@
     boolean ok = true;
     if (!fieldMissing)
     {
-       String comment = changeRequest.getUserComment();
+       String comment = emptyIfNull(changeRequest.getUserComment());
        if(requestType.equalsIgnoreCase("addHolder"))
        {
            comment += " \r\nADD HOLDER: " + holderName +
