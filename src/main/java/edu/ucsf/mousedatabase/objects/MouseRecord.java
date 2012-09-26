@@ -1,6 +1,8 @@
 package edu.ucsf.mousedatabase.objects;
 import java.util.*;
 
+import edu.ucsf.mousedatabase.DBConnect;
+import edu.ucsf.mousedatabase.HTMLGeneration;
 import edu.ucsf.mousedatabase.beans.UserData;
 
 public class MouseRecord {
@@ -46,6 +48,8 @@ public class MouseRecord {
   String status;
 
   String submittedMouseID;
+  
+  String previewLink;
 
   @Override
   public boolean equals(Object o) {
@@ -323,6 +327,16 @@ public class MouseRecord {
   }
   public void setEndangered(boolean endangered) {
     this.endangered = endangered;
+  }
+  
+  public String getPreviewLink() {
+    return DBConnect.loadSetting("general_site_hostname").value + HTMLGeneration.siteRoot + "incomplete.jsp?com=rec&obj=" + this.mouseID;
+  }
+
+  public void prepareForSerialization(){
+    if (this.status.equalsIgnoreCase("incomplete")) {
+      this.previewLink = getPreviewLink();
+    }
   }
 
   public static Properties GetPropertiesString(UserData submitterData, MouseRecord newMouse)

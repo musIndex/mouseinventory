@@ -19,7 +19,7 @@
   }
 
     int submissionID = Integer.parseInt(request.getParameter("id"));
-
+    String otherRecordInfo = "";
 
     ArrayList<SubmittedMouse> submissions = DBConnect.getMouseSubmission(submissionID);
     if(submissions.size() < 1)
@@ -62,6 +62,8 @@
            return;
          }
          record = records.get(0);
+         String link = record.getPreviewLink();
+         otherRecordInfo = "Public record preview link <a href='" + link + "'>" + link + "</a><br>";
     }
     else
     {
@@ -76,7 +78,7 @@
 
     String editForm = getEditMouseForm(record,submission);
 
-    String recordPreview = getMouseTable(records,false,false,true);
+    String recordPreview = getMouseTable(records,false,false,true,true,true);
 
 %>
 
@@ -87,6 +89,7 @@
 <%=submissionTable %>
 <h2>Record Preview:</h2>
 <%=recordPreview %>
+<%= otherRecordInfo %>
 <br>
 <%=editForm %>
 </div>
