@@ -334,7 +334,7 @@ public class MouseRecord {
   }
 
   public void prepareForSerialization(){
-    if (this.status.equalsIgnoreCase("incomplete")) {
+    if (this.status != null && this.status.equalsIgnoreCase("incomplete")) {
       this.previewLink = getPreviewLink();
     }
   }
