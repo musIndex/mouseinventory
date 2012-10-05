@@ -17,59 +17,54 @@
   String searchTerms = request.getParameter("searchterms");
   String orderBy = request.getParameter("orderby");
   String status = request.getParameter("status");
+  
 
   int pagenum = HTMLGeneration.stringToInt(request.getParameter("pagenum"));
-    int limit = HTMLGeneration.stringToInt(request.getParameter("limit"));
-    if (limit == -1)
-    {
-      if (session.getAttribute("limit") != null)
-      {
-        limit = Integer.parseInt(session.getAttribute("limit").toString());
-      }
-      else
-      {
-        limit = 25;
-      }
+  int limit = HTMLGeneration.stringToInt(request.getParameter("limit"));
+  if (limit == -1) {
+    if (session.getAttribute("limit") != null) {
+      limit = Integer.parseInt(session.getAttribute("limit").toString());
     }
-    session.setAttribute("limit",limit);
-    if (pagenum == -1)
-    {
-      pagenum = 1;
+    else {
+      limit = 25;
     }
-    int offset = limit * (pagenum - 1);
-  if(status == null)
-  {
-    if ((status = (String)session.getAttribute("editMiceStatus")) == null)
-    {
+  }
+  session.setAttribute("limit",limit);
+  if (pagenum == -1) {
+    pagenum = 1;
+  }
+  int offset = limit * (pagenum - 1);
+  if(status == null) {
+    if ((status = (String)session.getAttribute("editMiceStatus")) == null) {
       status = "all";
     }
   }
   session.setAttribute("editMiceStatus",status);
-  if(orderBy == null)
-  {
+  if(orderBy == null) {
     orderBy = (String)session.getAttribute("editMiceOrderBy");
   }
-  else
-  {
+  else {
     session.setAttribute("editMiceOrderBy",orderBy);
   }
-
+  
+  if (searchTerms == null) {
+    searchTerms = ""; 
+  }
+  
   ArrayList<String> query = new ArrayList<String>();
-    query.add("holder_id=" + holderID);
-    query.add("orderby=" + orderBy);
-    query.add("geneID=" + geneID);
-    //query.add("creonly=" + creOnly);
-    query.add("mousetype_id=" + mouseTypeID);
-    //query.add("facility_id=" + facilityID);
-    query.add("searchterms=" + searchTerms);
-    query.add("status=" + status);
+  query.add("holder_id=" + holderID);
+  query.add("orderby=" + orderBy);
+  query.add("geneID=" + geneID);
+  query.add("mousetype_id=" + mouseTypeID);
+  query.add("searchterms=" + searchTerms);
+  query.add("status=" + status);
 
-    String queryString = "";
+  String queryString = "";
 
-    for (String s : query)
-    {
-        queryString += s + "&";
-    }
+  for (String s : query) {
+      queryString += s + "&";
+  }
+  
 
   int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms, false, -1, -1);
 
@@ -81,60 +76,53 @@
 
   ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
 
-    String mouseTypeSelectionLinks = HTMLGeneration.getMouseTypeSelectionLinks(mouseTypeID, orderBy,holderID,geneID, mouseTypes, status,searchTerms,-1,-1);
-    String topPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
-    String bottomPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
+  String mouseTypeSelectionLinks = HTMLGeneration.getMouseTypeSelectionLinks(mouseTypeID, orderBy,holderID,geneID, mouseTypes, status,searchTerms,-1,-1);
+  String topPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
+  String bottomPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
 
 
-    Holder holder = DBConnect.getHolder(holderID);
+  Holder holder = DBConnect.getHolder(holderID);
 
-    Gene gene = DBConnect.getGene(geneID);
+  Gene gene = DBConnect.getGene(geneID);
 
-    String mouseTypeStr = "Edit: Listing";
-    String mouseCountStr = "";
-    if(mouseTypeID != -1)
-    {
-      for(MouseType type : mouseTypes)
-      {
-        if(type.getMouseTypeID() == mouseTypeID)
-        {
-          mouseTypeStr += " " + type.getTypeName();
-          break;
-        }
+  String mouseTypeStr = "";
+  String mouseCountStr = "";
+  if(mouseTypeID != -1) {
+    for(MouseType type : mouseTypes) {
+      if(type.getMouseTypeID() == mouseTypeID) {
+        mouseTypeStr += " " + type.getTypeName();
+        break;
       }
     }
-    else
-    {
-      mouseTypeStr += " all";
-    }
+  }
+  else {
+    mouseTypeStr += " all";
+  }
 
-    if(mice.size() > 0)
-    {
-      mouseCountStr = mouseCount + " found (" + mice.size() + " shown)";
-    }
+  if(mice.size() > 0) {
+    mouseCountStr = mouseCount + " found (" + mice.size() + " shown)";
+  }
 
+  mouseTypeStr += " records";
 
-    mouseTypeStr += " records";
-
-    if (holder != null)
-    {
+  if (holder != null) {
     mouseTypeStr += " held by " + holder.getFullname();
-   }
-    else if(gene != null)
-    {
+  }
+  else if(gene != null) {
     mouseTypeStr += " with gene <span class=\"geneSymbol\">" + gene.getSymbol() + "</span> - <span class=\"geneName\">" + gene.getFullname() + "</span>";
   }
 
-    if(searchTerms != null && !searchTerms.isEmpty())
-    {
-      mouseTypeStr += " matching search term '" + searchTerms + "'";
-    }
-
-    if(!status.equals("all"))
-  {
-    mouseTypeStr += " with status='" + status + "'";
+  if(searchTerms != null && !searchTerms.isEmpty()) {
+    mouseTypeStr += " matching search term '" + searchTerms + "'";
   }
 
+  if(!status.equals("all")) {
+    mouseTypeStr += " with status='" + status + "'";
+  }
+  session.setAttribute("editMiceLastQuery",queryString);
+  session.setAttribute("editMiceLastTitle",mouseTypeStr);
+
+    mouseTypeStr = "Edit: Listing" + mouseTypeStr;
 %>
 <div class="site_container">
 

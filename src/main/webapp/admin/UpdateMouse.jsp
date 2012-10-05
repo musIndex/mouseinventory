@@ -79,6 +79,7 @@
 %>
 <div class="site_container">
 <h2><%=pageHeader %></h2>
+<%@ include file='_lastEditMiceLink.jspf' %>
 <%if(errors.isEmpty())
 {
   %>

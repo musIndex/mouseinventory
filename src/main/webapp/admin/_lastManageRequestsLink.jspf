@@ -1,0 +1,14 @@
+<%@ page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
+<%
+  String link = adminRoot + "ManageChangeRequests.jsp";
+  String title = "Back to last change request list (";
+  if (session.getAttribute("manageRequestsLastQuery") != null) { 
+    link += "?" + session.getAttribute("manageRequestsLastQuery");
+    title += session.getAttribute("manageRequestsLastTitle") + ")";
+  }
+  else {
+   title += "new requests)"; 
+  }
+ 
+ %>
+<a class='btn' href='<%= link %>'><i class='icon-fast-backward'></i> <%= title %></a>

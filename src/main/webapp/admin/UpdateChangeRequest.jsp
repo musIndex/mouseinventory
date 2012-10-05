@@ -96,6 +96,7 @@
 %>
 <div class="site_container">
 <h2><%=pageHeader %></h2>
+<%@ include file='_lastManageRequestsLink.jspf' %>
 <%if(errors.isEmpty())
 {
   if(updateCommand.equals("Move to Pending"))

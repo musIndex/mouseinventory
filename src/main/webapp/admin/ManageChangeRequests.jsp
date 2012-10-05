@@ -9,8 +9,6 @@
 <%@ include file='SendMailForm.jspf' %>
 <div class="site_container">
 
-
-
 <%
   String newStatus = request.getParameter("newStatus");
   String idToUpdate = request.getParameter("idToUpdate");
@@ -19,50 +17,48 @@
   String status = request.getParameter("status");
   String orderBy = request.getParameter("orderby");
 
-  if(status == null)
-  {
-    if ((status = (String)session.getAttribute("manageChangeRequestStatus")) == null)
-    {
+  if(status == null) {
+    if ((status = (String)session.getAttribute("manageChangeRequestStatus")) == null) {
       status = "new";
     }
   }
   session.setAttribute("manageChangeRequestStatus",status);
-  if(orderBy == null)
-  {
-    if((orderBy = (String)session.getAttribute("manageChangeRequestOrderBy")) == null)
-    {
+  if (orderBy == null) {
+    if ((orderBy = (String)session.getAttribute("manageChangeRequestOrderBy")) == null) {
       orderBy = "changerequest.id";
     }
   }
-  else
-  {
+  else {
     session.setAttribute("manageChangeRequestOrderBy",orderBy);
   }
   
-    String[] sortOptions = new String[] {"changerequest.id","requestdate","requestdate DESC", "mouse_id","mouse_id DESC","firstname","lastname"};
-    String[] sortOptionNiceNames = new String[] {"Request #","Request date", "Reverse request date","Record #", "Reverse Record #","Requestor first name", "Requestor last name"};
+  String[] sortOptions = new String[] {"changerequest.id","requestdate","requestdate DESC", "mouse_id","mouse_id DESC","firstname","lastname"};
+  String[] sortOptionNiceNames = new String[] {"Request #","Request date", "Reverse request date","Record #", "Reverse Record #","Requestor first name", "Requestor last name"};
 
-    String[] filterOptions = new String[] {"new","pending","done","all"};
-    String[] filterOptionNiceNames = new String[] {"New", "Pending", "Completed","All"};
+  String[] filterOptions = new String[] {"new","pending","done","all"};
+  String[] filterOptionNiceNames = new String[] {"New", "Pending", "Completed","All"};
 
-    StringBuffer sortBuf = new StringBuffer();
-    sortBuf.append("<form class='view_opts' action='ManageChangeRequests.jsp'>");
-    sortBuf.append("&nbsp;Show: ");
-    sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,null));
-    sortBuf.append("&nbsp;Sort by: ");
-    sortBuf.append(genSelect("orderby",sortOptions,sortOptionNiceNames, orderBy,null));
-    sortBuf.append("</form>");
+  StringBuffer sortBuf = new StringBuffer();
+  sortBuf.append("<form class='view_opts' action='ManageChangeRequests.jsp'>");
+  sortBuf.append("&nbsp;Show: ");
+  sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,null));
+  sortBuf.append("&nbsp;Sort by: ");
+  sortBuf.append(genSelect("orderby",sortOptions,sortOptionNiceNames, orderBy,null));
+  sortBuf.append("</form>");
 
   ArrayList<ChangeRequest> requests = DBConnect.getChangeRequests(status, orderBy);
 
   String newTable = getChangeRequestsTable(requests, status);
 
-  String statusString = "Listing " + status + " change requests";
-  if(status.equalsIgnoreCase("done"))
-  {
-    statusString = "Listing completed change requests";
+  String statusString = status + " change requests";
+  if (status.equalsIgnoreCase("done")) {
+    statusString = "completed change requests";
   }
 
+  session.setAttribute("manageRequestsLastQuery","?status=" + status + "&orderby=" + orderBy);
+  session.setAttribute("manageRequestsLastTitle",statusString);
+  statusString = "Listing " + statusString;
+  
   int kount = requests.size();
 %>
 
