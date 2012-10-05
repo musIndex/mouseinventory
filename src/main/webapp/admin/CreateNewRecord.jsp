@@ -86,6 +86,7 @@
 <div class="site_container">
 <h2>Editing Submission #<%=submission.getSubmissionID() %>: <%=record.getMouseName() %> (<%= record.getMouseType() %>)
 </h2>
+<%@ include file='_lastSubmissionListLink.jspf' %>
 <%=submissionTable %>
 <h2>Record Preview:</h2>
 <%=recordPreview %>

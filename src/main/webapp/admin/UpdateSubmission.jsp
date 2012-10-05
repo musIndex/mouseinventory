@@ -166,6 +166,7 @@
 {
   %>
   <h2><%=pageHeader %></h2>
+  <%@ include file='_lastSubmissionListLink.jspf' %>
   <%
   if(updateCommand.equals("Convert to Record"))
   {

@@ -11,29 +11,24 @@
   String entered = request.getParameter("entered");
   String status = request.getParameter("status");
 
-  if (orderBy == null)
-    {
-        orderBy = "submittedmouse.id";
-    }
+  if (orderBy == null) {
+    orderBy = "submittedmouse.id";
+  }
 
-    if(entered!= null && entered.equalsIgnoreCase("null"))
-    {
-      entered = null;
-    }
+  if (entered!= null && entered.equalsIgnoreCase("null")) {
+    entered = null;
+  }
 
 
     /******/
-    if(status == null)
-  {
-    if ((status = (String)session.getAttribute("listSubmissionStatus")) == null)
-    {
+  if (status == null) {
+    if ((status = (String)session.getAttribute("listSubmissionStatus")) == null) {
       status = "new";
     }
   }
-    if (status.equalsIgnoreCase("need"))
-    {
-        status = "need more info";
-    }
+  if (status.equalsIgnoreCase("need")) {
+      status = "need more info";
+  }
   session.setAttribute("listSubmissionStatus",status);
   session.setAttribute("listSubmissionOrderBy",orderBy);
 
@@ -60,16 +55,18 @@
   sortBuf.append("</form>");
 
 
-  String statusString = "Listing " + status + " submissions";
-  if(status.startsWith("need"))
-  {
-    statusString = "Listing submissions on hold";
+  String statusString = status + " submissions";
+  if(status.startsWith("need")) {
+    statusString = "submissions on hold";
     status="need";
-  }else if(status.startsWith("accepted"))
-  {
-    statusString = "Listing submissions that have been converted to records";
   }
-
+  else if(status.startsWith("accepted"))
+  {
+    statusString = "submissions that have been converted to records";
+  }
+  session.setAttribute("listSubmissionsLastQuery","?status=" + status + "&orderby=" + orderBy);
+  session.setAttribute("listSubmissionsLastTitle",statusString);
+  statusString = "Listing " + statusString;
 %>
 
 <div class="site_container">

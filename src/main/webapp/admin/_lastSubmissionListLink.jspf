@@ -1,0 +1,14 @@
+<%@ page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
+<%
+  String link = adminRoot + "ListSubmissions.jsp";
+  String title = "Back to last submission list (";
+  if (session.getAttribute("listSubmissionsLastQuery") != null) { 
+    link += "?" + session.getAttribute("listSubmissionsLastQuery");
+    title += session.getAttribute("listSubmissionsLastTitle") + ")";
+  }
+  else {
+   title += "new submissions)"; 
+  }
+ 
+ %>
+<a class='btn' href='<%= link %>'><i class='icon-fast-backward'></i> <%= title %></a>

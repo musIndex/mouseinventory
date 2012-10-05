@@ -64,6 +64,7 @@
 <div class="site_container">
 <h2>Completing change request #<%=requestID %> on record #<%=record.getMouseID() %>: <%=record.getMouseName() %> (<%= record.getMouseType() %>  )
 </h2>
+<%@ include file='_lastManageRequestsLink.jspf' %>
 <h3>Change Request:</h3>
 <%=changeRequestTable %>
 <h3>Current Record:</h3>
