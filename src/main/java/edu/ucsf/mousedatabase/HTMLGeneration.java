@@ -2166,11 +2166,15 @@ public class HTMLGeneration {
       table.append("</td>\r\n");
 
       table.append("<td >\r\n");
-      table.append("<a href=\"" + siteRoot
-          + "MouseReport.jsp?holder_id=" + holder.getHolderID()
-          + "&mousetype_id=-1\">" + holder.getVisibleMouseCount()
-          + " records</a>");
-
+      String href = "";
+      if (edit) {
+        href = adminRoot + "EditMouseSelection.jsp";
+      }
+      else {
+        href = siteRoot + "MouseReport.jsp";
+      }
+      table.append("<a href=\"" + href + "?holder_id=" + holder.getHolderID()
+          + "&mousetype_id=-1\">" + (edit ? "edit " : "") + holder.getVisibleMouseCount() + " records</a>");
       table.append("</td>\r\n");
       if (edit) {
         table.append("<td><a href=\"EditHolderForm.jsp?holderID="
