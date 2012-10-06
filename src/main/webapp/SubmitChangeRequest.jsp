@@ -6,15 +6,15 @@
 <%=HTMLGeneration.getPageHeader(null, true,false) %>
 <%=HTMLGeneration.getNavBar(null, false) %>
 
-<jsp:useBean id="changeRequest" class="edu.ucsf.mousedatabase.objects.ChangeRequest" scope="request"></jsp:useBean>
+<jsp:useBean id="changeRequest" class="edu.ucsf.mousedatabase.objects.ChangeRequest" scope="session"></jsp:useBean>
 <jsp:setProperty property="*" name="changeRequest"/>
 
 
 <%!
-    private boolean paramOK(String value)
+  private boolean paramOK(String value)
   {
-        return value != null && value.trim().length() > 0 && value.toLowerCase().indexOf("http") == -1;
-    }
+      return value != null && value.trim().length() > 0 && value.toLowerCase().indexOf("http") == -1;
+  }
 %>
 <%
 
@@ -22,11 +22,6 @@
     String insertString = null;
     StringBuffer buf = new StringBuffer();
 
-    //String firstname = request.getParameter("firstName");
-    //String lastname = request.getParameter("lastName");
-    //String email = request.getParameter("email");
-    //String comment = request.getParameter("comment");
-    //String mouseID = request.getParameter("mouseID");
     String requestType = request.getParameter("requestType");
     String holderName = request.getParameter("holderName");
     String facilityName = request.getParameter("holderFacility");
@@ -34,12 +29,28 @@
     String otherFacility = request.getParameter("otherHolderFacility");
     String cryoLiveStatus = request.getParameter("cryoLiveStatus");
     String backgroundInfo = request.getParameter("backgroundInfo");
+    
 
-    if(holderName != null && holderName.equalsIgnoreCase("Other(specify)"))
-      holderName = otherHolder;
+    session.setAttribute("changeRequestHolderName", holderName);
+    session.setAttribute("changeRequestHolderFacility",facilityName);
+    
+    if(holderName != null && holderName.equalsIgnoreCase("Other(specify)")) {
+    	session.setAttribute("changeRequestOtherHolderName", otherHolder); 
+    	holderName = otherHolder;
+    }
+    else {
+    	session.setAttribute("changeRequestOtherHolderName", null); 
+    }
+    
+      
 
-    if(facilityName != null && facilityName.equalsIgnoreCase("Other(specify)"))
+    if(facilityName != null && facilityName.equalsIgnoreCase("Other(specify)")){
       facilityName = otherFacility;
+      session.setAttribute("changeRequestOtherFacility", otherFacility); 
+    }
+    else {
+      session.setAttribute("changeRequestOtherFacility", null); 
+    }
 
     boolean fieldMissing = false;
 
