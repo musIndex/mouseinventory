@@ -1111,7 +1111,7 @@ public class HTMLGeneration {
       for(IHolder holder: nextSubmission.getHolders()){
         EmailRecipient rec = EmailRecipientManager.recipientsForRequestorAndHolder(nextSubmission.getEmail(), holder);
         table.append(getAdminMailLink(rec.recipients,rec.ccs, EmailTemplate.SUBMISSION, 
-                                      nextSubmission.getSubmissionID(),-1,Integer.toString(nextSubmission.getMouseRecordID()),-1));
+                                      nextSubmission.getSubmissionID(),-1,Integer.toString(nextSubmission.getMouseRecordID()),-1) + " (" + holder.getFullname() + ")<br>");
       }
       table.append("</dt>\r\n");
       table.append("<dt>");
