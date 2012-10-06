@@ -1,6 +1,7 @@
 <%@page import="java.util.ArrayList" %>
 <%@page import="edu.ucsf.mousedatabase.*"%>
 <%@page import="edu.ucsf.mousedatabase.objects.*"%>
+<%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditHolderChooser.jsp", true) %>
 
@@ -75,10 +76,10 @@
         </tr>
 
         <tr>
-            <td colspan=2 align="center">
+            <td colspan=2>
             <input type="hidden" name="command" value="Edit">
             <input type="hidden" name="holderID" value="<%= id %>">
-            <input type="submit" class="btn btn-primary" value="Submit Changes"></td>
+            <input type="submit" class="btn btn-primary" value="Save Changes"></td>
         </tr>
     </table>
 </form>
@@ -89,25 +90,11 @@
     Delete this holder?
     <input type="submit" class="btn btn-danger" name="command" value="Delete">
 </form>
-<%}else{ %>
-  This Holder is linked to one or more mouse records and cannot be deleted:
-  <dl>
-  <%
-  int max = 20;
-  int i = 0;
-  for(Integer mouseID : holderMouseIDs)
-   {%>
-    <dd><a href="EditMouseForm.jsp?id=<%=mouseID %>">Edit record #<%=mouseID %></a></dd>
-  <%
-    i++;
-    if (i >= max)
-    {
-      %>
-      <dd>(<%=holderMouseIDs.size() - max %> others)</dd>
-      <%
-      break;
-    }
-   } %>
-  </dl>
-<%} %>
+<%}
+else { %>
+  This Holder is linked to one or more mouse records and cannot be deleted.
+  <br>
+  <br>
+  <a class='btn' href='<%=adminRoot %>EditMouseSelection.jsp?holder_id=<%= id %>'>Edit this holder's records (<%=holderMouseIDs.size() %>)</a>
+ <%} %>
 </div>
