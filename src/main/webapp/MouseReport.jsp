@@ -189,7 +189,7 @@
   <h2><%=mouseTypeStr %></h2>
   <form class='view_opts' action="MouseReport.jsp" >
     <div class='clearfix' style='position:relative;min-height:140px'>
-      <div id="controls" style='width:100%; position:absolute;bottom:0;left:0;'>
+      <div id="controls" style='position:absolute;bottom:0;left:0;'>
       <h4 style='margin-top:0px'><%=mouseCountStr %></h4>    
         <%= mouseTypeSelectionLinks %>
         <% if (mice.size() > 0) { %>
