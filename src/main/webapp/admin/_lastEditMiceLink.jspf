@@ -2,7 +2,7 @@
 <%
   String link = adminRoot + "EditMouseSelection.jsp";
   String title = "Back to last mouse list (";
-  if (session.getAttribute("editMiceLastQuery") != null) { 
+  if (session.getAttribute("editMiceLastQuery") != null  && session.getAttribute("editMiceLastTitle") != null) { 
     link += "?" + session.getAttribute("editMiceLastQuery");
     title += session.getAttribute("editMiceLastTitle").toString().trim() + ")";
   }

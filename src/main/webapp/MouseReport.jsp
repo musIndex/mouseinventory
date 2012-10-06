@@ -78,7 +78,7 @@
   Gene gene = DBConnect.getGene(geneID);
   Facility facility = DBConnect.getFacility(facilityID);
 
-  String mouseTypeStr = "Listing";
+  String mouseTypeStr = "";
   String mouseCountStr = "";
   if(mouseTypeID != -1)  {
     for(MouseType type : mouseTypes) {
@@ -179,7 +179,9 @@
 	
 	  }
 
-
+      session.setAttribute("mouseListLastQuery", "MouseReport.jsp?" + queryString);
+      session.setAttribute("mouseListLastTitle", mouseTypeStr);
+      mouseTypeStr = "Listing" + mouseTypeStr;
 %>
 <div class='site_container'>
   <div id="mousecount" style="display:none"><%=mice.size() %>
