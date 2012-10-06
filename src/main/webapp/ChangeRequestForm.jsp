@@ -5,14 +5,12 @@
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%=getPageHeader(null, false,false) %>
 <%=getNavBar(null, false) %>
-<jsp:useBean id="submitterData" class="edu.ucsf.mousedatabase.beans.UserData"
-  scope="session"></jsp:useBean>
-<jsp:useBean id="mouseHolderData" class="edu.ucsf.mousedatabase.beans.MouseSubmission"
-  scope="session"></jsp:useBean>
+<jsp:useBean id="changeRequest" class="edu.ucsf.mousedatabase.objects.ChangeRequest" scope="session"></jsp:useBean>
 <%
     response.setHeader("Cache-Control", "no-cache"); //HTTP 1.1
     response.setHeader("Pragma", "no-cache"); //HTTP 1.0
     response.setDateHeader("Expires", 0); //prevents caching at the proxy server
+    changeRequest.clearData();
 %>
 
 <%
@@ -47,17 +45,17 @@ Enter <font color="red">your</font> name and e-mail address (required)<br>
         <tr>
             <td><font color="red">*</font> First Name</td>
             <td><input type="text" size="30" name="firstname"
-            value="${submitterData.firstName}"></td>
+            value="${changeRequest.firstname}"></td>
         </tr>
         <tr>
             <td><font color="red">*</font> Last Name</td>
             <td><input type="text" size="30" name="lastname"
-            value="${submitterData.lastName}"></td>
+            value="${changeRequest.lastname}"></td>
         </tr>
         <tr>
             <td><font color="red">*</font> Email Address</td>
             <td><input type="text" size="30" maxlength="" name="email"
-            value="${submitterData.email}"></td>
+            value="${changeRequest.email}"></td>
         </tr>
         <tr>
         <td  colspan="2">
@@ -72,20 +70,22 @@ Enter <font color="red">your</font> name and e-mail address (required)<br>
     <tr>
       <td valign="top" colspan="2">
       Holder:
-      <%=genSelect("holderName",(String[])holderList, chooseOneIfNull(mouseHolderData.getHolderName()),
-          "onChange='checkOtherHolderName()'")%>
-      <span id="otherHolderSpan" style="<%=rowVisibility(mouseHolderData.hasOtherHolderName()) %>">
+      <%= genSelect("holderName",(String[])holderList, chooseOneIfNull((String)session.getAttribute("changeRequestHolderName")),
+    		  "onChange='checkOtherHolderName()'") %>
+      <span id="otherHolderSpan" style="<%=rowVisibility(session.getAttribute("changeRequestOtherHolderName") != null) %>" >
         Specify holder name:
-        <input type="text" name="otherHolderName" value="${mouseHolderData.otherHolderName}" size="20">
+        <input type="text" name="otherHolderName" 
+        value="<%= emptyIfNull((String)session.getAttribute("changeRequestOtherHolderName")) %>" size="20">
       </span>
 
       <br>
       Facility: <%=genSelect("holderFacility",(String[])facilityList,
-          chooseOneIfNull(mouseHolderData.getHolderFacility()),
+          chooseOneIfNull((String)session.getAttribute("changeRequestHolderFacility")),
           "onChange='checkOtherFacility()'")%>
-      <span id="otherFacilitySpan" style="<%=rowVisibility( mouseHolderData.hasOtherFacilityName()) %>">
+      <span id="otherFacilitySpan" style="<%=rowVisibility(session.getAttribute("changeRequestOtherFacility") != null) %>">
          Specify facility name:
-        <input type="text" name="otherHolderFacility" value="${mouseHolderData.otherHolderFacility}" size="20">
+        <input type="text" name="otherHolderFacility" 
+           value="<%= emptyIfNull((String)session.getAttribute("changeRequestOtherFacility")) %>" size="20">
       </span>
 
       <br>

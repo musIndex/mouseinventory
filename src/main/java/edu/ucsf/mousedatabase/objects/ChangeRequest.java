@@ -129,4 +129,8 @@ public class ChangeRequest {
         }
     return props;
   }
+  
+  public void clearData() {
+    this.adminComment = this.lastAdminDate = this.mouseName = this.properties = this.requestDate = this.status = this.userComment = null;
+  }
 }
