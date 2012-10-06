@@ -1739,13 +1739,14 @@ public class HTMLGeneration {
                 + ". ";
           }
 
+          EmailRecipient rec = EmailRecipientManager.recipientsForHolder(holder);
           
-          String mailLink = edit ? getAdminMailLink(holder.getAlternateEmail(), holder.getEmail(), 
+          String mailLink = edit ? getAdminMailLink(rec.recipients,rec.ccs, 
                                             EmailTemplate.MOUSERECORD, 
                                             firstInitial + holder.getLastname(),
                                             holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")",
                                             -1,-1,nextRecord.getMouseID(),holder.getHolderID())
-                                 : getMailToLink(holder.getAlternateEmail(), holder.getEmail(),  
+                                 : getMailToLink(rec.recipients, rec.ccs,  
                                      "Regarding " + nextRecord.getMouseName() + "-Record# " + nextRecord.getMouseID(), 
                                      null, firstInitial + holder.getLastname(),
                                      holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")");
@@ -1867,7 +1868,9 @@ public class HTMLGeneration {
       table.append("<dt>\r\n");
       
       
-      String holderEmail = null;
+      String emailRecipient = nextRequest.getEmail();
+      String emailCc = null;
+      
       if (nextRequest.Properties() != null)
       {
         String holderName = (String)nextRequest.Properties().get("Add Holder");
@@ -1880,14 +1883,15 @@ public class HTMLGeneration {
         if (holderName != null){
           IHolder holder = DBConnect.findHolder(holderName);
           if (holder != null){
-            holderEmail = holder.getEmail();
+            EmailRecipient rec = EmailRecipientManager.recipientsForRequestorAndHolder(nextRequest.getEmail(), holder);
+            emailRecipient = rec.recipients;
+            emailCc = rec.ccs;
           }
         }
       }
       
       
-      table.append(getAdminMailLink(nextRequest.getEmail(), holderEmail, 
-                                EmailTemplate.CHANGREQUEST, -1,nextRequest.getRequestID(), null,-1));
+      table.append(getAdminMailLink(emailRecipient, emailCc, EmailTemplate.CHANGREQUEST, -1,nextRequest.getRequestID(), null,-1));
       table.append("</dt>\r\n");
 
       table.append("</dl>\r\n");

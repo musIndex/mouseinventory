@@ -192,6 +192,7 @@ $(document).ready(function(){
         "indent | undo redo | cut copy paste pastetext",
     })[0];
     editor.updateFrame();
+    window.scrollTo(0,0);
     $("#sendMailContainer").slideDown();
     return false;
   }
