@@ -114,11 +114,19 @@ public class MouseMail {
         email.setSubject(subject);
         email.setHtmlMsg(body);
         email.setTextMsg(stripHtml(body));
+        for (String rec : StringUtils.split(recipient,", ")) {
+          email.addCc(rec);
+        }
         email.addTo(recipient);
         if (ccs != null && !ccs.isEmpty()){
-          email.addCc(ccs);
+          for (String cc : StringUtils.split(ccs,", ")) {
+            email.addCc(cc);
+          }
         }
         if (bccs != null && !bccs.isEmpty()){
+          for (String bcc : StringUtils.split(bccs,", ")) {
+            email.addCc(bcc);
+          }
           email.addBcc(bccs);
         }
         
