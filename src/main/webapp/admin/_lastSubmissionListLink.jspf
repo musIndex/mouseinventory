@@ -2,7 +2,7 @@
 <%
   String link = adminRoot + "ListSubmissions.jsp";
   String title = "Back to last submission list (";
-  if (session.getAttribute("listSubmissionsLastQuery") != null) { 
+  if (session.getAttribute("listSubmissionsLastQuery") != null && session.getAttribute("listSubmissionsLastTitle") != null) { 
     link += "?" + session.getAttribute("listSubmissionsLastQuery");
     title += session.getAttribute("listSubmissionsLastTitle") + ")";
   }

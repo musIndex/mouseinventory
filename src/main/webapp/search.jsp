@@ -167,6 +167,8 @@
       results.append("<p class='red'><b>We're sorry, but an error prevented us from completing your search.  Please let the administrator know about this!</b></p>");
       Log.Error("Error searching", e);
     }
+    session.setAttribute("mouseListLastQuery", "search.jsp#searchterms=" + urlEncode(searchterms) + "&pagenum=" + pagenum + "&limit=" + limit);
+    session.setAttribute("mouseListLastTitle","Search results for '" + searchterms + ", page " + pagenum);
   }
 %>
   <% if(!isAjaxRequest){ %>
