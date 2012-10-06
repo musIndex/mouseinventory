@@ -1,6 +1,6 @@
 package edu.ucsf.mousedatabase.objects;
 
-public class MouseHolder {
+public class MouseHolder implements IHolder {
 
   private Holder holder;
   private Facility facility;
@@ -126,6 +126,30 @@ public class MouseHolder {
 
   public void setNewlyAdded(boolean newlyAdded) {
     this.newlyAdded = newlyAdded;
+  }
+
+  public int getVisibleMouseCount() {
+    return holder.getVisibleMouseCount();
+  }
+
+  public void setVisibleMouseCount(int mouseCount) {
+    holder.setVisibleMouseCount(mouseCount);
+  }
+
+  public String getDateValidated() {
+    return holder.getDateValidated();
+  }
+
+  public void setDateValidated(String dateValidated) {
+    holder.setDateValidated(dateValidated);
+  }
+
+  public String getValidationComment() {
+    return holder.getValidationComment();
+  }
+
+  public void setValidationComment(String validationComment) {
+    holder.setValidationComment(validationComment);
   }
 
 }

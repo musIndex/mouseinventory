@@ -1,6 +1,6 @@
 package edu.ucsf.mousedatabase.objects;
 
-public class Holder {
+public class Holder implements IHolder {
 
 
   private int holderID;

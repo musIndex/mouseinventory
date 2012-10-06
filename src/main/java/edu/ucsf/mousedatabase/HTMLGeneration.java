@@ -13,11 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
 
+import edu.ucsf.mousedatabase.admin.EmailRecipientManager;
+import edu.ucsf.mousedatabase.admin.EmailRecipientManager.EmailRecipient;
 import edu.ucsf.mousedatabase.objects.ChangeRequest;
 import edu.ucsf.mousedatabase.objects.EmailTemplate;
 import edu.ucsf.mousedatabase.objects.Facility;
 import edu.ucsf.mousedatabase.objects.Gene;
 import edu.ucsf.mousedatabase.objects.Holder;
+import edu.ucsf.mousedatabase.objects.IHolder;
 import edu.ucsf.mousedatabase.objects.ImportReport;
 import edu.ucsf.mousedatabase.objects.MGIResult;
 import edu.ucsf.mousedatabase.objects.MouseHolder;
@@ -347,7 +350,7 @@ public class HTMLGeneration {
         }
         else if (propName.equals("Add Holder Name"))
         {
-          Holder holder = DBConnect.findHolder(propertyValue);
+          IHolder holder = DBConnect.findHolder(propertyValue);
           if (holder != null)
           {
             addHolderID = holder.getHolderID();
@@ -401,7 +404,7 @@ public class HTMLGeneration {
     String[] facilityNames = new String[allFacilitiesObjs.size()];
 
     int k = 0;
-    for (Holder holder : allHoldersObjs) {
+    for (IHolder holder : allHoldersObjs) {
       holderIDs[k] = String.valueOf(holder.getHolderID());
       if (holder.getHolderID() == 1) {
         holderNames[k] = "NA";
@@ -1105,8 +1108,9 @@ public class HTMLGeneration {
 
       table.append("<dt>\r\n");
 
-      for(MouseHolder holder: nextSubmission.getHolders()){
-        table.append(getAdminMailLink(nextSubmission.getEmail(),holder.getEmail(), EmailTemplate.SUBMISSION, 
+      for(IHolder holder: nextSubmission.getHolders()){
+        EmailRecipient rec = EmailRecipientManager.recipientsForRequestorAndHolder(nextSubmission.getEmail(), holder);
+        table.append(getAdminMailLink(rec.recipients,rec.ccs, EmailTemplate.SUBMISSION, 
                                       nextSubmission.getSubmissionID(),-1,Integer.toString(nextSubmission.getMouseRecordID()),-1));
       }
       table.append("</dt>\r\n");
@@ -1874,7 +1878,7 @@ public class HTMLGeneration {
           holderName = (String)nextRequest.Properties().get("Delete Holder Name");
         }
         if (holderName != null){
-          Holder holder = DBConnect.findHolder(holderName);
+          IHolder holder = DBConnect.findHolder(holderName);
           if (holder != null){
             holderEmail = holder.getEmail();
           }
@@ -2124,7 +2128,7 @@ public class HTMLGeneration {
     table.append(getHolderTableHeaders(edit));
     int numFacilities = 0;
 
-    for (Holder holder : holders) {
+    for (IHolder holder : holders) {
 
       String rowStyle = getRowStyle(numFacilities, "holderlist",
           "holderlistAlt");
@@ -2972,8 +2976,7 @@ public class HTMLGeneration {
     String recipient = address;
     String ccRecipient = null;
     String ccAddr = "?";
-    if (cc != null && !cc.equals(address))
-    {
+    if (cc != null && !cc.equals(address)) {
       ccRecipient = cc;
       ccAddr = "?cc=" + cc + "&";
     }
@@ -2988,12 +2991,12 @@ public class HTMLGeneration {
       if (ccRecipient != null){
        link += " data-cc='" + ccRecipient + "'";
       }
-      if (props != null){
+      if (props != null) {
         for (String key : props.stringPropertyNames()) {
           link += " data-" + key + "='" + props.getProperty(key) + "'";
         }
       }
-      if (linkTitle != null){
+      if (linkTitle != null) {
         link += " title='" + linkTitle + "'";
       }
       link += ">" + linkText + "</a>";
