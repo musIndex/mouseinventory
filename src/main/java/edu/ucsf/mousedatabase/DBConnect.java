@@ -1495,7 +1495,8 @@ public class DBConnect {
     String query = "INSERT into changerequest " +
         "(id,mouse_id,firstname,lastname,email,status,user_comment," +
           "admin_comment,requestdate,properties,holder_name,holder_id,holder_email," +
-          "facility_name,facility_id,action_requested,request_source) " +
+          "facility_name,facility_id,action_requested,request_source,cryo_live_status," +
+          "genetic_background_info) " +
         "VALUES (NULL"
         + ","  + req.getMouseID()
         + ","  + safeText(req.getFirstname())
@@ -1513,6 +1514,8 @@ public class DBConnect {
         + "," + req.getFacilityId()
         + "," + req.actionRequested().ordinal()
         + "," + safeText(req.getRequestSource())
+        + "," + safeText(req.getCryoLiveStatus())
+        + "," + safeText(req.getGeneticBackgroundInfo())
         + ")";
     return executeNonQuery(query,true);
   }

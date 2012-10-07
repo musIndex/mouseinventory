@@ -2473,27 +2473,27 @@ public class HTMLGeneration {
   /*****************************************/
   // Copied from fieldGenerators.jspf
   /*****************************************/
-  public static String genSelect(String name, String[] values, String current) {
+  public static String genSelect(String name, Object[] values, Object current) {
     return genSelect(name, values, current, "");
   }
 
-  public static String genSelect(String name, String[] values,
-      String current, String selectParams) {
-    return genSelect(name, values, values, current, selectParams);
+  public static String genSelect(String name, Object[] values,
+      Object current, String selectParams) {
+    return genSelect(name, values, (String[])values, current, selectParams);
   }
 
-  public static String genSelect(String name, String[] values,
-      String[] niceNames, String current, String selectParams) {
+  public static String genSelect(String name, Object[] values,
+      String[] niceNames, Object current, String selectParams) {
     return genSelect(name,values,niceNames,current,selectParams,true,true);
   }
   
-  public static String genSelect(String name, String[] values,
-      String[] niceNames, String current, String selectParams,boolean includeId) {
+  public static String genSelect(String name, Object[] values,
+      String[] niceNames, Object current, String selectParams,boolean includeId) {
     return genSelect(name, values, niceNames, current, selectParams, includeId, true);
   }
 
-  public static String genSelect(String name, String[] values,
-        String[] niceNames, String current, String selectParams,boolean includeId,boolean chosenIfLarge) {
+  public static String genSelect(String name, Object[] values,
+        String[] niceNames, Object current, String selectParams,boolean includeId,boolean chosenIfLarge) {
     if (selectParams == null) selectParams = "";
     StringBuffer b = new StringBuffer();
     
@@ -2504,13 +2504,13 @@ public class HTMLGeneration {
     }
     b.append("name=\"" + name + "\" " + selectParams + ">");
     for (int i = 0; i < values.length; i++) {
-      String value = values[i];
+      Object value = values[i];
 
       String niceName = niceNames[i];
 
       b.append("<option value=\"" + value + "\"");
       if (current != null && value != null
-          && value.equalsIgnoreCase(current)) {
+          && value.toString().equalsIgnoreCase(current.toString())) {
         b.append(" selected=selected");
       }
       b.append(">" + niceName + "\n");
@@ -3033,5 +3033,46 @@ public class HTMLGeneration {
 
   public static boolean isAdminUser(HttpServletRequest request){
     return request.isUserInRole("administrator");
+  }
+  
+  public static String getHolderSelect(String name, int currentHolderId) {
+    ArrayList<Holder> holders = DBConnect.getAllHolders(false);
+    
+    String[] holderNames = new String[holders.size() + 2];
+    Integer[] holderIds = new Integer[holderNames.length];
+    
+    int i = 0;
+    holderNames[i] = "Choose one";
+    holderIds[i] = -1;
+    i++;
+    for (Holder holder : holders) {
+      holderNames[i] = holder.getLastname() + ", " + holder.getFirstname();
+      holderIds[i] = holder.getHolderID();
+      i++;
+    }
+    holderNames[i] = "Other(specify)";
+    holderIds[i] = -2;
+    i++;
+    return genSelect(name, holderIds, holderNames, currentHolderId,null);
+  }
+  public static String getFacilitySelect(String name, int currentFacilityId) {
+    ArrayList<Facility> facilities = DBConnect.getAllFacilities(false);
+    
+    String[] facilityNames = new String[facilities.size() + 2];
+    Integer[] facilityIds = new Integer[facilityNames.length];
+    
+    int i = 0;
+    facilityNames[i] = "Choose one";
+    facilityIds[i] = -1;
+    i++;
+    for (Facility facility : facilities) {
+      facilityNames[i] = facility.getFacilityName();
+      facilityIds[i] = facility.getFacilityID();
+      i++;
+    }
+    facilityNames[i] = "Other(specify)";
+    facilityIds[i] = -2;
+    i++;
+    return genSelect(name, facilityIds, facilityNames, currentFacilityId,null);
   }
 }
