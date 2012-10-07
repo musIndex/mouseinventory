@@ -5,6 +5,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ChangeRequest {
+  
+  public enum Action {
+    UNDEFINED, //0
+    ADD_HOLDER, //1
+    REMOVE_HOLDER, //2
+    OTHER; //3
+  }
+  
+  public static Action[] ActionValues = Action.values();
+  
   private int requestID;
   private int mouseID;
   private String firstname;
@@ -17,6 +27,17 @@ public class ChangeRequest {
   private String lastAdminDate;
   private String properties;
   private String mouseName;
+  
+  private String holderName;
+  private String holderEmail;
+  private int holderId;
+  
+  private String facilityName;
+  private int facilityId;
+  private String requestSource;
+  private Action actionRequested;
+  
+  
   public String getMouseName() {
     return mouseName;
   }
@@ -88,6 +109,55 @@ public class ChangeRequest {
   }
   public void setProperties(String properties) {
     this.properties = properties;
+  }
+  
+  public String getHolderName() {
+    return holderName;
+  }
+  public void setHolderName(String holderName) {
+    this.holderName = holderName;
+  }
+  public String getHolderEmail() {
+    return holderEmail;
+  }
+  public void setHolderEmail(String holderEmail) {
+    this.holderEmail = holderEmail;
+  }
+  public int getHolderId() {
+    return holderId;
+  }
+  public void setHolderId(int holderId) {
+    this.holderId = holderId;
+  }
+  public String getFacilityName() {
+    return facilityName;
+  }
+  public void setFacilityName(String facilityName) {
+    this.facilityName = facilityName;
+  }
+  public int getFacilityId() {
+    return facilityId;
+  }
+  public void setFacilityId(int facilityId) {
+    this.facilityId = facilityId;
+  }
+  public String getRequestSource() {
+    return requestSource;
+  }
+  public void setRequestSource(String requestSource) {
+    this.requestSource = requestSource;
+  }
+  public String getActionRequested() {
+    return actionRequested.toString();
+  }
+  public Action actionRequested() {
+    return actionRequested;
+  }
+  public void setActionRequested(Action actionRequested) {
+    this.actionRequested = actionRequested;
+  }
+  public void setActionRequested(String actionRequested) {
+    this.actionRequested = ActionValues[Integer.parseInt(actionRequested)];
   }
   public void setProperties(Properties props)
   {
