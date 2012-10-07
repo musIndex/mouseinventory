@@ -10,7 +10,8 @@ public class ChangeRequest {
     UNDEFINED, //0
     ADD_HOLDER, //1
     REMOVE_HOLDER, //2
-    OTHER; //3
+    MARK_ENDANGERED, //3
+    OTHER; //4
   }
   
   public static Action[] ActionValues = Action.values();
@@ -34,6 +35,10 @@ public class ChangeRequest {
   
   private String facilityName;
   private int facilityId;
+  
+  private String cryoLiveStatus;
+  private String geneticBackgroundInfo;
+  
   private String requestSource;
   private Action actionRequested;
   
@@ -158,6 +163,19 @@ public class ChangeRequest {
   }
   public void setActionRequested(String actionRequested) {
     this.actionRequested = ActionValues[Integer.parseInt(actionRequested)];
+  }
+  
+  public String getCryoLiveStatus() {
+    return cryoLiveStatus;
+  }
+  public void setCryoLiveStatus(String cryoLiveStatus) {
+    this.cryoLiveStatus = cryoLiveStatus;
+  }
+  public String getGeneticBackgroundInfo() {
+    return geneticBackgroundInfo;
+  }
+  public void setGeneticBackgroundInfo(String geneticBackgroundInfo) {
+    this.geneticBackgroundInfo = geneticBackgroundInfo;
   }
   public void setProperties(Properties props)
   {

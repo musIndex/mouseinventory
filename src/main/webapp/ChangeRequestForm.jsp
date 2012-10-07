@@ -1,6 +1,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
+<%@ page import="edu.ucsf.mousedatabase.objects.ChangeRequest.*" %>
+
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%=getPageHeader(null, false,false) %>
@@ -18,13 +20,7 @@
     ArrayList<MouseRecord> mice = DBConnect.getMouseRecord(mouseID);
     String table = getMouseTable(mice,false,false,true);
 
-  ArrayList<String> allFacs = DBConnect.getAllFacilityNames(false);
-  ArrayList<String> allHldrs = DBConnect.getAllHolderNames(false);
 
-  String[] facilityList = new String[allFacs.size()];
-  allFacs.toArray(facilityList);
-  String[] holderList = new String[allHldrs.size()];
-  allHldrs.toArray(holderList);
 
 %>
 <div class="site_container">
@@ -69,23 +65,21 @@ Enter <font color="red">your</font> name and e-mail address (required)<br>
         </tr>
     <tr>
       <td valign="top" colspan="2">
-      Holder:
-      <%= genSelect("holderName",(String[])holderList, chooseOneIfNull((String)session.getAttribute("changeRequestHolderName")),
-    		  "onChange='checkOtherHolderName()'") %>
-      <span id="otherHolderSpan" style="<%=rowVisibility(session.getAttribute("changeRequestOtherHolderName") != null) %>" >
+      Holder: <%= getHolderSelect("holderId", changeRequest.getHolderId()) %>
+
+      <span id="otherHolderSpan" style="<%=rowVisibility(changeRequest.getHolderName() != null) %>" >
         Specify holder name:
-        <input type="text" name="otherHolderName" 
-        value="<%= emptyIfNull((String)session.getAttribute("changeRequestOtherHolderName")) %>" size="20">
+        <input type="text" name="holderName" 
+        value="<%= emptyIfNull(changeRequest.getHolderName()) %>" size="20">
       </span>
 
       <br>
-      Facility: <%=genSelect("holderFacility",(String[])facilityList,
-          chooseOneIfNull((String)session.getAttribute("changeRequestHolderFacility")),
-          "onChange='checkOtherFacility()'")%>
-      <span id="otherFacilitySpan" style="<%=rowVisibility(session.getAttribute("changeRequestOtherFacility") != null) %>">
+      Facility: <%= getFacilitySelect("facilityId", changeRequest.getFacilityId()) %>
+      
+      <span id="otherFacilitySpan" style="<%=rowVisibility(changeRequest.getFacilityName() != null) %>">
          Specify facility name:
-        <input type="text" name="otherHolderFacility" 
-           value="<%= emptyIfNull((String)session.getAttribute("changeRequestOtherFacility")) %>" size="20">
+        <input type="text" name="facilityName" 
+           value="<%= emptyIfNull(changeRequest.getFacilityName()) %>" size="20">
       </span>
 
       <br>
@@ -96,42 +90,37 @@ Enter <font color="red">your</font> name and e-mail address (required)<br>
     </tr>
     <tr>
     <td valign="top"  colspan="2">
-      <input type="radio" name="requestType" value="addHolder">
+      <input type="radio" name="actionRequested" value="<%= Action.ADD_HOLDER.ordinal() %>">
       Add the selected holder to this record <br>
       <div style="position: relative; left: 25px;">
       <b>If you have <font color="red">genetic background information</font>
       for the mouse in the new holder's colony or if you want to add
       a different unoffical name for the mouse enter it here:</b><br>
-      <input type="text" size="50" name="backgroundInfo"><br>
+      <input type="text" size="50" name="geneticBackgroundInfo"><br>
       If you have additional comments, add them in the box below.<br>
       </div>
-      <input type="radio" name="requestType" value="deleteHolder">
+      <input type="radio" name="actionRequested" value="<%= Action.REMOVE_HOLDER.ordinal() %>">
       Delete the selected holder from this record <br>
       <!--
-      <input type="radio" name="requestType" value="markEndangered">
+      <input type="radio" name="actionRequested" value="<%= Action.MARK_ENDANGERED.ordinal() %>">
       Mark this mouse as Endangered. (Holder is considering eliminating
       this mouse from his/her colony. If that holder is the only one who
       maintains the mouse, or if there is only one other holder, the mouse
       will be added to the "endangered mouse" list) <br>
       -->
-      <input type="radio" name="requestType" value="other">
+      <input type="radio" name="actionRequested" value="<%= Action.OTHER.ordinal() %>">
       Click here if you do not want to add or delete a holder, but do want to make
       suggestions for changes in the record, then enter them in the box below:
     </td>
     </tr>
-        <tr>
-            <td valign="top" colspan="2"><textarea rows="8" cols="80" name="userComment"></textarea></td>
-        </tr>
-        <%--<tr>--%>
-        <%--<td valign="top"><font color=red>*</font>Enter security key "<%= secretKey %>"
-        (no quotes)</td>--%>
-        <%--<td><input type="text" name="response" size="4"></td>--%>
-        <%--</tr>--%>
-        <tr>
-            <td colspan="2">
-            <input type="submit" class="btn btn-primary" value="Submit change request">
-            </td>
-        </tr>
+      <tr>
+        <td valign="top" colspan="2"><textarea rows="8" cols="80" name="userComment"></textarea></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+        <input type="submit" class="btn btn-primary" value="Submit change request">
+        </td>
+      </tr>
     </table>
     </div>
 </div>

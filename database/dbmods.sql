@@ -217,8 +217,6 @@ INSERT INTO `settings` (`category_id`, `name`, `label`, `setting_value`)
 VALUES (8,'download_files_allele_id','How to find the MGI allele detail page (PDF)', 'https://s3-us-west-1.amazonaws.com/mousedatabase-files/HelpTextFindingTheMGIAlleleID.pdf'),
 	   (8,'download_files_gene_id','How to find the MGI gene ID (PDF)', 'https://s3-us-west-1.amazonaws.com/mousedatabase-files/HelpTextFindingTheMGIGeneID.pdf'),
 	   (8,'download_files_transgene_id','How to find the MGI transgene detail page (PDF)', 'https://s3-us-west-1.amazonaws.com/mousedatabase-files/HelpTextFindingTheMGITransgeneID.pdf');
-		
-
 	
 #46 add site hostname setting
 INSERT INTO `settings` (`category_id`, `name`, `label`, `setting_value`)
@@ -232,6 +230,8 @@ alter table `changerequest` add column holder_name varchar(255);
 alter table `changerequest` add column holder_id  int(10);  
 alter table `changerequest` add column action_requested int(10);
 alter table `changerequest` add column request_source varchar(255);
+alter table `changerequest` add column cryo_live_status varchar(255);
+alter table `changerequest` add column genetic_background_info text;
 
 		
 	
