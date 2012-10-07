@@ -224,5 +224,14 @@ VALUES (8,'download_files_allele_id','How to find the MGI allele detail page (PD
 INSERT INTO `settings` (`category_id`, `name`, `label`, `setting_value`)
 VALUES (5,'general_site_hostname','Site protocol and hostname', 'https://mousedatabase.ucsf.edu');
 
+#47 add columns to changerequest
+alter table `changerequest` add column facility_id int(10);
+alter table `changerequest` add column facility_name varchar(255);
+alter table `changerequest` add column holder_email varchar(255);
+alter table `changerequest` add column holder_name varchar(255);
+alter table `changerequest` add column holder_id  int(10);  
+alter table `changerequest` add column action_requested int(10);
+alter table `changerequest` add column request_source varchar(255);
+
 		
 	

@@ -1122,7 +1122,7 @@ public class DBConnect {
       if (!includeBlank && facility.getFacilityID() == 1) continue;
       results.add(facility.getFacilityName());
     }
-      results.add("Other(specify)");
+    results.add("Other(specify)");
     return results;
   }
 
@@ -1490,22 +1490,30 @@ public class DBConnect {
     return executeNonQuery(query,true);
   }
 
-  public static int insertChangeRequest(ChangeRequest newChangeRequest)
+  public static int insertChangeRequest(ChangeRequest req)
   {
     String query = "INSERT into changerequest " +
         "(id,mouse_id,firstname,lastname,email,status,user_comment," +
-          "admin_comment,requestdate,properties) " +
+          "admin_comment,requestdate,properties,holder_name,holder_id,holder_email," +
+          "facility_name,facility_id,action_requested,request_source) " +
         "VALUES (NULL"
-        + ","  + newChangeRequest.getMouseID()
-        + ",'"  + addMySQLEscapes(newChangeRequest.getFirstname())
-        + "','" + addMySQLEscapes(newChangeRequest.getLastname())
-        + "','" + addMySQLEscapes(newChangeRequest.getEmail())
-        + "','" + addMySQLEscapes(newChangeRequest.getStatus())
-        + "','" + addMySQLEscapes(newChangeRequest.getUserComment())
-        + "','" + addMySQLEscapes(HTMLGeneration.emptyIfNull(newChangeRequest.getAdminComment()))
-        + "'," + "curdate()"
-        + ",'" + addMySQLEscapes(HTMLGeneration.emptyIfNull(newChangeRequest.getProperties()))
-        + "')";
+        + ","  + req.getMouseID()
+        + ","  + safeText(req.getFirstname())
+        + "," + safeText(req.getLastname())
+        + "," + safeText(req.getEmail())
+        + "," + safeText(req.getStatus())
+        + "," + safeText(req.getUserComment())
+        + "," + safeText(HTMLGeneration.emptyIfNull(req.getAdminComment()))
+        + "," + "curdate()"
+        + "," + safeText(HTMLGeneration.emptyIfNull(req.getProperties()))
+        + "," + safeText(req.getHolderName())
+        + "," + req.getHolderId()
+        + "," + safeText(req.getHolderEmail())
+        + "," + safeText(req.getFacilityName())
+        + "," + req.getFacilityId()
+        + "," + req.actionRequested().ordinal()
+        + "," + safeText(req.getRequestSource())
+        + ")";
     return executeNonQuery(query,true);
   }
 
@@ -3058,6 +3066,16 @@ public class DBConnect {
       result.setLastAdminDate(lastAdminDate != null ? lastAdminDate.toString() : "");
 
       result.setProperties(g_str("properties"));
+      
+      result.setFacilityId(g_int("facility_id"));
+      result.setFacilityName(g_str("facility_name"));
+      
+      result.setHolderEmail(g_str("holder_email"));
+      result.setHolderName(g_str("holder_name"));
+      result.setHolderId(g_int("holder_id"));
+      
+      result.setActionRequested(ChangeRequest.ActionValues[g_int("action_requested")]);
+      result.setRequestSource(g_str("request_source"));
 
       return result;
     }
