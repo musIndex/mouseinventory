@@ -6,6 +6,7 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import edu.ucsf.mousedatabase.HTMLUtilities;
 import edu.ucsf.mousedatabase.MGIConnect;
 import edu.ucsf.mousedatabase.objects.MGIResult;
 
@@ -337,11 +338,7 @@ public class ValidationServlet extends HttpServlet {
     }
     else if (fieldTypeDescription.equals("Email Address"))
     {
-      Pattern ptn = Pattern.compile("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}", Pattern.CASE_INSENSITIVE);
-      Matcher matcher = ptn.matcher(inputString);
-        matcher.find();
-
-        if(matcher.matches())
+        if(HTMLUtilities.validateEmail(inputString))
         {
           return new ValidationResult("OK", true, false);
         }

@@ -2,36 +2,44 @@
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.ChangeRequest.*" %>
-
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%=getPageHeader(null, false,false) %>
 <%=getNavBar(null, false) %>
 <jsp:useBean id="changeRequest" class="edu.ucsf.mousedatabase.objects.ChangeRequest" scope="session"></jsp:useBean>
 <%
-    response.setHeader("Cache-Control", "no-cache"); //HTTP 1.1
-    response.setHeader("Pragma", "no-cache"); //HTTP 1.0
-    response.setDateHeader("Expires", 0); //prevents caching at the proxy server
-    changeRequest.clearData();
-%>
-
-<%
+    boolean success = stringToBoolean(request.getParameter("success"));
+    String message = request.getParameter("message");
     int mouseID = stringToInt(request.getParameter("mouseID"));
-    ArrayList<MouseRecord> mice = DBConnect.getMouseRecord(mouseID);
-    String table = getMouseTable(mice,false,false,true);
-
-
-
+    String table = "";
+    if (success) {
+      changeRequest.clearData();
+    }
+    else {
+      ArrayList<MouseRecord> mice = DBConnect.getMouseRecord(mouseID);
+      table = getMouseTable(mice,false,false,true);
+    }
 %>
 <div class="site_container">
-<h2>Submit a request to change Mouse Record # <%= mouseID %>
-</h2>
+<% if (success) { %>
+<h2>Change request completed</h2>
+  We have received your request to change information about mouse <%= changeRequest.getMouseID() %> in our inventory. It
+  will be reviewed by the administrator.
+  <br><br>
+  Thank you for helping to keep the database up-to-date!.
+  <br>
+  <br>
+  <%@ include file='_lastMouseListLink.jspf' %>
+<% } else { %>
+<h2>Submit a request to change Mouse Record # <%= mouseID %></h2>
+<% if (message != null && !message.isEmpty()){ %>
+<div class='alert alert-error'><%=message.replace(",", "<br>") %></div>
+<% } %>
 <%= table %>
 Enter <font color="red">your</font> name and e-mail address (required)<br>
 
-<form action="SubmitChangeRequest.jsp" method="post">
+<form action="SubmitChangeRequest" method="post">
     <input type="hidden" name="mouseID" value="<%= mouseID %>">
-    <input type="hidden" name="challenge" value="">
     <div class="textwrapper">
     <div class="whatsnew">
     <!-- <a href="/media/ChangeForm.qtl"><img src="img/VideoDemonstration.gif" alt=""></a> --->
@@ -125,5 +133,6 @@ Enter <font color="red">your</font> name and e-mail address (required)<br>
     </div>
 </div>
 </form>
+<% } %>
 </div>
 
