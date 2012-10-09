@@ -1,8 +1,14 @@
 package edu.ucsf.mousedatabase.objects;
 
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.StringUtils;
+
+import edu.ucsf.mousedatabase.HTMLUtilities;
+import edu.ucsf.mousedatabase.Log;
 
 public class ChangeRequest {
   
@@ -162,7 +168,13 @@ public class ChangeRequest {
     this.actionRequested = actionRequested;
   }
   public void setActionRequested(String actionRequested) {
-    this.actionRequested = ActionValues[Integer.parseInt(actionRequested)];
+    try {
+      this.actionRequested = ActionValues[Integer.parseInt(actionRequested)];
+    }
+    catch(Exception e) {
+      Log.Error("error parsing action " + actionRequested,e);
+      this.actionRequested = Action.UNDEFINED;
+    }
   }
   
   public String getCryoLiveStatus() {
@@ -220,5 +232,44 @@ public class ChangeRequest {
   
   public void clearData() {
     this.adminComment = this.lastAdminDate = this.mouseName = this.properties = this.requestDate = this.status = this.userComment = null;
+  }
+  
+  public String validate() {
+    ArrayList<String> errors = new ArrayList<String>();
+    
+    if (!HTMLUtilities.validateEmail(getEmail())) {
+      errors.add("Email address is invalid.");
+    }
+    if (firstname == null || firstname.isEmpty()) {
+      errors.add("First name is required.");
+    }
+    if (lastname == null || lastname.isEmpty()) {
+      errors.add("Last name is required.");
+    }
+    if (actionRequested == Action.UNDEFINED) {
+      errors.add("Please specify the action to be performed.");
+    }
+    else if (actionRequested == Action.ADD_HOLDER || actionRequested == Action.REMOVE_HOLDER) {
+      if (holderId == -1) {
+        errors.add("Please select a holder.  If the desired holder is not listed, please select 'Other(specify)' and provide the name.");
+      }
+      else if (holderId == -2 && holderName == null || holderName.isEmpty()) {
+        errors.add("Please specify the holder name.");
+      }
+      if (facilityId == -1) {
+        errors.add("Please select a facility.  If the desired facility is not listed, please select 'Other(specify)' and provide the name.");
+      }
+      else if (facilityId == -2 && facilityName == null || facilityName.isEmpty()) {
+        errors.add("Please specify the facility name.");
+      }
+    }
+    else if (actionRequested == Action.OTHER) {
+      if (userComment == null || userComment.isEmpty()) {
+        errors.add("Please describe the changes in the comment field.");
+      }
+    }
+    
+    
+    return StringUtils.join(errors,",");
   }
 }

@@ -19,6 +19,8 @@ import edu.ucsf.mousedatabase.objects.MouseRecord;
 
 
 public class HTMLUtilities {
+  
+  private static Pattern emailValidationPtn = Pattern.compile("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}", Pattern.CASE_INSENSITIVE);
 
   public static String p(String paragraphText)
   {
@@ -194,5 +196,16 @@ public class HTMLUtilities {
     return list;
   }
 
+  public static boolean validateEmail(String email){
+    if (email == null || email.isEmpty()) {
+      return false;
+    }
+    Matcher matcher = emailValidationPtn.matcher(email);
+    matcher.find();
 
+    if(matcher.matches()) {
+      return true;
+    }
+    return false;
+  }
 }

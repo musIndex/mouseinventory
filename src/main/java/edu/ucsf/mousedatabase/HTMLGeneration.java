@@ -2911,6 +2911,14 @@ public class HTMLGeneration {
       return -1;
     }
   }
+  
+  public static boolean stringToBoolean(String str) {
+    try {
+      return Boolean.parseBoolean(str);
+    } catch (Exception e) {
+      return false;
+    }
+  }
 
   public static String getTextInput(String name, String current, int size,
       int maxLength, String params) {
