@@ -8,13 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
 
 import com.google.gson.Gson;
 
 import static edu.ucsf.mousedatabase.HTMLGeneration.*;
 import edu.ucsf.mousedatabase.DBConnect;
-import edu.ucsf.mousedatabase.ServletUtils;
 import edu.ucsf.mousedatabase.objects.ChangeRequest;
 
 /**
@@ -38,10 +36,29 @@ public class SubmitChangeRequestServlet extends HttpServlet {
 		String message = "";
 		boolean success = false;
 		try {
-		  ChangeRequest changeRequest = ServletUtils.PopulateFromRequest(request, ChangeRequest.class);
-		  if (changeRequest == null) {
-		    return;
+		  ChangeRequest changeRequest = new ChangeRequest();
+		  
+		  changeRequest.setMouseID(stringToInt(request.getParameter("mouseID")));
+		  
+		  changeRequest.setEmail(request.getParameter("email"));
+		  changeRequest.setFirstname(request.getParameter("firstname"));
+		  changeRequest.setLastname(request.getParameter("lastname"));
+		  
+		  changeRequest.setUserComment(request.getParameter("userComment"));
+		  
+		  changeRequest.setActionRequested(request.getParameter("actionRequested"));
+		  changeRequest.setCryoLiveStatus(request.getParameter("cryoLiveStatus"));
+		  
+		  int holderId = stringToInt(request.getParameter("holderID"));
+		  
+		  if (holderId > 0) {
+		    changeRequest.setHolderId(holderId);
 		  }
+		  else {
+  		  changeRequest.setHolderName(request.getParameter("holderName"));
+  		  changeRequest.setFacilityName(request.getParameter("facilityName"));
+		  }
+		  request.getSession().setAttribute("changeRequest", changeRequest);
 		  message = changeRequest.validate();
 		  if (!message.isEmpty()) {
 		    return;
