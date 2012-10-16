@@ -49,14 +49,22 @@ public class SubmitChangeRequestServlet extends HttpServlet {
 		  changeRequest.setActionRequested(request.getParameter("actionRequested"));
 		  changeRequest.setCryoLiveStatus(request.getParameter("cryoLiveStatus"));
 		  
-		  int holderId = stringToInt(request.getParameter("holderID"));
+		  int holderId = stringToInt(request.getParameter("holderId"));
 		  
 		  if (holderId > 0) {
 		    changeRequest.setHolderId(holderId);
 		  }
 		  else {
   		  changeRequest.setHolderName(request.getParameter("holderName"));
-  		  changeRequest.setFacilityName(request.getParameter("facilityName"));
+		  }  
+		  
+		  int facilityId = stringToInt(request.getParameter("facilityId"));
+		  
+		  if (facilityId > 0) {
+		    changeRequest.setFacilityId(facilityId);
+		  }
+		  else {
+		    changeRequest.setFacilityName(request.getParameter("facilityName"));
 		  }
 		  request.getSession().setAttribute("changeRequest", changeRequest);
 		  message = changeRequest.validate();

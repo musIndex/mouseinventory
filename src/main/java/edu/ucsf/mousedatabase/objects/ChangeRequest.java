@@ -253,13 +253,13 @@ public class ChangeRequest {
       if (holderId == -1) {
         errors.add("Please select a holder.  If the desired holder is not listed, please select 'Other(specify)' and provide the name.");
       }
-      else if (holderId == -2 && holderName == null || holderName.isEmpty()) {
+      else if (holderId == -2 && (holderName == null || holderName.isEmpty())) {
         errors.add("Please specify the holder name.");
       }
       if (facilityId == -1) {
         errors.add("Please select a facility.  If the desired facility is not listed, please select 'Other(specify)' and provide the name.");
       }
-      else if (facilityId == -2 && facilityName == null || facilityName.isEmpty()) {
+      else if (facilityId == -2 && (facilityName == null || facilityName.isEmpty())) {
         errors.add("Please specify the facility name.");
       }
     }
