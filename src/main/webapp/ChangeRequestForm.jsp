@@ -20,6 +20,17 @@
       table = getMouseTable(mice,false,false,true);
     }
 %>
+<script>
+$(document).ready(function(){
+  $("#holderId").change(function(){
+    $("#otherHolderSpan").toggle($(this).val() == -2);
+  }).change();
+  $("#facilityId").change(function(){
+    $("#otherFacilitySpan").toggle($(this).val() == -2);
+  }).change();
+});
+
+</script>
 <div class="site_container">
 <% if (success) { %>
 <h2>Change request completed</h2>
@@ -75,19 +86,17 @@ Enter <font color="red">your</font> name and e-mail address (required)<br>
       <td valign="top" colspan="2">
       Holder: <%= getHolderSelect("holderId", changeRequest.getHolderId()) %>
 
-      <span id="otherHolderSpan" style="<%=rowVisibility(changeRequest.getHolderName() != null) %>" >
+      <span id="otherHolderSpan">
         Specify holder name:
-        <input type="text" name="holderName" 
-        value="<%= emptyIfNull(changeRequest.getHolderName()) %>" size="20">
+        <input type="text" name="holderName" value="<%= emptyIfNull(changeRequest.getHolderName()) %>" size="20">
       </span>
 
       <br>
       Facility: <%= getFacilitySelect("facilityId", changeRequest.getFacilityId()) %>
       
-      <span id="otherFacilitySpan" style="<%=rowVisibility(changeRequest.getFacilityName() != null) %>">
+      <span id="otherFacilitySpan">
          Specify facility name:
-        <input type="text" name="facilityName" 
-           value="<%= emptyIfNull(changeRequest.getFacilityName()) %>" size="20">
+        <input type="text" name="facilityName" value="<%= emptyIfNull(changeRequest.getFacilityName()) %>" size="20">
       </span>
 
       <br>
