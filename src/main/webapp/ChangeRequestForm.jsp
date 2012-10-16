@@ -98,7 +98,7 @@ Enter <font color="red">your</font> name and e-mail address (required)<br>
     </tr>
     <tr>
     <td valign="top"  colspan="2">
-      <input type="radio" name="actionRequested" value="<%= Action.ADD_HOLDER.ordinal() %>">
+      <input type="radio" name="actionRequested" value="<%= Action.ADD_HOLDER.ordinal() %>" <%= (changeRequest.actionRequested() == Action.ADD_HOLDER) ? "checked" : "" %> >
       Add the selected holder to this record <br>
       <div style="position: relative; left: 25px;">
       <b>If you have <font color="red">genetic background information</font>
@@ -107,16 +107,16 @@ Enter <font color="red">your</font> name and e-mail address (required)<br>
       <input type="text" size="50" name="geneticBackgroundInfo"><br>
       If you have additional comments, add them in the box below.<br>
       </div>
-      <input type="radio" name="actionRequested" value="<%= Action.REMOVE_HOLDER.ordinal() %>">
+      <input type="radio" name="actionRequested" value="<%= Action.REMOVE_HOLDER.ordinal() %><%= (changeRequest.actionRequested() == Action.REMOVE_HOLDER) ? "checked" : "" %>">
       Delete the selected holder from this record <br>
       <!--
-      <input type="radio" name="actionRequested" value="<%= Action.MARK_ENDANGERED.ordinal() %>">
+      <input type="radio" name="actionRequested" value="<%= Action.MARK_ENDANGERED.ordinal() %> <%= (changeRequest.actionRequested() == Action.MARK_ENDANGERED) ? "checked" : "" %>">
       Mark this mouse as Endangered. (Holder is considering eliminating
       this mouse from his/her colony. If that holder is the only one who
       maintains the mouse, or if there is only one other holder, the mouse
       will be added to the "endangered mouse" list) <br>
       -->
-      <input type="radio" name="actionRequested" value="<%= Action.OTHER.ordinal() %>">
+      <input type="radio" name="actionRequested" value="<%= Action.OTHER.ordinal() %> <%= (changeRequest.actionRequested() == Action.OTHER) ? "checked" : "" %>">
       Click here if you do not want to add or delete a holder, but do want to make
       suggestions for changes in the record, then enter them in the box below:
     </td>
