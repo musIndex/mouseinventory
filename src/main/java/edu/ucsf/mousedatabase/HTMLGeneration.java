@@ -1878,6 +1878,7 @@ public class HTMLGeneration {
       
       if (nextRequest.Properties() != null)
       {
+        //TODo use holderID/holder name
         String holderName = (String)nextRequest.Properties().get("Add Holder");
         if (holderName == null){
           holderName = (String)nextRequest.Properties().get("Add Holder Name");
@@ -1899,37 +1900,20 @@ public class HTMLGeneration {
       table.append(getAdminMailLink(emailRecipient, emailCc, EmailTemplate.CHANGREQUEST, -1,nextRequest.getRequestID(), null,-1));
       table.append("</dt>\r\n");
 
+      if (nextRequest.getRequestSource() != null) {
+        table.append("<dt>Source: " + nextRequest.getRequestSource() + "</dt>");
+      }
+      
       table.append("</dl>\r\n");
       table.append("</td>\r\n");
 
       // COLUMN - Requested action
       table.append("<td valign='top'>\r\n");
-      if (nextRequest.Properties() != null) {
-        table.append("<dl>");
-        for (Object key : nextRequest.Properties().keySet()) {
-          String propertyName = (String) key;
-          String propertyValue = (String) nextRequest.Properties()
-              .get(key);
-          if (propertyName.equals("Add Holder")
-              || propertyName.equals("Add Facility")) {
-            int splitterIndex = propertyValue.indexOf('|');
-            if (splitterIndex > 0) {
-              propertyValue = propertyValue
-                  .substring(splitterIndex + 1);
-            }
-            propertyValue = "<b>" + propertyValue + "</b>";
-          }
+      
 
-          table.append("<dt>");
-          table.append(propertyName + " = " + propertyValue);
-          table.append("</dt>\r\n");
-        }
-        table.append("</dl>");
-      }
-      else {
         //new change request format, no properties
         table.append("<dl><dt class='" + nextRequest.actionRequested() + "'>");
-        table.append(nextRequest.actionRequested().label + ": </dt>");
+        table.append(nextRequest.actionRequested().label + "</dt>");
         if (nextRequest.actionRequested() == Action.ADD_HOLDER || nextRequest.actionRequested() == Action.REMOVE_HOLDER) {
           table.append("<dd>" + nextRequest.getHolderName());
           if (nextRequest.getHolderId() == -2) {
@@ -1947,17 +1931,38 @@ public class HTMLGeneration {
           }
           table.append("</dd><dd>Status: " + nextRequest.getCryoLiveStatus() + "</dd>");
         }
-        if (nextRequest.getGeneticBackgroundInfo() != null && !nextRequest.getGeneticBackgroundInfo().isEmpty()) {
-          table.append("<dd>Background information/other info: " + nextRequest.getGeneticBackgroundInfo() + "</dd>");
-        }
-        
-        
-      }
+
+     
       table.append("</td>\r\n");
       
       // COLUMN - User comment
       
-      table.append("<td><span class=\"mouseComment\">" + emptyIfNull(nextRequest.getUserComment()) + "</span></td>");
+      table.append("<td>");
+      if (nextRequest.getGeneticBackgroundInfo() != null && !nextRequest.getGeneticBackgroundInfo().isEmpty()) {
+        table.append("<b>Genetic background info:</b> " + nextRequest.getGeneticBackgroundInfo() + "<br><br>");
+      }
+      table.append("<span class=\"mouseComment\">" + emptyIfNull(nextRequest.getUserComment()) + "</span><br>");
+      if (nextRequest.Properties() != null) {
+        table.append("********");
+        table.append("<dl>");
+        for (Object key : nextRequest.Properties().keySet()) {
+          String propertyName = (String) key;
+          String propertyValue = (String) nextRequest.Properties()
+              .get(key);
+          if (propertyName.equals("Add Holder") || propertyName.equals("Add Facility") || propertyName.equals("Remove Holder") 
+              || propertyName.equals("New Holder Email") || propertyName.equals("Facility") || propertyName.equals("Request Source") ||
+              propertyName.equals("Delete Holder Name") || propertyName.equals("Delete Facility Name") || propertyName.equals("Add Holder Name")) {
+            continue;
+          }
+
+          table.append("<dt>");
+          table.append(propertyName + " = " + propertyValue);
+          table.append("</dt>\r\n");
+        }
+        table.append("</dl>");
+        
+      }
+      table.append("</td>");
 
       // COLUMN - Administration
 
@@ -3076,6 +3081,10 @@ public class HTMLGeneration {
   }
   
   public static String getHolderSelect(String name, int currentHolderId) {
+    return getHolderSelect(name, currentHolderId, true);
+  }
+  
+  public static String getHolderSelect(String name, int currentHolderId, boolean includeOther) {
     ArrayList<Holder> holders = DBConnect.getAllHolders(false);
     
     String[] holderNames = new String[holders.size() + 2];
@@ -3095,6 +3104,7 @@ public class HTMLGeneration {
     i++;
     return genSelect(name, holderIds, holderNames, currentHolderId,null);
   }
+  
   public static String getFacilitySelect(String name, int currentFacilityId) {
     ArrayList<Facility> facilities = DBConnect.getAllFacilities(false);
     

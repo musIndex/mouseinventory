@@ -15,6 +15,7 @@ import edu.ucsf.mousedatabase.beans.UserData;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler.ImportObjectType;
 import edu.ucsf.mousedatabase.objects.*;
+import edu.ucsf.mousedatabase.objects.ChangeRequest.Action;
 import edu.ucsf.mousedatabase.servlets.ReportServlet;
 
 import org.apache.commons.lang3.StringUtils;
@@ -59,7 +60,7 @@ public class DBConnect {
     + " FROM submittedmouse left join mouse on submittedmouse.id=mouse.submittedmouse_id\r\n ";
 
   private static final String changeRequestQueryHeader =
-    "SELECT changerequest.*, mouse.name, holder.firstname, holder.lastname, facility.facility\r\n" +
+    "SELECT changerequest.*, mouse.name, holder.firstname, holder.lastname, holder.email, facility.facility\r\n" +
     " FROM changerequest left join mouse on changerequest.mouse_id=mouse.id\r\n" +
     " left join holder on changerequest.holder_id=holder.id\r\n" +
     " left join facility on changerequest.facility_id=facility.id";
@@ -776,26 +777,39 @@ public class DBConnect {
 
   public static Holder findHolder(String holderFullName)
   {
-    if(holderFullName == null)
+    if(holderFullName == null) {
       return new Holder();
-    String[] holderName = holderFullName.split("[,]");
-    String query = null;
-    if (holderName.length > 1)
-    {
-        query = holderQueryHeader +
-          " WHERE (firstname='"
-          + addMySQLEscapes(holderName[1]).trim() + "' and lastname='"
-          + addMySQLEscapes(holderName[0]).trim() + "')";
     }
-    else
-    {
+    
+    String firstname = "";
+    String lastname = "";
+    if (holderFullName.length() > 1 && holderFullName.indexOf(" ") > 0) {
+      String[] parts = holderFullName.split("[| ]");
+      if (parts.length == 3) {
+        firstname = parts[1];
+        lastname = parts[2];
+      }
+      else if (parts.length == 2) {
+        firstname = parts[0];
+        lastname = parts[1];
+      }
+    }
+    else if (holderFullName.length() > 1 && holderFullName.indexOf(",") > 0) {
+      String[] holderName = holderFullName.split("[,]");
+      firstname = holderName[1];
+      lastname = holderName[0];
+    }
+    else {
       Log.Info("Unrecognized holder fullname format: " + holderFullName);
       return null;
     }
-      ArrayList<Holder> results = HolderResultGetter.getInstance().Get(query);
-      if (results.size() > 0)
-      {
-        return results.get(0);
+    String query = null;
+    query = holderQueryHeader + " WHERE (firstname='"
+      + addMySQLEscapes(firstname).trim() + "' and lastname='"
+      + addMySQLEscapes(lastname).trim() + "')";
+    ArrayList<Holder> results = HolderResultGetter.getInstance().Get(query);
+    if (results.size() > 0) {
+      return results.get(0);
       }
       return null;
   }
@@ -3072,29 +3086,66 @@ public class DBConnect {
 
       result.setProperties(g_str("properties"));
       
-      int facilityId = g_int("facility_id");
-      result.setFacilityId(facilityId);
-      if (facilityId > 0) {
-        result.setFacilityName(g_str("facility.facility"));
-      }
-      else if (facilityId == -2){
-        result.setFacilityName(g_str("facility_name"));
-      }
       
-      int holderId = g_int("holder_id");
-      result.setHolderId(holderId);
-      if (holderId > 0) {
-        result.setHolderName(g_str("holder.lastname") + ", " + g_str("holder.firstname"));
+      if (result.Properties() != null) {
+        //legacy change requests
+        result.setActionRequested(Action.OTHER);
+        for (Object key : result.Properties().keySet()) {
+          String propertyName = (String) key;
+          String propertyValue = (String) result.Properties().get(key);
+          //if (propertyName.equals("Add Holder") || propertyName.equals("Add Facility")) {
+            int splitterIndex = propertyValue.indexOf('|');
+            if (splitterIndex > 0) {
+              propertyValue = propertyValue.substring(splitterIndex + 1);
+            }
+            if (propertyName.equals("Add Holder") || propertyName.equals("Remove Holder")) {
+              result.setHolderName(propertyValue);
+              if (propertyName.equals("Add Holder")) {
+                result.setActionRequested(Action.ADD_HOLDER);
+              }
+              else {
+                result.setActionRequested(Action.REMOVE_HOLDER);
+              }
+            }
+            else if (propertyName.equals("Add Facility") || propertyName.equals("Facility")) {
+              result.setFacilityName(propertyValue);
+            }
+            else if (propertyName.equals("Request Source")) {
+              result.setRequestSource(propertyValue);
+            }
+            else if (propertyName.equals("New Holder Email")) {
+              result.setHolderEmail(propertyValue);
+            }
+          //}
+        }
+        result.setFacilityId(-1);
+        result.setHolderId(-1);
       }
       else {
-        result.setHolderEmail(g_str("holder_email"));
-        result.setHolderName(g_str("holder_name"));
+        int facilityId = g_int("facility_id");
+        result.setFacilityId(facilityId);
+        if (facilityId > 0) {
+          result.setFacilityName(g_str("facility.facility"));
+        }
+        else if (facilityId == -2){
+          result.setFacilityName(g_str("facility_name"));
+        }
+         
+        int holderId = g_int("holder_id");
+        result.setHolderId(holderId);
+        if (holderId > 0) {
+          result.setHolderName(g_str("holder.lastname") + ", " + g_str("holder.firstname"));
+          result.setHolderEmail(g_str("holder.email"));
+        }
+        else {
+          result.setHolderEmail(g_str("holder_email"));
+          result.setHolderName(g_str("holder_name"));
+        }
+        result.setGeneticBackgroundInfo(g_str("genetic_background_info"));
+        result.setCryoLiveStatus(g_str("cryo_live_status"));
+        result.setActionRequested(ChangeRequest.ActionValues[g_int("action_requested")]);
+        result.setRequestSource(g_str("request_source"));
       }
-      result.setGeneticBackgroundInfo(g_str("genetic_background_info"));
-      result.setCryoLiveStatus(g_str("cryo_live_status"));
-      result.setActionRequested(ChangeRequest.ActionValues[g_int("action_requested")]);
-      result.setRequestSource(g_str("request_source"));
-
       return result;
     }
   }

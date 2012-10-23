@@ -16,6 +16,7 @@
 
   String status = request.getParameter("status");
   String orderBy = request.getParameter("orderby");
+  int currentHolderId = -1;
 
   if(status == null) {
     if ((status = (String)session.getAttribute("manageChangeRequestStatus")) == null) {
@@ -32,21 +33,43 @@
     session.setAttribute("manageChangeRequestOrderBy",orderBy);
   }
   
+  if (request.getParameter("holder_id") == null && session.getAttribute("manageChangeRequestHolderId") != null) {
+      currentHolderId = (Integer)session.getAttribute("manageChangeRequestHolderId");
+  }
+  else {
+   currentHolderId = stringToInt(request.getParameter("holder_id")); 
+  }
+  session.setAttribute("manageChangeRequestHolderId", currentHolderId);
+  
   String[] sortOptions = new String[] {"changerequest.id","requestdate","requestdate DESC", "mouse_id","mouse_id DESC","firstname","lastname"};
   String[] sortOptionNiceNames = new String[] {"Request #","Request date", "Reverse request date","Record #", "Reverse Record #","Requestor first name", "Requestor last name"};
 
   String[] filterOptions = new String[] {"new","pending","done","all"};
   String[] filterOptionNiceNames = new String[] {"New", "Pending", "Completed","All"};
+  
+  
 
   StringBuffer sortBuf = new StringBuffer();
   sortBuf.append("<form class='view_opts' action='ManageChangeRequests.jsp'>");
   sortBuf.append("&nbsp;Show: ");
   sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,null));
+  sortBuf.append("&nbsp;Filter by holder: ");
+  sortBuf.append(getHolderSelect("holder_id", currentHolderId, false));
   sortBuf.append("&nbsp;Sort by: ");
   sortBuf.append(genSelect("orderby",sortOptions,sortOptionNiceNames, orderBy,null));
   sortBuf.append("</form>");
 
   ArrayList<ChangeRequest> requests = DBConnect.getChangeRequests(status, orderBy);
+  Holder currentHolder = DBConnect.getHolder(currentHolderId);
+  if (currentHolder != null) {
+    ArrayList<ChangeRequest> temp = new ArrayList<ChangeRequest>();
+    for (ChangeRequest req : requests) {
+      if (req.getHolderEmail() != null && req.getHolderEmail().equalsIgnoreCase(currentHolder.getEmail())) {
+       temp.add(req); 
+      }
+    }
+    requests = temp;
+  }
 
   String newTable = getChangeRequestsTable(requests, status);
 
