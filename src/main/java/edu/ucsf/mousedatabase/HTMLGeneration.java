@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import edu.ucsf.mousedatabase.admin.EmailRecipientManager;
 import edu.ucsf.mousedatabase.admin.EmailRecipientManager.EmailRecipient;
 import edu.ucsf.mousedatabase.objects.ChangeRequest;
+import edu.ucsf.mousedatabase.objects.ChangeRequest.Action;
 import edu.ucsf.mousedatabase.objects.EmailTemplate;
 import edu.ucsf.mousedatabase.objects.Facility;
 import edu.ucsf.mousedatabase.objects.Gene;
@@ -1792,23 +1793,27 @@ public class HTMLGeneration {
     StringBuffer table = new StringBuffer();
     table.append("<tr class='changerequestlistH'>\r\n");
 
-    table.append("<td style='min-width:200px'\">\r\n");
+    table.append("<td style='min-width:120px'>\r\n");
     table.append("Status");
     table.append("</td>\r\n");
 
-    table.append("<td style='min-width:200px'\">\r\n");
+    table.append("<td style='min-width: 140px'>\r\n");
     table.append("Requestor Info");
     table.append("</td>\r\n");
-    table.append("<td style='min-width:200px'>\r\n");
-    table.append("Changes Requested");
+    table.append("<td >\r\n");
+    table.append("Action requested");
+    table.append("</td>\r\n");
+    
+    table.append("<td>\r\n");
+    table.append("User comment");
     table.append("</td>\r\n");
 
-    table.append("<td style='min-width:200px'>\r\n");
+    table.append("<td >\r\n");
     table.append("Administration");
     table.append("</td>\r\n");
 
-    table.append("<td style='min-width:200px'>\r\n");
-    table.append("Admin Comment");
+    table.append("<td >\r\n");
+    table.append("Admin comment");
     table.append("</td>\r\n");
 
     return table.toString();
@@ -1837,11 +1842,11 @@ public class HTMLGeneration {
       table.append("<dl>\r\n");
 
       table.append("<dt>");
-      table.append("Request# " + nextRequest.getRequestID());
+      table.append("Request #" + nextRequest.getRequestID());
       table.append("</dt>");
 
       table.append("<dt>");
-      table.append("Request date: " + nextRequest.getRequestDate());
+      table.append("Date: " + nextRequest.getRequestDate());
       table.append("</dt>");
 
       table.append("<dt>\r\n");
@@ -1897,10 +1902,8 @@ public class HTMLGeneration {
       table.append("</dl>\r\n");
       table.append("</td>\r\n");
 
-      // COLUMN - Requested changes
+      // COLUMN - Requested action
       table.append("<td valign='top'>\r\n");
-      table.append("<span class=\"mouseComment\">"
-          + emptyIfNull(nextRequest.getUserComment()) + "</span>");
       if (nextRequest.Properties() != null) {
         table.append("<dl>");
         for (Object key : nextRequest.Properties().keySet()) {
@@ -1923,7 +1926,38 @@ public class HTMLGeneration {
         }
         table.append("</dl>");
       }
+      else {
+        //new change request format, no properties
+        table.append("<dl><dt class='" + nextRequest.actionRequested() + "'>");
+        table.append(nextRequest.actionRequested().label + ": </dt>");
+        if (nextRequest.actionRequested() == Action.ADD_HOLDER || nextRequest.actionRequested() == Action.REMOVE_HOLDER) {
+          table.append("<dd>" + nextRequest.getHolderName());
+          if (nextRequest.getHolderId() == -2) {
+            //TODO build a link to add new holder, with link back to this page.
+            table.append(" (");
+            if (nextRequest.getHolderEmail() != null) {
+              table.append(nextRequest.getHolderEmail() +", ");
+            }
+            table.append("not in holder list)");
+          }
+          table.append("</dd><dd>Facility: ");
+          table.append(nextRequest.getFacilityName());
+          if (nextRequest.getFacilityId() == -2) {
+            table.append(" (not in facility list)");
+          }
+          table.append("</dd><dd>Status: " + nextRequest.getCryoLiveStatus() + "</dd>");
+        }
+        if (nextRequest.getGeneticBackgroundInfo() != null && !nextRequest.getGeneticBackgroundInfo().isEmpty()) {
+          table.append("<dd>Background information/other info: " + nextRequest.getGeneticBackgroundInfo() + "</dd>");
+        }
+        
+        
+      }
       table.append("</td>\r\n");
+      
+      // COLUMN - User comment
+      
+      table.append("<td><span class=\"mouseComment\">" + emptyIfNull(nextRequest.getUserComment()) + "</span></td>");
 
       // COLUMN - Administration
 
@@ -1937,16 +1971,14 @@ public class HTMLGeneration {
 
       // status updates? - ignore, delete, etc
       table.append("<dt>");
-      table.append("Last administered: "
-          + emptyIfNull(nextRequest.getLastAdminDate()));
+      table.append("Last administered: " + emptyIfNull(nextRequest.getLastAdminDate()));
       table.append("</dt>");
 
       table.append("</dl></td>\r\n");
 
       // COLUMN - Admin comment
       table.append("<td valign='top'>\r\n");
-      table.append("<span class=\"mouseComment\">"
-          + emptyIfNull(nextRequest.getAdminComment()) + "</span>");
+      table.append("<span class=\"mouseComment\">" + emptyIfNull(nextRequest.getAdminComment()) + "</span>");
 
       table.append("</td>");
 

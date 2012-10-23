@@ -59,8 +59,10 @@ public class DBConnect {
     + " FROM submittedmouse left join mouse on submittedmouse.id=mouse.submittedmouse_id\r\n ";
 
   private static final String changeRequestQueryHeader =
-    "SELECT changerequest.*, mouse.name\r\n" +
-    " FROM changerequest left join mouse on changerequest.mouse_id=mouse.id\r\n ";
+    "SELECT changerequest.*, mouse.name, holder.firstname, holder.lastname, facility.facility\r\n" +
+    " FROM changerequest left join mouse on changerequest.mouse_id=mouse.id\r\n" +
+    " left join holder on changerequest.holder_id=holder.id\r\n" +
+    " left join facility on changerequest.facility_id=facility.id";
 
   private static final String holderQueryHeader =
     "SELECT holder.*, (select count(*) \r\n" +
@@ -3070,13 +3072,26 @@ public class DBConnect {
 
       result.setProperties(g_str("properties"));
       
-      result.setFacilityId(g_int("facility_id"));
-      result.setFacilityName(g_str("facility_name"));
+      int facilityId = g_int("facility_id");
+      result.setFacilityId(facilityId);
+      if (facilityId > 0) {
+        result.setFacilityName(g_str("facility.facility"));
+      }
+      else if (facilityId == -2){
+        result.setFacilityName(g_str("facility_name"));
+      }
       
-      result.setHolderEmail(g_str("holder_email"));
-      result.setHolderName(g_str("holder_name"));
-      result.setHolderId(g_int("holder_id"));
-      
+      int holderId = g_int("holder_id");
+      result.setHolderId(holderId);
+      if (holderId > 0) {
+        result.setHolderName(g_str("holder.lastname") + ", " + g_str("holder.firstname"));
+      }
+      else {
+        result.setHolderEmail(g_str("holder_email"));
+        result.setHolderName(g_str("holder_name"));
+      }
+      result.setGeneticBackgroundInfo(g_str("genetic_background_info"));
+      result.setCryoLiveStatus(g_str("cryo_live_status"));
       result.setActionRequested(ChangeRequest.ActionValues[g_int("action_requested")]);
       result.setRequestSource(g_str("request_source"));
 
