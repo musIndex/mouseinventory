@@ -13,11 +13,20 @@ import edu.ucsf.mousedatabase.Log;
 public class ChangeRequest {
   
   public enum Action {
-    UNDEFINED, //0
-    ADD_HOLDER, //1
-    REMOVE_HOLDER, //2
-    MARK_ENDANGERED, //3
-    OTHER; //4
+    UNDEFINED(0,"Undefined"), //0
+    ADD_HOLDER(1,"Add holder"), //1
+    REMOVE_HOLDER(2,"Remove holder"), //2
+    MARK_ENDANGERED(3,"Mark endangered"), //3
+    OTHER(4,"Make other changes"); //4
+    
+    public String label;
+    public int value;
+    
+    private Action(int value, String label){
+      this.value = value;
+      this.label = label;
+    }
+    
   }
   
   public static Action[] ActionValues = Action.values();
@@ -207,7 +216,7 @@ public class ChangeRequest {
 
   public Properties Properties()
   {
-    if (getProperties() == null)
+    if (getProperties() == null || getProperties().isEmpty())
     {
       return null;
     }
