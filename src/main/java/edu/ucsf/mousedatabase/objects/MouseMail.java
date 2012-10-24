@@ -115,9 +115,8 @@ public class MouseMail {
         email.setHtmlMsg(body);
         email.setTextMsg(stripHtml(body));
         for (String rec : StringUtils.split(recipient,", ")) {
-          email.addCc(rec);
+          email.addTo(rec);
         }
-        email.addTo(recipient);
         if (ccs != null && !ccs.isEmpty()){
           for (String cc : StringUtils.split(ccs,", ")) {
             email.addCc(cc);
@@ -125,9 +124,8 @@ public class MouseMail {
         }
         if (bccs != null && !bccs.isEmpty()){
           for (String bcc : StringUtils.split(bccs,", ")) {
-            email.addCc(bcc);
+            email.addBcc(bcc);
           }
-          email.addBcc(bccs);
         }
         
         if (attachments != null) {
