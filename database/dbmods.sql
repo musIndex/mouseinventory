@@ -228,3 +228,10 @@ VALUES (5,'general_site_hostname','Site protocol and hostname', 'https://mouseda
 alter table `settings` add column text_area_rows int(10) default 0;
 update `settings` set text_area_rows=20, label='Ignored JAX Catalog numbers, one per line.  Blank lines are OK.' where name='import_ignored_jax_numbers';
 	
+#48 clean up orphaned entries in mouse_holder_facility
+create temporary table orphaned_mice as 
+	(select mouse_holder_facility.id 
+	from  mouse_holder_facility left join mouse on mouse_holder_facility.mouse_id=mouse.id 
+	where mouse.id is null);
+delete from mouse_holder_facility where id in (select id from orphaned_mice);
+drop table orphaned_mice;
