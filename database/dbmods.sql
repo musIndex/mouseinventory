@@ -224,5 +224,7 @@ VALUES (8,'download_files_allele_id','How to find the MGI allele detail page (PD
 INSERT INTO `settings` (`category_id`, `name`, `label`, `setting_value`)
 VALUES (5,'general_site_hostname','Site protocol and hostname', 'https://mousedatabase.ucsf.edu');
 
-		
+#47 add text_area_rows column to settings
+alter table `settings` add column text_area_rows int(10) default 0;
+update `settings` set text_area_rows=20, label='Ignored JAX Catalog numbers, one per line.  Blank lines are OK.' where name='import_ignored_jax_numbers';
 	

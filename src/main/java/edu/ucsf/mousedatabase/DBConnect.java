@@ -3346,7 +3346,7 @@ public class DBConnect {
     }
   }
   
-  public static final class EmailResultGetter extends ResultGetter
+  private static final class EmailResultGetter extends ResultGetter
   {
     public static EmailResultGetter getInstance()
     {
@@ -3373,7 +3373,7 @@ public class DBConnect {
     }
   }
   
-  public static final class SettingResultGetter extends ResultGetter
+  private static final class SettingResultGetter extends ResultGetter
   {
     public static SettingResultGetter getInstance(){
       return new SettingResultGetter();
@@ -3387,11 +3387,12 @@ public class DBConnect {
       setting.label = g_str("label");
       setting.value = g_str("setting_value");
       setting.dateUpdated = g_ts("date_updated");
+      setting.textAreaRows = g_int("text_area_rows");
       return setting;
     }
   }
   
-  public static final class EmailTemplateResultGetter extends ResultGetter
+  private static final class EmailTemplateResultGetter extends ResultGetter
   {
     public static EmailTemplateResultGetter getInstance(){
       return new EmailTemplateResultGetter();
