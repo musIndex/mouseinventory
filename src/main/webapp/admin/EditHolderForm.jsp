@@ -15,7 +15,7 @@
     id = HTMLGeneration.stringToInt(request.getParameter("holderID"));
     holder = DBConnect.getHolder(id);
     if (holder == null) throw new Exception("Holder not found");
-      holderMouseIDs = DBConnect.getMiceWithHolder(id,true);
+      holderMouseIDs = DBConnect.getMiceWithHolder(id);
        mayDelete = holderMouseIDs.size() <= 0;
   }
   catch (Exception e)
