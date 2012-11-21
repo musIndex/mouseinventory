@@ -65,7 +65,10 @@ public class DBConnect {
   private static final String holderQueryHeader =
     "SELECT holder.*, (select count(*) \r\n" +
     " FROM mouse_holder_facility left join mouse on mouse_holder_facility.mouse_id=mouse.id\r\n" +
-    " WHERE holder_id=holder.id and covert=0 and mouse.status='live') as 'mice held'\r\n" +
+    " WHERE holder_id=holder.id and covert=0 and mouse.status='live') as 'mice held',\r\n" +
+    "(select count(*) \r\n" +
+        " FROM mouse_holder_facility left join mouse on mouse_holder_facility.mouse_id=mouse.id\r\n" +
+        " WHERE holder_id=holder.id and covert=1 and mouse.status='live') as 'covert mice held'\r\n" +
     " FROM holder\r\n ";
 
   private static final String facilityQueryHeader =
@@ -301,7 +304,7 @@ public class DBConnect {
          builder.append(",");
      }
 
-    ArrayList<String> whereTerms = buildMouseQueryWhereTerms(status, searchTerms, mouseTypeID, -1,-1,-1,-1,false);
+    ArrayList<String> whereTerms = buildMouseQueryWhereTerms(status, searchTerms, mouseTypeID, -1,-1,-1,-1,false,false);
     whereTerms.add("mouse.id in (" + builder + ")");
 
     String constraints = buildMouseQueryConstraints(null, whereTerms, orderby, -1, -1);
@@ -318,9 +321,23 @@ public class DBConnect {
       int creOnly,
       int facilityID)
   {
+    return countMouseRecords(mouseTypeID, orderBy, holderID, geneRecordID, status, searchTerms, endangeredOnly, creOnly, facilityID,false);
+  }
+  
+  public static int countMouseRecords(int mouseTypeID,
+      String orderBy,
+      int holderID,
+      int geneRecordID,
+      String status,
+      String searchTerms,
+      boolean endangeredOnly,
+      int creOnly,
+      int facilityID,
+      boolean edit)
+  {
 
     ArrayList<String> whereTerms = buildMouseQueryWhereTerms(status, searchTerms, mouseTypeID, geneRecordID,
-        facilityID, holderID,creOnly, endangeredOnly);
+        facilityID, holderID,creOnly, endangeredOnly,edit);
     String additionalJoins = buildMouseQueryJoins(holderID, facilityID,searchTerms);
 
     String constraints = buildMouseQueryConstraints(additionalJoins, whereTerms, orderBy, -1, -1);
@@ -347,7 +364,24 @@ public class DBConnect {
       int limit,
       int offset)
       {
-    ArrayList<String> whereTerms = buildMouseQueryWhereTerms(status, searchTerms, mouseTypeID, geneRecordID, facilityID, holderID,creOnly, endangeredOnly);
+      return getMouseRecords(mouseTypeID, orderBy, holderID, geneRecordID, status, searchTerms, endangeredOnly, creOnly, facilityID,limit,offset,false);
+    }
+    
+    public static ArrayList<MouseRecord> getMouseRecords(int mouseTypeID,
+        String orderBy,
+        int holderID,
+        int geneRecordID,
+        String status,
+        String searchTerms,
+        boolean endangeredOnly,
+        int creOnly,
+        int facilityID,
+        int limit,
+        int offset,
+        boolean edit)
+        {
+      
+    ArrayList<String> whereTerms = buildMouseQueryWhereTerms(status, searchTerms, mouseTypeID, geneRecordID, facilityID, holderID,creOnly, endangeredOnly,edit);
     String additionalJoins = buildMouseQueryJoins(holderID, facilityID,searchTerms);
 
     String constraints = buildMouseQueryConstraints(additionalJoins, whereTerms, orderBy, limit, offset);
@@ -373,7 +407,7 @@ public class DBConnect {
 
   private static ArrayList<String> buildMouseQueryWhereTerms(String status, String searchTerms,
       int mouseTypeID,int geneRecordID,int facilityID,int holderID,int creOnly,
-      boolean endangeredOnly)
+      boolean endangeredOnly,boolean edit)
   {
     ArrayList<String> whereTerms = new ArrayList<String>();
     if(status.equalsIgnoreCase("all"))
@@ -398,7 +432,9 @@ public class DBConnect {
     if(holderID != -1)
     {
       whereTerms.add("holder_id=" + holderID);
-      whereTerms.add("covert=false");
+      if (!edit){
+        whereTerms.add("covert=false");
+      }
     }
     if(searchTerms != null && !searchTerms.isEmpty())
     {
@@ -3182,6 +3218,7 @@ public class DBConnect {
         result.setAlternateName(g_str("alternate_name"));
         result.setTel(g_str("tel"));
         result.setVisibleMouseCount(g_int("mice held"));
+        result.setCovertMouseCount(g_int("covert mice held"));
         result.setDateValidated(g_str("datevalidated"));
         result.setValidationComment(g_str("validation_comment"));
         return result;
