@@ -3,6 +3,7 @@
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
+<%@include file="../mouselistcommon.jspf" %>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
 <script type="text/javascript" src="<%=HTMLGeneration.scriptRoot%>jquery.highlight.js" ></script>
 <%

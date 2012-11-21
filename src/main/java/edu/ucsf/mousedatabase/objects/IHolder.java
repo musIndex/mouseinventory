@@ -40,6 +40,10 @@ public interface IHolder {
 
   public abstract void setVisibleMouseCount(int mouseCount);
 
+  public abstract int getCovertMouseCount();
+  
+  public abstract void setCovertMouseCount(int mouseCount);
+  
   public abstract String getDateValidated();
 
   public abstract void setDateValidated(String dateValidated);

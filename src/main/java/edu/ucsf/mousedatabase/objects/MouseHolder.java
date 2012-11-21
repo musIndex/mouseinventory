@@ -135,6 +135,14 @@ public class MouseHolder implements IHolder {
   public void setVisibleMouseCount(int mouseCount) {
     holder.setVisibleMouseCount(mouseCount);
   }
+  
+  public int getCovertMouseCount() {
+    return holder.getCovertMouseCount();
+  }
+
+  public void setCovertMouseCount(int mouseCount) {
+    holder.setCovertMouseCount(mouseCount);
+  }
 
   public String getDateValidated() {
     return holder.getDateValidated();

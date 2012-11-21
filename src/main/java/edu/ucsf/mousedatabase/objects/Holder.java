@@ -15,6 +15,7 @@ public class Holder implements IHolder {
   private String validationComment;
 
   private int visibleMouseCount;
+  private int covertMouseCount;
 
 
   public String getFullname()
@@ -91,7 +92,18 @@ public class Holder implements IHolder {
     this.visibleMouseCount = mouseCount;
   }
 
+  public int getCovertMouseCount()
+  {
+    return covertMouseCount;
+  }
 
+
+  public void setCovertMouseCount(int mouseCount)
+  {
+    this.covertMouseCount = mouseCount;
+  }
+  
+  
   public String getDateValidated() {
     return dateValidated;
   }
