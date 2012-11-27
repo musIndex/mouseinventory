@@ -235,3 +235,12 @@ create temporary table orphaned_mice as
 	where mouse.id is null);
 delete from mouse_holder_facility where id in (select id from orphaned_mice);
 drop table orphaned_mice;
+
+#49 add version tracking table
+CREATE TABLE `schema_migrations` (
+    `version` varchar(255) NOT NULL,
+      UNIQUE KEY `unique_schema_migrations` (`version`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+insert into `schema_migrations` (`version`) values ('20121126012149'), ('20121126022718'), ('20121126022831');
+
