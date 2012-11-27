@@ -1,20 +1,23 @@
 development:
-  adapter: sqlite3
-  database: db/development.sqlite3
+  adapter: mysql2
+  reconnect: false
+  database: mouse_inventory_dev
   pool: 5
-  timeout: 5000
+  username: root
+  password:
 
 production:
-  adapter: mysql
+  adapter: mysql2
   reconnect: false
   database: mouse_inventory
   pool: 5
   username: root
   password:
-  socket: /var/run/mysqld/mysqld.sock
 
 test: &test
-  adapter: sqlite3
-  database: db/test.sqlite3
+  adapter: mysql2
+  reconnect: false
+  database: mouse_inventory_test
   pool: 5
-  timeout: 5000
+  username: root
+  password:
