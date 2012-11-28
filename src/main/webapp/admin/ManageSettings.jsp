@@ -35,7 +35,7 @@
       orderby = "name";
     }
   }
- 
+  
   
   ArrayList<Setting.SettingCategory> settingCategories = Setting.getCategories();
   HashMap<Integer, Setting.SettingCategory> settingCategoriesMap = new HashMap<Integer, Setting.SettingCategory>();
@@ -94,8 +94,11 @@
       setting = new Setting(); 
     }
     else {
-      title = "Edit '" + category.Name + "' setting";
       setting = DBConnect.loadSetting(id);
+      category_id = setting.category_id;
+      category = settingCategoriesMap.get(category_id);
+      title = "Edit '" + category.Name + "' setting";
+      
     }
   }
 
@@ -131,7 +134,11 @@
         </dl>
        </td>
        <td style='background-color:white;border: 1px solid gainsboro;'>
+        <% if (category.RichText) { %>
         <%= set.value %> 
+        <% } else { %>
+        <%= set.value.replace("\n","<br>") %>
+        <% } %>
        </td>
        </tr>
       <% } %>
@@ -165,6 +172,11 @@
          <tr>
           <% if (category.RichText) { %>
             <td>Value:</td><td><%=tArea("setting_value",setting.value) %></td>
+            <% } else if (setting.textAreaRows > 0) { %>
+            <td>Value:</td><td>
+              <textarea name='setting_value' rows='<%= setting.textAreaRows %>'><%=setting.value %></textarea>
+              <br>To search, use CMD+F (mac) or CTRL+F (windows)
+            </td>
             <% } else { %>
             <td>Value:</td><td><%=tInput("setting_value",setting.value) %></td>
             <% } %>
@@ -193,6 +205,7 @@
      
   <% } %>
 </div>
+<% if (category.RichText) { %>
 <script type='text/javascript'>
   $("textarea[name='setting_value']").cleditor({
     width: 800,
@@ -216,3 +229,4 @@
   });
 
 </script>
+<% } %>

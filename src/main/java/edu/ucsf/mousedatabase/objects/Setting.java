@@ -83,6 +83,7 @@ public class Setting {
   public String label;
   public String value;
   public Timestamp dateUpdated;
+  public int textAreaRows;
   
   
   public int asInt(){

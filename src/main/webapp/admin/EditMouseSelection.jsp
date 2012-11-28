@@ -66,9 +66,9 @@
   }
   
 
-  int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms, false, -1, -1);
+  int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms, false, -1, -1,true);
 
-  ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms,false,-1,-1,limit,offset);
+  ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms,false,-1,-1,limit,offset,true);
 
   String table = HTMLGeneration.getMouseTable(mice, true, false, false);
 
