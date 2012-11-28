@@ -567,7 +567,10 @@ public class ImportHandler
 
     ImportStatusTracker.UpdateHeader(importTaskId, "Looking up MGI numbers from Catalog numbers (Task 1 of 3)");
     ArrayList<Integer> ignoredJaxNumbers = new ArrayList<Integer>();
-    for (String catalogNum : DBConnect.loadSetting("import_ignored_jax_numbers").value.split(",")) {
+    for (String catalogNum : DBConnect.loadSetting("import_ignored_jax_numbers").value.split("\n")) {
+      if (catalogNum == null || catalogNum.trim().isEmpty()) {
+        continue;
+      }
       try {
         ignoredJaxNumbers.add(Integer.parseInt(catalogNum));
       }

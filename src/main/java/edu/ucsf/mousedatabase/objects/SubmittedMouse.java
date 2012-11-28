@@ -421,14 +421,6 @@ public class SubmittedMouse {
       {
         mHolders = new ArrayList<MouseHolder>();
       }
-      Holder holder = DBConnect.findHolder(holderName);
-      if (holder != null)
-      {
-        Facility facility = DBConnect.findFacility(holderFacility);
-        MouseHolder mHolder = new MouseHolder(holder,facility,false);
-        mHolder.setCryoLiveStatus(cryoLiveStatus);
-        mHolders.add(mHolder);
-      }
 
       setCryoLiveStatus(cryoLiveStatus);
       r.setHolders(mHolders);

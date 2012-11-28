@@ -1,0 +1,23 @@
+development:
+  adapter: mysql2
+  reconnect: false
+  database: mouse_inventory_dev
+  pool: 5
+  username: root
+  password:
+
+production:
+  adapter: mysql2
+  reconnect: false
+  database: mouse_inventory
+  pool: 5
+  username: root
+  password:
+
+test: &test
+  adapter: mysql2
+  reconnect: false
+  database: mouse_inventory_test
+  pool: 5
+  username: root
+  password:

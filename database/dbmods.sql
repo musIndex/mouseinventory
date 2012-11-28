@@ -222,16 +222,25 @@ VALUES (8,'download_files_allele_id','How to find the MGI allele detail page (PD
 INSERT INTO `settings` (`category_id`, `name`, `label`, `setting_value`)
 VALUES (5,'general_site_hostname','Site protocol and hostname', 'https://mousedatabase.ucsf.edu');
 
-#47 add columns to changerequest
-alter table `changerequest` add column facility_id int(10);
-alter table `changerequest` add column facility_name varchar(255);
-alter table `changerequest` add column holder_email varchar(255);
-alter table `changerequest` add column holder_name varchar(255);
-alter table `changerequest` add column holder_id  int(10);  
-alter table `changerequest` add column action_requested int(10);
-alter table `changerequest` add column request_source varchar(255);
-alter table `changerequest` add column cryo_live_status varchar(255);
-alter table `changerequest` add column genetic_background_info text;
-
-		
+#47 add text_area_rows column to settings
+alter table `settings` add column text_area_rows int(10) default 0;
+update `settings` set text_area_rows=20, label='Ignored JAX Catalog numbers, one per line.  Blank lines are OK.' where name='import_ignored_jax_numbers';
 	
+#48 clean up orphaned entries in mouse_holder_facility
+create temporary table orphaned_mice as 
+	(select mouse_holder_facility.id 
+	from  mouse_holder_facility left join mouse on mouse_holder_facility.mouse_id=mouse.id 
+	where mouse.id is null);
+delete from mouse_holder_facility where id in (select id from orphaned_mice);
+drop table orphaned_mice;
+
+#49 add version tracking table
+CREATE TABLE `schema_migrations` (
+    `version` varchar(255) NOT NULL,
+      UNIQUE KEY `unique_schema_migrations` (`version`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+insert into `schema_migrations` (`version`) values ('20121126012149'), ('20121126022718'), ('20121126022831');
+
+	
+

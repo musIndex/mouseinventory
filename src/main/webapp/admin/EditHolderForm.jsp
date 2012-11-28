@@ -12,7 +12,7 @@
   boolean mayDelete = false;
   try
   {
-      id = HTMLGeneration.stringToInt(request.getParameter("holderID"));
+    id = HTMLGeneration.stringToInt(request.getParameter("holderID"));
     holder = DBConnect.getHolder(id);
     if (holder == null) throw new Exception("Holder not found");
       holderMouseIDs = DBConnect.getMiceWithHolder(id);

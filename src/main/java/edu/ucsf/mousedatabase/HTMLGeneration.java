@@ -2218,8 +2218,14 @@ public class HTMLGeneration {
       else {
         href = siteRoot + "MouseReport.jsp";
       }
+      String covertList = "";
+      int count = holder.getVisibleMouseCount();
+      if (edit && holder.getCovertMouseCount() > 0) {
+        covertList = "<br>(" + holder.getCovertMouseCount() + " covert)";
+        count += holder.getCovertMouseCount();
+      }
       table.append("<a href=\"" + href + "?holder_id=" + holder.getHolderID()
-          + "&mousetype_id=-1\">" + (edit ? "edit " : "") + holder.getVisibleMouseCount() + " records</a>");
+          + "&mousetype_id=-1\">" + (edit ? "edit " : "") + count + " records</a>" + covertList + "");
       table.append("</td>\r\n");
       if (edit) {
         table.append("<td><a href=\"EditHolderForm.jsp?holderID="
