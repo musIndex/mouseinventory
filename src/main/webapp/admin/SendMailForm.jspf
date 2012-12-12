@@ -107,11 +107,19 @@ $(document).ready(function(){
   function saveDraft(){
     $("#sendMailContainer a.btn-primary,#sendMailContainer a.btn.btn-info").addClass('disabled');
     $(this).text('Saving...');
-    var form_data = $("#outgoing_message").serialize();
+    var formData = new FormData();
+    $.each($("#outgoing_message").not("input[type='file']").serializeArray(), function(i,object){
+  	  formData.append(object.name,object.value);
+  	});
+    formData.append("save_as_draft","true");
     $.ajax({
       type: 'post',
-      url: '<%=adminRoot%>SendMail?' + form_data + '&save_as_draft=true',
+      url: '<%=adminRoot%>SendMail',
+      data: formData,
+      cache: false,
       dataType: 'json',
+      contentType: false,
+      processData: false,
       success: mailSaveSuccess,
       error: mailSaveError,
       async: true
@@ -128,12 +136,13 @@ $(document).ready(function(){
             formData.append(tag.name,file);
         });
     });
-    
-	var form_params = $("#outgoing_message").not("input[type='file']").serialize();
+	$.each($("#outgoing_message").not("input[type='file']").serializeArray(), function(i,object){
+	  formData.append(object.name,object.value);
+	});
     
     $.ajax({
       type: 'post',
-      url: '<%=adminRoot%>SendMail?' + form_params,
+      url: '<%=adminRoot%>SendMail',
       data: formData,
       cache: false,
       dataType: 'json',
