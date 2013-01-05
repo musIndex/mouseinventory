@@ -42,18 +42,39 @@ public class SendMailServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	  String recipient = request.getParameter("recipient");
-    String cc = request.getParameter("cc");
-    String bcc = request.getParameter("bcc");
-    String subject = request.getParameter("subject");
-    String body = request.getParameter("body");
-    String category = request.getParameter("category");
-    int templateID = stringToInt(request.getParameter("template_id"));
-    int oldDraftID = stringToInt(request.getParameter("old_draft_id"));
-    
-    int deleteEmailId = stringToInt(request.getParameter("delete"));
-    boolean saveAsDraft = Boolean.parseBoolean(request.getParameter("save_as_draft"));
+	 
     Properties data = new Properties();
+	  Object[] maps;
+    try {
+      maps = fetchMultipartParams(request, "attachment_");
+      
+    } catch (FileUploadException e) {
+      data.setProperty("error","Failed to parse form parametsers: " + e.getMessage());
+      Gson gson = new Gson();
+      gson.toJson(data, response.getWriter());
+      response.setStatus(HttpServletResponse.SC_OK);
+      return; 
+    }
+	  
+	  @SuppressWarnings("unchecked")
+    HashMap<String,String> params = (HashMap<String,String>)maps[0];
+	  @SuppressWarnings("unchecked")
+    HashMap<String,byte[]> attachments = (HashMap<String,byte[]>)maps[1];
+	  
+	  String recipient = params.get("recipient");
+    String cc = params.get("cc");
+    String bcc = params.get("bcc");
+    String subject = params.get("subject");
+    String body = params.get("body");
+    String category = params.get("category");
+    int templateID = stringToInt(params.get("template_id"));
+    int oldDraftID = stringToInt(params.get("old_draft_id"));
+    
+	  
+	  
+    
+    int deleteEmailId = stringToInt(params.get("delete"));
+    boolean saveAsDraft = Boolean.parseBoolean(params.get("save_as_draft"));
     
     if(!request.isUserInRole("administrator")) {
       //this is actually redundant because the servlet is behind /admin but makes me feel better
@@ -80,14 +101,7 @@ public class SendMailServlet extends HttpServlet {
     }
     else {
       boolean errors = false;
-      HashMap<String,byte[]> attachments = null;
-      try {
-        attachments = fetchAttachments(request,"attachment_");
-      }
-      catch (FileUploadException ex) {
-        data.setProperty("error", "Error fetching attachment: " + ex.getMessage());
-        errors = true;
-      }
+
       if (errors == false) {
         MouseMail mail = MouseMail.send(recipient, cc, bcc, subject, body, category,templateID,oldDraftID,attachments);
         data.setProperty("id", Integer.toString(mail.id));
@@ -104,22 +118,27 @@ public class SendMailServlet extends HttpServlet {
 
 	
 	 @SuppressWarnings("rawtypes")
-	private HashMap<String,byte[]> fetchAttachments(HttpServletRequest request, String parameterName) throws FileUploadException {
+	private Object[] fetchMultipartParams(HttpServletRequest request, String attachmentParameterName) throws FileUploadException {
 	  ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
     List items = uploadHandler.parseRequest(request);
     Iterator itr = items.iterator();
     HashMap<String,byte[]> attachments = new HashMap<String, byte[]>();
+    HashMap<String,String> parameters = new HashMap<String, String>();
     while(itr.hasNext()) {
       FileItem item = (FileItem) itr.next();
 
       if(!item.isFormField()) {
-        if (item.getFieldName().startsWith(parameterName)) {
+        if (item.getFieldName().startsWith(attachmentParameterName)) {
           attachments.put(item.getName(),item.get());
         }
+      }else{
+        parameters.put(item.getFieldName(),item.getString());
       }
     }
    
-    return attachments;
+    return new Object[]{parameters,attachments};
 	}
+	
+
 	
 }
