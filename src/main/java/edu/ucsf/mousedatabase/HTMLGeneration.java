@@ -2986,11 +2986,11 @@ public class HTMLGeneration {
     String recipient = address;
     String ccRecipient = null;
     String ccAddr = "?";
-    if (cc != null && !cc.equals(address)) {
+    if (cc != null && !cc.isEmpty() && !cc.equals(address)) {
       ccRecipient = cc;
       ccAddr = "?cc=" + cc + "&";
     }
-    if (cc != null && address == null){
+    if (cc != null && !cc.isEmpty() && address == null){
       address = cc;
       ccAddr = "?";
       recipient = cc;
