@@ -10,42 +10,51 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121126022831) do
+ActiveRecord::Schema.define(:version => 20121128063353) do
 
   create_table "changerequest", :force => true do |t|
     t.integer "mouse_id"
-    t.string  "firstname",     :limit => 128
-    t.string  "lastname",      :limit => 128
-    t.string  "email",         :limit => 128
-    t.string  "status",        :limit => 7,   :default => "new"
+    t.string  "firstname",               :limit => 128
+    t.string  "lastname",                :limit => 128
+    t.string  "email",                   :limit => 128
+    t.string  "status",                  :limit => 7,   :default => "new"
     t.text    "user_comment"
     t.text    "admin_comment"
     t.date    "requestdate"
     t.date    "lastadmindate"
     t.text    "properties"
+    t.integer "facility_id"
+    t.string  "facility_name"
+    t.string  "holder_email"
+    t.string  "holder_name"
+    t.integer "holder_id"
+    t.integer "action_requested"
+    t.string  "request_source"
+    t.string  "cryo_live_status"
+    t.text    "genetic_background_info"
   end
 
   create_table "email_templates", :force => true do |t|
-    t.string   "name"
-    t.string   "emailType"
-    t.text     "subject"
-    t.text     "body"
-    t.string   "category"
-    t.datetime "date_updated", :null => false
+    t.string    "name"
+    t.string    "emailType"
+    t.text      "subject"
+    t.text      "body"
+    t.string    "category"
+    t.timestamp "date_updated", :null => false
   end
 
   create_table "emails", :force => true do |t|
-    t.text     "recipients"
-    t.text     "ccs"
-    t.text     "bccs"
-    t.string   "emailType"
-    t.text     "subject"
-    t.text     "body"
-    t.string   "status"
-    t.datetime "date_created",     :null => false
-    t.string   "category"
-    t.string   "template_name"
-    t.text     "attachment_names"
+    t.text      "recipients"
+    t.text      "ccs"
+    t.text      "bccs"
+    t.string    "emailType"
+    t.text      "subject"
+    t.text      "body"
+    t.string    "status"
+    t.timestamp "date_created",     :null => false
+    t.string    "category"
+    t.string    "template_name"
+    t.text      "attachment_names"
   end
 
   create_table "expressedsequence", :force => true do |t|
@@ -160,12 +169,12 @@ ActiveRecord::Schema.define(:version => 20121126022831) do
   end
 
   create_table "settings", :force => true do |t|
-    t.integer  "category_id"
-    t.string   "name"
-    t.string   "label"
-    t.text     "setting_value"
-    t.datetime "date_updated",                  :null => false
-    t.integer  "text_area_rows", :default => 0
+    t.integer   "category_id"
+    t.string    "name"
+    t.string    "label"
+    t.text      "setting_value"
+    t.timestamp "date_updated",                  :null => false
+    t.integer   "text_area_rows", :default => 0
   end
 
   create_table "source", :force => true do |t|
