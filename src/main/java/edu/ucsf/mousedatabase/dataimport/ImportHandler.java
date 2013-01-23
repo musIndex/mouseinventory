@@ -1379,29 +1379,20 @@ public class ImportHandler
     }
 
     newRequest.setStatus("pending");
-    newRequest.setUserComment("Auto-generated change request");
-    Properties props = new Properties();
-
-    String addHolderPropertyValue = (holderToAdd != null ?
-        Integer.toString(holderToAdd.getHolderID()) + "|" : "") +
-        addedHolder;
-
-    String addFacilityPropertyValue = (facilityToAdd != null ?
-        Integer.toString(facilityToAdd.getFacilityID()) + "|" : "") +
-        addedFacility;
-
-
-    props.setProperty("Add Holder", addHolderPropertyValue);
-    props.setProperty("Add Facility", addFacilityPropertyValue);
-    props.setProperty("Recipient PI Name", addedHolder);
-
-    for(Object propName : extraProps.keySet())
-    {
-      props.setProperty(propName.toString(), extraProps.getProperty(propName.toString()));
+    String comment = "Auto-generated change request\n";
+    
+    newRequest.setHolderId(holderToAdd != null ? holderToAdd.getHolderID() : -1);
+    newRequest.setHolderName(holderToAdd == null ? addedHolder : null);
+    newRequest.setFacilityId(facilityToAdd != null ? facilityToAdd.getFacilityID() : -1);
+    newRequest.setFacilityName(facilityToAdd == null ? addedFacility : null);
+    newRequest.setActionRequested(ChangeRequest.Action.ADD_HOLDER);
+   
+    for(Object propName : extraProps.keySet()) {
+      comment += propName.toString() + ": " + extraProps.getProperty(propName.toString() + "\n");
     }
 
-    newRequest.setProperties(props);
-
+    newRequest.setUserComment(comment);
+    
     int requestId = DBConnect.insertChangeRequest(newRequest);
     Log.Info("ImportHandler created new change request # " + requestId);
     newRequest.setRequestID(requestId);
