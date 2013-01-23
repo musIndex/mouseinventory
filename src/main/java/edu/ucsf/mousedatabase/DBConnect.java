@@ -3126,12 +3126,16 @@ public class DBConnect {
       if (result.Properties() != null) {
         //legacy change requests
         result.setActionRequested(Action.OTHER);
+        result.setFacilityId(-1);
+        result.setHolderId(-1);
         for (Object key : result.Properties().keySet()) {
           String propertyName = (String) key;
           String propertyValue = (String) result.Properties().get(key);
+          String preValue = null;
           //if (propertyName.equals("Add Holder") || propertyName.equals("Add Facility")) {
             int splitterIndex = propertyValue.indexOf('|');
             if (splitterIndex > 0) {
+              preValue = propertyValue.substring(0,splitterIndex);
               propertyValue = propertyValue.substring(splitterIndex + 1);
             }
             if (propertyName.matches("Add Holder( Name)?|Remove Holder|Delete Holder Name")) {
@@ -3142,8 +3146,11 @@ public class DBConnect {
               else {
                 result.setActionRequested(Action.REMOVE_HOLDER);
               }
+              if (preValue != null && preValue.matches("[\\d]+")){
+                result.setHolderId(Integer.parseInt(preValue));
+              }
             }
-            else if (propertyName.equals("Add Facility( Name)?|Facility|Delete Facility Name")) {
+            else if (propertyName.matches("Add Facility( Name)?|Facility|Delete Facility Name")) {
               result.setFacilityName(propertyValue);
             }
             else if (propertyName.equals("Request Source")) {
@@ -3164,8 +3171,7 @@ public class DBConnect {
         else if (comment.contains("(Cryo only)")) {
           result.setCryoLiveStatus("Cryo only");
         }
-        result.setFacilityId(-1);
-        result.setHolderId(-1);
+        
       }
       else {
         int facilityId = g_int("facility_id");

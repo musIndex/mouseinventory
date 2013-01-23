@@ -1876,23 +1876,27 @@ public class HTMLGeneration {
       String emailRecipient = nextRequest.getEmail();
       String emailCc = null;
       
-      if (nextRequest.Properties() != null)
-      {
-        //TODo use holderID/holder name
-        String holderName = (String)nextRequest.Properties().get("Add Holder");
-        if (holderName == null){
-          holderName = (String)nextRequest.Properties().get("Add Holder Name");
+      if (nextRequest.Properties() != null) {
+        IHolder holder = null;
+        if (nextRequest.getHolderId() > 0) {
+          holder = DBConnect.getHolder(nextRequest.getHolderId());
         }
-        if (holderName == null){
-          holderName = (String)nextRequest.Properties().get("Delete Holder Name");
-        }
-        if (holderName != null){
-          IHolder holder = DBConnect.findHolder(holderName);
-          if (holder != null){
-            EmailRecipient rec = EmailRecipientManager.recipientsForRequestorAndHolder(nextRequest.getEmail(), holder);
-            emailRecipient = rec.recipients;
-            emailCc = rec.ccs;
+        else {
+          String holderName = (String)nextRequest.Properties().get("Add Holder");
+          if (holderName != null){
+            String[] tokens = holderName.split(",");
+            String name = "";
+            for (int i = 1; i< tokens.length; i++){
+              name += tokens[i].trim() + " ";
+            }
+            name += tokens[0];
+            holder = DBConnect.findHolder(name);
           }
+        }
+        if (holder != null){
+          EmailRecipient rec = EmailRecipientManager.recipientsForRequestorAndHolder(nextRequest.getEmail(), holder);
+          emailRecipient = rec.recipients;
+          emailCc = rec.ccs;
         }
       }
       
