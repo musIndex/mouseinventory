@@ -1800,7 +1800,7 @@ public class HTMLGeneration {
     table.append("<td style='min-width: 140px'>\r\n");
     table.append("Requestor Info");
     table.append("</td>\r\n");
-    table.append("<td >\r\n");
+    table.append("<td style='min-width: 150px'>\r\n");
     table.append("Action requested");
     table.append("</td>\r\n");
     
@@ -1852,7 +1852,7 @@ public class HTMLGeneration {
       table.append("<dt>\r\n");
       table.append("Status: <b>" + nextRequest.getStatus() + "</b>");
       table.append("</dt>\r\n");
-
+          
       table.append("<dt>\r\n");
       table.append("<a href='DeleteChangeRequest.jsp?id="
           + nextRequest.getRequestID() + "'>Delete</a>");
@@ -1911,26 +1911,28 @@ public class HTMLGeneration {
       table.append("<td valign='top'>\r\n");
       
 
-        //new change request format, no properties
-        table.append("<dl><dt class='" + nextRequest.actionRequested() + "'>");
-        table.append(nextRequest.actionRequested().label + "</dt>");
-        if (nextRequest.actionRequested() == Action.ADD_HOLDER || nextRequest.actionRequested() == Action.REMOVE_HOLDER) {
-          table.append("<dd>" + nextRequest.getHolderName());
-          if (nextRequest.getHolderId() == -2) {
-            //TODO build a link to add new holder, with link back to this page.
-            table.append(" (");
-            if (nextRequest.getHolderEmail() != null) {
-              table.append(nextRequest.getHolderEmail() +", ");
-            }
-            table.append("not in holder list)");
+      //new change request format, no properties
+      table.append("<dl><dt class='" + nextRequest.actionRequested() + "'>");
+      table.append(nextRequest.actionRequested().label + "</dt>");
+      if (nextRequest.actionRequested() == Action.ADD_HOLDER || nextRequest.actionRequested() == Action.REMOVE_HOLDER) {
+        table.append("<dt>" + nextRequest.getHolderName());
+        if (nextRequest.getHolderId() == -2) {
+          //TODO build a link to add new holder, with link back to this page.
+          table.append(" (");
+          if (nextRequest.getHolderEmail() != null) {
+            table.append(nextRequest.getHolderEmail() +", ");
           }
-          table.append("</dd><dd>Facility: ");
-          table.append(nextRequest.getFacilityName());
-          if (nextRequest.getFacilityId() == -2) {
-            table.append(" (not in facility list)");
-          }
-          table.append("</dd><dd>Status: " + nextRequest.getCryoLiveStatus() + "</dd>");
+          table.append("not in holder list)");
         }
+        table.append("</dt><dt>Facility: ");
+        table.append(nextRequest.getFacilityName());
+        if (nextRequest.getFacilityId() == -2) {
+          table.append(" (not in facility list)");
+        }
+        if (nextRequest.getCryoLiveStatus() != null && !nextRequest.getCryoLiveStatus().isEmpty()){
+          table.append("</dt><dt>Status: " + nextRequest.getCryoLiveStatus() + "</dt>");
+        }
+      }
 
      
       table.append("</td>\r\n");

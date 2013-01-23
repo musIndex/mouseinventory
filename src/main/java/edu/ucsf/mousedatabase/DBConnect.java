@@ -3134,16 +3134,16 @@ public class DBConnect {
             if (splitterIndex > 0) {
               propertyValue = propertyValue.substring(splitterIndex + 1);
             }
-            if (propertyName.equals("Add Holder") || propertyName.equals("Remove Holder")) {
+            if (propertyName.matches("Add Holder( Name)?|Remove Holder|Delete Holder Name")) {
               result.setHolderName(propertyValue);
-              if (propertyName.equals("Add Holder")) {
+              if (propertyName.matches("Add Holder( Name)?")) {
                 result.setActionRequested(Action.ADD_HOLDER);
               }
               else {
                 result.setActionRequested(Action.REMOVE_HOLDER);
               }
             }
-            else if (propertyName.equals("Add Facility") || propertyName.equals("Facility")) {
+            else if (propertyName.equals("Add Facility( Name)?|Facility|Delete Facility Name")) {
               result.setFacilityName(propertyValue);
             }
             else if (propertyName.equals("Request Source")) {
@@ -3153,6 +3153,16 @@ public class DBConnect {
               result.setHolderEmail(propertyValue);
             }
           //}
+        }
+        String comment = result.getUserComment();
+        if (comment.contains("(Live only)")) {
+          result.setCryoLiveStatus("Live only");
+        }
+        else if (comment.contains("(Live and Cryo)")) {
+          result.setCryoLiveStatus("Live and Cryo");
+        }
+        else if (comment.contains("(Cryo only)")) {
+          result.setCryoLiveStatus("Cryo only");
         }
         result.setFacilityId(-1);
         result.setHolderId(-1);
