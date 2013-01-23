@@ -316,68 +316,29 @@ public class HTMLGeneration {
       holderList = new ArrayList<MouseHolder>();
     }
 
-    if (req != null && req.Properties() != null) {
-      int addHolderID = -1;
-      int addFacilityId = -1;
-      //if there is a holder and facility in the change requests, add it to the list
-      for(String propName : req.Properties().stringPropertyNames()) {
-        String propertyValue = req.Properties().getProperty(propName);
-        if (propName.equals("Add Holder")) {
-          int splitterIndex = propertyValue.indexOf('|');
-          if (splitterIndex > 0) {
-            try {
-              addHolderID = Integer.parseInt(propertyValue.substring(0,splitterIndex));
-            }
-            catch (Exception e)
-            {
-              Log.Error("Unable to parse int from holder property value in change request #" + req.getRequestID() + ": " + propertyValue,e);
-            }
-          }
-        }
-        else if (propName.equals("Add Facility"))
-        {
-          int splitterIndex = propertyValue.indexOf('|');
-          if (splitterIndex > 0)
-          {
-            try
-            {
-              addFacilityId = Integer.parseInt(propertyValue.substring(0,splitterIndex));
-            }
-            catch (Exception e)
-            {
-              Log.Error("Unable to parse int from facility property value in change request #" + req.getRequestID() + ": " + propertyValue,e);
-            }
-          }
-        }
-        else if (propName.equals("Add Holder Name"))
-        {
-          IHolder holder = DBConnect.findHolder(propertyValue);
-          if (holder != null)
-          {
-            addHolderID = holder.getHolderID();
-          }
-        }
-        else if (propName.equals("Add Facility Name"))
-        {
-          Facility facility = DBConnect.findFacility(propertyValue);
-          if (facility != null)
-          {
-            addFacilityId = facility.getFacilityID();
-          }
-        }
-      }
-      if (addHolderID > 0)
+    if (req != null && req.actionRequested() == Action.ADD_HOLDER) {
+      if (req.getHolderId() > 0)
       {
         MouseHolder addedHolder = new MouseHolder();
         addedHolder.setNewlyAdded(true);
-        addedHolder.setHolderID(addHolderID);
-        if (addFacilityId > 0)
+        addedHolder.setHolderID(req.getHolderId());
+        if (req.getFacilityId() > 0)
         {
-          addedHolder.setFacilityID(addFacilityId);
+          addedHolder.setFacilityID(req.getFacilityId());
+        }
+        if (req.getCryoLiveStatus() != null) {
+          if (req.getCryoLiveStatus().matches("Live only")) {
+            addedHolder.setCryoLiveStatus("Live only"); 
+          }
+          else if (req.getCryoLiveStatus().matches("Live and Cryo")) {
+            addedHolder.setCryoLiveStatus("Live and Cryo");
+          }
+          else if (req.getCryoLiveStatus().matches("Cryo only")) {
+            addedHolder.setCryoLiveStatus("Cryo only");
+          }
         }
         holderList.add(addedHolder);
       }
-
     }
 
 //    TODO finish this - auto populate multiple holders on the submission - need a way to deal with holders that don't yet exisit
