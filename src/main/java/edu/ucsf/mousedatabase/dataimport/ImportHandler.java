@@ -1388,7 +1388,10 @@ public class ImportHandler
     newRequest.setActionRequested(ChangeRequest.Action.ADD_HOLDER);
    
     for(Object propName : extraProps.keySet()) {
-      comment += propName.toString() + ": " + extraProps.getProperty(propName.toString() + "\n");
+      if (extraProps.getProperty(propName.toString()) == null) {
+        continue;
+      }
+      comment += propName.toString() + ": " + extraProps.getProperty(propName.toString()) + "\n";
     }
 
     newRequest.setUserComment(comment);

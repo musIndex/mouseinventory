@@ -1908,27 +1908,8 @@ public class HTMLGeneration {
       if (nextRequest.getGeneticBackgroundInfo() != null && !nextRequest.getGeneticBackgroundInfo().isEmpty()) {
         table.append("<b>Genetic background info:</b> " + nextRequest.getGeneticBackgroundInfo() + "<br><br>");
       }
-      table.append("<span class=\"mouseComment\">" + emptyIfNull(nextRequest.getUserComment()) + "</span><br>");
-      if (nextRequest.Properties() != null) {
-        table.append("********");
-        table.append("<dl>");
-        for (Object key : nextRequest.Properties().keySet()) {
-          String propertyName = (String) key;
-          String propertyValue = (String) nextRequest.Properties()
-              .get(key);
-          if (propertyName.equals("Add Holder") || propertyName.equals("Add Facility") || propertyName.equals("Remove Holder") 
-              || propertyName.equals("New Holder Email") || propertyName.equals("Facility") || propertyName.equals("Request Source") ||
-              propertyName.equals("Delete Holder Name") || propertyName.equals("Delete Facility Name") || propertyName.equals("Add Holder Name")) {
-            continue;
-          }
+      table.append("<span class=\"mouseComment\">" +  HTMLUtilities.getCommentForDisplay(emptyIfNull(nextRequest.getUserComment())) + "</span><br>");
 
-          table.append("<dt>");
-          table.append(propertyName + " = " + propertyValue);
-          table.append("</dt>\r\n");
-        }
-        table.append("</dl>");
-        
-      }
       table.append("</td>");
 
       // COLUMN - Administration
