@@ -1861,7 +1861,7 @@ public class HTMLGeneration {
       
       
       
-      table.append(getAdminMailLink(emailRecipient, emailCc, EmailTemplate.CHANGREQUEST, -1,nextRequest.getRequestID(), null,-1));
+      table.append(getAdminMailLink(emailRecipient, emailCc, EmailTemplate.CHANGEREQUEST, -1,nextRequest.getRequestID(), null,-1));
       table.append("</dt>\r\n");
 
       if (nextRequest.getRequestSource() != null) {
