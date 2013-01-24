@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class EmailTemplate {
   
   public static final String SUBMISSION = "Submissions";
-  public static final String CHANGREQUEST = "Change Requests";
+  public static final String CHANGEREQUEST = "Change Requests";
   public static final String MOUSERECORD = "Edit Records";
   public static final String HOLDER = "Edit Holders";
   public static final String PDU_SUBMISSION = "PDU - Submissions";
@@ -19,7 +19,7 @@ public class EmailTemplate {
   public static String[] getCategories(){
     return new String[]{
         SUBMISSION,
-        CHANGREQUEST,
+        CHANGEREQUEST,
         MOUSERECORD,
         HOLDER,
         PDU_SUBMISSION,
