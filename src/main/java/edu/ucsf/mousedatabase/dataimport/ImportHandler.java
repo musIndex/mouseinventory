@@ -325,14 +325,13 @@ public class ImportHandler
         }
 
         Properties props = new Properties();
-        props.setProperty("Request Source", importDefinition.Name);
 
         props.setProperty("New Holder Email", addedHolderEmail);
         props.setProperty("Recipient", recipientName);
         props.setProperty("Recipient email", recipientEmail);
         props.setProperty("Original PI", nicelyFormattedCurrentHolder);
 
-        ChangeRequest request = createChangeRequest(mouseId, recipientEmail, recipientName, localAddedHolder, localAddedFacility, nicelyFormattedAddedHolder,roomName,props);
+        ChangeRequest request = createChangeRequest(mouseId, recipientEmail, recipientName, localAddedHolder, localAddedFacility, nicelyFormattedAddedHolder,roomName,props,importDefinition.Name);
 
         newChangeRequestIds.add(request.getRequestID());
 
@@ -918,7 +917,6 @@ public class ImportHandler
             }
           }
           Properties props = new Properties();
-          props.setProperty("Request Source", importDefinition.Name);
 
           //TODO map room name to facility
 
@@ -938,7 +936,7 @@ public class ImportHandler
           props.setProperty("CatalogNumber",purchase.stockNumber);
 
           ChangeRequest request = createChangeRequest(Integer.parseInt(mouse.getMouseID()), purchase.purchaserEmail, purchase.purchaserName,
-              localAddedHolder, localAddedFacility, purchase.holderName, purchase.roomName, props);
+              localAddedHolder, localAddedFacility, purchase.holderName, purchase.roomName, props, importDefinition.Name);
 
           int requestId = request.getRequestID();
           requestIds.add(requestId);
@@ -1359,7 +1357,7 @@ public class ImportHandler
   }
 
 
-  private static ChangeRequest createChangeRequest(int mouseId, String requestorEmail, String requestorName, Holder holderToAdd, Facility facilityToAdd, String addedHolder, String addedFacility, Properties extraProps)
+  private static ChangeRequest createChangeRequest(int mouseId, String requestorEmail, String requestorName, Holder holderToAdd, Facility facilityToAdd, String addedHolder, String addedFacility, Properties extraProps, String requestSource)
   {
     //create a new change request
     ChangeRequest newRequest = new ChangeRequest();
@@ -1386,6 +1384,7 @@ public class ImportHandler
     newRequest.setFacilityId(facilityToAdd != null ? facilityToAdd.getFacilityID() : -1);
     newRequest.setFacilityName(facilityToAdd == null ? addedFacility : null);
     newRequest.setActionRequested(ChangeRequest.Action.ADD_HOLDER);
+    newRequest.setRequestSource(requestSource);
    
     for(Object propName : extraProps.keySet()) {
       if (extraProps.getProperty(propName.toString()) == null) {

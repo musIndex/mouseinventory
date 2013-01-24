@@ -1859,9 +1859,20 @@ public class HTMLGeneration {
         emailCc = rec.ccs;
       }
       
+      String emailType = EmailTemplate.CHANGEREQUEST;
       
+      if (nextRequest.getRequestSource() != null) {
+        if (nextRequest.getRequestSource().toLowerCase().contains("(pdu)") ||
+            nextRequest.getUserComment().toLowerCase().contains("(pdu)")){
+          emailType = EmailTemplate.PDU_CHANGEREQUEST;
+        } 
+        else if (nextRequest.getRequestSource().toLowerCase().contains("(tdu)") ||
+            nextRequest.getUserComment().toLowerCase().contains("(tdu)")){
+          emailType = EmailTemplate.TDU_CHANGEREQUEST;
+        }
+      }
       
-      table.append(getAdminMailLink(emailRecipient, emailCc, EmailTemplate.CHANGEREQUEST, -1,nextRequest.getRequestID(), null,-1));
+      table.append(getAdminMailLink(emailRecipient, emailCc, emailType, -1,nextRequest.getRequestID(), Integer.toString(nextRequest.getMouseID()),-1));
       table.append("</dt>\r\n");
 
       if (nextRequest.getRequestSource() != null) {
