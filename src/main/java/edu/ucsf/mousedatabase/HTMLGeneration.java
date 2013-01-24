@@ -1781,8 +1781,7 @@ public class HTMLGeneration {
 
   }
 
-  public static String getChangeRequestsTable(ArrayList<ChangeRequest> requests,
-      String currentPageStatus) {
+  public static String getChangeRequestsTable(ArrayList<ChangeRequest> requests, String currentPageStatus) {
     StringBuffer table = new StringBuffer();
     table.append("<div class=\"mouseTable\">\r\n");
     table.append("<table style='width:100%'>\r\n");
@@ -1837,29 +1836,29 @@ public class HTMLGeneration {
       String emailRecipient = nextRequest.getEmail();
       String emailCc = null;
       
-      if (nextRequest.Properties() != null) {
-        IHolder holder = null;
-        if (nextRequest.getHolderId() > 0) {
-          holder = DBConnect.getHolder(nextRequest.getHolderId());
-        }
-        else {
-          String holderName = (String)nextRequest.Properties().get("Add Holder");
-          if (holderName != null){
-            String[] tokens = holderName.split(",");
-            String name = "";
-            for (int i = 1; i< tokens.length; i++){
-              name += tokens[i].trim() + " ";
-            }
-            name += tokens[0];
-            holder = DBConnect.findHolder(name);
+      
+      IHolder holder = null;
+      if (nextRequest.getHolderId() > 0) {
+        holder = DBConnect.getHolder(nextRequest.getHolderId());
+      }
+      else if (nextRequest.getHolderName() != null) {
+        String holderName = nextRequest.getHolderName();
+        if (holderName != null){
+          String[] tokens = holderName.split(",");
+          String name = "";
+          for (int i = 1; i< tokens.length; i++){
+            name += tokens[i].trim() + " ";
           }
-        }
-        if (holder != null){
-          EmailRecipient rec = EmailRecipientManager.recipientsForRequestorAndHolder(nextRequest.getEmail(), holder);
-          emailRecipient = rec.recipients;
-          emailCc = rec.ccs;
+          name += tokens[0];
+          holder = DBConnect.findHolder(name);
         }
       }
+      if (holder != null){
+        EmailRecipient rec = EmailRecipientManager.recipientsForRequestorAndHolder(nextRequest.getEmail(), holder);
+        emailRecipient = rec.recipients;
+        emailCc = rec.ccs;
+      }
+      
       
       
       table.append(getAdminMailLink(emailRecipient, emailCc, EmailTemplate.CHANGREQUEST, -1,nextRequest.getRequestID(), null,-1));
