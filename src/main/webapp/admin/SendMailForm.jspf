@@ -39,7 +39,7 @@
         <td><input type='text' name='bcc' value='<%=DBConnect.loadSetting("admin_info_email").value %>'></td>
       </tr>
       <tr>
-      <td>Template:</td><td><select name='template_id'></select></td>
+      <td>Template:<span id='template_category'></span></td><td><select name='template_id'></select></td>
       </tr>
       <% if (drafts.size() > 0) { %>
         <tr><td>Load saved draft:</td><td><select name='old_draft_id'></select></td></tr>
@@ -167,6 +167,7 @@ $(document).ready(function(){
     template_selector.children().remove();
     var category = $this.data('category');
     if (category) {
+      $('#template_category').html('<a href="<%= adminRoot %>ManageEmailTemplates.jsp?category=' + category + '">(' + category + ')</a>');
       templates = all_templates[category];
       if (templates){
         template_selector.append($('<option>',{value: -1, text: ''}));

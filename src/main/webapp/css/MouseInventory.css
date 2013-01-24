@@ -969,3 +969,7 @@ div.mousetype_selection_links > ul > li select {
 div.facilityTable tbody.sorting td {
 	cursor: move;
 }
+#template_category {
+  font-size: 80%;
+  display: block;
+}
