@@ -370,7 +370,7 @@ public class ImportHandler
         String emailLink = getMailToLink(recipientEmail, addedHolderEmail, subjectText, emailBodyText, "Email " + nicelyFormattedAddedHolder);
 
         sb.append(emailLink + rawRecord );
-        DBConnect.updateChangeRequest(request.getRequestID(), "pending", request.getUserComment() + "<br>" + emailLink);
+        DBConnect.updateChangeRequest(request.getRequestID(), "pending", emptyIfNull(request.getAdminComment()) + "<br>" + emailLink);
         newChangeRequests.add(sb.toString());
         ImportStatusTracker.AppendMessage(importTaskId, "Added change request #" + request.getRequestID() + " for mouse " + HTMLUtilities.getCommentForDisplay(mouse.getSource()));
       }
@@ -966,7 +966,7 @@ public class ImportHandler
                   purchase.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchase.holderName));
 
           sb.append(emailLink + purchase.rawRecord );
-          DBConnect.updateChangeRequest(request.getRequestID(), "pending", request.getUserComment() + "<br>" + emailLink);
+          DBConnect.updateChangeRequest(request.getRequestID(), "pending", emptyIfNull(request.getAdminComment()) + "<br>" + emailLink);
           newChangeRequests.add(sb.toString());
 
           continue;
