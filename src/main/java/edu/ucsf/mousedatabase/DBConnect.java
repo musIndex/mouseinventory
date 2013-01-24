@@ -1083,12 +1083,19 @@ public class DBConnect {
 
   public static ArrayList<ChangeRequest> getChangeRequests(String status, String orderBy)
   {
+    return getChangeRequests(status, orderBy, "all");
+  }
+  
+  public static ArrayList<ChangeRequest> getChangeRequests(String status, String orderBy, String requestSource){
     ArrayList<String> whereTerms = new ArrayList<String>();
     String additionalJoins = "";
     if (status != null && !status.isEmpty() && !status.equalsIgnoreCase("all")) {
-          whereTerms.add("changerequest.status='" + status + "'");
-      }
-      return getChangeRequests(additionalJoins,whereTerms,orderBy);
+        whereTerms.add("changerequest.status=" + safeText(status));
+    }
+    if (requestSource != null && !requestSource.isEmpty() && !requestSource.equalsIgnoreCase("all")) {
+      whereTerms.add("changerequest.request_source like '%" + requestSource + "%'");
+    }
+    return getChangeRequests(additionalJoins,whereTerms,orderBy);
 
   }
 

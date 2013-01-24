@@ -16,6 +16,7 @@
 
   String status = request.getParameter("status");
   String orderBy = request.getParameter("orderby");
+  String requestSource = request.getParameter("requestSource");
   int currentHolderId = -1;
 
   if(status == null) {
@@ -32,6 +33,14 @@
   else {
     session.setAttribute("manageChangeRequestOrderBy",orderBy);
   }
+  if (requestSource == null) {
+   if ((requestSource = (String)session.getAttribute("manageChangeRquestRequestSource")) == null) {
+	   requestSource = "all";
+   }
+  }
+  else {
+   session.setAttribute("manageChangeRequestRequestSource",requestSource); 
+  }
   
   if (request.getParameter("holder_id") == null && session.getAttribute("manageChangeRequestHolderId") != null) {
       currentHolderId = (Integer)session.getAttribute("manageChangeRequestHolderId");
@@ -47,6 +56,9 @@
   String[] filterOptions = new String[] {"new","pending","done","all"};
   String[] filterOptionNiceNames = new String[] {"New", "Pending", "Completed","All"};
   
+  String[] sourceOptions = new String[] {"all", "request form", "(pdu)", "(tdu)"};
+  String[] sourceOptionNiceNames = new String[] { "All", "Request form", "PDU", "TDU" };
+  
   
 
   StringBuffer sortBuf = new StringBuffer();
@@ -57,9 +69,11 @@
   sortBuf.append(getHolderSelect("holder_id", currentHolderId, false));
   sortBuf.append("&nbsp;Sort by: ");
   sortBuf.append(genSelect("orderby",sortOptions,sortOptionNiceNames, orderBy,null));
+  sortBuf.append("&nbsp;Source: ");
+  sortBuf.append(genSelect("requestSource",sourceOptions,sourceOptionNiceNames,requestSource,null));
   sortBuf.append("</form>");
 
-  ArrayList<ChangeRequest> requests = DBConnect.getChangeRequests(status, orderBy);
+  ArrayList<ChangeRequest> requests = DBConnect.getChangeRequests(status, orderBy, requestSource);
   Holder currentHolder = DBConnect.getHolder(currentHolderId);
   if (currentHolder != null) {
     ArrayList<ChangeRequest> temp = new ArrayList<ChangeRequest>();
@@ -78,7 +92,7 @@
     statusString = "completed change requests";
   }
 
-  session.setAttribute("manageRequestsLastQuery","?status=" + status + "&orderby=" + orderBy);
+  session.setAttribute("manageRequestsLastQuery","?status=" + status + "&orderby=" + orderBy + "&requestSource=" + requestSource);
   session.setAttribute("manageRequestsLastTitle",statusString);
   statusString = "Listing " + statusString;
   
