@@ -1786,6 +1786,8 @@ public class HTMLGeneration {
     table.append("<div class=\"mouseTable\">\r\n");
     table.append("<table style='width:100%'>\r\n");
     int numRequests = 0;
+    
+    ArrayList<MouseRecord> records = new ArrayList<MouseRecord>();
 
     for (ChangeRequest nextRequest : requests) {
 
@@ -1947,11 +1949,14 @@ public class HTMLGeneration {
 
       table.append("</tr>\r\n");
       numRequests++;
+      
+      records.addAll(DBConnect.getMouseRecord(nextRequest.getMouseID()));
     }
     table.append("</table>\r\n");
     table.append("</div>\r\n");
     table.append("<script type='text/javascript'>\r\n");
-    table.append("MouseConf.addChangeRequests(" + new Gson().toJson(requests) + ")");
+    table.append("MouseConf.addChangeRequests(" + new Gson().toJson(requests) + ")\r\n");
+    table.append("MouseConf.addMice(" + new Gson().toJson(records) + ")\r\n");
     table.append("</script>");
     if (numRequests <= 0) {
       return "No results found";
