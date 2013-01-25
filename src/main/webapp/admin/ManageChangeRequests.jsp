@@ -56,17 +56,13 @@
   String[] filterOptions = new String[] {"new","pending","done","all"};
   String[] filterOptionNiceNames = new String[] {"New", "Pending", "Completed","All"};
   
-  String[] sourceOptions = new String[] {"all", "request form", "(pdu)", "(tdu)"};
-  String[] sourceOptionNiceNames = new String[] { "All", "Request form", "PDU", "TDU" };
-  
-  
 
   StringBuffer sortBuf = new StringBuffer();
   sortBuf.append("<form class='view_opts' action='ManageChangeRequests.jsp'>");
   sortBuf.append("&nbsp;Show: ");
   sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,null));
   sortBuf.append("&nbsp;Source: ");
-  sortBuf.append(genSelect("requestSource",sourceOptions,sourceOptionNiceNames,requestSource,null));
+  sortBuf.append("<input name='requestSource' type='text' value='" + (requestSource.equals("all") ? "" : requestSource) + "'>");
   sortBuf.append("&nbsp;Filter by holder: ");
   sortBuf.append(getHolderSelect("holder_id", currentHolderId, false));
   sortBuf.append("&nbsp;Sort by: ");
@@ -92,14 +88,7 @@
     statusString = " completed change requests";
   }
   if (!requestSource.equalsIgnoreCase("all")){
-    String source = "";
-    for (int i = 0; i < sourceOptions.length; i++) {
-      if (requestSource.equals(sourceOptions[i])) {
-       source = sourceOptionNiceNames[i];
-       break;
-      }
-    }
-    statusString += " from the " + source; 
+    statusString += " from source " + requestSource; 
   }
   if (currentHolderId > 0) {
     IHolder holder = DBConnect.getHolder(currentHolderId);

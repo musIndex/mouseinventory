@@ -977,3 +977,6 @@ a.email_sent {
   font-style: italic;
   color: grey;
 }
+a.view_sent {
+  font-size: 12px;
+}
