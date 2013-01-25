@@ -65,12 +65,12 @@
   sortBuf.append("<form class='view_opts' action='ManageChangeRequests.jsp'>");
   sortBuf.append("&nbsp;Show: ");
   sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,null));
+  sortBuf.append("&nbsp;Source: ");
+  sortBuf.append(genSelect("requestSource",sourceOptions,sourceOptionNiceNames,requestSource,null));
   sortBuf.append("&nbsp;Filter by holder: ");
   sortBuf.append(getHolderSelect("holder_id", currentHolderId, false));
   sortBuf.append("&nbsp;Sort by: ");
   sortBuf.append(genSelect("orderby",sortOptions,sortOptionNiceNames, orderBy,null));
-  sortBuf.append("&nbsp;Source: ");
-  sortBuf.append(genSelect("requestSource",sourceOptions,sourceOptionNiceNames,requestSource,null));
   sortBuf.append("</form>");
 
   ArrayList<ChangeRequest> requests = DBConnect.getChangeRequests(status, orderBy, requestSource);
