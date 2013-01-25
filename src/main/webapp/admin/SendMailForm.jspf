@@ -126,6 +126,7 @@ $(document).ready(function(){
       error: mailSaveError,
       async: true
   	});
+    return false;
   }
   
   function sendMail(){
@@ -154,6 +155,7 @@ $(document).ready(function(){
       error: mailSendError,
       async: true
   	});
+    return false;
   }
   
   function showSendMailContainer(){
@@ -169,7 +171,7 @@ $(document).ready(function(){
     template_selector.children().remove();
     var category = $this.data('category');
     if (category) {
-      $('#template_category').html('<a href="<%= adminRoot %>ManageEmailTemplates.jsp?category=' + category + '"(' + category + ')</a>');
+      $('#template_category').html('<a href="<%= adminRoot %>ManageEmailTemplates.jsp?category=' + category + '">(' + category + ')</a>');
       templates = all_templates[category];
       if (templates){
         template_selector.append($('<option>',{value: -1, text: ''}));
@@ -192,6 +194,7 @@ $(document).ready(function(){
       draft_selector.parent().show();
     }
     
+    $("#sendMailContainer a.btn.btn-primary").text('Send');
     $("#sendMailContainer #results_container").hide();
     $("#sendMailContainer div.body table").show();
     $("#sendMailContainer a.btn").show().removeClass('disabled');

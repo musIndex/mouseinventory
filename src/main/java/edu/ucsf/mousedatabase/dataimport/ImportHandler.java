@@ -331,7 +331,7 @@ public class ImportHandler
         props.setProperty("Recipient email", recipientEmail);
         props.setProperty("Original PI", nicelyFormattedCurrentHolder);
 
-        ChangeRequest request = createChangeRequest(mouseId, recipientEmail, recipientName, localAddedHolder, localAddedFacility, nicelyFormattedAddedHolder,roomName,props,importDefinition.Name);
+        ChangeRequest request = createChangeRequest(mouseId, recipientEmail, recipientName, localAddedHolder, localAddedFacility, nicelyFormattedAddedHolder,roomName,props,importDefinition.Name + "(" + reportName + ")");
 
         newChangeRequestIds.add(request.getRequestID());
 
@@ -374,7 +374,8 @@ public class ImportHandler
 
     if (csvData.size() > 0)
     {
-      buildReport(sb,"Newly Created Change Requests",newChangeRequests);
+      String link = " (<a class='view_link' href='" + adminRoot + "ManageChangeRequests.jsp?requestSource=" + reportName + "'>view requests</a>)";
+      buildReport(sb,"Newly Created Change Requests",newChangeRequests,null,link);
       buildReport(sb,"Duplicates (No Change Request Created)",skippedChangeRequests);
       buildReport(sb,"Paper Form Imports", paperFormImports);
       buildReport(sb,"Blank Strain names", blankStrainImports);
@@ -911,7 +912,7 @@ public class ImportHandler
           props.setProperty("CatalogNumber",purchase.stockNumber);
 
           ChangeRequest request = createChangeRequest(Integer.parseInt(mouse.getMouseID()), purchase.purchaserEmail, purchase.purchaserName,
-              localAddedHolder, localAddedFacility, purchase.holderName, purchase.roomName, props, importDefinition.Name);
+              localAddedHolder, localAddedFacility, purchase.holderName, purchase.roomName, props, importDefinition.Name + "(" + reportName + ")");
 
           int requestId = request.getRequestID();
           requestIds.add(requestId);
@@ -1134,14 +1135,17 @@ public class ImportHandler
     if (csvData.size() > 0)
     {
       buildReport(submissionReport,"Newly Created Submissions",newSubmissions,
-          "creates a draft submission for a mouse that is not yet listed in the database, with the name of a holder whose lab received the mouse");
+          "creates a draft submission for a mouse that is not yet listed in the database, with the name of a holder whose lab received the mouse",null);
+      
+      String link = " (<a class='view_link' href='" + adminRoot + "ManageChangeRequests.jsp?status=all&requestSource=" + reportName + "'>view requests</a>)";
+      
       buildReport(changeRequestReport,"Newly Created Change Requests",newChangeRequests,
-          "adds the name of the holder whose lab received a mouse for which there is already a record");
+          "adds the name of the holder whose lab received a mouse for which there is already a record",link);
       buildReport(submissionReport, "Duplicate Purchasers", duplicatePurchasers);
       buildReport(submissionReport, "No Action Taken", noActionTakenPurchases);
 
       buildReport(changeRequestReport,"Duplicates", duplicateHolders,
-          "ignores transfers, purchases, and imports of mice for which there is already a record and the holder whose lab received the mouse is listed on the record");
+          "ignores transfers, purchases, and imports of mice for which there is already a record and the holder whose lab received the mouse is listed on the record",null);
       buildReport(submissionReport,"Invalid MGI IDs", invalidMGIEntries);
       buildReport(submissionReport, importDefinition.Id == 1 ? "Invalid purchases" : "Invalid imports",invalidPurchases);
       if (importDefinition.Id == 2){
@@ -1239,16 +1243,16 @@ public class ImportHandler
 
   private static void buildReport(StringBuilder sb, String requestType, ArrayList<String> requests)
   {
-    buildReport(sb, requestType, requests, null);
+    buildReport(sb, requestType, requests, null,null);
   }
   
-  private static void buildReport(StringBuilder sb, String requestType, ArrayList<String> requests, String description)
+  private static void buildReport(StringBuilder sb, String requestType, ArrayList<String> requests, String description, String viewLink)
   {
     if (requests.size() <= 0)
     {
       return;
     }
-    sb.append("<h3>" + requestType + " (" + requests.size() + ")</h3>");
+    sb.append("<h3>" + requestType + " (" + requests.size() + ")" + (viewLink != null ? viewLink : "") + "</h3>");
     sb.append("<div class='description'>" + emptyIfNull(description) + "</div>");
     sb.append("<div class='reportBody'>\r\n");
     boolean alternate = true;
