@@ -335,30 +335,6 @@ public class ImportHandler
 
         newChangeRequestIds.add(request.getRequestID());
 
-        dateFormat = new SimpleDateFormat("EEEE, MMMM dd");
-
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, 14);
-
-        String twoWeeksFromNow = dateFormat.format(cal.getTime());
-
-        String subjectText = "";
-        String emailBodyText = "";
-        
-
-        subjectText = "Listing " + nicelyFormattedAddedHolder +
-        " as a holder of " + mouse.getMouseName() + ", record number " + mouse.getMouseID() +
-        ", in the UCSF Mouse Database";
-        emailBodyText = 
-        "In an effort to keep the UCSF mouse inventory database up-to-date, we have implemented a system " +
-        "that tracks PI to PI transfers, and when a PI receives a mouse carrying a mutant allele or transgene " +
-        "that is listed in the database from another PI, the recipient PI's name is automatically added to the list of " +
-        "holders for that mouse." +
-        "\n\n mouse carrying:  " + mouse.getMouseName() + ", database record number #" + mouseId + " " +
-        "was recently transferred from " + nicelyFormattedCurrentHolder + "'s colony to your laboratory's colony." +
-        "\n\n If you do not reply by " + twoWeeksFromNow + ", it will be assumed that it is OK to " +
-        "list you as a holder of the mouse.";
-
         StringBuilder sb = new StringBuilder();
         sb.append("<span class='importAction'>Created change request <span class='changerequest_number'>#" 
             + "</span>" + request.getRequestID() +  ": Add "
@@ -366,10 +342,9 @@ public class ImportHandler
                 "(Transferred from " + nicelyFormattedCurrentHolder + "; ");
         sb.append("Recipient: " + recipientName + ")<br>");
 
-        String emailLink = getMailToLink(recipientEmail, addedHolderEmail, subjectText, emailBodyText, "Email " + nicelyFormattedAddedHolder);
-
-        sb.append(emailLink + rawRecord );
-        DBConnect.updateChangeRequest(request.getRequestID(), "pending", emptyIfNull(request.getAdminComment()) + "<br>" + emailLink);
+   
+        sb.append(rawRecord );
+        DBConnect.updateChangeRequest(request.getRequestID(), "pending", emptyIfNull(request.getAdminComment()));
         newChangeRequests.add(sb.toString());
         ImportStatusTracker.AppendMessage(importTaskId, "Added change request #" + request.getRequestID() + " for mouse " + HTMLUtilities.getCommentForDisplay(mouse.getSource()));
       }
@@ -954,17 +929,9 @@ public class ImportHandler
             sb.append("(imported from " + purchase.senderInstitution + " by " + formatHolderName(purchase.recipientName)+ ") ");
           }
 
-          String subjectText = "Listing " + formatHolderName(purchase.holderName) +
-          " as a holder of " + mouse.getSource() + ", record number " + mouse.getMouseID() + ", in the UCSF Mouse Database";
-          String
-
-          emailBodyText = getCombinedImportEmail(mouse.getMouseID(),mouse.getOfficialMouseName(),mouse.getSource(),purchase,importDefinition);
-
-          String emailLink = getMailToLink(importDefinition.Id == 1 ? purchase.purchaserEmail : purchase.recipientEmail, 
-                  purchase.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchase.holderName));
-
-          sb.append(emailLink + purchase.rawRecord );
-          DBConnect.updateChangeRequest(request.getRequestID(), "pending", emptyIfNull(request.getAdminComment()) + "<br>" + emailLink);
+          
+          sb.append(purchase.rawRecord );
+          DBConnect.updateChangeRequest(request.getRequestID(), "pending", emptyIfNull(request.getAdminComment()));
           newChangeRequests.add(sb.toString());
 
           continue;
