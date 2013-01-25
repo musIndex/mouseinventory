@@ -89,8 +89,23 @@
 
   String statusString = status + " change requests";
   if (status.equalsIgnoreCase("done")) {
-    statusString = "completed change requests";
+    statusString = " completed change requests";
   }
+  if (!requestSource.equalsIgnoreCase("all")){
+    String source = "";
+    for (int i = 0; i < sourceOptions.length; i++) {
+      if (requestSource.equals(sourceOptions[i])) {
+       source = sourceOptionNiceNames[i];
+       break;
+      }
+    }
+    statusString += " from the " + source; 
+  }
+  if (currentHolderId > 0) {
+    IHolder holder = DBConnect.getHolder(currentHolderId);
+    statusString += " for holder " + holder.getFullname();
+  }
+ 
 
   session.setAttribute("manageRequestsLastQuery","?status=" + status + "&orderby=" + orderBy + "&requestSource=" + requestSource);
   session.setAttribute("manageRequestsLastTitle",statusString);
