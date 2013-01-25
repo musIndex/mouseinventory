@@ -80,6 +80,8 @@ $(document).ready(function(){
   var draft_selector = $("#sendMailContainer select[name='old_draft_id']");
   var editor = {};
   
+  var last_clicked_email_link;
+  
   var current_objects = {submission: {}, request: {}, mouse: {}};
   
   $("a.adminEmailButton").click(showSendMailContainer);
@@ -155,7 +157,7 @@ $(document).ready(function(){
   }
   
   function showSendMailContainer(){
-    var $this = $(this);
+    var $this = last_clicked_email_link = $(this);
     var fields = ['recipient','cc','subject','body','category'];
     $.each(fields,function(i,field){
       $("#sendMailContainer input[name='" + field + "']").val($this.data(field) || '');
@@ -167,7 +169,7 @@ $(document).ready(function(){
     template_selector.children().remove();
     var category = $this.data('category');
     if (category) {
-      $('#template_category').html('<a href="<%= adminRoot %>ManageEmailTemplates.jsp?category=' + category + '">(' + category + ')</a>');
+      $('#template_category').html('<a href="<%= adminRoot %>ManageEmailTemplates.jsp?category=' + category + '"(' + category + ')</a>');
       templates = all_templates[category];
       if (templates){
         template_selector.append($('<option>',{value: -1, text: ''}));
@@ -228,6 +230,7 @@ $(document).ready(function(){
       .removeClass('alert-success')
       .addClass(cssClass);
     $("#sendMailContainer div.body table").slideUp(200)
+    last_clicked_email_link.addClass('email_sent');
   }
   function mailSendError(data){
     $("#sendMailContainer a.btn.btn-primary").text('Send').removeClass('disabled');
