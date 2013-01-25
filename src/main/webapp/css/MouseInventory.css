@@ -973,3 +973,7 @@ div.facilityTable tbody.sorting td {
   font-size: 80%;
   display: block;
 }
+a.email_sent {
+  font-style: italic;
+  color: grey;
+}
