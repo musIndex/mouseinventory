@@ -329,7 +329,7 @@ public class ImportHandler
         props.setProperty("New Holder Email", addedHolderEmail);
         props.setProperty("Recipient", recipientName);
         props.setProperty("Recipient email", recipientEmail);
-        props.setProperty("Original PI", nicelyFormattedCurrentHolder);
+        props.setProperty("Original holder", nicelyFormattedCurrentHolder);
 
         ChangeRequest request = createChangeRequest(mouseId, recipientEmail, recipientName, localAddedHolder, localAddedFacility, nicelyFormattedAddedHolder,roomName,props,importDefinition.Name + "(" + reportName + ")");
 
