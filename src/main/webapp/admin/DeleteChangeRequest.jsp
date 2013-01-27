@@ -5,6 +5,7 @@
 <%=getPageHeader(null,false,true) %>
 <%=getNavBar("ManageChangeRequests.jsp", true) %>
 <%@ include file='SendMailForm.jspf' %>
+
 <div class="site_container">
 <%
   int id = stringToInt(request.getParameter("id"));
@@ -33,7 +34,7 @@
       DBConnect.deleteChangeRequest(id);
       %>
         <h3>Successfully deleted change request #<%=id %></h3>
-
+        <%@ include file='_lastManageRequestsLink.jspf' %>
       <%
     }
     else
