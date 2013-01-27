@@ -34,41 +34,17 @@
       {
         String userComment = changeRequest.getUserComment();
         String adminComment = changeRequest.getAdminComment();
-        String changeRequestTitle = changeRequest.getFirstname() + " " + changeRequest.getLastname();
-        try{
-        int index = -1;
-
-        if ((index = userComment.indexOf("ADD HOLDER: ")) >= 0)
-        {
-          int parenIndex = userComment.indexOf("(");
-          if (parenIndex > 0)
-          {
-            changeRequestTitle = "Add holder: " + userComment.substring(11 + index,parenIndex);
-          }
+        String changeRequestTitle = changeRequest.getFirstname() + " " + changeRequest.getLastname() + " requested: " +
+          changeRequest.actionRequested().label + " ";
+        if (changeRequest.getHolderId() > 0) {
+          Holder holder = DBConnect.getHolder(changeRequest.getHolderId());
+          changeRequestTitle += holder.getFullname();
         }
-        else if ((index = userComment.indexOf("DELETE HOLDER: ")) >= 0)
-        {
-          int parenIndex = userComment.indexOf("(");
-          if (parenIndex > 0)
-          {
-            changeRequestTitle = "Remove holder: " + userComment.substring(14 + index,parenIndex);
-          }
+        else if (changeRequest.getHolderName() != null) {
+         changeRequestTitle += changeRequest.getHolderName(); 
         }
-        else if  (changeRequest.Properties().containsKey("Add Holder"))
-        {
-          String holderData = changeRequest.Properties().getProperty("Add Holder");
-          index = holderData.indexOf('|');
-          if (index >=0)
-          {
-            holderData = holderData.substring(index+1);
-          }
-          changeRequestTitle = "Add holder: " + holderData;
-
-        }
-        }catch(Exception e)
-        {
-
-        }
+        
+        
 
         ArrayList<MouseRecord> mouse = DBConnect.getMouseRecord(changeRequest.getMouseID());
         if(mouse.size() > 0)
