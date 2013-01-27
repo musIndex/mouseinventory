@@ -1950,6 +1950,7 @@ public class HTMLGeneration {
       table.append("</tr>\r\n");
       numRequests++;
       
+      nextRequest.prepareForSerialization();
       records.addAll(DBConnect.getMouseRecord(nextRequest.getMouseID()));
     }
     table.append("</table>\r\n");

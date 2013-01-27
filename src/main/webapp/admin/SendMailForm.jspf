@@ -287,8 +287,16 @@ $(document).ready(function(){
     $.each(current_objects,function(obj_type,object){
       if (object) {
         $.each(object,function(key,value){
-          var expr = new RegExp("{{" + obj_type + "\." + key + "}}",'g');
-          rendered = rendered.replace(expr,value);
+          if (typeof value === 'object') {
+            $.each(value, function(propName, propValue){
+              var expr = new RegExp("{{" + obj_type + "\." + key + "\\['" + propName + "'\\]}}",'g');
+              rendered = rendered.replace(expr,propValue);
+            });
+          }
+          else {
+            var expr = new RegExp("{{" + obj_type + "\." + key + "}}",'g');
+            rendered = rendered.replace(expr,value);
+          }
         });
       }
     });

@@ -205,6 +205,11 @@
      <dd>{{request.email}}</dd>
      <dd>{{request.requestDate}}</dd>
      <dd>{{request.userComment}}</dd>
+     <dd>{{request.props['Purchaser']}}</dd>
+     <dd>{{request.props['Purchaser email']}}</dd>
+     <dd>{{request.props['CatalogNumber']}}</dd>
+     <dd>{{request.props['Original PI']}}</dd>
+     <dd>{{request.props['Sender institution']}}</dd>
      <dt>Mouse Records</dt>
      <dd>{{mouse.mouseID}}</dd>
      <dd>{{mouse.mouseName}}</dd>

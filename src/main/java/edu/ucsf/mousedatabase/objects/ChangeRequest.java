@@ -44,6 +44,8 @@ public class ChangeRequest {
   private String properties;
   private String mouseName;
   
+  private Properties props;
+  
   private String holderName;
   private String holderEmail;
   private int holderId;
@@ -177,6 +179,10 @@ public class ChangeRequest {
     this.actionRequested = actionRequested;
   }
   public void setActionRequested(String actionRequested) {
+    if (actionRequested == null) {
+      this.actionRequested = Action.UNDEFINED;
+      return;
+    }
     try {
       this.actionRequested = ActionValues[Integer.parseInt(actionRequested)];
     }
@@ -197,6 +203,12 @@ public class ChangeRequest {
   }
   public void setGeneticBackgroundInfo(String geneticBackgroundInfo) {
     this.geneticBackgroundInfo = geneticBackgroundInfo;
+  }
+  public Properties getProps() {
+    return props;
+  }
+  public void setProps(Properties props) {
+    this.props = props;
   }
   public void setProperties(Properties props)
   {
@@ -280,5 +292,9 @@ public class ChangeRequest {
     
     
     return StringUtils.join(errors,",");
+  }
+  
+  public void prepareForSerialization(){
+    this.props = this.Properties();
   }
 }
