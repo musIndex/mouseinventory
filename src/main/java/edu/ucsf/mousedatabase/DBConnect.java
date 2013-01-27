@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 public class DBConnect {
 
   //set this to true for debugging
-  private static final boolean logQueries = true;
+  private static final boolean logQueries = false;
 
 
   private static final String mouseRecordTableColumns =
@@ -3134,9 +3134,9 @@ public class DBConnect {
       result.setLastAdminDate(lastAdminDate != null ? lastAdminDate.toString() : "");
 
       result.setProperties(g_str("properties"));
+      result.setActionRequested(ChangeRequest.ActionValues[g_int("action_requested")]);
       
-      
-      if (result.Properties() != null) {
+      if (result.getActionRequested() == null) {
         //legacy change requests
         result.setActionRequested(Action.OTHER);
         result.setFacilityId(-1);
@@ -3208,7 +3208,6 @@ public class DBConnect {
         }
         result.setGeneticBackgroundInfo(g_str("genetic_background_info"));
         result.setCryoLiveStatus(g_str("cryo_live_status"));
-        result.setActionRequested(ChangeRequest.ActionValues[g_int("action_requested")]);
         result.setRequestSource(g_str("request_source"));
       }
       return result;

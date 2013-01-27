@@ -337,7 +337,7 @@ public class ImportHandler
 
         StringBuilder sb = new StringBuilder();
         sb.append("<span class='importAction'>Created change request <span class='changerequest_number'>#" 
-            + "</span>" + request.getRequestID() +  ": Add "
+            + request.getRequestID() + "</span>" +  ": Add "
             + nicelyFormattedAddedHolder + " to " + mouse.getMouseName() + " #" + mouseId + ".</span>  " +
                 "(Transferred from " + nicelyFormattedCurrentHolder + "; ");
         sb.append("Recipient: " + recipientName + ")<br>");
