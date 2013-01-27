@@ -1363,6 +1363,7 @@ public class ImportHandler
       }
       comment += propName.toString() + ": " + extraProps.getProperty(propName.toString()) + "\n";
     }
+    newRequest.setProperties(extraProps);
 
     newRequest.setUserComment(comment);
     
