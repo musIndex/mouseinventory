@@ -2427,7 +2427,12 @@ public class DBConnect {
       result.append("\",");
       result.append(request.getMouseID());
       result.append(",,\"");
-          result.append(HTMLGeneration.emptyIfNull(props.getProperty("Original PI")));
+      
+      String oHolder = HTMLGeneration.emptyIfNull(props.getProperty("Original holder"));
+      if (oHolder.isEmpty()) {
+        oHolder = HTMLGeneration.emptyIfNull(props.getProperty("Original PI")); //legacy property name
+      }
+      result.append(oHolder);
       result.append("\",\"");
       result.append(HTMLGeneration.emptyIfNull(props.getProperty("New Holder Email")));
       result.append("\",\"");
