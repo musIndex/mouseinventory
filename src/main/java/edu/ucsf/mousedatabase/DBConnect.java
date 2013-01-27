@@ -3141,7 +3141,7 @@ public class DBConnect {
       result.setProperties(g_str("properties"));
       result.setActionRequested(ChangeRequest.ActionValues[g_int("action_requested")]);
       
-      if (result.getActionRequested() == null) {
+      if (result.actionRequested() == Action.UNDEFINED) {
         //legacy change requests
         result.setActionRequested(Action.OTHER);
         result.setFacilityId(-1);
