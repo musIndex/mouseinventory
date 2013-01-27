@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 public class DBConnect {
 
   //set this to true for debugging
-  private static final boolean logQueries = false;
+  private static final boolean logQueries = true;
 
 
   private static final String mouseRecordTableColumns =
@@ -2080,7 +2080,13 @@ public class DBConnect {
       "FROM changerequest " +
       "WHERE mouse_id=" + changeRequest.getMouseID() +
       " AND user_comment='" + changeRequest.getUserComment() +
-      "' AND email='" + changeRequest.getEmail() + "'";
+      "' AND email='" + changeRequest.getEmail() + "'" + 
+      " AND (status='need more info' OR status='new')" + 
+      " AND holder_id=" + changeRequest.getHolderId() +
+      " AND cryo_live_status='" + changeRequest.getCryoLiveStatus() + "'" + 
+      (changeRequest.actionRequested() != Action.UNDEFINED ? 
+          " AND action_requested=" + changeRequest.actionRequested().ordinal()
+          : "");
     ArrayList<Integer> results = IntResultGetter.getInstance("id").Get(query);
     if(results.size() > 0)
     {
