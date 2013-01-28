@@ -205,6 +205,8 @@
      <dd>{{request.email}}</dd>
      <dd>{{request.requestDate}}</dd>
      <dd>{{request.userComment}}</dd>
+     <dd>{{request.holderNiceNice}}</dd> (first last)
+     <dd>{{request.holderName}}</dd> (last, first)
      <dd>{{request.props['Purchaser']}}</dd>
      <dd>{{request.props['Purchaser email']}}</dd>
      <dd>{{request.props['CatalogNumber']}}</dd>
