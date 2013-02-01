@@ -819,7 +819,12 @@ public class DBConnect {
     
     String firstname = "";
     String lastname = "";
-    if (holderFullName.length() > 1 && holderFullName.indexOf(" ") > 0) {
+    if (holderFullName.length() > 1 && holderFullName.indexOf(",") > 0) {
+      String[] holderName = holderFullName.split("[,]");
+      firstname = holderName[1];
+      lastname = holderName[0];
+    }
+    else if (holderFullName.length() > 1 && holderFullName.indexOf(" ") > 0) {
       String[] parts = holderFullName.split("[| ]");
       if (parts.length == 3) {
         firstname = parts[1];
@@ -829,11 +834,6 @@ public class DBConnect {
         firstname = parts[0];
         lastname = parts[1];
       }
-    }
-    else if (holderFullName.length() > 1 && holderFullName.indexOf(",") > 0) {
-      String[] holderName = holderFullName.split("[,]");
-      firstname = holderName[1];
-      lastname = holderName[0];
     }
     else {
       Log.Info("Unrecognized holder fullname format: " + holderFullName);
