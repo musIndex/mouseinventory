@@ -212,6 +212,7 @@
      <dd>{{request.props['CatalogNumber']}}</dd>
      <dd>{{request.props['Original holder']}}</dd>
      <dd>{{request.props['Sender institution']}}</dd>
+     <dd>{{request.props['Due Date']}}</dd>
      <dt>Mouse Records</dt>
      <dd>{{mouse.mouseID}}</dd>
      <dd>{{mouse.mouseName}}</dd>
