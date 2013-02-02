@@ -63,6 +63,7 @@
   sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,null));
   sortBuf.append("&nbsp;Source: ");
   sortBuf.append("<input name='requestSource' type='text' value='" + (requestSource.equals("all") ? "" : requestSource) + "'>");
+  sortBuf.append("&nbsp;<input class='btn' type='submit' value='update'>");
   sortBuf.append("&nbsp;Filter by holder: ");
   sortBuf.append(getHolderSelect("holder_id", currentHolderId, false));
   sortBuf.append("&nbsp;Sort by: ");
