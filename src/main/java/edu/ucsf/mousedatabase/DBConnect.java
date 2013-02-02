@@ -2394,34 +2394,22 @@ public class DBConnect {
     Comparator<ChangeRequest> comparator = new Comparator<ChangeRequest>(){
       public int compare(ChangeRequest a, ChangeRequest b)
       {
-        return HTMLGeneration.emptyIfNull(a.Properties().getProperty("Recipient PI Name"))
-          .compareTo(HTMLGeneration.emptyIfNull(b.Properties().getProperty("Recipient PI Name")));
+        return HTMLGeneration.emptyIfNull(a.getHolderLastname())
+          .compareTo(HTMLGeneration.emptyIfNull(b.getHolderLastname()));
       }
     };
     Collections.sort(requests,comparator);
 
     for (ChangeRequest request : requests)
     {
-      Pattern ptn = Pattern.compile("([^=\t]+)=([^\\t]+)?");
-      Matcher match = ptn.matcher(request.getProperties());
+      
 
-      Properties props = new Properties();
-          while (match.find())
-          {
-              String prop = match.group(1);
-              String val = null;
-              if (match.groupCount() > 1) {
-                  val = match.group(2);
-              }
-              if (val != null && val.length() > 0)
-              {
-                  props.setProperty(prop, val);
-              }
-          }
+      Properties props = request.Properties();
+
           result.append(",");
       result.append(request.getRequestID());
       result.append(",\"");
-      result.append(HTMLGeneration.emptyIfNull(props.getProperty("Recipient PI Name")));
+      result.append(HTMLGeneration.emptyIfNull(request.getHolderLastname() + ", " + request.getHolderFirstname()));
       result.append("\",\"");
       result.append(request.getMouseName());
       result.append("\",");
@@ -2464,8 +2452,8 @@ public class DBConnect {
     Comparator<ChangeRequest> comparator = new Comparator<ChangeRequest>(){
       public int compare(ChangeRequest a, ChangeRequest b)
       {
-        return HTMLGeneration.emptyIfNull(a.Properties().getProperty("Recipient PI Name"))
-          .compareTo(HTMLGeneration.emptyIfNull(b.Properties().getProperty("Recipient PI Name")));
+        return HTMLGeneration.emptyIfNull(a.getHolderLastname())
+          .compareTo(HTMLGeneration.emptyIfNull(b.getHolderLastname()));
       }
     };
 
@@ -2474,11 +2462,11 @@ public class DBConnect {
     for (ChangeRequest request : requests)
     {
       Properties props = request.Properties();
-          result.append(",");
-          result.append(",");
+      result.append(",");
+      result.append(",");
       result.append(request.getRequestID());
       result.append(",\"");
-      result.append(HTMLGeneration.emptyIfNull(props.getProperty("Recipient PI Name")));
+      result.append(HTMLGeneration.emptyIfNull(request.getHolderLastname() + ", " + request.getHolderFirstname()));
       result.append("\",\"");
       result.append(request.getMouseName());
       result.append("\",");
@@ -3163,24 +3151,32 @@ public class DBConnect {
                 continue;
               }
               
-
-              String[] tokens = holderName.split(",");
-              if (tokens.length != 2)
-              {
-                continue;
+              String holderLastname = "";
+              String holderFirstname = "";
+              if (holderName.indexOf(',') > 0) {
+                String[] tokens = holderName.split(",");
+                if (tokens.length != 2)
+                {
+                  continue;
+                }
+                holderLastname = tokens[0].trim();
+                holderFirstname = tokens[1].trim();
+  
+                int periodIndex = holderFirstname.indexOf('.');
+  
+                if (periodIndex == 1)
+                {
+                  holderFirstname = holderFirstname.substring(periodIndex + 1).trim();
+                }
+                else if (periodIndex == holderFirstname.length()-1)
+                {
+                  holderFirstname = holderFirstname.substring(0,periodIndex - 2).trim();
+                }
               }
-              String holderLastname = tokens[0].trim();
-              String holderFirstname = tokens[1].trim();
-
-              int periodIndex = holderFirstname.indexOf('.');
-
-              if (periodIndex == 1)
-              {
-                holderFirstname = holderFirstname.substring(periodIndex + 1).trim();
-              }
-              else if (periodIndex == holderFirstname.length()-1)
-              {
-                holderFirstname = holderFirstname.substring(0,periodIndex - 2).trim();
+              else if (holderName.indexOf(' ') > 0) {
+                int lastSpaceIndex = holderName.lastIndexOf(' ');
+                holderLastname = holderName.substring(lastSpaceIndex + 1);
+                holderFirstname = holderName.substring(0,lastSpaceIndex);
               }
               
               result.setHolderName(holderName);
@@ -3239,8 +3235,18 @@ public class DBConnect {
           result.setHolderEmail(g_str("holder.email"));
         }
         else {
+          String holderName = g_str("holder_name");
+          if (holderName.indexOf(' ') > 0) {
+            int lastSpaceIndex = holderName.lastIndexOf(' ');
+            result.setHolderLastname(holderName.substring(lastSpaceIndex + 1));
+            result.setHolderFirstname(holderName.substring(0,lastSpaceIndex));
+          }
+          else {
+            result.setHolderLastname(holderName);
+            result.setHolderFirstname("");
+          }
           result.setHolderEmail(g_str("holder_email"));
-          result.setHolderName(g_str("holder_name"));
+          result.setHolderName(holderName);
         }
         result.setGeneticBackgroundInfo(g_str("genetic_background_info"));
         result.setCryoLiveStatus(g_str("cryo_live_status"));
