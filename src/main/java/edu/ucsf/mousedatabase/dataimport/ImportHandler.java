@@ -223,7 +223,7 @@ public class ImportHandler
       String roomName = record.get(roomNameCol);
       String facilityCode = HTMLUtilities.extractFirstGroup(facilityCodeRegex, roomName);
 
-      String rawRecord = "<br><span class='rawRecord'><br>Raw data:";
+      String rawRecord = "<span class='rawRecord'><br>Raw data:";
       for (Object key : record.keySet())
       {
         rawRecord += key + "=" + record.get(key) + " ";
@@ -340,7 +340,7 @@ public class ImportHandler
             + request.getRequestID() + "</span>" +  ": Add "
             + nicelyFormattedAddedHolder + " to " + mouse.getMouseName() + " #" + mouseId + ".</span>  " +
                 "(Transferred from " + nicelyFormattedCurrentHolder + "; ");
-        sb.append("Recipient: " + recipientName + ")<br>");
+        sb.append("Recipient: " + recipientName + ")");
 
    
         sb.append(rawRecord );
@@ -374,7 +374,7 @@ public class ImportHandler
 
     if (csvData.size() > 0)
     {
-      String link = " (<a class='view_link' href='" + adminRoot + "ManageChangeRequests.jsp?requestSource=" + reportName + "'>view requests</a>)";
+      String link = " (<a class='view_link' href='" + adminRoot + "ManageChangeRequests.jsp?status=all&requestSource=" + reportName + "'>view requests</a>)";
       buildReport(sb,"Newly Created Change Requests",newChangeRequests,null,link);
       buildReport(sb,"Duplicates (No Change Request Created)",skippedChangeRequests);
       buildReport(sb,"Paper Form Imports", paperFormImports);
