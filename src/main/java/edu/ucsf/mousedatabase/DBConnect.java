@@ -3157,7 +3157,36 @@ public class DBConnect {
               propertyValue = propertyValue.substring(splitterIndex + 1);
             }
             if (propertyName.matches("Add Holder( Name)?|Remove Holder|Delete Holder Name")) {
-              result.setHolderName(propertyValue);
+              String holderName = propertyValue;
+              if (holderName == null)
+              {
+                continue;
+              }
+              
+
+              String[] tokens = holderName.split(",");
+              if (tokens.length != 2)
+              {
+                continue;
+              }
+              String holderLastname = tokens[0].trim();
+              String holderFirstname = tokens[1].trim();
+
+              int periodIndex = holderFirstname.indexOf('.');
+
+              if (periodIndex == 1)
+              {
+                holderFirstname = holderFirstname.substring(periodIndex + 1).trim();
+              }
+              else if (periodIndex == holderFirstname.length()-1)
+              {
+                holderFirstname = holderFirstname.substring(0,periodIndex - 2).trim();
+              }
+              
+              result.setHolderName(holderName);
+              result.setHolderFirstname(holderFirstname);
+              result.setHolderLastname(holderLastname);
+              
               if (propertyName.matches("Add Holder( Name)?")) {
                 result.setActionRequested(Action.ADD_HOLDER);
               }
@@ -3205,6 +3234,8 @@ public class DBConnect {
         result.setHolderId(holderId);
         if (holderId > 0) {
           result.setHolderName(g_str("holder.lastname") + ", " + g_str("holder.firstname"));
+          result.setHolderFirstname(g_str("holder.firstname"));
+          result.setHolderLastname(g_str("holder.lastname"));
           result.setHolderEmail(g_str("holder.email"));
         }
         else {
