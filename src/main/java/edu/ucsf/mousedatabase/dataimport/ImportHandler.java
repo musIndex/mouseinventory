@@ -149,6 +149,11 @@ public class ImportHandler
   {
 
     DateFormat dateFormat = new SimpleDateFormat("MMMM dd");
+    dateFormat = new SimpleDateFormat("EEEE, MMMM dd");
+
+    Calendar cal = Calendar.getInstance();
+    cal.add(Calendar.DATE, 14);
+    String twoWeeksFromNow = dateFormat.format(cal.getTime());
     String reportName = "";
     if(parameters.containsKey(ImportServlet.importDescriptionFieldName))
     {
@@ -325,6 +330,8 @@ public class ImportHandler
         }
 
         Properties props = new Properties();
+        props.setProperty("Due Date", twoWeeksFromNow);
+        props.setProperty("dueDateRaw", cal.getTime().toString());
 
         props.setProperty("New Holder Email", addedHolderEmail);
         props.setProperty("Recipient", recipientName);
@@ -685,7 +692,7 @@ public class ImportHandler
 
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.DATE, 14);
-
+    String twoWeeksFromNow = dateFormat.format(cal.getTime());
 
 
     UserData submitterData = new UserData();
@@ -893,6 +900,8 @@ public class ImportHandler
             }
           }
           Properties props = new Properties();
+          props.setProperty("Due Date", twoWeeksFromNow);
+          props.setProperty("dueDateRaw", cal.getTime().toString());
 
           //TODO map room name to facility
 
@@ -982,6 +991,9 @@ public class ImportHandler
           }
 
           Properties props = MouseSubmission.GetPropertiesString(submitterData,sub);
+          props.setProperty("Due Date", twoWeeksFromNow);
+          props.setProperty("dueDateRaw", cal.getTime().toString());
+
 
           ArrayList<String> holderFacilities = new ArrayList<String>();
           String additionalHoldersComment = "";
