@@ -196,6 +196,9 @@ public class ImportHandler
     String facilityCodeRegex = "(.*)-[0-9]+";
 
     ImportStatusTracker.AppendMessage(importTaskId, "Processing CSV Data");
+    
+    
+    HashMap<String,ArrayList<Integer>> openedRequestsByHolder = new HashMap<String, ArrayList<Integer>>();
 
     double recordNumber = 1;
     double numRecords = csvData.size();
@@ -214,6 +217,19 @@ public class ImportHandler
         strain = strain.trim();
       }
       int mouseId = toInt(HTMLUtilities.extractFirstGroup(mouseIdRegex,strain));
+      
+      ArrayList<Integer> alreadyAdded = openedRequestsByHolder.get(addedHolder);
+      if (alreadyAdded == null) {
+        alreadyAdded = new ArrayList<Integer>();
+        openedRequestsByHolder.put(addedHolder, alreadyAdded);
+      }
+      else if (alreadyAdded.contains(mouseId)) {
+        ImportStatusTracker.AppendMessage(importTaskId, "Duplicate row in import file, ignoring dupe to add " + addedHolder + " to record #" + mouseId);
+        continue;
+      }
+      alreadyAdded.add(mouseId);
+      
+      
       String currentHolder = record.get(currentHolderCol);
 
       String nicelyFormattedAddedHolder = formatHolderName(addedHolder);
