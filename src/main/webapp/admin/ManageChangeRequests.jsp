@@ -96,7 +96,7 @@
   }
  
 
-  session.setAttribute("manageRequestsLastQuery","?status=" + status + "&orderby=" + orderBy + "&requestSource=" + requestSource);
+  session.setAttribute("manageRequestsLastQuery","status=" + status + "&orderby=" + orderBy + "&requestSource=" + requestSource);
   session.setAttribute("manageRequestsLastTitle",statusString);
   statusString = "Listing " + statusString;
   
