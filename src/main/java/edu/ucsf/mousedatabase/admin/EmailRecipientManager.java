@@ -38,8 +38,8 @@ public class EmailRecipientManager {
    
     ccs.removeAll(recipients);
     
-    rec.recipients = StringUtils.join(recipients,",");
-    rec.ccs = StringUtils.join(ccs,",");
+    rec.recipients = StringUtils.join(recipients,", ");
+    rec.ccs = StringUtils.join(ccs,", ");
     return rec;
   }
   
@@ -57,8 +57,8 @@ public class EmailRecipientManager {
       recipients.add(toLower(holder.getEmail())); 
     }
       
-    rec.recipients = StringUtils.join(recipients,",");
-    rec.ccs = StringUtils.join(ccs,",");
+    rec.recipients = StringUtils.join(recipients,", ");
+    rec.ccs = StringUtils.join(ccs,", ");
     return rec;
   }
   
