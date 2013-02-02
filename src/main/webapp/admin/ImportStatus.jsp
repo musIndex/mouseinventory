@@ -91,7 +91,7 @@ if (sb.length() == 0)
 
 <div class="site_container">
 <h2>Upload Status</h2>
-<a href="ImportReports.jsp">View Reports</a>
+<a href="ImportReports.jsp">View Results</a>
 <br>
 <br>
 <div id="reports">
