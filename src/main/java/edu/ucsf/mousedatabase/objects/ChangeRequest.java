@@ -47,7 +47,8 @@ public class ChangeRequest {
   private Properties props;
   
   private String holderName;
-  private String holderNiceName;
+  private String holderFirstname;
+  private String holderLastname;
   private String holderEmail;
   private int holderId;
   
@@ -294,47 +295,20 @@ public class ChangeRequest {
     
     return StringUtils.join(errors,",");
   }
-  public String getHolderNiceName(){
-    return this.holderNiceName;
+
+  public String getHolderFirstname() {
+    return holderFirstname;
   }
-  public void setHolderNiceName(String niceName){
-    this.holderNiceName = niceName;
+  public void setHolderFirstname(String holderFirstname) {
+    this.holderFirstname = holderFirstname;
   }
-  
+  public String getHolderLastname() {
+    return holderLastname;
+  }
+  public void setHolderLastname(String holderLastname) {
+    this.holderLastname = holderLastname;
+  }
   public void prepareForSerialization(){
     this.props = this.Properties();
-    this.holderNiceName = formatHolderName(this.holderName);
-  }
-  private static String formatHolderName(String holderName)
-  {
-    if (holderName == null)
-    {
-      return "";
-    }
-    //from Ansel, K. Mark to Mark Ansel
-    //OR
-    //Bluestone, Jeffrey A. to Jeffrey Bluestone
-    //OR
-    //Bruneau, Benoit to Benoit Bruneau
-    String[] tokens = holderName.split(",");
-    if (tokens.length != 2)
-    {
-      return holderName;
-    }
-    String lastname = tokens[0].trim();
-    String firstname = tokens[1].trim();
-
-    int periodIndex = firstname.indexOf('.');
-
-    if (periodIndex == 1)
-    {
-      firstname = firstname.substring(periodIndex + 1).trim();
-    }
-    else if (periodIndex == firstname.length()-1)
-    {
-      firstname = firstname.substring(0,periodIndex - 2).trim();
-    }
-
-    return firstname + " " + lastname;
   }
 }
