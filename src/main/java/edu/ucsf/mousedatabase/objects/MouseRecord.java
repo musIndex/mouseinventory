@@ -33,6 +33,8 @@ public class MouseRecord {
   String backgroundStrain;
 
   String source;
+  
+  String officialSymbol;
 
   String repositoryCatalogNumber;
     String repositoryTypeID;
@@ -329,6 +331,14 @@ public class MouseRecord {
     this.endangered = endangered;
   }
   
+  public String getOfficialSymbol() {
+    return officialSymbol;
+  }
+
+  public void setOfficialSymbol(String officialSymbol) {
+    this.officialSymbol = officialSymbol;
+  }
+
   public String getPreviewLink() {
     return DBConnect.loadSetting("general_site_hostname").value + HTMLGeneration.siteRoot + "incomplete.jsp?com=rec&obj=" + this.mouseID;
   }
@@ -336,6 +346,9 @@ public class MouseRecord {
   public void prepareForSerialization(){
     if (this.status != null && this.status.equalsIgnoreCase("incomplete")) {
       this.previewLink = getPreviewLink();
+    }
+    if (this.isMA() || this.isTG()){
+      this.setOfficialSymbol(this.getSource());
     }
   }
 
