@@ -3126,6 +3126,8 @@ public class DBConnect {
       result.setAdminComment(g_str("admin_comment"));
       result.setUserComment(g_str("user_comment"));
       result.setRequestSource(g_str("request_source"));
+      int holderId = g_int("holder_id");
+      result.setHolderId(holderId);
 
       result.setRequestDate(g_date("requestDate").toString());
 
@@ -3135,16 +3137,57 @@ public class DBConnect {
       result.setProperties(g_str("properties"));
       result.setActionRequested(ChangeRequest.ActionValues[g_int("action_requested")]);
       
-      if (result.actionRequested() == Action.UNDEFINED && result.Properties() != null) {
+      if (result.actionRequested() != Action.ADD_HOLDER && 
+          result.actionRequested() != Action.REMOVE_HOLDER) { 
+        return result;
+      }
+      
+      if (holderId != 0 || result.getHolderName() != null) {
+        //newer change requests
+        int facilityId = g_int("facility_id");
+        result.setFacilityId(facilityId);
+        if (facilityId > 0) {
+          result.setFacilityName(g_str("facility.facility"));
+        }
+        else if (facilityId == -2){
+          result.setFacilityName(g_str("facility_name"));
+        }
+         
+        
+        
+        if (holderId > 0) {
+          result.setHolderName(g_str("holder.lastname") + ", " + g_str("holder.firstname"));
+          result.setHolderFirstname(g_str("holder.firstname"));
+          result.setHolderLastname(g_str("holder.lastname"));
+          result.setHolderEmail(g_str("holder.email"));
+        }
+        else {
+          String holderName = g_str("holder_name");
+          if (holderName != null && holderName.indexOf(' ') > 0) {
+            int lastSpaceIndex = holderName.lastIndexOf(' ');
+            result.setHolderLastname(holderName.substring(lastSpaceIndex + 1));
+            result.setHolderFirstname(holderName.substring(0,lastSpaceIndex));
+          }
+          else {
+            result.setHolderLastname(holderName);
+            result.setHolderFirstname("");
+          }
+          result.setHolderEmail(g_str("holder_email"));
+          result.setHolderName(holderName);
+        }
+        result.setGeneticBackgroundInfo(g_str("genetic_background_info"));
+        result.setCryoLiveStatus(g_str("cryo_live_status"));
+      }
+      else if (result.Properties() != null) {
         //legacy change requests
-        result.setActionRequested(Action.OTHER);
         result.setFacilityId(-1);
         result.setHolderId(-1);
-        for (Object key : result.Properties().keySet()) {
-          String propertyName = (String) key;
-          String propertyValue = (String) result.Properties().get(key);
-          String preValue = null;
-          //if (propertyName.equals("Add Holder") || propertyName.equals("Add Facility")) {
+        if (result.Properties() != null) {
+          for (Object key : result.Properties().keySet()) {
+            String propertyName = (String) key;
+            String propertyValue = (String) result.Properties().get(key);
+            String preValue = null;
+                  
             int splitterIndex = propertyValue.indexOf('|');
             if (splitterIndex > 0) {
               preValue = propertyValue.substring(0,splitterIndex);
@@ -3208,7 +3251,10 @@ public class DBConnect {
             else if (propertyName.equals("New Holder Email")) {
               result.setHolderEmail(propertyValue);
             }
-          //}
+          }
+        }
+        else {
+          //TODO parse holder name out of comment
         }
         String comment = result.getUserComment();
         if (comment.contains("(Live only)")) {
@@ -3219,44 +3265,7 @@ public class DBConnect {
         }
         else if (comment.contains("(Cryo only)")) {
           result.setCryoLiveStatus("Cryo only");
-        }
-        
-      }
-      else {
-        int facilityId = g_int("facility_id");
-        result.setFacilityId(facilityId);
-        if (facilityId > 0) {
-          result.setFacilityName(g_str("facility.facility"));
-        }
-        else if (facilityId == -2){
-          result.setFacilityName(g_str("facility_name"));
-        }
-         
-        int holderId = g_int("holder_id");
-        result.setHolderId(holderId);
-        if (holderId > 0) {
-          result.setHolderName(g_str("holder.lastname") + ", " + g_str("holder.firstname"));
-          result.setHolderFirstname(g_str("holder.firstname"));
-          result.setHolderLastname(g_str("holder.lastname"));
-          result.setHolderEmail(g_str("holder.email"));
-        }
-        else {
-          String holderName = g_str("holder_name");
-          if (holderName != null && holderName.indexOf(' ') > 0) {
-            int lastSpaceIndex = holderName.lastIndexOf(' ');
-            result.setHolderLastname(holderName.substring(lastSpaceIndex + 1));
-            result.setHolderFirstname(holderName.substring(0,lastSpaceIndex));
-          }
-          else {
-            result.setHolderLastname(holderName);
-            result.setHolderFirstname("");
-          }
-          result.setHolderEmail(g_str("holder_email"));
-          result.setHolderName(holderName);
-        }
-        result.setGeneticBackgroundInfo(g_str("genetic_background_info"));
-        result.setCryoLiveStatus(g_str("cryo_live_status"));
-        
+        }   
       }
       return result;
     }
