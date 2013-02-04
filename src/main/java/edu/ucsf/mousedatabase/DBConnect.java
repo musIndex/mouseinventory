@@ -3125,6 +3125,7 @@ public class DBConnect {
       result.setStatus(g_str("changerequest.status"));
       result.setAdminComment(g_str("admin_comment"));
       result.setUserComment(g_str("user_comment"));
+      result.setRequestSource(g_str("request_source"));
 
       result.setRequestDate(g_date("requestDate").toString());
 
@@ -3255,7 +3256,7 @@ public class DBConnect {
         }
         result.setGeneticBackgroundInfo(g_str("genetic_background_info"));
         result.setCryoLiveStatus(g_str("cryo_live_status"));
-        result.setRequestSource(g_str("request_source"));
+        
       }
       return result;
     }

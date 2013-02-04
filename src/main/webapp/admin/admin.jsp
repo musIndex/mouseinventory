@@ -24,7 +24,7 @@
   ArrayList<ArrayList<String>> openRequestSources = DBConnect.getOpenRequestSources();
   
   for(ArrayList<String> source : openRequestSources) {
-    if (source.equals("Request form")) {
+    if (source.equals("Change request form")) {
       continue;
     }
     buf.append("<dl>");
