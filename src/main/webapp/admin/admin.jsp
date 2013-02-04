@@ -1,4 +1,5 @@
 <%@page import="edu.ucsf.mousedatabase.*" %>
+<%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%@page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@page import="java.util.ArrayList" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
@@ -14,11 +15,24 @@
 
 
   ArrayList<ArrayList<ChangeRequest>> changeRequestLists = new ArrayList<ArrayList<ChangeRequest>>();
-  changeRequestLists.add(DBConnect.getChangeRequests("new", null));
-  changeRequestLists.add( DBConnect.getChangeRequests("pending",null)) ;
+  changeRequestLists.add(DBConnect.getChangeRequests("new",null, "Request form"));
+  changeRequestLists.add(DBConnect.getChangeRequests("pending",null, "Request form")) ;
   String[] changeRequestListLabels = new String[]{"new","pending"};
 
   StringBuffer buf = new StringBuffer();
+  
+  ArrayList<ArrayList<String>> openRequestSources = DBConnect.getOpenRequestSources();
+  
+  for(ArrayList<String> source : openRequestSources) {
+    if (source.equals("Request form")) {
+      continue;
+    }
+    buf.append("<dl>");
+    buf.append("<dt><b>There are <a href='" + adminRoot + "ManageChangeRequests.jsp?status=all&requestSource=" 
+          + source.get(0) + "'>" + source.get(1) + " open requests from</a> " + source.get(0) + "</dt>");
+
+    buf.append("</dl>");
+  }
   
 
 
@@ -32,20 +46,14 @@
       buf.append("<dt><font color='green'><b>There are " + changeRequests.size() + " " + label + " change requests!</b></font></dt>");
       for(ChangeRequest changeRequest : changeRequests)
       {
-        String userComment = changeRequest.getUserComment();
-        String adminComment = changeRequest.getAdminComment();
         String changeRequestTitle = changeRequest.getFirstname() + " " + changeRequest.getLastname() + " requested: " +
           changeRequest.actionRequested().label + " ";
-        if (changeRequest.getHolderId() > 0) {
-          Holder holder = DBConnect.getHolder(changeRequest.getHolderId());
-          changeRequestTitle += holder.getFullname();
-        }
-        else if (changeRequest.getHolderName() != null) {
-         changeRequestTitle += changeRequest.getHolderName(); 
+        if (changeRequest.actionRequested() == ChangeRequest.Action.ADD_HOLDER ||
+            changeRequest.actionRequested() == ChangeRequest.Action.REMOVE_HOLDER) {
+         changeRequestTitle += changeRequest.getHolderFirstname() + " " + changeRequest.getHolderLastname();
         }
         
         
-
         ArrayList<MouseRecord> mouse = DBConnect.getMouseRecord(changeRequest.getMouseID());
         if(mouse.size() > 0)
         {
