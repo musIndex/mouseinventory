@@ -1892,7 +1892,7 @@ public class HTMLGeneration {
       table.append("<dl><dt class='" + nextRequest.actionRequested() + "'>");
       table.append(nextRequest.actionRequested().label + "</dt>");
       if (nextRequest.actionRequested() == Action.ADD_HOLDER || nextRequest.actionRequested() == Action.REMOVE_HOLDER) {
-        table.append("<dt>" + nextRequest.getHolderName());
+        table.append("<dt>" + emptyIfNull(nextRequest.getHolderName()));
         if (nextRequest.getHolderId() == -2) {
           //TODO build a link to add new holder, with link back to this page.
           table.append(" (");
@@ -1901,8 +1901,8 @@ public class HTMLGeneration {
           }
           table.append("not in holder list)");
         }
-        table.append("</dt><dt>Facility: ");
-        table.append(nextRequest.getFacilityName());
+        table.append("</dt><dt>");
+        table.append(emptyIfNull(nextRequest.getFacilityName()));
         if (nextRequest.getFacilityId() == -2) {
           table.append(" (not in facility list)");
         }
