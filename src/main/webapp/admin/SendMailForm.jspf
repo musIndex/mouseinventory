@@ -290,17 +290,24 @@ $(document).ready(function(){
           if (typeof value === 'object') {
             $.each(value, function(propName, propValue){
               var expr = new RegExp("{{" + obj_type + "\." + key + "\\['" + propName + "'\\]}}",'g');
-              rendered = rendered.replace(expr,propValue);
+              rendered = rendered.replace(expr,htmlEscape(propValue));
             });
           }
           else {
             var expr = new RegExp("{{" + obj_type + "\." + key + "}}",'g');
-            rendered = rendered.replace(expr,value);
+            rendered = rendered.replace(expr,htmlEscape(value));
           }
         });
       }
     });
     return rendered;
+  }
+  
+  function htmlEscape(value){
+    if (!value || typeof value !== 'string') {
+      return value;
+    }
+    return value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
   
   function update_draft(){

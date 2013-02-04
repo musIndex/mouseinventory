@@ -216,12 +216,12 @@
      <dt>Mouse Records</dt>
      <dd>{{mouse.mouseID}}</dd>
      <dd>{{mouse.mouseName}}</dd>
+     <dd>{{mouse.officialSymbol}}</dd>
      <dd>{{mouse.officialMouseName}}</dd>
      <dd>{{mouse.mouseType}}</dd>
      <dd>{{mouse.modificationType}}</dd>
      <dd>{{mouse.regulatoryElement}}</dd>
      <dd>{{mouse.expressedSequence}}</dd>
-     <dd>{{mouse.source}}  <i>(official symbol)</i></dd>
      <dd>{{mouse.repositoryCatalogNumber}}  <i>(MGI ID)</i></dd>
      <dd>{{mouse.pubmedIDs}}</dd>
      <dt>Holders<dt>
