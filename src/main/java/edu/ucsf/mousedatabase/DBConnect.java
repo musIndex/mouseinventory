@@ -1127,6 +1127,11 @@ public class DBConnect {
     String query = changeRequestQueryHeader + "\r\n " + joinsClause + whereClause + " " + orderByClause;
     return ChangeRequestResultGetter.getInstance().Get(query);
   }
+  
+  public static ArrayList<ArrayList<String>> getOpenRequestSources(){
+    String query = "SELECT request_source, count(*) as 'count' from changerequest where status='new' or status='pending' group by request_source;";
+    return StringArrayListResultGetter.getInstance(new String[]{"request_source","count"}).Get(query);
+  }
 
   public static ArrayList<ImportReport> getAllImportReports()
   {
@@ -3236,7 +3241,7 @@ public class DBConnect {
         }
         else {
           String holderName = g_str("holder_name");
-          if (holderName.indexOf(' ') > 0) {
+          if (holderName != null && holderName.indexOf(' ') > 0) {
             int lastSpaceIndex = holderName.lastIndexOf(' ');
             result.setHolderLastname(holderName.substring(lastSpaceIndex + 1));
             result.setHolderFirstname(holderName.substring(0,lastSpaceIndex));
