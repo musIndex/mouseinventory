@@ -59,14 +59,14 @@
 
   StringBuffer sortBuf = new StringBuffer();
   sortBuf.append("<form class='view_opts' action='ManageChangeRequests.jsp'>");
+  sortBuf.append("&nbsp;Show: ");
+  sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,null));
   sortBuf.append("&nbsp;Source: ");
   sortBuf.append("<input name='requestSource' style='width: 200px' type='text' value='" + (requestSource.equals("all") ? "" : requestSource) + "'>");
   sortBuf.append("&nbsp;<input class='btn' type='submit' value='Update'>");
-  sortBuf.append("&nbsp;<a id='clearSource' class='btn'>Clear</a><br><br>");
-  sortBuf.append("&nbsp;Show: ");
-  sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,null));
-  sortBuf.append("&nbsp;Filter by holder: ");
-  sortBuf.append(getHolderSelect("holder_id", currentHolderId, false));
+  sortBuf.append("&nbsp;<a id='clearSource' class='btn'>Clear</a>");
+  //sortBuf.append("&nbsp;Filter by holder: ");
+  //sortBuf.append(getHolderSelect("holder_id", currentHolderId, false));
   sortBuf.append("&nbsp;Sort by: ");
   sortBuf.append(genSelect("orderby",sortOptions,sortOptionNiceNames, orderBy,null));
   sortBuf.append("</form>");
@@ -108,16 +108,58 @@
 
 
 <h2><%= statusString %></h2>
-<h4><%= kount %> found.</h4>
+<h4><%= kount %> found.<span id='matching_search'></span></h4>
 <%= updateMessage %>
 <%= sortBuf.toString() %>
+<form id='search_form'>
+Quick search: <input type='text'></input> <a class='btn'>Clear</a>
+</form>
 
 <%= newTable.toString() %>
 
 </div>
 <script>
-$('#clearSource').click(function(){
-  $("input[name=requestSource]").val('');
-  return false;
-});
+
+
+!function($){
+  
+  $('#clearSource').click(function(){
+    $("input[name=requestSource]").val('');
+    return false;
+  });
+  
+  var search_form = $("form#search_form");
+  var clear_btn = $("form#search_form a.clear_btn");
+  var search_input = $("form#search_form input[type=text]");
+  var matching_label = $("#matching_search");
+  search_form.submit(function(){
+    var term = search_input.val();
+    var expr = new RegExp(term,'i');
+    var matchCount = 0;
+    $("div.mouseTable tr").removeClass('hide');
+    if (!term) {
+      clear_btn.hide();
+      matching_label.text("");
+      return false;
+    }
+    clear_btn.show();
+    $("div.mouseTable tr.changerequestlist, div.mouseTable tr.changerequestlistAlt").each(function(i,row){
+      var $row = $(row);
+      if (!$row.text().match(expr)) {
+        $row.addClass('hide');
+      }
+      else {
+        matchCount++;
+      }
+    });
+    matching_label.text(" (" + matchCount + " matching quick search)");
+    
+    return false;
+  });
+  clear_btn.click(function(){
+    search_input.val('');
+    search_form.submit();
+  });
+}(jQuery);
+
 </script>
