@@ -112,7 +112,7 @@
 <%= updateMessage %>
 <%= sortBuf.toString() %>
 <form id='search_form'>
-Quick search: <input type='text'></input> <a class='btn'>Clear</a>
+Quick search: <input type='text'></input> <a class='btn clear_btn' style='display:none'>Clear</a>
 </form>
 
 <%= newTable.toString() %>
