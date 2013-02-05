@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130204072822) do
+ActiveRecord::Schema.define(:version => 20130205061729) do
 
   create_table "changerequest", :force => true do |t|
     t.integer "mouse_id"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(:version => 20130204072822) do
     t.text   "validation_comment"
     t.string "alternate_email",    :limit => 80
     t.string "alternate_name",     :limit => 80
+    t.string "status",                           :default => "active"
   end
 
   create_table "import_new_objects", :force => true do |t|

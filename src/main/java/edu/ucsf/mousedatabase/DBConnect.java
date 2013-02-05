@@ -3,8 +3,6 @@ package edu.ucsf.mousedatabase;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -72,7 +70,7 @@ public class DBConnect {
     "(select count(*) \r\n" +
         " FROM mouse_holder_facility left join mouse on mouse_holder_facility.mouse_id=mouse.id\r\n" +
         " WHERE holder_id=holder.id and covert=1 and mouse.status='live') as 'covert mice held'\r\n" +
-    " FROM holder\r\n ";
+    " FROM holder\r\n";
 
   private static final String facilityQueryHeader =
     "SELECT id, facility, description, code" +
@@ -799,7 +797,7 @@ public class DBConnect {
 
   public static ArrayList<MouseHolder> getAllMouseHolders()
   {
-    return MouseHolderResultGetter.getInstance().Get(mouseHolderQueryHeader);
+    return MouseHolderResultGetter.getInstance().Get(mouseHolderQueryHeader + " WHERE status='active'");
   }
 
 
@@ -848,7 +846,7 @@ public class DBConnect {
       return null;
     }
     String query = null;
-    query = holderQueryHeader + " WHERE (firstname='"
+    query = holderQueryHeader + " WHERE status='active' and (firstname='"
       + addMySQLEscapes(firstname).trim() + "' and lastname='"
       + addMySQLEscapes(lastname).trim() + "')";
     ArrayList<Holder> results = HolderResultGetter.getInstance().Get(query);
@@ -866,7 +864,7 @@ public class DBConnect {
     if (!holderEmail.isEmpty())
     {
         query = holderQueryHeader +
-          " WHERE email like '"
+          " WHERE status='active' and email like '"
           + holderEmail + "'";
     }
     else
@@ -926,7 +924,12 @@ public class DBConnect {
       orderby = "`mice held` desc";
     }
     String query = holderQueryHeader;
-      if(!includeBlank)query += " WHERE id > 1";
+      if(!includeBlank) {
+        query += " WHERE id > 1 and status='active'";
+      }
+      else {
+        query += " WHERE status='active'";
+      }
       query += "\r\n ORDER BY ";
       query += orderby != null ? orderby : "lastname, firstname";
       return HolderResultGetter.getInstance().Get(query);
@@ -1858,7 +1861,7 @@ public class DBConnect {
 
   public static void deleteHolder(int holderID)
   {
-    String query = "DELETE FROM holder "
+    String query = "UPDATE holder set status='deleted'"
         + "\r\nWHERE id=" + holderID;
     executeNonQuery(query);
   }
@@ -3096,7 +3099,7 @@ public class DBConnect {
     private ArrayList<MouseHolder> getMouseHolders(String mouseID) throws SQLException
     {
       String query = mouseHolderQueryHeader +
-        " WHERE mouse_id='" + mouseID + "' \r\nORDER BY lastname";
+        " WHERE mouse_id='" + mouseID + "' and status='active'\r\nORDER BY lastname";
 
         return MouseHolderResultGetter.getInstance(_connection).Get(query);
     }
@@ -3401,6 +3404,7 @@ public class DBConnect {
         result.setCovertMouseCount(g_int("covert mice held"));
         result.setDateValidated(g_str("datevalidated"));
         result.setValidationComment(g_str("validation_comment"));
+        result.setStatus(g_str("status"));
         return result;
     }
   }

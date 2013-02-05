@@ -13,6 +13,7 @@ public class Holder implements IHolder {
   private String tel;
   private String dateValidated;
   private String validationComment;
+  private String status;
 
   private int visibleMouseCount;
   private int covertMouseCount;
@@ -122,5 +123,19 @@ public class Holder implements IHolder {
   public void setValidationComment(String validationComment) {
     this.validationComment = validationComment;
   }
+
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+  
+  public boolean isActive(){
+    return this.status.equals("active");
+  }
+  
 
 }
