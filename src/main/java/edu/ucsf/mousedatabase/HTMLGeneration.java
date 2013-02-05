@@ -1789,11 +1789,9 @@ public class HTMLGeneration {
     
     ArrayList<Integer> neededRecords = new ArrayList<Integer>();
     
-
+    table.append(getChangeRequestTableHeaders());
     for (ChangeRequest nextRequest : requests) {
 
-      if (numRequests % 20 == 0)
-        table.append(getChangeRequestTableHeaders());
 
       String rowStyle = getRowStyle(numRequests, "changerequestlist",
           "changerequestlistAlt");
