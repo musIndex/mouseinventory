@@ -391,6 +391,14 @@ public class DBConnect {
 
     return new MouseRecordResultGetter().Get(buildMouseQuery(mouseRecordQueryHeader, constraints));
   }
+    
+  
+  public static ArrayList<MouseRecord> getMouseRecordsByIds(ArrayList<Integer> ids){
+    ArrayList<String> whereTerms = new ArrayList<String>();
+    whereTerms.add("mouse.id in(" + (ids.size() > 0 ? StringUtils.join(ids, ",") : "0") + ")");
+    String constraints = buildMouseQueryConstraints(null, whereTerms, null, -1, -1);
+    return new MouseRecordResultGetter().Get(buildMouseQuery(mouseRecordQueryHeader, constraints));
+  }
   
   
 

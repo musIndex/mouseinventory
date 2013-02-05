@@ -59,11 +59,12 @@
 
   StringBuffer sortBuf = new StringBuffer();
   sortBuf.append("<form class='view_opts' action='ManageChangeRequests.jsp'>");
+  sortBuf.append("&nbsp;Source: ");
+  sortBuf.append("<input name='requestSource' style='width: 400px' type='text' value='" + (requestSource.equals("all") ? "" : requestSource) + "'>");
+  sortBuf.append("&nbsp;<input class='btn' type='submit' value='Update'>");
+  sortBuf.append("&nbsp;<a id='clearSource' class='btn'>Clear</a><br><br>");
   sortBuf.append("&nbsp;Show: ");
   sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,null));
-  sortBuf.append("&nbsp;Source: ");
-  sortBuf.append("<input name='requestSource' type='text' value='" + (requestSource.equals("all") ? "" : requestSource) + "'>");
-  sortBuf.append("&nbsp;<input class='btn' type='submit' value='update'>");
   sortBuf.append("&nbsp;Filter by holder: ");
   sortBuf.append(getHolderSelect("holder_id", currentHolderId, false));
   sortBuf.append("&nbsp;Sort by: ");
@@ -104,6 +105,8 @@
   int kount = requests.size();
 %>
 
+
+
 <h2><%= statusString %></h2>
 <h4><%= kount %> found.</h4>
 <%= updateMessage %>
@@ -112,3 +115,9 @@
 <%= newTable.toString() %>
 
 </div>
+<script>
+$('#clearSource').click(function(){
+  $("input[name=requestSource]").val('');
+  return false;
+});
+</script>
