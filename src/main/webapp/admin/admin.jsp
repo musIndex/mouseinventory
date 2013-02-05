@@ -24,27 +24,30 @@
   StringBuffer buf = new StringBuffer();
   
   ArrayList<ArrayList<String>> openRequestSources = DBConnect.getOpenRequestSources();
-  
-  for(ArrayList<String> source : openRequestSources) {
-	String sourceName = source.get(0);
-    String count = source.get(1);
-    if (sourceName.equals("Change request form")) {
-      continue;
-    }
-    for(ImportDefinition def : ImportHandler.getImportDefinitions()) {
-    	sourceName = sourceName.replace(def.Name, "");
-    }
-    
-    
-    buf.append("<dl>");
-    buf.append("<dt>There are <b><a href='" + adminRoot + "ManageChangeRequests.jsp?status=all&requestSource=" 
-          + sourceName + "'>" + count + " open requests</a></b> from data upload <b>'" + sourceName + "'</b></dt>");
+  if (openRequestSources.size() > 0) {
+	  buf.append("<dl>"); 
 
+    for(ArrayList<String> source : openRequestSources) {
+  	String sourceName = source.get(0);
+      String count = source.get(1);
+      if (sourceName.equals("Change request form")) {
+        continue;
+      }
+      for(ImportDefinition def : ImportHandler.getImportDefinitions()) {
+      	sourceName = sourceName.replace(def.Name, "");
+      }
+      
+      
+      
+      buf.append("<dt>There are <b><a href='" + adminRoot + "ManageChangeRequests.jsp?status=all&requestSource=" 
+            + sourceName + "'>" + count + " open requests</a></b> from data upload <b>'" + sourceName + "'</b></dt>");
+  
+      
+    }
     buf.append("</dl>");
-    buf.append("<br>");
-  }
+    buf.append("<br><br>");
   
-
+  }
 
   for (int i = 0; i < changeRequestLists.size();i++)
   {
@@ -52,6 +55,7 @@
     String label = changeRequestListLabels[i];
     if(changeRequests.size() > 0)
     {
+      buf.append("<br>");
       buf.append("<dl>");
       buf.append("<dt><font color='green'><b>There are " + changeRequests.size() + " manual " + label + " change requests!</b></font></dt>");
       for(ChangeRequest changeRequest : changeRequests)
@@ -139,6 +143,6 @@
 <div class="site_container">
 <h2>Welcome to Mouse Inventory Administration.</h2>
 Administer the Mouse Inventory by choosing from the menu items above.
-<br><br>
+
 <%=buf.toString() %>
 </div>
