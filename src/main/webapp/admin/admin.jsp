@@ -25,6 +25,7 @@
   
   ArrayList<ArrayList<String>> openRequestSources = DBConnect.getOpenRequestSources();
   if (openRequestSources.size() > 0) {
+      buf.append("<br>");
 	  buf.append("<dl>"); 
 
     for(ArrayList<String> source : openRequestSources) {
@@ -37,16 +38,10 @@
       	sourceName = sourceName.replace(def.Name, "");
       }
       
-      
-      
       buf.append("<dt>There are <b><a href='" + adminRoot + "ManageChangeRequests.jsp?status=all&requestSource=" 
             + sourceName + "'>" + count + " open requests</a></b> from data upload <b>'" + sourceName + "'</b></dt>");
-  
-      
     }
     buf.append("</dl>");
-    buf.append("<br><br>");
-  
   }
 
   for (int i = 0; i < changeRequestLists.size();i++)
@@ -57,7 +52,7 @@
     {
       buf.append("<br>");
       buf.append("<dl>");
-      buf.append("<dt><font color='green'><b>There are " + changeRequests.size() + " manual " + label + " change requests!</b></font></dt>");
+      buf.append("<dt><font color='green'><b>There are " + changeRequests.size() + " " + label + " manual change requests:</b></font></dt>");
       for(ChangeRequest changeRequest : changeRequests)
       {
         String changeRequestTitle = changeRequest.getFirstname() + " " + changeRequest.getLastname() + " requested: " +
@@ -90,7 +85,7 @@
     {
 
       buf.append("<dl>");
-      buf.append("<dt><font color='green'><b>There are " + newSubmissions.size() + " " + label + "!</b></font></dt>");
+      buf.append("<dt><font color='green'><b>There are " + newSubmissions.size() + " " + label + ":</b></font></dt>");
       for(SubmittedMouse mouse : newSubmissions)
       {
         String mouseName = "";
@@ -142,7 +137,7 @@
 %>
 <div class="site_container">
 <h2>Welcome to Mouse Inventory Administration.</h2>
-Administer the Mouse Inventory by choosing from the menu items above.
+Administer the Mouse Inventory by choosing from the menu items above.<br>
 
 <%=buf.toString() %>
 </div>
