@@ -3139,6 +3139,7 @@ public class DBConnect {
       result.setRequestSource(g_str("request_source"));
       int holderId = g_int("holder_id");
       result.setHolderId(holderId);
+      String holderName = g_str("holder_name");
 
       result.setRequestDate(g_date("requestDate").toString());
 
@@ -3153,7 +3154,7 @@ public class DBConnect {
         return result;
       }
       
-      if (holderId != 0 || result.getHolderName() != null) {
+      if (holderId != 0 || holderName != null) {
         //newer change requests
         int facilityId = g_int("facility_id");
         result.setFacilityId(facilityId);
@@ -3173,7 +3174,6 @@ public class DBConnect {
           result.setHolderEmail(g_str("holder.email"));
         }
         else {
-          String holderName = g_str("holder_name");
           if (holderName != null && holderName.indexOf(' ') > 0) {
             int lastSpaceIndex = holderName.lastIndexOf(' ');
             result.setHolderLastname(holderName.substring(lastSpaceIndex + 1));
@@ -3205,16 +3205,16 @@ public class DBConnect {
               propertyValue = propertyValue.substring(splitterIndex + 1);
             }
             if (propertyName.matches("Add Holder( Name)?|Remove Holder|Delete Holder Name")) {
-              String holderName = propertyValue;
-              if (holderName == null)
+              String holderPropertyName = propertyValue;
+              if (holderPropertyName == null)
               {
                 continue;
               }
               
               String holderLastname = "";
               String holderFirstname = "";
-              if (holderName.indexOf(',') > 0) {
-                String[] tokens = holderName.split(",");
+              if (holderPropertyName.indexOf(',') > 0) {
+                String[] tokens = holderPropertyName.split(",");
                 if (tokens.length != 2)
                 {
                   continue;
@@ -3233,13 +3233,13 @@ public class DBConnect {
                   holderFirstname = holderFirstname.substring(0,periodIndex - 2).trim();
                 }
               }
-              else if (holderName.indexOf(' ') > 0) {
-                int lastSpaceIndex = holderName.lastIndexOf(' ');
-                holderLastname = holderName.substring(lastSpaceIndex + 1);
-                holderFirstname = holderName.substring(0,lastSpaceIndex);
+              else if (holderPropertyName.indexOf(' ') > 0) {
+                int lastSpaceIndex = holderPropertyName.lastIndexOf(' ');
+                holderLastname = holderPropertyName.substring(lastSpaceIndex + 1);
+                holderFirstname = holderPropertyName.substring(0,lastSpaceIndex);
               }
               
-              result.setHolderName(holderName);
+              result.setHolderName(holderPropertyName);
               result.setHolderFirstname(holderFirstname);
               result.setHolderLastname(holderLastname);
               
