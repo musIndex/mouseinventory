@@ -1,3 +1,5 @@
+<%@page import="edu.ucsf.mousedatabase.dataimport.ImportHandler"%>
+<%@page import="edu.ucsf.mousedatabase.dataimport.ImportDefinition"%>
 <%@page import="edu.ucsf.mousedatabase.*" %>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%@page import="edu.ucsf.mousedatabase.objects.*" %>
@@ -24,14 +26,22 @@
   ArrayList<ArrayList<String>> openRequestSources = DBConnect.getOpenRequestSources();
   
   for(ArrayList<String> source : openRequestSources) {
-    if (source.equals("Change request form")) {
+	String sourceName = source.get(0);
+    String count = source.get(1);
+    if (sourceName.equals("Change request form")) {
       continue;
     }
+    for(ImportDefinition def : ImportHandler.getImportDefinitions()) {
+    	sourceName = sourceName.replace(def.Name, "");
+    }
+    
+    
     buf.append("<dl>");
-    buf.append("<dt><b>There are <a href='" + adminRoot + "ManageChangeRequests.jsp?status=all&requestSource=" 
-          + source.get(0) + "'>" + source.get(1) + " open requests from</a> " + source.get(0) + "</dt>");
+    buf.append("<dt>There are <b><a href='" + adminRoot + "ManageChangeRequests.jsp?status=all&requestSource=" 
+          + sourceName + "'>" + count + " open requests</a></b> from data upload <b>'" + sourceName + "'</b></dt>");
 
     buf.append("</dl>");
+    buf.append("<br>");
   }
   
 
@@ -43,7 +53,7 @@
     if(changeRequests.size() > 0)
     {
       buf.append("<dl>");
-      buf.append("<dt><font color='green'><b>There are " + changeRequests.size() + " " + label + " change requests!</b></font></dt>");
+      buf.append("<dt><font color='green'><b>There are " + changeRequests.size() + " manual " + label + " change requests!</b></font></dt>");
       for(ChangeRequest changeRequest : changeRequests)
       {
         String changeRequestTitle = changeRequest.getFirstname() + " " + changeRequest.getLastname() + " requested: " +
@@ -129,6 +139,6 @@
 <div class="site_container">
 <h2>Welcome to Mouse Inventory Administration.</h2>
 Administer the Mouse Inventory by choosing from the menu items above.
-
+<br><br>
 <%=buf.toString() %>
 </div>
