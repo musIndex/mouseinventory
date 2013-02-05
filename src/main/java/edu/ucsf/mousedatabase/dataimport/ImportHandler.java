@@ -354,7 +354,7 @@ public class ImportHandler
         props.setProperty("Recipient email", recipientEmail);
         props.setProperty("Original holder", nicelyFormattedCurrentHolder);
 
-        ChangeRequest request = createChangeRequest(mouseId, recipientEmail, recipientName, localAddedHolder, localAddedFacility, nicelyFormattedAddedHolder,roomName,props,importDefinition.Name + "(" + reportName + ")");
+        ChangeRequest request = createChangeRequest(mouseId, recipientEmail, recipientName, localAddedHolder, localAddedFacility, nicelyFormattedAddedHolder,roomName,props,importDefinition.Name + " " + reportName);
 
         newChangeRequestIds.add(request.getRequestID());
 
@@ -937,7 +937,7 @@ public class ImportHandler
           props.setProperty("CatalogNumber",purchase.stockNumber);
 
           ChangeRequest request = createChangeRequest(Integer.parseInt(mouse.getMouseID()), purchase.purchaserEmail, purchase.purchaserName,
-              localAddedHolder, localAddedFacility, purchase.holderName, purchase.roomName, props, importDefinition.Name + "(" + reportName + ")");
+              localAddedHolder, localAddedFacility, purchase.holderName, purchase.roomName, props, importDefinition.Name + " " + reportName);
 
           int requestId = request.getRequestID();
           requestIds.add(requestId);
