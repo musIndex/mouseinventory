@@ -1787,7 +1787,8 @@ public class HTMLGeneration {
     table.append("<table style='width:100%'>\r\n");
     int numRequests = 0;
     
-    ArrayList<MouseRecord> records = new ArrayList<MouseRecord>();
+    ArrayList<Integer> neededRecords = new ArrayList<Integer>();
+    
 
     for (ChangeRequest nextRequest : requests) {
 
@@ -1951,8 +1952,9 @@ public class HTMLGeneration {
       numRequests++;
       
       nextRequest.prepareForSerialization();
-      records.addAll(DBConnect.getMouseRecord(nextRequest.getMouseID()));
+      neededRecords.add(nextRequest.getMouseID());
     }
+    ArrayList<MouseRecord> records = DBConnect.getMouseRecordsByIds(neededRecords);
     table.append("</table>\r\n");
     table.append("</div>\r\n");
     table.append("<script type='text/javascript'>\r\n");
