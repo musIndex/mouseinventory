@@ -8,10 +8,14 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang3.StringUtils;
 
 import com.csvreader.CsvReader;
 
@@ -207,5 +211,15 @@ public class HTMLUtilities {
       return true;
     }
     return false;
+  }
+  
+  public static void logRequest(HttpServletRequest request){
+    String params = "";
+    Map<String, String[]> parameters = request.getParameterMap();
+    for(String parameter : parameters.keySet()) {
+      String[] values = parameters.get(parameter);
+      params += "  " + parameter + "=" + StringUtils.join(values, ",") + "\n";
+    }
+    Log.Info(request.getMethod() + " " +  request.getRequestURI() + "\n" +  params);
   }
 }
