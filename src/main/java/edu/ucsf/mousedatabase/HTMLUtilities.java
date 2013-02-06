@@ -218,8 +218,8 @@ public class HTMLUtilities {
     Map<String, String[]> parameters = request.getParameterMap();
     for(String parameter : parameters.keySet()) {
       String[] values = parameters.get(parameter);
-      params += "  " + parameter + "=" + StringUtils.join(values, ",") + "\n";
+      params += " " + parameter + "=" + StringUtils.join(values, ",");
     }
-    Log.Info(request.getMethod() + " " +  request.getRequestURI() + "\n" +  params);
+    Log.Info(request.getMethod() + " " +  request.getRequestURI() + " params: [" +  params + " ]");
   }
 }
