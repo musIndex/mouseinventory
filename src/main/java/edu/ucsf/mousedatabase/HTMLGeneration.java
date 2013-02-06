@@ -316,7 +316,7 @@ public class HTMLGeneration {
       holderList = new ArrayList<MouseHolder>();
     }
 
-    if (req != null && req.actionRequested() == Action.ADD_HOLDER && req.getStatus() != "done") {
+    if (req != null && req.actionRequested() == Action.ADD_HOLDER && !req.getStatus().equals("done")) {
       if (req.getHolderId() > 0)
       {
         MouseHolder addedHolder = new MouseHolder();
