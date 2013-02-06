@@ -182,7 +182,7 @@ public class ImportHandler
     String addedHolderCol = "pi (recipient)";
     String mouseIdCol = "strain";
     String currentHolderCol = "pi (sender)";
-    String roomNameCol = "room";
+    String roomNameCol = "final destination";
     String addedHolderEmailCol = "recipient pi email";
     String recipientNameCol = "recipient name";
     String recipientEmailCol = "recipient email";
