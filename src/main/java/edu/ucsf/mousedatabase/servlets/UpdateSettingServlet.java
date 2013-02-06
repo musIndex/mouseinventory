@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ucsf.mousedatabase.DBConnect;
 import edu.ucsf.mousedatabase.HTMLGeneration;
+import edu.ucsf.mousedatabase.HTMLUtilities;
 import edu.ucsf.mousedatabase.objects.Setting;
 
 /**
