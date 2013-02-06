@@ -18,7 +18,7 @@
 
 
 <%
-
+HTMLUtilities.logRequest(request);
   int mouseID = HTMLGeneration.stringToInt(request.getParameter("mouseID"));
     int submissionID = HTMLGeneration.stringToInt(request.getParameter("submittedMouseID"));
     String transgenicType = request.getParameter("transgenicType");

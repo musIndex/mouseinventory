@@ -7,6 +7,7 @@
 <jsp:useBean id="editedHolder" class="edu.ucsf.mousedatabase.objects.Holder" scope="request"></jsp:useBean>
 <jsp:setProperty property="*" name="editedHolder"/>
 <%
+HTMLUtilities.logRequest(request);
   String command = request.getParameter("command");
   StringBuffer buf = new StringBuffer();
 

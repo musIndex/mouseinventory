@@ -11,7 +11,7 @@
 <%@include file='SendMailForm.jspf' %>
 
 <%
-
+  HTMLUtilities.logRequest(request);
   int mouseID = HTMLGeneration.stringToInt(request.getParameter("mouseID"));
   int changeRequestID = HTMLGeneration.stringToInt(request.getParameter("changeRequestID"));
   ChangeRequest changeRequest = null;

@@ -120,7 +120,9 @@
 
 %>
 
-<% if (ok) { %>
+<% if (ok) { 
+    HTMLUtilities.logRequest(request);
+  %>
   <h2>Submission #<%=submissionID %> (<%=newMouse.getMouseName()%>) was successful.</h2>
   <p>We have received your request to add your mouse to the inventory.
   It will be reviewed by the administrator.
