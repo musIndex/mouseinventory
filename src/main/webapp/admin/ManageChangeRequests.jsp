@@ -134,7 +134,7 @@ Quick search: <input type='text'></input> <a class='btn clear_btn' style='displa
   var matching_label = $("#matching_search");
   search_form.submit(function(){
     var term = search_input.val();
-    var expr = new RegExp(term,'i');
+    var expr = new RegExp("(^|\\s|-|\\()" + term.trim() + "(\\s|$|\\.|\\?|,|-|\\))",'i');
     var matchCount = 0;
     $("div.mouseTable tr").removeClass('hide');
     if (!term) {
@@ -152,7 +152,7 @@ Quick search: <input type='text'></input> <a class='btn clear_btn' style='displa
         matchCount++;
       }
     });
-    matching_label.text(" (" + matchCount + " matching quick search)");
+    matching_label.text(" (" + matchCount + " matching quick search '" + term + "')");
     
     return false;
   });

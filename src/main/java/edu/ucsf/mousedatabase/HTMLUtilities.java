@@ -80,8 +80,8 @@ public class HTMLUtilities {
     }
     String fixed = generalComment.replaceAll("<", "&lt;");
     fixed = fixed.replaceAll(">", "&gt;");
-    fixed = fixed.replaceAll("\r\n", "<br>");
-    fixed = fixed.replaceAll("\n", "<br>");
+    fixed = fixed.replaceAll("\r\n", "&nbsp;<br>");
+    fixed = fixed.replaceAll("\n", "&nbsp;<br>");
     fixed = fixed.replaceAll("\\[B](.*)\\[/B\\]","<b>$1</b>");
     fixed = fixed.replaceAll("\\[URL\\](.*)\\[/URL\\]","<a href='$1'>$1</a>");
     return fixed;
