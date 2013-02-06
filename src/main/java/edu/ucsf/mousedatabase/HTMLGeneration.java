@@ -1804,20 +1804,20 @@ public class HTMLGeneration {
 
       table.append("<dt>");
       table.append("Request #" + nextRequest.getRequestID());
-      table.append("</dt>");
+      table.append("&nbsp;</dt>");
 
       table.append("<dt>");
       table.append("Date: " + nextRequest.getRequestDate());
-      table.append("</dt>");
+      table.append("&nbsp;</dt>");
 
       table.append("<dt>\r\n");
       table.append("Status: <b>" + nextRequest.getStatus() + "</b>");
-      table.append("</dt>\r\n");
+      table.append("&nbsp;</dt>\r\n");
           
       table.append("<dt>\r\n");
       table.append("<a href='DeleteChangeRequest.jsp?id="
           + nextRequest.getRequestID() + "'>Delete</a>");
-      table.append("</dt>\r\n");
+      table.append("&nbsp;</dt>\r\n");
 
       table.append("</dl>\r\n");
       table.append("</td>\r\n");
@@ -1829,7 +1829,7 @@ public class HTMLGeneration {
       table.append("<dt>\r\n");
       table.append(nextRequest.getFirstname() + " "
           + nextRequest.getLastname());
-      table.append("</dt>\r\n");
+      table.append("&nbsp;</dt>\r\n");
 
       table.append("<dt>\r\n");
       
@@ -1874,10 +1874,10 @@ public class HTMLGeneration {
       }
       
       table.append(getAdminMailLink(emailRecipient, emailCc, emailType, -1,nextRequest.getRequestID(), Integer.toString(nextRequest.getMouseID()),-1));
-      table.append("</dt>\r\n");
+      table.append("&nbsp;</dt>\r\n");
 
       if (nextRequest.getRequestSource() != null) {
-        table.append("<dt>Source: " + nextRequest.getRequestSource() + "</dt>");
+        table.append("<dt>Source: " + nextRequest.getRequestSource() + "&nbsp;</dt>");
       }
       
       table.append("</dl>\r\n");
@@ -1889,7 +1889,7 @@ public class HTMLGeneration {
 
       //new change request format, no properties
       table.append("<dl><dt class='" + nextRequest.actionRequested() + "'>");
-      table.append(nextRequest.actionRequested().label + "</dt>");
+      table.append(nextRequest.actionRequested().label + "&nbsp;</dt>");
       if (nextRequest.actionRequested() == Action.ADD_HOLDER || nextRequest.actionRequested() == Action.REMOVE_HOLDER) {
         table.append("<dt>" + emptyIfNull(nextRequest.getHolderName()));
         if (nextRequest.getHolderId() == -2) {
@@ -1930,7 +1930,7 @@ public class HTMLGeneration {
       table.append("<dt><a href=\"CompleteChangeRequest.jsp?id="
           + nextRequest.getRequestID() + "\">Edit record #"
           + nextRequest.getMouseID() + "</a></dt>\r\n");
-      table.append("<dt><b>" + nextRequest.getMouseName() + "</b></dt>");
+      table.append("<dt><b>" + nextRequest.getMouseName() + "&nbsp;</b></dt>");
       table.append("</dt>");
 
       // status updates? - ignore, delete, etc
