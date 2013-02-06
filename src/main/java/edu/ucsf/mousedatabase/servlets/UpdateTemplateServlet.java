@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ucsf.mousedatabase.DBConnect;
 import edu.ucsf.mousedatabase.HTMLGeneration;
+import edu.ucsf.mousedatabase.HTMLUtilities;
 import edu.ucsf.mousedatabase.objects.EmailTemplate;
 
 /**
@@ -30,7 +31,7 @@ public class UpdateTemplateServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	  HTMLUtilities.logRequest(request);	
 	  EmailTemplate template = new EmailTemplate();
 	  template.id = stringToInt(request.getParameter("id"));
     template.name = request.getParameter("name");

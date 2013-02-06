@@ -7,6 +7,7 @@
 <jsp:setProperty property="*" name="editedFacility"/>
 
 <%
+HTMLUtilities.logRequest(request);
   String command = request.getParameter("command");
   StringBuffer buf = new StringBuffer();
 

@@ -30,6 +30,7 @@ public class UpdateSettingServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	  HTMLUtilities.logRequest(request);
 	  Setting setting = new Setting();
     setting.id = stringToInt(request.getParameter("id"));
     setting.name = request.getParameter("name");

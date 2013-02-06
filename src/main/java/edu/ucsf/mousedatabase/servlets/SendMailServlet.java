@@ -21,6 +21,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import com.google.gson.Gson;
 
 import edu.ucsf.mousedatabase.DBConnect;
+import edu.ucsf.mousedatabase.HTMLUtilities;
 import edu.ucsf.mousedatabase.objects.EmailTemplate;
 import edu.ucsf.mousedatabase.objects.MouseMail;
 
@@ -42,7 +43,7 @@ public class SendMailServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	 
+	  HTMLUtilities.logRequest(request);
     Properties data = new Properties();
 	  Object[] maps;
     try {

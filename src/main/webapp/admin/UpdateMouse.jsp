@@ -21,7 +21,7 @@
 
 <%
 
-
+  HTMLUtilities.logRequest(request);
   int mouseID = HTMLGeneration.stringToInt(request.getParameter("mouseID"));
   String errors = "";
   String errortext = "";

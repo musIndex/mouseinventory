@@ -3,6 +3,7 @@
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*"%>
 <%@page import="edu.ucsf.mousedatabase.DBConnect"%>
 <%@ page import="edu.ucsf.mousedatabase.objects.*"%>
+<%@ page import="edu.ucsf.mousedatabase.*"%>
 <%=getPageHeader(null,false,true) %>
 <%=getNavBar("EditMouseSelection.jsp", true) %>
 <%@ include file='SendMailForm.jspf' %>
@@ -10,7 +11,7 @@
 <%@ include file="protectAgainstDuplicateHolders.jspf" %>
 <%
 
-
+  HTMLUtilities.logRequest(request);
   if (request.getParameter("id") == null)
   {
     %>
