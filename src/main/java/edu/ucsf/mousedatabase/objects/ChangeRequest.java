@@ -293,7 +293,7 @@ public class ChangeRequest {
     }
     
     
-    return StringUtils.join(errors,",");
+    return StringUtils.join(errors,"|");
   }
 
   public String getHolderFirstname() {

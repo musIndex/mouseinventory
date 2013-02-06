@@ -44,7 +44,7 @@ $(document).ready(function(){
 <% } else { %>
 <h2>Submit a request to change Mouse Record # <%= mouseID %></h2>
 <% if (message != null && !message.isEmpty()){ %>
-<div class='alert alert-error'><%=message.replace(",", "<br>") %></div>
+<div class='alert alert-error'><%=message.replace("|", "<br>") %></div>
 <% } %>
 <%= table %>
 Enter <font color="red">your</font> name and e-mail address (required)<br>

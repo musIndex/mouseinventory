@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 
 import static edu.ucsf.mousedatabase.HTMLGeneration.*;
 import edu.ucsf.mousedatabase.DBConnect;
+import edu.ucsf.mousedatabase.HTMLUtilities;
 import edu.ucsf.mousedatabase.objects.ChangeRequest;
 
 /**
@@ -33,7 +34,8 @@ public class SubmitChangeRequestServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String message = "";
+		HTMLUtilities.logRequest(request);
+	  String message = "";
 		boolean success = false;
 		try {
 		  ChangeRequest changeRequest = new ChangeRequest();
@@ -50,20 +52,14 @@ public class SubmitChangeRequestServlet extends HttpServlet {
 		  changeRequest.setCryoLiveStatus(request.getParameter("cryoLiveStatus"));
 		  
 		  int holderId = stringToInt(request.getParameter("holderId"));
-		  
-		  if (holderId > 0) {
-		    changeRequest.setHolderId(holderId);
-		  }
-		  else {
+		  changeRequest.setHolderId(holderId);
+		  if (holderId == -2) {
   		  changeRequest.setHolderName(request.getParameter("holderName"));
 		  }  
 		  
 		  int facilityId = stringToInt(request.getParameter("facilityId"));
-		  
-		  if (facilityId > 0) {
-		    changeRequest.setFacilityId(facilityId);
-		  }
-		  else {
+		  changeRequest.setFacilityId(facilityId);
+		  if (facilityId == -2) {
 		    changeRequest.setFacilityName(request.getParameter("facilityName"));
 		  }
 		  request.getSession().setAttribute("changeRequest", changeRequest);
