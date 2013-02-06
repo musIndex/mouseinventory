@@ -182,15 +182,27 @@ public class ImportHandler
     String addedHolderCol = "pi (recipient)";
     String mouseIdCol = "strain";
     String currentHolderCol = "pi (sender)";
-    //String quantityCol = "qty";
-    String roomNameCol = "final destination";
-    //String dateReceivedCol = "received";
+    String roomNameCol = "room";
     String addedHolderEmailCol = "recipient pi email";
-//    String senderNameCol = "sender name";
-//    String senderEmailCol = "sender email";
     String recipientNameCol = "recipient name";
     String recipientEmailCol = "recipient email";
+    
+    String missingColumns = verifyColumns(csvData.get(0), new String[]{
+      addedHolderCol,
+      mouseIdCol,
+      currentHolderCol,
+      roomNameCol,
+      addedHolderEmailCol,
+      recipientNameCol,
+      recipientEmailCol
+      });
 
+    if (!missingColumns.isEmpty()) {
+      ImportStatusTracker.AppendMessage(importTaskId, "Data file validation failed.  The file does not contain the following required column(s): " + missingColumns);
+      ImportStatusTracker.UpdateStatus(importTaskId, ImportStatus.ERROR);
+      return;
+    }
+    
     String mouseIdRegex = "^[\\s]*\\(?[\\s]*([0-9]+)[\\s]*\\)?[\\s]*$";
 
     String facilityCodeRegex = "(.*)-[0-9]+";
@@ -477,6 +489,47 @@ public class ImportHandler
     String recipientNameCol = "recipient name";
     String recipientEmailCol = "recipient email";
     String publishedCol = "published y/n";
+    
+    String missingColumns = "";
+    if (importDefinition.Id == 1) { //PDU
+      verifyColumns(csvData.get(0), new String[]{
+        sourceCol,
+        strainCol,
+        mgiMouseIdCol,
+        stockNumberCol,
+        roomNameCol,
+        recipientPIEmailCol,
+        purchaserNameCol,
+        purchaserEmailCol,
+        officialSymbolCol,
+        notesCol
+        });
+    }
+    else if (importDefinition.Id == 2){  //IDU
+      verifyColumns(csvData.get(0), new String[]{
+        sourceCol,
+        strainCol,
+        mgiMouseIdCol,
+        stockNumberCol,
+        roomNameCol,
+        recipientPIEmailCol,
+        purchaserNameCol,
+        purchaserEmailCol,
+        senderInformationCol,
+        officialSymbolCol,
+        notesCol,
+        pmidCol,
+        recipientNameCol,
+        recipientEmailCol,
+        publishedCol
+        });
+    }
+
+    if (!missingColumns.isEmpty()) {
+      ImportStatusTracker.AppendMessage(importTaskId, "Data file validation failed.  The file does not contain the following required column(s): " + missingColumns);
+      ImportStatusTracker.UpdateStatus(importTaskId, ImportStatus.ERROR);
+      return;
+    }
     
     String facilityCodeRegex = "(.*)-[0-9]+";
 
@@ -1510,6 +1563,16 @@ public class ImportHandler
 
 
     return strainInfo;
+  }
+  
+  private static String verifyColumns( HashMap<String,String> dataRow,String[] requiredColumnNames) {
+    ArrayList<String> missingCols = new ArrayList<String>();
+    for(String requiredCol : requiredColumnNames) {
+      if (!dataRow.containsKey(requiredCol)) {
+        missingCols.add(requiredCol);
+      }
+    }
+    return StringUtils.join(missingCols, ", ");
   }
 
   private static class PurchaseInfo
