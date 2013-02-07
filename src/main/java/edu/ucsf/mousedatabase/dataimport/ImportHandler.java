@@ -1167,7 +1167,7 @@ public class ImportHandler
             }
           }
           else {
-            submissionID = DBConnect.insertSubmission(submitterData,sub,props,importDefinition.Name);
+            submissionID = DBConnect.insertSubmission(submitterData,sub,props,importDefinition.Name + " " + reportName);
             DBConnect.updateSubmission(submissionID,"new", additionalHoldersComment);
 
             sb.append("<span class='importAction'>Created submission <span class='submission_number'>#" 
@@ -1214,10 +1214,12 @@ public class ImportHandler
 
     if (csvData.size() > 0)
     {
-      buildReport(submissionReport,"Newly Created Submissions",newSubmissions,
-          "creates a draft submission for a mouse that is not yet listed in the database, with the name of a holder whose lab received the mouse",null);
+      String link = " (<a class='view_link' href='" + adminRoot + "ListSubmisions.jsp?status=all&submissionSource=" + reportName + "'>view submissions</a>)";
       
-      String link = " (<a class='view_link' href='" + adminRoot + "ManageChangeRequests.jsp?status=all&requestSource=" + reportName + "'>view requests</a>)";
+      buildReport(submissionReport,"Newly Created Submissions",newSubmissions,
+          "creates a draft submission for a mouse that is not yet listed in the database, with the name of a holder whose lab received the mouse",link);
+      
+      link = " (<a class='view_link' href='" + adminRoot + "ManageChangeRequests.jsp?status=all&requestSource=" + reportName + "'>view requests</a>)";
       
       buildReport(changeRequestReport,"Newly Created Change Requests",newChangeRequests,
           "adds the name of the holder whose lab received a mouse for which there is already a record",link);

@@ -83,7 +83,7 @@
   if (!submissionSource.isEmpty()) {
    statusString += " from source '" + submissionSource + "'"; 
   }
-  session.setAttribute("listSubmissionsLastQuery","?status=" + status + "&orderby=" + orderBy + "&submissionSource=" + submissionSource);
+  session.setAttribute("listSubmissionsLastQuery","status=" + status + "&orderby=" + orderBy + "&submissionSource=" + submissionSource);
   session.setAttribute("listSubmissionsLastTitle",statusString);
   statusString = "Listing " + statusString;
 %>
