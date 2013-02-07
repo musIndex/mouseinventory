@@ -1502,7 +1502,7 @@ public class DBConnect {
   }
 
   @SuppressWarnings("rawtypes")
-  public static int insertSubmission(UserData submitterData, MouseSubmission submission, Properties props)
+  public static int insertSubmission(UserData submitterData, MouseSubmission submission, Properties props, String submissionSource)
   {
     StringBuffer propsBuf = new StringBuffer();
         Enumeration names = props.propertyNames();
@@ -1513,7 +1513,7 @@ public class DBConnect {
         }
 
     String query = "INSERT into submittedmouse " +
-        "(id,firstname,lastname,dept,address,email,tel,date,properties) " +
+        "(id,firstname,lastname,dept,address,email,tel,date,properties,submission_source) " +
         "VALUES " +
           "(NULL"
           + ",\r\n'"  + addMySQLEscapes(submitterData.getFirstName())
@@ -1523,7 +1523,8 @@ public class DBConnect {
           + "',\r\n'"  + addMySQLEscapes(submitterData.getEmail())
           + "',\r\n'"  + addMySQLEscapes(submitterData.getTelephoneNumber())
           + "',\r\n curdate(),\r\n'"
-          + addMySQLEscapes(propsBuf.toString()) + "')";
+          + addMySQLEscapes(propsBuf.toString()) + "'"
+          + ",\r\n'" + addMySQLEscapes(submissionSource) + "')";
     return executeNonQuery(query,true);
 
   }
@@ -3309,6 +3310,7 @@ public class DBConnect {
       result.setEntered(g_str("entered").equalsIgnoreCase("Y"));
 
       result.parseProperties(g_str("properties"));
+      result.setSubmissionSource(g_str("submission_source"));
       return result;
     }
   }
