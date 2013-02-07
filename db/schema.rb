@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130205061729) do
+ActiveRecord::Schema.define(:version => 20130207071525) do
 
   create_table "changerequest", :force => true do |t|
     t.integer "mouse_id"
@@ -187,17 +187,18 @@ ActiveRecord::Schema.define(:version => 20130205061729) do
   end
 
   create_table "submittedmouse", :force => true do |t|
-    t.string "firstname",    :limit => 128
-    t.string "lastname",     :limit => 128
-    t.string "dept",         :limit => 256
-    t.string "address",      :limit => 80
-    t.string "email",        :limit => 128
-    t.string "tel",          :limit => 32,  :default => ""
+    t.string "firstname",         :limit => 128
+    t.string "lastname",          :limit => 128
+    t.string "dept",              :limit => 256
+    t.string "address",           :limit => 80
+    t.string "email",             :limit => 128
+    t.string "tel",               :limit => 32,  :default => ""
     t.text   "properties"
     t.date   "date"
-    t.string "status",       :limit => 14,  :default => "new"
+    t.string "status",            :limit => 14,  :default => "new"
     t.text   "admincomment"
-    t.string "entered",      :limit => 1,   :default => "N"
+    t.string "entered",           :limit => 1,   :default => "N"
+    t.string "submission_source"
   end
 
   add_index "submittedmouse", ["status"], :name => "status"
