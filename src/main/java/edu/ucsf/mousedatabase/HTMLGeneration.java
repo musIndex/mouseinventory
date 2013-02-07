@@ -1078,9 +1078,13 @@ public class HTMLGeneration {
       table.append("</dt>\r\n");
       table.append("<dt>");
       table.append("Submission date: " + nextSubmission.getSubmissionDate());
-      table.append("</dt></dl>");
+      table.append("</dt>");
+      table.append("Source: " + nextSubmission.getSubmissionSource() + "</dt>");
+      table.append("</dl>");
       table.append("<div style='font-size:14px;font-weight:700'>Admin Comments:</div>");
-      table.append("<span class=\"mouseComment\">" + emptyIfNull(HTMLUtilities.getCommentForDisplay(nextSubmission.getAdminComment())) + "</span>");
+      String adminComment = nextSubmission.getAdminComment();
+      
+      table.append("<span class=\"mouseComment\">" + emptyIfNull(HTMLUtilities.getCommentForDisplay(adminComment)) + "</span>");
       table.append("</td>\r\n");
 
 
