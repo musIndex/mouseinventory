@@ -996,11 +996,10 @@ public class HTMLGeneration {
     table.append("<div class=\"mouseTable\">\r\n");
     table.append("<table style='width:100%'>\r\n");
     int numSubmissions = 0;
-
+    table.append(getSubmissionTableHeaders());
     for (SubmittedMouse nextSubmission : submissions) {
       nextSubmission.prepareForSerialization();
-      if (numSubmissions % 20 == 0)
-        table.append(getSubmissionTableHeaders());
+        
 
       String rowStyle = getRowStyle(numSubmissions, "submissionlist",
           "submissionlistAlt");

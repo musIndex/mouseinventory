@@ -110,19 +110,21 @@ public class DBConnect {
   //************************************************************
   //VIEW Methods
   //************************************************************
-  public static ArrayList<SubmittedMouse> getMouseSubmissions(String status, String entered, String orderBy)
+  public static ArrayList<SubmittedMouse> getMouseSubmissions(String status, String entered, String orderBy, String submissionSource)
   {
     ArrayList<String> whereTerms = new ArrayList<String>();
     String additionalJoins = "";
     if (status != null && !status.isEmpty() && !status.equalsIgnoreCase("all")) {
-          whereTerms.add("submittedmouse.status='" + status + "'");
-      }
-      if (entered != null && !entered.isEmpty())
-      {
-        whereTerms.add("entered='" + entered +"'");
-      }
+      whereTerms.add("submittedmouse.status='" + status + "'");
+    }
+    if (entered != null && !entered.isEmpty()) {
+      whereTerms.add("entered='" + entered +"'");
+    }
+    if (submissionSource != null){
+      whereTerms.add("submission_source like '%" + addMySQLEscapes(submissionSource) + "%'");
+    }
 
-      return getSubmissions(additionalJoins,whereTerms,orderBy);
+    return getSubmissions(additionalJoins,whereTerms,orderBy);
   }
 
   public static ArrayList<SubmittedMouse> getMouseSubmissions(List<Integer> submittedMouseIds)
@@ -1142,6 +1144,11 @@ public class DBConnect {
   public static ArrayList<ArrayList<String>> getOpenRequestSources(){
     String query = "SELECT request_source, count(*) as 'count' from changerequest where status='new' or status='pending' group by request_source;";
     return StringArrayListResultGetter.getInstance(new String[]{"request_source","count"}).Get(query);
+  }
+  
+  public static ArrayList<ArrayList<String>> getOpenSubmissionSources(){
+    String query = "SELECT submission_source, count(*) as 'count' from submittedMouse where status='new' or status='need more info' group by submission_source;";
+    return StringArrayListResultGetter.getInstance(new String[]{"submission_source","count"}).Get(query);
   }
 
   public static ArrayList<ImportReport> getAllImportReports()

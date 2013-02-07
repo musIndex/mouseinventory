@@ -11,9 +11,9 @@
 <%
 
   ArrayList<ArrayList<SubmittedMouse>> submissionLists = new ArrayList<ArrayList<SubmittedMouse>>();
-  submissionLists.add(DBConnect.getMouseSubmissions("new",null,null));
-  submissionLists.add(DBConnect.getMouseSubmissions("need more info",null,null));
-  String[] submissionListLabels = new String[]{"new submissions","submissions on hold"};
+  submissionLists.add(DBConnect.getMouseSubmissions("new",null,null,SubmittedMouse.SubmissionFormSource));
+  submissionLists.add(DBConnect.getMouseSubmissions("need more info",null,null,SubmittedMouse.SubmissionFormSource));
+  String[] submissionListLabels = new String[]{"new manual submissions","manual submissions on hold"};
 
 
   ArrayList<ArrayList<ChangeRequest>> changeRequestLists = new ArrayList<ArrayList<ChangeRequest>>();
@@ -40,6 +40,27 @@
       
       buf.append("<dt>There are <b><a href='" + adminRoot + "ManageChangeRequests.jsp?status=all&requestSource=" 
             + sourceName + "'>" + count + " open requests</a></b> from data upload <b>'" + sourceName + "'</b></dt>");
+    }
+    buf.append("</dl>");
+  }
+  
+  ArrayList<ArrayList<String>> openSubmissionSources = DBConnect.getOpenSubmissionSources();
+  if (openRequestSources.size() > 0) {
+      buf.append("<br>");
+	  buf.append("<dl>"); 
+
+    for(ArrayList<String> source : openSubmissionSources) {
+  	String sourceName = source.get(0);
+      String count = source.get(1);
+      if (sourceName.equals(SubmittedMouse.SubmissionFormSource)) {
+        continue;
+      }
+      for(ImportDefinition def : ImportHandler.getImportDefinitions()) {
+      	sourceName = sourceName.replace(def.Name, "");
+      }
+      
+      buf.append("<dt>There are <b><a href='" + adminRoot + "ListSubmissions.jsp?status=all&submissionSource=" 
+            + sourceName + "'>" + count + " open submissions</a></b> from data upload <b>'" + sourceName + "'</b></dt>");
     }
     buf.append("</dl>");
   }
