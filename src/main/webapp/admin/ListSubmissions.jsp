@@ -58,11 +58,11 @@
   StringBuffer sortBuf = new StringBuffer();
   sortBuf.append("<form class='view_opts' action='ListSubmissions.jsp' method='get'>");
   sortBuf.append("&nbsp;Show: ");
+  sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,""));
   sortBuf.append("&nbsp;Source: ");
   sortBuf.append("<input name='submissionSource' style='width: 200px' type='text' value='" + (submissionSource.equals("all") ? "" : submissionSource) + "'>");
   sortBuf.append("&nbsp;<input class='btn' type='submit' value='Update'>");
   sortBuf.append("&nbsp;<a id='clearSource' class='btn'>Clear</a>");
-  sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,""));
   sortBuf.append("&nbsp;Sort by: ");
   sortBuf.append(genSelect("orderby",sortOptions,sortOptionNiceNames, orderBy,""));
   sortBuf.append("<input type='hidden' name='entered' value='" + entered +"'>");
@@ -80,7 +80,10 @@
   {
     statusString = "submissions that have been converted to records";
   }
-  session.setAttribute("listSubmissionsLastQuery","?status=" + status + "&orderby=" + orderBy);
+  if (!submissionSource.isEmpty()) {
+   statusString += " from source '" + submissionSource + "'"; 
+  }
+  session.setAttribute("listSubmissionsLastQuery","?status=" + status + "&orderby=" + orderBy + "&submissionSource=" + submissionSource);
   session.setAttribute("listSubmissionsLastTitle",statusString);
   statusString = "Listing " + statusString;
 %>

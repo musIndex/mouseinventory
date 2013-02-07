@@ -90,7 +90,7 @@
     statusString = " completed change requests";
   }
   if (!requestSource.equalsIgnoreCase("all") && !requestSource.isEmpty()){
-    statusString += " from source " + requestSource; 
+    statusString += " from source '" + requestSource + "'"; 
   }
   if (currentHolderId > 0) {
     IHolder holder = DBConnect.getHolder(currentHolderId);
