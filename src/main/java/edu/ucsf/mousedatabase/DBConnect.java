@@ -864,8 +864,8 @@ public class DBConnect {
     if (!holderEmail.isEmpty())
     {
         query = holderQueryHeader +
-          " WHERE status='active' and email like '"
-          + holderEmail + "'";
+          " WHERE status='active' and email like '%"
+          + holderEmail.trim() + "%'";
     }
     else
     {
@@ -1378,12 +1378,12 @@ public class DBConnect {
 
     String query = "UPDATE holder " +
         "SET "
-        + "firstname='"  + addMySQLEscapes(updatedHolder.getFirstname())
-        + "',lastname='" + addMySQLEscapes(updatedHolder.getLastname())
+        + "firstname='"  + addMySQLEscapes(updatedHolder.getFirstname().trim())
+        + "',lastname='" + addMySQLEscapes(updatedHolder.getLastname().trim())
         + "',department='" + addMySQLEscapes(updatedHolder.getDept())
-        + "',email='" + addMySQLEscapes(updatedHolder.getEmail())
-        + "',alternate_email='" + addMySQLEscapes(updatedHolder.getAlternateEmail())
-         + "',alternate_name='" + addMySQLEscapes(updatedHolder.getAlternateName())
+        + "',email='" + addMySQLEscapes(updatedHolder.getEmail().trim())
+        + "',alternate_email='" + addMySQLEscapes(updatedHolder.getAlternateEmail().trim())
+         + "',alternate_name='" + addMySQLEscapes(updatedHolder.getAlternateName().trim())
         + "',tel='" + addMySQLEscapes(updatedHolder.getTel())
         + "',datevalidated=" + dateValidated
         + "\r\nWHERE id=" + updatedHolder.getHolderID();
@@ -1543,12 +1543,12 @@ public class DBConnect {
   {
     String query = "INSERT into holder (id,firstname,lastname,department,email,alternate_email,alternate_name,tel) " +
         "VALUES (NULL"
-        + ",'"  + addMySQLEscapes(newHolder.getFirstname())
-        + "','" + addMySQLEscapes(newHolder.getLastname())
+        + ",'"  + addMySQLEscapes(newHolder.getFirstname().trim())
+        + "','" + addMySQLEscapes(newHolder.getLastname().trim())
         + "','" + addMySQLEscapes(newHolder.getDept())
-        + "','" + addMySQLEscapes(newHolder.getEmail())
-        + "','" + addMySQLEscapes(newHolder.getAlternateEmail())
-        + "','" + addMySQLEscapes(newHolder.getAlternateName())
+        + "','" + addMySQLEscapes(newHolder.getEmail().trim())
+        + "','" + addMySQLEscapes(newHolder.getAlternateEmail().trim())
+        + "','" + addMySQLEscapes(newHolder.getAlternateName().trim())
         + "','" + addMySQLEscapes(newHolder.getTel())
         + "')";
     return executeNonQuery(query,true);
