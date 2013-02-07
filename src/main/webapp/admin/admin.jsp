@@ -98,14 +98,13 @@
           }
         }
         String action = "held by";
-        if (mouse.getProperties().containsKey(SubmittedMouse.SubmissionSourceKey))
+        if (!mouse.getSubmissionSource().equals(SubmittedMouse.SubmissionFormSource))
         {
-          String submissionSource = mouse.getProperties().getProperty(SubmittedMouse.SubmissionSourceKey);
-          if (submissionSource.equals(SubmittedMouse.PurchaseImport))
+          if (mouse.getSubmissionSource().contains("PDU") || mouse.getSubmissionSource().contains("Purchase"))
           {
             action = "purchased by";
           }
-          else if (submissionSource.equals(SubmittedMouse.OtherInstitutionImport)){
+          else if (mouse.getSubmissionSource().contains("IDU")){
            action = "imported by";
           }
 
