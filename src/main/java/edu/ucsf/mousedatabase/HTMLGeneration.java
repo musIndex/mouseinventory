@@ -1069,10 +1069,23 @@ public class HTMLGeneration {
 
       table.append("<dt>\r\n");
 
+      String templateType = EmailTemplate.SUBMISSION;
+      if (nextSubmission.getSubmissionSource().contains("PDU")) {
+        templateType = EmailTemplate.PDU_SUBMISSION;
+      }
+      else if (nextSubmission.getSubmissionSource().contains("IDU")) {
+        if (nextSubmission.isPublished()) {
+          templateType = EmailTemplate.IDU_SUBMISSION_PUBLISHED;
+        }
+        else {
+          //wont get to this case because the IDU doesn't create submissions for unpublished
+        }
+      }
+      
       for(IHolder holder: nextSubmission.getHolders()){
         EmailRecipient rec = EmailRecipientManager.recipientsForRequestorAndHolder(nextSubmission.getEmail(), holder);
-        table.append(getAdminMailLink(rec.recipients,rec.ccs, EmailTemplate.SUBMISSION, 
-                                      nextSubmission.getSubmissionID(),-1,Integer.toString(nextSubmission.getMouseRecordID()),-1) + " (" + holder.getFullname() + ")<br>");
+        table.append(getAdminMailLink(rec.recipients,rec.ccs, templateType, 
+                                      nextSubmission.getSubmissionID(),-1,Integer.toString(nextSubmission.getMouseRecordID()),holder.getHolderID()) + " (" + holder.getFullname() + ")<br>");
       }
       table.append("</dt>\r\n");
       table.append("<dt>");
