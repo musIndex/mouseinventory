@@ -6,7 +6,7 @@ class PopulateSubmissionSourceColumnForOldSubmissions < ActiveRecord::Migration
       execute <<-EOF
 	  	  update submittedmouse
 		  set submission_source='#{source}'
-		  where admincomment like 'Auto-generated from #{source}' 
+		  where admincomment like '%Auto-generated from #{source}%' 
 	  EOF
 	end
 	execute "update submittedmouse set submission_source='Submission form' where submission_source is NULL";
