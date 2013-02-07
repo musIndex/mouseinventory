@@ -15,11 +15,11 @@ public class SubmittedMouse {
   public static final String STATUS_ACCEPTED = "accepted";
   
   
-  
-  public static final String SubmissionSourceKey = "Submisison Source";
-  public static final String ManualSubmission = "Manual Submission";
-  public static final String PurchaseImport = "Data Import";
-  public static final String OtherInstitutionImport = "Other Institution Import";
+  public static final String SubmissionFormSource = "Submission form";
+//  public static final String SubmissionSourceKey = "Submisison Source";
+//  public static final String ManualSubmission = "Manual Submission";
+//  public static final String PurchaseImport = "Data Import";
+//  public static final String OtherInstitutionImport = "Other Institution Import";
 
   int submissionID;
   int mouseRecordID;
@@ -38,6 +38,8 @@ public class SubmittedMouse {
   private String email;
   private String telephoneNumber;
   private String department;
+  
+  private String submissionSource;
 
   private String mouseName;
   private String officialMouseName;
@@ -541,6 +543,13 @@ public class SubmittedMouse {
   }
   public void setDepartment(String department) {
     this.department = department;
+  }
+  
+  public String getSubmissionSource() {
+    return submissionSource;
+  }
+  public void setSubmissionSource(String submissionSource) {
+    this.submissionSource = submissionSource;
   }
   public String getMouseName() {
     return mouseName;
