@@ -101,8 +101,7 @@
     if (!isDuplicate)
     {
         Properties props = MouseSubmission.GetPropertiesString(submitterData,newMouse);
-        props.put(SubmittedMouse.SubmissionSourceKey, SubmittedMouse.ManualSubmission);
-        submissionID = DBConnect.insertSubmission(submitterData,newMouse,props);
+        submissionID = DBConnect.insertSubmission(submitterData,newMouse,props,SubmittedMouse.SubmissionFormSource);
         if (!submissionAdminComment.isEmpty())
         {
           DBConnect.updateSubmission(submissionID,"new",submissionAdminComment);

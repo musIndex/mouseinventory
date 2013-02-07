@@ -1132,7 +1132,6 @@ public class ImportHandler
           props.setProperty("MouseMGIID", Integer.toString(catalogMgiId));
           props.setProperty("CatalogNumber",firstPurchase.stockNumber);
 
-          props.setProperty(SubmittedMouse.SubmissionSourceKey, importDefinition.Id == 1 ? SubmittedMouse.PurchaseImport : SubmittedMouse.OtherInstitutionImport);
 
           StringBuilder sb = new StringBuilder();
 
@@ -1168,8 +1167,8 @@ public class ImportHandler
             }
           }
           else {
-            submissionID = DBConnect.insertSubmission(submitterData,sub,props);
-            DBConnect.updateSubmission(submissionID,"new","Auto-generated from " + importDefinition.Name + "\r\n" + additionalHoldersComment);
+            submissionID = DBConnect.insertSubmission(submitterData,sub,props,importDefinition.Name);
+            DBConnect.updateSubmission(submissionID,"new", additionalHoldersComment);
 
             sb.append("<span class='importAction'>Created submission <span class='submission_number'>#" 
             + submissionID +  "</span>:   " +
