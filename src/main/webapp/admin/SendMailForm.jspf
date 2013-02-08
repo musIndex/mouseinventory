@@ -166,7 +166,7 @@ $(document).ready(function(){
       $("#sendMailContainer textarea[name='" + field + "']").text($this.data(field) || '');
     });
     
-    setupCurrentObjects($this.data('submission_id'),$this.data('request_id'),$this.data('mouse_id'),$this.data('holder_id'));
+    setupCurrentObjects($this.data('submission_id'),$this.data('request_id'),$this.data('mouse_id'),$this.data('holder_id'), $this.data('submitter_index'));
     
     template_selector.children().remove();
     var category = $this.data('category');
@@ -212,11 +212,22 @@ $(document).ready(function(){
     return false;
   }
   
-  function setupCurrentObjects(subId, requestId, mouseId, holderId){
-    current_objects.submission = MouseConf.submissions[subId];
+  var indexedSubmissionKeys = ['Purchaser','Purchaser email','Recipient','Recipient Email','Recipient PI Firstname','Recipient PI Lastname'];
+  
+  function setupCurrentObjects(subId, requestId, mouseId, holderId, submitterIndex){
+    current_objects.submission = _.clone(MouseConf.submissions[subId]);
     current_objects.request = MouseConf.requests[requestId];
     current_objects.mouse = MouseConf.mice[mouseId];
     current_objects.holder = MouseConf.holders[holderId];
+    if (submitterIndex > 0 && current_objects.submission && current_objects.submission.properties) {
+	  _.each(current_objects.submission.properties,function(propValue,propName){
+	    _.each(indexedSubmissionKeys,function(submisionKey){
+	    	if (key.match(new RegExp(submissionKey + '-' + submitterIndex)) {
+	    	  current_objects.submission[submissionKey] = propValue;
+	    	}
+	    });
+	  });
+    }
   }
   
   function mailSendSuccess(data){

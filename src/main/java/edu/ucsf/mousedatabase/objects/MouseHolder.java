@@ -9,6 +9,7 @@ public class MouseHolder implements IHolder {
   
   private String submitterName;
   private String submitterEmail;
+  private int submitterIndex;
 
   private boolean covert;
 
@@ -177,6 +178,14 @@ public class MouseHolder implements IHolder {
 
   public void setSubmitterEmail(String submitterEmail) {
     this.submitterEmail = submitterEmail;
+  }
+
+  public int getSubmitterIndex() {
+    return submitterIndex;
+  }
+
+  public void setSubmitterIndex(int submitterIndex) {
+    this.submitterIndex = submitterIndex;
   }
 
   

@@ -1087,6 +1087,8 @@ public class ImportHandler
             }
 
             props.setProperty("Recipient PI Name-" + i, nextPurchase.holderName);
+            props.setProperty("Recipient PI Firstname", holderFirstName(nextPurchase.holderName));
+            props.setProperty("Recipient PI Lastname", holderLastName(nextPurchase.holderName));
             props.setProperty("Recipient Facility-" + i, facilityName);
             if (importDefinition.Id == 1){
               props.setProperty("Purchaser-" + i,  formatHolderName(nextPurchase.purchaserName));
@@ -1409,6 +1411,33 @@ public class ImportHandler
     String lastname = tokens[0].trim();
 
     return lastname;
+  }
+  
+  private static String holderFirstName(String holderName){
+    if (holderName == null)
+    {
+      return "";
+    }
+
+    String[] tokens = holderName.split(",");
+    if (tokens.length != 2)
+    {
+      return holderName;
+    }
+    String firstname = tokens[1].trim();
+
+    int periodIndex = firstname.indexOf('.');
+
+    if (periodIndex == 1)
+    {
+      firstname = firstname.substring(periodIndex + 1).trim();
+    }
+    else if (periodIndex == firstname.length()-1)
+    {
+      firstname = firstname.substring(0,periodIndex - 2).trim();
+    }
+
+    return firstname;
   }
 
 
