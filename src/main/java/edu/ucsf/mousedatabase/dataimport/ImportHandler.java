@@ -1059,6 +1059,8 @@ public class ImportHandler
             sub.setISSupplierCatalogNumber(firstPurchase.stockNumber);
           }
 
+          
+          
           Properties props = MouseSubmission.GetPropertiesString(submitterData,sub);
           props.setProperty("Due Date", twoWeeksFromNow);
           props.setProperty("dueDateRaw", cal.getTime().toString());
@@ -1087,12 +1089,12 @@ public class ImportHandler
             props.setProperty("Recipient PI Name-" + i, nextPurchase.holderName);
             props.setProperty("Recipient Facility-" + i, facilityName);
             if (importDefinition.Id == 1){
-              props.setProperty("Purchaser-" + i,nextPurchase.purchaserName);
+              props.setProperty("Purchaser-" + i,  formatHolderName(nextPurchase.purchaserName));
               props.setProperty("Purchaser email-" + i, nextPurchase.purchaserEmail);
             }
             else if (importDefinition.Id == 2){
               props.setProperty("Sender institution-" +i, nextPurchase.senderInstitution);
-              props.setProperty("Recipient-" + i, nextPurchase.recipientName);
+              props.setProperty("Recipient-" + i, formatHolderName(nextPurchase.recipientName));
               props.setProperty("Recipient Email-" + i, nextPurchase.recipientEmail);
               props.setProperty("Import notes-" + i, (nextPurchase.notes != null && !nextPurchase.notes.isEmpty() ? nextPurchase.notes :""));
             }

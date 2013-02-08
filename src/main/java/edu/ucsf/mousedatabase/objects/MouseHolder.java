@@ -6,6 +6,9 @@ public class MouseHolder implements IHolder {
   private Facility facility;
   private String cryoLiveStatus;
   private boolean newlyAdded;
+  
+  private String submitterName;
+  private String submitterEmail;
 
   private boolean covert;
 
@@ -160,4 +163,21 @@ public class MouseHolder implements IHolder {
     holder.setValidationComment(validationComment);
   }
 
+  public String getSubmitterName() {
+    return submitterName;
+  }
+
+  public void setSubmitterName(String submitterName) {
+    this.submitterName = submitterName;
+  }
+
+  public String getSubmitterEmail() {
+    return submitterEmail;
+  }
+
+  public void setSubmitterEmail(String submitterEmail) {
+    this.submitterEmail = submitterEmail;
+  }
+
+  
 }

@@ -1013,6 +1013,9 @@ public class HTMLGeneration {
       table.append("<dt>\r\n");
       table.append("Submission #" + nextSubmission.getSubmissionID());
       table.append("</dt>\r\n");
+      table.append("<dt>");
+      table.append("Submission date: " + nextSubmission.getSubmissionDate());
+      table.append("</dt>");
 
       table.append("<dt>\r\n");
 
@@ -1055,17 +1058,20 @@ public class HTMLGeneration {
       table.append("<td valign='top'>\r\n");
       table.append("<dl>\r\n");
 
-      table.append("<dt>\r\n");
-      table.append(nextSubmission.getFirstName() + " " + nextSubmission.getLastName());
-      table.append("</dt>\r\n");
-
-      table.append("<dt>\r\n");
-      table.append(nextSubmission.getDepartment());
-      table.append("</dt>\r\n");
-
-      table.append("<dt>\r\n");
-      table.append(nextSubmission.getTelephoneNumber());
-      table.append("</dt>\r\n");
+      if (nextSubmission.isManualFormSubmission()) {
+        table.append("<dt>\r\n");
+        table.append(nextSubmission.getFirstName() + " " + nextSubmission.getLastName());
+        table.append("</dt>\r\n");
+  
+        table.append("<dt>\r\n");
+        table.append(nextSubmission.getDepartment());
+        table.append("</dt>\r\n");
+  
+        table.append("<dt>\r\n");
+        table.append(nextSubmission.getTelephoneNumber());
+        table.append("</dt>\r\n");
+      }
+      
 
       table.append("<dt>\r\n");
 
@@ -1082,15 +1088,18 @@ public class HTMLGeneration {
         }
       }
       
-      for(IHolder holder: nextSubmission.getHolders()){
-        EmailRecipient rec = EmailRecipientManager.recipientsForRequestorAndHolder(nextSubmission.getEmail(), holder);
+      for(MouseHolder holder: nextSubmission.getHolders()){
+        String email = nextSubmission.isManualFormSubmission() ? nextSubmission.getEmail() : holder.getSubmitterEmail();
+        if (!nextSubmission.isManualFormSubmission()) {
+          table.append(holder.getSubmitterName() + "</dt><dt>");
+        }
+        EmailRecipient rec = EmailRecipientManager.recipientsForRequestorAndHolder(email, holder);
         table.append(getAdminMailLink(rec.recipients,rec.ccs, templateType, 
-                                      nextSubmission.getSubmissionID(),-1,Integer.toString(nextSubmission.getMouseRecordID()),holder.getHolderID()) + " (" + holder.getFullname() + ")<br>");
+                                      nextSubmission.getSubmissionID(),-1,Integer.toString(nextSubmission.getMouseRecordID()),holder.getHolderID()));
       }
       table.append("</dt>\r\n");
-      table.append("<dt>");
-      table.append("Submission date: " + nextSubmission.getSubmissionDate());
-      table.append("</dt>");
+      
+      
       table.append("Source: " + nextSubmission.getSubmissionSource() + "</dt>");
       table.append("</dl>");
       table.append("<div style='font-size:14px;font-weight:700'>Admin Comments:</div>");
