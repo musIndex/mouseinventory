@@ -319,6 +319,7 @@ public class SubmittedMouse {
           mouseHolder.setDept(holder.getDept());
         }
         
+        mouseHolder.setSubmitterIndex(i);
         if (submissionSource.contains("PDU")) {
           mouseHolder.setSubmitterName(properties.getProperty("Purchaser-" + i));
           mouseHolder.setSubmitterEmail(properties.getProperty("Purchaser email-" + i));

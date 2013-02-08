@@ -1090,12 +1090,14 @@ public class HTMLGeneration {
       
       for(MouseHolder holder: nextSubmission.getHolders()){
         String email = nextSubmission.isManualFormSubmission() ? nextSubmission.getEmail() : holder.getSubmitterEmail();
+        int submitterIndex = -1;
         if (!nextSubmission.isManualFormSubmission()) {
           table.append(holder.getSubmitterName() + "</dt><dt>");
+          submitterIndex = holder.getSubmitterIndex();
         }
         EmailRecipient rec = EmailRecipientManager.recipientsForRequestorAndHolder(email, holder);
         table.append(getAdminMailLink(rec.recipients,rec.ccs, templateType, 
-                                      nextSubmission.getSubmissionID(),-1,Integer.toString(nextSubmission.getMouseRecordID()),holder.getHolderID()));
+                                      nextSubmission.getSubmissionID(),-1,Integer.toString(nextSubmission.getMouseRecordID()),-1,submitterIndex));
       }
       table.append("</dt>\r\n");
       
@@ -1134,16 +1136,16 @@ public class HTMLGeneration {
                   .getTGExpressedSequence()
                   .equalsIgnoreCase("Mouse Gene (unmodified)")) {
             table.append("<dt><b>Expressed Sequence:</b></dt>\r\n");
-            table.append("<dd>"
+            table.append("<dt>MGI: "
                 + formatMGI(nextSubmission.getTGMouseGene())
-                + "</dd>\r\n");
+                + "</dt>\r\n");
             if (nextSubmission.getTGMouseGeneValid() != null
                 && nextSubmission.getTGMouseGeneValid()
                     .equalsIgnoreCase("true")) {
-              table.append("<dd>"
+              table.append("<dt>"
                   + nextSubmission
                       .getTGMouseGeneValidationString()
-                  + "</dd>\r\n");
+                  + "</dt>\r\n");
             }
             // formatGene(nextSubmission.getGeneSymbol(),
             // nextSubmission.getGeneName(),
@@ -1182,16 +1184,12 @@ public class HTMLGeneration {
           }
         } else if (nextSubmission.isMA()) {
           table.append("</dt>\r\n");
-          table.append("<dd>"
+          table.append("<dt>MGI:"
               + formatMGI(nextSubmission.getMAMgiGeneID())
-              + "</dd>"); // formatGene(nextSubmission.getGeneSymbol(),
-          if (nextSubmission.getMAMgiGeneIDValid() != null
-              && nextSubmission.getMAMgiGeneIDValid()
-                  .equalsIgnoreCase("true")) {
-            table.append("<dd>"
-                + nextSubmission
-                    .getMAMgiGeneIDValidationString()
-                + "</dd>\r\n");
+              + "</dt>"); // formatGene(nextSubmission.getGeneSymbol(),
+          if (nextSubmission.getMAMgiGeneIDValid() != null && nextSubmission.getMAMgiGeneIDValid() .equalsIgnoreCase("true")) {
+            table.append("<dt>"
+                + nextSubmission .getMAMgiGeneIDValidationString() + "</dt>\r\n");
           }
           // nextSubmission.getGeneName(), nextSubmission
           // .getGeneID()));
@@ -2989,10 +2987,21 @@ public class HTMLGeneration {
   }
   
   public static String getAdminMailLink(String address, String cc, String templateCategory, int subId, int requestId, String mouseId, int holderId){
-   return getAdminMailLink(address, cc, templateCategory, null,null, subId, requestId, mouseId, holderId); 
+    return getAdminMailLink(address, cc, templateCategory, subId, requestId, mouseId, holderId, -1);
   }
   
-  public static String getAdminMailLink(String address, String cc, String templateCategory, String linkText, String linkTitle, int subId, int requestId, String mouseId, int holderId){
+  public static String getAdminMailLink(String address, String cc, String templateCategory, int subId, int requestId, String mouseId, int holderId,int submitterIndex){
+    return getAdminMailLink(address, cc, templateCategory, null,null, subId, requestId, mouseId, holderId,submitterIndex); 
+  }
+  
+  public static String getAdminMailLink(String address, String cc, String templateCategory, String linkText, String linkTitle, int subId, int requestId, 
+                                        String mouseId, int holderId){
+    return getAdminMailLink(address, cc, templateCategory, linkText, linkTitle, subId, requestId, mouseId, holderId, -1);
+    
+  }
+  public static String getAdminMailLink(String address, String cc, String templateCategory, String linkText, String linkTitle, int subId, int requestId, 
+                                        String mouseId, int holderId, int submitterIndex){
+    
     Properties props = new Properties();
     if (subId > 0) {
       props.setProperty("submission_id", Integer.toString(subId));
@@ -3005,6 +3014,9 @@ public class HTMLGeneration {
     }
     if (holderId > 0) {
       props.setProperty("holder_id", Integer.toString(holderId));
+    }
+    if (submitterIndex > 0) {
+      props.setProperty("submitter_index", Integer.toString(submitterIndex));
     }
     props.setProperty("category", templateCategory);
     return getMailToLink(address, cc, null, null, linkText == null ? address : linkText, linkTitle, true, props);
