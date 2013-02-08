@@ -108,6 +108,8 @@ public class SubmittedMouse {
   public boolean isCryoOnly() { return cryoLiveStatus != null && cryoLiveStatus.equalsIgnoreCase("Cryo only");};
 
   public boolean hasType() { return mouseType != null; }
+  
+  public boolean isManualFormSubmission() { return submissionSource.equals(SubmissionFormSource); }
 
   public void parseProperties(String propString)
   {
@@ -315,6 +317,15 @@ public class SubmittedMouse {
           mouseHolder.setEmail(holder.getEmail());
           mouseHolder.setAlternateEmail(holder.getAlternateEmail());
           mouseHolder.setDept(holder.getDept());
+        }
+        
+        if (submissionSource.contains("PDU")) {
+          mouseHolder.setSubmitterName(properties.getProperty("Purchaser-" + i));
+          mouseHolder.setSubmitterEmail(properties.getProperty("Purchaser email-" + i));
+        }
+        else if (submissionSource.contains("IDU")) {
+          mouseHolder.setSubmitterName(properties.getProperty("Recipient-" + i));
+          mouseHolder.setSubmitterEmail(properties.getProperty("Recipient Emailame-" + i));
         }
   
   

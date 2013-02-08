@@ -120,7 +120,7 @@ public class DBConnect {
     if (entered != null && !entered.isEmpty()) {
       whereTerms.add("entered='" + entered +"'");
     }
-    if (submissionSource != null){
+    if (submissionSource != null && !submissionSource.equalsIgnoreCase("all")){
       whereTerms.add("submission_source like '%" + addMySQLEscapes(submissionSource) + "%'");
     }
 

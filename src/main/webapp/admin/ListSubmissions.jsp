@@ -80,7 +80,7 @@
   {
     statusString = "submissions that have been converted to records";
   }
-  if (!submissionSource.isEmpty()) {
+  if (!submissionSource.isEmpty() && !submissionSource.equals("all")) {
    statusString += " from source '" + submissionSource + "'"; 
   }
   session.setAttribute("listSubmissionsLastQuery","status=" + status + "&orderby=" + orderBy + "&submissionSource=" + submissionSource);
