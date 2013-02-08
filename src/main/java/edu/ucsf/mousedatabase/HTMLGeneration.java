@@ -3015,7 +3015,7 @@ public class HTMLGeneration {
     if (holderId > 0) {
       props.setProperty("holder_id", Integer.toString(holderId));
     }
-    if (submitterIndex > 0) {
+    if (submitterIndex >= 0) {
       props.setProperty("submitter_index", Integer.toString(submitterIndex));
     }
     props.setProperty("category", templateCategory);

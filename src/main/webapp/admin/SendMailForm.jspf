@@ -212,18 +212,19 @@ $(document).ready(function(){
     return false;
   }
   
-  var indexedSubmissionKeys = ['Purchaser','Purchaser email','Recipient','Recipient Email','Recipient PI Firstname','Recipient PI Lastname'];
+  var indexedSubmissionKeys = ['Purchaser','Purchaser email','Recipient','Recipient Email','Recipient Facility',
+                               'Recipient PI Firstname','Recipient PI Lastname'];
   
   function setupCurrentObjects(subId, requestId, mouseId, holderId, submitterIndex){
-    current_objects.submission = _.clone(MouseConf.submissions[subId]);
+    current_objects.submission = MouseConf.submissions[subId];
     current_objects.request = MouseConf.requests[requestId];
     current_objects.mouse = MouseConf.mice[mouseId];
     current_objects.holder = MouseConf.holders[holderId];
-    if (submitterIndex > 0 && current_objects.submission && current_objects.submission.properties) {
-	  _.each(current_objects.submission.properties,function(propValue,propName){
-	    _.each(indexedSubmissionKeys,function(submisionKey){
-	    	if (key.match(new RegExp(submissionKey + '-' + submitterIndex)) {
-	    	  current_objects.submission[submissionKey] = propValue;
+    if (submitterIndex >= 0 && current_objects.submission && current_objects.submission.properties) {
+	  $.each(current_objects.submission.properties, function(propName, propValue){
+	    $.each(indexedSubmissionKeys, function(i, submissionKey){
+	    	if (propName.match(new RegExp(submissionKey + '-' + submitterIndex))) {
+	    	  current_objects.submission.properties[submissionKey] = propValue;
 	    	}
 	    });
 	  });

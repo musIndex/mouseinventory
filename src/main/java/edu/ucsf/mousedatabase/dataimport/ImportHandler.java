@@ -1087,8 +1087,8 @@ public class ImportHandler
             }
 
             props.setProperty("Recipient PI Name-" + i, nextPurchase.holderName);
-            props.setProperty("Recipient PI Firstname", holderFirstName(nextPurchase.holderName));
-            props.setProperty("Recipient PI Lastname", holderLastName(nextPurchase.holderName));
+            props.setProperty("Recipient PI Firstname-" + i, holderFirstName(nextPurchase.holderName));
+            props.setProperty("Recipient PI Lastname-" + i, holderLastName(nextPurchase.holderName));
             props.setProperty("Recipient Facility-" + i, facilityName);
             if (importDefinition.Id == 1){
               props.setProperty("Purchaser-" + i,  formatHolderName(nextPurchase.purchaserName));
