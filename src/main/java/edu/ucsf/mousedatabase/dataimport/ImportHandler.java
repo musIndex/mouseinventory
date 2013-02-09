@@ -1113,15 +1113,23 @@ public class ImportHandler
             String facilityCode = HTMLUtilities.extractFirstGroup(facilityCodeRegex, nextPurchase.roomName);
             Facility localAddedFacility = DBConnect.findFacilityByCode(facilityCode);
 
-            if (localAddedHolder != null && localAddedFacility != null)
-            {
-              holderFacilities.add(localAddedHolder.getHolderID() + "-" + localAddedFacility.getFacilityID());
+            
+            String holderFacList = "";
+            if (localAddedHolder == null) {
+              holderFacList += "0";
+              additionalHoldersComment += "\r\n*" + (importDefinition.Id == 1 ? "Purchased" : "Imported") + " by unrecognized holder: " + nextPurchase.holderName + " (" + nextPurchase.holderEmail + ")";
             }
-            else
-            {
-              holderFacilities.add("0-0");
-              additionalHoldersComment += "\r\n*" + (importDefinition.Id == 1 ? "Purchased" : "Imported") + " by unrecognized holder: " + nextPurchase.holderName + " (" + nextPurchase.holderEmail + ") - " + facilityName + "*";
+            else {
+              holderFacList += localAddedHolder.getHolderID();
             }
+            if (localAddedFacility == null) {
+              holderFacList += "-0";
+              additionalHoldersComment += "\r\n*" + (importDefinition.Id == 1 ? "Purchased for" : "Imported to") + " unrecognized facility: '" + facilityName + "'*  Do you need to update the facility codes?";
+            }
+            else {
+              holderFacList += "-" + localAddedFacility.getFacilityID();
+            }
+            holderFacilities.add(holderFacList);
 
           }
 
