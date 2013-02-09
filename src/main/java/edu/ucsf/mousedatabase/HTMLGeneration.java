@@ -2960,7 +2960,7 @@ public class HTMLGeneration {
   }
   
   public static String tInput(String name, String current){
-    return "<input type='text' name='" + name + (current != null ? "' value='" + current + "'" : "'") + " />";
+    return "<input type='text' name='" + name + (current != null ? "' value=\"" + current + "\"" : "'") + " />";
   }
   
   public static String tArea(String name, String current){
