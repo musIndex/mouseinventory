@@ -925,6 +925,8 @@ public class ImportHandler
 
           //this record ready exists, add a change request to add the holder in each purchase to the record
 
+          //TODO could add a check to make sure there isn't an open change requests already
+          
           MouseRecord mouse = DBConnect.getMouseRecord(purchase.exisitingRecordId).get(0);
 
           Holder localAddedHolder = DBConnect.findHolderByEmail(purchase.holderEmail);
