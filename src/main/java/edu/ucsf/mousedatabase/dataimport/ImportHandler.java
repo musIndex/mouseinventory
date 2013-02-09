@@ -923,16 +923,28 @@ public class ImportHandler
             continue;
           }
 
+          
 
           //this record ready exists, add a change request to add the holder in each purchase to the record
 
           //TODO add a check to make sure there isn't an open change requests already for this holder and mouse
+          ArrayList<ChangeRequest> existingRequests = DBConnect.getChangeRequests(new String[]{"new","pending"}, null, purchase.exisitingRecordId);
           
+          boolean isDuplicateRequest = false;
+          for(ChangeRequest openRequest : existingRequests) {
+            if (openRequest.getHolderEmail().equalsIgnoreCase(purchase.holderEmail)) {
+              ImportStatusTracker.AppendMessage(importTaskId, "There is already an open change request (#" + openRequest.getRequestID() + ") to add " + purchase.holderName + " to record #" + purchase.exisitingRecordId);
+              isDuplicateRequest = true;
+            }
+          }
+          if (isDuplicateRequest) {
+            continue;
+          }
           
           MouseRecord mouse = DBConnect.getMouseRecord(purchase.exisitingRecordId).get(0);
-
           Holder localAddedHolder = DBConnect.findHolderByEmail(purchase.holderEmail);
           Facility localAddedFacility = DBConnect.findFacilityByCode(HTMLUtilities.extractFirstGroup(facilityCodeRegex, purchase.roomName));
+
           boolean isDuplicate = false;
           if (localAddedHolder == null)
           {
@@ -975,9 +987,6 @@ public class ImportHandler
           Properties props = new Properties();
           props.setProperty("Due Date", twoWeeksFromNow);
           props.setProperty("dueDateRaw", cal.getTime().toString());
-
-          //TODO map room name to facility
-
 
           props.setProperty("New Holder Email", purchase.holderEmail);
           if (importDefinition.Id == 1){
