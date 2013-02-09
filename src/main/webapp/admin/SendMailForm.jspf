@@ -213,7 +213,7 @@ $(document).ready(function(){
   }
   
   var indexedSubmissionKeys = ['Purchaser','Purchaser email','Recipient','Recipient Email','Recipient Facility',
-                               'Recipient PI Firstname','Recipient PI Lastname'];
+                               'Recipient PI Firstname','Recipient PI Lastname','Sender institution','Vendor'];
   
   function setupCurrentObjects(subId, requestId, mouseId, holderId, submitterIndex){
     current_objects.submission = MouseConf.submissions[subId];
