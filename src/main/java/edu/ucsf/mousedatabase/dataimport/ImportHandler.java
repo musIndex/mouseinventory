@@ -586,8 +586,8 @@ public class ImportHandler
             && exisitingPurchase.holderEmail.equals(purchase.holderEmail)
             && exisitingPurchase.source != null
             && exisitingPurchase.source.equals(purchase.source)
-            && exisitingPurchase.strain != null
-            && exisitingPurchase.strain.equals(purchase.strain)
+            && exisitingPurchase.stockNumber != null
+            && exisitingPurchase.stockNumber.equals(purchase.stockNumber)
             && exisitingPurchase.mgiId == purchase.mgiId)
         {
             isDuplicate = true;
@@ -925,7 +925,8 @@ public class ImportHandler
 
           //this record ready exists, add a change request to add the holder in each purchase to the record
 
-          //TODO could add a check to make sure there isn't an open change requests already
+          //TODO add a check to make sure there isn't an open change requests already for this holder and mouse
+          
           
           MouseRecord mouse = DBConnect.getMouseRecord(purchase.exisitingRecordId).get(0);
 
