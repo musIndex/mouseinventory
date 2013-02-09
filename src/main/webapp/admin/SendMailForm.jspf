@@ -287,14 +287,14 @@ $(document).ready(function(){
       if (updated || template.id !== template_id){
         return;
       }
-      $("#sendMailContainer textarea[name='subject']").val(render(template.subject));
+      $("#sendMailContainer textarea[name='subject']").val(render(template.subject,true));
       $("#sendMailContainer textarea[name='body']").val(render(template.body));
       updated = true;
       editor.updateFrame();
     })
   }
   
-  function render(template){
+  function render(template,skipEscaping){
     var rendered = template;
     $.each(current_objects,function(obj_type,object){
       if (object) {
@@ -302,12 +302,12 @@ $(document).ready(function(){
           if (typeof value === 'object') {
             $.each(value, function(propName, propValue){
               var expr = new RegExp("{{" + obj_type + "\." + key + "\\['" + propName + "'\\]}}",'g');
-              rendered = rendered.replace(expr,htmlEscape(propValue));
+              rendered = rendered.replace(expr,skipEscaping ? propValue : htmlEscape(propValue));
             });
           }
           else {
             var expr = new RegExp("{{" + obj_type + "\." + key + "}}",'g');
-            rendered = rendered.replace(expr,htmlEscape(value));
+            rendered = rendered.replace(expr,skipEscaping ? value : htmlEscape(value));
           }
         });
       }

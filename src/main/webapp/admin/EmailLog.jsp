@@ -69,7 +69,7 @@
     <%=email.ccs.length() > 0 ? "<br>cc: " + email.ccs : "" %>    
     <%=email.bccs.length() > 0 ? "<br>bcc: " + email.bccs : "" %>
     </td>
-    <td><%=email.subject %></td>
+    <td><%=HTMLUtilities.getCommentForDisplay(email.subject) %></td>
     <td><%=email.body %></td>
   </tr>
 <%} %>
