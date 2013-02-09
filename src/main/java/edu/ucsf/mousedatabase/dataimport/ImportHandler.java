@@ -623,6 +623,7 @@ public class ImportHandler
         continue;
       }
       try {
+        catalogNum = HTMLUtilities.extractFirstGroup("^\\s?(\\d+)", catalogNum);
         ignoredJaxNumbers.add(Integer.parseInt(catalogNum));
       }
       catch (Exception e){
