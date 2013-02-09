@@ -1164,14 +1164,14 @@ public class ImportHandler
                   DBConnect.updateSubmission(submissionID,"new","Added additional holder(s) from " + importDefinition.Name + "\r\n" + additionalHoldersComment);
               sb.append("<span class='importAction'>Added holder(s) to open submission <span class='submission_number'>#" 
                   + submissionID +  "</span>:   " +
-                  HTMLUtilities.getCommentForDisplay(sub.getOfficialSymbol()) + "</span><dl>");
+                  HTMLUtilities.getCommentForDisplay(sub.getOfficialSymbol()) + "</span>");
             }
             else {
               //TODO properly merge exisiting holders on the submission with the new ones
               //for don't do anything fancy/automatically but make a note
               DBConnect.updateSubmission(submissionID,"new","Added additional holder(s) from " + importDefinition.Name + "\r\n" + allPurchasedHoldersComment);
               sb.append("<span class='importAction'>Added note to add holder(s) to open automatically-generated submission <span class='changerequest_number'>#" 
-              + submissionID +  "</span>:   " +  HTMLUtilities.getCommentForDisplay(sub.getOfficialSymbol()) + "</span><dl>");
+              + submissionID +  "</span>:   " +  HTMLUtilities.getCommentForDisplay(sub.getOfficialSymbol()) + "</span>");
             }
           }
           else {
@@ -1180,14 +1180,14 @@ public class ImportHandler
 
             sb.append("<span class='importAction'>Created submission <span class='submission_number'>#" 
             + submissionID +  "</span>:   " +
-                HTMLUtilities.getCommentForDisplay(sub.getOfficialSymbol()) + "</span><dl>");
+                HTMLUtilities.getCommentForDisplay(sub.getOfficialSymbol()) + "</span>");
           }
           subIds.add(submissionID);
           //newSubmissionsByMgiId.put(catalogMgiId, submissionID);
 
           for (PurchaseInfo purchaseInfo : currentPurchases)
           {
-            sb.append("<dd>");
+            sb.append(" - ");
             if (importDefinition.Id == 1){
               sb.append("Purchased from " + getPurchaseDescription(purchaseInfo)
                   + " by " + formatHolderName(purchaseInfo.purchaserName));
@@ -1197,16 +1197,9 @@ public class ImportHandler
                   + " by " + formatHolderName(purchaseInfo.recipientName));
             }
             sb.append(" for " + formatHolderName(purchaseInfo.holderName) + " ");
-            String subjectText = "Listing " + formatHolderName(purchaseInfo.holderName) +
-            " as a holder of " + sub.getOfficialSymbol() + " in the UCSF Mouse Database";
-            String emailBodyText = getCombinedImportEmail(null,sub.getOfficialMouseName(),sub.getOfficialSymbol(),purchaseInfo, importDefinition);
-
-            String emailLink = getMailToLink(importDefinition.Id == 1 ? purchaseInfo.purchaserEmail : purchaseInfo.recipientEmail,
-                            purchaseInfo.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchaseInfo.holderName));
-
-            sb.append(emailLink 
-                + (purchaseInfo.notes != null && !purchaseInfo.notes.isEmpty() ? "<br><b>Notes:</b> " + purchaseInfo.notes :"")
-                + "</dd>"
+            
+            sb.append(purchaseInfo.notes != null && !purchaseInfo.notes.isEmpty() ? "<br><b>Notes:</b> " + purchaseInfo.notes :""
+                + ""
                 + purchaseInfo.rawRecord );
           }
 
