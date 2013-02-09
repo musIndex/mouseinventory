@@ -979,6 +979,7 @@ public class ImportHandler
           if (importDefinition.Id == 1){
             props.setProperty("Purchaser", purchase.purchaserName);
             props.setProperty("Purchaser email", purchase.purchaserEmail);
+            props.setProperty("Vendor", getMouseSourceShortName(purchase.source));
           }
           else if (importDefinition.Id == 2){
             props.setProperty("Sender institution", purchase.senderInstitution);
