@@ -189,4 +189,12 @@ public class MouseHolder implements IHolder {
   }
 
   
+  public void setPrimaryMouseLocation(String location){
+    this.holder.setPrimaryMouseLocation(location);
+  }
+  
+  public String getPrimaryMouseLocation(){
+    return this.holder.getPrimaryMouseLocation();
+  }
+  
 }

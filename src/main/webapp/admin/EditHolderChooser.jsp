@@ -13,8 +13,8 @@
   String command = request.getParameter("command");
   String orderby = request.getParameter("orderby");
   
-  String[] orderOpts = new String[]{"firstname,lastname","lastname,firstname","department","count","datevalidated","datevalidated desc"};
-  String[] orderOptLabels = new String[]{"First name","Last name","Department","Mice held","Last review date","Reverse last review date"};
+  String[] orderOpts = new String[]{"firstname,lastname","lastname,firstname","department","count","datevalidated","datevalidated desc","primary_mouse_location"};
+  String[] orderOptLabels = new String[]{"First name","Last name","Department","Mice held","Last review date","Reverse last review date","Primary Facility"};
   
   if (command == null || command.isEmpty() || command.equals("edit"))
   {

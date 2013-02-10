@@ -14,6 +14,7 @@ public class Holder implements IHolder {
   private String dateValidated;
   private String validationComment;
   private String status;
+  private String primaryMouseLocation;
 
   private int visibleMouseCount;
   private int covertMouseCount;
@@ -135,6 +136,16 @@ public class Holder implements IHolder {
   
   public boolean isActive(){
     return this.status.equals("active");
+  }
+
+
+  public String getPrimaryMouseLocation() {
+    return primaryMouseLocation;
+  }
+
+
+  public void setPrimaryMouseLocation(String primaryMouseLocation) {
+    this.primaryMouseLocation = primaryMouseLocation;
   }
   
 

@@ -54,6 +54,10 @@
             <td><input type=text name="tel" size=20 value="<%= holder.getTel() %>"></td>
         </tr>
         <tr>
+            <td>Primary Facility</td>
+            <td><input type=text name="primaryMouse_location" size=20 value="<%= emptyIfNull(holder.getPrimaryMouseLocation()) %>"></td>
+        </tr>
+        <tr>
             <td>Primary Contact Name
             </td>
             <td><input type=text name="alternateName" size=40 value="<%= HTMLGeneration.emptyIfNull(holder.getAlternateName()) %>">

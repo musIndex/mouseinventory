@@ -51,5 +51,9 @@ public interface IHolder {
   public abstract String getValidationComment();
 
   public abstract void setValidationComment(String validationComment);
+  
+  public abstract String getPrimaryMouseLocation();
+  
+  public abstract void setPrimaryMouseLocation(String mouseLocation);
 
 }

@@ -2133,6 +2133,9 @@ public class HTMLGeneration {
     table.append("<td style='min-width:150px'\">\r\n");
     table.append("Primary Contact");
     table.append("</td>\r\n");
+    table.append("<td style='min-width:75px'\">\r\n");
+    table.append("Primary Facility");
+    table.append("</td>\r\n");
     table.append("<td >\r\n");
     table.append("Last Review Date");
     table.append("</td>\r\n");
@@ -2171,6 +2174,8 @@ public class HTMLGeneration {
       table.append(" <div style=\"position: relative; right: 10px; float:right;\">("
           + holder.getDept() + ")</div>");
       table.append("</td>\r\n");
+      
+      //contact information
       table.append("<td>\r\n");
       
       String emailLink = edit ? getAdminMailLink(holder.getEmail(), null, EmailTemplate.HOLDER, -1, -1, null, holder.getHolderID())
@@ -2181,6 +2186,7 @@ public class HTMLGeneration {
           + holder.getTel() + "</div>");
       table.append("</td>\r\n");
 
+      //primary contact
       table.append("<td>\r\n");
       table.append(HTMLGeneration.emptyIfNull(holder.getAlternateName()));
       if (holder.getAlternateEmail() != null && !holder.getAlternateEmail().equals("")){
@@ -2190,7 +2196,9 @@ public class HTMLGeneration {
       }
       table.append("</td>\r\n");
 
+      table.append("<td>" + emptyIfNull(holder.getPrimaryMouseLocation()) + "</td>");
       
+      //review date
       table.append("<td>\r\n");
       if (holder.getDateValidated() != null) {
         table.append(holder.getDateValidated());
