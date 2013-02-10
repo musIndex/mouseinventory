@@ -53,10 +53,7 @@
             <td>Tel</td>
             <td><input type=text name="tel" size=20 value="<%= holder.getTel() %>"></td>
         </tr>
-        <tr>
-            <td>Primary Facility</td>
-            <td><input type=text name="primaryMouse_location" size=20 value="<%= emptyIfNull(holder.getPrimaryMouseLocation()) %>"></td>
-        </tr>
+
         <tr>
             <td>Primary Contact Name
             </td>
@@ -72,8 +69,11 @@
             <br>
             <b>Leave this field blank if the holder is the primary contact.</b></td>
         </tr>
-       
-    <tr>
+        <tr>
+            <td>Primary location of colony</td>
+            <td><input type=text name="primaryMouseLocation" size=20 value="<%= emptyIfNull(holder.getPrimaryMouseLocation()) %>"></td>
+        </tr> 
+        <tr>
             <td>Last review date: (format: yyyy-mm-dd)</td>
             <td><input type=text name="dateValidated" size=20
             value="<%= HTMLGeneration.emptyIfNull(holder.getDateValidated())%>"></td>
