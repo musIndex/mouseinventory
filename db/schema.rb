@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130207071525) do
+ActiveRecord::Schema.define(:version => 20130210080233) do
 
   create_table "changerequest", :force => true do |t|
     t.integer "mouse_id"
@@ -83,16 +83,17 @@ ActiveRecord::Schema.define(:version => 20130207071525) do
   end
 
   create_table "holder", :force => true do |t|
-    t.string "firstname",          :limit => 80
-    t.string "lastname",           :limit => 80
-    t.string "department",         :limit => 80
-    t.string "email",              :limit => 80
-    t.string "tel",                :limit => 80
+    t.string "firstname",              :limit => 80
+    t.string "lastname",               :limit => 80
+    t.string "department",             :limit => 80
+    t.string "email",                  :limit => 80
+    t.string "tel",                    :limit => 80
     t.date   "datevalidated"
     t.text   "validation_comment"
-    t.string "alternate_email",    :limit => 80
-    t.string "alternate_name",     :limit => 80
-    t.string "status",                           :default => "active"
+    t.string "alternate_email",        :limit => 80
+    t.string "alternate_name",         :limit => 80
+    t.string "status",                               :default => "active"
+    t.string "primary_mouse_location"
   end
 
   create_table "import_new_objects", :force => true do |t|

@@ -1392,6 +1392,7 @@ public class DBConnect {
         + "',alternate_email='" + addMySQLEscapes(updatedHolder.getAlternateEmail().trim())
          + "',alternate_name='" + addMySQLEscapes(updatedHolder.getAlternateName().trim())
         + "',tel='" + addMySQLEscapes(updatedHolder.getTel())
+        + "',primary_mouse_location='" + addMySQLEscapes(updatedHolder.getPrimaryMouseLocation())
         + "',datevalidated=" + dateValidated
         + "\r\nWHERE id=" + updatedHolder.getHolderID();
     executeNonQuery(query);
@@ -1549,7 +1550,7 @@ public class DBConnect {
 
   public static int insertHolder(Holder newHolder)
   {
-    String query = "INSERT into holder (id,firstname,lastname,department,email,alternate_email,alternate_name,tel) " +
+    String query = "INSERT into holder (id,firstname,lastname,department,email,alternate_email,alternate_name,tel,primary_mouse_location) " +
         "VALUES (NULL"
         + ",'"  + addMySQLEscapes(newHolder.getFirstname().trim())
         + "','" + addMySQLEscapes(newHolder.getLastname().trim())
@@ -1558,6 +1559,7 @@ public class DBConnect {
         + "','" + addMySQLEscapes(newHolder.getAlternateEmail().trim())
         + "','" + addMySQLEscapes(newHolder.getAlternateName().trim())
         + "','" + addMySQLEscapes(newHolder.getTel())
+        + "','" + addMySQLEscapes(newHolder.getPrimaryMouseLocation())
         + "')";
     return executeNonQuery(query,true);
   }
@@ -3414,6 +3416,7 @@ public class DBConnect {
         result.setDateValidated(g_str("datevalidated"));
         result.setValidationComment(g_str("validation_comment"));
         result.setStatus(g_str("status"));
+        result.setPrimaryMouseLocation(g_str("primary_mouse_location"));
         return result;
     }
   }
