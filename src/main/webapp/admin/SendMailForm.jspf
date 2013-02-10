@@ -82,6 +82,9 @@ $(document).ready(function(){
   
   var last_clicked_email_link;
   
+  var last_category;
+  var last_template;
+  
   var current_objects = {submission: {}, request: {}, mouse: {}};
   
   $("a.adminEmailButton").click(showSendMailContainer);
@@ -163,7 +166,7 @@ $(document).ready(function(){
     var fields = ['recipient','cc','subject','body','category'];
     $.each(fields,function(i,field){
       $("#sendMailContainer input[name='" + field + "']").val($this.data(field) || '');
-      $("#sendMailContainer textarea[name='" + field + "']").text($this.data(field) || '');
+      $("#sendMailContainer textarea[name='" + field + "']").val($this.data(field) || '');
     });
     
     setupCurrentObjects($this.data('submission_id'),$this.data('request_id'),$this.data('mouse_id'),$this.data('holder_id'), $this.data('submitter_index'));
@@ -184,6 +187,7 @@ $(document).ready(function(){
     else {
       template_selector.parent().hide();
     }
+    last_category = category;
     
     draft_selector.children().remove();
     if (all_drafts){
@@ -208,6 +212,9 @@ $(document).ready(function(){
     })[0];
     editor.updateFrame();
     window.scrollTo(0,0);
+    if (last_category && last_category == category && last_template) {
+      template_selector.val(last_template).change();
+    }
     $("#sendMailContainer").slideDown();
     return false;
   }
@@ -292,7 +299,8 @@ $(document).ready(function(){
       $("#sendMailContainer textarea[name='body']").val(render(template.body));
       updated = true;
       editor.updateFrame();
-    })
+    });
+    last_template = $(this).val();
   }
   
   function render(template,skipEscaping){
