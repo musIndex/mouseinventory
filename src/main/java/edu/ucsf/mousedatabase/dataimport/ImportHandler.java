@@ -362,7 +362,9 @@ public class ImportHandler
         props.setProperty("dueDateRaw", cal.getTime().toString());
 
         props.setProperty("New Holder Email", addedHolderEmail);
-        props.setProperty("Recipient", recipientName);
+        props.setProperty("Recipient", formatHolderName(recipientName));
+        props.setProperty("Recipient firstname", holderFirstName(recipientName));
+        props.setProperty("Recipient lasntame", holderLastName(recipientName));
         props.setProperty("Recipient email", recipientEmail);
         props.setProperty("Original holder", nicelyFormattedCurrentHolder);
 
@@ -984,13 +986,17 @@ public class ImportHandler
 
           props.setProperty("New Holder Email", purchase.holderEmail);
           if (importDefinition.Id == 1){
-            props.setProperty("Purchaser", purchase.purchaserName);
+            props.setProperty("Purchaser", formatHolderName(purchase.purchaserName));
+            props.setProperty("Purchaser firstname", holderFirstName(purchase.purchaserName));
+            props.setProperty("Purchaser lastname", holderLastName(purchase.purchaserName));
             props.setProperty("Purchaser email", purchase.purchaserEmail);
             props.setProperty("Vendor", getMouseSourceShortName(purchase.source));
           }
           else if (importDefinition.Id == 2){
             props.setProperty("Sender institution", purchase.senderInstitution);
-            props.setProperty("Recipient", purchase.recipientName);
+            props.setProperty("Recipient", formatHolderName(purchase.recipientName));
+            props.setProperty("Recipient firstname", holderFirstName(purchase.recipientName));
+            props.setProperty("Recipient lastname", holderLastName(purchase.recipientName));
             props.setProperty("Recipient Email", purchase.recipientEmail);
             props.setProperty("Import Notes",purchase.notes != null && !purchase.notes.isEmpty() ? purchase.notes :"");
           }
@@ -1100,12 +1106,16 @@ public class ImportHandler
             props.setProperty("Recipient Facility-" + i, facilityName);
             if (importDefinition.Id == 1){
               props.setProperty("Purchaser-" + i,  formatHolderName(nextPurchase.purchaserName));
+              props.setProperty("Purchaser firstname-" + i, holderFirstName(nextPurchase.purchaserName));
+              props.setProperty("Purchaser lastname-" + i, holderLastName(nextPurchase.purchaserName));
               props.setProperty("Purchaser email-" + i, nextPurchase.purchaserEmail);
               props.setProperty("Vendor-" + i, getMouseSourceShortName(nextPurchase.source));
             }
             else if (importDefinition.Id == 2){
               props.setProperty("Sender institution-" +i, nextPurchase.senderInstitution);
               props.setProperty("Recipient-" + i, formatHolderName(nextPurchase.recipientName));
+              props.setProperty("Recipient firstname-" + i, holderFirstName(nextPurchase.recipientName));
+              props.setProperty("Recipient lastname-" + i, holderLastName(nextPurchase.recipientName));
               props.setProperty("Recipient Email-" + i, nextPurchase.recipientEmail);
               props.setProperty("Import notes-" + i, (nextPurchase.notes != null && !nextPurchase.notes.isEmpty() ? nextPurchase.notes :""));
             }

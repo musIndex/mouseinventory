@@ -212,7 +212,8 @@ $(document).ready(function(){
     return false;
   }
   
-  var indexedSubmissionKeys = ['Purchaser','Purchaser email','Recipient','Recipient Email','Recipient Facility',
+  var indexedSubmissionKeys = ['Purchaser','Purchaser firstname','Purchaser lastname','Purchaser email',
+                               'Recipient','Recipient lastname','Recipient lastname','Recipient Email','Recipient Facility',
                                'Recipient PI Firstname','Recipient PI Lastname','Sender institution','Vendor'];
   
   function setupCurrentObjects(subId, requestId, mouseId, holderId, submitterIndex){
