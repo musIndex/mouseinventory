@@ -2133,9 +2133,7 @@ public class HTMLGeneration {
     table.append("<td style='min-width:150px'\">\r\n");
     table.append("Primary Contact");
     table.append("</td>\r\n");
-    table.append("<td style='min-width:75px'\">\r\n");
-    table.append("Primary Facility");
-    table.append("</td>\r\n");
+    
     table.append("<td >\r\n");
     table.append("Last Review Date");
     table.append("</td>\r\n");
@@ -2143,6 +2141,9 @@ public class HTMLGeneration {
     table.append("Mice Held");
     table.append("</td>\r\n");
     if (edit) {
+      table.append("<td style='min-width:75px'\">\r\n");
+      table.append("Primary Facility");
+      table.append("</td>\r\n");
       table.append("<td style='width:100px'\">\r\n");
       table.append("Edit");
       table.append("</td>\r\n");
@@ -2196,7 +2197,7 @@ public class HTMLGeneration {
       }
       table.append("</td>\r\n");
 
-      table.append("<td>" + emptyIfNull(holder.getPrimaryMouseLocation()) + "</td>");
+      
       
       //review date
       table.append("<td>\r\n");
@@ -2223,6 +2224,7 @@ public class HTMLGeneration {
           + "&mousetype_id=-1\">" + (edit ? "edit " : "") + count + " records</a>" + covertList + "");
       table.append("</td>\r\n");
       if (edit) {
+        table.append("<td>" + emptyIfNull(holder.getPrimaryMouseLocation()) + "</td>");
         table.append("<td><a href=\"EditHolderForm.jsp?holderID="
             + holder.getHolderID() + "\">Edit holder #" + holder.getHolderID() + "</a></td>\r\n");
       }
