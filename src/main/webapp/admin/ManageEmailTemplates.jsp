@@ -217,10 +217,12 @@
      <dd>{{request.userComment}}</dd>
      <dd>{{request.holderFirstname}}</dd>
      <dd>{{request.holderLastname}}</dd>
-     <dd>{{request.props['Purchaser']}} <i>PDU</i></dd>
+     <dd>{{request.props['Purchaser firstname']}} <i>PDU</i></dd>
+     <dd>{{request.props['Purchaser lastname']}} <i>PDU</i></dd>
      <dd>{{request.props['Purchaser email']}} <i>PDU</i></dd>
-     <dd>{{request.props['Recipient']}} <i>IDU</i></dd>
-     <dd>{{request.props['Recipient email']}} <i>IDU</i></dd>
+     <dd>{{request.props['Recipient firstname']}} <i>IDU/TDU</i></dd>
+     <dd>{{request.props['Recipient lastname']}} <i>IDU/TDU</i></dd>
+     <dd>{{request.props['Recipient email']}} <i>IDU/TDU</i></dd>
      <dd>{{request.props['Original holder']}} <i>TDU</i></dd>
      <dd>{{request.props['Sender institution']}} <i>IDU</i></dd>
      <dd>{{request.props['Vendor']}} <i>PDU</i></dd>
