@@ -2134,7 +2134,7 @@ public class HTMLGeneration {
     table.append("Primary Contact");
     table.append("</td>\r\n");
     table.append("<td style='min-width:75px'\">\r\n");
-    table.append("Primary Facility");
+    table.append("Primary location of Colony");
     table.append("</td>\r\n");
     table.append("<td >\r\n");
     table.append("Last Review Date");

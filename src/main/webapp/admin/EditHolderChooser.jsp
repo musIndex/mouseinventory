@@ -14,7 +14,7 @@
   String orderby = request.getParameter("orderby");
   
   String[] orderOpts = new String[]{"firstname,lastname","lastname,firstname","department","count","datevalidated","datevalidated desc","primary_mouse_location"};
-  String[] orderOptLabels = new String[]{"First name","Last name","Department","Mice held","Last review date","Reverse last review date","Primary Facility"};
+  String[] orderOptLabels = new String[]{"First name","Last name","Department","Mice held","Last review date","Reverse last review date","Primary location of Colony"};
   
   if (command == null || command.isEmpty() || command.equals("edit"))
   {
@@ -73,6 +73,10 @@
                 <br><i>This email will be the recipient for email links for this holder in the mouse list,
                        with the holder's email address added as a cc.</i><br>
                        <b>Leave this field blank if the holder is the primary contact.</b></td>
+            </tr>
+            <tr>
+              <td>Primary location of colony</td>
+              <td><input type=text name="primaryMouseLocation" size=20 ></td>
             </tr>
             <tr><td colspan=2 align="center">
             <input type="hidden" name="command" value="Insert">
