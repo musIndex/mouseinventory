@@ -211,7 +211,7 @@ $(document).ready(function(){
         "indent | undo redo | cut copy paste pastetext",
     })[0];
     editor.updateFrame();
-    window.scrollTo(0,0);
+    $('html, body').animate({scrollTop:0}, 200);
     if (last_category && last_category == category && last_template) {
       template_selector.val(last_template).change();
     }
