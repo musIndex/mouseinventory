@@ -1521,7 +1521,7 @@ public class HTMLGeneration {
         table.append(formatGene(nextRecord.getGeneSymbol(),
             nextRecord.getGeneName(), nextRecord.getGeneID()));
         table.append("<dt><b><span class='lbl'>Modification Type:</span></b> "
-            + nextRecord.getModificationType() + "</dt>\r\n");
+            + (nextRecord.getModificationType() != null ? nextRecord.getModificationType() : "TBD") + "</dt>\r\n");
 
         if (!(nextRecord.getModificationType() == null || nextRecord
             .getModificationType().isEmpty())) {
