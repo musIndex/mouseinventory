@@ -811,13 +811,7 @@ public class ImportHandler
           multipleMgisLabel += "</dl>";
 
 
-          String subjectText = "Listing " + formatHolderName(purchase.holderName) +
-            " as a holder of " + getPurchaseDescription(purchase) + " in the UCSF Mouse Database";
-          String emailBodyText = getCombinedImportEmail(null,null, null, purchase, importDefinition);
-
-          String emailLink = getMailToLink(importDefinition.Id == 1 ? purchase.purchaserEmail : purchase.recipientEmail, 
-              purchase.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchase.holderName));
-
+          
           String noAction = "<span class='importAction'>No action taken for purchase of "
               + getPurchaseDescription(purchase,true)  + "</span>";
           if (importDefinition.Id == 1){
@@ -830,7 +824,7 @@ public class ImportHandler
           }
           
           noActionTakenPurchases.add( noAction
-            + " for " + formatHolderName(purchase.holderName) + " " +  emailLink + multipleMgisLabel + purchase.rawRecord );
+            + " for " + formatHolderName(purchase.holderName) + " " + multipleMgisLabel + purchase.rawRecord );
 
           continue;
         }
