@@ -1147,7 +1147,7 @@ public class DBConnect {
   }
   
   public static ArrayList<ArrayList<String>> getOpenSubmissionSources(){
-    String query = "SELECT submission_source, count(*) as 'count' from submittedMouse where status='new' or status='need more info' group by submission_source;";
+    String query = "SELECT submission_source, count(*) as 'count' from submittedmouse where status='new' or status='need more info' group by submission_source;";
     return StringArrayListResultGetter.getInstance(new String[]{"submission_source","count"}).Get(query);
   }
 
