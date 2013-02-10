@@ -8,8 +8,8 @@
     ArrayList<Holder> holders = DBConnect.getAllHolders(false,orderby);
     String table = HTMLGeneration.getHolderTable(holders,false);
 
-    String[] orderOpts = new String[]{"firstname,lastname","lastname,firstname","department","count","datevalidated"};
-    String[] orderOptLabels = new String[]{"First name","Last name","Department","Mice held","Last review date"};
+    String[] orderOpts = new String[]{"firstname,lastname","lastname,firstname","department","count","datevalidated","primary_mouse_location"};
+    String[] orderOptLabels = new String[]{"First name","Last name","Department","Mice held","Last review date","Primary Facility"};
     
     
 %>
