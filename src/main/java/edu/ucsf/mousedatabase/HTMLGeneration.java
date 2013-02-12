@@ -1976,6 +1976,9 @@ public class HTMLGeneration {
       neededRecords.add(nextRequest.getMouseID());
     }
     ArrayList<MouseRecord> records = DBConnect.getMouseRecordsByIds(neededRecords);
+    for(MouseRecord record : records) {
+      record.prepareForSerialization();
+    }
     table.append("</table>\r\n");
     table.append("</div>\r\n");
     table.append("<script type='text/javascript'>\r\n");
