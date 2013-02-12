@@ -1271,10 +1271,13 @@ public class ImportHandler
     newReport.setNewObjectIds(subIds);
     newReport.setName(reportName);
     newReport.setReportText(submissionReport.toString());
+    
+    int reportId = 0;
+    if (submissionReport.length() > 0) {
+      reportId = DBConnect.insertImportReport(newReport);
+    }
 
-    int reportId = DBConnect.insertImportReport(newReport);
-
-    if (csvData.size() > 0)
+    if (csvData.size() > 0 && changeRequestReport.length() > 0)
     {
       newReport = new ImportReport();
       newReport.setImportType((importDefinition.Id == 1 ? ImportObjectType.PURCHASECHANGEREQUEST : ImportObjectType.OTHERINSTITUTIONSCHANGEREQUEST));
