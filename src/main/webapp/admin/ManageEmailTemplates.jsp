@@ -200,9 +200,11 @@
      <dd>{{submission.properties['Recipient PI Firstname']}} <i>IDU/PDU</i></dd>
      <dd>{{submission.properties['Recipient PI Lastname']}} <i>IDU/PDU</i></dd>
      <dd>{{submission.properties['Recipient Facility']}} <i>IDU/PDU</i></dd>
-     <dd>{{submission.properties['Purchaser']}} <i>PDU</i></dd>
+     <dd>{{submission.properties['Purchaser firstname']}} <i>PDU</i></dd>
+     <dd>{{submission.properties['Purchaser lastname']}} <i>PDU</i></dd>
      <dd>{{submission.properties['Purchaser email']}} <i>PDU</i></dd>
-     <dd>{{submission.properties['Recipient']}} <i>IDU</i></dd>
+     <dd>{{submission.properties['Recipient firstname']}} <i>IDU</i></dd>
+     <dd>{{submission.properties['Recipient lastname']}} <i>IDU</i></dd>
      <dd>{{submission.properties['Recipient Email']}} <i>IDU</i></dd>
      <dd>{{submission.properties['Sender institution']}} <i>IDU</i></dd>
      <dd>{{submission.properties['Vendor']}} <i>PDU</i></dd>
