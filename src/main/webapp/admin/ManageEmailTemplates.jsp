@@ -130,7 +130,7 @@
   <% }%>
   
   <% if (template != null){ %>
-     <div style='width:600px;float:left'>
+     <div style='width: 700px;float:left'>
      <h2><%= title %></h2>
      <form method='post' action='UpdateTemplate' id='manageEmailForm'>
        <input type='hidden' name='id' value='<%=template.id %>'/>
@@ -256,12 +256,12 @@
 </div>
 <script type='text/javascript'>
   $("textarea[name='body']").cleditor({
-    width: 500,
+    width: 600,
     height: 200,
     controls: 
       "bold italic underline | font size " +
       "style | link unlink | color removeformat | bullets numbering | outdent " +
-      "indent | undo redo | cut copy paste pastetext",
+      "indent | undo redo | cut copy paste pastetext | source",
   });
   $(".btn_delete").click(function(){
     $(this).siblings().show();
