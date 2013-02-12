@@ -1385,12 +1385,12 @@ public class DBConnect {
 
     String query = "UPDATE holder " +
         "SET "
-        + "firstname='"  + addMySQLEscapes(updatedHolder.getFirstname().trim())
-        + "',lastname='" + addMySQLEscapes(updatedHolder.getLastname().trim())
-        + "',department='" + addMySQLEscapes(updatedHolder.getDept())
-        + "',email='" + addMySQLEscapes(updatedHolder.getEmail().trim())
-        + "',alternate_email='" + addMySQLEscapes(updatedHolder.getAlternateEmail().trim())
-         + "',alternate_name='" + addMySQLEscapes(updatedHolder.getAlternateName().trim())
+        + "firstname='"  + addMySQLEscapes(updatedHolder.getFirstname() != null ? updatedHolder.getFirstname().trim() : "")
+        + "',lastname='" + addMySQLEscapes(updatedHolder.getLastname() != null ? updatedHolder.getLastname().trim() : "")
+        + "',department='" + addMySQLEscapes(updatedHolder.getDept() != null ? updatedHolder.getDept().trim() : "")
+        + "',email='" + addMySQLEscapes(updatedHolder.getEmail() != null ? updatedHolder.getEmail().trim() : "")
+        + "',alternate_email='" + addMySQLEscapes(updatedHolder.getAlternateEmail() != null ? updatedHolder.getAlternateEmail().trim() : "")
+         + "',alternate_name='" + addMySQLEscapes(updatedHolder.getAlternateName() != null ? updatedHolder.getAlternateName().trim() : "")
         + "',tel='" + addMySQLEscapes(updatedHolder.getTel())
         + "',primary_mouse_location='" + addMySQLEscapes(updatedHolder.getPrimaryMouseLocation())
         + "',datevalidated=" + dateValidated
@@ -1552,12 +1552,12 @@ public class DBConnect {
   {
     String query = "INSERT into holder (id,firstname,lastname,department,email,alternate_email,alternate_name,tel,primary_mouse_location) " +
         "VALUES (NULL"
-        + ",'"  + addMySQLEscapes(newHolder.getFirstname().trim())
-        + "','" + addMySQLEscapes(newHolder.getLastname().trim())
-        + "','" + addMySQLEscapes(newHolder.getDept())
-        + "','" + addMySQLEscapes(newHolder.getEmail().trim())
-        + "','" + addMySQLEscapes(newHolder.getAlternateEmail().trim())
-        + "','" + addMySQLEscapes(newHolder.getAlternateName().trim())
+        + ",'"  + addMySQLEscapes(newHolder.getFirstname() != null ? newHolder.getFirstname().trim() : "")
+        + "','" + addMySQLEscapes(newHolder.getLastname() != null ? newHolder.getLastname().trim()  : "")
+        + "','" + addMySQLEscapes(newHolder.getDept() != null ? newHolder.getDept().trim() : "")
+        + "','" + addMySQLEscapes(newHolder.getEmail() != null ? newHolder.getEmail().trim() : "")
+        + "','" + addMySQLEscapes(newHolder.getAlternateEmail() != null ? newHolder.getAlternateEmail().trim() : "")
+        + "','" + addMySQLEscapes(newHolder.getAlternateName() != null ? newHolder.getAlternateName().trim() : "")
         + "','" + addMySQLEscapes(newHolder.getTel())
         + "','" + addMySQLEscapes(newHolder.getPrimaryMouseLocation())
         + "')";
