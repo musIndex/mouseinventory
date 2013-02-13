@@ -1739,7 +1739,7 @@ public class HTMLGeneration {
                                   
           
           holderBuf.append("<dt" + (overMax ? " style='display:none'" : "") + ">"
-              + (holder.isCovert() ? "<b>CVT</b>-" : "")
+              + (holder.isCovert() ? "<span class='covert_tag'>CVT</span>-" : "")
               + mailLink + facilityName
               + "<span class='lbl'>" + cryoLiveStatus + "</span>"
               + "</dt>");

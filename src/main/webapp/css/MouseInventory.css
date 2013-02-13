@@ -980,3 +980,7 @@ a.email_sent {
 a.view_sent {
   font-size: 12px;
 }
+.covert_tag {
+  font-weight: bold;
+  color: red;
+}
