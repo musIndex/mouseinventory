@@ -48,7 +48,7 @@
                 <td><input type=text name="facilityDescription" size=50></td>
             </tr>
             <tr>
-                <td style='vertical-align:top'>Local experts: <i>Format: [email address][space][name], one per line.</i></td>
+                <td style='vertical-align:top'>Local experts:<br><i>email address first (if any),<br>one expert per line.</i></td>
                 <td><textarea name="localExperts" rows="5" cols="50"></textarea></td>
             </tr>
             <tr>
