@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130210080233) do
+ActiveRecord::Schema.define(:version => 20130213070354) do
 
   create_table "changerequest", :force => true do |t|
     t.integer "mouse_id"
@@ -64,8 +64,9 @@ ActiveRecord::Schema.define(:version => 20130210080233) do
   create_table "facility", :force => true do |t|
     t.string  "facility"
     t.text    "description"
-    t.string  "code",        :limit => 50
+    t.string  "code",          :limit => 50
     t.integer "position"
+    t.text    "local_experts"
   end
 
   create_table "flattened_mouse_search", :force => true do |t|

@@ -47,6 +47,13 @@
             </td>
 
        </tr>
+        <tr>
+           <td style='vertical-align:top'>Local experts <i>Format: [email address][space][name], one per line.</i></td>
+            <td>
+              <textarea name="localExperts" cols="50" rows="5"><%= HTMLGeneration.emptyIfNull(facility.getLocalExperts()) %></textarea>
+            </td>
+
+       </tr>
        <tr>
            <td>Code (for imports)</td>
             <td>

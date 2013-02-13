@@ -2004,6 +2004,7 @@ public class HTMLGeneration {
     table.append("<td style='min-width:100px'>\r\n");
     table.append("Records");
     table.append("</td>\r\n");
+    table.append("<td>**Need help using the database?</td>\r\n");
     if (edit) {
       table.append("<td style='min-width:60px'\">\r\n");
       table.append("Code (for data uploads)");
@@ -2047,6 +2048,24 @@ public class HTMLGeneration {
           + "\">"
           + facility.getRecordCount() + " records</a></span>\r\n");
       table.append("</td>\r\n");
+      table.append("<td>");
+      table.append("<dl>");
+      for (String expert : emptyIfNull(facility.getLocalExperts()).split("\\n")) {
+        if (expert == null || expert.isEmpty() || expert.trim().isEmpty()) {
+          continue;
+        }
+        int spaceLocation = expert.indexOf(" ");
+        if (spaceLocation <= 0) {
+          table.append("<dt>" + expert + "</dt>");
+          continue;
+        }
+        String email = expert.substring(0, spaceLocation);
+        String name = expert.substring(spaceLocation).trim();
+        table.append("<dt>" + name + ": " + formatEmail(email, email, "Requesting help using the UCSF Mouse database") + "</dt>");
+      }
+      table.append("</dl>");
+      
+      table.append("</td>");
       if (edit) {
         table.append("<td style='min-width:60px'>" + HTMLGeneration.emptyIfNull(facility.getFacilityCode()) + "</td>");
         table.append("<td style='min-width:60px'><a href=\"EditFacilityForm.jsp?facilityID="
@@ -3072,7 +3091,7 @@ public class HTMLGeneration {
     else {
       return "<a" + (linkTitle != null ? " title='" + linkTitle + "'":"") + 
               " href=\"mailto:" + address + ccAddr + 
-              "subject=" + urlEncode(subject) + 
+              ((subject != null && !subject.isEmpty()) ? "subject=" + urlEncode(subject) : "") + 
               (body != null ? "&body=" + urlEncode(body) : "") + "\">" + linkText + "</a>";
     }
   }

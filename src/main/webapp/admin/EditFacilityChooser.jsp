@@ -3,7 +3,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditFacilityChooser.jsp", true) %>
-<div class="site_container">
+<div class="site_container" style='padding-bottom: 100px'>
 <%
   String command = request.getParameter("command");
   String orderby = request.getParameter("orderby");
@@ -46,6 +46,10 @@
             <tr>
                 <td>Facility Description: </td>
                 <td><input type=text name="facilityDescription" size=50></td>
+            </tr>
+            <tr>
+                <td style='vertical-align:top'>Local experts: <i>Format: [email address][space][name], one per line.</i></td>
+                <td><textarea name="localExperts" rows="5" cols="50"></textarea></td>
             </tr>
             <tr>
                 <td>Facility Code: </td>

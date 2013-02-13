@@ -5,6 +5,7 @@ public class Facility {
   private String facilityName;
   private String facilityDescription;
   private String facilityCode;
+  private String localExperts;
 
   private int recordCount;
   public int getRecordCount()
@@ -40,6 +41,12 @@ public class Facility {
   }
   public void setFacilityCode(String facilityCode) {
     this.facilityCode = facilityCode;
+  }
+  public String getLocalExperts() {
+    return localExperts;
+  }
+  public void setLocalExperts(String localExperts) {
+    this.localExperts = localExperts;
   }
 
 }
