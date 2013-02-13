@@ -73,7 +73,7 @@ public class DBConnect {
     " FROM holder\r\n";
 
   private static final String facilityQueryHeader =
-    "SELECT id, facility, description, code" +
+    "SELECT id, facility, description, code, local_experts" +
     ", (select count(*) from mouse_holder_facility where facility_id=facility.id) as 'mice held'\r\n" +
     " FROM facility\r\n ";
 
@@ -1360,6 +1360,7 @@ public class DBConnect {
       + "facility='"  + addMySQLEscapes(updatedFacility.getFacilityName())
       + "',description='" + addMySQLEscapes(updatedFacility.getFacilityDescription())
       + "',code='" + addMySQLEscapes(updatedFacility.getFacilityCode())
+      + "',local_experts='" + addMySQLEscapes(updatedFacility.getLocalExperts())
       + "'\r\nWHERE id=" + updatedFacility.getFacilityID();
     executeNonQuery(query);
   }
@@ -1539,11 +1540,12 @@ public class DBConnect {
 
   public static int insertFacility(Facility newFacility)
   {
-    String query = "INSERT into facility (id,facility,description,code) " +
+    String query = "INSERT into facility (id,facility,description,code,local_experts) " +
       "VALUES (NULL"
       + ",'"  + addMySQLEscapes(newFacility.getFacilityName())
       + "','" + addMySQLEscapes(newFacility.getFacilityDescription())
       + "','" + addMySQLEscapes(newFacility.getFacilityCode())
+      + "','" + addMySQLEscapes(newFacility.getLocalExperts())
       + "')";
     return executeNonQuery(query,true);
   }
@@ -3386,6 +3388,7 @@ public class DBConnect {
       result.setFacilityDescription(g_str("description"));
       result.setFacilityCode(g_str("code"));
       result.setRecordCount(g_int("mice held"));
+      result.setLocalExperts(g_str("local_experts"));
       return result;
 
     }
