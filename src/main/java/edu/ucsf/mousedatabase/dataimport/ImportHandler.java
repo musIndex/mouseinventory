@@ -1198,7 +1198,7 @@ public class ImportHandler
               //TODO properly merge exisiting holders on the submission with the new ones
               //for don't do anything fancy/automatically but make a note
               DBConnect.updateSubmission(submissionID,"new","Added additional holder(s) from " + importDefinition.Name + "\r\n" + allPurchasedHoldersComment);
-              sb.append("<span class='importAction'>Added note to add holder(s) to open automatically-generated submission <span class='changerequest_number'>#" 
+              sb.append("<span class='importAction'>Added note to add holder(s) to open automatically-generated submission <span class='submission_number'>#" 
               + submissionID +  "</span>:   " +  HTMLUtilities.getCommentForDisplay(sub.getOfficialSymbol()) + "</span>");
             }
           }
