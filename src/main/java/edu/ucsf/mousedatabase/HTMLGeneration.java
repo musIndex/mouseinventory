@@ -2055,12 +2055,13 @@ public class HTMLGeneration {
           continue;
         }
         int spaceLocation = expert.indexOf(" ");
-        if (spaceLocation <= 0) {
+        if (spaceLocation <= 0 || (expert.indexOf("@") < 0 && expert.indexOf(".") < 0)) {
           table.append("<dt>" + expert + "</dt>");
           continue;
         }
         String email = expert.substring(0, spaceLocation);
         String name = expert.substring(spaceLocation).trim();
+
         table.append("<dt>" + name + ": " + formatEmail(email, email, "Requesting help using the UCSF Mouse database") + "</dt>");
       }
       table.append("</dl>");
