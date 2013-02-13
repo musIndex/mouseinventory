@@ -642,7 +642,12 @@ public class ImportHandler
         if (purchaseInfo.source != null)
         {
           ArrayList<Integer> allMgiIds = null;
-          if(purchaseInfo.source.equalsIgnoreCase(JacksonLaboratory))
+          if (purchaseInfo.mgiId > 0) {
+            allMgiIds = new ArrayList<Integer>();
+            allMgiIds.add(purchaseInfo.mgiId);
+            ImportStatusTracker.AppendMessage(importTaskId, "Manually entered MGI ID " + purchaseInfo.mgiId + " found for purchase of " + purchaseInfo.source + " " + purchaseInfo.stockNumber + ", not looking up in catalog");
+          }
+          else if(purchaseInfo.source.equalsIgnoreCase(JacksonLaboratory))
           {
             try {
               if (ignoredJaxNumbers.contains(Integer.parseInt(purchaseInfo.stockNumber))) {
