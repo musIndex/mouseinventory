@@ -1,3 +1,5 @@
+<%@page import="java.util.SortedMap"%>
+<%@page import="java.util.TreeMap"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="edu.ucsf.mousedatabase.DBConnect"%>
 <%@page import="java.util.ArrayList"%>
@@ -8,9 +10,11 @@
 <%=HTMLGeneration.getNavBar("about.jsp", false) %>
   
 <%
-HashMap<Setting.SettingCategory,String> categories = new HashMap<Setting.SettingCategory,String>();
+
+SortedMap<Setting.SettingCategory,String> categories = new TreeMap<Setting.SettingCategory,String>();
 categories.put(Setting.SettingCategory.RECENT_SITE_UPDATES,"Recent site updates:");
 categories.put(Setting.SettingCategory.WED_LIKE_TO_HEAR_FROM_YOU,"We'd like to hear from you:");
+categories.put(Setting.SettingCategory.DID_YOU_KNOW,"Did you know...?");
 %>
  
 <div class="site_container">
@@ -19,6 +23,9 @@ categories.put(Setting.SettingCategory.WED_LIKE_TO_HEAR_FROM_YOU,"We'd like to h
 <% for(Setting.SettingCategory category : categories.keySet()){ 
     String[] styles = new String[]{"alert alert-success","alert alert-info","alert alert-warning","alert alert-lovely"};
     ArrayList<Setting> recentSiteUpdateItems = DBConnect.getCategorySettings(category.Id, "id desc");
+    if (recentSiteUpdateItems.size() == 0) {
+     continue; 
+    }
     int i = 0;
     for (Setting newItem : recentSiteUpdateItems) {
      %>
