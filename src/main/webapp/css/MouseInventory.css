@@ -55,7 +55,7 @@ ul.navLinkUL {
 }
 @media all and (max-width: 1040px){
   .site_container {
-    width: 940px;
+    width: 920px;
   }
 }
 
@@ -137,6 +137,7 @@ ul.navLinkUL {
   font-size: 15px;
   margin: 0px;
   padding: 0;
+  min-width: 920px;
 }
 #navigationLinksContainer {
   background-color: #99bbcc;
