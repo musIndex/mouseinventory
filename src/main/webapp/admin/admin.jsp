@@ -3,7 +3,7 @@
 <%@page import="edu.ucsf.mousedatabase.*" %>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%@page import="edu.ucsf.mousedatabase.objects.*" %>
-<%@page import="java.util.ArrayList" %>
+<%@page import="java.util.*" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("admin.jsp", true) %>
 
@@ -23,46 +23,60 @@
 
   StringBuffer buf = new StringBuffer();
   
-  ArrayList<ArrayList<String>> openRequestSources = DBConnect.getOpenRequestSources();
-  if (openRequestSources.size() > 0) {
-      buf.append("<br>");
-	  buf.append("<dl>"); 
-
-    for(ArrayList<String> source : openRequestSources) {
-  	String sourceName = source.get(0);
-      String count = source.get(1);
-      if (sourceName.equals("Change request form")) {
-        continue;
+  Map<String, String> sourceStatuses = new HashMap<String,String>();
+  sourceStatuses.put("new", "new requests");
+  sourceStatuses.put("pending","pending requests");
+  
+  for (String sourceStatus : sourceStatuses.keySet()){
+  ArrayList<ArrayList<String>> openRequestSources = DBConnect.getOpenRequestSources(sourceStatus);
+    if (openRequestSources.size() > 0) {
+        buf.append("<br>");
+  	  buf.append("<dl>"); 
+  
+      for(ArrayList<String> source : openRequestSources) {
+    	String sourceName = source.get(0);
+        int count = Integer.parseInt(source.get(1));
+        if (sourceName.equals("Change request form")) {
+          continue;
+        }
+        for(ImportDefinition def : ImportHandler.getImportDefinitions()) {
+        	sourceName = sourceName.replace(def.Name, "");
+        }
+        
+        buf.append("<dt>There " + (count > 1 ? "are" : "is") + " <b><a href='" + adminRoot + "ManageChangeRequests.jsp?status=" + sourceStatus + "&requestSource=" 
+              + sourceName + "'>" + count + " " + sourceStatuses.get(sourceStatus)
+              + " </a></b> from data upload <b>'" + sourceName + "'</b></dt>");
       }
-      for(ImportDefinition def : ImportHandler.getImportDefinitions()) {
-      	sourceName = sourceName.replace(def.Name, "");
-      }
-      
-      buf.append("<dt>There are <b><a href='" + adminRoot + "ManageChangeRequests.jsp?status=all&requestSource=" 
-            + sourceName + "'>" + count + " open requests</a></b> from data upload <b>'" + sourceName + "'</b></dt>");
+      buf.append("</dl>");
     }
-    buf.append("</dl>");
   }
   
-  ArrayList<ArrayList<String>> openSubmissionSources = DBConnect.getOpenSubmissionSources();
-  if (openRequestSources.size() > 0) {
-      buf.append("<br>");
-	  buf.append("<dl>"); 
-
-    for(ArrayList<String> source : openSubmissionSources) {
-  	String sourceName = source.get(0);
-      String count = source.get(1);
-      if (sourceName.equals(SubmittedMouse.SubmissionFormSource)) {
-        continue;
+  sourceStatuses = new HashMap<String,String>();
+  sourceStatuses.put("new", "new submissions");
+  sourceStatuses.put("need more info","submissions on hold");
+  
+  for (String sourceStatus : sourceStatuses.keySet()){
+    ArrayList<ArrayList<String>> openSubmissionSources = DBConnect.getOpenSubmissionSources(sourceStatus);
+    if (openSubmissionSources.size() > 0) {
+        buf.append("<br>");
+  	  buf.append("<dl>"); 
+  
+      for(ArrayList<String> source : openSubmissionSources) {
+    	String sourceName = source.get(0);
+    	int count = Integer.parseInt(source.get(1));
+        if (sourceName.equals(SubmittedMouse.SubmissionFormSource)) {
+          continue;
+        }
+        for(ImportDefinition def : ImportHandler.getImportDefinitions()) {
+        	sourceName = sourceName.replace(def.Name, "");
+        }
+        
+        buf.append("<dt>There " + (count > 1 ? "are" : "is") + " <b><a href='" + adminRoot + "ListSubmissions.jsp?status=" + sourceStatus + "&submissionSource=" 
+              + sourceName + "'>" + count + " " + sourceStatuses.get(sourceStatus)
+              + " </a></b> from data upload <b>'" + sourceName + "'</b></dt>");
       }
-      for(ImportDefinition def : ImportHandler.getImportDefinitions()) {
-      	sourceName = sourceName.replace(def.Name, "");
-      }
-      
-      buf.append("<dt>There are <b><a href='" + adminRoot + "ListSubmissions.jsp?status=all&submissionSource=" 
-            + sourceName + "'>" + count + " open submissions</a></b> from data upload <b>'" + sourceName + "'</b></dt>");
+      buf.append("</dl>");
     }
-    buf.append("</dl>");
   }
 
   for (int i = 0; i < changeRequestLists.size();i++)
@@ -97,7 +111,7 @@
       buf.append("</dl>");
     }
   }
-  
+  buf.append("<br>");
   for(int i =0; i< submissionLists.size(); i++)
   {
     ArrayList<SubmittedMouse> newSubmissions = submissionLists.get(i);
@@ -157,7 +171,7 @@
 %>
 <div class="site_container">
 <h2>Welcome to Mouse Inventory Administration.</h2>
-Administer the Mouse Inventory by choosing from the menu items above.<br>
+Administer the Mouse Inventory by choosing from the menu items above.
 
 <%=buf.toString() %>
 </div>
