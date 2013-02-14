@@ -1141,13 +1141,13 @@ public class DBConnect {
     return ChangeRequestResultGetter.getInstance().Get(query);
   }
   
-  public static ArrayList<ArrayList<String>> getOpenRequestSources(){
-    String query = "SELECT request_source, count(*) as 'count' from changerequest where status='new' or status='pending' group by request_source;";
+  public static ArrayList<ArrayList<String>> getOpenRequestSources(String status){
+    String query = "SELECT request_source, count(*) as 'count' from changerequest where status='" + status + "' group by request_source;";
     return StringArrayListResultGetter.getInstance(new String[]{"request_source","count"}).Get(query);
   }
   
-  public static ArrayList<ArrayList<String>> getOpenSubmissionSources(){
-    String query = "SELECT submission_source, count(*) as 'count' from submittedmouse where status='new' or status='need more info' group by submission_source;";
+  public static ArrayList<ArrayList<String>> getOpenSubmissionSources(String status){
+    String query = "SELECT submission_source, count(*) as 'count' from submittedmouse where status='" + status + "' group by submission_source;";
     return StringArrayListResultGetter.getInstance(new String[]{"submission_source","count"}).Get(query);
   }
 
