@@ -13,7 +13,9 @@
   ArrayList<ArrayList<SubmittedMouse>> submissionLists = new ArrayList<ArrayList<SubmittedMouse>>();
   submissionLists.add(DBConnect.getMouseSubmissions("new",null,null,SubmittedMouse.SubmissionFormSource));
   submissionLists.add(DBConnect.getMouseSubmissions("need more info",null,null,SubmittedMouse.SubmissionFormSource));
-  String[] submissionListLabels = new String[]{"new manual submissions","manual submissions on hold"};
+  ArrayList<String> submissionListLabels = new ArrayList<String>();
+  submissionListLabels.add("new manual submissions");
+  submissionListLabels.add("manual submissions on hold");
 
 
   ArrayList<ArrayList<ChangeRequest>> changeRequestLists = new ArrayList<ArrayList<ChangeRequest>>();
@@ -45,7 +47,7 @@
         
         buf.append("<dt>There " + (count > 1 ? "are" : "is") + " <b><a href='" + adminRoot + "ManageChangeRequests.jsp?status=" + sourceStatus + "&requestSource=" 
               + sourceName + "'>" + count + " " + sourceStatuses.get(sourceStatus)
-              + " </a></b> from data upload <b>'" + sourceName + "'</b></dt>");
+              + " </a></b> from data upload <b>" + sourceName + "</b></dt>");
       }
       buf.append("</dl>");
     }
@@ -71,9 +73,16 @@
         	sourceName = sourceName.replace(def.Name, "");
         }
         
-        buf.append("<dt>There " + (count > 1 ? "are" : "is") + " <b><a href='" + adminRoot + "ListSubmissions.jsp?status=" + sourceStatus + "&submissionSource=" 
-              + sourceName + "'>" + count + " " + sourceStatuses.get(sourceStatus)
-              + " </a></b> from data upload <b>'" + sourceName + "'</b></dt>");
+        if (sourceStatus.equals("new")) {
+          buf.append("<dt>There " + (count > 1 ? "are" : "is") + " <b><a href='" + adminRoot + "ListSubmissions.jsp?status=" + sourceStatus + "&submissionSource=" 
+                + sourceName + "'>" + count + " " + sourceStatuses.get(sourceStatus)
+                + " </a></b> from data upload <b>" + sourceName + "</b></dt>");
+        }
+        else {
+         
+        	submissionLists.add(DBConnect.getMouseSubmissions("need more info",null,null,source.get(0)));
+        	submissionListLabels.add("submissions on hold from data upload " + sourceName);
+        }
       }
       buf.append("</dl>");
     }
@@ -111,15 +120,14 @@
       buf.append("</dl>");
     }
   }
-  buf.append("<br>");
   for(int i =0; i< submissionLists.size(); i++)
   {
     ArrayList<SubmittedMouse> newSubmissions = submissionLists.get(i);
-    String label = submissionListLabels[i];
+    String label = submissionListLabels.get(i);
     if(newSubmissions.size() > 0)
     {
 
-      buf.append("<dl>");
+      buf.append("<br><dl>");
       buf.append("<dt><font color='green'><b>There are " + newSubmissions.size() + " " + label + ":</b></font></dt>");
       for(SubmittedMouse mouse : newSubmissions)
       {
