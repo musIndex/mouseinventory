@@ -81,9 +81,8 @@ $(document).ready(function(){
   var editor = {};
   
   var last_clicked_email_link;
+  var category;
   
-  var last_category;
-  var last_template;
   
   var current_objects = {submission: {}, request: {}, mouse: {}};
   
@@ -172,7 +171,7 @@ $(document).ready(function(){
     setupCurrentObjects($this.data('submission_id'),$this.data('request_id'),$this.data('mouse_id'),$this.data('holder_id'), $this.data('submitter_index'));
     
     template_selector.children().remove();
-    var category = $this.data('category');
+    category = $this.data('category');
     if (category) {
       $('#template_category').html('<a href="<%= adminRoot %>ManageEmailTemplates.jsp?category=' + category + '">(' + category + ')</a>');
       templates = all_templates[category];
@@ -187,7 +186,6 @@ $(document).ready(function(){
     else {
       template_selector.parent().hide();
     }
-    last_category = category;
     
     draft_selector.children().remove();
     if (all_drafts){
@@ -212,7 +210,8 @@ $(document).ready(function(){
     })[0];
     editor.updateFrame();
     $('html, body').animate({scrollTop:0}, 200);
-    if (last_category && last_category == category && last_template) {
+    var last_template = getCookie("last_template_" + category);
+    if (last_template) {
       template_selector.val(last_template).change();
     }
     $("#sendMailContainer").slideDown();
@@ -300,7 +299,7 @@ $(document).ready(function(){
       updated = true;
       editor.updateFrame();
     });
-    last_template = $(this).val();
+    setCookie("last_template_" + category, $(this).val(), 365);
   }
   
   function render(template,skipEscaping){
@@ -353,6 +352,8 @@ $(document).ready(function(){
 	  $("#attachments_container").append($("<div><input type='file' name='attachment_" + attach_num 
 			  + "'></input><a href='#' class='btn btn-mini remove_attachment'><i class='icon-remove'></i></a></div>"));
   }
+  
+
   
 });
 
