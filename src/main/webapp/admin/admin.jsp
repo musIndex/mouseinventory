@@ -11,11 +11,9 @@
 <%
 
   ArrayList<ArrayList<SubmittedMouse>> submissionLists = new ArrayList<ArrayList<SubmittedMouse>>();
-  submissionLists.add(DBConnect.getMouseSubmissions("new",null,null,SubmittedMouse.SubmissionFormSource));
-  submissionLists.add(DBConnect.getMouseSubmissions("need more info",null,null,SubmittedMouse.SubmissionFormSource));
+ 
   ArrayList<String> submissionListLabels = new ArrayList<String>();
-  submissionListLabels.add("new manual submissions");
-  submissionListLabels.add("manual submissions on hold");
+  
 
 
   ArrayList<ArrayList<ChangeRequest>> changeRequestLists = new ArrayList<ArrayList<ChangeRequest>>();
@@ -87,6 +85,12 @@
       buf.append("</dl>");
     }
   }
+  
+  
+  submissionLists.add(DBConnect.getMouseSubmissions("new",null,null,SubmittedMouse.SubmissionFormSource));
+  submissionLists.add(DBConnect.getMouseSubmissions("need more info",null,null,SubmittedMouse.SubmissionFormSource));
+  submissionListLabels.add("new manual submissions");
+  submissionListLabels.add("manual submissions on hold");
 
   for (int i = 0; i < changeRequestLists.size();i++)
   {
