@@ -1475,11 +1475,8 @@ public class HTMLGeneration {
       table.append("<dt class='mouseType'>\r\n<span class='lbl'>" + nextRecord.getMouseType() + "</span>");
       if (nextRecord.isTG()) {
         if (nextRecord.getExpressedSequence() != null) {
-          if (nextRecord.getExpressedSequence().equalsIgnoreCase(
-              "mouse gene")
-              || nextRecord
-                  .getExpressedSequence()
-                  .equalsIgnoreCase("Mouse Gene (unmodified)")) {
+          if (nextRecord.getExpressedSequence().equalsIgnoreCase( "mouse gene")
+              || nextRecord .getExpressedSequence() .equalsIgnoreCase("Mouse Gene (unmodified)")) {
             table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b></dt>\r\n");
             table.append(formatGene(
                 nextRecord.getTargetGeneSymbol(),
@@ -1523,16 +1520,11 @@ public class HTMLGeneration {
         table.append("<dt><b><span class='lbl'>Modification Type:</span></b> "
             + (nextRecord.getModificationType() != null ? nextRecord.getModificationType() : "TBD") + "</dt>\r\n");
 
-        if (!(nextRecord.getModificationType() == null || nextRecord
-            .getModificationType().isEmpty())) {
-          if (nextRecord.getModificationType().equalsIgnoreCase(
-              "targeted knock-in")) {
+        if (!(nextRecord.getModificationType() == null || nextRecord .getModificationType().isEmpty())) {
+          if (nextRecord.getModificationType().equalsIgnoreCase( "targeted knock-in")) {
             if (nextRecord.getExpressedSequence() != null) {
-              if (nextRecord.getExpressedSequence()
-                  .equalsIgnoreCase("mouse gene")
-                  || nextRecord.getExpressedSequence()
-                      .equalsIgnoreCase(
-                          "Mouse Gene (unmodified)")) {
+              if (nextRecord.getExpressedSequence() .equalsIgnoreCase("mouse gene")
+                  || nextRecord.getExpressedSequence() .equalsIgnoreCase( "Mouse Gene (unmodified)")) {
                 table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b></dt>\r\n");
                 table.append(formatGene(
                     nextRecord.getTargetGeneSymbol(),
