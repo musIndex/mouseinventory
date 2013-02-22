@@ -627,6 +627,9 @@ public class HTMLGeneration {
 
       }
     }
+    field = "<textarea name='adminComment' rows='10' cols='60' >" + emptyIfNull(r.getAdminComment()) + "</textarea>\r\n";
+    getInputRow(buf, "Record Admin Comment",field,"","editMouseRow");
+
     buf.append("</table>\r\n");
     buf.append("</div>\r\n");
     buf.append("<div class=\"editMouseFormRightColumn\">");
