@@ -121,6 +121,10 @@ $(document).ready(function(){
             $("#comment").val($.trim(data.description));
             $("#rawMGIComment").val($.trim(data.description));
             result = { success: success, message: "Properties for " + data.officialSymbol + " loaded into form.", note: notes};
+            if (!$.trim(data.description)) {
+              result.success = false;
+              result.message = "Failed to load description from MGI.  Please try again.  If this error persists, please notify the administrator.  To complete your submission, please manually copy the description from the MGI website."
+            }
           }
       }
       else
