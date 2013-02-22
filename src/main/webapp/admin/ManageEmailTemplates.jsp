@@ -130,7 +130,7 @@
   <% }%>
   
   <% if (template != null){ %>
-     <div style='width: 700px;float:left'>
+     <div style='width: 880px;float:left'>
      <h2><%= title %></h2>
      <form method='post' action='UpdateTemplate' id='manageEmailForm'>
        <input type='hidden' name='id' value='<%=template.id %>'/>
@@ -168,7 +168,7 @@
        </table>
      </form>
      </div>
-     <div style='float:left; max-width:335px' class='template_help'>
+     <div style='float:left;' class='template_help'>
      <h3>Data interpolation guide: <a style='font-size:10px; text-decoration:none' href='#' class='toggle_help'>toggle help</a></h3>
      
      <p class='hide'>Use one or more of the following tags to fill in data.  For example, 
@@ -255,9 +255,10 @@
   <% } %>
 </div>
 <script type='text/javascript'>
+  
   $("textarea[name='body']").cleditor({
-    width: 600,
-    height: 200,
+    width: 800,
+    height: 500,
     controls: 
       "bold italic underline | font size " +
       "style | link unlink | color removeformat | bullets numbering | outdent " +
