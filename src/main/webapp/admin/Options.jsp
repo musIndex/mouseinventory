@@ -8,17 +8,17 @@
 <h2>Options</h2>
 
 <h4>Site settings</h4>
-
-<a href='ManageSettings.jsp'>Manage settings</a>
+<div class="settings_list">
+<a href='ManageSettings.jsp'><i class='icon-list'></i> Manage settings</a>
 <br>
+</div>
 
 <h4>Email Options</h4>
-
-<a href='ManageEmailTemplates.jsp'>Manage email templates</a>
+<div class="settings_list">
+<a href='ManageEmailTemplates.jsp'><i class='icon-pencil'></i> Manage email templates</a>
 <br>
-<a href='EmailLog.jsp'>View email log</a>
+<a href='EmailLog.jsp'><i class='icon-envelope'></i> View email log</a>
 <br>
-<br>
-
+</div>
 
 </div>

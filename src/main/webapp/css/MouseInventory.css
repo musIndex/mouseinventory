@@ -985,3 +985,9 @@ a.view_sent {
   font-weight: bold;
   color: red;
 }
+.settings_list {
+  margin-left: 20px;
+}
+.settings_list a {
+  font-size: 110%;
+}
