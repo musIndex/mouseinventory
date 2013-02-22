@@ -32,7 +32,8 @@ public class DBConnect {
     "repository_catalog_number,gensat,other_comment, gene.mgi as 'gene MGI', " +
     "gene.symbol as 'gene symbol', gene.fullname as 'gene name',cryopreserved," +
     "status,endangered,submittedmouse_id, targetgenes.mgi as 'target gene MGI'," +
-    "targetgenes.symbol as 'target gene symbol', targetgenes.fullname as 'target gene name', official_name\r\n";
+    "targetgenes.symbol as 'target gene symbol', targetgenes.fullname as 'target gene name', official_name," +
+    "admin_comment\r\n";
 
   private static final String mouseRecordTableJoins =
     "   left join mousetype on mouse.mousetype_id=mousetype.id\r\n"
@@ -1298,7 +1299,9 @@ public class DBConnect {
         updatedRecord.getCryopreserved() + "'" : 0) +", \r\n");
     query.append("status=" + (updatedRecord.getStatus() != null ? "'" +
         updatedRecord.getStatus() + "'" : "NULL") + ", \r\n");
-    query.append("endangered=" + updatedRecord.isEndangered() + "\r\n");
+    query.append("endangered=" + updatedRecord.isEndangered() + ",\r\n");
+    
+    query.append("admin_comment=" + safeText(updatedRecord.getAdminComment()) + "\r\n");
 
     query.append("WHERE id=" + updatedRecord.getMouseID());
     Log.Info("Updating mouse record with query: \r\n" + query);
@@ -3106,6 +3109,8 @@ public class DBConnect {
       nextMouse.setEndangered(g_bool("endangered"));
 
       nextMouse.setSubmittedMouseID(g_str("submittedmouse_id"));
+      
+      nextMouse.setAdminComment(g_str("admin_comment"));
 
       nextMouse.setHolders(getMouseHolders(nextMouse.getMouseID()));
       nextMouse.setPubmedIDs(getMousePubmedIDs(nextMouse.getMouseID()));

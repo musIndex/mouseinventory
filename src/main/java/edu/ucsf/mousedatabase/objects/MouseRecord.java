@@ -52,6 +52,8 @@ public class MouseRecord {
   String submittedMouseID;
   
   String previewLink;
+  
+  String adminComment;
 
   @Override
   public boolean equals(Object o) {
@@ -337,6 +339,14 @@ public class MouseRecord {
 
   public void setOfficialSymbol(String officialSymbol) {
     this.officialSymbol = officialSymbol;
+  }
+  
+  public String getAdminComment() {
+    return adminComment;
+  }
+
+  public void setAdminComment(String adminComment) {
+    this.adminComment = adminComment;
   }
 
   public String getPreviewLink() {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130213070354) do
+ActiveRecord::Schema.define(:version => 20130222074355) do
 
   create_table "changerequest", :force => true do |t|
     t.integer "mouse_id"
@@ -141,6 +141,7 @@ ActiveRecord::Schema.define(:version => 20130213070354) do
     t.string  "status",                     :limit => 20
     t.integer "endangered",                 :limit => 1
     t.string  "official_name"
+    t.text    "admin_comment"
   end
 
   add_index "mouse", ["submittedmouse_id"], :name => "submittedmouse_id"
