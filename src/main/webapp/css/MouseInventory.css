@@ -866,7 +866,7 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
 
 .emailTemplateForm input[type=text],
 .emailTemplateForm textarea{
-  width: 500px;  
+  width: 790px;  
 }
 .emailTemplateForm textarea{
   height: 100px;
