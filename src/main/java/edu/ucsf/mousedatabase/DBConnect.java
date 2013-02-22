@@ -1921,8 +1921,12 @@ public class DBConnect {
 
     ArrayList<String> list = new ArrayList<String>();
     
-    addFlattenedData(list, record.getBackgroundStrain());    
-    addFlattenedData(list, record.getExpressedSequence());   
+    addFlattenedData(list, record.getBackgroundStrain());  
+    if (record.isTG() || (record.isMA() && record.getExpressedSequence() != null &&
+                          (record.getExpressedSequence().equalsIgnoreCase("mouse gene")
+                           || record.getExpressedSequence().equalsIgnoreCase( "Mouse Gene (unmodified)")))) {
+      addFlattenedData(list, record.getExpressedSequence());   
+    }
     addFlattenedData(list, record.getGeneID());    
     addFlattenedData(list, record.getGeneName());    
     addFlattenedData(list, record.getGeneralComment());
