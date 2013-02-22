@@ -569,6 +569,9 @@ public class MGIConnect {
         {
           props.setProperty("description", sb.toString());
         }
+        else {
+          Log.Error("No description found for allele w/ accID: " + accessionID + ".  Ran this query:\n" + query);
+        }
 
 
       }
