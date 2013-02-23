@@ -17,7 +17,7 @@
     }
     else {
       ArrayList<MouseRecord> mice = DBConnect.getMouseRecord(mouseID);
-      table = getMouseTable(mice,false,false,true);
+      table = getMouseTable(mice,false,false,true,true,true);
     }
 %>
 <script>
@@ -55,7 +55,7 @@ Enter <font color="red">your</font> name and e-mail address (required)<br>
     <div class="whatsnew">
     <!-- <a href="/media/ChangeForm.qtl"><img src="img/VideoDemonstration.gif" alt=""></a> --->
     </div>
-    <div class="about">
+    <div>
     <table>
         <tr>
             <td><font color="red">*</font> First Name</td>
@@ -73,43 +73,14 @@ Enter <font color="red">your</font> name and e-mail address (required)<br>
             value="${changeRequest.email}"></td>
         </tr>
         <tr>
-        <td  colspan="2">
-        If you want to add or delete a holder, begin typing the last name of
-        that person until it appears in the field and also select
-        the facility in which the mouse is housed from the drop down list.
-        If either the holder or facility is not included in the list,
-        choose 'other' at the bottom of the drop down list and enter the information.
-        <br>
-        </td>
-        </tr>
-    <tr>
-      <td valign="top" colspan="2">
-      Holder: <%= getHolderSelect("holderId", changeRequest.getHolderId()) %>
-
-      <span id="otherHolderSpan">
-        Specify holder name:
-        <input type="text" name="holderName" value="<%= emptyIfNull(changeRequest.getHolderName()) %>" size="20">
-      </span>
-
-      <br>
-      Facility: <%= getFacilitySelect("facilityId", changeRequest.getFacilityId()) %>
-      
-      <span id="otherFacilitySpan">
-         Specify facility name:
-        <input type="text" name="facilityName" value="<%= emptyIfNull(changeRequest.getFacilityName()) %>" size="20">
-      </span>
-
-      <br>
-      Status: <%=genSelect("cryoLiveStatus",
-          new String[]{"Live only","Live and Cryo","Cryo only"},"Live only", null)%>
-
-      </td>
     </tr>
+  </table>
+  <table>
     <tr>
-    <td valign="top"  colspan="2">
+    <td valign="top" style="width: 450px">
       <input type="radio" name="actionRequested" value="<%= Action.ADD_HOLDER.ordinal() %>" <%= (changeRequest.actionRequested() == Action.ADD_HOLDER) ? "checked" : "" %> >
-      Add the selected holder to this record <br>
-      <div style="position: relative; left: 25px;">
+      Add a holder to this record <br>
+      <div style="margin-left:25px">
       <b>If you have <font color="red">genetic background information</font>
       for the mouse in the new holder's colony or if you want to add
       a different unoffical name for the mouse enter it here:</b><br>
@@ -117,7 +88,9 @@ Enter <font color="red">your</font> name and e-mail address (required)<br>
       If you have additional comments, add them in the box below.<br>
       </div>
       <input type="radio" name="actionRequested" value="<%= Action.REMOVE_HOLDER.ordinal() %>"<%= (changeRequest.actionRequested() == Action.REMOVE_HOLDER) ? "checked" : "" %>>
-      Delete the selected holder from this record <br>
+      Remove a holder from this record <br>
+      <input type="radio" name="actionRequested" value="<%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>"<%= (changeRequest.actionRequested() == Action.CHANGE_CRYO_LIVE_STATUS) ? "checked" : "" %>>
+      Change the status of a holder <br>
       <!--
       <input type="radio" name="actionRequested" value="<%= Action.MARK_ENDANGERED.ordinal() %>" <%= (changeRequest.actionRequested() == Action.MARK_ENDANGERED) ? "checked" : "" %>>
       Mark this mouse as Endangered. (Holder is considering eliminating
@@ -129,6 +102,29 @@ Enter <font color="red">your</font> name and e-mail address (required)<br>
       Click here if you do not want to add or delete a holder, but do want to make
       suggestions for changes in the record, then enter them in the box below:
     </td>
+    <td valign="top" style="min-width: 300px;">
+      <div class='add_holder'>
+        Holder: <%= getHolderSelect("holderId", changeRequest.getHolderId()) %>
+  
+        <span id="otherHolderSpan">
+          Specify holder name:
+          <input type="text" name="holderName" value="<%= emptyIfNull(changeRequest.getHolderName()) %>" size="20">
+        </span>
+  
+        <br>
+        Facility: <%= getFacilitySelect("facilityId", changeRequest.getFacilityId()) %>
+        
+        <span id="otherFacilitySpan">
+           Specify facility name:
+          <input type="text" name="facilityName" value="<%= emptyIfNull(changeRequest.getFacilityName()) %>" size="20">
+        </span>
+  
+        <br>
+        Status: <%=genSelect("cryoLiveStatus",
+            new String[]{"Live only","Live and Cryo","Cryo only"},"Live only", null)%>
+
+      </div>
+      </td>
     </tr>
       <tr>
         <td valign="top" colspan="2"><textarea rows="8" cols="80" name="userComment"></textarea></td>
