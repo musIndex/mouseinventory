@@ -991,3 +991,15 @@ a.view_sent {
 .settings_list a {
   font-size: 110%;
 }
+.change_request_form > ul {
+  list-style-type: none;
+  margin: 5px;
+  display: inline-block;
+}
+.change_request_form > ul > li input[type=radio] {
+  display: none;  
+}
+.change_request_form > ul > li {
+  float: left;
+  margin: 0 10px 0 0;
+}

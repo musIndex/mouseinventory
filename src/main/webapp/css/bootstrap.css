@@ -725,7 +725,8 @@ legend + .control-group {
 .btn:first-child {
   *margin-left: 0;
 }
-.btn:hover {
+.btn:hover,
+.btn.selected {
   color: #333333;
   text-decoration: none;
   background-color: #e6e6e6;
