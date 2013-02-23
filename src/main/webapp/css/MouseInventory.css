@@ -1173,6 +1173,14 @@ a.view_sent {
 .change_request_form .form_controls {
   padding: 10px;
 }
+.change_request_form .form_controls ul {
+  list-style-type: none;
+  padding: 0px;
+}
+.change_request_form .form_controls ul > li {
+  margin: 3px 3px 3px 10px;
+  padding: 3px;
+}
 .well > .h3 {
   margin-top: 0;
 }

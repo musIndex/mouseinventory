@@ -31,9 +31,11 @@ function updateRequestFormUI(selected) {
   }
   else if (selected == <%= Action.ADD_HOLDER.ordinal() %>) {
     $(".add_holder").show();
+    $("#background_info").show();
   }
   else if (selected) {  //remove holder or change status
     $(".add_holder").show();
+    $("#background_info").hide();
   }
   else {
     $(".form_controls").hide();
@@ -169,26 +171,28 @@ $(document).ready(function(){
       </ul>
       <div class='form_controls'>
         <div class='add_holder'>
-          Holder: <%= getHolderSelect("holderId", changeRequest.getHolderId()) %>
-    
-          <span id="otherHolderSpan">
-            Specify holder name:
-            <input type="text" name="holderName" value="<%= emptyIfNull(changeRequest.getHolderName()) %>" size="20">
-          </span>
-    
-          <br>
-          Facility: <%= getFacilitySelect("facilityId", changeRequest.getFacilityId()) %>
-          
-          <span id="otherFacilitySpan">
-             Specify facility name:
-            <input type="text" name="facilityName" value="<%= emptyIfNull(changeRequest.getFacilityName()) %>" size="20">
-          </span>
-    
-          <br>
-          Status: <%=genSelect("cryoLiveStatus",
-              new String[]{"Live only","Live and Cryo","Cryo only"},"Live only", null)%>
-  
-          <p style="margin-left:25px; width: 350px">
+         <ul>
+           <li>
+            Holder: <%= getHolderSelect("holderId", changeRequest.getHolderId()) %>
+            <span id="otherHolderSpan">
+              Specify holder name:
+              <input type="text" name="holderName" value="<%= emptyIfNull(changeRequest.getHolderName()) %>" size="20">
+            </span>    
+            </li>
+            <li>
+            Facility: <%= getFacilitySelect("facilityId", changeRequest.getFacilityId()) %>
+            <span id="otherFacilitySpan">
+               Specify facility name:
+              <input type="text" name="facilityName" value="<%= emptyIfNull(changeRequest.getFacilityName()) %>" size="20">
+            </span>
+      
+            </li>
+            <li>
+            Status: <%=genSelect("cryoLiveStatus",
+                new String[]{"Live only","Live and Cryo","Cryo only"},"Live only", null)%>
+            </li>
+          </ul>
+          <p id='background_info' style="margin-left:25px; width: 350px">
           <b>If you have <font color="red">genetic background information</font>
           for the mouse in the new holder's colony or if you want to add
           a different unoffical name for the mouse enter it here:</b><br>
