@@ -3181,7 +3181,8 @@ public class DBConnect {
       result.setActionRequested(ChangeRequest.ActionValues[g_int("action_requested")]);
       
       if (result.actionRequested() != Action.ADD_HOLDER && 
-          result.actionRequested() != Action.REMOVE_HOLDER) { 
+          result.actionRequested() != Action.REMOVE_HOLDER &&
+          result.actionRequested() != Action.CHANGE_CRYO_LIVE_STATUS) { 
         return result;
       }
       
