@@ -994,12 +994,18 @@ a.view_sent {
 .change_request_form > ul {
   list-style-type: none;
   margin: 5px;
-  display: inline-block;
+  padding: 0;
 }
 .change_request_form > ul > li input[type=radio] {
   display: none;  
 }
 .change_request_form > ul > li {
+  margin: 8px;
   float: left;
-  margin: 0 10px 0 0;
+}
+.change_request_form .form_controls {
+  padding: 10px;
+}
+.well > .h3 {
+  margin-top: 0;
 }
