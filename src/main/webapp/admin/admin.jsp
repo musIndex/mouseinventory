@@ -106,7 +106,8 @@
         String changeRequestTitle = changeRequest.getFirstname() + " " + changeRequest.getLastname() + " requested: " +
           changeRequest.actionRequested().label + " ";
         if (changeRequest.actionRequested() == ChangeRequest.Action.ADD_HOLDER ||
-            changeRequest.actionRequested() == ChangeRequest.Action.REMOVE_HOLDER) {
+            changeRequest.actionRequested() == ChangeRequest.Action.REMOVE_HOLDER ||
+            changeRequest.actionRequested() == ChangeRequest.Action.CHANGE_CRYO_LIVE_STATUS) {
          changeRequestTitle += changeRequest.getHolderFirstname() + " " + changeRequest.getHolderLastname();
         }
         

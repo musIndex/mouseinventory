@@ -1908,7 +1908,8 @@ public class HTMLGeneration {
       //new change request format, no properties
       table.append("<dl><dt class='" + nextRequest.actionRequested() + "'>");
       table.append(nextRequest.actionRequested().label + "&nbsp;</dt>");
-      if (nextRequest.actionRequested() == Action.ADD_HOLDER || nextRequest.actionRequested() == Action.REMOVE_HOLDER) {
+      if (nextRequest.actionRequested() == Action.ADD_HOLDER || nextRequest.actionRequested() == Action.REMOVE_HOLDER ||
+          nextRequest.actionRequested() == Action.CHANGE_CRYO_LIVE_STATUS) {
         table.append("<dt>" + emptyIfNull(nextRequest.getHolderName()));
         if (nextRequest.getHolderId() == -2) {
           //TODO build a link to add new holder, with link back to this page.
