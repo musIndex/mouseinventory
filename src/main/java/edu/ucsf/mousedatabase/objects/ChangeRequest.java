@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import edu.ucsf.mousedatabase.DBConnect;
 import edu.ucsf.mousedatabase.HTMLUtilities;
 import edu.ucsf.mousedatabase.Log;
 
@@ -17,7 +18,8 @@ public class ChangeRequest {
     ADD_HOLDER(1,"Add holder:"), //1
     REMOVE_HOLDER(2,"Remove holder:"), //2
     MARK_ENDANGERED(3,"Mark as endangered."), //3
-    OTHER(4,"Make other changes."); //4
+    OTHER(4,"Make other changes."), //4
+    CHANGE_CRYO_LIVE_STATUS(5,"Change live/cryo status of holder:"); //5
     
     public String label;
     public int value;
@@ -260,6 +262,8 @@ public class ChangeRequest {
   public String validate() {
     ArrayList<String> errors = new ArrayList<String>();
     
+    MouseRecord record = DBConnect.getMouseRecord(getMouseID()).get(0);
+    
     if (!HTMLUtilities.validateEmail(getEmail())) {
       errors.add("Email address is invalid.");
     }
@@ -272,12 +276,24 @@ public class ChangeRequest {
     if (actionRequested == Action.UNDEFINED) {
       errors.add("Please specify the action to be performed.");
     }
-    else if (actionRequested == Action.ADD_HOLDER || actionRequested == Action.REMOVE_HOLDER) {
+    else if (actionRequested == Action.ADD_HOLDER || actionRequested == Action.REMOVE_HOLDER || actionRequested == Action.CHANGE_CRYO_LIVE_STATUS) {
       if (holderId == -1) {
         errors.add("Please select a holder.  If the desired holder is not listed, please select 'Other(specify)' and provide the name.");
       }
       else if (holderId == -2 && (holderName == null || holderName.isEmpty())) {
         errors.add("Please specify the holder name.");
+      }
+      else if (actionRequested == Action.REMOVE_HOLDER || actionRequested == Action.CHANGE_CRYO_LIVE_STATUS){
+        boolean holderFound = false;
+        for (MouseHolder holder : record.getHolders()) {
+          if (holder.getHolderID() == holderId && holder.getFacilityID() == facilityId) {
+            holderFound = true;
+          }
+        }
+        if (!holderFound) {
+          errors.add("That holder and facility cannot be " + (actionRequested == Action.REMOVE_HOLDER ? "removed" : "updated") 
+              + " - it is not currently listed on the record");
+        }
       }
       if (facilityId == -1) {
         errors.add("Please select a facility.  If the desired facility is not listed, please select 'Other(specify)' and provide the name.");
