@@ -993,6 +993,7 @@ a.view_sent {
 .settings_list a {
   font-size: 110%;
 }
+
 .settings_list dd {
   margin: 6px 0;
 }
@@ -1154,4 +1155,18 @@ a.view_sent {
 .deadbeat_holder {
   background-color: rgba(230,0,0,0.4);
 } 
+
+
+.change_request_form > ul {
+  list-style-type: none;
+  margin: 5px;
+  display: inline-block;
+}
+.change_request_form > ul > li input[type=radio] {
+  display: none;  
+}
+.change_request_form > ul > li {
+  float: left;
+  margin: 0 10px 0 0;
+}
 
