@@ -38,6 +38,7 @@ function updateRequestFormUI(selected) {
   else {
     $(".form_controls").hide();
     $(".form_submission").hide();
+    $(".form_invalid").hide();
   }
 }
 
@@ -63,9 +64,11 @@ function validateInput() {
   
   if (valid) {
     $(".form_submission").show();
+    $(".form_invalid").hide();
   }
   else {
     $(".form_submission").hide();
+    $(".form_invalid").show();
   }
 }
 
@@ -106,11 +109,13 @@ $(document).ready(function(){
 <div class='alert alert-error'><%=message.replace("|", "<br>") %></div>
 <% } %>
 <%= table %>
-<h3>Enter <font color="red">your</font> contact information</h3>
+<div class='well' style="float:left; width: 400px; margin: 20px 20px 20px 0">
+
 
 <form id="changerequestform" action="SubmitChangeRequest" method="post">
+<h3>1. Enter <font color="red">your</font> contact information:</h3>
     <input type="hidden" name="mouseID" value="<%= mouseID %>">
-    <table class='well'>
+    <table>
         <tr>
             <td><font color="red">*</font> First Name</td>
             <td><input type="text" size="30" name="firstname"
@@ -129,75 +134,77 @@ $(document).ready(function(){
         <tr>
     </tr>
   </table>
-  <div class='change_request_form'>
-    <h3>Select change type:</h3>
-    <ul class='cf well'>
-      <li>
-        <input type="radio" name="actionRequested" value="<%= Action.ADD_HOLDER.ordinal() %>" <%= (changeRequest.actionRequested() == Action.ADD_HOLDER) ? "checked" : "" %> >
-        <a class='btn btn-large btn-success' href='#'><i class='icon-white icon-plus'></i> Add a holder</a>
+  </div>
+  <div style="float:left; min-width: 350px;">
+    <div class='change_request_form well cf' style="margin:20px 20px 20px 0">
+    <h3>2. Specify requested changes:</h3>
+      <ul>
+        <li>
+          <input type="radio" name="actionRequested" value="<%= Action.ADD_HOLDER.ordinal() %>" <%= (changeRequest.actionRequested() == Action.ADD_HOLDER) ? "checked" : "" %> >
+          <a class='btn btn-success' href='#'><i class='icon-white icon-plus'></i> Add a holder</a>
+          
+        </li>
+        <li>
         
-      </li>
-      <li>
-      
-      <input type="radio" name="actionRequested" value="<%= Action.REMOVE_HOLDER.ordinal() %>"<%= (changeRequest.actionRequested() == Action.REMOVE_HOLDER) ? "checked" : "" %>>
-      <a class='btn btn-large btn-danger' href='#'><i class='icon-white icon-remove'></i> Remove a holder</a>
-      </li>
-      <li>
-      <input type="radio" name="actionRequested" value="<%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>"<%= (changeRequest.actionRequested() == Action.CHANGE_CRYO_LIVE_STATUS) ? "checked" : "" %>>
-      <a class='btn btn-large btn-info' href='#'><i class='icon-white icon-tag'></i> Change status of a holder</a>
-      </li>
-      <!--
-      <li>
-      <input type="radio" name="actionRequested" value="<%= Action.MARK_ENDANGERED.ordinal() %>" <%= (changeRequest.actionRequested() == Action.MARK_ENDANGERED) ? "checked" : "" %>>
-      Mark this mouse as Endangered. (Holder is considering eliminating
-      this mouse from his/her colony. If that holder is the only one who
-      maintains the mouse, or if there is only one other holder, the mouse
-      will be added to the "endangered mouse" list)
-      </li>
-      -->
-      <li>
-      <input type="radio" name="actionRequested" value="<%= Action.OTHER.ordinal() %>" <%= (changeRequest.actionRequested() == Action.OTHER) ? "checked" : "" %>>
-      <a class='btn btn-large' href='#'><i class='icon-pencil'></i> Make other changes</a>
-      </li>
-    </ul>
-    <div class='form_controls'>
-    <h3>Specify change details:</h3>
-      <div class='well' style='display:inline-block'>
-      <div class='add_holder'>
-        Holder: <%= getHolderSelect("holderId", changeRequest.getHolderId()) %>
+        <input type="radio" name="actionRequested" value="<%= Action.REMOVE_HOLDER.ordinal() %>"<%= (changeRequest.actionRequested() == Action.REMOVE_HOLDER) ? "checked" : "" %>>
+        <a class='btn btn-danger' href='#'><i class='icon-white icon-remove'></i> Remove a holder</a>
+        </li>
+        <li>
+        <input type="radio" name="actionRequested" value="<%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>"<%= (changeRequest.actionRequested() == Action.CHANGE_CRYO_LIVE_STATUS) ? "checked" : "" %>>
+        <a class='btn btn-info' href='#'><i class='icon-white icon-tag'></i> Change status of a holder</a>
+        </li>
+        <!--
+        <li>
+        <input type="radio" name="actionRequested" value="<%= Action.MARK_ENDANGERED.ordinal() %>" <%= (changeRequest.actionRequested() == Action.MARK_ENDANGERED) ? "checked" : "" %>>
+        Mark this mouse as Endangered. (Holder is considering eliminating
+        this mouse from his/her colony. If that holder is the only one who
+        maintains the mouse, or if there is only one other holder, the mouse
+        will be added to the "endangered mouse" list)
+        </li>
+        -->
+        <li>
+        <input type="radio" name="actionRequested" value="<%= Action.OTHER.ordinal() %>" <%= (changeRequest.actionRequested() == Action.OTHER) ? "checked" : "" %>>
+        <a class='btn' href='#'><i class='icon-pencil'></i> Make other changes</a>
+        </li>
+      </ul>
+      <div class='form_controls'>
+        <div class='add_holder'>
+          Holder: <%= getHolderSelect("holderId", changeRequest.getHolderId()) %>
+    
+          <span id="otherHolderSpan">
+            Specify holder name:
+            <input type="text" name="holderName" value="<%= emptyIfNull(changeRequest.getHolderName()) %>" size="20">
+          </span>
+    
+          <br>
+          Facility: <%= getFacilitySelect("facilityId", changeRequest.getFacilityId()) %>
+          
+          <span id="otherFacilitySpan">
+             Specify facility name:
+            <input type="text" name="facilityName" value="<%= emptyIfNull(changeRequest.getFacilityName()) %>" size="20">
+          </span>
+    
+          <br>
+          Status: <%=genSelect("cryoLiveStatus",
+              new String[]{"Live only","Live and Cryo","Cryo only"},"Live only", null)%>
   
-        <span id="otherHolderSpan">
-          Specify holder name:
-          <input type="text" name="holderName" value="<%= emptyIfNull(changeRequest.getHolderName()) %>" size="20">
-        </span>
-  
-        <br>
-        Facility: <%= getFacilitySelect("facilityId", changeRequest.getFacilityId()) %>
-        
-        <span id="otherFacilitySpan">
-           Specify facility name:
-          <input type="text" name="facilityName" value="<%= emptyIfNull(changeRequest.getFacilityName()) %>" size="20">
-        </span>
-  
-        <br>
-        Status: <%=genSelect("cryoLiveStatus",
-            new String[]{"Live only","Live and Cryo","Cryo only"},"Live only", null)%>
-
-        <p style="margin-left:25px; width: 350px">
-        <b>If you have <font color="red">genetic background information</font>
-        for the mouse in the new holder's colony or if you want to add
-        a different unoffical name for the mouse enter it here:</b><br>
-        <input type="text" size="50" name="geneticBackgroundInfo"><br>
-      If you have additional comments, add them in the box below.<br>
-        </p>
+          <p style="margin-left:25px; width: 350px">
+          <b>If you have <font color="red">genetic background information</font>
+          for the mouse in the new holder's colony or if you want to add
+          a different unoffical name for the mouse enter it here:</b><br>
+          <input type="text" size="50" name="geneticBackgroundInfo"><br>
+        If you have additional comments, add them in the box below.<br>
+          </p>
+        </div>
+        Comments:
+        <textarea rows="8" cols="80" name="userComment"></textarea><br>
+        <div class='form_submission'>
+          <input type="submit" class="btn btn-primary" value="Submit Change Request"></div>
+        </div>
+        <div class='form_invalid'>
+          <i>Please completely fill out the form</i>
+        </div>
       </div>
-      Comments:
-      <textarea rows="8" cols="80" name="userComment"></textarea><br>
-      </div>
-    </div>
-    <div class='form_submission'>
-    <h3>Submit request:</h3>
-    <input type="submit" class="btn btn-primary" value="Send"></div>
     </div>
 </form>
 <% } %>
