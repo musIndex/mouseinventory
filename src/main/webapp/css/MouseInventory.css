@@ -991,6 +991,9 @@ a.view_sent {
 .settings_list a {
   font-size: 110%;
 }
+.settings_list dd {
+  margin: 6px 0;
+}
 .change_request_form > ul {
   list-style-type: none;
   margin: 5px;
