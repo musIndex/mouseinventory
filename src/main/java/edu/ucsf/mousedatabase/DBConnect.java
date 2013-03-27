@@ -3,6 +3,7 @@ package edu.ucsf.mousedatabase;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -17,6 +18,8 @@ import edu.ucsf.mousedatabase.objects.ChangeRequest.Action;
 import edu.ucsf.mousedatabase.servlets.ReportServlet;
 
 import org.apache.commons.lang3.StringUtils;
+
+import sun.misc.Regexp;
 
 public class DBConnect {
 
@@ -882,25 +885,18 @@ public class DBConnect {
       return null;
   }
 
-  public static Facility findFacilityByCode(String facilityCode)
-  {
-    if (facilityCode == null)
-      return null;
-    String query = null;
-    if (!facilityCode.isEmpty())
+  public static Facility findFacilityByCode(String facilityCode) {
+    if (facilityCode != null && !facilityCode.isEmpty())
     {
-      query = facilityQueryHeader +
-        " WHERE code='"
-        + facilityCode + "'";
-    }
-    else
-    {
-      return null;
-    }
-    ArrayList<Facility> results = FacilityResultGetter.getInstance().Get(query);
-    if (results.size() > 0)
-    {
-      return results.get(0);
+      ArrayList<Facility> facilities = getAllFacilities();
+      for(Facility f : facilities){
+        if (f.getFacilityCode() == null ||f.getFacilityCode().isEmpty()){
+          continue;
+        }
+        if (Pattern.compile(f.getFacilityCode()).matcher(facilityCode).find()){
+          return f;
+        }
+      }
     }
     return null;
   }

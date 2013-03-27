@@ -205,7 +205,7 @@ public class ImportHandler
     
     String mouseIdRegex = "^[\\s]*\\(?[\\s]*([0-9]+)[\\s]*\\)?[\\s]*$";
 
-    String facilityCodeRegex = "(.*)-[0-9]+";
+
 
     ImportStatusTracker.AppendMessage(importTaskId, "Processing CSV Data");
     
@@ -254,7 +254,6 @@ public class ImportHandler
       String recipientEmail = record.get(recipientEmailCol);
 
       String roomName = record.get(roomNameCol);
-      String facilityCode = HTMLUtilities.extractFirstGroup(facilityCodeRegex, roomName);
 
       String rawRecord = "<span class='rawRecord'><br>Raw data:";
       for (Object key : record.keySet())
@@ -279,7 +278,7 @@ public class ImportHandler
         MouseRecord mouse = mice.get(0);
         //check if this holder is already on the record
         Holder localAddedHolder = DBConnect.findHolderByEmail(addedHolderEmail);
-        Facility localAddedFacility = DBConnect.findFacilityByCode(facilityCode);
+        Facility localAddedFacility = DBConnect.findFacilityByCode(roomName);
         boolean isDuplicate = false;
         if (localAddedHolder != null)
         {
@@ -533,7 +532,7 @@ public class ImportHandler
       return;
     }
     
-    String facilityCodeRegex = "(.*)-[0-9]+";
+    
 
     //List<Integer> purchasedMGIs = new ArrayList<Integer>();
     HashMap<Integer,ArrayList<PurchaseInfo>> purchasesByMgi = new HashMap<Integer, ArrayList<PurchaseInfo>>();
@@ -944,7 +943,7 @@ public class ImportHandler
           
           MouseRecord mouse = DBConnect.getMouseRecord(purchase.exisitingRecordId).get(0);
           Holder localAddedHolder = DBConnect.findHolderByEmail(purchase.holderEmail);
-          Facility localAddedFacility = DBConnect.findFacilityByCode(HTMLUtilities.extractFirstGroup(facilityCodeRegex, purchase.roomName));
+          Facility localAddedFacility = DBConnect.findFacilityByCode(purchase.roomName);
 
           boolean isDuplicate = false;
           if (localAddedHolder == null)
@@ -1092,8 +1091,7 @@ public class ImportHandler
           for(int i = 0; i < currentPurchases.size(); i++)
           {
             PurchaseInfo nextPurchase = currentPurchases.get(i);
-            String nextFacilityCode = HTMLUtilities.extractFirstGroup(facilityCodeRegex, nextPurchase.roomName);
-            Facility nextLocalAddedFacility = DBConnect.findFacilityByCode(nextFacilityCode);
+            Facility nextLocalAddedFacility = DBConnect.findFacilityByCode(nextPurchase.roomName);
 
             String facilityName = "";
             if (nextLocalAddedFacility != null)
@@ -1129,8 +1127,7 @@ public class ImportHandler
             allPurchasedHoldersComment += "\r\n*Purchased by " + nextPurchase.holderName + "(" + nextPurchase.holderEmail + ") " + nextPurchase.roomName + "*";
 
             Holder localAddedHolder = DBConnect.findHolderByEmail(nextPurchase.holderEmail);
-            String facilityCode = HTMLUtilities.extractFirstGroup(facilityCodeRegex, nextPurchase.roomName);
-            Facility localAddedFacility = DBConnect.findFacilityByCode(facilityCode);
+            Facility localAddedFacility = DBConnect.findFacilityByCode(nextPurchase.roomName);
 
             
             String holderFacList = "";
