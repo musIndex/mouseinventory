@@ -55,5 +55,13 @@ public interface IHolder {
   public abstract String getPrimaryMouseLocation();
   
   public abstract void setPrimaryMouseLocation(String mouseLocation);
+  
+  public abstract boolean isDeadbeat();
+  
+  public abstract void setDeadbeat(boolean isDeadbeat);
+  
+  public abstract String getValidationStatus();
+  
+  public abstract void setValidationStatus(String status);
 
 }

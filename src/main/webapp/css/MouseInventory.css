@@ -994,3 +994,7 @@ a.view_sent {
 .settings_list dd {
   margin: 6px 0;
 }
+
+.deadbeat_holder {
+  background-color: rgba(230,0,0,0.4);
+}

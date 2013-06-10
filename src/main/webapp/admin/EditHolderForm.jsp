@@ -72,11 +72,20 @@
         <tr>
             <td>Primary location of colony</td>
             <td><input type=text name="primaryMouseLocation" size=20 value="<%= emptyIfNull(holder.getPrimaryMouseLocation()) %>"></td>
+        </tr>
+        <tr>
+            <td>Deadbeat holder (Not updating mouse list)</td>
+            <td><input type=checkbox name="isDeadbeat" <%= holder.isDeadbeat() ? "checked=checked" : "" %>></td>
         </tr> 
         <tr>
             <td>Last review date: (format: yyyy-mm-dd)</td>
             <td><input type=text name="dateValidated" size=20
             value="<%= HTMLGeneration.emptyIfNull(holder.getDateValidated())%>"></td>
+        </tr>
+        <tr>
+            <td>Review status:</td>
+            <td><input type=text name="validationStatus" size=20
+            value="<%= HTMLGeneration.emptyIfNull(holder.getValidationStatus())%>"></td>
         </tr>
 
         <tr>

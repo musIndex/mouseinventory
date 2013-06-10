@@ -1393,6 +1393,8 @@ public class DBConnect {
          + "',alternate_name='" + addMySQLEscapes(updatedHolder.getAlternateName() != null ? updatedHolder.getAlternateName().trim() : "")
         + "',tel='" + addMySQLEscapes(updatedHolder.getTel())
         + "',primary_mouse_location='" + addMySQLEscapes(updatedHolder.getPrimaryMouseLocation())
+        + "',is_deadbeat=" + updatedHolder.isDeadbeat()
+        + ",validation_status='" + updatedHolder.getValidationStatus()
         + "',datevalidated=" + dateValidated
         + "\r\nWHERE id=" + updatedHolder.getHolderID();
     executeNonQuery(query);
@@ -1939,7 +1941,12 @@ public class DBConnect {
     addFlattenedData(list, record.getRegulatoryElement());
     addFlattenedData(list, record.getReporter());
     addFlattenedData(list, record.getRepositoryCatalogNumber());
+    String source = record.getSource();
+    if (source != null && source.indexOf("<") >=0 && source.indexOf(">") >= 0) {
+      addFlattenedData(list, source.replace("<","").replace(">",""));
+    }
     addFlattenedData(list, record.getSource());
+      
     addFlattenedData(list, record.getTargetGeneID());
     addFlattenedData(list, record.getTargetGeneName());
     addFlattenedData(list, record.getTargetGeneSymbol());   
@@ -3423,7 +3430,9 @@ public class DBConnect {
         result.setCovertMouseCount(g_int("covert mice held"));
         result.setDateValidated(g_str("datevalidated"));
         result.setValidationComment(g_str("validation_comment"));
+        result.setValidationStatus(g_str("validation_status"));
         result.setStatus(g_str("status"));
+        result.setDeadbeat(g_bool("is_deadbeat"));
         result.setPrimaryMouseLocation(g_str("primary_mouse_location"));
         return result;
     }
