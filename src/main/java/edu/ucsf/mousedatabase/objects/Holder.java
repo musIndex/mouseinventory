@@ -13,8 +13,10 @@ public class Holder implements IHolder {
   private String tel;
   private String dateValidated;
   private String validationComment;
+  private String validationStatus;
   private String status;
   private String primaryMouseLocation;
+  private boolean isDeadbeat;
 
   private int visibleMouseCount;
   private int covertMouseCount;
@@ -147,6 +149,29 @@ public class Holder implements IHolder {
   public void setPrimaryMouseLocation(String primaryMouseLocation) {
     this.primaryMouseLocation = primaryMouseLocation;
   }
+
+
+  public boolean isDeadbeat() {
+    return isDeadbeat;
+  }
+
+
+  public void setDeadbeat(boolean isDeadbeat) {
+    this.isDeadbeat = isDeadbeat;
+  }
+
+
+  @Override
+  public String getValidationStatus() {
+    return this.validationStatus;
+  }
+
+
+  @Override
+  public void setValidationStatus(String status) {
+    this.validationStatus = status; 
+  }
+  
   
 
 }

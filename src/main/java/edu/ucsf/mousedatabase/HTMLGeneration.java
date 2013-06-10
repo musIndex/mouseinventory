@@ -2187,7 +2187,8 @@ public class HTMLGeneration {
       }
       table.append("<td>\r\n");
 
-      table.append("<div style=\"position:relative; left:2px; float:left;\"><b>"
+      table.append("<div " + (holder.isDeadbeat() ? "class='deadbeat_holder' " : "")
+          + "style=\"position:relative; left:2px; float:left;\"><b>"
           + holder.getFullname() + "</b></div>");
       table.append(" <div style=\"position: relative; right: 10px; float:right;\">("
           + holder.getDept() + ")</div>");
@@ -2200,8 +2201,6 @@ public class HTMLGeneration {
                               : formatEmail(holder.getEmail(), holder.getEmail(),"");
       
       table.append("<div style=\"position:relative; left:2px; float:left;\">" + emailLink   + "</div>");
-      table.append(" <div style=\"position: relative; right: 10px; float:right;\">Tel: "
-          + holder.getTel() + "</div>");
       table.append("</td>\r\n");
 
       //primary contact
@@ -2220,7 +2219,14 @@ public class HTMLGeneration {
       table.append("<td>\r\n");
       if (holder.getDateValidated() != null) {
         table.append(holder.getDateValidated());
+        if (holder.getValidationStatus() != null && !holder.getValidationStatus().isEmpty()) {
+          table.append("<br>" + holder.getValidationStatus());
+        }
       }
+      else if (holder.getValidationStatus() != null && !holder.getValidationStatus().isEmpty()) {
+        table.append(holder.getValidationStatus());
+      }
+      
       table.append("</td>\r\n");
 
       table.append("<td >\r\n");

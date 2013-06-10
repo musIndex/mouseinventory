@@ -10,7 +10,7 @@
 HTMLUtilities.logRequest(request);
   String command = request.getParameter("command");
   StringBuffer buf = new StringBuffer();
-
+  editedHolder.setDeadbeat(request.getParameter("isDeadbeat") != null && request.getParameter("isDeadbeat").equals("on"));
   int id = HTMLGeneration.stringToInt(request.getParameter("holderID"));
   Holder originalHolder = new Holder();
   ArrayList<Holder> holders = new ArrayList<Holder>();
