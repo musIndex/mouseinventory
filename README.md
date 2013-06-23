@@ -5,12 +5,12 @@ The mouse inventory database is an application for tracking an institution's inv
 
 ## Features
 
-See the <a href="http://ucsf-mousedb.github.com/mouseinventory">home page</a>
+See the <a href="http://musIndex.github.com/mouseinventory">home page</a>
 
 ## Installation
 
-See the installation <a href="https://github.com/UCSF-MouseDB/mouseinventory/wiki/Installation">wiki page</a>
+See the installation <a href="https://github.com/musIndex/mouseinventory/wiki/Installation">wiki page</a>
 
 ## Developing
 
-See the [development notes wiki](https://github.com/UCSF-MouseDB/mouseinventory/wiki/Development-notes) to learn about how to work with the code.
+See the [development notes wiki](https://github.com/musIndex/mouseinventory/wiki/Development-notes) to learn about how to work with the code.
