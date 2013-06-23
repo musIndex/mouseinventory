@@ -9,7 +9,7 @@
   The full source of this application is available under the under the AGPL, 
   and can be found on the project site hosted on Github:
   <br>
-  <a target="_blank" href="http://ucsf-mousedb.github.com/mouseinventory/">ucsf-mousedb.github.com/mouseinventory</a>
+  <a target="_blank" href="http://musIndex.github.com/mouseinventory/">musIndex.github.com/mouseinventory</a>
   
   <br>
   The wood mouse image on the search page is licensed from iStockphoto.
