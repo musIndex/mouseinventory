@@ -74,6 +74,13 @@
   	<servlet-name>UpdateFacilityOrderServlet</servlet-name>
   	<servlet-class>edu.ucsf.mousedatabase.servlets.UpdateFacilityOrderServlet</servlet-class>
   </servlet>
+    <servlet>
+  	<description>
+  	</description>
+  	<display-name>UpdateSettingOrderServlet</display-name>
+  	<servlet-name>UpdateSettingOrderServlet</servlet-name>
+  	<servlet-class>edu.ucsf.mousedatabase.servlets.UpdateSettingOrderServlet</servlet-class>
+  </servlet>
   <servlet>
   	<description>
   	</description>
@@ -100,6 +107,10 @@
   <servlet-mapping>
   	<servlet-name>UpdateFacilityOrderServlet</servlet-name>
   	<url-pattern>/admin/UpdateFacilityOrder</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+  	<servlet-name>UpdateSettingOrderServlet</servlet-name>
+  	<url-pattern>/admin/UpdateSettingOrder</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>SubmitChangeRequestServlet</servlet-name>

@@ -1368,6 +1368,10 @@ public class DBConnect {
     String query = "UPDATE facility SET position=" + position + " WHERE id=" + facilityId;
     executeNonQuery(query);
   }
+  public static void updateSettingPosition(int settingId, int position) {
+    String query = "UPDATE settings SET position=" + position + " WHERE id=" + settingId;
+    executeNonQuery(query);
+  }
 
   public static void updateHolder(Holder updatedHolder)
   {
@@ -1752,8 +1756,8 @@ public class DBConnect {
     executeNonQuery("DELETE from settings where id=" + id);
   }
   
-  public static ArrayList<Setting> getCategorySettings(String category){
-    return SettingResultGetter.getInstance().Get("select * from settings where category_id=" + safeText(category));
+  public static ArrayList<Setting> getCategorySettings(int category_id){
+    return SettingResultGetter.getInstance().Get("select * from settings where category_id=" + category_id + " ORDER BY position");
 
   }
   
