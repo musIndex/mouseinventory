@@ -1398,7 +1398,7 @@ public class DBConnect {
         + "',tel='" + addMySQLEscapes(updatedHolder.getTel())
         + "',primary_mouse_location='" + addMySQLEscapes(updatedHolder.getPrimaryMouseLocation())
         + "',is_deadbeat=" + updatedHolder.isDeadbeat()
-        + ",validation_status='" + updatedHolder.getValidationStatus()
+        + ",validation_status='" + addMySQLEscapes(updatedHolder.getValidationStatus() != null ? updatedHolder.getValidationStatus().trim() : "")
         + "',datevalidated=" + dateValidated
         + "\r\nWHERE id=" + updatedHolder.getHolderID();
     executeNonQuery(query);
