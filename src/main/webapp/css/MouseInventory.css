@@ -967,7 +967,7 @@ div.mousetype_selection_links > ul > li select {
 	float: right;
 }
 
-div.facilityTable tbody.sorting td {
+tbody.sorting td {
 	cursor: move;
 }
 #template_category {
