@@ -1368,6 +1368,7 @@ public class DBConnect {
     String query = "UPDATE facility SET position=" + position + " WHERE id=" + facilityId;
     executeNonQuery(query);
   }
+  
   public static void updateSettingPosition(int settingId, int position) {
     String query = "UPDATE settings SET position=" + position + " WHERE id=" + settingId;
     executeNonQuery(query);
@@ -1725,11 +1726,12 @@ public class DBConnect {
   }
   
   public static int insertSetting(Setting setting){
-    String query = "INSERT into settings (name,category_id,label,setting_value)";
+    String query = "INSERT into settings (name,category_id,label,secondary_value,setting_value)";
     query += "VALUES (";
     query += safeText(setting.name) + ",";
     query += setting.category_id + ",";
     query += safeText(setting.label) + ",";
+    query += safeText(setting.secondaryValue) + ",";
     query += safeText(setting.value);
     query += ");";
     return executeNonQuery(query);
@@ -1739,6 +1741,7 @@ public class DBConnect {
     String query = "UPDATE settings SET ";
     query += " name=" + safeText(setting.name) + ",";
     query += " label=" + safeText(setting.label) + ",";
+    query += " secondary_value=" + safeText(setting.secondaryValue) + ",";
     query += " setting_value=" + safeText(setting.value);
     query += " WHERE id=" + setting.id + ";";
     executeNonQuery(query);
@@ -3640,6 +3643,7 @@ public class DBConnect {
       setting.category_id = g_int("category_id");
       setting.label = g_str("label");
       setting.value = g_str("setting_value");
+      setting.secondaryValue = g_str("secondary_value");
       setting.dateUpdated = g_ts("date_updated");
       setting.textAreaRows = g_int("text_area_rows");
       return setting;

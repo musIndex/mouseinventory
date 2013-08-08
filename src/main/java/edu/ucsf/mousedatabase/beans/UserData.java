@@ -52,11 +52,6 @@ public class UserData {
       valid = false;
       departmentErr = "Please enter your department";
     }
-    if(telephoneNumber == null || telephoneNumber.isEmpty())
-    {
-      valid = false;
-      telephoneNumberErr = "Please enter your phone number";
-    }
     return valid;
   }
 

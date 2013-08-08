@@ -84,6 +84,9 @@ public class HTMLGeneration {
     buf.append("<title>" + DBConnect.loadSetting("general_site_name").value + "</title>\r\n");
 
     buf.append("<link href='" + styleRoot + "bootstrap.css' rel='stylesheet' type='text/css'>\r\n");
+    buf.append("<link href='" + styleRoot + "bootstrap-collapse.css' rel='stylesheet' type='text/css'>\r\n");
+    buf.append("<link href='" + styleRoot + "font-awesome.min.css' rel='stylesheet' type='text/css'>\r\n");
+    buf.append("<link href='" + styleRoot + "font-awesome-ie7.min.css' rel='stylesheet' type='text/css'>\r\n");
     buf.append("<link href='" + styleRoot + "chosen.css' rel='stylesheet' type='text/css'>\r\n");
     buf.append("<link href='" + styleRoot + "MouseInventory.css' rel='stylesheet' type='text/css'>\r\n");
     buf.append("<link href='" + styleRoot + "jquery-ui.css 'rel='stylesheet' type='text/css' />");
@@ -97,6 +100,7 @@ public class HTMLGeneration {
     buf.append("<script src='" + scriptRoot + "validationFunctions.js'></script>\r\n");
     buf.append("<script src='" + scriptRoot + "application.js'></script>\r\n");
     buf.append("<script src='" + scriptRoot + "respond.min.js'></script>\r\n"); //ie8 fix
+    buf.append("<script src='" + scriptRoot + "bootstrap-collapse.js'></script>\r\n"); //ie8 fix
     
     if (isAdminPage) {
       buf.append("<link href='" + styleRoot + "jquery.cleditor.css' type='text/css' rel='stylesheet'>");

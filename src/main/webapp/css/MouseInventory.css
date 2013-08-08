@@ -70,8 +70,8 @@ ul.navLinkUL {
 
 #pageTitle a {
   color: #FFFFFF;
-  font-size: 30px;
-  line-height: 30px;
+  font-size: 24px;
+  line-height: 24px;
   text-decoration: none;
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.25);
 }
@@ -970,6 +970,8 @@ div.mousetype_selection_links > ul > li select {
 tbody.sorting td {
 	cursor: move;
 }
+
+
 #template_category {
   font-size: 80%;
   display: block;
@@ -995,6 +997,170 @@ a.view_sent {
   margin: 6px 0;
 }
 
+.about_container {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about_welcome{
+  
+  margin-bottom: 5px;
+}
+
+.about_welcome h1{
+  font-weight: 400;
+  padding: 10px;
+}
+
+.about_banner {
+  text-align: center;
+  
+}
+
+.about_banner .iwanna {
+  font-size: 14px;
+  padding: 10px;
+}
+
+.about_banner .primary_actions {
+  width: 100%;
+  padding: 0;
+  margin-bottom: 50px;
+}
+
+.about_banner .primary_actions a {
+  text-align: center;
+  display: inline-block;
+  width: 28%;
+  padding: 20px 0px;
+  margin: 0 15px;
+  font-size: 20px;
+  font-weight: 100;
+  border: 2px solid #336699;
+  border-radius: 10px;
+  text-decoration: none;
+}
+.about_banner .primary_actions a i {
+  color: blue !important;
+}
+.about_banner .primary_actions a span:hover {
+  text-decoration: underline;
+  color: blue;
+}
+
+.about_banner a [class^="icon-"] {
+  font-size: 40px;
+  display: block;
+  padding: 10px;
+}
+
+.about_manuals {
+  margin-bottom: 60px;
+}
+
+.about_new .category {
+  margin-bottom: 40px;
+}
+
+
+
+
+.about_new .new_item {
+  text-align: left;
+  display: inline-block;
+  width: 40%;
+  margin: 15px;
+  vertical-align: top;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.about_new .category.three_columns .new_item {
+  width: 26%;
+}
+
+.new_item.NEED_HELP_ITEMS  {
+  background-color: #FCFCC7;
+  border: 1px solid gray;
+}
+
+.new_item.RECENT_SITE_UPDATES  {
+  background-color: #D3ECD3;
+  border: 1px solid #629962;
+}
+
+.new_item.WED_LIKE_TO_HEAR_FROM_YOU {
+  background-color: lightblue;
+  border: 1px solid #8585AF;
+}
+
+.new_item.DID_YOU_KNOW {
+  background-color: #DFD3EE;
+  border: 1px solid #9363DB;
+}
+
+.category > .three_column_left > .new_item,
+.category > .three_column_center > .new_item,
+.category > .three_column_right > .new_item {
+  width: 85%;
+}
+
+.two_column_left > .new_item,
+.two_column_right > .new_item {
+  width: 90%;
+}
+
+.one_column_center > .new_item {
+  width: 95%;
+}
+
+.category .three_column_left {
+  width: 33%;
+  float: left;
+  clear: left;
+}
+
+.category .three_column_center {
+  width: 33%;
+  float: left;
+}
+
+.category .three_column_right {
+  width: 33%;
+  float: right;
+}
+
+.category .two_column_left {
+  width: 50%;
+  float: left;
+}
+
+.category .two_column_right {
+  width: 50%;
+  float: right;
+}
+
+.category .one_column_center {
+  width: 100%;
+}
+
+#about_details {
+  text-align: left;
+}
+
+#about_details .content {
+  margin-bottom: 50px;
+}
+
+.about_container h3 {
+  font-size: 17px;
+  padding-bottom: 4px;
+  border-bottom: 1px dotted lightgrey;
+  margin-bottom: 0;
+}
+ 
 .deadbeat_holder {
   background-color: rgba(230,0,0,0.4);
-}
+} 
+
