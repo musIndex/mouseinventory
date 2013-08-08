@@ -38,6 +38,7 @@ public class UpdateSettingServlet extends HttpServlet {
     setting.category_id = stringToInt(request.getParameter("category_id"));
     setting.label = request.getParameter("label");
     setting.value = request.getParameter("setting_value");
+    setting.secondaryValue = request.getParameter("secondary_value");
     
     String message;
     

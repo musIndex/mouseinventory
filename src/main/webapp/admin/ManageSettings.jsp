@@ -146,6 +146,10 @@
         <%= set.value.replace("\n","<br>") %>
         <% } %>
         </div>
+        <% if(category.SecondaryValueName != null){ %>
+         <%=category.SecondaryValueName %>:&nbsp;
+         <%=emptyIfNull(set.secondaryValue) %>
+       <% } %>
       <% } %>
       <% if (settings.size() == 0){ %>
         <tr><td style='text-align: center' colspan='3'>No settings yet</td></tr>
@@ -189,6 +193,20 @@
             <td>Value:</td><td><%=tInput("setting_value",setting.value) %></td>
             <% } %>
          </tr>
+         <% if(category.SecondaryValueName != null){ %>
+           <tr>
+           <td><%=category.SecondaryValueName %>:</td>
+           <% if(category.SecondaryValueName.equals("Custom style")) { %>
+            <td><%=genSelect("secondary_value", new Object[]{"",
+                "three_column_left", "three_column_center","three_column_right",
+                "two_column_left","two_column_right","one_column_center"}, 
+                 new String[]{"","Three columns, left","Three columns, center", "Three columns, right",
+                "Two columns, left","Two columns, right","One column, centered"},setting.secondaryValue, null) %></td>
+           <% } else { %>
+            <td><%=tInput("secondary_value",setting.secondaryValue) %></td>
+           <% } %>
+           </tr>
+         <% } %>
        <tr>
         <td></td>
         <td>

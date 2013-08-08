@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130222074355) do
+ActiveRecord::Schema.define(:version => 20130807052024) do
 
   create_table "changerequest", :force => true do |t|
     t.integer "mouse_id"
@@ -84,17 +84,19 @@ ActiveRecord::Schema.define(:version => 20130222074355) do
   end
 
   create_table "holder", :force => true do |t|
-    t.string "firstname",              :limit => 80
-    t.string "lastname",               :limit => 80
-    t.string "department",             :limit => 80
-    t.string "email",                  :limit => 80
-    t.string "tel",                    :limit => 80
-    t.date   "datevalidated"
-    t.text   "validation_comment"
-    t.string "alternate_email",        :limit => 80
-    t.string "alternate_name",         :limit => 80
-    t.string "status",                               :default => "active"
-    t.string "primary_mouse_location"
+    t.string  "firstname",              :limit => 80
+    t.string  "lastname",               :limit => 80
+    t.string  "department",             :limit => 80
+    t.string  "email",                  :limit => 80
+    t.string  "tel",                    :limit => 80
+    t.date    "datevalidated"
+    t.text    "validation_comment"
+    t.string  "alternate_email",        :limit => 80
+    t.string  "alternate_name",         :limit => 80
+    t.string  "status",                               :default => "active"
+    t.string  "primary_mouse_location"
+    t.integer "is_deadbeat",            :limit => 1
+    t.string  "validation_status"
   end
 
   create_table "import_new_objects", :force => true do |t|
@@ -177,8 +179,10 @@ ActiveRecord::Schema.define(:version => 20130222074355) do
     t.string    "name"
     t.string    "label"
     t.text      "setting_value"
-    t.timestamp "date_updated",                  :null => false
-    t.integer   "text_area_rows", :default => 0
+    t.timestamp "date_updated",                   :null => false
+    t.integer   "text_area_rows",  :default => 0
+    t.integer   "position"
+    t.string    "secondary_value"
   end
 
   create_table "source", :force => true do |t|
