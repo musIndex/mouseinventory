@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130809042102) do
+ActiveRecord::Schema.define(:version => 20130809052145) do
 
   create_table "changerequest", :force => true do |t|
     t.integer "mouse_id"
