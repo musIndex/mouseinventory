@@ -100,8 +100,10 @@ for(Setting.SettingCategory category : categories){
      
      
      <div class='new_item <%= category %>'>
-        <b><%= newItem.label %></b>
-        <br><%= newItem.value %>
+        <% if (newItem.label != null && !newItem.label.isEmpty()){ %>
+          <b><%= newItem.label %></b><br>
+        <% } %>
+        <%= newItem.value %>
       </div>     
     <% 
     } %>
