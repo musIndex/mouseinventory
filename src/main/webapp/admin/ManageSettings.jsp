@@ -198,6 +198,7 @@
             <% } else if (category == Setting.SettingCategory.HOME_PAGE_CATEGORY_COLORS) { %>
               <td>Background color:</td>
               <td><input name="setting_value" class="color" type="text" value="<%=setting.value %>"></td>
+              </tr><tr>
               <td>Border color:</td>
               <td><input name="secondary_value" class="color" type="text" value="<%=setting.secondaryValue %>"></td>
             <% } else { %>
