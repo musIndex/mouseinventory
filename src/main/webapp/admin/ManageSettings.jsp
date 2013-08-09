@@ -210,10 +210,11 @@
            <% if(category.SecondaryValueName.equals("Custom style")) { %>
             <td><%=genSelect("secondary_value", new Object[]{"",
                 "three_column_left", "three_column_center","three_column_right",
-                "two_column_left","two_column_right","one_column_center"}, 
-                 new String[]{"","Three columns, left","Three columns, center", "Three columns, right",
-                "Two columns, left","Two columns, right","One column, centered"},setting.secondaryValue, null) %></td>
-           <% } else { %>
+                "two_column_left","two_column_right","one_column_center", "one_column_center_two_thirds"}, 
+                 new String[]{"none","Three columns, left","Three columns, center", "Three columns, right",
+                "Two columns, left","Two columns, right","One column, centered, full width", 
+                "One column, centered, 60% width"}, setting.secondaryValue, null) %></td>
+            <% } else { %>
             <td><%=tInput("secondary_value",setting.secondaryValue) %></td>
            <% } %>
            </tr>
