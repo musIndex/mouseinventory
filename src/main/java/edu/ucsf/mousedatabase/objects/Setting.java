@@ -19,7 +19,8 @@ public class Setting {
     DID_YOU_KNOW(9,"Did you know? items",true,false,true,true,"Custom style"),
     FAQ_ITEMS(10, "FAQ items", true, false, true, true), 
     NEED_HELP_ITEMS(11, "Need help using the database items?", true, false, true, true, "Custom style"), 
-    HOLDER_LIST_TEXTS( 12, "Holder list texts", true, false, true, true);
+    HOLDER_LIST_TEXTS( 12, "Holder list texts", true, false, true, true),
+    HOME_PAGE_CATEGORY_COLORS(13, "Home page category colors", false, false, false, false);
 
     public final int Id;
     public final String Name;
@@ -77,6 +78,8 @@ public class Setting {
         return SettingCategory.NEED_HELP_ITEMS;
       case 12:
         return SettingCategory.HOLDER_LIST_TEXTS;
+      case 13:
+        return SettingCategory.HOME_PAGE_CATEGORY_COLORS;
     }
     return SettingCategory.UNKNOWN;
   }

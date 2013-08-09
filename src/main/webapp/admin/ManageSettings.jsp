@@ -5,6 +5,7 @@
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%@page import="edu.ucsf.mousedatabase.objects.*"%>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
+<script src="<%=scriptRoot %>jscolor.js"></script>
 <%=HTMLGeneration.getNavBar("Options.jsp", true) %>
 <%
   SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
@@ -142,13 +143,18 @@
         <div style='padding:2px; min-height:80px;background-color:white;border: 1px solid gainsboro;'> 
         <% if (category.RichText) { %>
         <%= set.value %> 
+        <% } else if (category == Setting.SettingCategory.HOME_PAGE_CATEGORY_COLORS) { %>
+        Background color:
+        <div style="width:100%;background-color:  #<%= set.value%>">&nbsp;</div>
+        Border color:
+        <div style="width:100%;background-color: #<%= set.secondaryValue%>">&nbsp;</div>
         <% } else { %>
         <%= set.value.replace("\n","<br>") %>
         <% } %>
         </div>
         <% if(category.SecondaryValueName != null){ %>
-         <%=category.SecondaryValueName %>:&nbsp;
-         <%=emptyIfNull(set.secondaryValue) %>
+           <%=category.SecondaryValueName %>:&nbsp;
+           <%=emptyIfNull(set.secondaryValue) %>
        <% } %>
       <% } %>
       <% if (settings.size() == 0){ %>
@@ -189,6 +195,11 @@
               <textarea name='setting_value' rows='<%= setting.textAreaRows %>'><%=setting.value %></textarea>
               <br>To search, use CMD+F (mac) or CTRL+F (windows)
             </td>
+            <% } else if (category == Setting.SettingCategory.HOME_PAGE_CATEGORY_COLORS) { %>
+              <td>Background color:</td>
+              <td><input name="setting_value" class="color" type="text" value="<%=setting.value %>"></td>
+              <td>Border color:</td>
+              <td><input name="secondary_value" class="color" type="text" value="<%=setting.secondaryValue %>"></td>
             <% } else { %>
             <td>Value:</td><td><%=tInput("setting_value",setting.value) %></td>
             <% } %>
@@ -253,7 +264,6 @@
   $(".template_help a.toggle_help").click(function(){
     $(".template_help p").toggleClass('hide');
   });
-
 </script>
 <script>
 !function($){
