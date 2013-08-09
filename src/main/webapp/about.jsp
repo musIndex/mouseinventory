@@ -6,9 +6,35 @@
 <%@page import="edu.ucsf.mousedatabase.objects.*"%>
 <%@page contentType="text/html;charset=UTF-8" language="java"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*"%>
+
 <%=getPageHeader(null, false, false, "onload=\"setFocus('quickSearchForm', 'searchterms')\"")%>
 <%=getNavBar("about.jsp", false)%>
+<style type="text/css">
+.new_item.NEED_HELP_ITEMS  {
+<% Setting set = DBConnect.loadSetting("category_11_color");%>
+  background-color: #<%= set.value %>;
+  border: 1px solid #<%= set.secondaryValue %>;
+}
 
+.new_item.RECENT_SITE_UPDATES  {
+<% set = DBConnect.loadSetting("category_3_color");%>
+  background-color: #<%= set.value %>;
+  border: 1px solid #<%= set.secondaryValue %>;
+}
+
+.new_item.WED_LIKE_TO_HEAR_FROM_YOU {
+<% set = DBConnect.loadSetting("category_7_color");%>
+  background-color: #<%= set.value %>;
+  border: 1px solid #<%= set.secondaryValue %>;
+}
+
+.new_item.DID_YOU_KNOW {
+<% set = DBConnect.loadSetting("category_9_color");%>
+  background-color: #<%= set.value %>;
+  border: 1px solid #<%= set.secondaryValue %>;
+}
+
+</style>
   
 <%
 

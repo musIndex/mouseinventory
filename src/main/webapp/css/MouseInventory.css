@@ -1080,25 +1080,7 @@ a.view_sent {
   width: 26%;
 }
 
-.new_item.NEED_HELP_ITEMS  {
-  background-color: #FCFCC7;
-  border: 1px solid gray;
-}
 
-.new_item.RECENT_SITE_UPDATES  {
-  background-color: #D3ECD3;
-  border: 1px solid #629962;
-}
-
-.new_item.WED_LIKE_TO_HEAR_FROM_YOU {
-  background-color: lightblue;
-  border: 1px solid #8585AF;
-}
-
-.new_item.DID_YOU_KNOW {
-  background-color: #DFD3EE;
-  border: 1px solid #9363DB;
-}
 
 .category > .three_column_left > .new_item,
 .category > .three_column_center > .new_item,
