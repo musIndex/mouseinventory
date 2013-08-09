@@ -801,7 +801,9 @@ legend + .control-group {
 .btn-info,
 .btn-info:hover,
 .btn-inverse,
-.btn-inverse:hover {
+.btn-inverse:hover,
+.btn-brown,
+.btn-brown:hover {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
@@ -961,6 +963,35 @@ legend + .control-group {
 }
 .btn-info:active,
 .btn-info.active {
+  background-color: #24748c \9;
+}
+.btn-brown {
+  background-color: #A68976;
+  background-image: -moz-linear-gradient(top, #C2A08A, #997E6D);
+  background-image: -ms-linear-gradient(top, #C2A08A, #997E6D);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#C2A08A), to(#997E6D));
+  background-image: -webkit-linear-gradient(top, #C2A08A, #997E6D);
+  background-image: -o-linear-gradient(top, #C2A08A, #997E6D);
+  background-image: linear-gradient(top, #C2A08A, #997E6D);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#C2A08A', endColorstr='#997E6D', GradientType=0);
+  border-color: #997E6D #997E6D #1f6377;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #997E6D;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+.btn-brown:hover,
+.btn-brown:active,
+.btn-brown.active,
+.btn-brown.disabled,
+.btn-brown[disabled] {
+  background-color: #997E6D;
+  *background-color: #2a85a0;
+}
+.btn-brown:active,
+.btn-brown.active {
   background-color: #24748c \9;
 }
 .btn-inverse {
