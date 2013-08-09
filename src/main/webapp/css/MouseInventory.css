@@ -1067,7 +1067,7 @@ a.view_sent {
 
 
 .about_new .new_item {
-  text-align: left;
+  text-align: center;
   display: inline-block;
   width: 40%;
   margin: 15px;
@@ -1095,6 +1095,10 @@ a.view_sent {
 
 .one_column_center > .new_item {
   width: 95%;
+}
+
+.one_column_center_two_thirds > .new_item {
+  width: 85%;
 }
 
 .category .three_column_left {
@@ -1125,6 +1129,11 @@ a.view_sent {
 
 .category .one_column_center {
   width: 100%;
+}
+
+.category .one_column_center_two_thirds {
+  width: 60%;
+  margin: auto;
 }
 
 #about_details {
