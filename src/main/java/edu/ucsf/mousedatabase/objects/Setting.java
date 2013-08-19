@@ -16,7 +16,10 @@ public class Setting {
     DATA_IMPORT(6,"Data upload settings"),
     WED_LIKE_TO_HEAR_FROM_YOU(7,"We'd like to hear from you items",true,false,true,true),
     DOWNLOAD_FILES(8,"Downloadable files",false,false,false,true),
-    DID_YOU_KNOW(9,"Did you know? items",true,false,true,true);
+    DID_YOU_KNOW(9,"Did you know? items",true,false,true,true),
+    
+    
+    HOLDER_LIST_TEXTS( 12, "Holder list texts", true, false, true, true);
     
     public final int Id;
     public final String Name;

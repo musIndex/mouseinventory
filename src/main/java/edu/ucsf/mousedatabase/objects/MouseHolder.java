@@ -197,4 +197,24 @@ public class MouseHolder implements IHolder {
     return this.holder.getPrimaryMouseLocation();
   }
   
+  public void setDeadbeat(boolean isDeadbeat){
+    this.holder.setDeadbeat(isDeadbeat);
+  }
+  
+  public boolean isDeadbeat(){
+    return this.holder.isDeadbeat();
+  }
+
+  @Override
+  public String getValidationStatus() {
+    return this.holder.getValidationStatus();
+  }
+
+  @Override
+  public void setValidationStatus(String status) {
+    this.holder.setValidationStatus(status);
+  }
+  
+  
+  
 }

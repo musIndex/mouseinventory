@@ -20,8 +20,8 @@
   ArrayList<Setting> settings = null;
   Setting setting = null;
   
-  String[] orderOptions = new String[]{"label","date_updated"};
-  String[] orderLabels = new String[]{"Name","Date Revised"};
+  String[] orderOptions = new String[]{"position","label","date_updated"};
+  String[] orderLabels = new String[]{"Public-facing","Name","Date Revised"};
   
   boolean addingNew = id <= 0;
   
@@ -109,6 +109,7 @@
   <% if (message.length() > 0){ %>
   
     <div style='margin-top:15px;' class='alert <%= wasError ? "alert-error" : "alert-success" %>'><%= message %></div>
+    <div class='alert' id='top_status_message' style='display:none'></div>
   <% } %>
   <% if (settings != null) { %>
     <h2><%= title %></h2>
@@ -116,35 +117,42 @@
       Show: <%=genSelect("category_id",settingCategoryIds,settingCategoryNames,Integer.toString(category_id), null) %>  
       Sort by: <%=genSelect("orderby", orderOptions,orderLabels, orderby,"") %>
      </form>
+     <a class='btn' href='#' id='sort_button'>Change public sort order</a>&nbsp;&nbsp;
+     <div class='sort-instructions' style='display:none'><h3>Click and drag rows to reorder them.  Click 'Save changes' when done</h3></div>
+    
      <% if (category.CanAddOrRemove) { %>
      <a class='btn btn-success' href='ManageSettings.jsp?command=edit&id=-1'><i class='icon-plus icon-white'></i> Add new '<%=category.Name %>' setting</a>
+    
      <% } %>
-     <table class='basic'>
+     <table class='basic setting_list'>
      <tr>
         <th style='min-width:150px'>Description</th>
         <th>Value</th>
      </tr>
      <% for (Setting set : settings) { %>
      <tr>
-       <td>
+       <td data-setting_id='<%= set.id %>'>
         <dl>
         <dt><b style='font-size: 110%'><%=set.label %></b></dt>
         <dt>Updated: <%=sdf.format(set.dateUpdated) %></dt>
         <dt><a class='btn btn-mini' href='ManageSettings.jsp?command=edit&id=<%=set.id%>'><i class='icon-edit'></i> Edit</a></dt>
         </dl>
        </td>
-       <td style='background-color:white;border: 1px solid gainsboro;'>
+       <td>
+        <div style='padding:2px; min-height:80px;background-color:white;border: 1px solid gainsboro;'> 
         <% if (category.RichText) { %>
         <%= set.value %> 
         <% } else { %>
         <%= set.value.replace("\n","<br>") %>
         <% } %>
-       </td>
-       </tr>
+        </div>
       <% } %>
       <% if (settings.size() == 0){ %>
         <tr><td style='text-align: center' colspan='3'>No settings yet</td></tr>
       <% } %>
+       </td>
+       </tr>
+       
       </table>
   <% }%>
   
@@ -213,7 +221,7 @@
     controls: 
       "bold italic underline | font size " +
       "style | link unlink | color removeformat | bullets numbering | outdent " +
-      "indent | undo redo | cut copy paste pastetext",
+      "indent | undo redo | cut copy paste pastetext | source",
   });
   $(".btn_delete").click(function(){
     $(this).siblings().show();
@@ -228,5 +236,106 @@
     $(".template_help p").toggleClass('hide');
   });
 
+</script>
+<script>
+!function($){
+  var order = '<%=orderby%>';
+	var sorting = false;
+	var table_body = $("table.setting_list tbody");
+	var sort_button = $("#sort_button");
+	var instructions = $(".sort-instructions");
+	var positions = "";
+	sort_button.click(function(){
+    	if (order != "position"){
+    		updateStatus("To change the public-facing sort order, please choose 'Public-facing' from the sort menu first.");
+    		return false;
+    	}
+    	if (sort_button.hasClass('disabled')){
+    		return false;
+    	} 
+      sorting = !sorting;
+      
+      if (sorting) {
+        clearStatus();
+        table_body.addClass('sorting');
+        sort_button.text('Save changes');
+        instructions.show();
+        table_body.sortable({
+          placeholder: 'dndPlaceHolder',
+          distance:15,
+              items:'tr', 
+              forcePlaceholderSize:true, 
+              change : dndChange,
+              update : dndUpdate
+        }).disableSelection();
+      }
+      else {
+        sort_button.addClass('disabled');
+        sort_button.text('Saving...');
+        table_body.removeClass('sorting');
+        $.ajax({type: 'post',
+                  url: '<%=HTMLGeneration.adminRoot %>UpdateSettingOrder',
+                dataType: 'json',
+                  success: updateOrderSuccess,
+                error: updateOrderFailed,
+                  data: 'positions=' + positions,
+                  async: true
+        });
+        
+      }
+    
+    
+  });
+  
+  function updateOrderSuccess(data) {
+    if (data.success) {
+      updateStatus('Order saved',true);
+    }
+    else{
+      updateOrderFailed(data);
+    }
+    sort_button.removeClass('disabled');
+    sort_button.text('Change public sort order');
+    instructions.hide();
+    
+  }
+  function updateOrderFailed(data){
+    updateStatus('Failed to save changes: ' + data.message,false);
+  }
+  
+  function updateStatus(message,success) {
+    $("#top_status_message").text(message)
+      .removeClass('alert-success').removeClass('alert-error')
+      .addClass(success ? 'alert-success' : 'alert-error')
+      .text(message)
+      .show();
+  }
+  
+  function clearStatus() {
+    $("#top_status_message").hide();
+  }
+  
+  
+  function dndChange(event,ui){
+    positions = "";
+    }
+
+    function dndUpdate(event,ui){
+      positions = getSortOrder();
+    }
+    
+    function getSortOrder() {
+      var order = "";
+      $("tbody tr td:first-child").each(function(i,column){
+        if (i > 0) {
+          order += ',';
+        }
+        order += $(column).data('setting_id') + '-' + i;
+      });
+      return order;
+    }
+
+  dndUpdate();
+}(jQuery);
 </script>
 <% } %>
