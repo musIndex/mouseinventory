@@ -111,11 +111,9 @@ $(document).ready(function(){
 <div class='alert alert-error'><%=message.replace("|", "<br>") %></div>
 <% } %>
 <%= table %>
-<div class='well' style="float:left; width: 400px; margin: 20px 20px 20px 0">
-
-
 <form id="changerequestform" action="SubmitChangeRequest" method="post">
-<h3>1. Enter <font color="red">your</font> contact information:</h3>
+<div class='well' style="float:left; width: 400px; margin: 20px 20px 20px 0">
+  <h3>1. Enter <font color="red">your</font> contact information:</h3>
     <input type="hidden" name="mouseID" value="<%= mouseID %>">
     <table>
         <tr>
@@ -135,7 +133,7 @@ $(document).ready(function(){
         </tr>
         <tr>
     </tr>
-  </table>
+    </table>
   </div>
   <div style="float:left; min-width: 350px;">
     <div class='change_request_form well cf' style="margin:20px 20px 20px 0">
@@ -157,7 +155,7 @@ $(document).ready(function(){
         </li>
         <!--
         <li>
-        <input type="radio" name="actionRequested" value="<%= Action.MARK_ENDANGERED.ordinal() %>" <%= (changeRequest.actionRequested() == Action.MARK_ENDANGERED) ? "checked" : "" %>>
+        <input type="radio" name="actionRequested" value="<%//= Action.MARK_ENDANGERED.ordinal() %>" <%//= (changeRequest.actionRequested() == Action.MARK_ENDANGERED) ? "checked" : "" %>>
         Mark this mouse as Endangered. (Holder is considering eliminating
         this mouse from his/her colony. If that holder is the only one who
         maintains the mouse, or if there is only one other holder, the mouse
@@ -188,8 +186,7 @@ $(document).ready(function(){
       
             </li>
             <li>
-            Status: <%=genSelect("cryoLiveStatus",
-                new String[]{"Live only","Live and Cryo","Cryo only"},"Live only", null)%>
+            Status: <%=genSelect("cryoLiveStatus", new String[]{"Live only","Live and Cryo","Cryo only"},"Live only", null)%>
             </li>
           </ul>
           <p id='background_info' style="margin-left:25px; width: 350px">
@@ -209,8 +206,8 @@ $(document).ready(function(){
           <i>Please completely fill out the form</i>
         </div>
       </div>
-    </div>
+  </div>
 </form>
-<% } %>
+<% } //end not success %>
 </div>
 
