@@ -27,7 +27,7 @@ function updateRequestFormUI(selected) {
     validateInput();
   }
   if (selected == <%= Action.OTHER.ordinal() %>) {
-    $(".add_holder").hide();
+    $(".add_holder").show();
   }
   else if (selected == <%= Action.ADD_HOLDER.ordinal() %>) {
     $(".add_holder").show();
@@ -112,7 +112,7 @@ $(document).ready(function(){
 <% } %>
 <%= table %>
 <form id="changerequestform" action="SubmitChangeRequest" method="post">
-<div class='well' style="float:left; width: 400px; margin: 20px 20px 20px 0">
+<div class='well' style="margin: 20px 20px 20px 0">
   <h3>1. Enter <font color="red">your</font> contact information:</h3>
     <input type="hidden" name="mouseID" value="<%= mouseID %>">
     <table>
@@ -131,27 +131,57 @@ $(document).ready(function(){
             <td><input type="text" size="30" maxlength="" name="email"
             value="${changeRequest.email}"></td>
         </tr>
+        </table>
+     </div>
+     <div class='well'>
+        <table>
         <tr>
+        <td colspan='2'><h3>2. Select Holder</h3></td>
     </tr>
+    <tr>
+           <td>Holder:</td>
+        <td><%= getHolderSelect("holderId", changeRequest.getHolderId()) %>
+        <span id="otherHolderSpan">
+          Specify holder name:
+          <input type="text" name="holderName" value="<%= emptyIfNull(changeRequest.getHolderName()) %>" size="20">
+        </span>
+        </td>
+      </tr>
+      <tr>
+        <td>Facility:</td>
+        <td><%= getFacilitySelect("facilityId", changeRequest.getFacilityId()) %>
+        <span id="otherFacilitySpan">
+           Specify facility name:
+          <input type="text" name="facilityName" value="<%= emptyIfNull(changeRequest.getFacilityName()) %>" size="20">
+        </span>
+        </td>
+       </tr>
+       <tr>
+        <td>
+        Status:</td>
+        <td>
+         <%=genSelect("cryoLiveStatus", new String[]{"Live only","Live and Cryo","Cryo only"},"Live only", null)%>
+        </td>
+       </tr>
     </table>
   </div>
-  <div style="float:left; min-width: 350px;">
+  <div >
     <div class='change_request_form well cf' style="margin:20px 20px 20px 0">
-    <h3>2. Specify requested changes:</h3>
-      <ul>
+    <h3>3. Specify requested changes:</h3>
+      <ul class='cf'>
         <li>
           <input type="radio" name="actionRequested" value="<%= Action.ADD_HOLDER.ordinal() %>" <%= (changeRequest.actionRequested() == Action.ADD_HOLDER) ? "checked" : "" %> >
-          <a class='btn btn-success' href='#'><i class='icon-white icon-plus'></i> Add a holder</a>
+          <a class='btn btn-success' href='#'><i class='icon-white icon-plus'></i> Add selected holder</a>
           
         </li>
         <li>
         
         <input type="radio" name="actionRequested" value="<%= Action.REMOVE_HOLDER.ordinal() %>"<%= (changeRequest.actionRequested() == Action.REMOVE_HOLDER) ? "checked" : "" %>>
-        <a class='btn btn-danger' href='#'><i class='icon-white icon-remove'></i> Remove a holder</a>
+        <a class='btn btn-danger' href='#'><i class='icon-white icon-remove'></i> Remove selected holder</a>
         </li>
         <li>
         <input type="radio" name="actionRequested" value="<%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>"<%= (changeRequest.actionRequested() == Action.CHANGE_CRYO_LIVE_STATUS) ? "checked" : "" %>>
-        <a class='btn btn-info' href='#'><i class='icon-white icon-tag'></i> Change status of a holder</a>
+        <a class='btn btn-info' href='#'><i class='icon-white icon-tag'></i> Change status of selected holder</a>
         </li>
         <!--
         <li>
@@ -168,35 +198,13 @@ $(document).ready(function(){
         </li>
       </ul>
       <div class='form_controls'>
-        <div class='add_holder'>
-         <ul>
-           <li>
-            Holder: <%= getHolderSelect("holderId", changeRequest.getHolderId()) %>
-            <span id="otherHolderSpan">
-              Specify holder name:
-              <input type="text" name="holderName" value="<%= emptyIfNull(changeRequest.getHolderName()) %>" size="20">
-            </span>    
-            </li>
-            <li>
-            Facility: <%= getFacilitySelect("facilityId", changeRequest.getFacilityId()) %>
-            <span id="otherFacilitySpan">
-               Specify facility name:
-              <input type="text" name="facilityName" value="<%= emptyIfNull(changeRequest.getFacilityName()) %>" size="20">
-            </span>
-      
-            </li>
-            <li>
-            Status: <%=genSelect("cryoLiveStatus", new String[]{"Live only","Live and Cryo","Cryo only"},"Live only", null)%>
-            </li>
-          </ul>
-          <p id='background_info' style="margin-left:25px; width: 350px">
+        <p id='background_info' style="margin-left:25px; width: 350px">
           <b>If you have <font color="red">genetic background information</font>
           for the mouse in the new holder's colony or if you want to add
           a different unoffical name for the mouse enter it here:</b><br>
           <input type="text" size="50" name="geneticBackgroundInfo"><br>
         If you have additional comments, add them in the box below.<br>
-          </p>
-        </div>
+        </p>
         Comments:
         <textarea rows="8" cols="80" name="userComment"></textarea><br>
         <div class='form_submission'>
