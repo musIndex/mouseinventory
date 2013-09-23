@@ -27,19 +27,31 @@ function updateRequestFormUI(selected) {
     validateInput();
   }
   if (selected == <%= Action.OTHER.ordinal() %>) {
+    $('#action_summary').hide();
     $(".add_holder").show();
+    $('#cryo_live_status').hide();
   }
   else if (selected == <%= Action.ADD_HOLDER.ordinal() %>) {
     $(".add_holder").show();
+    $('#cryo_live_status').show();
     $("#background_info").show();
+    $('#action_summary').text("The holder and facility selected in step 2 will be added.").show();
   }
-  else if (selected) {  //remove holder or change status
+  else if (selected == <%= Action.REMOVE_HOLDER.ordinal() %>) {  //remove holder or change status
     $(".add_holder").show();
+    $('#cryo_live_status').hide();
     $("#background_info").hide();
+    $('#action_summary').text("The holder and facility selected in step 2 will be removed.").show();
+  }
+  else if (selected == <%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>) {  //remove holder or change status
+    $(".add_holder").show();
+    $('#cryo_live_status').show();
+    $("#background_info").hide();
+    $('#action_summary').text("The cryo/live status of the holder/facility selected in step 2 will be modified.").show();
   }
   else {
+    $('#action_summary').hide();
     $(".form_controls").hide();
-    $(".form_submission").hide();
     $(".form_invalid").hide();
   }
 }
@@ -47,12 +59,24 @@ function updateRequestFormUI(selected) {
 function validateInput() {
   var data = $("#changerequestform").serializeObject();
   var valid = true;
-  
+  var validation_messages = [];
+
   if (!data.actionRequested){
     return;
   }
+  if (!data.email) {
+    validation_messages.push("Enter email address");
+  }
+  if (!data.firstname) {
+    validation_messages.push("Enter first name");
+  }
+  if (!data.lastname) {
+    validation_messages.push("Enter last name");
+  }
   if (data.actionRequested == <%= Action.OTHER.ordinal() %>) {
     valid = !!data.userComment;
+    if (!data.userComment)
+      validation_messages.push("Specify other changes in the comment field.")
   }
   else if (data.actionRequested == <%= Action.ADD_HOLDER.ordinal() %> ||
       	   data.actionRequested == <%= Action.REMOVE_HOLDER.ordinal() %> ||
@@ -61,15 +85,17 @@ function validateInput() {
     valid = valid && (data.holderId > 0 || (data.holderId == -2 && data.holderName));
     valid = valid && data.facilityId != -1;
     valid = valid && (data.facilityId > 0 || (data.facilityId == -2 && data.facilityName));
+    if (!valid)
+      validation_messages.push("Specify holder and facility names.")
   }
   
-  
-  if (valid) {
-    $(".form_submission").show();
+  $(".form_invalid > .details").html(validation_messages.join("<br>"));
+  if (valid && validation_messages.length == 0) {
+    $(".form_submission > input").prop('disabled',false).addClass('btn-primary');
     $(".form_invalid").hide();
   }
   else {
-    $(".form_submission").hide();
+    $(".form_submission > input").prop('disabled',true).removeClass('btn-primary');
     $(".form_invalid").show();
   }
 }
@@ -156,18 +182,12 @@ $(document).ready(function(){
         </span>
         </td>
        </tr>
-       <tr>
-        <td>
-        Status:</td>
-        <td>
-         <%=genSelect("cryoLiveStatus", new String[]{"Live only","Live and Cryo","Cryo only"},"Live only", null)%>
-        </td>
-       </tr>
+       
     </table>
   </div>
-  <div >
+  <div style='min-height: 600px'>
     <div class='change_request_form well cf' style="margin:20px 20px 20px 0">
-    <h3>3. Specify requested changes:</h3>
+    <h3>3. Specify requested changes: (Choose one of the four options)</h3>
       <ul class='cf'>
         <li>
           <input type="radio" name="actionRequested" value="<%= Action.ADD_HOLDER.ordinal() %>" <%= (changeRequest.actionRequested() == Action.ADD_HOLDER) ? "checked" : "" %> >
@@ -181,7 +201,7 @@ $(document).ready(function(){
         </li>
         <li>
         <input type="radio" name="actionRequested" value="<%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>"<%= (changeRequest.actionRequested() == Action.CHANGE_CRYO_LIVE_STATUS) ? "checked" : "" %>>
-        <a class='btn btn-info' href='#'><i class='icon-white icon-tag'></i> Change status of selected holder</a>
+        <a class='btn btn-info' href='#'><i class='icon-white icon-tag'></i> Change live/cryo status of mouse</a>
         </li>
         <!--
         <li>
@@ -198,20 +218,38 @@ $(document).ready(function(){
         </li>
       </ul>
       <div class='form_controls'>
-        <p id='background_info' style="margin-left:25px; width: 350px">
-          <b>If you have <font color="red">genetic background information</font>
-          for the mouse in the new holder's colony or if you want to add
-          a different unoffical name for the mouse enter it here:</b><br>
-          <input type="text" size="50" name="geneticBackgroundInfo"><br>
-        If you have additional comments, add them in the box below.<br>
-        </p>
-        Comments:
-        <textarea rows="8" cols="80" name="userComment"></textarea><br>
+      <span id='action_summary'></span>
+      <table class='form_table'>
+      <tr id='cryo_live_status'>
+        <td>
+        Status:
+        </td>
+        <td>
+         <%=genRadio("cryoLiveStatus", new String[]{"Live only","Live and Cryo","Cryo only"},"Live only", null)%>
+        </td>
+       </tr>
+       <tr id='background_info'><td style='width: 250px'>
+        If you have <span class='red'>genetic background information</span> for the mouse in the new holder's colony enter it here:
+  
+       </td>
+       <td>
+          <input type="text" size="50" name="geneticBackgroundInfo">
+          <br>
+          If you want to add a different unofficial name for the mouse or have other comments, enter them in the box below.
+          </td>
+       </tr>
+       <tr>
+          <td>
+        Comments:</td><td>
+        <textarea rows="8" cols="80" name="userComment"></textarea>
+        </tr>
+        </table>
+        <div class='form_invalid' style='margin-bottom: 5px'>
+          <i>Please complete all three steps of the form:</i>
+          <div class='details' style='margin: 3px 0 0 10px'></div>
+        </div>
         <div class='form_submission'>
           <input type="submit" class="btn btn-primary" value="Submit Change Request"></div>
-        </div>
-        <div class='form_invalid'>
-          <i>Please completely fill out the form</i>
         </div>
       </div>
   </div>
