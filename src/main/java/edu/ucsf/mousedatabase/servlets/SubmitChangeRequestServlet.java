@@ -50,6 +50,7 @@ public class SubmitChangeRequestServlet extends HttpServlet {
 		  
 		  changeRequest.setActionRequested(request.getParameter("actionRequested"));
 		  changeRequest.setCryoLiveStatus(request.getParameter("cryoLiveStatus"));
+		  changeRequest.setGeneticBackgroundInfo(request.getParameter("geneticBackgroundInfo"));
 		  
 		  int holderId = stringToInt(request.getParameter("holderId"));
 		  changeRequest.setHolderId(holderId);
