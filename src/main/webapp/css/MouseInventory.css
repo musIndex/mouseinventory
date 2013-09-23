@@ -1185,3 +1185,10 @@ a.view_sent {
   margin-top: 0;
 }
 
+.deadbeat_holder {
+  background-color: rgba(230,0,0,0.4);
+}
+
+table.form_table td {
+  vertical-align: top;
+}
