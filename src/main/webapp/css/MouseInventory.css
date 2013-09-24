@@ -1185,7 +1185,8 @@ a.view_sent {
   margin-top: 0;
 }
 
-.deadbeat_holder {
+.deadbeat_holder,
+.deadbeat_holder td {
   background-color: rgba(230,0,0,0.4);
 }
 
