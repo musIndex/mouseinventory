@@ -2186,13 +2186,14 @@ public class HTMLGeneration {
 
       String rowStyle = getRowStyle(numFacilities, "holderlist",
           "holderlistAlt");
+      if(holder.isDeadbeat()) rowStyle += " deadbeat_holder";
       table.append("<tr class='" + rowStyle + "'>\r\n");
       if (edit) {
         table.append("<td>" + holder.getHolderID() + "</td>");
       }
       table.append("<td>\r\n");
 
-      table.append("<div " + (holder.isDeadbeat() ? "class='deadbeat_holder' " : "")
+      table.append("<div"
           + "style=\"position:relative; left:2px; float:left;\"><b>"
           + holder.getFullname() + "</b></div>");
       table.append(" <div style=\"position: relative; right: 10px; float:right;\">("
