@@ -1193,3 +1193,11 @@ a.view_sent {
 table.form_table td {
   vertical-align: top;
 }
+
+.form_invalid > .details {
+  font-weight: bold;
+  color: #F11C1C;
+  
+}
+
+
