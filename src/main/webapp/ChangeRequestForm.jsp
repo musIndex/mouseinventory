@@ -26,28 +26,34 @@ function updateRequestFormUI(selected) {
     $(".form_controls").show();
     validateInput();
   }
+  $('#comments_label').text('Comments:');
   if (selected == <%= Action.OTHER.ordinal() %>) {
     $('#action_summary').hide();
     $(".add_holder").show();
     $('#cryo_live_status').hide();
+    $("#background_info").hide();
+    $('#comments_label').text('Describe the changes you would like to have made to this record:');
   }
   else if (selected == <%= Action.ADD_HOLDER.ordinal() %>) {
     $(".add_holder").show();
     $('#cryo_live_status').show();
     $("#background_info").show();
     $('#action_summary').text("The holder and facility selected in step 2 will be added.").show();
+    $('#comments_label').text('If you want to add a different unofficial name for the mouse or have other comments, enter them here:');
   }
   else if (selected == <%= Action.REMOVE_HOLDER.ordinal() %>) {  //remove holder or change status
     $(".add_holder").show();
     $('#cryo_live_status').hide();
     $("#background_info").hide();
     $('#action_summary').text("The holder and facility selected in step 2 will be removed.").show();
+    $('#comments_label').text('Comments: (optional)');
   }
   else if (selected == <%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>) {  //remove holder or change status
     $(".add_holder").show();
     $('#cryo_live_status').show();
     $("#background_info").hide();
-    $('#action_summary').text("The cryo/live status of the holder/facility selected in step 2 will be modified.").show();
+    $('#action_summary').text("Modify the cryo/live status of this mouse, which is being maintained by the holder/in the facility selected in step 2.").show();
+    $('#comments_label').text('Comments: (optional)');
   }
   else {
     $('#action_summary').hide();
@@ -234,13 +240,11 @@ $(document).ready(function(){
        </td>
        <td>
           <input type="text" size="50" name="geneticBackgroundInfo">
-          <br>
-          If you want to add a different unofficial name for the mouse or have other comments, enter them in the box below.
           </td>
        </tr>
        <tr>
-          <td>
-        Comments:</td><td>
+          <td style='max-width:200px'>
+        <span id='comments_label'>Comments:</span></td><td>
         <textarea rows="8" cols="80" name="userComment"></textarea>
         </tr>
         </table>
