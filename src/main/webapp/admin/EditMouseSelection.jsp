@@ -119,7 +119,7 @@
   if(!status.equals("all")) {
     mouseTypeStr += " with status='" + status + "'";
   }
-  session.setAttribute("editMiceLastQuery",queryString);
+  session.setAttribute("editMiceLastQuery","EditMouseSelection.jsp?" + queryString);
   session.setAttribute("editMiceLastTitle",mouseTypeStr);
 
     mouseTypeStr = "Edit: Listing" + mouseTypeStr;
