@@ -1,9 +1,9 @@
 <%@ page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%
-  String link = adminRoot + "EditMouseSelection.jsp";
+  String link = adminRoot; 
   String title = "Back to last mouse list (";
   if (session.getAttribute("editMiceLastQuery") != null  && session.getAttribute("editMiceLastTitle") != null) { 
-    link += "?" + session.getAttribute("editMiceLastQuery");
+    link += session.getAttribute("editMiceLastQuery");
     title += session.getAttribute("editMiceLastTitle").toString().trim() + ")";
   }
   else {
