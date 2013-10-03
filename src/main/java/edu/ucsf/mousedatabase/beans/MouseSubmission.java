@@ -873,7 +873,6 @@ public class MouseSubmission {
         props.setProperty("Last",submitterData.getLastName());
         props.setProperty("Dept",submitterData.getDepartment());
         props.setProperty("Email",submitterData.getEmail());
-        props.setProperty("Tel",submitterData.getTelephoneNumber());
 
         //all types
         props.setProperty("MouseType", newMouse.getMouseType());
