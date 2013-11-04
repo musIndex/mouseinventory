@@ -46,71 +46,76 @@ public class SendMailServlet extends HttpServlet {
 	  HTMLUtilities.logRequest(request);
     Properties data = new Properties();
 	  Object[] maps;
-    try {
-      maps = fetchMultipartParams(request, "attachment_");
-      
-    } catch (FileUploadException e) {
-      data.setProperty("error","Failed to parse form parametsers: " + e.getMessage());
-      Gson gson = new Gson();
-      gson.toJson(data, response.getWriter());
-      response.setStatus(HttpServletResponse.SC_OK);
-      return; 
-    }
-	  
-	  @SuppressWarnings("unchecked")
-    HashMap<String,String> params = (HashMap<String,String>)maps[0];
-	  @SuppressWarnings("unchecked")
-    HashMap<String,byte[]> attachments = (HashMap<String,byte[]>)maps[1];
-	  
-	  String recipient = params.get("recipient");
-    String cc = params.get("cc");
-    String bcc = params.get("bcc");
-    String subject = params.get("subject");
-    String body = params.get("body");
-    String category = params.get("category");
-    int templateID = stringToInt(params.get("template_id"));
-    int oldDraftID = stringToInt(params.get("old_draft_id"));
+    
     
 	  
 	  
     
-    int deleteEmailId = stringToInt(params.get("delete"));
-    boolean saveAsDraft = Boolean.parseBoolean(params.get("save_as_draft"));
-    
+  
     if(!request.isUserInRole("administrator")) {
       //this is actually redundant because the servlet is behind /admin but makes me feel better
       data.setProperty("error","you must be an administrator to send mail");
     }
-    else if (deleteEmailId > 0)  {
+    else if (request.getParameter("delete") != null)  {
+      int deleteEmailId = stringToInt(request.getParameter("delete"));
       DBConnect.deleteEmail(deleteEmailId);
       data.setProperty("id",Integer.toString(deleteEmailId));
     }
-    else if (saveAsDraft){
-      String templateName = null;
-      if (templateID > 0) {
-        EmailTemplate template = DBConnect.loadEmailTemplate(templateID);
-        templateName = template.name;
-      }
-    
-      MouseMail mail = new MouseMail(recipient, cc, bcc, subject, body, category, templateName,null);
-      int newDraftId = mail.saveAsDraft();
-      data.setProperty("id",Integer.toString(newDraftId));
-      
-      if (!mail.status.equals(MouseMail.ErrorStatus) && oldDraftID > 0) {
-        DBConnect.deleteEmail(oldDraftID);
-      }
-    }
     else {
-      boolean errors = false;
-
-      if (errors == false) {
-        MouseMail mail = MouseMail.send(recipient, cc, bcc, subject, body, category,templateID,oldDraftID,attachments);
-        data.setProperty("id", Integer.toString(mail.id));
-        if (MouseMail.ErrorStatus.equals(mail.status)) {
-          data.setProperty("error",mail.errorMessage);
+      try {
+        
+        maps = fetchMultipartParams(request, "attachment_");
+        
+      } catch (FileUploadException e) {
+        data.setProperty("error","Failed to parse form parameters: " + e.getMessage());
+        Gson gson = new Gson();
+        gson.toJson(data, response.getWriter());
+        response.setStatus(HttpServletResponse.SC_OK);
+        return; 
+      }
+      
+      @SuppressWarnings("unchecked")
+      HashMap<String,String> params = (HashMap<String,String>)maps[0];
+      @SuppressWarnings("unchecked")
+      HashMap<String,byte[]> attachments = (HashMap<String,byte[]>)maps[1];
+      
+      String recipient = params.get("recipient");
+      String cc = params.get("cc");
+      String bcc = params.get("bcc");
+      String subject = params.get("subject");
+      String body = params.get("body");
+      String category = params.get("category");
+      int templateID = stringToInt(params.get("template_id"));
+      int oldDraftID = stringToInt(params.get("old_draft_id"));
+      boolean saveAsDraft = Boolean.parseBoolean(params.get("save_as_draft"));
+      
+      if (saveAsDraft){
+        String templateName = null;
+        if (templateID > 0) {
+          EmailTemplate template = DBConnect.loadEmailTemplate(templateID);
+          templateName = template.name;
+        }
+      
+        MouseMail mail = new MouseMail(recipient, cc, bcc, subject, body, category, templateName,null);
+        int newDraftId = mail.saveAsDraft();
+        data.setProperty("id",Integer.toString(newDraftId));
+        
+        if (!mail.status.equals(MouseMail.ErrorStatus) && oldDraftID > 0) {
+          DBConnect.deleteEmail(oldDraftID);
         }
       }
-    }
+      else {
+        boolean errors = false;
+  
+        if (errors == false) {
+          MouseMail mail = MouseMail.send(recipient, cc, bcc, subject, body, category,templateID,oldDraftID,attachments);
+          data.setProperty("id", Integer.toString(mail.id));
+          if (MouseMail.ErrorStatus.equals(mail.status)) {
+            data.setProperty("error",mail.errorMessage);
+          }
+        }
+      }
+  	}
     
     Gson gson = new Gson();
     gson.toJson(data, response.getWriter());
