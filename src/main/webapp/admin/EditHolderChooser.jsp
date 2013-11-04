@@ -57,10 +57,6 @@
                 <td>Email</td>
                 <td><input type=text name="email" size=40></td>
             </tr>
-            <tr>
-                <td>Tel</td>
-                <td><input type=text name="tel" size=20></td>
-            </tr>
             
             <tr>
                 <td>Primary Contact Name</td>
