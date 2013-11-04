@@ -2147,10 +2147,10 @@ public class HTMLGeneration {
       table.append("<td>ID</td>");
     }
     table.append("<td style='min-width:350px'\">\r\n");
-    table.append("Holder Information");
+    table.append("Holder");
     table.append("</td>\r\n");
-    table.append("<td style='min-width:300px'\">\r\n");
-    table.append("Contact Information");
+    table.append("<td style='min-width:150px'\">\r\n");
+    table.append("Holder Email");
     table.append("</td>\r\n");
     table.append("<td style='min-width:150px'\">\r\n");
     table.append("Primary Contact");
