@@ -998,6 +998,7 @@ a.view_sent {
   margin: 6px 0;
 }
 
+<<<<<<< HEAD
 .about_container {
   max-width: 960px;
   margin: 0 auto;
@@ -1187,6 +1188,36 @@ a.view_sent {
 
 .deadbeat_holder,
 .deadbeat_holder td {
+  background-color: rgba(230,0,0,0.4);
+=======
+.change_request_form > ul {
+  list-style-type: none;
+  margin: 5px;
+  padding: 0;
+}
+.change_request_form > ul > li input[type=radio] {
+  display: none;  
+}
+.change_request_form > ul > li {
+  margin: 8px;
+  float: left;
+}
+.change_request_form .form_controls {
+  padding: 10px;
+}
+.change_request_form .form_controls ul {
+  list-style-type: none;
+  padding: 0px;
+}
+.change_request_form .form_controls ul > li {
+  margin: 3px 3px 3px 10px;
+  padding: 3px;
+}
+.well > .h3 {
+  margin-top: 0;
+}
+
+.deadbeat_holder {
   background-color: rgba(230,0,0,0.4);
 }
 
