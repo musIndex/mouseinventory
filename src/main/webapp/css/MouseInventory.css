@@ -1146,12 +1146,14 @@ a.view_sent {
   margin-bottom: 50px;
 }
 
+.about_container {
+  text-align: center;
+}
 .about_container h3 {
   font-size: 17px;
   padding-bottom: 4px;
   border-bottom: 1px dotted lightgrey;
   margin-bottom: 0;
-  text-align: center;
 }
  
 .deadbeat_holder {
