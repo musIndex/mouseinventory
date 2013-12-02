@@ -1151,6 +1151,7 @@ a.view_sent {
   padding-bottom: 4px;
   border-bottom: 1px dotted lightgrey;
   margin-bottom: 0;
+  text-align: center;
 }
  
 .deadbeat_holder {
