@@ -17,10 +17,96 @@
     }
     else {
       ArrayList<MouseRecord> mice = DBConnect.getMouseRecord(mouseID);
-      table = getMouseTable(mice,false,false,true);
+      table = getMouseTable(mice,false,false,true,true,true);
     }
 %>
 <script>
+function updateRequestFormUI(selected) {
+  if (selected) {
+    $(".form_controls").show();
+    validateInput();
+  }
+  $('#comments_label').text('Comments:');
+  if (selected == <%= Action.OTHER.ordinal() %>) {
+    $('#action_summary').hide();
+    $(".add_holder").show();
+    $('#cryo_live_status').hide();
+    $("#background_info").hide();
+    $('#comments_label').text('Describe the changes you would like to have made to this record:');
+  }
+  else if (selected == <%= Action.ADD_HOLDER.ordinal() %>) {
+    $(".add_holder").show();
+    $('#cryo_live_status').show();
+    $("#background_info").show();
+    $('#action_summary').text("The holder and facility selected in step 2 will be added.").show();
+    $('#comments_label').text('If you want to add a different unofficial name for the mouse or have other comments, enter them here:');
+  }
+  else if (selected == <%= Action.REMOVE_HOLDER.ordinal() %>) {  //remove holder or change status
+    $(".add_holder").show();
+    $('#cryo_live_status').hide();
+    $("#background_info").hide();
+    $('#action_summary').text("The holder and facility selected in step 2 will be removed.").show();
+    $('#comments_label').text('Comments: (optional)');
+  }
+  else if (selected == <%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>) {  //remove holder or change status
+    $(".add_holder").show();
+    $('#cryo_live_status').show();
+    $("#background_info").hide();
+    $('#action_summary').text("Modify the cryo/live status of this mouse, which is being maintained by the holder/in the facility selected in step 2.").show();
+    $('#comments_label').text('Comments: (optional)');
+  }
+  else {
+    $('#action_summary').hide();
+    $(".form_controls").hide();
+    $(".form_invalid").hide();
+  }
+}
+
+function validateInput() {
+  var data = $("#changerequestform").serializeObject();
+  var valid = true;
+  var validation_messages = [];
+
+  if (!data.actionRequested){
+    return;
+  }
+  if (!data.email) {
+    validation_messages.push("Enter email address");
+  }
+  if (!data.firstname) {
+    validation_messages.push("Enter first name");
+  }
+  if (!data.lastname) {
+    validation_messages.push("Enter last name");
+  }
+  if (data.actionRequested == <%= Action.OTHER.ordinal() %>) {
+    valid = !!data.userComment;
+    if (!data.userComment)
+      validation_messages.push("Specify other changes in the comment field.")
+  }
+  else if (data.actionRequested == <%= Action.ADD_HOLDER.ordinal() %> ||
+      	   data.actionRequested == <%= Action.REMOVE_HOLDER.ordinal() %> ||
+  		   data.actionRequested == <%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>) {
+    valid = valid && data.holderId != -1;
+    valid = valid && (data.holderId > 0 || (data.holderId == -2 && data.holderName));
+    valid = valid && data.facilityId != -1;
+    valid = valid && (data.facilityId > 0 || (data.facilityId == -2 && data.facilityName));
+    if (!valid)
+      validation_messages.push("Specify holder and facility names.")
+  }
+  
+  $(".form_invalid > .details").html(validation_messages.join("<br>"));
+  if (valid && validation_messages.length == 0) {
+    $(".form_submission > input").prop('disabled',false).addClass('btn-primary');
+    $(".form_invalid").hide();
+  }
+  else {
+    $(".form_submission > input").prop('disabled',true).removeClass('btn-primary');
+    $(".form_invalid").show();
+  }
+}
+
+
 $(document).ready(function(){
   $("#holderId").change(function(){
     $("#otherHolderSpan").toggle($(this).val() == -2);
@@ -28,6 +114,16 @@ $(document).ready(function(){
   $("#facilityId").change(function(){
     $("#otherFacilitySpan").toggle($(this).val() == -2);
   }).change();
+  $(".change_request_form > ul > li a.btn").click(function(){
+    var selected = $(this).parent().find('input[type=radio]').prop('checked',true).val();
+    $(this).addClass('active');
+    $(this).parent().siblings().find("a.btn").removeClass('active');
+    updateRequestFormUI(selected);
+    return false;
+  });
+  $("#changerequestform select").change(validateInput);
+  $("#changerequestform input[type=text], form textarea").keyup(validateInput);
+  updateRequestFormUI();
 });
 
 </script>
@@ -47,15 +143,10 @@ $(document).ready(function(){
 <div class='alert alert-error'><%=message.replace("|", "<br>") %></div>
 <% } %>
 <%= table %>
-Enter <font color="red">your</font> name and e-mail address (required)<br>
-
-<form action="SubmitChangeRequest" method="post">
+<form id="changerequestform" action="SubmitChangeRequest" method="post">
+<div class='well' style="margin: 20px 20px 20px 0">
+  <h3>1. Enter <font color="red">your</font> contact information:</h3>
     <input type="hidden" name="mouseID" value="<%= mouseID %>">
-    <div class="textwrapper">
-    <div class="whatsnew">
-    <!-- <a href="/media/ChangeForm.qtl"><img src="img/VideoDemonstration.gif" alt=""></a> --->
-    </div>
-    <div class="about">
     <table>
         <tr>
             <td><font color="red">*</font> First Name</td>
@@ -72,76 +163,101 @@ Enter <font color="red">your</font> name and e-mail address (required)<br>
             <td><input type="text" size="30" maxlength="" name="email"
             value="${changeRequest.email}"></td>
         </tr>
+        </table>
+     </div>
+     <div class='well'>
+        <table>
         <tr>
-        <td  colspan="2">
-        If you want to add or delete a holder, begin typing the last name of
-        that person until it appears in the field and also select
-        the facility in which the mouse is housed from the drop down list.
-        If either the holder or facility is not included in the list,
-        choose 'other' at the bottom of the drop down list and enter the information.
-        <br>
-        </td>
-        </tr>
-    <tr>
-      <td valign="top" colspan="2">
-      Holder: <%= getHolderSelect("holderId", changeRequest.getHolderId()) %>
-
-      <span id="otherHolderSpan">
-        Specify holder name:
-        <input type="text" name="holderName" value="<%= emptyIfNull(changeRequest.getHolderName()) %>" size="20">
-      </span>
-
-      <br>
-      Facility: <%= getFacilitySelect("facilityId", changeRequest.getFacilityId()) %>
-      
-      <span id="otherFacilitySpan">
-         Specify facility name:
-        <input type="text" name="facilityName" value="<%= emptyIfNull(changeRequest.getFacilityName()) %>" size="20">
-      </span>
-
-      <br>
-      Status: <%=genSelect("cryoLiveStatus",
-          new String[]{"Live only","Live and Cryo","Cryo only"},"Live only", null)%>
-
-      </td>
+        <td colspan='2'><h3>2. Select Holder</h3></td>
     </tr>
     <tr>
-    <td valign="top"  colspan="2">
-      <input type="radio" name="actionRequested" value="<%= Action.ADD_HOLDER.ordinal() %>" <%= (changeRequest.actionRequested() == Action.ADD_HOLDER) ? "checked" : "" %> >
-      Add the selected holder to this record <br>
-      <div style="position: relative; left: 25px;">
-      <b>If you have <font color="red">genetic background information</font>
-      for the mouse in the new holder's colony or if you want to add
-      a different unoffical name for the mouse enter it here:</b><br>
-      <input type="text" size="50" name="geneticBackgroundInfo"><br>
-      If you have additional comments, add them in the box below.<br>
-      </div>
-      <input type="radio" name="actionRequested" value="<%= Action.REMOVE_HOLDER.ordinal() %>"<%= (changeRequest.actionRequested() == Action.REMOVE_HOLDER) ? "checked" : "" %>>
-      Delete the selected holder from this record <br>
-      <!--
-      <input type="radio" name="actionRequested" value="<%= Action.MARK_ENDANGERED.ordinal() %>" <%= (changeRequest.actionRequested() == Action.MARK_ENDANGERED) ? "checked" : "" %>>
-      Mark this mouse as Endangered. (Holder is considering eliminating
-      this mouse from his/her colony. If that holder is the only one who
-      maintains the mouse, or if there is only one other holder, the mouse
-      will be added to the "endangered mouse" list) <br>
-      -->
-      <input type="radio" name="actionRequested" value="<%= Action.OTHER.ordinal() %>" <%= (changeRequest.actionRequested() == Action.OTHER) ? "checked" : "" %>>
-      Click here if you do not want to add or delete a holder, but do want to make
-      suggestions for changes in the record, then enter them in the box below:
-    </td>
-    </tr>
-      <tr>
-        <td valign="top" colspan="2"><textarea rows="8" cols="80" name="userComment"></textarea></td>
-      </tr>
-      <tr>
-        <td colspan="2">
-        <input type="submit" class="btn btn-primary" value="Submit change request">
+           <td>Holder:</td>
+        <td><%= getHolderSelect("holderId", changeRequest.getHolderId()) %>
+        <span id="otherHolderSpan">
+          Specify holder name:
+          <input type="text" name="holderName" value="<%= emptyIfNull(changeRequest.getHolderName()) %>" size="20">
+        </span>
         </td>
       </tr>
+      <tr>
+        <td>Facility:</td>
+        <td><%= getFacilitySelect("facilityId", changeRequest.getFacilityId()) %>
+        <span id="otherFacilitySpan">
+           Specify facility name:
+          <input type="text" name="facilityName" value="<%= emptyIfNull(changeRequest.getFacilityName()) %>" size="20">
+        </span>
+        </td>
+       </tr>
+       
     </table>
-    </div>
-</div>
+  </div>
+  <div style='min-height: 600px'>
+    <div class='change_request_form well cf' style="margin:20px 20px 20px 0">
+    <h3>3. Specify requested changes: (Choose one of the four options)</h3>
+      <ul class='cf'>
+        <li>
+          <input type="radio" name="actionRequested" value="<%= Action.ADD_HOLDER.ordinal() %>" <%= (changeRequest.actionRequested() == Action.ADD_HOLDER) ? "checked" : "" %> >
+          <a class='btn btn-success' href='#'><i class='icon-white icon-plus'></i> Add selected holder</a>
+          
+        </li>
+        <li>
+        
+        <input type="radio" name="actionRequested" value="<%= Action.REMOVE_HOLDER.ordinal() %>"<%= (changeRequest.actionRequested() == Action.REMOVE_HOLDER) ? "checked" : "" %>>
+        <a class='btn btn-danger' href='#'><i class='icon-white icon-remove'></i> Remove selected holder</a>
+        </li>
+        <li>
+        <input type="radio" name="actionRequested" value="<%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>"<%= (changeRequest.actionRequested() == Action.CHANGE_CRYO_LIVE_STATUS) ? "checked" : "" %>>
+        <a class='btn btn-info' href='#'><i class='icon-white icon-tag'></i> Change live/cryo status of mouse</a>
+        </li>
+        <!--
+        <li>
+        <input type="radio" name="actionRequested" value="<%//= Action.MARK_ENDANGERED.ordinal() %>" <%//= (changeRequest.actionRequested() == Action.MARK_ENDANGERED) ? "checked" : "" %>>
+        Mark this mouse as Endangered. (Holder is considering eliminating
+        this mouse from his/her colony. If that holder is the only one who
+        maintains the mouse, or if there is only one other holder, the mouse
+        will be added to the "endangered mouse" list)
+        </li>
+        -->
+        <li>
+        <input type="radio" name="actionRequested" value="<%= Action.OTHER.ordinal() %>" <%= (changeRequest.actionRequested() == Action.OTHER) ? "checked" : "" %>>
+        <a class='btn' href='#'><i class='icon-pencil'></i> Make other changes</a>
+        </li>
+      </ul>
+      <div class='form_controls'>
+      <span id='action_summary'></span>
+      <table class='form_table'>
+      <tr id='cryo_live_status'>
+        <td>
+        Status:
+        </td>
+        <td>
+         <%=genRadio("cryoLiveStatus", new String[]{"Live only","Live and Cryo","Cryo only"},"Live only", null)%>
+        </td>
+       </tr>
+       <tr id='background_info'><td style='width: 250px'>
+        If you have <span class='red'>genetic background information</span> for the mouse in the new holder's colony enter it here:
+  
+       </td>
+       <td>
+          <input type="text" size="50" name="geneticBackgroundInfo">
+          </td>
+       </tr>
+       <tr>
+          <td style='max-width:200px'>
+        <span id='comments_label'>Comments:</span></td><td>
+        <textarea rows="8" cols="80" name="userComment"></textarea>
+        </tr>
+        </table>
+        <div class='form_invalid' style='margin-bottom: 5px'>
+          <i>Please complete all three steps of the form:</i>
+          <div class='details' style='margin: 3px 0 0 10px'></div>
+        </div>
+        <div class='form_submission'>
+          <input type="submit" class="btn btn-primary" value="Submit Change Request"></div>
+        </div>
+      </div>
+  </div>
 </form>
-<% } %>
+<% } //end not success %>
 </div>
 

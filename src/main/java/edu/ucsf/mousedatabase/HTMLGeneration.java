@@ -84,6 +84,9 @@ public class HTMLGeneration {
     buf.append("<title>" + DBConnect.loadSetting("general_site_name").value + "</title>\r\n");
 
     buf.append("<link href='" + styleRoot + "bootstrap.css' rel='stylesheet' type='text/css'>\r\n");
+    buf.append("<link href='" + styleRoot + "bootstrap-collapse.css' rel='stylesheet' type='text/css'>\r\n");
+    buf.append("<link href='" + styleRoot + "font-awesome.min.css' rel='stylesheet' type='text/css'>\r\n");
+    buf.append("<link href='" + styleRoot + "font-awesome-ie7.min.css' rel='stylesheet' type='text/css'>\r\n");
     buf.append("<link href='" + styleRoot + "chosen.css' rel='stylesheet' type='text/css'>\r\n");
     buf.append("<link href='" + styleRoot + "MouseInventory.css' rel='stylesheet' type='text/css'>\r\n");
     buf.append("<link href='" + styleRoot + "jquery-ui.css 'rel='stylesheet' type='text/css' />");
@@ -97,6 +100,7 @@ public class HTMLGeneration {
     buf.append("<script src='" + scriptRoot + "validationFunctions.js'></script>\r\n");
     buf.append("<script src='" + scriptRoot + "application.js'></script>\r\n");
     buf.append("<script src='" + scriptRoot + "respond.min.js'></script>\r\n"); //ie8 fix
+    buf.append("<script src='" + scriptRoot + "bootstrap-collapse.js'></script>\r\n"); //ie8 fix
     
     if (isAdminPage) {
       buf.append("<link href='" + styleRoot + "jquery.cleditor.css' type='text/css' rel='stylesheet'>");
@@ -153,13 +157,15 @@ public class HTMLGeneration {
     if (currentPageFilename == null || !currentPageFilename.equals("search.jsp"))
     {
       table.append("<div id=\"quickSearchContainer\">");
-      table.append("<form id=\"quickSearchForm\"action=\"" + siteRoot + "search.jsp\" method=\"get\">\r\n");
+      String action = isAdminPage ? (adminRoot + "AdminSearch.jsp") : (siteRoot + "search.jsp");
+      table.append("<form id=\"quickSearchForm\"action=\"" + action + "\" method=\"get\">\r\n");
       table.append("<input type=\"text\" class=\"input-medium search-query\"  name=\"searchterms\" >\r\n");
       table.append("<input type='hidden' name='search-source' value='quicksearch:" + currentPageFilename + "'>\r\n");
-      table.append("<input id='quicksearchbutton' class=\"btn search-query\" type=\"submit\" value=\"Quick Search\">\r\n");
+      table.append("<input id='quicksearchbutton' class=\"btn search-query\" type=\"submit\" value=\"" + 
+                    (isAdminPage ? "Admin Quick" : "Quick") + " Search\">\r\n");
       table.append("<script type='text/javascript'>\r\n$('input[name=searchterms]').focus()\r\n");
       table.append("$(\"#quicksearchbutton\").click(function(){ \r\n");
-      table.append("window.location.href = '" + siteRoot + "search.jsp#' + $(\"#quickSearchForm\").serialize();\r\nreturn false; });");
+      table.append("window.location.href = '" + action + "#' + $(\"#quickSearchForm\").serialize();\r\nreturn false; });");
       table.append("</script>\r\n");
       table.append("</form>");
       table.append("</div>");
@@ -207,6 +213,7 @@ public class HTMLGeneration {
       table.append(addNavLink("Admin Home", "admin.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Change Requests", "ManageChangeRequests.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Submissions", "ListSubmissions.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Admin Search", "AdminSearch.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Edit Records", "EditMouseSelection.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Edit Holders", "EditHolderChooser.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Edit Facilities","EditFacilityChooser.jsp", null, currentPageFilename, true));
@@ -1908,7 +1915,8 @@ public class HTMLGeneration {
       //new change request format, no properties
       table.append("<dl><dt class='" + nextRequest.actionRequested() + "'>");
       table.append(nextRequest.actionRequested().label + "&nbsp;</dt>");
-      if (nextRequest.actionRequested() == Action.ADD_HOLDER || nextRequest.actionRequested() == Action.REMOVE_HOLDER) {
+      if (nextRequest.actionRequested() == Action.ADD_HOLDER || nextRequest.actionRequested() == Action.REMOVE_HOLDER ||
+          nextRequest.actionRequested() == Action.CHANGE_CRYO_LIVE_STATUS) {
         table.append("<dt>" + emptyIfNull(nextRequest.getHolderName()));
         if (nextRequest.getHolderId() == -2) {
           //TODO build a link to add new holder, with link back to this page.
@@ -2143,10 +2151,10 @@ public class HTMLGeneration {
       table.append("<td>ID</td>");
     }
     table.append("<td style='min-width:350px'\">\r\n");
-    table.append("Holder Information");
+    table.append("Holder");
     table.append("</td>\r\n");
-    table.append("<td style='min-width:300px'\">\r\n");
-    table.append("Contact Information");
+    table.append("<td style='min-width:150px'\">\r\n");
+    table.append("Holder Email");
     table.append("</td>\r\n");
     table.append("<td style='min-width:150px'\">\r\n");
     table.append("Primary Contact");
@@ -2181,13 +2189,14 @@ public class HTMLGeneration {
 
       String rowStyle = getRowStyle(numFacilities, "holderlist",
           "holderlistAlt");
+      if(holder.isDeadbeat()) rowStyle += " deadbeat_holder";
       table.append("<tr class='" + rowStyle + "'>\r\n");
       if (edit) {
         table.append("<td>" + holder.getHolderID() + "</td>");
       }
       table.append("<td>\r\n");
 
-      table.append("<div " + (holder.isDeadbeat() ? "class='deadbeat_holder' " : "")
+      table.append("<div"
           + "style=\"position:relative; left:2px; float:left;\"><b>"
           + holder.getFullname() + "</b></div>");
       table.append(" <div style=\"position: relative; right: 10px; float:right;\">("
