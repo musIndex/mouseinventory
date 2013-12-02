@@ -105,11 +105,6 @@ if (request != null && request.getRemoteUser() != null && request.getRemoteUser(
     <td><input type="text" name="email" id="Email" value="<%=HTMLGeneration.emptyIfNull(submitterData.getEmail()) %>" size="40" maxlength="128">
     <span class="validationError"><%=HTMLGeneration.emptyIfNull(submitterData.getEmailErr()) %></span></td>
   </tr>
-  <tr class="formField">
-    <td><font color="red">* </font>Tel.</td>
-    <td><input type="text" id="telephoneNumber" name="telephoneNumber" value="<%=HTMLGeneration.emptyIfNull(submitterData.getTelephoneNumber()) %>" size="40" maxlength="32">
-    <span class="validationError"><%=HTMLGeneration.emptyIfNull(submitterData.getTelephoneNumberErr()) %></span></td>
-  </tr>
 
   <tr class="formFieldAlt">
     <td valign="top"><font color="red">* </font>Holder (investigator
