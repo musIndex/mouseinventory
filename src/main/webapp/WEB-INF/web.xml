@@ -127,7 +127,7 @@
   <env-entry>
     <env-entry-name>MOUSEDATABASE_MGI_DATABASE_URL</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>jdbc:postgresql://adhoc.informatics.jax.org:5432/mgd</env-entry-value>
+    <env-entry-value>jdbc:postgresql://mgi-adhoc.jax.org:5432/mgd</env-entry-value>
   </env-entry>
   <env-entry>
     <env-entry-name>MOUSEDATABASE_MGI_DATABASE_USER</env-entry-name>
