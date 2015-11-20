@@ -67,6 +67,10 @@ public class DBConnect {
     " left join holder on changerequest.holder_id=holder.id\r\n" +
     " left join facility on changerequest.facility_id=facility.id";
 
+  private static final String changeRequestQueryCountHeader =
+    "SELECT count(*) as count " + 
+    " FROM changerequest";
+
   private static final String holderQueryHeader =
     "SELECT holder.*, (select count(*) \r\n" +
     " FROM mouse_holder_facility left join mouse on mouse_holder_facility.mouse_id=mouse.id\r\n" +
@@ -1095,8 +1099,9 @@ public class DBConnect {
   {
     return getChangeRequests(status, orderBy, "all");
   }
-  
-  public static ArrayList<ChangeRequest> getChangeRequests(String status, String orderBy, String requestSource){
+
+  public static int countChangeRequests(String status, String orderBy, String requestSource){
+
     ArrayList<String> whereTerms = new ArrayList<String>();
     String additionalJoins = "";
     if (status != null && !status.isEmpty() && !status.equalsIgnoreCase("all")) {
@@ -1105,7 +1110,37 @@ public class DBConnect {
     if (requestSource != null && !requestSource.isEmpty() && !requestSource.equalsIgnoreCase("all")) {
       whereTerms.add("changerequest.request_source like '%" + requestSource + "%'");
     }
-    return getChangeRequests(additionalJoins,whereTerms,orderBy);
+    String whereClause = "";
+    if(whereTerms != null && !whereTerms.isEmpty())
+    {
+      String prefix = " WHERE";
+      for(String whereTerm : whereTerms)
+      {
+        whereClause += prefix + " " + whereTerm + "\r\n ";
+        prefix = " AND";
+      }
+    }
+    ArrayList<Integer> results = IntResultGetter.getInstance("count").Get(changeRequestQueryCountHeader + " " +  whereClause);
+    if (results.size() > 0)
+    {
+      return results.get(0);
+    }
+    return -1;
+  }
+  
+  public static ArrayList<ChangeRequest> getChangeRequests(String status, String orderBy, String requestSource){
+    return getChangeRequests(status, orderBy, requestSource, 0, 0);
+  }
+  public static ArrayList<ChangeRequest> getChangeRequests(String status, String orderBy, String requestSource, int limit, int offset){
+    ArrayList<String> whereTerms = new ArrayList<String>();
+    String additionalJoins = "";
+    if (status != null && !status.isEmpty() && !status.equalsIgnoreCase("all")) {
+        whereTerms.add("changerequest.status=" + safeText(status));
+    }
+    if (requestSource != null && !requestSource.isEmpty() && !requestSource.equalsIgnoreCase("all")) {
+      whereTerms.add("changerequest.request_source like '%" + requestSource + "%'");
+    }
+    return getChangeRequests(additionalJoins,whereTerms,orderBy,limit,offset);
 
   }
 
@@ -1113,8 +1148,19 @@ public class DBConnect {
                               ArrayList<String> whereTerms,
                               String orderBy)
   {
+    return getChangeRequests(additionalJoins, whereTerms, orderBy, 0, 0);
+
+  }
+
+  private static ArrayList<ChangeRequest> getChangeRequests(String additionalJoins,
+                              ArrayList<String> whereTerms,
+                              String orderBy,
+                              int limit,
+                              int offset)
+  {
     String whereClause = "";
     String orderByClause = "";
+    String limitClause = "";
     String joinsClause = "";
     if(whereTerms != null && !whereTerms.isEmpty())
     {
@@ -1129,12 +1175,16 @@ public class DBConnect {
     {
       orderByClause = "ORDER BY " + orderBy;
     }
+    if (limit > 0 && offset >=0)
+    {
+      limitClause = "LIMIT " + offset + "," + limit;
+    }
     if(additionalJoins != null)
     {
       joinsClause = additionalJoins + "\r\n ";
     }
 
-    String query = changeRequestQueryHeader + "\r\n " + joinsClause + whereClause + " " + orderByClause;
+    String query = changeRequestQueryHeader + "\r\n " + joinsClause + whereClause + " " + orderByClause + " " + limitClause;
     return ChangeRequestResultGetter.getInstance().Get(query);
   }
   
