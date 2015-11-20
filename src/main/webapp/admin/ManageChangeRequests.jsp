@@ -19,6 +19,21 @@
   String requestSource = request.getParameter("requestSource");
   int currentHolderId = -1;
 
+  int pagenum = HTMLGeneration.stringToInt(request.getParameter("pagenum"));
+  int limit = HTMLGeneration.stringToInt(request.getParameter("limit"));
+  if (limit == -1) {
+    if (session.getAttribute("limit") != null) {
+      limit = Integer.parseInt(session.getAttribute("limit").toString());
+    }
+    else {
+      limit = 25;
+    }
+  }
+  session.setAttribute("limit",limit);
+  if (pagenum == -1) {
+    pagenum = 1;
+  }
+  int offset = limit * (pagenum - 1);
   if(status == null) {
     if ((status = (String)session.getAttribute("manageChangeRequestStatus")) == null) {
       status = "new";
@@ -69,9 +84,14 @@
   //sortBuf.append(getHolderSelect("holder_id", currentHolderId, false));
   sortBuf.append("&nbsp;Sort by: ");
   sortBuf.append(genSelect("orderby",sortOptions,sortOptionNiceNames, orderBy,null));
-  sortBuf.append("</form>");
 
-  ArrayList<ChangeRequest> requests = DBConnect.getChangeRequests(status, orderBy, requestSource);
+  int requestCount = DBConnect.countChangeRequests(status, orderBy, requestSource);
+
+  ArrayList<ChangeRequest> requests = DBConnect.getChangeRequests(status, orderBy, requestSource, limit, offset);
+
+  String topPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,requestCount,true);
+  String bottomPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,requestCount,false);
+
   Holder currentHolder = DBConnect.getHolder(currentHolderId);
   if (currentHolder != null) {
     ArrayList<ChangeRequest> temp = new ArrayList<ChangeRequest>();
@@ -111,11 +131,12 @@
 <h4><%= kount %> found.<span id='matching_search'></span></h4>
 <%= updateMessage %>
 <%= sortBuf.toString() %>
-<form id='search_form'>
-Quick search: <input type='text'></input> <a class='btn clear_btn' style='display:none'>Clear</a>
-</form>
+<%= topPageSelectionLinks %>
 
 <%= newTable.toString() %>
+
+<%= bottomPageSelectionLinks %>
+</form>
 
 </div>
 <script>
