@@ -22,14 +22,8 @@
   int pagenum = HTMLGeneration.stringToInt(request.getParameter("pagenum"));
   int limit = HTMLGeneration.stringToInt(request.getParameter("limit"));
   if (limit == -1) {
-    if (session.getAttribute("limit") != null) {
-      limit = Integer.parseInt(session.getAttribute("limit").toString());
-    }
-    else {
-      limit = 25;
-    }
+    limit = 25;
   }
-  session.setAttribute("limit",limit);
   if (pagenum == -1) {
     pagenum = 1;
   }
@@ -122,14 +116,16 @@
   session.setAttribute("manageRequestsLastTitle",statusString);
   statusString = "Listing " + statusString;
   
-  int kount = requests.size();
 %>
 
 
 
 <h2><%= statusString %></h2>
-<h4><%= kount %> found.<span id='matching_search'></span></h4>
+<h4><%= requestCount %> found.<span id='matching_search'></span></h4>
 <%= updateMessage %>
+<form id='search_form'>
+Quick search (on page): <input type='text'></input> <a class='btn clear_btn' style='display:none'>Clear</a>
+</form>
 <%= sortBuf.toString() %>
 <%= topPageSelectionLinks %>
 
@@ -153,7 +149,8 @@
   var clear_btn = $("form#search_form a.clear_btn");
   var search_input = $("form#search_form input[type=text]");
   var matching_label = $("#matching_search");
-  search_form.submit(function(){
+  search_form.submit(function(e){
+      e.preventDefault();
     var term = search_input.val();
     var expr = new RegExp("(^|\\s|-|\\()" + term.trim() + "(\\s|$|\\.|\\?|,|-|\\))",'i');
     var matchCount = 0;
