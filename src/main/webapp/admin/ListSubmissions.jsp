@@ -104,7 +104,7 @@
 <h2><%= statusString %></h2>
 <h4><%= submissionCount %> found.<span id='matching_search'></span></h4>
 <form id='search_form'>
-Quick search: <input type='text'></input> <a class='btn clear_btn' style='display:none'>Clear</a>
+Quick search (on page): <input type='text'></input> <a class='btn clear_btn' style='display:none'>Clear</a>
 </form>
 <%= sortBuf.toString()%>
 <%= topPageSelectionLinks %>
