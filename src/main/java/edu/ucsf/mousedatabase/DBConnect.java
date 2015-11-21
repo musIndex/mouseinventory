@@ -61,6 +61,10 @@ public class DBConnect {
     "SELECT  submittedmouse.* , mouse.id as mouseRecordID\r\n"
     + " FROM submittedmouse left join mouse on submittedmouse.id=mouse.submittedmouse_id\r\n ";
 
+  private static final String mouseSubmissionQueryCountHeader =
+    "SELECT  count(*) as count "
+    + " FROM submittedmouse\r\n ";
+
   private static final String changeRequestQueryHeader =
     "SELECT changerequest.*, mouse.name, holder.firstname, holder.lastname, holder.email, facility.facility\r\n" +
     " FROM changerequest left join mouse on changerequest.mouse_id=mouse.id\r\n" +
@@ -69,7 +73,7 @@ public class DBConnect {
 
   private static final String changeRequestQueryCountHeader =
     "SELECT count(*) as count " + 
-    " FROM changerequest";
+    " FROM changerequest\r\n ";
 
   private static final String holderQueryHeader =
     "SELECT holder.*, (select count(*) \r\n" +
@@ -120,6 +124,11 @@ public class DBConnect {
   //************************************************************
   public static ArrayList<SubmittedMouse> getMouseSubmissions(String status, String entered, String orderBy, String submissionSource)
   {
+    return getMouseSubmissions(status, entered, orderBy, submissionSource, 0, 0);
+
+  }
+  public static ArrayList<SubmittedMouse> getMouseSubmissions(String status, String entered, String orderBy, String submissionSource, int limit, int offset)
+  {
     ArrayList<String> whereTerms = new ArrayList<String>();
     String additionalJoins = "";
     if (status != null && !status.isEmpty() && !status.equalsIgnoreCase("all")) {
@@ -132,7 +141,39 @@ public class DBConnect {
       whereTerms.add("submission_source like '%" + addMySQLEscapes(submissionSource) + "%'");
     }
 
-    return getSubmissions(additionalJoins,whereTerms,orderBy);
+    return getSubmissions(additionalJoins,whereTerms,orderBy,limit,offset);
+  }
+
+  public static int countMouseSubmissions(String status, String entered, String orderBy, String submissionSource)
+  {
+    ArrayList<String> whereTerms = new ArrayList<String>();
+    String additionalJoins = "";
+    if (status != null && !status.isEmpty() && !status.equalsIgnoreCase("all")) {
+      whereTerms.add("submittedmouse.status='" + status + "'");
+    }
+    if (entered != null && !entered.isEmpty()) {
+      whereTerms.add("entered='" + entered +"'");
+    }
+    if (submissionSource != null && !submissionSource.equalsIgnoreCase("all")){
+      whereTerms.add("submission_source like '%" + addMySQLEscapes(submissionSource) + "%'");
+    }
+    String whereClause = "";
+    if(whereTerms != null && !whereTerms.isEmpty())
+    {
+      String prefix = " WHERE";
+      for(String whereTerm : whereTerms)
+      {
+        whereClause += prefix + " " + whereTerm + "\r\n ";
+        prefix = " AND";
+      }
+    }
+
+    ArrayList<Integer> results = IntResultGetter.getInstance("count").Get(mouseSubmissionQueryCountHeader + " " +  whereClause);
+    if (results.size() > 0)
+    {
+      return results.get(0);
+    }
+    return -1;
   }
 
   public static ArrayList<SubmittedMouse> getMouseSubmissions(List<Integer> submittedMouseIds)
@@ -179,14 +220,24 @@ public class DBConnect {
       return results.size() > 0 ? results.get(0) : null;
 
   }
-
   private static ArrayList<SubmittedMouse> getSubmissions(String additionalJoins,
                               ArrayList<String> whereTerms,
                               String orderBy)
   {
+    return getSubmissions(additionalJoins, whereTerms, orderBy, 0, 0);
+
+  }
+
+  private static ArrayList<SubmittedMouse> getSubmissions(String additionalJoins,
+                              ArrayList<String> whereTerms,
+                              String orderBy,
+                              int limit,
+                              int offset)
+  {
     String whereClause = "";
     String orderByClause = "";
     String joinsClause = "";
+    String limitClause = "";
     if(whereTerms != null && !whereTerms.isEmpty())
     {
       String prefix = " WHERE";
@@ -204,9 +255,13 @@ public class DBConnect {
     {
       joinsClause = additionalJoins + "\r\n ";
     }
+    if (limit > 0 && offset >=0)
+    {
+      limitClause = "LIMIT " + offset + "," + limit;
+    }
 
     String query = mouseSubmissionQueryHeader + "\r\n " +
-      joinsClause + whereClause + " " + orderByClause;
+      joinsClause + whereClause + " " + orderByClause + " " + limitClause;
     return SubmittedMouseResultGetter.getInstance().Get(query);
   }
 

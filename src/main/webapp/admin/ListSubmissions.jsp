@@ -11,6 +11,15 @@
   String entered = request.getParameter("entered");
   String status = request.getParameter("status");
   String submissionSource = request.getParameter("submissionSource");
+  int pagenum = HTMLGeneration.stringToInt(request.getParameter("pagenum"));
+  int limit = HTMLGeneration.stringToInt(request.getParameter("limit"));
+  if (limit == -1) {
+    limit = 25;
+  }
+  if (pagenum == -1) {
+    pagenum = 1;
+  }
+  int offset = limit * (pagenum - 1);
 
   if (orderBy == null) {
     orderBy = "submittedmouse.id";
@@ -42,7 +51,12 @@
   session.setAttribute("listSubmissionStatus",status);
   session.setAttribute("listSubmissionOrderBy",orderBy);
 
-  ArrayList<SubmittedMouse> submissions = DBConnect.getMouseSubmissions(status, entered, orderBy, submissionSource);
+  int submissionCount = DBConnect.countMouseSubmissions(status, entered, orderBy, submissionSource);
+
+  ArrayList<SubmittedMouse> submissions = DBConnect.getMouseSubmissions(status, entered, orderBy, submissionSource, limit, offset);
+
+  String topPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,submissionCount,true);
+  String bottomPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,submissionCount,false);
 
   String[] sortOptions = new String[] {"submittedmouse.id","date","date DESC","mouse.id","mouse.id DESC", "firstname","lastname"};
   String[] sortOptionNiceNames = new String[] {"Submission #", "Submission date","Reverse Submission date", "Record #", "Reverse Record #","Submitter first name", "Submitter last name"};
@@ -50,7 +64,6 @@
   String[] filterOptions = new String[] {"new","need more info","rejected","accepted","all"};
   String[] filterOptionNiceNames = new String[] {"New", "Hold", "Rejected","Converted to records","All"};
 
-  int kount = submissions.size();
 
 
   String table = getSubmissionTable(submissions, status, entered);
@@ -66,7 +79,6 @@
   sortBuf.append("&nbsp;Sort by: ");
   sortBuf.append(genSelect("orderby",sortOptions,sortOptionNiceNames, orderBy,""));
   sortBuf.append("<input type='hidden' name='entered' value='" + entered +"'>");
-  sortBuf.append("</form>");
   
   
 
@@ -90,12 +102,14 @@
 
 <div class="site_container">
 <h2><%= statusString %></h2>
-<h4><%= kount %> found.<span id='matching_search'></span></h4>
-<%= sortBuf.toString()%>
+<h4><%= submissionCount %> found.<span id='matching_search'></span></h4>
 <form id='search_form'>
 Quick search: <input type='text'></input> <a class='btn clear_btn' style='display:none'>Clear</a>
 </form>
+<%= sortBuf.toString()%>
+<%= topPageSelectionLinks %>
 <%= table%>
+<%= bottomPageSelectionLinks %>
 </div>
 <script>
 
@@ -111,7 +125,8 @@ Quick search: <input type='text'></input> <a class='btn clear_btn' style='displa
   var clear_btn = $("form#search_form a.clear_btn");
   var search_input = $("form#search_form input[type=text]");
   var matching_label = $("#matching_search");
-  search_form.submit(function(){
+  search_form.submit(function(e){
+    e.preventDefault();
     var term = search_input.val();
     var expr = new RegExp("(^|\\s|-|\\()" + term.trim() + "(\\s|$|\\.|\\?|,|-|\\))",'i');
     var matchCount = 0;
