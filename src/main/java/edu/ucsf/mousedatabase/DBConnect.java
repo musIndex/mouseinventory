@@ -19,8 +19,6 @@ import edu.ucsf.mousedatabase.servlets.ReportServlet;
 
 import org.apache.commons.lang3.StringUtils;
 
-import sun.misc.Regexp;
-
 public class DBConnect {
 
   //set this to true for debugging
