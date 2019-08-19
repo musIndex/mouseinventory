@@ -141,7 +141,11 @@ public class HTMLGeneration {
     table.append("<div class='site_container'>");
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div>"); //pagetitle
+    
+    table.append("<img src=/mouseinventory/img/logo_mouse_database_UCSF.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>");
     table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + DBConnect.loadSetting("general_site_name").value + "</a></span>");
+    
+    
     table.append("</div>");
     
     table.append("<div>"); // About, faq, contact links
@@ -151,6 +155,7 @@ public class HTMLGeneration {
     table.append("&nbsp;<a href=\"" + siteRoot
         + "contact.jsp\">Submit Feedback</a>");
     table.append("</span>");
+    
     table.append("</div>"); // About, faq, contact links
     table.append("</div>"); //pagetitle
     // Quick Search bar
@@ -168,9 +173,12 @@ public class HTMLGeneration {
       table.append("window.location.href = '" + action + "#' + $(\"#quickSearchForm\").serialize();\r\nreturn false; });");
       table.append("</script>\r\n");
       table.append("</form>");
+      
       table.append("</div>");
 
     }
+    table.append("<img src=/mouseinventory/img/OR_logo_10year.png title='Founded by Gail Martin 2009' style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year'>");
+    
     table.append("</div>"); //pagetitlecontainer
     table.append("</div>"); //pageheader
     table.append("</div>"); //pageheadercontainer
@@ -500,10 +508,11 @@ public class HTMLGeneration {
         getInputRow(buf, "Gene MGI ID", field, null, "editMouseRow");
       }
       // Modification type section
+      //Added endonuclease-mediated -EW
       String[] values = { "targeted disruption",
           "conditional allele (loxP/frt)", "targeted knock-in",
           "gene trap insertion", "Chemically induced (ENU)",
-          "spontaneous mutation", "other (info in comment)" };
+          "spontaneous mutation","endonuclease-mediated", "other (info in comment)" };
       getInputRow(
           buf,
           "Modification Type",
@@ -2590,13 +2599,13 @@ public class HTMLGeneration {
     b.append("</select>");
     return b.toString();
   }
-
+//Added endonuclease-mediated -EW
   /* ********************** Modification Type ******************************** */
   public static String getModificationTypeSelect(String current) {
     String name = "modificationType";
     String[] values = { "Select one", "targeted disruption",
         "conditional allele (loxP/frt)", "gene trap insertion",
-        "Chemically induced (ENU)", "spontaneous mutation",
+        "Chemically induced (ENU)", "spontaneous mutation", "endonuclease-mediated",
         "other (info in comment)" };
     return genSelect(name, values, current, "");
   }
@@ -2709,7 +2718,7 @@ public class HTMLGeneration {
     }
     return b.toString();
   }
-
+//added endonuclease-mediated -EW
   /* ********************** Modification Type ******************************** */
   public static String getModificationTypeRadio(String current) {
     return getModificationTypeRadioWithParams(current, "");
@@ -2721,7 +2730,7 @@ public class HTMLGeneration {
     String[] values = { "targeted disruption",
         "conditional allele (loxP/frt)", "targeted knock-in",
         "gene trap insertion", "Chemically induced (ENU)",
-        "spontaneous mutation", "other (info in comment)" };
+        "spontaneous mutation","endonuclease-mediated", "other (info in comment)" };
     return genRadio(name, values, current, selectParams);
   }
 

@@ -20,7 +20,7 @@
     String table = HTMLGeneration.getGeneTable(genes,false);
 %>
 <div class="site_container">
-    <h2>Gene List</h2>
+    <h2>Gene List for Mutant Alleles</h2>
 
   <form class='view_opts' action='GeneReport.jsp'>
  	 Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderBy,null) %>
