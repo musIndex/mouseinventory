@@ -1,5 +1,7 @@
 package edu.ucsf.mousedatabase;
 
+import java.io.File;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
+import com.mysql.jdbc.Blob;
 
 import edu.ucsf.mousedatabase.admin.EmailRecipientManager;
 import edu.ucsf.mousedatabase.admin.EmailRecipientManager.EmailRecipient;
@@ -316,6 +319,7 @@ public class HTMLGeneration {
     // buf.append("<td valign=\"top\" style=\"padding: 0px\">\r\n");
     buf.append("<div class=\"editMouseFormLeftColumn\">");
     buf.append("<table class=\"editMouseColumn\">\r\n");
+    buf.append("<p>Testing Testing</p>");
 
     // holders
     ArrayList<MouseHolder> holderList = r.getHolders();
@@ -635,8 +639,26 @@ public class HTMLGeneration {
       }
     }
     field = "<textarea name='adminComment' rows='10' cols='60' >" + emptyIfNull(r.getAdminComment()) + "</textarea>\r\n";
-    getInputRow(buf, "Record Admin Comment",field,"","editMouseRow");
-
+    getInputRow(buf, "Record Admin Comment",field,"","editMouseRow"); //testing
+    buf.append("<p>Testing Testing</p>");
+   
+    buf.append("<form action=\"/mouseinventory/upload/files\" method=\"post\" enctype=\"multipart/form-data\">");
+    buf.append("<input type=\"file\" name=\"files[]\" multiple />");
+    buf.append("<input id=recordID value=\"" + r.getMouseID() + "\" style=\"display:none\"></input>");
+    buf.append("<input type=\"submit\" title=\"Save\"/>");
+    //buf.append("<input type=\"button\" value=\"Upload File\" name=\"upload\" onClick=\"uploadFile()\"/>");
+    
+    buf.append("</form>");
+    
+    ///testing begins
+    /*
+    buf.append("<FORM name=\"myForm\">");
+    buf.append("<INPUT NAME=\"textBox\" TYPE=\"text\">");
+    buf.append("&nbsp;&nbsp;<INPUT NAME=\"showOut\" TYPE=\"button\" VALUE=\" Show Me... \"  onClick=\"showOutput(myForm.textBox.value)\">");
+    buf.append("</FORM>");
+    */
+    //testing ends
+    
     buf.append("</table>\r\n");
     buf.append("</div>\r\n");
     buf.append("<div class=\"editMouseFormRightColumn\">");
@@ -670,7 +692,7 @@ public class HTMLGeneration {
           && !mgiID.equalsIgnoreCase("none")) {
         MGIResult mouseResult = null;
         String validationStyle = "";
-        String resultString = "";
+        String resultString =  "";
         String geneURL = HTMLGeneration.formatMGI(mgiID);
 
         if (r.getSource() == null || r.getSource().isEmpty()
@@ -726,7 +748,7 @@ public class HTMLGeneration {
           emptyIfNull(officialSymbol), size, 255,
           "id=\"officialSymbol\"", null, "editMouseRow");
 
-      getTextInputRow(buf, "Official Name", "officialMouseName",
+      getTextInputRow(buf, "Official Name", "officialMouseName", 
           officialMouseName, size, 255, null, null, "editMouseRow");
 
       // PubMed ID(s)
@@ -892,7 +914,7 @@ public class HTMLGeneration {
     } else {
       buf.append("<input type=\"submit\" class='btn btn-primary' name=\"submitButton\" value=\"Save Changes to Record\">");
     }
-
+     
     buf.append("</form>\r\n");
 
     if (r.getMouseID() != null && req == null) {
@@ -927,6 +949,9 @@ public class HTMLGeneration {
     }
     buf.append("</div>\r\n");
     buf.append("</div>\r\n");
+    
+    buf.append("<p>Testing Testing</p>");
+    buf.append("");
     return buf.toString();
   }
 
@@ -1417,7 +1442,11 @@ public class HTMLGeneration {
     table.append("<td class='mouselistcolumn-holders' >\r\n");
     table.append("Holders ");
     table.append("</td>\r\n");
+    table.append("<td class='mouselistcolumn-holders' >\r\n");
+    table.append("Files");
+    table.append("</td>\r\n");
     table.append("</tr>\r\n");
+    
     return table.toString();
   }
 
@@ -1677,6 +1706,8 @@ public class HTMLGeneration {
           + emptyIfNull(HTMLUtilities.getCommentForDisplay(nextRecord.getGeneralComment()))
           + "</span>");
       table.append("</td>\r\n");
+      
+      
 
       // FOURTH column - holders
       table.append("<td class='mouselistcolumn-holders'>\r\n");
@@ -1756,6 +1787,31 @@ public class HTMLGeneration {
 
       table.append(holderBuf.toString());
       table.append("</td>\r\n");
+      
+   // INTERIM column - filenames. adds a link for each file in the mouseRecord
+      table.append("<td class='mouselistcolumn-comment'>\r\n");
+      ArrayList<File> files = nextRecord.getFilenames();
+      String fileComment = "";
+      for (File file : files) {
+    	  fileComment += "<a href=" + file.getAbsolutePath() + " download>" + file.getName() + "</a href>";
+      }
+      /*try {
+      InputStream input = files.getBinaryStream();
+      //write input stream to files
+      	
+      } catch (Exception e){
+    	  //exception
+      }*/
+      
+      /*for (String file : files) {
+    	  fileComment += "<a href=path-goes-here download>" + file + "</a href>";
+      }*/
+      table.append("<span class=\"mouseComment\">"
+          + emptyIfNull(HTMLUtilities.getCommentForDisplay(fileComment)) //adjustments go here
+          + "</span>");
+      table.append("</td>\r\n");
+      
+      
       table.append("</tr>\r\n");
       numMice++;
       nextRecord.prepareForSerialization();

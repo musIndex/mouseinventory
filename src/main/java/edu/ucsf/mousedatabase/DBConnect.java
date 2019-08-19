@@ -1,5 +1,11 @@
 package edu.ucsf.mousedatabase;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
@@ -1407,6 +1413,38 @@ public class DBConnect {
     query.append("WHERE id=" + updatedRecord.getMouseID());
     Log.Info("Updating mouse record with query: \r\n" + query);
     executeNonQuery(query.toString());
+    
+    /*
+    ArrayList<File> files = updatedRecord.getFilenames();
+    
+    for (File file : files) {
+    	//Blob createdBlob = _connection.createBlob(file);
+    	byte[] createdBlob = new byte[(int) file.length()];
+    	FileInputStream inputStream = null;
+    	try {
+    		// create an input stream pointing to the file
+    		inputStream = new FileInputStream(file);
+    		// read the contents of file into byte array
+    		inputStream.read(createdBlob);
+    	} catch (IOException e) {
+    		
+    	} finally {
+    		// close input stream
+    		if (inputStream != null) {
+    			try {
+    				inputStream.close();
+    			} catch (Exception e) {
+    				///
+    			}      
+    		}
+    	}
+    	String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (" + file.getName() + ", " + createdBlob
+        		+ ", " + updatedRecord.getMouseID() + ");";//for saving files
+        executeNonQuery(fileQuery);
+    }*/
+    
+    
+    
 
     //holders
     updateMouseHolders(updatedRecord);
@@ -1420,6 +1458,40 @@ public class DBConnect {
     updateMouseSearchTable(updatedRecord.getMouseID());
 
     return null;
+  }
+  
+  public void sendFilesToDatabase(ArrayList<File> files, String mouseID) {
+	  for(File file : files){
+			String fileName = file.getName();
+			//Blob createdBlob = _connection.createBlob(file);
+	    	byte[] createdBlob = new byte[(int) file.length()];
+	    	FileInputStream inputStream = null;
+	    	try {
+	    		// create an input stream pointing to the file
+	    		inputStream = new FileInputStream(file);
+	    		// read the contents of file into byte array
+	    		inputStream.read(createdBlob);
+	    	} catch (IOException e) {
+	    		/*throw new IOException("Unable to convert file to byte array. " + 
+	    	              e.getMessage());*/
+	    	} finally {
+	    		// close input stream
+	    		if (inputStream != null) {
+	    			try {
+	    				inputStream.close();
+	    			} catch (Exception e) {
+	    				///
+	    			}      
+	    		}
+	    	}
+	    	String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (" + fileName + ", " + createdBlob
+	        		+ ", " + mouseID + ");";//for saving files
+	        DBConnect.executeNonQuery(fileQuery);
+	  }
+  }
+  
+  public void testFunction(String mouseID) {
+	  
   }
 
   public static void updateMouseSubmission(SubmittedMouse updatedSubmission) throws Exception
@@ -3172,6 +3244,10 @@ public class DBConnect {
       return _resultSet.getTimestamp(fieldName);
     }
     
+    protected Blob g_blob(String fieldName) throws SQLException{
+    	return _resultSet.getBlob(fieldName);
+    }
+    
   }
 
   private static final class MouseRecordResultGetter extends ResultGetter
@@ -3229,6 +3305,8 @@ public class DBConnect {
 
       nextMouse.setHolders(getMouseHolders(nextMouse.getMouseID()));
       nextMouse.setPubmedIDs(getMousePubmedIDs(nextMouse.getMouseID()));
+      
+      nextMouse.setFilenames(getFilenames(nextMouse.getMouseID()));
       return nextMouse;
     }
 
@@ -3247,7 +3325,15 @@ public class DBConnect {
           "\r\n WHERE mouse_id='" + mouseID + "'";
       return StringResultGetter.getInstance("pmid",_connection).Get(query);
     }
+    
+    private ArrayList<File> getFilenames(String mouseID) throws SQLException
+    {
+  	  String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+  	  return MouseFileResultGetter.getInstance(_connection).Get(query);
+    }
   }
+  
+  
 
   private static final class ChangeRequestResultGetter extends ResultGetter
   {
@@ -3686,6 +3772,57 @@ public class DBConnect {
     {
       return g_int(_columnName);
     }
+  }
+  
+  private static final class MouseFileResultGetter extends ResultGetter
+  {
+	  /*public static MouseFileResultGetter getInstance()
+	  {
+		  return new MouseFileResultGetter();
+	  }*/
+	  
+	  private void set_connection(Connection connection)
+	    {
+	      _connection = connection;
+	    }
+	  
+	  //gets the files associated with a given mouse
+	  public static MouseFileResultGetter getInstance(Connection connection)
+	  {
+		  MouseFileResultGetter instance = new MouseFileResultGetter();
+	      if (connection != null)
+	      {
+	        instance.set_connection(connection);
+	        instance.set_preserveConnection(true);
+	      }
+	      return instance;
+	  }
+	  
+	  
+	  //gets the next blob and filename, makes a file with the right name, fills it with data from the blob
+	  @Override
+	  protected Object getNextItem() throws SQLException
+	  {
+		  //get blob and filename
+		  String filename = g_str("filename");
+		  Blob myBlob = g_blob("file");
+		  File file = new File(filename);
+		  InputStream input = myBlob.getBinaryStream();
+		  try {
+			  //int fileLength = input.available();
+			  byte[] buffer = new byte[input.available()];
+		  
+			  OutputStream output = new FileOutputStream(file);
+		  
+			  input.read(buffer);
+			  output.write(buffer);
+			  output.close();
+			  
+		  } catch(IOException e) {
+			  //exception
+		  }
+		  return file;
+	  }
   }
 
   private static final class ImportReportResultGetter extends ResultGetter
