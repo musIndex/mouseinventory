@@ -70,7 +70,7 @@
 
   ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms,false,-1,-1,limit,offset,true);
 
-  String table = HTMLGeneration.getMouseTable(mice, true, false, false);
+  String table = HTMLGeneration.getMouseTable(mice, true, false, false); 
 
   //String table = generateMouseList(mouseTypeID, null, (orderBy== null || orderBy.equals("mouse.id")) ? "mouse.id desc" : orderBy, true);
 
@@ -162,6 +162,8 @@ function highlight_searchterms(searchterms){
     }
   });
 }
+
+
 
 var searchterms = $("#mousetypeselection_searchterms").val();
 
