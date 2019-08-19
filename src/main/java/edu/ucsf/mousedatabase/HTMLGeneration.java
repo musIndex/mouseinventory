@@ -14,7 +14,8 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
-import com.mysql.jdbc.Blob;
+//import com.mysql.jdbc.Blob;
+import java.sql.Blob;
 
 import edu.ucsf.mousedatabase.admin.EmailRecipientManager;
 import edu.ucsf.mousedatabase.admin.EmailRecipientManager.EmailRecipient;
@@ -649,6 +650,16 @@ public class HTMLGeneration {
     //buf.append("<input type=\"button\" value=\"Upload File\" name=\"upload\" onClick=\"uploadFile()\"/>");
     
     buf.append("</form>");
+    
+    ArrayList<File> testFiles = new ArrayList<File>();
+    File test = new File("test.txt");
+    testFiles.add(test);
+    //DBConnect.sendFilesToDatabase(testFiles, r.getMouseID());
+    Blob createdBlob = DBConnect.makeBlobFromFile(test);
+    /*String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (" + "test" + ", " + createdBlob
+    		+ ", " + r.getMouseID() + ");";*/
+    //String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (\"test.txt\", 
+    //DBConnect.testFunction(fileQuery);
     
     ///testing begins
     /*

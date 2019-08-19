@@ -1460,9 +1460,11 @@ public class DBConnect {
     return null;
   }
   
-  public void sendFilesToDatabase(ArrayList<File> files, String mouseID) {
+  public static void sendFilesToDatabase(ArrayList<File> files, String mouseID) {
 	  for(File file : files){
 			String fileName = file.getName();
+			Blob createdBlob = makeBlobFromFile(file);
+			/*
 			//Blob createdBlob = _connection.createBlob(file);
 	    	byte[] createdBlob = new byte[(int) file.length()];
 	    	FileInputStream inputStream = null;
@@ -1472,8 +1474,7 @@ public class DBConnect {
 	    		// read the contents of file into byte array
 	    		inputStream.read(createdBlob);
 	    	} catch (IOException e) {
-	    		/*throw new IOException("Unable to convert file to byte array. " + 
-	    	              e.getMessage());*/
+	    		///
 	    	} finally {
 	    		// close input stream
 	    		if (inputStream != null) {
@@ -1484,14 +1485,44 @@ public class DBConnect {
 	    			}      
 	    		}
 	    	}
+	    	*/
 	    	String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (" + fileName + ", " + createdBlob
 	        		+ ", " + mouseID + ");";//for saving files
+	    	Log.Info("fileQuery");
 	        DBConnect.executeNonQuery(fileQuery);
 	  }
   }
   
-  public void testFunction(String mouseID) {
-	  
+  public static void testFunction(String fileQuery) {
+	  DBConnect.executeNonQuery(fileQuery);
+  }
+  
+  public static Blob makeBlobFromFile(File file) {
+	  //String fileName = file.getName();
+	  Blob fileBlob = null;
+		//Blob createdBlob = _connection.createBlob(file);
+  	byte[] byteArray = new byte[(int) file.length()];
+  	FileInputStream inputStream = null;
+  	try {
+  		// create an input stream pointing to the file
+  		inputStream = new FileInputStream(file);
+  		// read the contents of file into byte array
+  		inputStream.read(byteArray);
+  		fileBlob = new javax.sql.rowset.serial.SerialBlob(byteArray);
+  	} catch (Exception e) {
+  		///
+  	} finally {
+  		// close input stream
+  		if (inputStream != null) {
+  			try {
+  				inputStream.close();
+  			} catch (Exception e) {
+  				///
+  			}      
+  		}
+  	}
+  	
+  	return fileBlob;
   }
 
   public static void updateMouseSubmission(SubmittedMouse updatedSubmission) throws Exception
