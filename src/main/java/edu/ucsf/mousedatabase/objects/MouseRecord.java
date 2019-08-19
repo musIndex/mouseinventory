@@ -1,8 +1,13 @@
 package edu.ucsf.mousedatabase.objects;
+import java.io.File;
+
 import java.util.*;
+
+import com.mysql.jdbc.Blob;
 
 import edu.ucsf.mousedatabase.DBConnect;
 import edu.ucsf.mousedatabase.HTMLGeneration;
+import edu.ucsf.mousedatabase.Log;
 import edu.ucsf.mousedatabase.beans.UserData;
 
 public class MouseRecord {
@@ -54,6 +59,11 @@ public class MouseRecord {
   String previewLink;
   
   String adminComment;
+  
+  String filename;
+  
+  //ArrayList<String> filenames;
+  ArrayList<File> filenames;
 
   @Override
   public boolean equals(Object o) {
@@ -347,6 +357,27 @@ public class MouseRecord {
 
   public void setAdminComment(String adminComment) {
     this.adminComment = adminComment;
+  }
+  
+  public String getFilename() {
+	  return filename;
+  }
+  
+  public ArrayList<File> getFilenames(){
+	  Log.Info("getting filenames");
+	  return filenames;
+  }
+  
+  public void setFilenames(ArrayList<File> Filenames) {
+	  this.filenames = Filenames;
+  }
+  
+  public void addFiles(ArrayList<File> newFiles) {
+	  this.filenames.addAll(newFiles);
+  }
+  
+  public void setFilename(String filename) {
+	  this.filename = filename;
   }
 
   public String getPreviewLink() {
