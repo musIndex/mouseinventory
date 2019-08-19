@@ -34,7 +34,7 @@ For mutant alleles or transgenes, respond to the query about publication.</p>
 <b><span class=red>Choose 'Mutant Allele'</span></b> when a gene in the mouse has been modified in some way
 (e.g. targeted disruption such as replacement with a neo cassette; creation of a floxed allele
 by insertion of loxP sites; targeted knock-in of a sequence such as Cre, a reporter gene,
-or a mouse or human gene; spontaneous mutation, etc.)
+or a mouse or human gene; spontaneous mutation, endonuclease-mediated, etc.)
 </p>
 <p>
 <b><span class=red>Choose 'Transgene'</span></b> when a DNA construct (perhaps a BAC) has been randomly

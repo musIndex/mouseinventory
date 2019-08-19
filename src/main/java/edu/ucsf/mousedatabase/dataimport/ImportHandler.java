@@ -626,6 +626,7 @@ public class ImportHandler
       try {
         catalogNum = HTMLUtilities.extractFirstGroup("^\\s?(\\d+)", catalogNum);
         ignoredJaxNumbers.add(Integer.parseInt(catalogNum));
+       
       }
       catch (Exception e){
         ImportStatusTracker.AppendMessage(importTaskId, "***** Failed to parse ignored jax catalog setting value '" + catalogNum + "'");

@@ -37,7 +37,7 @@ ul.navLinkUL {
 
 #pageHeaderContainer {
   padding: 1px 0px;
-  background-color: #77aaaa;
+  background-color: #DDE6E5;
 }
 
 
@@ -69,7 +69,7 @@ ul.navLinkUL {
 }
 
 #pageTitle a {
-  color: #FFFFFF;
+  color: #667A99;
   font-size: 24px;
   line-height: 24px;
   text-decoration: none;
@@ -82,7 +82,7 @@ ul.navLinkUL {
 
 .titleSubText a {
   font-size: 12px;
-  background-color: #E7E7F5;
+  background-color: #DDE6E5;
   border-radius: 3px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -140,7 +140,7 @@ ul.navLinkUL {
   min-width: 920px;
 }
 #navigationLinksContainer {
-  background-color: #99bbcc;
+  background-color: #A3B9BC;
 }
 
 #adminLinksContainer {
@@ -178,27 +178,27 @@ ul.navLinkUL {
 }
 
 #navigationLinks li:nth-child(1) {
-  background-color: #408DE0;
+  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(2) {
-  background-color: #9460CC;
+  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(3) {
-  background-color: rgba(223, 230, 35, 0.52);
+  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(4) {
-  background-color: #C75E6A;
+  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(5) {
-  background-color: rgba(187, 143, 89, 0.73);
+  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(6) {
-  background-color: #B83884;
+  background-color: #A3B9BC;
 }
 
 #adminLinks li {
@@ -331,15 +331,15 @@ tr.formFieldAlt {
 
 tr.mouselistH {
   font-size: 14pt;
-  background-color: #7AC5CD;
+  background-color: #89BBE2;
 }
 
 tr.mouselist {
-  background-color: #ECF1EF;
+  background-color: #E7EDEC;
 }
 
 tr.mouselistAlt {
-  background-color: #EEF3E2;
+  background-color: #E2E9DB;
 }
 
 tr.submissionlistH {
@@ -371,23 +371,23 @@ tr.changerequestlistAlt {
 
 tr.facilitylistH {
   font-size: 14pt;
-  background-color: #7AC5CD;
+  background-color: #89BBE2;
 }
 
 tr.facilitylist {
-  background-color: #ECF1EF;
+  background-color: #E7EDEC;
 }
 
 tr.facilitylistAlt {
-  background-color: #EEF3E2;
+  background-color: #E2E9DB;
 }
 
 tr.holderlist {
-  background-color: #ECF1EF;
+  background-color: #E7EDEC;
 }
 
 tr.holderlistAlt {
-  background-color: #EEF3E2;
+  background-color: #E2E9DB;
 }
 
 table.editMouseParent {
@@ -415,7 +415,7 @@ div.editMouseFormRightColumn {
 }
 
 tr.editMouseRow {
-  background-color: #ECF1EF;
+  background-color: #E7EDEC;
 }
 
 dl {
@@ -689,6 +689,10 @@ td.mouselistcolumn-holders {
   width: 100px;
   float: left;
 }
+.search-box-small img.woodmouse {
+  width: 100px !important;
+  float: left;
+}
 
 .search-box-small .search-box-inner {
   width:530px;
@@ -700,11 +704,23 @@ td.mouselistcolumn-holders {
 
 .search-box img.woodmouse {
   padding-right: 50px;
+  width: 250px;
 }
 
 .search-box-small img.woodmouse {
   padding-right: 0px;
 }
+.site_container img.10year {
+  padding-right: 30px;
+  
+}
+
+img.MDBlogo {
+  padding-right: 50px;
+  
+ 
+}
+
 
 .search-box input[type=text] {
   margin-left: 60px;
@@ -894,7 +910,7 @@ table.basic {
   width: 100%;
 }
 table.basic th {
-  background-color: #7AC5CD;
+  background-color: #89bbe2;
   text-align: left;
   font-weight: normal;
   padding: 4px;
@@ -904,11 +920,11 @@ table.basic td {
 }
 
 table.basic > tbody > tr:nth-child(even) > td {
-  background-color: #ECF1EF;
+  background-color: #E7EDEC;
 }
 
 table.basic > tbody > tr:nth-child(odd) > td {
-  background-color: #EEF3E2;
+  background-color: #E2E9DB;
 }
 
 .template_help dt {

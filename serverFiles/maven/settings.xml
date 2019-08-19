@@ -3,7 +3,7 @@
   <server>
    <id>mouseinventory-tomcat</id>
    <username>installer</username>
-   <password>change_this_other_password</password>
+   <password></password>
   </server>
  </servers>
 </settings>

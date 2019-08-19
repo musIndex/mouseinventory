@@ -91,7 +91,8 @@ public class HTMLUtilities {
     return fixed;
   }
 
-  public static String getHttpResponse(URL url, String expectedContentType) throws Exception
+ public static String getHttpResponse(URL url, String expectedContentType) throws Exception
+  //public static String getHttpResponse(URL url) throws Exception
   {
     URLConnection conn = url.openConnection();
     // List all the response headers from the server.
