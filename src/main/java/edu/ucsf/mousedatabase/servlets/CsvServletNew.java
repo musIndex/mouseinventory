@@ -53,6 +53,9 @@ public class CsvServletNew extends HttpServlet {
 private static Chunk NL;
 
 private String documentName = DBConnect.loadSetting("general_site_name").value;
+private String mutantAllele = "_Mutant Allele";
+private String transgene = "_Transgene";
+private String inbredStrain = "_Inbred Strain";
 
 static {
 FONT_NORMAL = new Font(FontFamily.HELVETICA);
@@ -90,16 +93,17 @@ response.setContentType("text/csv");
 
 //This doesn't seem to take effect, oh well
 response.setHeader("Content-Disposition", "attachment; filename=\"" + documentName + ".csv\"");
+//Header for csv spreadsheet
 
 for(String entry : data) {
 stream.write(entry.getBytes()); //adding this to write. might need newline
 }
 
-Log.Info("Exported pdf - " + documentName);
+Log.Info("Exported csv - " + documentName);
 } catch (Exception e) {
 response.setContentType("text/html");
-response.getWriter().write("Error processing pdf: " + e.getLocalizedMessage());
-Log.Error("Error processing pdf!",e);
+response.getWriter().write("Error processing csv: " + e.getLocalizedMessage());
+Log.Error("Error processing csv!",e);
 }
 }
 
@@ -193,103 +197,90 @@ mouseTypeStr += " with status='" + status + "'";
 //table.setWidthPercentage(100);
 //table.setWidths(new int[]{1,5});
 ArrayList<String> stringList = new ArrayList<String>();
+stringList.add("Mouse DB ID,Type,Common Name,Official Symbol,Official Name,MGI ID,Gene/Regulatory Element,Inserted Sequence"+"\n");
 for(MouseRecord mouse : mice){  
 
-String mouseName = getMouseNameAndNumber(mouse).getContent();
+String mouseName = getMouseName(mouse).getContent();
+String mouseNumber = getMouseNumber(mouse).getContent();
+String mouseStatus = getMouseStatus(mouse).getContent();
 String mouseCategory = getMouseCategory(mouse).getContent();
-String mouseComment= getFormattedMouseComment(mouse.getGeneralComment()).getContent();
+//String mouseComment= getFormattedMouseComment(mouse.getGeneralComment()).getContent();
 String mouseDetails = getMouseDetails(mouse).getContent();
-String mouseHolders = getHolderList(mouse).getContent();
+String mouseGene = getMouseGene(mouse).getContent();
+String mouseSeq = getExpressedSeq(mouse).getContent();
+//String mouseHolders = getHolderList(mouse).getContent();
 
-String csvLine = mouseName + ", " + mouseCategory + ", " + mouseComment + ", " + mouseDetails + ", " + mouseHolders;
+String csvLine = mouseNumber+mouseStatus+ "," +mouseCategory + "," +mouseName + "," +mouseDetails+ "," + mouseGene+","+mouseSeq+"\n";
 
 stringList.add(csvLine);
+
 //return stringList;
 };
 return stringList;
 
 
-/*
-PdfPCell left = cell(getMouseNameAndNumber(mouse));
-table.addCell(left);
-PdfPTable subtable = new PdfPTable(2);
-subtable.setWidths(new int[]{5,4});
-subtable.addCell(cell(getMouseCategory(mouse)));
-int commentRowSpan = mouse.isIS() ? 1 : 2;
-subtable.addCell(cell(getFormattedMouseComment(mouse.getGeneralComment()),commentRowSpan,1));
-if (!mouse.isIS()){
-subtable.addCell(cell(getMouseDetails(mouse)));
-}
-subtable.addCell(cell(getHolderList(mouse),1,2));
-PdfPCell right = new PdfPCell(subtable);
-right.setBorder(Rectangle.NO_BORDER);
-table.addCell(right);
-}
-Phrase list = phr();
-documentName = mouseTypeStr;
-list.add(phr(mouseTypeStr,FONT_TITLE));
-list.add(NL);
-list.add(phr(mouseCountStr,FONT_BOLD));
-list.add(table);
-return list;
-*/
+
 }
 
 
-/*private static PdfPCell cell(Phrase phr){
-return cell(phr, 1,1);
-}
-private static PdfPCell cell(Phrase phr, int rowSpan, int colSpan){
-PdfPCell cell = new PdfPCell(phr);
-cell.setRowspan(rowSpan);
-cell.setColspan(colSpan);
-cell.setPaddingLeft(3);
-cell.setPaddingRight(1);
-cell.setPaddingBottom(4);
-cell.setPaddingTop(0);
-cell.setLeading(0f, 1.1f); 
-return cell;
-}*/
 
-private static Phrase getMouseNameAndNumber(MouseRecord mouse){
+private static Phrase getMouseName(MouseRecord mouse){
 Phrase p = phr();
-p.add(phr(mouse.getMouseName(), FONT_MOUSENAME));
-p.add(NL);
-p.add(phr("Record #" + mouse.getMouseID()));
+String mName = "\" "+mouse.getMouseName()+ "\"";
+//p.add(phr(mName, FONT_MOUSENAME));
+p.add(mName);
+if (mouse.isIS())
+{
+//p.add(NL);
+//p.add(phrb("Supplier and catalog #:"));
+String source =" " +mouse.getSource().replace(",",":");
+p.add(source);
+
+}
+//p.add(NL);
 return p;
+}
+private static Phrase getMouseNumber(MouseRecord mouse) {
+  Phrase p = phr();
+  p.add(phr(mouse.getMouseID()));
+  return p;
+  
 }
 
 private static Phrase getMouseCategory(MouseRecord mouse){
 Phrase p = phr();
 p.add(phrb(mouse.getMouseType()));
-if (mouse.getGeneID() != null)
-{
-p.add(NL);
-p.add(formatGenePdf(mouse.getGeneSymbol(),mouse.getGeneName(),mouse.getGeneID()));
-}
+
 if (mouse.isMA() && mouse.getModificationType() != null)
 {
-p.add(NL);
-p.add(phrb("Modification Type: "));
+p.add(phrb(": "));
 p.add(phr(mouse.getModificationType()));
+//p.add(",");
 }
-if (mouse.getExpressedSequence() != null) {
-p.add(NL);
-p.add(getExpressedSequence(mouse));
+else
+ p.add("");
+//p.add(phr(mouse.getMouseName())+",");
+
+return p;
 }
-if (mouse.getRegulatoryElement() != null) {
-p.add(NL);
-p.add(phrb("Regulatory Element:"));
-p.add(phr(" " + mouse.getRegulatoryElement()));
-}
-if (mouse.isIS())
+private static Phrase getMouseGene(MouseRecord mouse) {
+Phrase p = phr();
+
+if (mouse.getGeneID() != null)
 {
-p.add(NL);
-p.add(phrb("Supplier and catalog #:"));
-String source = mouse.getSource();
-source = source.replaceAll("\\|\\|", ", ");
-p.add(phr(" " + source));
+//p.add(NL);
+  
+p.add(formatGene(mouse.getGeneSymbol()));
 }
+
+if (mouse.getRegulatoryElement() != null) {
+//p.add(",");
+String tgPromoter = mouse.getRegulatoryElement().replace(",",";");
+p.add(phrb("Regulatory Element:"));
+p.add(tgPromoter);
+}
+
+
 return p;
 }
 
@@ -310,18 +301,25 @@ if (repositoryCatalogNumber == null  || repositoryCatalogNumber.equals("") || re
 repositoryCatalogNumber = "none";
 }
 
-p.add(phr("Official Symbol: "));
-p.add(source);
+//p.add(phr("Official Symbol: "));
+p.add(phr("\""+source+"\""));
 
 String officialName = mouse.getOfficialMouseName();
 if (officialName != null && !officialName.isEmpty()) {
-p.add(NL);
-p.add(phr(officialName));
+  p.add(",");
+  p.add(phr("\""+officialName+"\""));
 }
-p.add(NL);
-p.add(phr("MGI: " + repositoryCatalogNumber));
+p.add(",");
+
+//p.add(phr(repositoryCatalogNumber));
+p.add(repositoryCatalogNumber);
+}
+return p;
+}
+
+/*
 if (mouse.getPubmedIDs() == null || mouse.getPubmedIDs().isEmpty()) {
-p.add(NL);
+p.add(",");
 p.add(phr("Unpublished"));
 } else {
 String allIDs = "";
@@ -336,13 +334,15 @@ first = false;
 allIDs += pmid;
 }
 if (hasValidPmIds){
-p.add(NL);
+p.add(",");
 p.add(phr("PubMed: " + allIDs));
 }
+
 }
 
+
 if (mouse.getBackgroundStrain() != null  && !mouse.getBackgroundStrain().isEmpty()) {
-p.add(NL);
+p.add(",");
 p.add(phr("Background Strain: " + mouse.getBackgroundStrain()));
 }
 if (mouse.getMtaRequired() != null) {
@@ -356,29 +356,25 @@ if (mouse.getMtaRequired().equalsIgnoreCase("Y")) {
 }
 
 if (mouse.getGensat() != null && !mouse.getGensat().isEmpty()) {
-p.add(NL);
+p.add(",");
 p.add(phr("Gensat founder line: " + mouse.getGensat()));
 }
 
 }
 if (mouse.isCryoOnly()) {
-p.add(NL);
+p.add(",");
 p.add(phrb("Cryopreserved only"));
 }
 if (mouse.getCryopreserved() != null && mouse.getCryopreserved().equalsIgnoreCase("Y")) {
-p.add(NL);
+p.add(",");
 p.add(phrb("Cryopreserved only"));
 }
-
-//if (mouse.isEndangered()) {
-//table.append("<dt><span class='endangered'>Endangered</span></dt>\r\n");
-//}
-
-
+//Keep new line
+p.add(NL);
 return p;
 }
-
-
+*/
+/*
 private static Phrase getHolderList(MouseRecord mouse)
 {
 Phrase p = phr("Holders:  ");
@@ -391,8 +387,17 @@ continue;
 if (holder.getFirstname() == null && holder.getLastname() == null) {
 continue;
 }
-
+}
+}
+*/
+private static Phrase getMouseStatus(MouseRecord mouse)
+{
+Phrase p = phr();
 String cryoLiveStatus = "";
+for (MouseHolder holder : mouse.getHolders()) {
+if (holder.isCovert()) {
+continue;
+}
 if (holder.getCryoLiveStatus() != null) {
 // NULL = ignore
 // Live = live only
@@ -401,12 +406,17 @@ if (holder.getCryoLiveStatus() != null) {
 if (holder.getCryoLiveStatus().equalsIgnoreCase("Live only")) {
 cryoLiveStatus = "";
 } else if (holder.getCryoLiveStatus().equalsIgnoreCase("Live and cryo")) {
-cryoLiveStatus = "(Cryo,Live)";
+cryoLiveStatus = " (Cryo/Live)";
 } else if (holder.getCryoLiveStatus().equalsIgnoreCase("Cryo only")) {
-cryoLiveStatus = "(Cryo)";
+cryoLiveStatus = " (Cryo)";
 }
+}
+}
+p.add(cryoLiveStatus);
+return p;
 }
 
+/*
 String facilityName = holder.getFacilityID() == 1 ? " "  : "(" + holder.getFacilityName() + ")";
 
 String firstInitial = "";
@@ -426,11 +436,13 @@ p.add(phr(firstInitial  + holder.getLastname() + " " + facilityName  + cryoLiveS
 
 return p;
 }
+*/
 
-private static Phrase getExpressedSequence(MouseRecord mouse)
+private static Phrase getExpressedSeq(MouseRecord mouse)
 {
 Phrase p = phr();
-p.add(phrb("Expressed Sequence: "));
+
+//p.add(phrb("Expressed Sequence: "));
 if (mouse.getExpressedSequence() != null) {
 if (mouse.getExpressedSequence().equalsIgnoreCase("mouse gene")
 || mouse.getExpressedSequence().equalsIgnoreCase("Mouse Gene (unmodified)")) {
@@ -438,12 +450,15 @@ p.add(formatGenePdf(mouse.getTargetGeneSymbol(),
           mouse.getTargetGeneName(),
           mouse.getTargetGeneID()));
 } else if (mouse.getExpressedSequence().equalsIgnoreCase("reporter")) {
-p.add(phr(mouse.getReporter()));
+ String reporter ="reporter: " +mouse.getReporter().replace(",", ";");
+ //p.add(phr("\""+mouse.getReporter()+"\""));
+ p.add(reporter);
+
 } else if (mouse.getExpressedSequence().equalsIgnoreCase("other")||
    mouse.getExpressedSequence().equalsIgnoreCase("Modified mouse gene or Other")) {
-p.add(phr(mouse.getOtherComment()));
+p.add(phr(mouse.getOtherComment().replaceAll(",",";")));
 } else {
-p.add(phr(mouse.getExpressedSequence()));
+p.add(phr("\""+mouse.getExpressedSequence()+"\""));
 }
 }
 return p;
@@ -459,6 +474,7 @@ HashMap<String,Object> map = new HashMap<String,Object>();
 map.put("font_factory",new MouseFontFactory());
 java.util.List<Element> objects = HTMLWorker.parseToList(new StringReader(htmlComment), null, map);
 for (Element element : objects) p.add(element);
+
 return p;
 }
 
@@ -475,13 +491,20 @@ return phr(text, FONT_BOLD);
 private static Phrase phr(String text, Font font){
 return new Phrase(text, font);
 }
-
+//List only symbol method
+private static Phrase formatGene(String symbol) {
+  Phrase gene = phr("");
+  gene.add(phrb("\""+symbol+"\""));
+  //gene.add(",");
+  return gene;
+}
 private static Phrase formatGenePdf(String symbol, String name, String id){
-Phrase gene = phr("   ");
+Phrase gene = phr("");
 gene.add(phrb(symbol));
-gene.add(phr(" - " + name));
-gene.add(NL);
-gene.add(phr("   MGI: " + id));
+gene.add(phr(" - " + name.replaceAll("[,]",";")));
+//gene.add(NL);
+gene.add(",");
+gene.add(phr("Gene MGI: " + id));
 return gene;
 }
 
