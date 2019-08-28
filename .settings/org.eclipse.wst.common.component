@@ -9,8 +9,8 @@
         <property name="java-output-path" value="/target/classes"/>
             
         <wb-resource deploy-path="/WEB-INF/classes" source-path="src/main/java"/>
-                
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
           
     </wb-module>
     
