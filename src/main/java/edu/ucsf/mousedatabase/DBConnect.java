@@ -1461,35 +1461,39 @@ public class DBConnect {
   }
   
   public static void sendFilesToDatabase(ArrayList<File> files, String mouseID) {
+	  Connection con = null; 
 	  for(File file : files){
 			String fileName = file.getName();
 			Blob createdBlob = makeBlobFromFile(file);
-			/*
-			//Blob createdBlob = _connection.createBlob(file);
-	    	byte[] createdBlob = new byte[(int) file.length()];
-	    	FileInputStream inputStream = null;
-	    	try {
-	    		// create an input stream pointing to the file
-	    		inputStream = new FileInputStream(file);
-	    		// read the contents of file into byte array
-	    		inputStream.read(createdBlob);
-	    	} catch (IOException e) {
-	    		///
-	    	} finally {
-	    		// close input stream
-	    		if (inputStream != null) {
-	    			try {
-	    				inputStream.close();
-	    			} catch (Exception e) {
-	    				///
-	    			}      
-	    		}
-	    	}
-	    	*/
-	    	String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (" + fileName + ", " + createdBlob
+			
+			try {
+				if (con == null) {
+					con = connect();
+				}
+				
+				//try with basic string query
+				
+				String query = "Insert into mouseFiles (filename, file, mouseID) VALUES (?, ?, ?)";
+				//String test2 = "Insert into mouseTest (name) values (\'testing\')";
+				//executeNonQuery(test2);
+				//PreparedStatement statement = con.prepareStatement(test2);
+				PreparedStatement statement = con.prepareStatement(query);
+				statement.setNString(1, fileName);
+				statement.setBlob(2, createdBlob);
+				statement.setNString(3, mouseID);
+				statement.execute();
+				
+			} catch (Exception e) {
+				///
+			}
+	    	/*String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (" + fileName + ", " + createdBlob
 	        		+ ", " + mouseID + ");";//for saving files
+	    	*/
+
+	    	
+	    	
 	    	Log.Info("fileQuery");
-	        DBConnect.executeNonQuery(fileQuery);
+	        //DBConnect.executeNonQuery(fileQuery);//note: executeNonQuery will not handle blobs.
 	  }
   }
   
@@ -1500,7 +1504,6 @@ public class DBConnect {
   public static Blob makeBlobFromFile(File file) {
 	  //String fileName = file.getName();
 	  Blob fileBlob = null;
-		//Blob createdBlob = _connection.createBlob(file);
   	byte[] byteArray = new byte[(int) file.length()];
   	FileInputStream inputStream = null;
   	try {

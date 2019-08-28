@@ -320,7 +320,6 @@ public class HTMLGeneration {
     // buf.append("<td valign=\"top\" style=\"padding: 0px\">\r\n");
     buf.append("<div class=\"editMouseFormLeftColumn\">");
     buf.append("<table class=\"editMouseColumn\">\r\n");
-    buf.append("<p>Testing Testing</p>");
 
     // holders
     ArrayList<MouseHolder> holderList = r.getHolders();
@@ -641,21 +640,26 @@ public class HTMLGeneration {
     }
     field = "<textarea name='adminComment' rows='10' cols='60' >" + emptyIfNull(r.getAdminComment()) + "</textarea>\r\n";
     getInputRow(buf, "Record Admin Comment",field,"","editMouseRow"); //testing
-    buf.append("<p>Testing Testing</p>");
    
-    buf.append("<form action=\"/mouseinventory/upload/files\" method=\"post\" enctype=\"multipart/form-data\">");
+    //tried /mouseinventory/upload/files
+    //tried /upload/files
+    //tried /rest/upload/files
+    //tried /mouseinventory/admin/upload/files
+    //tried /admin/upload/files
+    
+    buf.append("<form action=\"/upload/files\" method=\"post\" enctype=\"multipart/form-data\">");
     buf.append("<input type=\"file\" name=\"files[]\" multiple />");
     buf.append("<input id=recordID value=\"" + r.getMouseID() + "\" style=\"display:none\"></input>");
-    buf.append("<input type=\"submit\" title=\"Save\"/>");
+    buf.append("<input type=\"submit\"/>");
     //buf.append("<input type=\"button\" value=\"Upload File\" name=\"upload\" onClick=\"uploadFile()\"/>");
     
     buf.append("</form>");
     
-    ArrayList<File> testFiles = new ArrayList<File>();
-    File test = new File("test.txt");
-    testFiles.add(test);
+    //ArrayList<File> testFiles = new ArrayList<File>();
+    //File test = new File("test.txt");
+    //testFiles.add(test);
     //DBConnect.sendFilesToDatabase(testFiles, r.getMouseID());
-    Blob createdBlob = DBConnect.makeBlobFromFile(test);
+    //Blob createdBlob = DBConnect.makeBlobFromFile(test);
     /*String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (" + "test" + ", " + createdBlob
     		+ ", " + r.getMouseID() + ");";*/
     //String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (\"test.txt\", 
@@ -961,7 +965,6 @@ public class HTMLGeneration {
     buf.append("</div>\r\n");
     buf.append("</div>\r\n");
     
-    buf.append("<p>Testing Testing</p>");
     buf.append("");
     return buf.toString();
   }
