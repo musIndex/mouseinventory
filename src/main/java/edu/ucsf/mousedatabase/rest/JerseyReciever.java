@@ -36,6 +36,10 @@ import edu.ucsf.mousedatabase.DBConnect;
 
 //Log.Info("started jerseyReciever");
 
+//tried "/mouseinventory/admin/upload"
+//tried "/admin/upload"
+//tried "/mouseinventory/upload"
+
 @Path("/upload")
 @Component
 public class JerseyReciever {
@@ -77,6 +81,8 @@ public class JerseyReciever {
 						
 			//saveFile(bodyPartEntity.getInputStream(), fileName);			
 		}
+		//System.out.println("about to send files");
+		Log.Info("about to send files");
 		DBConnect.sendFilesToDatabase(files, mouseID);
 		
 		return Response.ok("Jersey Recieved").build();
