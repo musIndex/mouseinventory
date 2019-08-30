@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
@@ -1458,6 +1459,42 @@ public class DBConnect {
     updateMouseSearchTable(updatedRecord.getMouseID());
 
     return null;
+  } 
+  
+  public static void testSend() {
+	  Connection con = null; 
+	  try {
+		  if (con == null) {
+			con = connect();
+		  }
+		  String fileName = "Test.txt";
+		  File file = new File(fileName);
+		  PrintWriter writer = new PrintWriter("Test.txt", "UTF-8");
+		  writer.println("this test is runing");
+		  writer.close();
+		  Blob createdBlob = makeBlobFromFile(file);
+
+		  //Blob createdBlob = con.createBlob();//makeBlobFromFile(file);
+		  String mouseID = "6";
+		  String query = "Insert into mouseFiles (filename, file, mouseID) VALUES (?, ?, ?)";
+		  String test2 = "Insert into mouseTest (name) values (?)";
+		  PreparedStatement statement = con.prepareStatement(query);
+		  PreparedStatement statement2 = con.prepareStatement(test2);
+		  statement2.setString(1, "testing");
+		  
+		  statement.setString(1, fileName);
+		  statement.setBlob(2, createdBlob);
+		  statement.setString(3, mouseID);
+		  Log.Info("about to execute statement: " + query);
+		  if (createdBlob != null) {
+			  Log.Info("blob exists");
+		  } else {
+			  Log.Info("no blob");
+		  }
+		  
+		  statement.execute();
+		  //statement2.execute();
+	  } catch (Exception e) {}	  
   }
   
   public static void sendFilesToDatabase(ArrayList<File> files, String mouseID) {
