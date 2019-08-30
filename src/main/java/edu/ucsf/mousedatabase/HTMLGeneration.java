@@ -1808,8 +1808,8 @@ public class HTMLGeneration {
       String fileComment = "";
       for (File file : files) {
     	  String filename = file.getName();
-    	  //fileComment = "<a href=" + file.getAbsolutePath() + " download>" + file.getName() + "</a>";
-    	  fileComment = "<a id=" + filename + " >" + filename + "</a>";
+    	  fileComment = "<a href=" + file.getAbsolutePath() + " download>" + filename + "</a>";
+    	  //fileComment = "<a id=" + filename + " >" + filename + "</a>";
     	  table.append("<div>"
     	          //+ emptyIfNull(HTMLUtilities.getCommentForDisplay(fileComment)) //adjustments go here
     	    		  + fileComment
