@@ -10,8 +10,11 @@ import java.util.regex.Pattern;
 
 public class JaxMiceConnect {
 
+  //URL changed for jax, example https://www.jax.org/strain/007676 -EW
+  //private static final String baseUrl = "http://jaxmice.jax.org/strain/"; -EW turned off
   private static final String baseUrl = "http://jaxmice.jax.org/strain/";
   private static final String urlTail = ".html";
+  //alleleRegex won't work, Alele Symbol: <a id="alleleid_54647_symbol" href="http://www.informatics.jax.org/accession/MGI:3716464"
   private static final String alleleRegex = "Allele&nbsp;Symbol[^\\n]*\\n[^\\n]*MGI:([\\d]+)";
   private static final String stockNumberRegex = "([\\d]{6})";
 

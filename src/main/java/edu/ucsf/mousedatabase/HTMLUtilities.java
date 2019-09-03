@@ -33,7 +33,7 @@ public class HTMLUtilities {
 
   public static String table(String tableText)
   {
-    return "<table>" + tableText + "</table>";
+    return "<table>" + tableText + "</table>";   
   }
 
   public static String tr(String tableText)
