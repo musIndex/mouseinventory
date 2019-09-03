@@ -24,5 +24,5 @@ steps:
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(System.DefaultWorkingDirectory)/target/mouseinventory.war'
+    targetPath: '$(System.DefaultWorkingDirectory)/target/ROOT.war'
     artifact: 'mouseinventory'
