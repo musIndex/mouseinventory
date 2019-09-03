@@ -38,6 +38,31 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-context</artifactId>
+   <version>4.1.2.RELEASE</version>
+</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>1.19</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-servlet</artifactId>
+			<version>1.19</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-multipart</artifactId>
+			<version>1.19</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>6.0.44</version>
+		</dependency>
+		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>1.4</version>
@@ -93,11 +118,16 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.6.3</version>
 		</dependency>
-    <dependency>
-      <groupId>org.mariadb.jdbc</groupId>
-      <artifactId>mariadb-java-client</artifactId>
-      <version>2.4.3</version>
-    </dependency>
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>4.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<version>2.4.3</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>mouseinventory</finalName>
@@ -106,8 +136,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -115,7 +145,7 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-        			<contextFile>${project.basedir}/src/main/webapp/META-INF/context.xml</contextFile>
+					<contextFile>${project.basedir}/src/main/webapp/META-INF/context.xml</contextFile>
 					<server>${tomcat-server}</server>
 					<url>${tomcat-url}</url>
 					<path>${app-path}</path>
