@@ -93,12 +93,11 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.6.3</version>
 		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.0.8</version>
-			<scope>runtime</scope>
-		</dependency>
+    <dependency>
+      <groupId>org.mariadb.jdbc</groupId>
+      <artifactId>mariadb-java-client</artifactId>
+      <version>2.4.3</version>
+    </dependency>
 	</dependencies>
 	<build>
 		<finalName>mouseinventory</finalName>
@@ -115,7 +114,9 @@
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
+        
 				<configuration>
+        <contextFile>${project.basedir}/src/main/webapp/META-INF/context.xml</contextFile>
 					<server>${tomcat-server}</server>
 					<url>${tomcat-url}</url>
 					<path>${app-path}</path>
