@@ -15,7 +15,7 @@ var _jaxUrlTail = ".html";
 var _gensatUrl = "http://www.gensat.org/ShowFounderLineImages.jsp?gensatFounderLine=";
 var _gensatUrlTail = "";
 
-var _validateUrl = "/mouseinventory/validate";
+var _validateUrl = "/validate";
 
 //start a timer every time this is called.  if more than <delay> ms elapses without this function being called again, the timer fires and we run the validation request
 function validateInput(inputFieldId, resultFieldId, inputFieldType, allowedValueString)

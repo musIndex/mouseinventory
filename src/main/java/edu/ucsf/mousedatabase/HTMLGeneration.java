@@ -36,7 +36,7 @@ import edu.ucsf.mousedatabase.objects.SubmittedMouse;
 
 public class HTMLGeneration {
 
-  public static final String siteRoot = "/mouseinventory/";
+  public static final String siteRoot = "/";
   public static final String adminRoot = siteRoot + "admin/";
   public static final String imageRoot = siteRoot + "img/";
   public static final String scriptRoot = siteRoot + "js/";
