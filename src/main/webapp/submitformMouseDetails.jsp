@@ -76,7 +76,7 @@ $(document).ready(function(){
         }
       $.ajax({
           type: 'GET',
-          url: '/mouseinventory/mgidata?query=allele_properties&acc_id=' + mgiNumber + '&expected_type_name=' + expected_type_name,
+          url: '/mgidata?query=allele_properties&acc_id=' + mgiNumber + '&expected_type_name=' + expected_type_name,
           dataType: 'json',
           success: mgiLookupSuccess,
           error: mgiLookupError,

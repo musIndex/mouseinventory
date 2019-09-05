@@ -34,7 +34,7 @@ function loadReport()
       }
 
       $('#history-'+taskId).each(function(){
-            $(this).load('/mouseinventory/rawdata/ImportStatusBody.jsp?command=history&taskid='+taskId,function(){
+            $(this).load('/rawdata/ImportStatusBody.jsp?command=history&taskid='+taskId,function(){
               if (scrollToBottom)
               {
                 $('#history-'+taskId).prop({ scrollTop: $(this).prop("scrollHeight") - $(this).height() });
@@ -53,7 +53,7 @@ function loadReport()
 
 
        $('#summary-'+taskId).each(function(){
-         $(this).load('/mouseinventory/rawdata/ImportStatusBody.jsp?command=summary&taskid='+taskId);
+         $(this).load('/rawdata/ImportStatusBody.jsp?command=summary&taskid='+taskId);
        });
 
       });
