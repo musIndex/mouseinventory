@@ -4,25 +4,38 @@
 <%@ page import="edu.ucsf.mousedatabase.objects.*"%>
 <%@ page import="java.io.FileInputStream"%>
 <%@ page import="java.io.IOException"%>
+<%@page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
+<%@page import="edu.ucsf.mousedatabase.servlets.*"%>
+<%=HTMLGeneration.getPageHeader(null,false,true) %>
+<%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
+
+
+<form action="<%=HTMLGeneration.adminRoot %>upload" enctype="multipart/form-data" method="post">
+	<input type="text" value= "6" name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
+	<input type="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75">
+	<input type="submit"/>
+</form>
+
+
+<form action="<%=HTMLGeneration.adminRoot %>upload/files" method="post" enctype="multipart/form-data">
+	<input type="file" name="files[]" multiple />
+	<input id=recordID value="6" style="display:none"></input>
+	<input type="submit"/>
+</form>
+
+
+
 
 <%
-	//ArrayList<File> files = (ArrayList<File>) request.getAttribute("files");
-	//String mouseID = (String) request.getAttribute("mouseID");
+
+//<input type="button" value="Upload File" name="upload" onClick="uploadFile()"/>
+	/*
+ArrayList<File> files = (ArrayList<File>) request.getAttribute("files");
+	String mouseID = (String) request.getAttribute("mouseID");
 	String test = request.getHeader("MouseID");
-
-	testFunction(test);
-	//sendFilesToDatabase(files, test);
-		//upload to mysql
+	String fileName = request.getHeader("fileName");
 	
-	
-	
-	//ArrayList<MouseRecord> records = DBConnect.getMouseRecord(mouseID);
-	//MouseRecord record = records.get(0);
-	//record.addFiles(files);
-	
-
-	//for(File file : files){
-		
-	//}
+	testFunction(test, fileName);
+	*/
 
 %>
