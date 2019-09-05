@@ -2887,8 +2887,8 @@ public class DBConnect {
   	  return MouseFileResultGetter.getInstance(_connection).Get(query);
     }
   }
-  
-  public File getFileByNameAndMouseID(String fileName, String mouseID) throws Exception
+  //added static to getFileByNameAndMouseID -EW
+  public static File getFileByNameAndMouseID(String fileName, String mouseID) throws Exception
   {
     Connection con = connect();
     String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'" + " AND filename='" + fileName + "'";
