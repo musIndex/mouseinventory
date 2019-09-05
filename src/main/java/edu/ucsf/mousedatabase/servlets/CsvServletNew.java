@@ -78,14 +78,6 @@ ArrayList<String> data = getMouseListCsv(request);
 ServletOutputStream stream = response.getOutputStream();
 
 
-
-//Document document = new Document();
-//PdfWriter.getInstance(document, stream);
-//document.open();
-
-//document.add(data);
-//document.close();
-
 response.setHeader("Expires", "0");
 response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
 response.setContentType("text/csv");
@@ -192,12 +184,9 @@ if(!status.equals("live") && !status.equals("all") && request.isUserInRole("admi
 mouseTypeStr += " with status='" + status + "'";
 }
 
-
-//PdfPTable table = new PdfPTable(2);
-//table.setWidthPercentage(100);
-//table.setWidths(new int[]{1,5});
 ArrayList<String> stringList = new ArrayList<String>();
-stringList.add("Mouse DB ID,Type,Common Name,Official Symbol,Official Name,MGI ID,Gene/Regulatory Element,Inserted Sequence"+"\n");
+stringList.add("Mouse DB ID,Type,Common Name,Official Symbol,Official Name,Mouse MGI ID,"
+    + "Gene/Regulatory Element,Inserted Sequence,PMID,Gene MGI ID"+"\n");
 for(MouseRecord mouse : mice){  
 
 String mouseName = getMouseName(mouse).getContent();
@@ -208,9 +197,12 @@ String mouseCategory = getMouseCategory(mouse).getContent();
 String mouseDetails = getMouseDetails(mouse).getContent();
 String mouseGene = getMouseGene(mouse).getContent();
 String mouseSeq = getExpressedSeq(mouse).getContent();
+String mousePMID = getMousePMID(mouse).getContent();
+String mouseGID = getMouseGeneID(mouse).getContent();
 //String mouseHolders = getHolderList(mouse).getContent();
 
-String csvLine = mouseNumber+mouseStatus+ "," +mouseCategory + "," +mouseName + "," +mouseDetails+ "," + mouseGene+","+mouseSeq+"\n";
+String csvLine = mouseNumber+mouseStatus+ "," +mouseCategory + "," +mouseName + "," +mouseDetails+ ","
++ mouseGene+","+mouseSeq+","+mousePMID+","+mouseGID+"\n";
 
 stringList.add(csvLine);
 
@@ -218,11 +210,7 @@ stringList.add(csvLine);
 };
 return stringList;
 
-
-
 }
-
-
 
 private static Phrase getMouseName(MouseRecord mouse){
 Phrase p = phr();
@@ -279,7 +267,14 @@ String tgPromoter = mouse.getRegulatoryElement().replace(",",";");
 p.add(phrb("Regulatory Element:"));
 p.add(tgPromoter);
 }
-
+return p;
+}
+private static Phrase getMouseGeneID(MouseRecord mouse) {
+Phrase p = phr();
+if (mouse.getGeneID() != null)
+{
+  p.add(mouse.getGeneID());
+}
 
 return p;
 }
@@ -316,10 +311,11 @@ p.add(repositoryCatalogNumber);
 }
 return p;
 }
-
-/*
+private static Phrase getMousePMID(MouseRecord mouse){
+Phrase p = phr();
+if (mouse.isTG() || mouse.isMA())
+{
 if (mouse.getPubmedIDs() == null || mouse.getPubmedIDs().isEmpty()) {
-p.add(",");
 p.add(phr("Unpublished"));
 } else {
 String allIDs = "";
@@ -327,20 +323,24 @@ boolean first = true;
 boolean hasValidPmIds = false;
 for (String pmid : mouse.getPubmedIDs()) {
 if (!first)
-  allIDs += ", ";
+  allIDs += "; ";
 if (pmid != null && !pmid.isEmpty())
   hasValidPmIds = true;
 first = false;
 allIDs += pmid;
 }
 if (hasValidPmIds){
-p.add(",");
-p.add(phr("PubMed: " + allIDs));
+//p.add(",");
+String removeCommaID = allIDs.replaceAll(",",";");
+p.add(removeCommaID);
+}
+}
+}
+return p;
 }
 
-}
 
-
+/*
 if (mouse.getBackgroundStrain() != null  && !mouse.getBackgroundStrain().isEmpty()) {
 p.add(",");
 p.add(phr("Background Strain: " + mouse.getBackgroundStrain()));
@@ -446,7 +446,7 @@ Phrase p = phr();
 if (mouse.getExpressedSequence() != null) {
 if (mouse.getExpressedSequence().equalsIgnoreCase("mouse gene")
 || mouse.getExpressedSequence().equalsIgnoreCase("Mouse Gene (unmodified)")) {
-p.add(formatGenePdf(mouse.getTargetGeneSymbol(),
+p.add(formatGeneID(mouse.getTargetGeneSymbol(),
           mouse.getTargetGeneName(),
           mouse.getTargetGeneID()));
 } else if (mouse.getExpressedSequence().equalsIgnoreCase("reporter")) {
@@ -494,17 +494,13 @@ return new Phrase(text, font);
 //List only symbol method
 private static Phrase formatGene(String symbol) {
   Phrase gene = phr("");
-  gene.add(phrb("\""+symbol+"\""));
+  gene.add("\""+symbol+"\"");
   //gene.add(",");
   return gene;
 }
-private static Phrase formatGenePdf(String symbol, String name, String id){
+private static Phrase formatGeneID(String symbol, String name, String id){
 Phrase gene = phr("");
-gene.add(phrb(symbol));
-gene.add(phr(" - " + name.replaceAll("[,]",";")));
-//gene.add(NL);
-gene.add(",");
-gene.add(phr("Gene MGI: " + id));
+gene.add("Gene MGI: " + id);
 return gene;
 }
 
