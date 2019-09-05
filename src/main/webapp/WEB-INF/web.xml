@@ -205,7 +205,7 @@
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value></env-entry-value>
   </env-entry>
-  <security-constraint>
+  <!-- <security-constraint>
     <web-resource-collection>
       <web-resource-name>Admin Pages</web-resource-name>
       <url-pattern>/admin/*</url-pattern>
@@ -226,7 +226,7 @@
   <security-role>
     <description>Mouse Inventory Site Administrator</description>
     <role-name>administrator</role-name>
-  </security-role>
+  </security-role> -->
   <error-page>
     <error-code>500</error-code>
     <location>/error.jsp</location>
