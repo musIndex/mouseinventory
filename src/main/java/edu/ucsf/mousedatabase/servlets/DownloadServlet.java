@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import edu.ucsf.mousedatabase.DBConnect;
 import edu.ucsf.mousedatabase.Log;
@@ -42,17 +43,20 @@ public class DownloadServlet extends HttpServlet {
 		try {
 			file = DBConnect.getFileByNameAndMouseID(fileName, mouseID);
 			//download file
-			response.setContentType("application/octet-stream");
-			response.setHeader("Content-Disposition", "filename=\"" + fileName +"\"");
+			response.setContentType("text");
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() +"\"");
 			response.setContentLength((int) file.length());
 			Log.Info("file length: " + file.length());
 			OutputStream output = response.getOutputStream();
 			FileInputStream input = new FileInputStream(file);
+			IOUtils.copy(input, output);
 
-			int byteRead = 0;
-		    while ((byteRead = input.read()) != -1) {
-		    	output.write(buffer, 0, byteRead);
+			/*
+			int len = input.read(buffer);
+		    while (len != -1) {
+		    	output.write(buffer, 0, content);
 		    }
+		    */
 		    //output.flush();
 		    output.close();
 		    input.close();
