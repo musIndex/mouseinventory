@@ -285,6 +285,12 @@ public class MGIConnect {
 
               }
             }
+            //Added Radiation induced muations -EW
+            else if (value.startsWith("Radiation")) 
+            {
+              sub.setMouseType("Mutant Allele");
+              sub.setMAModificationType("undetermined");
+            }
             else if (value.startsWith("Spontaneous"))
             {
               sub.setMouseType("Mutant Allele");
@@ -318,6 +324,12 @@ public class MGIConnect {
 //              pubMedAuthor : REIF AE
 //              officialSymbol : Thy1<a>
 //              gene mgi ID : 98747
+            }
+            //Enodnuclease-mediated mice will switch to this type -EW
+            else if (value.startsWith("Endonuclease"))
+            {
+              sub.setMouseType("Mutant Allele");
+              sub.setMAModificationType("undetermined");
             }
             else
             {
