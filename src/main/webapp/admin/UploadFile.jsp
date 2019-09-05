@@ -10,18 +10,15 @@
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
 
 
+
 <form action="<%=HTMLGeneration.adminRoot %>upload" enctype="multipart/form-data" method="post">
-	<input type="text" value= "6" name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
+	<input type="text" value= <%=request.getParameter("mouseID")%> name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
 	<input type="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75">
 	<input type="submit"/>
 </form>
 
 
-<form action="<%=HTMLGeneration.adminRoot %>upload/files" method="post" enctype="multipart/form-data">
-	<input type="file" name="files[]" multiple />
-	<input id=recordID value="6" style="display:none"></input>
-	<input type="submit"/>
-</form>
+
 
 
 
