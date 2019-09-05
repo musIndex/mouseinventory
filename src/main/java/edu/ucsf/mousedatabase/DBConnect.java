@@ -2888,7 +2888,13 @@ public class DBConnect {
     }
   }
   
-  
+  public File getFileByNameAndMouseID(String fileName, String mouseID) throws Exception
+  {
+    Connection con = connect();
+    String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'" + " AND filename='" + fileName + "'";
+      ArrayList<File> allFiles = MouseFileResultGetter.getInstance(con).Get(query);
+    return allFiles.get(0);
+  } 
 
   private static final class ChangeRequestResultGetter extends ResultGetter {
     public static ChangeRequestResultGetter getInstance() {

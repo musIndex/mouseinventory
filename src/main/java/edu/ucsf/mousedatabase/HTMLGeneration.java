@@ -646,14 +646,17 @@ public class HTMLGeneration {
     //tried /rest/upload/files
     //tried /mouseinventory/admin/upload/files
     //tried /admin/upload/files
+    buf.append("<a href=\"UploadFile.jsp?mouseID=" + r.getMouseID() + "\"> Upload Files</a>"); //trying this out
+
     
-    buf.append("<form action=\"/upload/files\" method=\"post\" enctype=\"multipart/form-data\">");
+    /*buf.append("<form action=\"/upload/files\" method=\"post\" enctype=\"multipart/form-data\">");
     buf.append("<input type=\"file\" name=\"files[]\" multiple />");
     buf.append("<input id=recordID value=\"" + r.getMouseID() + "\" style=\"display:none\"></input>");
     buf.append("<input type=\"submit\"/>");
     //buf.append("<input type=\"button\" value=\"Upload File\" name=\"upload\" onClick=\"uploadFile()\"/>");
     
     buf.append("</form>");
+    */
     
     //ArrayList<File> testFiles = new ArrayList<File>();
     //File test = new File("test.txt");
@@ -1808,13 +1811,15 @@ public class HTMLGeneration {
       String fileComment = "";
       for (File file : files) {
     	  String filename = file.getName();
-    	  fileComment = "<a href=" + file.getAbsolutePath() + " download>" + filename + "</a>";
-    	  //fileComment = "<a id=" + filename + " >" + filename + "</a>";
+    	  //fileComment = "<a href=" + file.getAbsolutePath() + " download>" + filename + "</a>";
+    	   fileComment = "<a href=" + siteRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
+
+        //fileComment = "<a id=" + filename + " >" + filename + "</a>";
     	  table.append("<div>"
     	          //+ emptyIfNull(HTMLUtilities.getCommentForDisplay(fileComment)) //adjustments go here
     	    		  + fileComment
     	          + "</div>");
-    	  table.append("<div>" + file.getAbsolutePath() + "</div>");
+    	  //table.append("<div>" + file.getAbsolutePath() + "</div>");
       }
 
       /*table.append("<span class=\"mouseComment\">"
