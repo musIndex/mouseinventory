@@ -1,5 +1,6 @@
 package edu.ucsf.mousedatabase.admin;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -183,8 +184,16 @@ public class RecordManager {
       }
 
       newMouse.setHolders(holders);
-
   }
+  
+  public static void AddFile(MouseRecord newMouse, File file)
+  {
+      //ArrayList<String> files = new ArrayList<String>();
+      
+      newMouse.setFilename(file.getName());
+  }
+  
+  //public static void AddFiles(MouseRecord newMouse, )
 
   public static void AddPubMedIds(MouseRecord newMouse, HttpServletRequest request)
   {

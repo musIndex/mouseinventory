@@ -1,5 +1,7 @@
 package edu.ucsf.mousedatabase;
 
+import java.io.File;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
+//import com.mysql.jdbc.Blob;
+import java.sql.Blob;
 
 import edu.ucsf.mousedatabase.admin.EmailRecipientManager;
 import edu.ucsf.mousedatabase.admin.EmailRecipientManager.EmailRecipient;
@@ -32,7 +36,7 @@ import edu.ucsf.mousedatabase.objects.SubmittedMouse;
 
 public class HTMLGeneration {
 
-  public static final String siteRoot = "/mouseinventory/";
+  public static final String siteRoot = "/";
   public static final String adminRoot = siteRoot + "admin/";
   public static final String imageRoot = siteRoot + "img/";
   public static final String scriptRoot = siteRoot + "js/";
@@ -644,8 +648,44 @@ public class HTMLGeneration {
       }
     }
     field = "<textarea name='adminComment' rows='10' cols='60' >" + emptyIfNull(r.getAdminComment()) + "</textarea>\r\n";
-    getInputRow(buf, "Record Admin Comment",field,"","editMouseRow");
+    getInputRow(buf, "Record Admin Comment",field,"","editMouseRow"); //testing
+   
+    //tried /mouseinventory/upload/files
+    //tried /upload/files
+    //tried /rest/upload/files
+    //tried /mouseinventory/admin/upload/files
+    //tried /admin/upload/files
+    buf.append("<a href=\"UploadFile.jsp?mouseID=" + r.getMouseID() + "\"> Upload Files</a>"); //trying this out
 
+    
+    /*buf.append("<form action=\"/upload/files\" method=\"post\" enctype=\"multipart/form-data\">");
+    buf.append("<input type=\"file\" name=\"files[]\" multiple />");
+    buf.append("<input id=recordID value=\"" + r.getMouseID() + "\" style=\"display:none\"></input>");
+    buf.append("<input type=\"submit\"/>");
+    //buf.append("<input type=\"button\" value=\"Upload File\" name=\"upload\" onClick=\"uploadFile()\"/>");
+    
+    buf.append("</form>");
+    */
+    
+    //ArrayList<File> testFiles = new ArrayList<File>();
+    //File test = new File("test.txt");
+    //testFiles.add(test);
+    //DBConnect.sendFilesToDatabase(testFiles, r.getMouseID());
+    //Blob createdBlob = DBConnect.makeBlobFromFile(test);
+    /*String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (" + "test" + ", " + createdBlob
+    		+ ", " + r.getMouseID() + ");";*/
+    //String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (\"test.txt\", 
+    //DBConnect.testFunction(fileQuery);
+    
+    ///testing begins
+    /*
+    buf.append("<FORM name=\"myForm\">");
+    buf.append("<INPUT NAME=\"textBox\" TYPE=\"text\">");
+    buf.append("&nbsp;&nbsp;<INPUT NAME=\"showOut\" TYPE=\"button\" VALUE=\" Show Me... \"  onClick=\"showOutput(myForm.textBox.value)\">");
+    buf.append("</FORM>");
+    */
+    //testing ends
+    
     buf.append("</table>\r\n");
     buf.append("</div>\r\n");
     buf.append("<div class=\"editMouseFormRightColumn\">");
@@ -679,7 +719,7 @@ public class HTMLGeneration {
           && !mgiID.equalsIgnoreCase("none")) {
         MGIResult mouseResult = null;
         String validationStyle = "";
-        String resultString = "";
+        String resultString =  "";
         String geneURL = HTMLGeneration.formatMGI(mgiID);
 
         if (r.getSource() == null || r.getSource().isEmpty()
@@ -735,7 +775,7 @@ public class HTMLGeneration {
           emptyIfNull(officialSymbol), size, 255,
           "id=\"officialSymbol\"", null, "editMouseRow");
 
-      getTextInputRow(buf, "Official Name", "officialMouseName",
+      getTextInputRow(buf, "Official Name", "officialMouseName", 
           officialMouseName, size, 255, null, null, "editMouseRow");
 
       // PubMed ID(s)
@@ -901,7 +941,7 @@ public class HTMLGeneration {
     } else {
       buf.append("<input type=\"submit\" class='btn btn-primary' name=\"submitButton\" value=\"Save Changes to Record\">");
     }
-
+     
     buf.append("</form>\r\n");
 
     if (r.getMouseID() != null && req == null) {
@@ -936,6 +976,8 @@ public class HTMLGeneration {
     }
     buf.append("</div>\r\n");
     buf.append("</div>\r\n");
+    
+    buf.append("");
     return buf.toString();
   }
 
@@ -1426,7 +1468,11 @@ public class HTMLGeneration {
     table.append("<td class='mouselistcolumn-holders' >\r\n");
     table.append("Holders ");
     table.append("</td>\r\n");
+    table.append("<td class='mouselistcolumn-holders' >\r\n");
+    table.append("Files");
+    table.append("</td>\r\n");
     table.append("</tr>\r\n");
+    
     return table.toString();
   }
 
@@ -1686,6 +1732,8 @@ public class HTMLGeneration {
           + emptyIfNull(HTMLUtilities.getCommentForDisplay(nextRecord.getGeneralComment()))
           + "</span>");
       table.append("</td>\r\n");
+      
+      
 
       // FOURTH column - holders
       table.append("<td class='mouselistcolumn-holders'>\r\n");
@@ -1765,6 +1813,31 @@ public class HTMLGeneration {
 
       table.append(holderBuf.toString());
       table.append("</td>\r\n");
+      
+   // INTERIM column - filenames. adds a link for each file in the mouseRecord
+      table.append("<td class='mouselistcolumn-comment'>\r\n");
+      ArrayList<File> files = nextRecord.getFilenames(); //files should be set when mouseRecord made
+      String fileComment = "";
+      for (File file : files) {
+    	  String filename = file.getName();
+    	  //fileComment = "<a href=" + file.getAbsolutePath() + " download>" + filename + "</a>";
+    	   fileComment = "<a href=" + siteRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
+
+        //fileComment = "<a id=" + filename + " >" + filename + "</a>";
+    	  table.append("<div>"
+    	          //+ emptyIfNull(HTMLUtilities.getCommentForDisplay(fileComment)) //adjustments go here
+    	    		  + fileComment
+    	          + "</div>");
+    	  //table.append("<div>" + file.getAbsolutePath() + "</div>");
+      }
+
+      /*table.append("<span class=\"mouseComment\">"
+          //+ emptyIfNull(HTMLUtilities.getCommentForDisplay(fileComment)) //adjustments go here
+    		  + fileComment
+          + "</span>");
+      table.append("</td>\r\n");*/
+      
+      
       table.append("</tr>\r\n");
       numMice++;
       nextRecord.prepareForSerialization();

@@ -3,7 +3,6 @@ package edu.ucsf.mousedatabase.servlets;
 import static edu.ucsf.mousedatabase.HTMLGeneration.stringToInt;
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +10,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import javax.servlet.ServletOutputStream;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -24,7 +24,6 @@ import com.itextpdf.text.html.simpleparser.HTMLWorker;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 */
-
 import com.opencsv.CSVReader;
 
 
@@ -38,18 +37,20 @@ import edu.ucsf.mousedatabase.objects.Holder;
 import edu.ucsf.mousedatabase.objects.MouseHolder;
 import edu.ucsf.mousedatabase.objects.MouseRecord;
 import edu.ucsf.mousedatabase.objects.MouseType;
-import edu.ucsf.mousedatabase.servlets.CsvServletNew.MouseFontFactory;
-
-
 /**
- * Servlet implementation class CsvServletNew
+ * Servlet implementation class CSVServletFix
  */
-public class CsvServletNew extends HttpServlet {
+public class CSVServletFix extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Font FONT_NORMAL,
-  FONT_BOLD,
-  FONT_MOUSENAME,
-  FONT_TITLE;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+ 
+    private static Font FONT_NORMAL,
+    FONT_BOLD,
+    FONT_MOUSENAME,
+    FONT_TITLE;
 private static Chunk NL;
 
 private String documentName = DBConnect.loadSetting("general_site_name").value;
@@ -145,11 +146,11 @@ if(mouseTypeID != -1)
 {
 for(MouseType type : mouseTypes)
 {
-if(type.getMouseTypeID() == mouseTypeID)
-{
-  mouseTypeStr += " " + type.getTypeName();
-  break;
-}
+  if(type.getMouseTypeID() == mouseTypeID)
+  {
+    mouseTypeStr += " " + type.getTypeName();
+    break;
+  }
 }
 }
 else
@@ -328,16 +329,16 @@ String allIDs = "";
 boolean first = true;
 boolean hasValidPmIds = false;
 for (String pmid : mouse.getPubmedIDs()) {
-if (!first)
-  allIDs += ", ";
-if (pmid != null && !pmid.isEmpty())
-  hasValidPmIds = true;
-first = false;
-allIDs += pmid;
+  if (!first)
+    allIDs += ", ";
+  if (pmid != null && !pmid.isEmpty())
+    hasValidPmIds = true;
+  first = false;
+  allIDs += pmid;
 }
 if (hasValidPmIds){
-p.add(NL);
-p.add(phr("PubMed: " + allIDs));
+  p.add(NL);
+  p.add(phr("PubMed: " + allIDs));
 }
 }
 
@@ -347,11 +348,11 @@ p.add(phr("Background Strain: " + mouse.getBackgroundStrain()));
 }
 if (mouse.getMtaRequired() != null) {
 if (mouse.getMtaRequired().equalsIgnoreCase("Y")) {
-// table.append("<dt>MTA is required.</dt>\r\n");
+  // table.append("<dt>MTA is required.</dt>\r\n");
 } else if (mouse.getMtaRequired().equalsIgnoreCase("D")) {
-// table.append("<dt>Unknown if MTA required.</dt>\r\n");
+  // table.append("<dt>Unknown if MTA required.</dt>\r\n");
 } else if (mouse.getMtaRequired().equalsIgnoreCase("N")) {
-// table.append("<dt>MTA is not required</dt>\r\n");
+  // table.append("<dt>MTA is not required</dt>\r\n");
 }
 }
 
@@ -399,11 +400,11 @@ if (holder.getCryoLiveStatus() != null) {
 // LiveCryo = live and cryo
 // Cryo = cryo only
 if (holder.getCryoLiveStatus().equalsIgnoreCase("Live only")) {
-cryoLiveStatus = "";
+  cryoLiveStatus = "";
 } else if (holder.getCryoLiveStatus().equalsIgnoreCase("Live and cryo")) {
-cryoLiveStatus = "(Cryo,Live)";
+  cryoLiveStatus = "(Cryo,Live)";
 } else if (holder.getCryoLiveStatus().equalsIgnoreCase("Cryo only")) {
-cryoLiveStatus = "(Cryo)";
+  cryoLiveStatus = "(Cryo)";
 }
 }
 
@@ -433,14 +434,14 @@ Phrase p = phr();
 p.add(phrb("Expressed Sequence: "));
 if (mouse.getExpressedSequence() != null) {
 if (mouse.getExpressedSequence().equalsIgnoreCase("mouse gene")
-|| mouse.getExpressedSequence().equalsIgnoreCase("Mouse Gene (unmodified)")) {
+  || mouse.getExpressedSequence().equalsIgnoreCase("Mouse Gene (unmodified)")) {
 p.add(formatGenePdf(mouse.getTargetGeneSymbol(),
-          mouse.getTargetGeneName(),
-          mouse.getTargetGeneID()));
+            mouse.getTargetGeneName(),
+            mouse.getTargetGeneID()));
 } else if (mouse.getExpressedSequence().equalsIgnoreCase("reporter")) {
 p.add(phr(mouse.getReporter()));
 } else if (mouse.getExpressedSequence().equalsIgnoreCase("other")||
-   mouse.getExpressedSequence().equalsIgnoreCase("Modified mouse gene or Other")) {
+     mouse.getExpressedSequence().equalsIgnoreCase("Modified mouse gene or Other")) {
 p.add(phr(mouse.getOtherComment()));
 } else {
 p.add(phr(mouse.getExpressedSequence()));
@@ -501,17 +502,16 @@ return new Font(FONT_NORMAL.getFamily(), FONT_NORMAL.getSize(), style, color);
 public boolean isRegistered(String fontname) {
 return false;
 }
-}
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-   
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -520,4 +520,5 @@ return false;
 		doGet(request, response);
 	}
 
+}
 }

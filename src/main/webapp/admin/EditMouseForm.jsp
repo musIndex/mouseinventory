@@ -34,6 +34,7 @@
     }
 
     MouseRecord record = records.get(0);
+    String recordID = record.getMouseID();
 
     if(record.getStatus() != null && record.getStatus().equalsIgnoreCase("incomplete"))
   {
@@ -58,5 +59,87 @@
 <%=existingRecord %>
 <%=editForm %>
 
+
+
 </div>
+
+<script>
+function uploadFile(){
+	const files = document.querySelector('[type=file]').files;
+	console.log("calling upload");
+	var formData = new FormData();
+	for(i = 0; i<files.length; i++ ){
+		formData.append("files", files[i].name, file);
+	}	
+	var recordID = document.getElementById("recordID").value;
+	console.log("recordID = " + recordID);
+	formData.append("MouseID", recordID);
+	//formData.append("files", files);
+	var testForm = new FormData();
+
+	var xhr = new XMLHttpRequest();
+	
+	xhr.open('POST', 'UploadFile.jsp', true);
+	xhr.setRequestHeader("MouseID", recordID);
+	
+	xhr.onload = function () {
+		  if (xhr.status === 200) {
+		    // File(s) uploaded.
+		    //uploadButton.innerHTML = 'Upload';
+		  } else {
+		    alert('An error occurred!');
+		  }
+		};
+
+	xhr.send(formData);
+		
+
+	/*
+	$.ajax({
+		url:"uploadFiles.php",
+		type: 'POST',
+		data: formData, //formData,
+		success: function(response) {
+	            console.log(response);
+	        },
+	    error: function(response) {
+	            console.log(response);
+	    }
+	});*/
+}
+	
+
+	
+	//need to define record
+	
+	//cannot send javascript data to server in script, neet to send as ajax or similar.
+	/*var xhttp = new XMLHttpRequest();
+	for (file : files){
+		xhttp.open("POST", uploadFiles.php, true);
+		xhttp.send();
+		}
+	*/
+	
+	
+	//record.addFiles(files);
+
+
+	
+	////Log.info("called record.addFiles");
+	//const formData = new FormData();// change to blob
+	//var myBlob = null; 
+	/*
+	
+	for (let i = 0; i < files.length; i++) {
+			let file = files[i]
+			var blob = new Blob([file], type = "text");
+			fileName = file.name;
+			//submit 
+			
+			//formData.append('files[]', file) //change to blob
+	}
+	//set value
+	
+	record.setFiles(myBlob);*/
+</script>
 
