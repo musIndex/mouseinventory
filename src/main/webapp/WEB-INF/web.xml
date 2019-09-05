@@ -20,8 +20,13 @@
     <servlet-name>ReportServlet</servlet-name>
     <servlet-class>edu.ucsf.mousedatabase.servlets.ReportServlet</servlet-class>
   </servlet>
+  <servlet-mapping>
+    <servlet-name>ReportServlet</servlet-name>
+    <url-pattern>/report</url-pattern>
+  </servlet-mapping>
+
   <servlet>
-    <servlet-name>jersey-serlvet</servlet-name>
+    <servlet-name>jersey-servlet</servlet-name>
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
     <init-param>
         <param-name>jersey.config.server.provider.packages</param-name>
@@ -32,11 +37,19 @@
         <param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
-</servlet>
+  </servlet>
+
+  <servlet>
+    <description></description>
+    <display-name>UploadServlet</display-name>
+    <servlet-name>UploadServlet</servlet-name>
+    <servlet-class>edu.ucsf.mousedatabase.servlets.UploadServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
-    <servlet-name>ReportServlet</servlet-name>
-    <url-pattern>/report</url-pattern>
+    <servlet-name>UploadServlet</servlet-name>
+    <url-pattern>/upload</url-pattern>
   </servlet-mapping>
+  
   <servlet>
     <servlet-name>ImportTransferServlet</servlet-name>
     <servlet-class>edu.ucsf.mousedatabase.servlets.ImportServlet</servlet-class>
