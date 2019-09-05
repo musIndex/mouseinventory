@@ -17,6 +17,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 
 import edu.ucsf.mousedatabase.DBConnect;
+import edu.ucsf.mousedatabase.HTMLGeneration;
 import edu.ucsf.mousedatabase.Log;
 
 /**
@@ -42,12 +43,15 @@ public class UploadServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		Log.Info("recieved file for processing");
 		ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
+		String mouseID = "";
+		ArrayList<File> files = new ArrayList<File>();
+		
 	    try {
 	    	List items = uploadHandler.parseRequest(request);
 	        Iterator itr = items.iterator();
 	        //final HashMap<String,String> parameters = new HashMap<String, String>();
-	        ArrayList<File> files = new ArrayList<File>();
-	        String mouseID = "";
+	        
+	        
 	        
 	        while(itr.hasNext()) {
 	        	Log.Info("found item");
@@ -89,6 +93,7 @@ public class UploadServlet extends HttpServlet {
 	    	Log.Info("Exception occurred while processing post request for file upload");
 	    }	
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+	    response.sendRedirect(HTMLGeneration.adminRoot + "EditMouseForm.jsp?id=" + mouseID);
 	}
 
 	/**
