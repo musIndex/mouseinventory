@@ -173,7 +173,13 @@
 	    "</div>" +
 	    "\r\n<a class='btn btn-primary' style='' href='" + siteRoot + "MouseList" + (queryString.length() > 0 ? "?" + queryString : "") +
 	    "'>Download this list (pdf)</a>" +
-	    "</div>";
+	    "</div>" +
+	    "<div>" +
+	    		    "\r\n<a class='btn btn-primary' style='' href='" + siteRoot + "MouseList2" + (queryString.length() > 0 ? "?" + queryString : "") +
+	    		    "'>Download this list (csv)</a>" +
+	    		    "</div>"
+	    
+	    ;
 
 	    topPageSelectionLinks += "";
 	

@@ -14,6 +14,7 @@
     <servlet-name>ValidationServlet</servlet-name>
     <url-pattern>/validate</url-pattern>
   </servlet-mapping>
+  
   <servlet>
     <description></description>
     <display-name>ReportServlet</display-name>
@@ -168,12 +169,12 @@
   <env-entry>
     <env-entry-name>MOUSEDATABASE_MGI_DATABASE_USER</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>defaultUserName</env-entry-value>
+    <env-entry-value>estelle_wall</env-entry-value>
   </env-entry>
   <env-entry>
     <env-entry-name>MOUSEDATABASE_MGI_DATABASE_PW</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>defaultPassword</env-entry-value>
+    <env-entry-value>abc123</env-entry-value>
   </env-entry>
   <env-entry>
     <env-entry-name>MOUSEDATABASE_SMTP_SERVER</env-entry-name>
@@ -241,6 +242,7 @@
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
   </resource-ref>
+  
   <servlet>
     <description></description>
     <display-name>CsvServletNew</display-name>

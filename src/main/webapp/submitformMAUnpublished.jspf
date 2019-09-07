@@ -51,7 +51,8 @@
     Choose 'targeted knock-in' when the modification to
     the gene results in the expression of a sequence of particular
     interest (e.g. another mouse gene, Cre, a reporter, etc.). If the
-    inserted sequence is a neo cassette choose 'targeted disruption.'</td>
+    inserted sequence is a neo cassette choose 'targeted disruption.'
+    Choose 'endonuclease-mediated' for methods using CRISPR/Cas9, TALEN or ZFN. </td>
   <td><%=getModificationTypeRadioWithParams(
           emptyIfNull(newMouse.getMAModificationType()),
           "onChange='UpdateModificationType()'")%> <span class="validationError">${newMouse.MAModificationTypeErr}</span>
