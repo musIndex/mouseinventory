@@ -3,7 +3,7 @@ import java.io.File;
 
 import java.util.*;
 
-// import com.mysql.jdbc.Blob;
+import com.mysql.jdbc.Blob;
 
 import edu.ucsf.mousedatabase.DBConnect;
 import edu.ucsf.mousedatabase.HTMLGeneration;
@@ -64,6 +64,7 @@ public class MouseRecord {
   
   //ArrayList<String> filenames;
   ArrayList<File> filenames;
+  ArrayList<Integer> fileIDs;
 
   @Override
   public boolean equals(Object o) {
@@ -364,7 +365,9 @@ public class MouseRecord {
   }
   
   public ArrayList<File> getFilenames(){
-	  Log.Info("getting filenames");
+	  //Log.Info("getting filenames");
+	  //DBConnect.testSend();
+	  //Log.Info("tested sending files to db");
 	  return filenames;
   }
   
@@ -374,6 +377,14 @@ public class MouseRecord {
   
   public void addFiles(ArrayList<File> newFiles) {
 	  this.filenames.addAll(newFiles);
+  }
+  
+  public void setFileIDs(ArrayList<Integer> FileIDs) {
+	  this.fileIDs = FileIDs;
+  }
+  
+  public ArrayList<Integer> getFileIDs(){
+	  return fileIDs;
   }
   
   public void setFilename(String filename) {
