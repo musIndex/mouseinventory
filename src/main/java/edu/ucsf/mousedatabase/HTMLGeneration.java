@@ -146,7 +146,7 @@ public class HTMLGeneration {
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div>"); //pagetitle
     
-    table.append("<img src=/mouseinventory/img/logo_mouse_database_UCSF.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>");
+    table.append("<img src=/img/logo_mouse_database_UCSF.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>");
     table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + DBConnect.loadSetting("general_site_name").value + "</a></span>");
     
     
@@ -181,7 +181,7 @@ public class HTMLGeneration {
       table.append("</div>");
 
     }
-    table.append("<img src=/mouseinventory/img/OR_logo_10year.png title='Founded by Gail Martin 2009' style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year'>");
+    table.append("<img src=/img/OR_logo_10year.png title='Founded by Gail Martin 2009' style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year'>");
     
     table.append("</div>"); //pagetitlecontainer
     table.append("</div>"); //pageheader

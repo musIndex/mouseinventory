@@ -5,7 +5,7 @@
                     
         
         <property name="java-output-path" value="/target/classes"/>
-        <property name="context-root" value="ROOT"/>
+        <property name="context-root" value="/"/>
                     
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="src/main/java"/>
