@@ -37,11 +37,13 @@ public class DownloadServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String mouseID = request.getParameter("mouseID");
 		String fileName = request.getParameter("fileName");
+		Integer id = (Integer) Integer.parseInt(request.getParameter("ID"));
 		File file = null;
 		int BUFF_SIZE = 1024;
 		byte[] buffer = new byte[BUFF_SIZE];
 		try {
-			file = DBConnect.getFileByNameAndMouseID(fileName, mouseID);
+			//file = DBConnect.getFileByNameAndMouseID(fileName, mouseID);
+			file = DBConnect.getFileByID(id);
 			//download file
 			response.setContentType("text");
 			response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() +"\"");
@@ -51,18 +53,9 @@ public class DownloadServlet extends HttpServlet {
 			FileInputStream input = new FileInputStream(file);
 			IOUtils.copy(input, output);
 
-			/*
-			int len = input.read(buffer);
-		    while (len != -1) {
-		    	output.write(buffer, 0, content);
-		    }
-		    */
-		    //output.flush();
 		    output.close();
 		    input.close();
 			
-			
-			//FileUtils.copyFile(file, response.getOutputStream());
 		} catch (Exception e) {}	
 		
 		//response.getWriter().append("Served at: ").append(request.getContextPath());

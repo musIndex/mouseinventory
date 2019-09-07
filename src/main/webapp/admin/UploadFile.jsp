@@ -12,9 +12,13 @@
 
 
 <form action="<%=HTMLGeneration.adminRoot %>upload" enctype="multipart/form-data" method="post">
+	<div>
+		<span>New Filename</span>
+		<input type="text" name="<%=UploadServlet.newNameFieldName %>"></input>
+	</div>
 	<input type="text" value= <%=request.getParameter("mouseID")%> name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
-	<input type="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75">
-	<input type="submit"/>
+	<input type="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>
+	<input type="submit" />
 </form>
 
 
@@ -24,8 +28,6 @@
 
 
 <%
-
-//<input type="button" value="Upload File" name="upload" onClick="uploadFile()"/>
 	/*
 ArrayList<File> files = (ArrayList<File>) request.getAttribute("files");
 	String mouseID = (String) request.getAttribute("mouseID");
