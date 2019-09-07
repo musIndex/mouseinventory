@@ -9,7 +9,7 @@
 
 
 <%
-
+  DBConnect.initialTable();
   ArrayList<ArrayList<SubmittedMouse>> submissionLists = new ArrayList<ArrayList<SubmittedMouse>>();
  
   ArrayList<String> submissionListLabels = new ArrayList<String>();

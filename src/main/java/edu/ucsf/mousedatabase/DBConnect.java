@@ -1215,6 +1215,11 @@ public class DBConnect {
 
     return null;
   } 
+
+  public static void initialTable() {
+  String  query =  "create table if not exists mouseFiles (ID int auto_increment, filename text, file blob, mouseID text, PRIMARY  KEY  (ID));";
+  executeNonQuery(query);
+  }
   
   public static void testSend() {
 	  Connection con = null; 
@@ -2865,7 +2870,14 @@ public class DBConnect {
       nextMouse.setPubmedIDs(getMousePubmedIDs(nextMouse.getMouseID()));
       
       nextMouse.setFilenames(getFilenames(nextMouse.getMouseID()));
+      nextMouse.setFileIDs(getFileIDs(nextMouse.getMouseID()));
+
       return nextMouse;
+    }
+
+    private ArrayList<Integer> getFileIDs(String mouseID) throws  SQLException {
+      String query = "SELECT ID FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+      return IntResultGetter.getInstance("ID").Get(query);
     }
 
     private ArrayList<MouseHolder> getMouseHolders(String mouseID) throws SQLException {
@@ -2895,6 +2907,13 @@ public class DBConnect {
       ArrayList<File> allFiles = MouseFileResultGetter.getInstance(con).Get(query);
     return allFiles.get(0);
   } 
+
+  public static File getFileByID(Integer ID) throws Exception {
+    Connection con = connect();
+    String query = "SELECT file, filename FROM mouseFiles WHERE ID='" + ID + "'";
+    ArrayList<File> allFiles = MouseFileResultGetter.getInstance(con).Get(query);
+    return allFiles.get(0);
+  }
 
   private static final class ChangeRequestResultGetter extends ResultGetter {
     public static ChangeRequestResultGetter getInstance() {
