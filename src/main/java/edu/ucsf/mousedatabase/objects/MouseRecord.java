@@ -3,7 +3,8 @@ import java.io.File;
 
 import java.util.*;
 
-import com.mysql.jdbc.Blob;
+//import com.mysql.jdbc.Blob;
+//import com.mariadb.jdbc.Blob;
 
 import edu.ucsf.mousedatabase.DBConnect;
 import edu.ucsf.mousedatabase.HTMLGeneration;
