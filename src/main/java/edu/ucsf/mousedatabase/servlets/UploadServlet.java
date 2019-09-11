@@ -28,6 +28,7 @@ public class UploadServlet extends HttpServlet {
 	public static final String mouseFieldName =  "mouseID";
 	public static final String fileFieldName =  "fieldName";
 	public static final String newNameFieldName =  "newName";
+	private static final String defaultFileName = "";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -45,7 +46,7 @@ public class UploadServlet extends HttpServlet {
 		Log.Info("recieved file for processing");
 		ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
 		String mouseID = "";
-		String fileName = "";
+		String fileName = defaultFileName;
 		ArrayList<File> files = new ArrayList<File>();
 		
 	    try {
@@ -70,15 +71,15 @@ public class UploadServlet extends HttpServlet {
 	            		
 	            	} else if (item.getFieldName().contentEquals(fileFieldName)) {
 	            		//dataFile = item;
-	            		Log.Info("is file");
+	            		Log.Info("is file"); 
 	            		//String fileName = item.getName();
-	            		if(fileName == null) {
+	            		if(fileName.length() == 0) {
 	            			fileName = item.getName();
 	            		}
 	            		Log.Info("filename is " + fileName);
 	            		 if (fileName != null) {
 	            		     fileName = FilenameUtils.getName(fileName);
-	            		     Log.Info("new filename: " + fileName);
+	            		     Log.Info("new filename: [" + fileName + "]");
 	            		 }
 	            		 File file = new File(fileName);
 	            		 Log.Info("about to write");
