@@ -88,13 +88,14 @@ public class DBConnect {
   private static final String mouseIDSearchTermsRegex = "^(#[0-9]+,?\\s*)+$";
 
   private static Connection connect() throws Exception {
+    Map<String, String> env = System.getenv();
+
     try {
+      // Load the JDBC driver (eg. MariaDB)
+      Class.forName(env.get("DB_CLASSNAME"));
 
-      Context initCtx = new InitialContext();
-      Context envCtx = (Context) initCtx.lookup("java:comp/env");
-      DataSource ds = (DataSource) envCtx.lookup("jdbc/mouse_inventory");
+      return DriverManager.getConnection(env.get("DB_CONNECTION_STRING"));
 
-      return ds.getConnection();
     } catch (Exception e) {
       Log.Error("Problem connecting", e);
       throw e;
