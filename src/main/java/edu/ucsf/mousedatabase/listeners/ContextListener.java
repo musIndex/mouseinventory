@@ -5,11 +5,8 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.util.Enumeration;
 import java.util.Map;
-import java.lang.System.getenv;
+import java.lang.System;
 import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -54,8 +51,9 @@ public class ContextListener implements ServletContextListener {
 
     Map<String, String> env = System.getenv();
 
+    Log.Info("Environment Variables read:", env);
+
     Context initCtx;
-    try {
       MGIConnect.Initialize(env.get("MGI_DB_DRIVER_CLASSNAME"),
           env.get("MGI_DB_CONNECTION_STRING"));
 
@@ -68,9 +66,6 @@ public class ContextListener implements ServletContextListener {
           env.get("SMTP_PW"), Integer.parseInt(env.get("SMTP_PORT")),
           Boolean.parseBoolean(env.get("SMTP_SSL_ENABLED")));
 
-    } catch (NamingException e) {
-      Log.Error("Naming exception getting environment value", e);
-    }
   }
 
 }
