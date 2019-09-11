@@ -156,55 +156,6 @@
   <listener>
     <listener-class>edu.ucsf.mousedatabase.listeners.ContextListener</listener-class>
   </listener>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_MGI_DRIVER_NAME</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>org.postgresql.Driver</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_MGI_DATABASE_URL</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>jdbc:postgresql://mgi-adhoc.jax.org:5432/mgd</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_MGI_DATABASE_USER</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>estelle_wall</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_MGI_DATABASE_PW</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>abc123</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_SMTP_SERVER</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_SMTP_USER</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_SMTP_PW</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_SMTP_PORT</env-entry-name>
-    <env-entry-type>java.lang.Integer</env-entry-type>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_SMTP_SSL_ENABLED</env-entry-name>
-    <env-entry-type>java.lang.Boolean</env-entry-type>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>GOOGLE_ANALYTICS_ACCOUNT</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value></env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>GOOGLE_ANALYTICS_DOMAIN_SUFFIX</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value></env-entry-value>
   </env-entry>
   <!-- <security-constraint>
     <web-resource-collection>
