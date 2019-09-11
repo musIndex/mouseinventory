@@ -92,7 +92,7 @@ public class DBConnect {
 
     try {
       // Load the JDBC driver (eg. MariaDB)
-      Class.forName(env.get("DB_CLASSNAME"));
+      Class.forName(env.get("DB_DRIVER_CLASSNAME"));
 
       return DriverManager.getConnection(env.get("DB_CONNECTION_STRING"));
 

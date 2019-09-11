@@ -51,8 +51,6 @@ public class ContextListener implements ServletContextListener {
 
     Map<String, String> env = System.getenv();
 
-    Log.Info("Environment Variables read:", env);
-
     Context initCtx;
       MGIConnect.Initialize(env.get("MGI_DB_DRIVER_CLASSNAME"),
           env.get("MGI_DB_CONNECTION_STRING"));
