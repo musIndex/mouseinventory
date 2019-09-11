@@ -58,7 +58,7 @@ public class MGIConnectTest {
   {
     Log.Initialize();
     MGIConnect.verbose = true;
-    MGIConnect.Initialize("org.postgresql.Driver","jdbc:postgresql://adhoc.informatics.jax.org:5432/mgd","jonathan_scoles","sc0l3s@mgi");
+    MGIConnect.Initialize("org.postgresql.Driver","jdbc:postgresql://adhoc.informatics.jax.org:5432/mgd?username=jonathan_scoles&password=sc0l3s@mgi");
 
   }
 }
