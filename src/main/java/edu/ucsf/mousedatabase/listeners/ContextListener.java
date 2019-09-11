@@ -4,7 +4,8 @@ import java.beans.Introspector;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.util.Enumeration;
-
+import java.util.Map;
+import java.lang.System.getenv;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -18,31 +19,24 @@ import edu.ucsf.mousedatabase.MGIConnect;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler;
 import edu.ucsf.mousedatabase.objects.MouseMail;
 
-public class ContextListener implements ServletContextListener
-{
+public class ContextListener implements ServletContextListener {
 
   @Override
-  @SuppressWarnings ("rawtypes")
-  public void contextDestroyed(ServletContextEvent event)
-  {
+  @SuppressWarnings("rawtypes")
+  public void contextDestroyed(ServletContextEvent event) {
     Log.Info("Mouse Inventory Web App Removed.");
 
-    try
-    {
+    try {
       Introspector.flushCaches();
-      for (Enumeration e = DriverManager.getDrivers(); e.hasMoreElements();)
-      {
+      for (Enumeration e = DriverManager.getDrivers(); e.hasMoreElements();) {
         Driver driver = (Driver) e.nextElement();
-        if (driver.getClass().getClassLoader() == getClass().getClassLoader())
-        {
+        if (driver.getClass().getClassLoader() == getClass().getClassLoader()) {
           Log.Info("De-registering " + driver.toString());
           DriverManager.deregisterDriver(driver);
         }
       }
       Log.Info("Removed JDBC driver from DriverManager.");
-    }
-    catch (Throwable e)
-    {
+    } catch (Throwable e) {
       System.err.println("Failed to cleanup ClassLoader for webapp");
       e.printStackTrace();
     }
@@ -50,45 +44,32 @@ public class ContextListener implements ServletContextListener
   }
 
   @Override
-  public void contextInitialized(ServletContextEvent event)
-  {
+  public void contextInitialized(ServletContextEvent event) {
     Log.Initialize();
     event.getServletContext();
 
     Log.Info("Mouse Inventory Web App Starting.");
 
-
-
-
-
     ImportHandler.InitializeDefinitions();
 
+    Map<String, String> env = System.getenv();
+
     Context initCtx;
-    try
-    {
-      initCtx = new InitialContext();
+    try {
+      MGIConnect.Initialize(env.get("MOUSEDATABASE_MGI_DRIVER_NAME"),
+          env.get("MOUSEDATABASE_MGI_CONNECTION_STRING"));
 
-        Context envCtx = (Context) initCtx.lookup("java:comp/env");
+      HTMLGeneration.setGoogleAnalyticsId(env.get("GOOGLE_ANALYTICS_ACCOUNT"),
+          env.get("GOOGLE_ANALYTICS_DOMAIN_SUFFIX"));
 
-        MGIConnect.Initialize((String)envCtx.lookup("MOUSEDATABASE_MGI_DRIVER_NAME"),
-          (String)envCtx.lookup("MOUSEDATABASE_MGI_DATABASE_URL"),
-          (String)envCtx.lookup("MOUSEDATABASE_MGI_DATABASE_USER"),
-          (String)envCtx.lookup("MOUSEDATABASE_MGI_DATABASE_PW"));
+      //TODO: Send APPINSIGHTS_INSTRUMENTATIONKEY to logger;
 
+      MouseMail.intitialize(env.get("MOUSEDATABASE_SMTP_SERVER"), env.get("MOUSEDATABASE_SMTP_USER"),
+          env.get("MOUSEDATABASE_SMTP_PW"), Integer.parseInt(env.get("MOUSEDATABASE_SMTP_PORT")),
+          Boolean.parseBoolean(env.get("MOUSEDATABASE_SMTP_SSL_ENABLED")));
 
-        HTMLGeneration.setGoogleAnalyticsId(
-            (String)envCtx.lookup("GOOGLE_ANALYTICS_ACCOUNT"),
-            (String)envCtx.lookup("GOOGLE_ANALYTICS_DOMAIN_SUFFIX"));
-                
-        MouseMail.intitialize((String)envCtx.lookup("MOUSEDATABASE_SMTP_SERVER"),
-            (String)envCtx.lookup("MOUSEDATABASE_SMTP_USER"), 
-            (String)envCtx.lookup("MOUSEDATABASE_SMTP_PW"),
-            (Integer)envCtx.lookup("MOUSEDATABASE_SMTP_PORT"),
-            Boolean.parseBoolean((String)envCtx.lookup("MOUSEDATABASE_SMTP_SSL_ENABLED")));
-
-    }
-    catch (NamingException e) {
-      Log.Error("Naming exception getting environment value",e);
+    } catch (NamingException e) {
+      Log.Error("Naming exception getting environment value", e);
     }
   }
 
