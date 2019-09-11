@@ -3,7 +3,6 @@ package edu.ucsf.mousedatabase;
 import java.sql.*;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.lang.Thread;
 
