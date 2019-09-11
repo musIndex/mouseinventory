@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-    <Resource name="jdbc/mouse_inventory" 
+    <!-- <Resource name="jdbc/mouse_inventory" 
         auth="Container" 
         driverClassName="org.mariadb.jdbc.Driver" 
         logAbandoned="true" 
@@ -19,41 +19,5 @@
         timeBetweenEvictionRunsMillis="60000" 
         type="javax.sql.DataSource" 
         url="jdbc:mariadb://mousespace-main.mariadb.database.azure.com:3306/mousespace_production" 
-        validationQuery="select now()" />
-    <Environment name="MOUSEDATABASE_MGI_DATABASE_USER" 
-        override="false" 
-        type="java.lang.String" 
-        value="user" />
-    <Environment name="MOUSEDATABASE_MGI_DATABASE_PW" 
-        override="false" 
-        type="java.lang.String" 
-        value="password" />
-    <Environment name="MOUSEDATABASE_SMTP_SERVER" 
-        override="false" 
-        type="java.lang.String" 
-        value="smtp.university.edu" />
-    <Environment name="MOUSEDATABASE_SMTP_USER" 
-        override="false" 
-        type="java.lang.String" 
-        value="mailuser" />
-    <Environment name="MOUSEDATABASE_SMTP_PW" 
-        override="false" 
-        type="java.lang.String" 
-        value="mailpassword" />
-    <Environment name="MOUSEDATABASE_SMTP_PORT" 
-        override="false" 
-        type="java.lang.Integer" 
-        value="465" />
-    <Environment name="MOUSEDATABASE_SMTP_SSL_ENABLED" 
-        override="false" 
-        type="java.lang.String" 
-        value="true" />
-    <Environment name="GOOGLE_ANALYTICS_ACCOUNT" 
-        override="false" 
-        type="java.lang.String" 
-        value="" />
-    <Environment name="GOOGLE_ANALYTICS_DOMAIN_SUFFIX" 
-        override="false" 
-        type="java.lang.String" 
-        value=".university.edu" />
+        validationQuery="select now()" /> -->
 </Context>
