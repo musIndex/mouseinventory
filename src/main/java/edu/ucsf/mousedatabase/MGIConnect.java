@@ -725,8 +725,7 @@ public class MGIConnect {
     public void run() {
       try {
         // Load the JDBC driver: MySQL MM JDBC driver
-        Class.forName(env.get("DB_CLASSNAME"));
-        Class.forName(env.get("DB_CONNECTION_STRING"));
+        Class.forName(databaseDriverName);
         // Create a new connection to MGI
         setConnection(DriverManager.getConnection(databaseConnectionString));
         if (verbose) System.out.println("Successfully connected to MGI, returning connection");
