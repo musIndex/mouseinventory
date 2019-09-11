@@ -4,7 +4,7 @@ import java.util.logging.*;
 public class Log {
 
   private static Logger _logger;
-  public static final String loggerName = "mousedblogger";
+  public static final String loggerName = "mousespaceLogger";
 
 
   public static void Initialize()
@@ -17,11 +17,14 @@ public class Log {
 
   public static void Info(Object o)
   {
-    if (o == null)
-    {
+    if (o == null) {
       return;
     }
     _logger.info(o.toString());
+  }
+  
+  public static void Info(String string, Object object) {
+    _logger.log(Level.INFO, string, object);
   }
 
   public static void Error(Object o)
@@ -40,6 +43,4 @@ public class Log {
       _logger.log(Level.SEVERE, o.toString(), exception);
     }
   }
-
-
 }
