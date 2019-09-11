@@ -12,10 +12,6 @@ import java.sql.Date;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
-
 import edu.ucsf.mousedatabase.beans.MouseSubmission;
 import edu.ucsf.mousedatabase.beans.UserData;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler;
