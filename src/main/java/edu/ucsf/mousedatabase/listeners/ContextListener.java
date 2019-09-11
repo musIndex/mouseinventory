@@ -56,17 +56,17 @@ public class ContextListener implements ServletContextListener {
 
     Context initCtx;
     try {
-      MGIConnect.Initialize(env.get("MOUSEDATABASE_MGI_DRIVER_NAME"),
-          env.get("MOUSEDATABASE_MGI_CONNECTION_STRING"));
+      MGIConnect.Initialize(env.get("MGI_DB_DRIVER_CLASSNAME"),
+          env.get("MGI_DB_CONNECTION_STRING"));
 
       HTMLGeneration.setGoogleAnalyticsId(env.get("GOOGLE_ANALYTICS_ACCOUNT"),
           env.get("GOOGLE_ANALYTICS_DOMAIN_SUFFIX"));
 
       //TODO: Send APPINSIGHTS_INSTRUMENTATIONKEY to logger;
 
-      MouseMail.intitialize(env.get("MOUSEDATABASE_SMTP_SERVER"), env.get("MOUSEDATABASE_SMTP_USER"),
-          env.get("MOUSEDATABASE_SMTP_PW"), Integer.parseInt(env.get("MOUSEDATABASE_SMTP_PORT")),
-          Boolean.parseBoolean(env.get("MOUSEDATABASE_SMTP_SSL_ENABLED")));
+      MouseMail.intitialize(env.get("SMTP_SERVER"), env.get("SMTP_USER"),
+          env.get("SMTP_PW"), Integer.parseInt(env.get("SMTP_PORT")),
+          Boolean.parseBoolean(env.get("SMTP_SSL_ENABLED")));
 
     } catch (NamingException e) {
       Log.Error("Naming exception getting environment value", e);
