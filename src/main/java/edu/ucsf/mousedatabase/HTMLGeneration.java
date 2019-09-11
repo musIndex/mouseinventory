@@ -297,7 +297,6 @@ public class HTMLGeneration {
     String field = "";
     StringBuilder buf = new StringBuilder();
     buf.append("<div class=\"mouseTable\">\r\n");
-
     if (sub != null) {// sub is null when editing existing mice, not null
     // when this is a new submission
       buf.append("<form name=\"mouseDetails\" action=\"UpdateSubmission.jsp\" method=\"post\">\r\n");
@@ -1465,17 +1464,17 @@ public class HTMLGeneration {
     table.append("<td class='mouselistcolumn-comment'>\r\n");
     table.append("Comment ");
     table.append("</td>\r\n");
-    table.append("<td class='mouselistcolumn-holders' >\r\n");
-    table.append("Holders ");
+    table.append("<td class='mouselistcolumn-comment' >\r\n");
+    table.append("Files");
     table.append("</td>\r\n");
     table.append("<td class='mouselistcolumn-holders' >\r\n");
-    table.append("Files");
+    table.append("Holders ");
     table.append("</td>\r\n");
     table.append("</tr>\r\n");
     
     return table.toString();
   }
-
+  //Called during edit record, need to add boolean showFile -EW
   public static String getMouseTable(ArrayList<MouseRecord> mice, boolean edit,
       boolean showChangeRequest, boolean showAllHolders) {
     return getMouseTable(mice, edit, showChangeRequest, showAllHolders, true);
@@ -1735,7 +1734,35 @@ public class HTMLGeneration {
       
       
 
-      // FOURTH column - holders
+     
+      
+   // INTERIM column - filenames. adds a link for each file in the mouseRecord
+     if (showChangeRequest||edit          ) {
+      table.append("<td class='mouselistcolumn-comment'>\r\n");
+      ArrayList<File> files = nextRecord.getFilenames(); //files should be set when mouseRecord made
+      String fileComment = "";
+      for (File file : files) {
+        String filename = file.getName();
+    	  fileComment = "<a href=" + file.getAbsolutePath() + " download>" + filename + "</a>";
+    	   fileComment = "<a href=" + siteRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
+
+        fileComment = "<a id=" + filename + " >" + filename + "</a>";
+        table.append("<div>"
+    	          + emptyIfNull(HTMLUtilities.getCommentForDisplay(fileComment)) //adjustments go here
+                + fileComment
+                + "</div>");
+    	  table.append("<div>" + file.getAbsolutePath() + "</div>");
+      }
+     }
+      /*table.append("<span class=\"mouseComment\">"
+          //+ emptyIfNull(HTMLUtilities.getCommentForDisplay(fileComment)) //adjustments go here
+    		  + fileComment
+          + "</span>");
+      table.append("</td>\r\n");*/
+      
+      
+      //table.append("</tr>\r\n");
+      // FOURTH column - holders -EW change to last column
       table.append("<td class='mouselistcolumn-holders'>\r\n");
 
       int holderCount = 0;
@@ -1813,31 +1840,6 @@ public class HTMLGeneration {
 
       table.append(holderBuf.toString());
       table.append("</td>\r\n");
-      
-   // INTERIM column - filenames. adds a link for each file in the mouseRecord
-      table.append("<td class='mouselistcolumn-comment'>\r\n");
-      ArrayList<File> files = nextRecord.getFilenames(); //files should be set when mouseRecord made
-      ArrayList<Integer> IDs = nextRecord.getFileIDs();
-      String fileComment = "";
-      //for (File file : files) { //switch to int i, refer to matching i in IDs
-      for(int i = 0; i < files.size(); i++) {
-        File file = files.get(i);
-        Integer id = IDs.get(i);
-        String filename = file.getName();
-        fileComment = "<a href=" + siteRoot +"/download" + "?ID=" + id + "&fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";      
-        table.append("<div>"
-                + fileComment
-                + "</div>");
-      }
-
-      /*table.append("<span class=\"mouseComment\">"
-          //+ emptyIfNull(HTMLUtilities.getCommentForDisplay(fileComment)) //adjustments go here
-    		  + fileComment
-          + "</span>");
-      table.append("</td>\r\n");*/
-      
-      
-      table.append("</tr>\r\n");
       numMice++;
       nextRecord.prepareForSerialization();
     }

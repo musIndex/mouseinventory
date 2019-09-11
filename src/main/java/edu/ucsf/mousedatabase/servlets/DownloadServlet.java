@@ -53,9 +53,18 @@ public class DownloadServlet extends HttpServlet {
 			FileInputStream input = new FileInputStream(file);
 			IOUtils.copy(input, output);
 
+			/*
+			int len = input.read(buffer);
+		    while (len != -1) {
+		    	output.write(buffer, 0, content);
+		    }
+		    */
+		    //output.flush();
 		    output.close();
 		    input.close();
 			
+			
+			//FileUtils.copyFile(file, response.getOutputStream());
 		} catch (Exception e) {}	
 		
 		//response.getWriter().append("Served at: ").append(request.getContextPath());

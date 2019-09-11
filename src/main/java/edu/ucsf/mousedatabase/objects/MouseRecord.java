@@ -2,9 +2,10 @@ package edu.ucsf.mousedatabase.objects;
 import java.io.File;
 
 import java.util.*;
-
+//These imports were not in original -EW
 //import com.mysql.jdbc.Blob;
 //import com.mariadb.jdbc.Blob;
+//import java.sql.Blob;
 
 import edu.ucsf.mousedatabase.DBConnect;
 import edu.ucsf.mousedatabase.HTMLGeneration;
@@ -366,9 +367,7 @@ public class MouseRecord {
   }
   
   public ArrayList<File> getFilenames(){
-	  //Log.Info("getting filenames");
-	  //DBConnect.testSend();
-	  //Log.Info("tested sending files to db");
+	  Log.Info("getting filenames");
 	  return filenames;
   }
   
