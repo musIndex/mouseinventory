@@ -1743,17 +1743,14 @@ public class HTMLGeneration {
       String fileComment = "";
       for (File file : files) {
         String filename = file.getName();
-    	  fileComment = "<a href=" + file.getAbsolutePath() + " download>" + filename + "</a>";
-    	   fileComment = "<a href=" + siteRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
-
-        fileComment = "<a id=" + filename + " >" + filename + "</a>";
-        table.append("<div>"
-    	          + emptyIfNull(HTMLUtilities.getCommentForDisplay(fileComment)) //adjustments go here
-                + fileComment
-                + "</div>");
-    	  table.append("<div>" + file.getAbsolutePath() + "</div>");
+    	  //fileComment = "<a href=" + file.getAbsolutePath() + " download>" + filename + "</a>";
+    	  // fileComment = "<a href=" + siteRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
+        //fileComment = "<a id=" + filename + " >" + filename + "</a>";
+        fileComment = "<a href="+ siteRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
+        table.append("<div>" + fileComment + "</div>");
       }
      }
+     
       /*table.append("<span class=\"mouseComment\">"
           //+ emptyIfNull(HTMLUtilities.getCommentForDisplay(fileComment)) //adjustments go here
     		  + fileComment
@@ -1762,7 +1759,7 @@ public class HTMLGeneration {
       
       
       //table.append("</tr>\r\n");
-      // FOURTH column - holders -EW change to last column
+      // Fifth column - holders -EW change to last column
       table.append("<td class='mouselistcolumn-holders'>\r\n");
 
       int holderCount = 0;

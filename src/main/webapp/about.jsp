@@ -73,11 +73,12 @@ for(Setting.SettingCategory category : categories){
       i++;
      continue; 
     }
-    %><div class='category cf'>
+    %>
+    <div class='category cf'>
+    
     <h3><%=categoryLabels.get(i) %></h3>
     
-    <%
-    boolean open = false;
+    <%boolean open = false;
     String lastCustom = null;
     for (Setting newItem : recentSiteUpdateItems) {
       if (category.SecondaryValueName != null && category.SecondaryValueName.equals("Custom style")) {
@@ -111,11 +112,13 @@ for(Setting.SettingCategory category : categories){
     </div>
   <% 
     i++;
-  } %>
+  } %> 
     </div>
+   
     <div id='about_details'>
+      
       <div class='content'>
-        <h3 id="faq">Frequently Asked Questions</h3>
+<h3 id="faq">Frequently Asked Questions</h3>
         <%
     ArrayList<Setting> faqItems = DBConnect.getCategorySettings(Setting.SettingCategory.FAQ_ITEMS.Id);
     i = 0;
@@ -143,27 +146,70 @@ for(Setting.SettingCategory category : categories){
 $('#accordion2').collapse({
   toggle: true
 });
-</script>
-      </div>
-      <div class='content'>
-        <h3 id="how"><%=DBConnect.loadSetting("home_page_text_how_mice_are_listed").label%></h3>
-        <%=DBConnect.loadSetting("home_page_text_how_mice_are_listed").value%>
-      </div>
-      <div class='content'>
-        <h3 id="info"><%=DBConnect.loadSetting("home_page_text_information_about_each_mouse").label%></h3>
-        <%=DBConnect.loadSetting("home_page_text_information_about_each_mouse").value%>
-      </div>
-      <div class='content'>
-        <h3 id="submitting"><%=DBConnect.loadSetting("home_page_text_submitting_mice").label%></h3>
+</script> 
+</div>
 
-        <%=DBConnect.loadSetting("home_page_text_submitting_mice").value%>
-      </div>
-      
-      <div class='content'>
-        <h3 id="technical"><%=DBConnect.loadSetting("home_page_text_introduction").label%></h3>
 
-        <%=DBConnect.loadSetting("home_page_text_introduction").value%>
+     <h3 id="details">Mouse Database Details</h3>
+     <div class="accordion" id="accordion2">
+      <div class="accordion-group">  
+  <div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title"> 
+        <a data-toggle="collapse" data-parent="#accordion" style="padding-left: 10px; font-size: 15px" href="#collapse1"> 
+        <%=DBConnect.loadSetting("home_page_text_how_mice_are_listed").label%></a>
+      </h4>
+    </div>
+    <div id="collapse1" class="panel-collapse collapse in" >
+      <div class="panel-body" style="padding-left: 10px" > 
+       <%=DBConnect.loadSetting("home_page_text_how_mice_are_listed").value%>
       </div>
     </div>
   </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" style="padding-left: 10px; font-size:15px " href="#collapse2">
+        <%=DBConnect.loadSetting("home_page_text_information_about_each_mouse").label%></a>
+      </h4>
+    </div>
+    <div id="collapse2" class="panel-collapse collapse">
+      <div class="panel-body" style="padding-left: 10px">
+      <%=DBConnect.loadSetting("home_page_text_information_about_each_mouse").value%>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" style="padding-left: 10px; font-size: 15px " href="#collapse3">
+        <%=DBConnect.loadSetting("home_page_text_submitting_mice").label%>
+        </a>
+      </h4>
+    </div>
+    <div id="collapse3" class="panel-collapse collapse">
+      <div class="panel-body" style="padding-left: 10px"> 
+       <%=DBConnect.loadSetting("home_page_text_submitting_mice").value%>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" style="padding-left: 10px; font-size: 15px" href="#collapse4">
+        <%=DBConnect.loadSetting("home_page_text_introduction").label%>
+        </a>
+      </h4>
+    </div>
+    <div id="collapse4" class="panel-collapse collapse">
+      <div class="panel-body" style="padding-left: 10px">
+     <%=DBConnect.loadSetting("home_page_text_introduction").value%>
+     </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
 </div>
