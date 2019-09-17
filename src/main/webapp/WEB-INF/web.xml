@@ -25,6 +25,16 @@
     <servlet-name>ReportServlet</servlet-name>
     <url-pattern>/report</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RemoveServlet</display-name>
+    <servlet-name>RemoveServlet</servlet-name>
+    <servlet-class>edu.ucsf.mousedatabase.servlets.RemoveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RemoveServlet</servlet-name>
+    <url-pattern>/admin/RemoveServlet</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>jersey-servlet</servlet-name>

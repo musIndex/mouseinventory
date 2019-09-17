@@ -654,7 +654,7 @@ public class HTMLGeneration {
     //tried /rest/upload/files
     //tried /mouseinventory/admin/upload/files
     //tried /admin/upload/files
-    buf.append("<a href=\"UploadFile.jsp?mouseID=" + r.getMouseID() + "\"> Upload Files</a>"); //trying this out
+    buf.append("<a href=\"UploadFile.jsp?mouseID=" + r.getMouseID() + "\"> Upload/Delete Files</a>"); //trying this out
 
     
     /*buf.append("<form action=\"/upload/files\" method=\"post\" enctype=\"multipart/form-data\">");
