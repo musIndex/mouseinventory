@@ -21,11 +21,10 @@
 	<input type="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>
 	<input type="submit" />
 </form>
-<div id = "test"><%=DBConnect.getFileNamesAsString(request.getParameter("mouseID")) %></div>
-<div id = "test2"><%=DBConnect.getIDsAsString(request.getParameter("mouseID")) %></div>
-<div id = "test3">Hello</div>
- <h2>Files To Delete</h2>
- <ul id = "listFiles"></ul>
+<div id = "test" style="display:none"><%=DBConnect.getFileNamesAsString(request.getParameter("mouseID")) %></div>
+<div id = "test2" style="display:none"><%=DBConnect.getIDsAsString(request.getParameter("mouseID")) %></div>
+<h2>Files To Delete</h2>
+<ul id = "listFiles"></ul>
 
 
 
@@ -40,9 +39,13 @@ ArrayList<Integer> ids = DBConnect.getFileIDsByMouseID(mouseID);
 
 %>
 
+function sendDelete(phrase){
+	window.location = phrase;
+}
 
 function myFunction(){
-	
+	//set link to download
+	//add button for delete
 	var  string1 = document.getElementById("test").innerHTML;
 	var  string2 = document.getElementById("test2").innerHTML;
 	var names = string1.split("/");
@@ -50,19 +53,31 @@ function myFunction(){
 	var list = document.getElementById("listFiles");
 	
 	for (var i = 1; i < names.length; i++) { 
+		var btn = document.createElement("BUTTON");
+		btn.innerHTML = "Delete";
+		console.log("made button")
+		
+		var s = document.createElement('span');
+				
 		var a = document.createElement('a');
 		var linkText = document.createTextNode(names[i]);
 		a.appendChild(linkText); 
-		//need to add file num to request
-		var phrase = "<%=HTMLGeneration.adminRoot %>RemoveServlet?id="
-		var phrase2 = phrase + nums[i] + "&mouseID=" + <%=request.getParameter("mouseID")%>;
-		a.href = phrase2;
+		var deletePhrase = "<%=HTMLGeneration.adminRoot %>RemoveServlet?id="
+		var deletePhrase2 = deletePhrase + nums[i] + "&mouseID=" + <%=request.getParameter("mouseID")%>;
 
+		var viewPhrase = "<%=HTMLGeneration.siteRoot %>"
+		var viewPhrase2 = viewPhrase +"/download" + "?ID=" + nums[i];
+		//btn.setAttribute("onClick", "alert('hello')");
+		btn.setAttribute("onClick", "sendDelete('" + deletePhrase2 + "')");
+		
+		a.href = viewPhrase2;
+		//a.href = deletePhrase2;
+		s.appendChild(a);
+		s.appendChild(btn);
 
 		var entry = document.createElement('li');
-		entry.appendChild(a);
-		
-		//entry.appendChild(document.createTextNode(names[i]));
+		entry.appendChild(s);
+		//entry.appendChild(a);		
 		list.appendChild(entry);
 	}
 }
