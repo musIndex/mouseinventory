@@ -2908,6 +2908,28 @@ public class DBConnect {
     return allFiles.get(0);
   } 
 
+    public static String getFileNamesAsString(String mouseID) throws Exception{
+    ArrayList<String> filenames = getFilenamesByMouseID(mouseID);
+    String store = "";
+    for(String name : filenames){
+      store += "/" + name;
+    }
+    return store;
+  }
+  
+  public static String getIDsAsString(String mouseID) throws Exception{
+    ArrayList<Integer> ids = getFileIDsByMouseID(mouseID);
+    String store = "";
+    for(Integer id : ids){
+      store += "/" + id;
+    }
+    return store;
+  }
+
+  public static ArrayList<Integer> getFileIDsByMouseID(String mouseID) throws Exception{
+    return MouseRecordResultGetter.getFileIDs(mouseID);
+  }
+
   public static File getFileByID(Integer ID) throws Exception {
     Connection con = connect();
     String query = "SELECT file, filename FROM mouseFiles WHERE ID='" + ID + "'";
