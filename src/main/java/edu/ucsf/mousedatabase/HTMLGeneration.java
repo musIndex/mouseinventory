@@ -1464,7 +1464,7 @@ public class HTMLGeneration {
     table.append("<td class='mouselistcolumn-comment'>\r\n");
     table.append("Comment ");
     table.append("</td>\r\n");
-    table.append("<td class='mouselistcolumn-comment' >\r\n");
+    table.append("<td class='mouselistcolumn-files' >\r\n");
     table.append("Files");
     table.append("</td>\r\n");
     table.append("<td class='mouselistcolumn-holders' >\r\n");
@@ -1738,7 +1738,7 @@ public class HTMLGeneration {
       
    // INTERIM column - filenames. adds a link for each file in the mouseRecord
      if (showChangeRequest||edit          ) {
-      table.append("<td class='mouselistcolumn-comment'>\r\n");
+      table.append("<td class='mouselistcolumn-files'>\r\n");
       ArrayList<File> files = nextRecord.getFilenames(); //files should be set when mouseRecord made
       String fileComment = "";
       for (File file : files) {
@@ -2909,6 +2909,7 @@ public class HTMLGeneration {
     buf.append("<li>Sort by: ");
     buf.append(genSelect("orderby",new String[]{"mouse.name","mouse.id","mouse.id desc"}, 
                         new String[]{"Mouse Name", "Record #", "Record #(reverse)"},checkedOrderBy,null));
+    
     buf.append("</li>\n");
     buf.append("<li>Category: ");
     String[] mouseTypeIds = new String[mouseTypes.size() + 1];
