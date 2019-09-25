@@ -2915,6 +2915,12 @@ public class DBConnect {
     return allFiles.get(0);
   }
 
+  public static void deleteFileByID(Integer ID) throws Exception {
+    //Connection con = connect();
+    String query = "DELETE FROM mouseFiles WHERE ID = '" + ID + "'";
+    executeNonQuery(query);
+  }
+
   private static final class ChangeRequestResultGetter extends ResultGetter {
     public static ChangeRequestResultGetter getInstance() {
       return new ChangeRequestResultGetter();
