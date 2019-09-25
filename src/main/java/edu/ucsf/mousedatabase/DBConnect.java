@@ -2872,11 +2872,6 @@ public class DBConnect {
       return nextMouse;
     }
 
-    private static ArrayList<Integer> getFileIDs(String mouseID) throws  SQLException {
-      String query = "SELECT ID FROM mouseFiles WHERE mouseID='" + mouseID + "'";
-      return IntResultGetter.getInstance("ID").Get(query);
-    }
-
     private ArrayList<MouseHolder> getMouseHolders(String mouseID) throws SQLException {
       String query = mouseHolderQueryHeader + " WHERE mouse_id='" + mouseID
           + "' and status='active'\r\nORDER BY lastname";
