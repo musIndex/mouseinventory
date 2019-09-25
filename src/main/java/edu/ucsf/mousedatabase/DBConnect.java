@@ -2875,7 +2875,7 @@ public class DBConnect {
       return nextMouse;
     }
 
-    private ArrayList<Integer> getFileIDs(String mouseID) throws  SQLException {
+    private static ArrayList<Integer> getFileIDs(String mouseID) throws  SQLException {
       String query = "SELECT ID FROM mouseFiles WHERE mouseID='" + mouseID + "'";
       return IntResultGetter.getInstance("ID").Get(query);
     }
@@ -2898,6 +2898,18 @@ public class DBConnect {
   	  String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
   	  return MouseFileResultGetter.getInstance(_connection).Get(query);
     }
+
+    private ArrayList<File> getFiles(String mouseID) throws SQLException
+    {
+      String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+      return MouseFileResultGetter.getInstance(_connection).Get(query);
+    }
+    
+    protected static ArrayList<Integer> getFileIDs(String mouseID) throws  SQLException {
+      String query = "SELECT ID FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+      return IntResultGetter.getInstance("ID").Get(query);
+    }
+
   }
   //added static to getFileByNameAndMouseID -EW
   public static File getFileByNameAndMouseID(String fileName, String mouseID) throws Exception
@@ -2915,6 +2927,16 @@ public class DBConnect {
       store += "/" + name;
     }
     return store;
+  }
+
+    public static ArrayList<String> getFilenamesByMouseID(String  mouseID) throws Exception{
+    Connection con = connect(); 
+    String query = "SELECT filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+    ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(query);
+    for(String filename : allFilenames) {
+      Log.Info("filename looked up: " + filename);
+    }
+    return allFilenames;   
   }
   
   public static String getIDsAsString(String mouseID) throws Exception{
