@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Disabled</key>
+    <false/>
+    <key>Label</key>
+    <string>homebrew.mxcl.tomcat</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/usr/local/opt/tomcat/bin/catalina</string>
+      <string>run</string>
+    </array>
+    <key>KeepAlive</key>
+    <true/>
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>DB_DRIVER_CLASSNAME</key>
+      <string>org.mariadb.jdbc.Driver</string>
+      <key>DB_CONNECTION_STRING</key>
+      <string>jdbc:mariadb://localhost:3306/mousespace?user=mousedb&password=abc123</string>
+      <key>MGI_DB_DRIVER_CLASSNAME</key>
+      <string>org.postgresql.Driver</string>
+      <key>MGI_CONNECTION_STRING</key>
+      <string>jdbc:postgresql://mgi-adhoc.jax.org:5432/mgd?username=mousedb&password=abc123</string>
+      <key>SMTP_SERVER</key>
+      <string></string>
+      <key>SMTP_USER</key>
+      <string></string>
+      <key>SMTP_PW</key>
+      <string></string>
+      <key>SMTP_PORT</key>
+      <string>1</string>
+      <key>SMTP_SSL_ENABLED</key>
+      <string>1</string>
+      <key>GOOGLE_ANALYTICS_ACCOUNT</key>
+      <string></string>
+      <key>GOOGLE_ANALYTICS_DOMAIN_SUFFIX</key>
+      <string>True</string>
+    </dict>
+  </dict>
+</plist>
