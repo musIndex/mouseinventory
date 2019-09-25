@@ -12,10 +12,6 @@ import java.sql.Date;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
-
 import edu.ucsf.mousedatabase.beans.MouseSubmission;
 import edu.ucsf.mousedatabase.beans.UserData;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler;
@@ -88,13 +84,14 @@ public class DBConnect {
   private static final String mouseIDSearchTermsRegex = "^(#[0-9]+,?\\s*)+$";
 
   private static Connection connect() throws Exception {
+    Map<String, String> env = System.getenv();
+
     try {
+      // Load the JDBC driver (eg. MariaDB)
+      Class.forName(env.get("DB_DRIVER_CLASSNAME"));
 
-      Context initCtx = new InitialContext();
-      Context envCtx = (Context) initCtx.lookup("java:comp/env");
-      DataSource ds = (DataSource) envCtx.lookup("jdbc/mouse_inventory");
+      return DriverManager.getConnection(env.get("DB_CONNECTION_STRING"));
 
-      return ds.getConnection();
     } catch (Exception e) {
       Log.Error("Problem connecting", e);
       throw e;

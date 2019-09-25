@@ -1,4 +1,5 @@
 package edu.ucsf.mousedatabase;
+
 import java.sql.*;
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,225 +24,181 @@ public class MGIConnect {
   public static final String pmDBurlTail = "?dopt=Abstract";
   public static final String mgiDBurl = "http://www.informatics.jax.org/accession/MGI:";
 
-  private static String databaseUser;
-  private static String databasePw;
+  private static String databaseConnectionString;
   private static String databaseDriverName;
-  private static String databaseUrl;
 
   private static boolean initialized = false;
 
   public static boolean verbose = false;
 
-
-  public static boolean Initialize(String databaseDriverName, String databaseUrl, String databaseUser, String databasePw)
-  {
-    if (initialized)
-    {
+  public static boolean Initialize(String databaseDriverName, String databaseConnectionString) {
+    if (initialized) {
       return false;
     }
     MGIConnect.databaseDriverName = databaseDriverName;
-    MGIConnect.databaseUrl = databaseUrl;
-    MGIConnect.databaseUser = databaseUser;
-    MGIConnect.databasePw = databasePw;
+    MGIConnect.databaseConnectionString = databaseConnectionString;
     initialized = true;
     return true;
   }
 
-
-  //TODO make this method public and make callers figure out typeIDs
-  public static MGIResult doMGIQuery(String accessionID, int expectedTypeID, String wrongTypeString)
-  {
+  // TODO make this method public and make callers figure out typeIDs
+  public static MGIResult doMGIQuery(String accessionID, int expectedTypeID, String wrongTypeString) {
     return doMGIQuery(accessionID, expectedTypeID, wrongTypeString, true);
   }
 
-
-
-  public static MGIResult doMGIQuery(String accessionID, int expectedTypeID, String wrongTypeString, boolean offlineOK)
-  {
+  public static MGIResult doMGIQuery(String accessionID, int expectedTypeID, String wrongTypeString,
+      boolean offlineOK) {
 
     MGIResult result = new MGIResult();
-      result.setAccessionID(accessionID);
-      result.setType(expectedTypeID);
-      String query = "";
-      Connection connection = null;
+    result.setAccessionID(accessionID);
+    result.setType(expectedTypeID);
+    String query = "";
+    Connection connection = null;
 
-      String accID = accessionID;
-      if(expectedTypeID != MGI_REFERENCE)
-      {
-        accID = "MGI:" + accessionID;
-      }
+    String accID = accessionID;
+    if (expectedTypeID != MGI_REFERENCE) {
+      accID = "MGI:" + accessionID;
+    }
 
-      try
-      {
-        connection = connect();
-        query = "select _Accession_key, ACC_Accession._MGIType_key, primaryKeyName, _Object_key, tableName " +
-        "from ACC_Accession left join ACC_MGIType on ACC_Accession._MGIType_key=ACC_MGIType._MGIType_key " +
-        "where accID='" + accID + "' " +
-        "and ACC_Accession._MGIType_key in(" + MGI_MARKER + "," + MGI_ALLELE + "," + MGI_REFERENCE + ")";
-        //the last line above is kind of a hack because sometimes you get multiple results for accession ids, such as evidence types
+    try {
+      connection = connect();
+      query = "select _Accession_key, ACC_Accession._MGIType_key, primaryKeyName, _Object_key, tableName "
+          + "from ACC_Accession left join ACC_MGIType on ACC_Accession._MGIType_key=ACC_MGIType._MGIType_key "
+          + "where accID='" + accID + "' " + "and ACC_Accession._MGIType_key in(" + MGI_MARKER + "," + MGI_ALLELE + ","
+          + MGI_REFERENCE + ")";
+      // the last line above is kind of a hack because sometimes you get multiple
+      // results for accession ids, such as evidence types
 
-        java.sql.Statement stmt = connection.createStatement();
-          if (verbose) System.out.println(query);
-          ResultSet rs = stmt.executeQuery(query);
+      java.sql.Statement stmt = connection.createStatement();
+      if (verbose) System.out.println(query);
+      ResultSet rs = stmt.executeQuery(query);
 
-          if(rs.next())
-          {
-            //int accessionKey = rs.getInt("_Accession_key");
-            int mgiTypeKey = rs.getInt("_MGIType_key");
-            String primaryKeyName = rs.getString("primaryKeyName");
-            int objectKey = rs.getInt("_Object_key");
-            String tableName = rs.getString("tableName");
+      if (rs.next()) {
+        // int accessionKey = rs.getInt("_Accession_key");
+        int mgiTypeKey = rs.getInt("_MGIType_key");
+        String primaryKeyName = rs.getString("primaryKeyName");
+        int objectKey = rs.getInt("_Object_key");
+        String tableName = rs.getString("tableName");
 
-            if(mgiTypeKey != expectedTypeID) //TODO lookup type id, don't hard code it
-            {
-              if (verbose) System.out.println("type key mismatch! " + mgiTypeKey + " != " + expectedTypeID);
-              //see if this is a possible other genome feature issue
-              if(mgiTypeKey == MGI_MARKER && expectedTypeID == MGI_ALLELE)
-              {
-                query = "select * from " + tableName + " where " + primaryKeyName + "=" + objectKey;
-                if (verbose) System.out.println(query);
-                stmt = connection.createStatement();
-                rs = stmt.executeQuery(query);
-                if(rs.next() && rs.getInt("_Marker_Type_key") == MGI_MARKER_OTHER_GENOME_FEATURE)
-                {
-                  query = getAlleleQueryFromOGFID(accessionID);
-                  stmt = connection.createStatement();
-                  rs = stmt.executeQuery(query);
-                  if(rs.next())
-                  {
-                    String allelePageID = rs.getString("accID");
-                    return doMGIQuery(allelePageID, expectedTypeID, wrongTypeString);
-                  }
-                }
-              }
-              result.setValid(false);
-              result.setErrorString(wrongTypeString);
-
-            }
-            else
-            {
-              query = "select * from " + tableName + " where " + primaryKeyName + "=" + objectKey;
-              if (verbose) System.out.println(query);
+        if (mgiTypeKey != expectedTypeID) // TODO lookup type id, don't hard code it
+        {
+          if (verbose) System.out.println("type key mismatch! " + mgiTypeKey + " != " + expectedTypeID);
+          // see if this is a possible other genome feature issue
+          if (mgiTypeKey == MGI_MARKER && expectedTypeID == MGI_ALLELE) {
+            query = "select * from " + tableName + " where " + primaryKeyName + "=" + objectKey;
+            if (verbose) System.out.println(query);
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(query);
+            if (rs.next() && rs.getInt("_Marker_Type_key") == MGI_MARKER_OTHER_GENOME_FEATURE) {
+              query = getAlleleQueryFromOGFID(accessionID);
               stmt = connection.createStatement();
               rs = stmt.executeQuery(query);
+              if (rs.next()) {
+                String allelePageID = rs.getString("accID");
+                return doMGIQuery(allelePageID, expectedTypeID, wrongTypeString);
+              }
+            }
+          }
+          result.setValid(false);
+          result.setErrorString(wrongTypeString);
 
-              if(rs.next())
-              {
-                if(mgiTypeKey == MGI_ALLELE)
-                {
-                  result.setSymbol(rs.getString("symbol"));
-                  result.setName(trimOfficialName(rs.getString("name")));
-                  result.setValid(true);
+        } else {
+          query = "select * from " + tableName + " where " + primaryKeyName + "=" + objectKey;
+          if (verbose) System.out.println(query);
+          stmt = connection.createStatement();
+          rs = stmt.executeQuery(query);
 
-                  query = "select term from ALL_Allele aa inner join voc_term voc on aa._Allele_Type_key=voc._Term_key where _Allele_key=" + objectKey;
+          if (rs.next()) {
+            if (mgiTypeKey == MGI_ALLELE) {
+              result.setSymbol(rs.getString("symbol"));
+              result.setName(trimOfficialName(rs.getString("name")));
+              result.setValid(true);
+
+              query = "select term from ALL_Allele aa inner join voc_term voc on aa._Allele_Type_key=voc._Term_key where _Allele_key="
+                  + objectKey;
               if (verbose) System.out.println(query);
               rs = stmt.executeQuery(query);
-              if (rs.next())
-              {
+              if (rs.next()) {
                 String alleleType = rs.getString("term");
                 if (verbose) System.out.println("allele type: " + alleleType);
-                if (alleleType.equalsIgnoreCase("QTL"))
-                {
+                if (alleleType.equalsIgnoreCase("QTL")) {
                   result.setValid(false);
-                  result.setErrorString("This ID corresponds to a QTL variant. Please go back to step 2 and do a submission for the relevant inbred strain");
+                  result.setErrorString(
+                      "This ID corresponds to a QTL variant. Please go back to step 2 and do a submission for the relevant inbred strain");
                 }
               }
 
-
-                }
-                else if(mgiTypeKey == MGI_MARKER)
-                {
-                  result.setSymbol(rs.getString("symbol"));
-                  result.setName(rs.getString("name"));
-                  result.setValid(true);
-                }
-                else if (mgiTypeKey == MGI_REFERENCE)
-                {
-                  result.setAuthors(rs.getString("authors"));
-                  result.setTitle(rs.getString("title"));
-                  result.setValid(true);
-                }
-              }
+            } else if (mgiTypeKey == MGI_MARKER) {
+              result.setSymbol(rs.getString("symbol"));
+              result.setName(rs.getString("name"));
+              result.setValid(true);
+            } else if (mgiTypeKey == MGI_REFERENCE) {
+              result.setAuthors(rs.getString("authors"));
+              result.setTitle(rs.getString("title"));
+              result.setValid(true);
             }
-          }
-          else
-          {
-            if(expectedTypeID == MGI_REFERENCE)
-            {
-              result.setErrorString("Not found.  Please confirm that you have the correct Pubmed ID.");
-              result.setValid(false);
-            }
-            else
-            {
-              result.setErrorString("Not found in MGI database.  Confirm that you have the correct Accession ID");
-              result.setValid(false);
-            }
-
-
-          }
-      }
-      catch(NullPointerException e)
-      {
-        result.setValid(offlineOK);
-        result.setErrorString("Connection to MGI timed out.");
-        result.setTitle(result.getErrorString());
-        result.setAuthors("");
-        result.setName(result.getErrorString());
-        result.setSymbol("");
-        result.setMgiConnectionTimedout(true);
-        e.printStackTrace(System.err);
-
-      }
-      catch(Exception e)
-      {
-
-        result.setValid(offlineOK);
-        result.setErrorString("MGI database connection unavailable.  This is to be expected late at night on weekdays.  Please manually verify that this is the correct ID");
-        result.setTitle(result.getErrorString());
-        result.setAuthors("");
-        result.setName(result.getErrorString());
-        result.setSymbol("");
-        result.setMgiOffline(true);
-        //System.err.println(query);
-        e.printStackTrace(System.err);
-      }
-      finally
-      {
-        if(connection != null)
-        {
-          try
-          {
-            connection.close();
-          }
-          catch(SQLException ex)
-          {
-             ex.printStackTrace();
           }
         }
-      }
-        // Close the connection to MGI.
+      } else {
+        if (expectedTypeID == MGI_REFERENCE) {
+          result.setErrorString("Not found.  Please confirm that you have the correct Pubmed ID.");
+          result.setValid(false);
+        } else {
+          result.setErrorString("Not found in MGI database.  Confirm that you have the correct Accession ID");
+          result.setValid(false);
+        }
 
-        return result;
+      }
+    } catch (NullPointerException e) {
+      result.setValid(offlineOK);
+      result.setErrorString("Connection to MGI timed out.");
+      result.setTitle(result.getErrorString());
+      result.setAuthors("");
+      result.setName(result.getErrorString());
+      result.setSymbol("");
+      result.setMgiConnectionTimedout(true);
+      e.printStackTrace(System.err);
+
+    } catch (Exception e) {
+
+      result.setValid(offlineOK);
+      result.setErrorString(
+          "MGI database connection unavailable.  This is to be expected late at night on weekdays.  Please manually verify that this is the correct ID");
+      result.setTitle(result.getErrorString());
+      result.setAuthors("");
+      result.setName(result.getErrorString());
+      result.setSymbol("");
+      result.setMgiOffline(true);
+      // System.err.println(query);
+      e.printStackTrace(System.err);
+    } finally {
+      if (connection != null) {
+        try {
+          connection.close();
+        } catch (SQLException ex) {
+          ex.printStackTrace();
+        }
+      }
+    }
+    // Close the connection to MGI.
+
+    return result;
   }
 
+  public static HashMap<Integer, MouseSubmission> SubmissionFromMGI(Collection<Integer> accessionIDs,
+      int importTaskId) {
+    HashMap<Integer, MouseSubmission> newSubmissions = new HashMap<Integer, MouseSubmission>();
 
+    // TODO validate accession IDs first? so that we don't have to duplicate logic
+    // like
+    // checking that it isn't a QTL or other genome feature
 
-  public static HashMap<Integer,MouseSubmission> SubmissionFromMGI(Collection<Integer> accessionIDs,int importTaskId)
-  {
-    HashMap<Integer,MouseSubmission> newSubmissions = new HashMap<Integer,MouseSubmission>();
+    HashMap<Integer, Properties> results = getPropertiesFromAlleleMgiID(accessionIDs, importTaskId);
 
-    //TODO validate accession IDs first?  so that we don't have to duplicate logic like
-    //checking that it isn't a QTL or other genome feature
-
-    HashMap<Integer,Properties> results = getPropertiesFromAlleleMgiID(accessionIDs, importTaskId);
-
-
-    for(int key : results.keySet())
-    {
+    for (int key : results.keySet()) {
 
       Properties props = results.get(key);
-      if (props != null && !props.isEmpty())
-      {
+      if (props != null && !props.isEmpty()) {
         MouseSubmission sub = new MouseSubmission();
         sub.setMouseMGIID(Integer.toString(key));
 
@@ -766,16 +723,16 @@ public class MGIConnect {
     @Override
     public void run() {
       try {
-              // Load the JDBC driver: MySQL MM JDBC driver
-              Class.forName(databaseDriverName);
-              // Create a new connection to MGI
-              setConnection(DriverManager.getConnection(databaseUrl, databaseUser, databasePw));
-              if (verbose) System.out.println("Successfully connected to MGI, returning connection");
-          } catch (ClassNotFoundException e) {
-              Log.Error("Failed to connect to MGI:", e);
-          } catch (SQLException e) {
-            Log.Error("Failed to connect to MGI:", e);
-          }
+        // Load the JDBC driver: MySQL MM JDBC driver
+        Class.forName(databaseDriverName);
+        // Create a new connection to MGI
+        setConnection(DriverManager.getConnection(databaseConnectionString));
+        if (verbose) System.out.println("Successfully connected to MGI, returning connection");
+      } catch (ClassNotFoundException e) {
+        Log.Error("Failed to connect to MGI:", e);
+      } catch (SQLException e) {
+        Log.Error("Failed to connect to MGI:", e);
+      }
 
     }
 
