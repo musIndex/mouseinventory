@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns="http://java.sun.com/xml/ns/javaee" 
+  xmlns:web="http://java.sun.com/xml/ns/javaee" 
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
+  id="WebApp_ID" 
+  version="2.5">
   <display-name>mouseinventory</display-name>
   <welcome-file-list>
     <welcome-file>welcome.jsp</welcome-file>
@@ -14,7 +19,7 @@
     <servlet-name>ValidationServlet</servlet-name>
     <url-pattern>/validate</url-pattern>
   </servlet-mapping>
-  
+
   <servlet>
     <description></description>
     <display-name>ReportServlet</display-name>
@@ -25,17 +30,27 @@
     <servlet-name>ReportServlet</servlet-name>
     <url-pattern>/report</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RemoveServlet</display-name>
+    <servlet-name>RemoveServlet</servlet-name>
+    <servlet-class>edu.ucsf.mousedatabase.servlets.RemoveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RemoveServlet</servlet-name>
+    <url-pattern>/admin/RemoveServlet</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>jersey-servlet</servlet-name>
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
     <init-param>
-        <param-name>jersey.config.server.provider.packages</param-name>
-        <param-value>edu.ucsf.mousedatabase.admin</param-value>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>edu.ucsf.mousedatabase.admin</param-value>
     </init-param>
     <init-param>
-        <param-name>jersey.config.server.provider.classnames</param-name>
-        <param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+      <param-name>jersey.config.server.provider.classnames</param-name>
+      <param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
@@ -60,7 +75,7 @@
     <url-pattern>/download</url-pattern>
     <url-pattern>/admin/download</url-pattern>
   </servlet-mapping>
-  
+
   <servlet>
     <servlet-name>ImportTransferServlet</servlet-name>
     <servlet-class>edu.ucsf.mousedatabase.servlets.ImportServlet</servlet-class>
@@ -85,42 +100,42 @@
   </servlet>
   <servlet>
     <description>
-  	</description>
+    </description>
     <display-name>SendMailServlet</display-name>
     <servlet-name>SendMailServlet</servlet-name>
     <servlet-class>edu.ucsf.mousedatabase.servlets.SendMailServlet</servlet-class>
   </servlet>
   <servlet>
     <description>
-  	</description>
+    </description>
     <display-name>UpdateTemplateServlet</display-name>
     <servlet-name>UpdateTemplateServlet</servlet-name>
     <servlet-class>edu.ucsf.mousedatabase.servlets.UpdateTemplateServlet</servlet-class>
   </servlet>
   <servlet>
     <description>
-  	</description>
+    </description>
     <display-name>UpdateSettingServlet</display-name>
     <servlet-name>UpdateSettingServlet</servlet-name>
     <servlet-class>edu.ucsf.mousedatabase.servlets.UpdateSettingServlet</servlet-class>
   </servlet>
   <servlet>
     <description>
-  	</description>
+    </description>
     <display-name>UpdateFacilityOrderServlet</display-name>
     <servlet-name>UpdateFacilityOrderServlet</servlet-name>
     <servlet-class>edu.ucsf.mousedatabase.servlets.UpdateFacilityOrderServlet</servlet-class>
   </servlet>
   <servlet>
     <description>
-  	</description>
+    </description>
     <display-name>UpdateSettingOrderServlet</display-name>
     <servlet-name>UpdateSettingOrderServlet</servlet-name>
     <servlet-class>edu.ucsf.mousedatabase.servlets.UpdateSettingOrderServlet</servlet-class>
   </servlet>
   <servlet>
     <description>
-  	</description>
+    </description>
     <display-name>SubmitChangeRequestServlet</display-name>
     <servlet-name>SubmitChangeRequestServlet</servlet-name>
     <servlet-class>edu.ucsf.mousedatabase.servlets.SubmitChangeRequestServlet</servlet-class>
@@ -156,56 +171,6 @@
   <listener>
     <listener-class>edu.ucsf.mousedatabase.listeners.ContextListener</listener-class>
   </listener>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_MGI_DRIVER_NAME</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>org.postgresql.Driver</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_MGI_DATABASE_URL</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>jdbc:postgresql://mgi-adhoc.jax.org:5432/mgd</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_MGI_DATABASE_USER</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>estelle_wall</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_MGI_DATABASE_PW</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>abc123</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_SMTP_SERVER</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_SMTP_USER</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_SMTP_PW</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_SMTP_PORT</env-entry-name>
-    <env-entry-type>java.lang.Integer</env-entry-type>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>MOUSEDATABASE_SMTP_SSL_ENABLED</env-entry-name>
-    <env-entry-type>java.lang.Boolean</env-entry-type>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>GOOGLE_ANALYTICS_ACCOUNT</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value></env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>GOOGLE_ANALYTICS_DOMAIN_SUFFIX</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value></env-entry-value>
-  </env-entry>
   <!-- <security-constraint>
     <web-resource-collection>
       <web-resource-name>Admin Pages</web-resource-name>
@@ -242,7 +207,6 @@
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
   </resource-ref>
-  
   <servlet>
     <description></description>
     <display-name>CsvServletNew</display-name>
@@ -253,4 +217,13 @@
     <servlet-name>CsvServletNew</servlet-name>
     <url-pattern>/MouseList2</url-pattern>
   </servlet-mapping>
+  <filter>
+    <display-name>LoginFilter</display-name>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>Filters.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/admin/*</url-pattern>
+  </filter-mapping>
 </web-app>

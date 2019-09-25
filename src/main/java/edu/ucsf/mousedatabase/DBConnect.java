@@ -12,10 +12,6 @@ import java.sql.Date;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
-
 import edu.ucsf.mousedatabase.beans.MouseSubmission;
 import edu.ucsf.mousedatabase.beans.UserData;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler;
@@ -88,13 +84,14 @@ public class DBConnect {
   private static final String mouseIDSearchTermsRegex = "^(#[0-9]+,?\\s*)+$";
 
   private static Connection connect() throws Exception {
+    Map<String, String> env = System.getenv();
+
     try {
+      // Load the JDBC driver (eg. MariaDB)
+      Class.forName(env.get("DB_DRIVER_CLASSNAME"));
 
-      Context initCtx = new InitialContext();
-      Context envCtx = (Context) initCtx.lookup("java:comp/env");
-      DataSource ds = (DataSource) envCtx.lookup("jdbc/mouse_inventory");
+      return DriverManager.getConnection(env.get("DB_CONNECTION_STRING"));
 
-      return ds.getConnection();
     } catch (Exception e) {
       Log.Error("Problem connecting", e);
       throw e;
@@ -2875,11 +2872,6 @@ public class DBConnect {
       return nextMouse;
     }
 
-    private ArrayList<Integer> getFileIDs(String mouseID) throws  SQLException {
-      String query = "SELECT ID FROM mouseFiles WHERE mouseID='" + mouseID + "'";
-      return IntResultGetter.getInstance("ID").Get(query);
-    }
-
     private ArrayList<MouseHolder> getMouseHolders(String mouseID) throws SQLException {
       String query = mouseHolderQueryHeader + " WHERE mouse_id='" + mouseID
           + "' and status='active'\r\nORDER BY lastname";
@@ -2898,6 +2890,18 @@ public class DBConnect {
   	  String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
   	  return MouseFileResultGetter.getInstance(_connection).Get(query);
     }
+
+    private ArrayList<File> getFiles(String mouseID) throws SQLException
+    {
+      String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+      return MouseFileResultGetter.getInstance(_connection).Get(query);
+    }
+    
+    protected static ArrayList<Integer> getFileIDs(String mouseID) throws  SQLException {
+      String query = "SELECT ID FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+      return IntResultGetter.getInstance("ID").Get(query);
+    }
+
   }
   //added static to getFileByNameAndMouseID -EW
   public static File getFileByNameAndMouseID(String fileName, String mouseID) throws Exception
@@ -2908,11 +2912,49 @@ public class DBConnect {
     return allFiles.get(0);
   } 
 
+    public static String getFileNamesAsString(String mouseID) throws Exception{
+    ArrayList<String> filenames = getFilenamesByMouseID(mouseID);
+    String store = "";
+    for(String name : filenames){
+      store += "/" + name;
+    }
+    return store;
+  }
+
+    public static ArrayList<String> getFilenamesByMouseID(String  mouseID) throws Exception{
+    Connection con = connect(); 
+    String query = "SELECT filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+    ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(query);
+    for(String filename : allFilenames) {
+      Log.Info("filename looked up: " + filename);
+    }
+    return allFilenames;   
+  }
+  
+  public static String getIDsAsString(String mouseID) throws Exception{
+    ArrayList<Integer> ids = getFileIDsByMouseID(mouseID);
+    String store = "";
+    for(Integer id : ids){
+      store += "/" + id;
+    }
+    return store;
+  }
+
+  public static ArrayList<Integer> getFileIDsByMouseID(String mouseID) throws Exception{
+    return MouseRecordResultGetter.getFileIDs(mouseID);
+  }
+
   public static File getFileByID(Integer ID) throws Exception {
     Connection con = connect();
     String query = "SELECT file, filename FROM mouseFiles WHERE ID='" + ID + "'";
     ArrayList<File> allFiles = MouseFileResultGetter.getInstance(con).Get(query);
     return allFiles.get(0);
+  }
+
+  public static void deleteFileByID(Integer ID) throws Exception {
+    //Connection con = connect();
+    String query = "DELETE FROM mouseFiles WHERE ID = '" + ID + "'";
+    executeNonQuery(query);
   }
 
   private static final class ChangeRequestResultGetter extends ResultGetter {
