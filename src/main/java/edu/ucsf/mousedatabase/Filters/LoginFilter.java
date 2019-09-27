@@ -12,6 +12,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -60,6 +61,12 @@ public class LoginFilter implements Filter {
 		//Log.Info("user data is : " + data);
 		String headerName = request.getHeaderNames().toString();
 		Log.Info("user headerNames: " + headerName);
+		
+		Cookie[] cookies = request.getCookies();
+		for(int i = 0; i < cookies.length; i++) {
+		  Log.Info(cookies[i].getValue());
+		}
+		
 		//75da6698
 		
         
