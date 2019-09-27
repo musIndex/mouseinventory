@@ -61,8 +61,18 @@ public class LoginFilter implements Filter {
 		
 		Log.Info("user principal: " + request.getUserPrincipal());
         
-        /*Map<String, Collection<String>> map = (Map<String, Collection<String>>) request;
+        Map<String, Collection<String>> map = (Map<String, Collection<String>>) request.getUserPrincipal();
         for (Object key : map.keySet()) {
+          Object value = map.get(key);
+          if (value != null && value instanceof Collection) {
+              Collection claims = (Collection) value;
+              for (Object claim : claims) {
+                  System.out.println(claims);
+                  Log.Info(claims);
+              }
+          }
+      }
+        /*for (Object key : map.keySet()) {
         	if (key == keyName) {
         		Collection<String> values = map.get(key);
         		values.forEach(logConsumer);
