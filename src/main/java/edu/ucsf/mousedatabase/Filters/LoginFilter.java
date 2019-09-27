@@ -1,4 +1,4 @@
-package Filters;
+package edu.ucsf.mousedatabase.Filters;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -92,6 +92,8 @@ public class LoginFilter implements Filter {
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub
+
+		Log.Info("Starting filter");
 	}
 
 }
