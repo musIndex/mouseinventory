@@ -59,7 +59,7 @@ public class LoginFilter implements Filter {
 		//String data = request.getAuthType();
 		//Log.Info("user data is : " + data);
 		
-		//request.getUserPrincipal().getName();
+		Log.Info("user principal: " + request.getUserPrincipal());
         
         /*Map<String, Collection<String>> map = (Map<String, Collection<String>>) request;
         for (Object key : map.keySet()) {

@@ -367,7 +367,6 @@ public class MouseRecord {
   }
   
   public ArrayList<File> getFilenames(){
-	  Log.Info("getting filenames");
 	  return filenames;
   }
   
