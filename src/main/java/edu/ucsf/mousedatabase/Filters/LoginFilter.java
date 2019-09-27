@@ -64,6 +64,7 @@ public class LoginFilter implements Filter {
 		
 		Cookie[] cookies = request.getCookies();
 		for(int i = 0; i < cookies.length; i++) {
+		  Log.Info(cookies[i].getName());
 		  Log.Info(cookies[i].getValue());
 		}
 		
