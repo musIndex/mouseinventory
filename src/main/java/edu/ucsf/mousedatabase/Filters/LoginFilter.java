@@ -59,9 +59,10 @@ public class LoginFilter implements Filter {
 		//String data = request.getAuthType();
 		//Log.Info("user data is : " + data);
 		
-		Log.Info("user principal: " + request.getUserPrincipal());
+		Log.Info("user headerNames: " + request.getHeaderNames());
+		
         
-        Map<String, Collection<String>> map = (Map<String, Collection<String>>) request.getUserPrincipal();
+        /*Map<String, Collection<String>> map = (Map<String, Collection<String>>) request.getUserPrincipal();
         for (Object key : map.keySet()) {
           Object value = map.get(key);
           if (value != null && value instanceof Collection) {
