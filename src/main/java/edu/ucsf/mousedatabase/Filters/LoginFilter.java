@@ -58,8 +58,9 @@ public class LoginFilter implements Filter {
 		String credential = System.getenv(envName);
 		//String data = request.getAuthType();
 		//Log.Info("user data is : " + data);
-		
-		Log.Info("user headerNames: " + request.getHeaderNames());
+		String headerName = request.getHeaderNames().toString();
+		Log.Info("user headerNames: " + headerName);
+		//75da6698
 		
         
         /*Map<String, Collection<String>> map = (Map<String, Collection<String>>) request.getUserPrincipal();
