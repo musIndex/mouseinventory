@@ -25,6 +25,7 @@
 <div id = "test2" style="display:none"><%=DBConnect.getIDsAsString(request.getParameter("mouseID")) %></div>
 <h2>Files To Delete</h2>
 <ul id = "listFiles"></ul>
+<div id = "test3"></div>
 
 
 
@@ -38,12 +39,22 @@ ArrayList<Integer> ids = DBConnect.getFileIDsByMouseID(mouseID);
 
 
 %>
+function listCookies() {
+    var theCookies = document.cookie.split(';');
+    var aString = '';
+    for (var i = 1 ; i <= theCookies.length; i++) {
+        aString += i + ' ' + theCookies[i-1] + "\n";
+    }
+    return aString;
+}
+
 
 function sendDelete(phrase){
 	window.location = phrase;
 }
 
 function myFunction(){
+	document.getElementById("test3").innerHTML = listCookies();
 	//set link to download
 	//add button for delete
 	var  string1 = document.getElementById("test").innerHTML;
