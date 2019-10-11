@@ -57,15 +57,16 @@ function sendDelete(phrase){
 
 function setAdminStatus(){
 	var adminStatus = "admin";
-	if(){
+	if(location.pathname.split('/')[1] != "admin"){
 		adminStatus = "user";
 	}
+	Log.Info("adminStatus is: " + adminStatus);
 	//return adminStatus;
 	document.getElementById("adminState").value = adminStatus;
 }
 
 function myFunction(){
-	//setAdminStatus;
+	setAdminStatus;
 	document.getElementById("test3").innerHTML = listCookies();
 	//set link to download
 	//add button for delete

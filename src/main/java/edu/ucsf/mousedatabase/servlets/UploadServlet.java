@@ -31,7 +31,7 @@ public class UploadServlet extends HttpServlet {
 	private static final String defaultFileName = "";
 	public static final String userFieldName = "adminState";
 	private static final String adminStateName = "admin";
-	private boolean isAdmin = true;
+	private boolean loggedInAsAdmin = true;
 	
 	boolean isAdmin(String adminState) {
 	  if (adminState == adminStateName) {
@@ -98,8 +98,8 @@ public class UploadServlet extends HttpServlet {
 	            		files.add(file);
 	            		Log.Info("wrote file");
 	            	} else if (item.getFieldName().contentEquals(userFieldName)) {
-	            	  isAdmin = isAdmin(item.getString());
-	            	  isAdmin = Boolean.parseBoolean(item.getString());
+	            	  loggedInAsAdmin = isAdmin(item.getString());
+	            	  //isAdmin = Boolean.parseBoolean(item.getString());
 	            	} else {
 	            		Log.Info("name = " + item.getName());
 	            	}
@@ -116,7 +116,7 @@ public class UploadServlet extends HttpServlet {
 	    	Log.Info("Exception occurred while processing post request for file upload");
 	    }	
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-	    if (isAdmin) {
+	    if (loggedInAsAdmin) {
 	      response.sendRedirect(HTMLGeneration.adminRoot + "EditMouseForm.jsp?id=" + mouseID);
 
 	    } else {
