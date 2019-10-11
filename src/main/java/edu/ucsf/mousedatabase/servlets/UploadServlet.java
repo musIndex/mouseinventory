@@ -29,6 +29,17 @@ public class UploadServlet extends HttpServlet {
 	public static final String fileFieldName =  "fieldName";
 	public static final String newNameFieldName =  "newName";
 	private static final String defaultFileName = "";
+	public static final String userFieldName = "adminState";
+	private static final String adminStateName = "admin";
+	private boolean isAdmin = true;
+	
+	boolean isAdmin(String adminState) {
+	  if (adminState == adminStateName) {
+	    return true;
+	  } else {
+	    return false;
+	  }
+	}
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -86,6 +97,9 @@ public class UploadServlet extends HttpServlet {
 	            		 item.write(file);
 	            		files.add(file);
 	            		Log.Info("wrote file");
+	            	} else if (item.getFieldName().contentEquals(userFieldName)) {
+	            	  isAdmin = isAdmin(item.getString());
+	            	  isAdmin = Boolean.parseBoolean(item.getString());
 	            	} else {
 	            		Log.Info("name = " + item.getName());
 	            	}
@@ -102,7 +116,13 @@ public class UploadServlet extends HttpServlet {
 	    	Log.Info("Exception occurred while processing post request for file upload");
 	    }	
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-	    response.sendRedirect(HTMLGeneration.adminRoot + "EditMouseForm.jsp?id=" + mouseID);
+	    if (isAdmin) {
+	      response.sendRedirect(HTMLGeneration.adminRoot + "EditMouseForm.jsp?id=" + mouseID);
+
+	    } else {
+	      response.sendRedirect(HTMLGeneration.siteRoot + "EditMouseForm.jsp?id=" + mouseID);
+
+	    }
 	}
 
 	/**

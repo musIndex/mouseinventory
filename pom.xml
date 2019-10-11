@@ -15,7 +15,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<tomcat-server>mouseinventory-local</tomcat-server>
+				<tomcat-server>mouseinventory-tomcat</tomcat-server>
 				<tomcat-url>http://localhost:8080/manager/text</tomcat-url>
 				<!-- <app-path>/mouseinventory</app-path> -->
 			</properties>

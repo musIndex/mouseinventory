@@ -11,6 +11,7 @@
 
 
 <div></div>
+<div id = "adminStatus" style="display:none"></div>
 <h2>Upload Files</h2>
 <form action="<%=HTMLGeneration.adminRoot %>upload" enctype="multipart/form-data" method="post">
 	<div>
@@ -18,6 +19,7 @@
 		<input type="text" name="<%=UploadServlet.newNameFieldName %>"></input>
 	</div>
 	<input type="text" value= <%=request.getParameter("mouseID")%> name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
+	<input id = "adminState" type="text" value= "" name="<%=UploadServlet.userFieldName %>" style="display:none"></input>
 	<input type="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>
 	<input type="submit" />
 </form>
@@ -25,6 +27,7 @@
 <div id = "test2" style="display:none"><%=DBConnect.getIDsAsString(request.getParameter("mouseID")) %></div>
 <h2>Files To Delete</h2>
 <ul id = "listFiles"></ul>
+<div id = "test3"></div>
 
 
 
@@ -38,12 +41,32 @@ ArrayList<Integer> ids = DBConnect.getFileIDsByMouseID(mouseID);
 
 
 %>
+function listCookies() {
+    var theCookies = document.cookie.split(';');
+    var aString = '';
+    for (var i = 1 ; i <= theCookies.length; i++) {
+        aString += i + ' ' + theCookies[i-1] + "\n";
+    }
+    return aString;
+}
+
 
 function sendDelete(phrase){
 	window.location = phrase;
 }
 
+function setAdminStatus(){
+	var adminStatus = "admin";
+	if(){
+		adminStatus = "user";
+	}
+	//return adminStatus;
+	document.getElementById("adminState").value = adminStatus;
+}
+
 function myFunction(){
+	//setAdminStatus;
+	document.getElementById("test3").innerHTML = listCookies();
 	//set link to download
 	//add button for delete
 	var  string1 = document.getElementById("test").innerHTML;

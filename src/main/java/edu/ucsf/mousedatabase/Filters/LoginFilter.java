@@ -1,6 +1,7 @@
-package Filters;
+package edu.ucsf.mousedatabase.Filters;
 
 import java.io.IOException;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,11 +29,13 @@ public class LoginFilter implements Filter {
 	String typeName = "http://schemas.microsoft.com/identity/claims/objectidentifier";
 	String envName = "admins";
 
+
     /**
      * Default constructor. 
      */
     public LoginFilter() {
         // TODO Auto-generated constructor stub
+      Log.Info("made loginFilter");
     }
 
 	/**
@@ -52,17 +56,54 @@ public class LoginFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 		boolean loggedIn = false;
+		Log.Info("reached filter");
 		
 		HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 		String credential = System.getenv(envName);
 		//String data = request.getAuthType();
 		//Log.Info("user data is : " + data);
+		String headerName = request.getHeaderNames().toString();
+		Log.Info("user headerNames: " + headerName);
+		/*
+		Cookie[] cookies = request.getCookies();
+		for(int i = 0; i < cookies.length; i++) {
+		  Log.Info(cookies[i].getName());
+		  Log.Info(cookies[i].getValue());
+		}
+		Log.Info("cookies logged");
+		*/
+		Log.Info("about to log prinviple");
 		
-		//request.getUserPrincipal().getName();
+		Map<String, Collection<String>> map = (Map<String, Collection<String>>) request.getUserPrincipal();
+    if (map != null) {
+      for (Object key : map.keySet()) {
+        Object value = map.get(key);
+        if (value != null && value instanceof Collection) {
+            Collection claims = (Collection) value;
+            for (Object claim : claims) {
+                System.out.println(claim);
+                Log.Info(claim);
+            }
+        }
+      }
+    } else {
+      Log.Info("User principle is null");
+    }
+		
         
-        /*Map<String, Collection<String>> map = (Map<String, Collection<String>>) request;
+        /*Map<String, Collection<String>> map = (Map<String, Collection<String>>) request.getUserPrincipal();
         for (Object key : map.keySet()) {
+          Object value = map.get(key);
+          if (value != null && value instanceof Collection) {
+              Collection claims = (Collection) value;
+              for (Object claim : claims) {
+                  System.out.println(claims);
+                  Log.Info(claims);
+              }
+          }
+      }
+        /*for (Object key : map.keySet()) {
         	if (key == keyName) {
         		Collection<String> values = map.get(key);
         		values.forEach(logConsumer);
@@ -92,6 +133,8 @@ public class LoginFilter implements Filter {
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub
+
+		Log.Info("Starting filter");
 	}
 
 }

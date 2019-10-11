@@ -220,7 +220,7 @@
   <filter>
     <display-name>LoginFilter</display-name>
     <filter-name>LoginFilter</filter-name>
-    <filter-class>Filters.LoginFilter</filter-class>
+    <filter-class>edu.ucsf.mousedatabase.Filters.LoginFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>LoginFilter</filter-name>
