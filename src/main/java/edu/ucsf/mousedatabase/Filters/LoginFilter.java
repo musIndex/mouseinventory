@@ -70,16 +70,20 @@ public class LoginFilter implements Filter {
 		
 		
 		Map<String, Collection<String>> map = (Map<String, Collection<String>>) request.getUserPrincipal();
-    for (Object key : map.keySet()) {
-      Object value = map.get(key);
-      if (value != null && value instanceof Collection) {
-          Collection claims = (Collection) value;
-          for (Object claim : claims) {
-              System.out.println(claim);
-              Log.Info(claim);
-          }
+    if (map != null) {
+      for (Object key : map.keySet()) {
+        Object value = map.get(key);
+        if (value != null && value instanceof Collection) {
+            Collection claims = (Collection) value;
+            for (Object claim : claims) {
+                System.out.println(claim);
+                Log.Info(claim);
+            }
+        }
       }
-  }
+    }
+		
+  
 		
 		//75da6698
 		
