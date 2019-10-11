@@ -2,6 +2,13 @@
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.ChangeRequest.*" %>
+<%@ page import="java.io.File"%>
+<%@ page import="edu.ucsf.mousedatabase.DBConnect"%>
+<%@ page import="edu.ucsf.mousedatabase.objects.*"%>
+<%@ page import="java.io.FileInputStream"%>
+<%@ page import="java.io.IOException"%>
+<%@page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
+<%@page import="edu.ucsf.mousedatabase.servlets.*"%>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%=getPageHeader(null, false,false) %>
@@ -17,7 +24,7 @@
     }
     else {
       ArrayList<MouseRecord> mice = DBConnect.getMouseRecord(mouseID);
-      table = getMouseTable(mice,false,false,true,true,true);
+      table = getMouseTable(mice,false,true,true,true,true);
     }
 %>
 <script>
@@ -55,6 +62,15 @@ function updateRequestFormUI(selected) {
     $('#action_summary').text("Modify the cryo/live status of this mouse, which is being maintained by the holder/in the facility selected in step 2.").show();
     $('#comments_label').text('Comments: (optional)');
   }
+  else if (selected == <%= Action.UPLOAD_FILE.ordinal() %>) {
+	$(".add_holder").show();
+	$('#cryo_live_status').show();
+	$("#background_info").show();
+	$('#action_summary').text("Upload or delete file for this mouse record.").show();
+	$('#file_label').text('Upload File:');
+	$('#comments_label').text('Comments: (optional)');
+
+	  }
   else {
     $('#action_summary').hide();
     $(".form_controls").hide();
@@ -86,6 +102,7 @@ function validateInput() {
   }
   else if (data.actionRequested == <%= Action.ADD_HOLDER.ordinal() %> ||
       	   data.actionRequested == <%= Action.REMOVE_HOLDER.ordinal() %> ||
+      	   data.actionRequested == <%= Action.UPLOAD_FILE.ordinal() %> ||
   		   data.actionRequested == <%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>) {
     valid = valid && data.holderId != -1;
     valid = valid && (data.holderId > 0 || (data.holderId == -2 && data.holderName));
@@ -193,7 +210,7 @@ $(document).ready(function(){
   </div>
   <div style='min-height: 600px'>
     <div class='change_request_form well cf' style="margin:20px 20px 20px 0">
-    <h3>3. Specify requested changes: (Choose one of the four options)</h3>
+    <h3>3. Specify requested changes: (Choose one of the five options)</h3>
       <ul class='cf'>
         <li>
           <input type="radio" name="actionRequested" value="<%= Action.ADD_HOLDER.ordinal() %>" <%= (changeRequest.actionRequested() == Action.ADD_HOLDER) ? "checked" : "" %> >
@@ -222,9 +239,17 @@ $(document).ready(function(){
         <input type="radio" name="actionRequested" value="<%= Action.OTHER.ordinal() %>" <%= (changeRequest.actionRequested() == Action.OTHER) ? "checked" : "" %>>
         <a class='btn' href='#'><i class='icon-pencil'></i> Make other changes</a>
         </li>
+        <li>
+        <input type="radio" name="actionRequested" value="<%= Action.UPLOAD_FILE.ordinal() %>" <%= (changeRequest.actionRequested() == Action.UPLOAD_FILE) ? "checked" : "" %>>
+        <a class='btn' href='#'><i class='icon-white icon-file'></i>Upload/Delete file for Genotyping/Sequences</a>
+         
+        </li>
       </ul>
       <div class='form_controls'>
       <span id='action_summary'></span>
+      
+      
+      
       <table class='form_table'>
       <tr id='cryo_live_status'>
         <td>
@@ -242,16 +267,26 @@ $(document).ready(function(){
           <input type="text" size="50" name="geneticBackgroundInfo">
           </td>
        </tr>
+      
+      
        <tr>
           <td style='max-width:200px'>
         <span id='comments_label'>Comments:</span></td><td>
         <textarea rows="8" cols="80" name="userComment"></textarea>
         </tr>
+          <div id='file_label'>
+       
+       <jsp:include page="admin/UploadFile.jsp" />
+         
+		</div>
         </table>
+     
+       
         <div class='form_invalid' style='margin-bottom: 5px'>
           <i>Please complete all three steps of the form:</i>
           <div class='details' style='margin: 3px 0 0 10px'></div>
         </div>
+       
         <div class='form_submission'>
           <input type="submit" class="btn btn-primary" value="Submit Change Request"></div>
         </div>

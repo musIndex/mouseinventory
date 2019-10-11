@@ -649,42 +649,10 @@ public class HTMLGeneration {
     field = "<textarea name='adminComment' rows='10' cols='60' >" + emptyIfNull(r.getAdminComment()) + "</textarea>\r\n";
     getInputRow(buf, "Record Admin Comment",field,"","editMouseRow"); //testing
    
-    //tried /mouseinventory/upload/files
-    //tried /upload/files
-    //tried /rest/upload/files
-    //tried /mouseinventory/admin/upload/files
-    //tried /admin/upload/files
     buf.append("<a href=\"UploadFile.jsp?mouseID=" + r.getMouseID() + "\"> Upload/Delete Files</a>"); //trying this out
 
     
-    /*buf.append("<form action=\"/upload/files\" method=\"post\" enctype=\"multipart/form-data\">");
-    buf.append("<input type=\"file\" name=\"files[]\" multiple />");
-    buf.append("<input id=recordID value=\"" + r.getMouseID() + "\" style=\"display:none\"></input>");
-    buf.append("<input type=\"submit\"/>");
-    //buf.append("<input type=\"button\" value=\"Upload File\" name=\"upload\" onClick=\"uploadFile()\"/>");
-    
-    buf.append("</form>");
-    */
-    
-    //ArrayList<File> testFiles = new ArrayList<File>();
-    //File test = new File("test.txt");
-    //testFiles.add(test);
-    //DBConnect.sendFilesToDatabase(testFiles, r.getMouseID());
-    //Blob createdBlob = DBConnect.makeBlobFromFile(test);
-    /*String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (" + "test" + ", " + createdBlob
-    		+ ", " + r.getMouseID() + ");";*/
-    //String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (\"test.txt\", 
-    //DBConnect.testFunction(fileQuery);
-    
-    ///testing begins
-    /*
-    buf.append("<FORM name=\"myForm\">");
-    buf.append("<INPUT NAME=\"textBox\" TYPE=\"text\">");
-    buf.append("&nbsp;&nbsp;<INPUT NAME=\"showOut\" TYPE=\"button\" VALUE=\" Show Me... \"  onClick=\"showOutput(myForm.textBox.value)\">");
-    buf.append("</FORM>");
-    */
-    //testing ends
-    
+   
     buf.append("</table>\r\n");
     buf.append("</div>\r\n");
     buf.append("<div class=\"editMouseFormRightColumn\">");
@@ -1736,8 +1704,8 @@ public class HTMLGeneration {
 
      
       
-   // INTERIM column - filenames. adds a link for each file in the mouseRecord
-     if (showChangeRequest||edit          ) {
+   // INTERIM column - filenames. adds a link for each file in the existing mouseRecord
+     if (showChangeRequest||edit         ) {
       table.append("<td class='mouselistcolumn-files'>\r\n");
       ArrayList<File> files = nextRecord.getFilenames(); //files should be set when mouseRecord made
       String fileComment = "";

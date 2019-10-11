@@ -24,21 +24,7 @@ import org.springframework.stereotype.Component;
 import edu.ucsf.mousedatabase.Log;
 import edu.ucsf.mousedatabase.DBConnect;
 
-//import org.glassfish.jersey.media.multipart.BodyPartEntity;
-//import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-//import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-//import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-//import org.glassfish.jersey.media.multipart.FormDataParam;
-//import org.springframework.stereotype.Component;
 
-//import edu.ucsf.mousedatabase.Log;
-
-
-//Log.Info("started jerseyReciever");
-
-//tried "/mouseinventory/admin/upload"
-//tried "/admin/upload"
-//tried "/mouseinventory/upload"
 
 @Path("/upload")
 @Component
@@ -48,7 +34,7 @@ public class JerseyReciever {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response uploadFiles2(@DefaultValue("")
 			@FormDataParam("files") List<FormDataBodyPart> bodyParts,
-			//@FormDataParam("files") FormDataContentDisposition fileDispositions)
+	
 			@FormDataParam("MouseID") String mouseID){
 		
 		ArrayList<File> files = new ArrayList<File>();
