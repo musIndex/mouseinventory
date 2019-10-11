@@ -1750,6 +1750,13 @@ public class HTMLGeneration {
         table.append("<div>" + fileComment + "</div>");
       }
      }
+      else {
+        table.append("</td>\r\n<td>\r\n");
+      }
+        
+     
+      
+     
      
       /*table.append("<span class=\"mouseComment\">"
           //+ emptyIfNull(HTMLUtilities.getCommentForDisplay(fileComment)) //adjustments go here

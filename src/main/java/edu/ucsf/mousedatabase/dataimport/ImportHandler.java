@@ -1168,8 +1168,9 @@ public class ImportHandler
 
           props.setProperty("NewMouseName", sub.getOfficialSymbol() + ", " + sub.getOfficialMouseName());
           props.setProperty("MouseMGIID", Integer.toString(catalogMgiId));
+          if (importDefinition.Id == 1) {
           props.setProperty("CatalogNumber",firstPurchase.stockNumber);
-
+          }
 
           StringBuilder sb = new StringBuilder();
 
