@@ -65,7 +65,7 @@ function setAdminStatus(){
 }
 
 function myFunction(){
-	//setAdminStatus;
+	setAdminStatus;
 	document.getElementById("test3").innerHTML = listCookies();
 	//set link to download
 	//add button for delete
