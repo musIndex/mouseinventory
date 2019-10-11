@@ -19,7 +19,8 @@ public class ChangeRequest {
     REMOVE_HOLDER(2,"Remove holder:"), //2
     MARK_ENDANGERED(3,"Mark as endangered."), //3
     OTHER(4,"Make other changes."), //4
-    CHANGE_CRYO_LIVE_STATUS(5,"Change live/cryo status of holder:"); //5
+    CHANGE_CRYO_LIVE_STATUS(5,"Change live/cryo status of holder:"), //5
+    UPLOAD_FILE(6,"Upload File");//6
     
     public String label;
     public int value;
@@ -45,6 +46,7 @@ public class ChangeRequest {
   private String lastAdminDate;
   private String properties;
   private String mouseName;
+  private String fileName;
   
   private Properties props;
   
@@ -118,6 +120,12 @@ public class ChangeRequest {
   public void setAdminComment(String adminComment) {
     this.adminComment = adminComment;
   }
+  public String getFileName() {
+    return fileName;
+  }
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
+  }
   public String getRequestDate() {
     return requestDate;
   }
@@ -173,6 +181,7 @@ public class ChangeRequest {
   public void setRequestSource(String requestSource) {
     this.requestSource = requestSource;
   }
+  //Is this what goes to admin view for change request?-EW
   public String getActionRequested() {
     return actionRequested.toString();
   }
@@ -254,9 +263,9 @@ public class ChangeRequest {
         }
     return props;
   }
-  
+  //added fileName to be cleared -EW
   public void clearData() {
-    this.adminComment = this.lastAdminDate = this.mouseName = this.properties = this.requestDate = this.status = this.userComment = null;
+    this.adminComment = this.lastAdminDate = this.mouseName = this.properties = this.requestDate = this.status = this.userComment = this.fileName = null;
   }
   
   public String validate() {

@@ -25,7 +25,7 @@
 </form>
 <div id = "test" style="display:none"><%=DBConnect.getFileNamesAsString(request.getParameter("mouseID")) %></div>
 <div id = "test2" style="display:none"><%=DBConnect.getIDsAsString(request.getParameter("mouseID")) %></div>
-<h2>Files To Delete</h2>
+<h3>Files To Delete</h3>
 <ul id = "listFiles"></ul>
 <div id = "test3"></div>
 
