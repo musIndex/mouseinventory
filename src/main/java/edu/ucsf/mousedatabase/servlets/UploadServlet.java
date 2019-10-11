@@ -29,8 +29,17 @@ public class UploadServlet extends HttpServlet {
 	public static final String fileFieldName =  "fieldName";
 	public static final String newNameFieldName =  "newName";
 	private static final String defaultFileName = "";
-	public static final String userFieldName = "admin";
+	public static final String userFieldName = "adminState";
+	private static final String adminStateName = "admin";
 	private boolean isAdmin = true;
+	
+	boolean isAdmin(String adminState) {
+	  if (adminState == adminStateName) {
+	    return true;
+	  } else {
+	    return false;
+	  }
+	}
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -89,6 +98,7 @@ public class UploadServlet extends HttpServlet {
 	            		files.add(file);
 	            		Log.Info("wrote file");
 	            	} else if (item.getFieldName().contentEquals(userFieldName)) {
+	            	  isAdmin = isAdmin(item.getString());
 	            	  isAdmin = Boolean.parseBoolean(item.getString());
 	            	} else {
 	            		Log.Info("name = " + item.getName());
