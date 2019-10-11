@@ -68,7 +68,7 @@ public class LoginFilter implements Filter {
 		  Log.Info(cookies[i].getValue());
 		}
 		
-		/*
+		
 		Map<String, Collection<String>> map = (Map<String, Collection<String>>) request.getUserPrincipal();
     for (Object key : map.keySet()) {
       Object value = map.get(key);
