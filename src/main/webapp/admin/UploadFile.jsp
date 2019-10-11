@@ -62,7 +62,7 @@ function setAdminStatus(){
 	}
 	Log.Info("adminStatus is: " + adminStatus);
 	//return adminStatus;
-	document.getElementById("adminState").value = adminStatus;
+	document.getElementById("adminState").value = adminStatus; //check by making it visible
 }
 
 function myFunction(){
