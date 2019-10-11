@@ -60,6 +60,7 @@ function setAdminStatus(){
 	if(location.pathname.split('/')[1] != "admin"){
 		adminStatus = "user";
 	}
+	Log.Info("adminStatus is: " + adminStatus);
 	//return adminStatus;
 	document.getElementById("adminState").value = adminStatus;
 }
