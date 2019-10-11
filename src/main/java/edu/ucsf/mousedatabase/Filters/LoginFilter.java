@@ -67,7 +67,7 @@ public class LoginFilter implements Filter {
 		  Log.Info(cookies[i].getName());
 		  Log.Info(cookies[i].getValue());
 		}
-		
+		Log.Info("cookies logged");
 		
 		Map<String, Collection<String>> map = (Map<String, Collection<String>>) request.getUserPrincipal();
     if (map != null) {
@@ -84,10 +84,6 @@ public class LoginFilter implements Filter {
     } else {
       Log.Info("User principle is null");
     }
-		
-  
-		
-		//75da6698
 		
         
         /*Map<String, Collection<String>> map = (Map<String, Collection<String>>) request.getUserPrincipal();
