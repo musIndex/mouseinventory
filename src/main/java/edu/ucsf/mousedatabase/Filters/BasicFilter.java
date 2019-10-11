@@ -93,12 +93,12 @@ public class BasicFilter implements Filter {
                 if (isAuthDataExpired(httpRequest)) {
                     updateAuthDataUsingRefreshToken(httpRequest);
                 }
-            } catch (AuthenticationException authException) {
-                // something went wrong (like expiration or revocation of token)
-                // we should invalidate AuthData stored in session and redirect to Authorization server
-                removePrincipalFromSession(httpRequest);
-                sendAuthRedirect(httpRequest, httpResponse);
-                return;
+//            } catch (AuthenticationException authException) {
+//                // something went wrong (like expiration or revocation of token)
+//                // we should invalidate AuthData stored in session and redirect to Authorization server
+//                removePrincipalFromSession(httpRequest);
+//                sendAuthRedirect(httpRequest, httpResponse);
+//                return;
             } catch (Throwable exc) {
                 httpResponse.setStatus(500);
                 request.setAttribute("error", exc.getMessage());
@@ -122,9 +122,15 @@ public class BasicFilter implements Filter {
     private void processAuthenticationData(HttpServletRequest httpRequest, String currentUri, String fullUrl)
             throws Throwable {
         HashMap<String, String> params = new HashMap<>();
-        for (String key : httpRequest.getParameterMap().keySet()) {
-            params.put(key, httpRequest.getParameterMap().get(key)[0]);
+
+        Map<String,String[]> parameters = httpRequest.getParameterMap();
+        Set<String> keys = parameters.keySet();
+        for (String key : keys)  {
+            params.put(key, parameters.get(key)[0]);
         }
+        
+        
+        
         // validate that state in response equals to state in request
         StateData stateData = validateState(httpRequest.getSession(), params.get(STATE));
 

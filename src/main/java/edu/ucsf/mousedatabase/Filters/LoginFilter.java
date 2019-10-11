@@ -1,4 +1,4 @@
-package edu.ucsf.mousedatabase.Filters;
+package edu.ucsf.mousedatabase.filters;
 
 import java.io.IOException;
 

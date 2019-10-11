@@ -24,6 +24,8 @@
  ******************************************************************************/
 package edu.ucsf.mousedatabase.filters;
 
+import edu.ucsf.mousedatabase.filters.*;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -38,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.microsoft.aad.adal4j.AuthenticationResult;
+
 
 @Controller
 @RequestMapping("/secure/aad")
