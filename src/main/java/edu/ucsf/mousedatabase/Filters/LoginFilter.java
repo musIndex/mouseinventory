@@ -73,10 +73,11 @@ public class LoginFilter implements Filter {
 		}
 		Log.Info("cookies logged");
 		*/
-		Log.Info("about to log prinviple");
+		Log.Info("about to log principle");
 		
 		Map<String, Collection<String>> map = (Map<String, Collection<String>>) request.getUserPrincipal();
     if (map != null) {
+      Log.Info("principle exists!");
       for (Object key : map.keySet()) {
         Object value = map.get(key);
         if (value != null && value instanceof Collection) {
