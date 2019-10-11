@@ -1,6 +1,7 @@
 package edu.ucsf.mousedatabase.Filters;
 
 import java.io.IOException;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -28,11 +29,13 @@ public class LoginFilter implements Filter {
 	String typeName = "http://schemas.microsoft.com/identity/claims/objectidentifier";
 	String envName = "admins";
 
+
     /**
      * Default constructor. 
      */
     public LoginFilter() {
         // TODO Auto-generated constructor stub
+      Log.Info("made loginFilter");
     }
 
 	/**
@@ -53,6 +56,7 @@ public class LoginFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 		boolean loggedIn = false;
+		Log.Info("reached filter");
 		
 		HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
@@ -61,27 +65,32 @@ public class LoginFilter implements Filter {
 		//Log.Info("user data is : " + data);
 		String headerName = request.getHeaderNames().toString();
 		Log.Info("user headerNames: " + headerName);
-		
+		/*
 		Cookie[] cookies = request.getCookies();
 		for(int i = 0; i < cookies.length; i++) {
 		  Log.Info(cookies[i].getName());
 		  Log.Info(cookies[i].getValue());
 		}
-		
+		Log.Info("cookies logged");
+		*/
+		Log.Info("about to log principle");
 		
 		Map<String, Collection<String>> map = (Map<String, Collection<String>>) request.getUserPrincipal();
-    for (Object key : map.keySet()) {
-      Object value = map.get(key);
-      if (value != null && value instanceof Collection) {
-          Collection claims = (Collection) value;
-          for (Object claim : claims) {
-              System.out.println(claim);
-              Log.Info(claim);
-          }
+    if (map != null) {
+      Log.Info("principle exists!");
+      for (Object key : map.keySet()) {
+        Object value = map.get(key);
+        if (value != null && value instanceof Collection) {
+            Collection claims = (Collection) value;
+            for (Object claim : claims) {
+                System.out.println(claim);
+                Log.Info(claim);
+            }
+        }
       }
-  }
-		
-		//75da6698
+    } else {
+      Log.Info("User principle is null");
+    }
 		
         
         /*Map<String, Collection<String>> map = (Map<String, Collection<String>>) request.getUserPrincipal();
