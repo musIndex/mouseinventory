@@ -1,6 +1,7 @@
 package edu.ucsf.mousedatabase.Filters;
 
 import java.io.IOException;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -28,11 +29,13 @@ public class LoginFilter implements Filter {
 	String typeName = "http://schemas.microsoft.com/identity/claims/objectidentifier";
 	String envName = "admins";
 
+
     /**
      * Default constructor. 
      */
     public LoginFilter() {
         // TODO Auto-generated constructor stub
+      Log.Info("made loginFilter");
     }
 
 	/**
