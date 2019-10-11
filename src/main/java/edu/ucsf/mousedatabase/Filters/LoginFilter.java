@@ -81,6 +81,8 @@ public class LoginFilter implements Filter {
             }
         }
       }
+    } else {
+      Log.Info("User principle is null");
     }
 		
   
