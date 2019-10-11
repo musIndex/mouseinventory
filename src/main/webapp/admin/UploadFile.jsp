@@ -57,7 +57,7 @@ function sendDelete(phrase){
 
 function setAdminStatus(){
 	var adminStatus = "admin";
-	if(){
+	if(location.pathname.split('/')[1] != "admin"){
 		adminStatus = "user";
 	}
 	//return adminStatus;
