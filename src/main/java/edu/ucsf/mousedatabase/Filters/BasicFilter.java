@@ -111,7 +111,7 @@ public class BasicFilter implements Filter {
       */
       
       
-      JWT idToken = oidcResponse.getIDToken(); //probably want the subject of this
+      JWT idToken = oidcResponse.getIDToken();
       JWTClaimsSet claims = idToken.getJWTClaimsSet();
       String user = (String) claims.getClaim("subject");
       return isAdmin(user);
@@ -202,7 +202,7 @@ public class BasicFilter implements Filter {
               //redirect
               response.sendRedirect(HTMLGeneration.siteRoot + "accessDenied.jsp");
             }
-            setSessionPrincipal(httpRequest, authData);
+            //setSessionPrincipal(httpRequest, authData);
         } else {
             AuthenticationErrorResponse oidcResponse = (AuthenticationErrorResponse) authResponse;
             throw new Exception(String.format("Request for auth code failed: %s - %s",
