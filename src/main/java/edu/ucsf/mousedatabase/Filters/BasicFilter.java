@@ -113,11 +113,14 @@ public class BasicFilter implements Filter {
       AuthenticationSuccessResponse oidcResponse = (AuthenticationSuccessResponse) authResponse;
       */
       
-      
-      JWT idToken = oidcResponse.getIDToken();
-      JWTClaimsSet claims = idToken.getJWTClaimsSet();
-      String user = (String) claims.getClaim("subject");
-      return isAdmin(user);
+      try {
+        JWT idToken = oidcResponse.getIDToken();
+        JWTClaimsSet claims = idToken.getJWTClaimsSet();
+        String user = (String) claims.getClaim("subject");
+        return isAdmin(user);
+      } catch (Exception e) {
+        return false;
+        }
     }
 
     public void doFilter(ServletRequest request, ServletResponse response,
