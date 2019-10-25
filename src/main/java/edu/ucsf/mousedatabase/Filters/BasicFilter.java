@@ -139,9 +139,12 @@ public class BasicFilter implements Filter {
                     if (AuthHelper.containsAuthenticationData(httpRequest)) { //probably here, for the check?
                       //if(isAdmin(user.getObjectId()))  //where do we get the user?
                       //if(isAdminLogin(request, ))
+                      Log.Info("about to process authentication data");
+
                       processAuthenticationData(httpRequest, currentUri, fullUrl, httpResponse);
                     } else {
                         // not authenticated
+                      Log.Info("about to send auth redirect");
                         sendAuthRedirect(httpRequest, httpResponse);
                         return;
                     }
@@ -212,6 +215,7 @@ public class BasicFilter implements Filter {
               //send redirect
               response.sendRedirect(HTMLGeneration.siteRoot + "accessDenied.jsp");
             }*/
+            Log.Info("about to set session principal");
             setSessionPrincipal(httpRequest, authData);
         } else {
             AuthenticationErrorResponse oidcResponse = (AuthenticationErrorResponse) authResponse;
@@ -243,6 +247,7 @@ public class BasicFilter implements Filter {
         storeStateInSession(httpRequest.getSession(), state, nonce);
 
         String currentUri = httpRequest.getRequestURL().toString();
+        Log.Info("about to send redirect");
         httpResponse.sendRedirect(getRedirectUrl(currentUri, state, nonce));
     }
 
