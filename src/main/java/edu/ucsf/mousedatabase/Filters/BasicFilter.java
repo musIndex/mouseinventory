@@ -198,13 +198,13 @@ public class BasicFilter implements Filter {
             // validate nonce to prevent reply attacks (code maybe substituted to one with broader access)
             validateNonce(stateData, getClaimValueFromIdToken(authData.getIdToken(), "nonce"));            
             
-            if(isAdminLogin(oidcResponse)) {
+            /*if(isAdminLogin(oidcResponse)) {
               setSessionPrincipal(httpRequest, authData);
             } else {
               //send redirect
               response.sendRedirect(HTMLGeneration.siteRoot + "accessDenied.jsp");
-            }
-            //setSessionPrincipal(httpRequest, authData);
+            }*/
+            setSessionPrincipal(httpRequest, authData);
         } else {
             AuthenticationErrorResponse oidcResponse = (AuthenticationErrorResponse) authResponse;
             throw new Exception(String.format("Request for auth code failed: %s - %s",
