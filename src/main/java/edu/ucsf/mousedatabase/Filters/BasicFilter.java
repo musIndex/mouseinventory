@@ -47,12 +47,18 @@ import com.microsoft.aad.adal4j.AuthenticationContext;
 import com.microsoft.aad.adal4j.AuthenticationException;
 import com.microsoft.aad.adal4j.AuthenticationResult;
 import com.microsoft.aad.adal4j.ClientCredential;
+import com.nimbusds.jwt.JWT;
+import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;
 import com.nimbusds.oauth2.sdk.AuthorizationCode;
+import com.nimbusds.oauth2.sdk.token.Token;
 import com.nimbusds.openid.connect.sdk.AuthenticationErrorResponse;
 import com.nimbusds.openid.connect.sdk.AuthenticationResponse;
 import com.nimbusds.openid.connect.sdk.AuthenticationResponseParser;
 import com.nimbusds.openid.connect.sdk.AuthenticationSuccessResponse;
+
+import edu.ucsf.mousedatabase.HTMLGeneration;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class BasicFilter implements Filter {
@@ -65,9 +71,50 @@ public class BasicFilter implements Filter {
     private String clientSecret = "";
     private String tenant = "";
     private String authority;
+    private String adminString = "admin";
 
     public void destroy() {
 
+    }
+    
+    private boolean isAdmin(String userId) {
+      Map<String, String> environmentVars = System.getenv();
+      if(environmentVars.containsKey(userId)) {
+        if(environmentVars.get(userId) == adminString) {
+          return true;
+        } else return false;
+      }
+      
+      
+      
+      
+      /*
+      String admins = System.getenv("admins");
+      String[] idArray = admins.split(", ");
+      List<String> idList = Arrays.asList(idArray);
+      if (idList.contains(userId)){
+        return true;
+      } else return false;
+      */
+    }
+    
+    private boolean isAdminLogin(AuthenticationSuccessResponse oidcResponse) {
+      /*HashMap<String, String> params = new HashMap<>();
+
+      Map<String,String[]> parameters = httpRequest.getParameterMap();
+      Set<String> keys = parameters.keySet();
+      for (String key : keys)  {
+          params.put(key, parameters.get(key)[0]);
+      }
+      AuthenticationResponse authResponse = AuthenticationResponseParser.parse(new URI(fullUrl), params);
+      AuthenticationSuccessResponse oidcResponse = (AuthenticationSuccessResponse) authResponse;
+      */
+      
+      
+      JWT idToken = oidcResponse.getIDToken(); //probably want the subject of this
+      JWTClaimsSet claims = idToken.getJWTClaimsSet();
+      String user = (String) claims.getClaim("subject");
+      return isAdmin(user);
     }
 
     public void doFilter(ServletRequest request, ServletResponse response,
@@ -82,8 +129,10 @@ public class BasicFilter implements Filter {
 
                 // check if user has a AuthData in the session
                 if (!AuthHelper.isAuthenticated(httpRequest)) {
-                    if (AuthHelper.containsAuthenticationData(httpRequest)) {
-                        processAuthenticationData(httpRequest, currentUri, fullUrl);
+                    if (AuthHelper.containsAuthenticationData(httpRequest)) { //probably here, for the check?
+                      //if(isAdmin(user.getObjectId()))  //where do we get the user?
+                      //if(isAdminLogin(request, ))
+                      processAuthenticationData(httpRequest, currentUri, fullUrl, httpResponse);
                     } else {
                         // not authenticated
                         sendAuthRedirect(httpRequest, httpResponse);
@@ -119,7 +168,7 @@ public class BasicFilter implements Filter {
         setSessionPrincipal(httpRequest, authData);
     }
 
-    private void processAuthenticationData(HttpServletRequest httpRequest, String currentUri, String fullUrl)
+    private void processAuthenticationData(HttpServletRequest httpRequest, String currentUri, String fullUrl, HttpServletResponse response)
             throws Throwable {
         HashMap<String, String> params = new HashMap<>();
 
@@ -144,7 +193,15 @@ public class BasicFilter implements Filter {
                     getAccessToken(oidcResponse.getAuthorizationCode(), currentUri);
             // validate nonce to prevent reply attacks (code maybe substituted to one with broader access)
             validateNonce(stateData, getClaimValueFromIdToken(authData.getIdToken(), "nonce"));
-
+            //get id token from oidcResponse?
+            
+            
+            if(isAdminLogin(oidcResponse)) {
+              setSessionPrincipal(httpRequest, authData);
+            } else {
+              //redirect
+              response.sendRedirect(HTMLGeneration.siteRoot + "accessDenied.jsp");
+            }
             setSessionPrincipal(httpRequest, authData);
         } else {
             AuthenticationErrorResponse oidcResponse = (AuthenticationErrorResponse) authResponse;
