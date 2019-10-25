@@ -31,6 +31,7 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.*;
+//import com.google.code.gson;
 
 import javax.naming.ServiceUnavailableException;
 import javax.servlet.Filter;
@@ -47,12 +48,19 @@ import com.microsoft.aad.adal4j.AuthenticationContext;
 import com.microsoft.aad.adal4j.AuthenticationException;
 import com.microsoft.aad.adal4j.AuthenticationResult;
 import com.microsoft.aad.adal4j.ClientCredential;
+import com.nimbusds.jwt.JWT;
+import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;
 import com.nimbusds.oauth2.sdk.AuthorizationCode;
+import com.nimbusds.oauth2.sdk.token.Token;
 import com.nimbusds.openid.connect.sdk.AuthenticationErrorResponse;
 import com.nimbusds.openid.connect.sdk.AuthenticationResponse;
 import com.nimbusds.openid.connect.sdk.AuthenticationResponseParser;
 import com.nimbusds.openid.connect.sdk.AuthenticationSuccessResponse;
+
+import edu.ucsf.mousedatabase.HTMLGeneration;
+import edu.ucsf.mousedatabase.Log;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class BasicFilter implements Filter {
@@ -65,9 +73,55 @@ public class BasicFilter implements Filter {
     private String clientSecret = "";
     private String tenant = "";
     private String authority;
+    //private String adminString = "admin";
 
     public void destroy() {
 
+    }
+    
+    private boolean isAdmin(String userId) {
+      /*Map<String, String> environmentVars = System.getenv();
+      if(environmentVars.containsKey(userId)) {
+        if(environmentVars.get(userId) == adminString) {
+          return true;
+        } else return false;
+      }*/
+      
+      
+      
+      
+      String adminString = System.getenv("admins");
+       //= gson.fromJson(adminString, String);
+      //String[] adminArray = new JSONArray(adminString);   //org.JSON.parse(adminString);
+      //String[] idArray = admins.split(", ");
+      //List<String> idList = Arrays.asList(adminArray);
+      //if (idList.contains(userId)){
+      if(userId == adminString) {
+        return true;
+      } else return false;
+      
+    }
+    
+    private boolean isAdminLogin(AuthenticationSuccessResponse oidcResponse) {
+      /*HashMap<String, String> params = new HashMap<>();
+
+      Map<String,String[]> parameters = httpRequest.getParameterMap();
+      Set<String> keys = parameters.keySet();
+      for (String key : keys)  {
+          params.put(key, parameters.get(key)[0]);
+      }
+      AuthenticationResponse authResponse = AuthenticationResponseParser.parse(new URI(fullUrl), params);
+      AuthenticationSuccessResponse oidcResponse = (AuthenticationSuccessResponse) authResponse;
+      */
+      
+      try {
+        JWT idToken = oidcResponse.getIDToken();
+        JWTClaimsSet claims = idToken.getJWTClaimsSet();
+        String user = (String) claims.getClaim("objectidentifier");
+        return isAdmin(user);
+      } catch (Exception e) {
+        return false;
+        }
     }
 
     public void doFilter(ServletRequest request, ServletResponse response,
@@ -82,10 +136,15 @@ public class BasicFilter implements Filter {
 
                 // check if user has a AuthData in the session
                 if (!AuthHelper.isAuthenticated(httpRequest)) {
-                    if (AuthHelper.containsAuthenticationData(httpRequest)) {
-                        processAuthenticationData(httpRequest, currentUri, fullUrl);
+                    if (AuthHelper.containsAuthenticationData(httpRequest)) { //probably here, for the check?
+                      //if(isAdmin(user.getObjectId()))  //where do we get the user?
+                      //if(isAdminLogin(request, ))
+                      Log.Info("about to process authentication data");
+
+                      processAuthenticationData(httpRequest, currentUri, fullUrl, httpResponse);
                     } else {
                         // not authenticated
+                      Log.Info("about to send auth redirect");
                         sendAuthRedirect(httpRequest, httpResponse);
                         return;
                     }
@@ -119,7 +178,7 @@ public class BasicFilter implements Filter {
         setSessionPrincipal(httpRequest, authData);
     }
 
-    private void processAuthenticationData(HttpServletRequest httpRequest, String currentUri, String fullUrl)
+    private void processAuthenticationData(HttpServletRequest httpRequest, String currentUri, String fullUrl, HttpServletResponse response)
             throws Throwable {
         HashMap<String, String> params = new HashMap<>();
 
@@ -128,8 +187,6 @@ public class BasicFilter implements Filter {
         for (String key : keys)  {
             params.put(key, parameters.get(key)[0]);
         }
-        
-        
         
         // validate that state in response equals to state in request
         StateData stateData = validateState(httpRequest.getSession(), params.get(STATE));
@@ -143,8 +200,22 @@ public class BasicFilter implements Filter {
             AuthenticationResult authData =
                     getAccessToken(oidcResponse.getAuthorizationCode(), currentUri);
             // validate nonce to prevent reply attacks (code maybe substituted to one with broader access)
-            validateNonce(stateData, getClaimValueFromIdToken(authData.getIdToken(), "nonce"));
-
+            validateNonce(stateData, getClaimValueFromIdToken(authData.getIdToken(), "nonce"));  
+            
+           /* 
+            JWT idToken = oidcResponse.getIDToken();
+            JWTClaimsSet claims = idToken.getJWTClaimsSet();
+            String user = (String) claims.getClaim("objectidentifier");
+            Log.Info("ObjectIdentifier in token: " + user);
+            */
+            
+            /*if(isAdminLogin(oidcResponse)) {
+              setSessionPrincipal(httpRequest, authData);
+            } else {
+              //send redirect
+              response.sendRedirect(HTMLGeneration.siteRoot + "accessDenied.jsp");
+            }*/
+            Log.Info("about to set session principal");
             setSessionPrincipal(httpRequest, authData);
         } else {
             AuthenticationErrorResponse oidcResponse = (AuthenticationErrorResponse) authResponse;
@@ -176,6 +247,7 @@ public class BasicFilter implements Filter {
         storeStateInSession(httpRequest.getSession(), state, nonce);
 
         String currentUri = httpRequest.getRequestURL().toString();
+        Log.Info("about to send redirect");
         httpResponse.sendRedirect(getRedirectUrl(currentUri, state, nonce));
     }
 

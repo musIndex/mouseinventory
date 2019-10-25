@@ -99,6 +99,7 @@ public class UploadServlet extends HttpServlet {
 	            		Log.Info("wrote file");
 	            	} else if (item.getFieldName().contentEquals(userFieldName)) {
 	            	  loggedInAsAdmin = isAdmin(item.getString());
+	            	  Log.Info("setting admin in uploadServlet: " + loggedInAsAdmin);
 	            	  //isAdmin = Boolean.parseBoolean(item.getString());
 	            	} else {
 	            		Log.Info("name = " + item.getName());
@@ -120,7 +121,8 @@ public class UploadServlet extends HttpServlet {
 	      response.sendRedirect(HTMLGeneration.adminRoot + "EditMouseForm.jsp?id=" + mouseID);
 
 	    } else {
-	      response.sendRedirect(HTMLGeneration.siteRoot + "EditMouseForm.jsp?id=" + mouseID);
+	    //set this to wherever the new redirect should be
+	      response.sendRedirect(HTMLGeneration.siteRoot + "EditMouseForm.jsp?id=" + mouseID); 
 
 	    }
 	}
