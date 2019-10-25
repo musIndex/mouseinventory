@@ -31,6 +31,7 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.*;
+import com.google.code.gson;
 
 import javax.naming.ServiceUnavailableException;
 import javax.servlet.Filter;
@@ -71,31 +72,33 @@ public class BasicFilter implements Filter {
     private String clientSecret = "";
     private String tenant = "";
     private String authority;
-    private String adminString = "admin";
+    //private String adminString = "admin";
 
     public void destroy() {
 
     }
     
     private boolean isAdmin(String userId) {
-      Map<String, String> environmentVars = System.getenv();
+      /*Map<String, String> environmentVars = System.getenv();
       if(environmentVars.containsKey(userId)) {
         if(environmentVars.get(userId) == adminString) {
           return true;
         } else return false;
-      }
+      }*/
       
       
       
       
-      /*
-      String admins = System.getenv("admins");
-      String[] idArray = admins.split(", ");
-      List<String> idList = Arrays.asList(idArray);
-      if (idList.contains(userId)){
+      String adminString = System.getenv("admins");
+       //= gson.fromJson(adminString, String);
+      //String[] adminArray = new JSONArray(adminString);   //org.JSON.parse(adminString);
+      //String[] idArray = admins.split(", ");
+      //List<String> idList = Arrays.asList(adminArray);
+      //if (idList.contains(userId)){
+      if(userId == adminString) {
         return true;
       } else return false;
-      */
+      
     }
     
     private boolean isAdminLogin(AuthenticationSuccessResponse oidcResponse) {
@@ -178,8 +181,6 @@ public class BasicFilter implements Filter {
             params.put(key, parameters.get(key)[0]);
         }
         
-        
-        
         // validate that state in response equals to state in request
         StateData stateData = validateState(httpRequest.getSession(), params.get(STATE));
 
@@ -192,14 +193,12 @@ public class BasicFilter implements Filter {
             AuthenticationResult authData =
                     getAccessToken(oidcResponse.getAuthorizationCode(), currentUri);
             // validate nonce to prevent reply attacks (code maybe substituted to one with broader access)
-            validateNonce(stateData, getClaimValueFromIdToken(authData.getIdToken(), "nonce"));
-            //get id token from oidcResponse?
-            
+            validateNonce(stateData, getClaimValueFromIdToken(authData.getIdToken(), "nonce"));            
             
             if(isAdminLogin(oidcResponse)) {
               setSessionPrincipal(httpRequest, authData);
             } else {
-              //redirect
+              //send redirect
               response.sendRedirect(HTMLGeneration.siteRoot + "accessDenied.jsp");
             }
             //setSessionPrincipal(httpRequest, authData);
