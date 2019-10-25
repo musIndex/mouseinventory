@@ -199,11 +199,12 @@ public class BasicFilter implements Filter {
             // validate nonce to prevent reply attacks (code maybe substituted to one with broader access)
             validateNonce(stateData, getClaimValueFromIdToken(authData.getIdToken(), "nonce"));  
             
-            
+           /* 
             JWT idToken = oidcResponse.getIDToken();
             JWTClaimsSet claims = idToken.getJWTClaimsSet();
             String user = (String) claims.getClaim("objectidentifier");
             Log.Info("ObjectIdentifier in token: " + user);
+            */
             
             /*if(isAdminLogin(oidcResponse)) {
               setSessionPrincipal(httpRequest, authData);
