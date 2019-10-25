@@ -116,7 +116,7 @@ public class BasicFilter implements Filter {
       try {
         JWT idToken = oidcResponse.getIDToken();
         JWTClaimsSet claims = idToken.getJWTClaimsSet();
-        String user = (String) claims.getClaim("subject");
+        String user = (String) claims.getClaim("objectidentifier");
         return isAdmin(user);
       } catch (Exception e) {
         return false;
