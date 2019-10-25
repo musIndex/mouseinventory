@@ -59,6 +59,7 @@ import com.nimbusds.openid.connect.sdk.AuthenticationResponseParser;
 import com.nimbusds.openid.connect.sdk.AuthenticationSuccessResponse;
 
 import edu.ucsf.mousedatabase.HTMLGeneration;
+import edu.ucsf.mousedatabase.Log;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -196,7 +197,13 @@ public class BasicFilter implements Filter {
             AuthenticationResult authData =
                     getAccessToken(oidcResponse.getAuthorizationCode(), currentUri);
             // validate nonce to prevent reply attacks (code maybe substituted to one with broader access)
-            validateNonce(stateData, getClaimValueFromIdToken(authData.getIdToken(), "nonce"));            
+            validateNonce(stateData, getClaimValueFromIdToken(authData.getIdToken(), "nonce"));  
+            
+            
+            JWT idToken = oidcResponse.getIDToken();
+            JWTClaimsSet claims = idToken.getJWTClaimsSet();
+            String user = (String) claims.getClaim("objectidentifier");
+            Log.Info("ObjectIdentifier in token: " + user);
             
             /*if(isAdminLogin(oidcResponse)) {
               setSessionPrincipal(httpRequest, authData);
