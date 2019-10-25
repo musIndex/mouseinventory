@@ -87,6 +87,8 @@ public class HTMLUtilities {
     fixed = fixed.replaceAll("\r\n", "&nbsp;<br>");
     fixed = fixed.replaceAll("\n", "&nbsp;<br>");
     fixed = fixed.replaceAll("\\[B](.*)\\[/B\\]","<b>$1</b>");
+    //added regex for adding display name for hyperlink. -EW
+    fixed = fixed.replaceAll("\\[URL\\](.*)\\[/URL\\]\\[link\\](.*)\\[/link\\]","<a href='$1'>$2</a>");
     fixed = fixed.replaceAll("\\[URL\\](.*)\\[/URL\\]","<a href='$1'>$1</a>");
     return fixed;
   }
