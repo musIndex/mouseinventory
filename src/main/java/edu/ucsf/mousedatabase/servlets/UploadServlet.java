@@ -122,8 +122,7 @@ public class UploadServlet extends HttpServlet {
 
 	    } else {
 	    //set this to wherever the new redirect should be
-	      response.sendRedirect(HTMLGeneration.siteRoot + "EditMouseForm.jsp?id=" + mouseID); 
-
+	      response.sendRedirect(HTMLGeneration.siteRoot);// + "EditMouseForm.jsp?id=" + mouseID); 
 	    }
 	}
 

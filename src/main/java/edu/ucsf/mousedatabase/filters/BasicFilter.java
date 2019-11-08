@@ -32,6 +32,7 @@ import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.*;
 //import com.google.code.gson;
+import com.google.gson.*;
 
 import javax.naming.ServiceUnavailableException;
 import javax.servlet.Filter;
@@ -48,6 +49,7 @@ import com.microsoft.aad.adal4j.AuthenticationContext;
 import com.microsoft.aad.adal4j.AuthenticationException;
 import com.microsoft.aad.adal4j.AuthenticationResult;
 import com.microsoft.aad.adal4j.ClientCredential;
+import com.microsoft.aad.adal4j.UserInfo;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;
@@ -74,32 +76,27 @@ public class BasicFilter implements Filter {
     private String tenant = "";
     private String authority;
     //private String adminString = "admin";
+    private static String[] adminList;
+    private String jsonTest = "[\"bob\", \"jane\", \"tim\"]";
 
-    public void destroy() {
+    public void destroy() { 
 
     }
     
     private boolean isAdmin(String userId) {
-      /*Map<String, String> environmentVars = System.getenv();
-      if(environmentVars.containsKey(userId)) {
-        if(environmentVars.get(userId) == adminString) {
-          return true;
-        } else return false;
-      }*/
-      
-      
-      
-      
-      String adminString = System.getenv("admins");
+ 
+      //String adminString = System.getenv("admins");
        //= gson.fromJson(adminString, String);
       //String[] adminArray = new JSONArray(adminString);   //org.JSON.parse(adminString);
       //String[] idArray = admins.split(", ");
       //List<String> idList = Arrays.asList(adminArray);
       //if (idList.contains(userId)){
-      if(userId == adminString) {
+      Log.Info(adminList);
+      
+
+      if(userId.equals(adminList)) {
         return true;
       } else return false;
-      
     }
     
     private boolean isAdminLogin(AuthenticationSuccessResponse oidcResponse) {
@@ -202,21 +199,32 @@ public class BasicFilter implements Filter {
             // validate nonce to prevent reply attacks (code maybe substituted to one with broader access)
             validateNonce(stateData, getClaimValueFromIdToken(authData.getIdToken(), "nonce"));  
             
-           /* 
-            JWT idToken = oidcResponse.getIDToken();
-            JWTClaimsSet claims = idToken.getJWTClaimsSet();
-            String user = (String) claims.getClaim("objectidentifier");
-            Log.Info("ObjectIdentifier in token: " + user);
-            */
             
-            /*if(isAdminLogin(oidcResponse)) {
+            
+           
+            //JWT idToken = oidcResponse.getIDToken();
+            
+            UserInfo uInfo = authData.getUserInfo();
+            String uniqueId = uInfo.getUniqueId();
+            Log.Info(uniqueId);
+                        
+
+            if(isAdmin(uniqueId)) {
+              Log.Info("is an admin");
               setSessionPrincipal(httpRequest, authData);
             } else {
+              Log.Info("is not an admin");
+//              Map<String, String> env = System.getenv();
+              
+//              String desiredAdmin = adminList;//env.get("admins");//System.getenv("admins");
+//              Log.Info(desiredAdmin);
               //send redirect
-              response.sendRedirect(HTMLGeneration.siteRoot + "accessDenied.jsp");
-            }*/
-            Log.Info("about to set session principal");
-            setSessionPrincipal(httpRequest, authData);
+              //response.sendRedirect(HTMLGeneration.siteRoot + "accessDenied.jsp"); //this hits an issue
+              sendAuthRedirect(httpRequest, response);
+              //return;
+            }
+            //Log.Info("about to set session principal");
+            //setSessionPrincipal(httpRequest, authData);
         } else {
             AuthenticationErrorResponse oidcResponse = (AuthenticationErrorResponse) authResponse;
             throw new Exception(String.format("Request for auth code failed: %s - %s",
@@ -388,6 +396,14 @@ public class BasicFilter implements Filter {
         return redirectUrl;
     }
 
+    public static void setGroups(String admins) {
+      String adminString = admins; // "ab9a5af3-c926-4638-9bef-bc3c1c256b4c";
+      Gson gson = new Gson();
+      String adminGson = gson.toJson(adminString);
+      adminList = gson.fromJson(adminGson, String[].class);
+      Log.Info(adminList);      
+    }
+    
     public void init(FilterConfig config) throws ServletException {
         clientId = config.getInitParameter("client_id");
         authority = config.getServletContext().getInitParameter("authority");

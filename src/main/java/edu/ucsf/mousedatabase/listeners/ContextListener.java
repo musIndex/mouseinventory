@@ -14,6 +14,7 @@ import edu.ucsf.mousedatabase.HTMLGeneration;
 import edu.ucsf.mousedatabase.Log;
 import edu.ucsf.mousedatabase.MGIConnect;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler;
+import edu.ucsf.mousedatabase.filters.BasicFilter;
 import edu.ucsf.mousedatabase.objects.MouseMail;
 
 public class ContextListener implements ServletContextListener {
@@ -48,8 +49,11 @@ public class ContextListener implements ServletContextListener {
     Log.Info("Mouse Inventory Web App Starting.");
 
     ImportHandler.InitializeDefinitions();
+    
 
     Map<String, String> env = System.getenv();
+    
+    BasicFilter.setGroups(env.get("admins"));
 
     MGIConnect.Initialize(env.get("MGI_DB_DRIVER_CLASSNAME"), env.get("MGI_DB_CONNECTION_STRING"));
 

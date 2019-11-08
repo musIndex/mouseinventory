@@ -1,5 +1,6 @@
 package edu.ucsf.mousedatabase;
 
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -1303,8 +1304,12 @@ public class DBConnect {
   	try {
   		// create an input stream pointing to the file
   		inputStream = new FileInputStream(file);
+  		DataInputStream dis = new DataInputStream(inputStream); //for pdf
+  		dis.readFully(byteArray);
+  		dis.close();
+  		
   		// read the contents of file into byte array
-  		inputStream.read(byteArray);
+  		//inputStream.read(byteArray);
   		fileBlob = new javax.sql.rowset.serial.SerialBlob(byteArray);
   	} catch (Exception e) {
   		///
