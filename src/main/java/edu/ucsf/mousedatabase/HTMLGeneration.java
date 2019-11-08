@@ -35,7 +35,7 @@ import edu.ucsf.mousedatabase.objects.Setting;
 import edu.ucsf.mousedatabase.objects.SubmittedMouse;
 
 public class HTMLGeneration {
-
+//added ROOT to run locally -EW
   public static final String siteRoot = "/";
   public static final String adminRoot = siteRoot + "admin/";
   public static final String imageRoot = siteRoot + "img/";
@@ -831,7 +831,7 @@ public class HTMLGeneration {
     field = "<textarea name=\"generalComment\" rows=\"10\" cols=\"60\">"
         + emptyIfNull(r.getGeneralComment()) + "</textarea>\r\n";
     getInputRow(buf, "Comment", field, null, "editMouseRow");
-    buf.append("<tr class=editMouseRow><td colspan=2>To make links, use [URL]http://example.com[/URL].  For bold, use [B]bold text here[/B]</td></tr>");
+    buf.append("<tr class=editMouseRow><td colspan=2>To make links, use [URL]http://example.com[/URL] and display name use [link]example[/link].  For bold, use [B]bold text here[/B]</td></tr>");
     // if (r.isTG())
     // {
     // String[] transgenicTypes = { "Random Insertion" };

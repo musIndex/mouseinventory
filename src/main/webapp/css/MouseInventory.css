@@ -1084,8 +1084,6 @@ a.view_sent {
 }
 
 
-
-
 .about_new .new_item {
   text-align: center;
   display: inline-block;
@@ -1100,7 +1098,11 @@ a.view_sent {
   width: 26%;
 }
 
-
+.about_footer{
+  text-align: left;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
 
 .category > .three_column_left > .new_item,
 .category > .three_column_center > .new_item,

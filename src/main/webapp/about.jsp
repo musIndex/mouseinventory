@@ -211,5 +211,23 @@ $('#accordion2').collapse({
 </div>
 </div>
 </div>
+<div class='about_footer'>
+<div>
+<a href="mailto:<%=DBConnect.loadSetting("admin_info_email").value %>"> Contact Administrator</a>
+</div>
+<div>
+v2.1 Mouse Inventory 2019
+</div>
+<div>
+<a href="https://github.com/musIndex/mouseinventory">View in Github
+</a>
+<i class='icon-share'></i>
+
+</div>
+</div>
+
+
+
+
 
 </div>
