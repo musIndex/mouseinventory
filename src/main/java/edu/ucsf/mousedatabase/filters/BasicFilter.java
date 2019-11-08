@@ -93,10 +93,17 @@ public class BasicFilter implements Filter {
       //if (idList.contains(userId)){
       Log.Info(adminList);
       
-
+      for(int i = 0; i < adminList.length; i++) {
+        if (userId.equals(adminList[i])) {
+          return true;
+        }
+      }
+      return false;
+      /*
       if(userId.equals(adminList)) {
         return true;
       } else return false;
+      */
     }
     
     private boolean isAdminLogin(AuthenticationSuccessResponse oidcResponse) {
@@ -397,15 +404,14 @@ public class BasicFilter implements Filter {
     }
 
     public static void setGroups(String admins) {
-      String adminString = admins; // "ab9a5af3-c926-4638-9bef-bc3c1c256b4c";
+      /*String adminString = admins; // "ab9a5af3-c926-4638-9bef-bc3c1c256b4c";
       Gson gson = new Gson();
       String adminGson = gson.toJson(adminString);
-      
+      */
      // adminList = gson.fromJson(adminGson, String[].class);
+ 
       adminList = new String[1];
-      String adminEntry = gson.fromJson(adminGson, String.class);
-      adminList[0] = adminEntry;
-      Log.Info(adminList);      
+      adminList[0] = admins;
     }
     
     public void init(FilterConfig config) throws ServletException {
