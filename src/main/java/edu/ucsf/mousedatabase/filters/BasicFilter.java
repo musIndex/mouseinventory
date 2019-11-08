@@ -400,7 +400,11 @@ public class BasicFilter implements Filter {
       String adminString = admins; // "ab9a5af3-c926-4638-9bef-bc3c1c256b4c";
       Gson gson = new Gson();
       String adminGson = gson.toJson(adminString);
-      adminList = gson.fromJson(adminGson, String[].class);
+      
+     // adminList = gson.fromJson(adminGson, String[].class);
+      adminList = new String[1];
+      String adminEntry = gson.fromJson(adminGson, String.class);
+      adminList[0] = adminEntry;
       Log.Info(adminList);      
     }
     
