@@ -54,6 +54,7 @@ import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;
 import com.nimbusds.oauth2.sdk.AuthorizationCode;
+import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import com.nimbusds.oauth2.sdk.token.Token;
 import com.nimbusds.openid.connect.sdk.AuthenticationErrorResponse;
 import com.nimbusds.openid.connect.sdk.AuthenticationResponse;
@@ -64,6 +65,7 @@ import edu.ucsf.mousedatabase.HTMLGeneration;
 import edu.ucsf.mousedatabase.Log;
 
 import org.apache.commons.lang3.StringUtils;
+import javax.servlet.http.Cookie;
 
 public class BasicFilter implements Filter {
 
@@ -91,8 +93,9 @@ public class BasicFilter implements Filter {
       //String[] idArray = admins.split(", ");
       //List<String> idList = Arrays.asList(adminArray);
       //if (idList.contains(userId)){
-      Log.Info(adminList);
-      
+          Log.Info("checking if is admin");
+      Log.Info("adminList[0] = " + adminList[0]);
+      Log.Info("authentication data  = " + userId);
       for(int i = 0; i < adminList.length; i++) {
         if (userId.equals(adminList[i])) {
           return true;
@@ -133,14 +136,37 @@ public class BasicFilter implements Filter {
         if (request instanceof HttpServletRequest) {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             HttpServletResponse httpResponse = (HttpServletResponse) response;
+            Log.Info("is a httpservlet request");
             try {
                 String currentUri = httpRequest.getRequestURL().toString();
                 String queryStr = httpRequest.getQueryString();
                 String fullUrl = currentUri + (queryStr != null ? "?" + queryStr : "");
 
+                Log.Info("in try loop");
                 // check if user has a AuthData in the session
-                if (!AuthHelper.isAuthenticated(httpRequest)) {
-                    if (AuthHelper.containsAuthenticationData(httpRequest)) { //probably here, for the check?
+                //Cookie cookies[] = httpRequest.getCookies();
+                /*for (Cookie cookie : cookies){
+                    Log.Info("cookie name: " + cookie.getName());
+                }*/
+                Map<String, String[]> map = httpRequest.getParameterMap();
+                for(String s : map.keySet()){
+                    Log.Info("requestData: " + map.get(s));
+                }
+
+                if (!AuthHelper.isAuthenticated(httpRequest)) { 
+                    Log.Info("is in authentication loop");
+                    //if (true) { //probably here, for the check?
+
+                    //Log.Info("request info: " + httpRequest.get);
+
+                    //Log.Info("url: " + httpRequest.getRequestURI());
+                    /*if(httpRequest.getRequestURI().equals("/admin/admin.jsp")){ //check if path is admin login page. might be cause of odd behavior.
+                        //chain.doFilter(request, response);
+                        //request.getRequestDispatcher("/admin/admin.jsp").forward(httpRequest, response);
+                        //return;
+                        
+                    }*/
+                    if (AuthHelper.containsAuthenticationData(httpRequest)) {
                       //if(isAdmin(user.getObjectId()))  //where do we get the user?
                       //if(isAdminLogin(request, ))
                       Log.Info("about to process authentication data");
@@ -148,11 +174,12 @@ public class BasicFilter implements Filter {
                       processAuthenticationData(httpRequest, currentUri, fullUrl, httpResponse);
                     } else {
                         // not authenticated
-                      Log.Info("about to send auth redirect");
-                        sendAuthRedirect(httpRequest, httpResponse);
-                        return;
+                      Log.Info("has no authentication data");
+                      request.getRequestDispatcher("/accessDenied.jsp").forward(httpRequest, response);
+                      return;
                     }
                 }
+                Log.Info("past try loop");
                 if (isAuthDataExpired(httpRequest)) {
                     updateAuthDataUsingRefreshToken(httpRequest);
                 }
@@ -205,29 +232,24 @@ public class BasicFilter implements Filter {
                     getAccessToken(oidcResponse.getAuthorizationCode(), currentUri);
             // validate nonce to prevent reply attacks (code maybe substituted to one with broader access)
             validateNonce(stateData, getClaimValueFromIdToken(authData.getIdToken(), "nonce"));  
-            
-            
-            
-           
-            //JWT idToken = oidcResponse.getIDToken();
-            
+             
             UserInfo uInfo = authData.getUserInfo();
             String uniqueId = uInfo.getUniqueId();
             Log.Info(uniqueId);
                         
-
             if(isAdmin(uniqueId)) {
               Log.Info("is an admin");
               setSessionPrincipal(httpRequest, authData);
             } else {
               Log.Info("is not an admin");
+              
 //              Map<String, String> env = System.getenv();
               
 //              String desiredAdmin = adminList;//env.get("admins");//System.getenv("admins");
 //              Log.Info(desiredAdmin);
               //send redirect
               //response.sendRedirect(HTMLGeneration.siteRoot + "accessDenied.jsp"); //this hits an issue
-              sendAuthRedirect(httpRequest, response);
+            //   sendAuthRedirect(httpRequest, response);
               //return;
             }
             //Log.Info("about to set session principal");
@@ -386,6 +408,10 @@ public class BasicFilter implements Filter {
         httpRequest.getSession().setAttribute(AuthHelper.PRINCIPAL_SESSION_NAME, result);
     }
 
+    private boolean checkPrincipal(){
+        if()
+    }
+
     private void removePrincipalFromSession(HttpServletRequest httpRequest) {
         httpRequest.getSession().removeAttribute(AuthHelper.PRINCIPAL_SESSION_NAME);
     }
@@ -409,9 +435,11 @@ public class BasicFilter implements Filter {
       String adminGson = gson.toJson(adminString);
       */
      // adminList = gson.fromJson(adminGson, String[].class);
- 
+        //Log.Info("admins = " + admins);
       adminList = new String[1];
-      adminList[0] = admins;
+      String admin1 = "ab9a5af3-c926-4638-9bef-bc3c1c256b4c";
+      adminList[0] = admin1;
+      //adminList[0] = admins;
     }
     
     public void init(FilterConfig config) throws ServletException {

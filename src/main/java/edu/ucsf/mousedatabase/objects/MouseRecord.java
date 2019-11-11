@@ -362,11 +362,14 @@ public class MouseRecord {
     this.adminComment = adminComment;
   }
   
+  //does not get called
   public String getFilename() {
+    //Log.Info("called get filename");
 	  return filename;
   }
   
   public ArrayList<File> getFilenames(){
+    //Log.Info("called get filenames");
 	  return filenames;
   }
   
