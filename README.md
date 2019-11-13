@@ -25,6 +25,7 @@ The easiest way to install these is using `brew`, a package manager for the Mac.
 
 ```
 git clone git@github.com:musIndex/mouseinventory.git
+```
 
 1. install tomcat with brew
 2. update tomcat users
