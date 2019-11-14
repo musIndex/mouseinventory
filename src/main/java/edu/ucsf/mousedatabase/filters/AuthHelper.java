@@ -33,6 +33,8 @@ import com.nimbusds.openid.connect.sdk.AuthenticationResponse;
 import com.nimbusds.openid.connect.sdk.AuthenticationResponseParser;
 import com.nimbusds.openid.connect.sdk.AuthenticationSuccessResponse;
 
+import edu.ucsf.mousedatabase.Log;
+
 public final class AuthHelper {
 
     public static final String PRINCIPAL_SESSION_NAME = "principal";
@@ -44,24 +46,25 @@ public final class AuthHelper {
         return request.getSession().getAttribute(PRINCIPAL_SESSION_NAME) != null;
     }
 
-    public static AuthenticationResult getAuthSessionObject(
-            HttpServletRequest request) {
-        return (AuthenticationResult) request.getSession().getAttribute(
-                PRINCIPAL_SESSION_NAME);
+    public static AuthenticationResult getAuthSessionObject(HttpServletRequest request) {
+        return (AuthenticationResult) request.getSession().getAttribute(PRINCIPAL_SESSION_NAME);
     }
 
-    public static boolean containsAuthenticationData(
-            HttpServletRequest httpRequest) {
-        Map<String, String[]> map = httpRequest.getParameterMap();
-        return httpRequest.getMethod().equalsIgnoreCase("POST") && (httpRequest.getParameterMap().containsKey(
-                        AuthParameterNames.ERROR)
-                        || httpRequest.getParameterMap().containsKey(
-                                AuthParameterNames.ID_TOKEN) || httpRequest
-                        .getParameterMap().containsKey(AuthParameterNames.CODE));
+    public static boolean containsAuthenticationData(HttpServletRequest httpRequest) {
+        // Map<String, String[]> map = httpRequest.getParameterMap();
+        boolean original = httpRequest.getMethod().equalsIgnoreCase("POST")
+                && (httpRequest.getParameterMap().containsKey(AuthParameterNames.ERROR)
+                        || httpRequest.getParameterMap().containsKey(AuthParameterNames.ID_TOKEN)
+                        || httpRequest.getParameterMap().containsKey(AuthParameterNames.CODE));
+        boolean post = httpRequest.getMethod().equalsIgnoreCase("POST");
+        boolean error = httpRequest.getParameterMap().containsKey(AuthParameterNames.ERROR);
+        boolean idToken = httpRequest.getParameterMap().containsKey(AuthParameterNames.ID_TOKEN);
+        boolean code = httpRequest.getParameterMap().containsKey(AuthParameterNames.CODE);
+        Log.Info("authenticated - "+ String.valueOf(original));
+        return original;
     }
 
-    public static boolean isAuthenticationSuccessful(
-            AuthenticationResponse authResponse) {
+    public static boolean isAuthenticationSuccessful(AuthenticationResponse authResponse) {
         return authResponse instanceof AuthenticationSuccessResponse;
     }
 }
