@@ -77,9 +77,9 @@ public class BasicFilter implements Filter {
     private String clientSecret = "";
     private String tenant = "";
     private String authority;
-    // private String adminString = "admin";
+    private static String adminString;
     private static String[] adminList;
-    private String jsonTest = "[\"bob\", \"jane\", \"tim\"]";
+    //private String jsonTest = "[\"bob\", \"jane\", \"tim\"]";
 
     public void destroy() {
 
@@ -87,16 +87,25 @@ public class BasicFilter implements Filter {
 
     private boolean isAdmin(String userId) {
 
-        String adminString = System.getenv("ADMIN_ARRAY");
+        //String adminString = System.getenv("ADMIN_ARRAY");
         // String[] adminArray = gson.fromJson(adminString, String);
         // String[] adminArray = new JSONArray(adminString);
         // //org.JSON.parse(adminString);
         // String[] idArray = admins.split(", ");
         // List<String> idList = Arrays.asList(adminArray);
         // if (idList.contains(userId)){
-        Log.Info("List of admins: "+adminList);
+        // Log.Info("List of admins: "+adminList);
 
-        if (userId.equals("ab9a5af3-c926-4638-9bef-bc3c1c256b4c")) {
+
+        // for (int i = 0; i < adminList.length; i++){
+        //     if(userId.equals(adminList[i])){
+        //         return true;
+        //     }
+        // }
+
+        Log.Info("loginAttempt is: " + userId);
+        Log.Info("admin is: " + adminString);
+        if (userId.equals(adminString)) {
             return true;
         }
         return false;
@@ -398,9 +407,16 @@ public class BasicFilter implements Filter {
          * gson = new Gson(); String adminGson = gson.toJson(adminString);
          */
         // adminList = gson.fromJson(adminGson, String[].class);
+        Log.Info("setGroups is called");
+        adminList = new String[2];
+        adminList[0] = "testing";
+        adminList[1] = admins;
+        
+        Log.Info("admin from context = " + admins);
+        adminString = admins;
+        //"ab9a5af3-c926-4638-9bef-bc3c1c256b4c";
 
-        adminList = new String[1];
-        adminList[0] = admins;
+
     }
 
     public void init(FilterConfig config) throws ServletException {
