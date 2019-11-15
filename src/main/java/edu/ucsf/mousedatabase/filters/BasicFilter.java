@@ -148,10 +148,27 @@ public class BasicFilter implements Filter {
                 /*for (Cookie cookie : cookies){
                     Log.Info("cookie name: " + cookie.getName());
                 }*/
-                Map<String, String[]> map = httpRequest.getParameterMap();
-                for(String s : map.keySet()){
-                    Log.Info("requestData: " + map.get(s));
-                }
+                // Map<String, String[]> map = httpRequest.getParameterMap();
+                // for(String s : map.keySet()){
+                //     Log.Info("requestData: " + map.get(s));
+                // }
+
+                Map<String, Collection<String>> map = (Map<String, Collection<String>>) httpRequest.getUserPrincipal();
+                if (map != null) {
+                    Log.Info("principle exists!");
+                    for (Object key : map.keySet()) {
+                      Object value = map.get(key);
+                      if (value != null && value instanceof Collection) {
+                          Collection claims = (Collection) value;
+                          for (Object claim : claims) {
+                              System.out.println(claim);
+                              Log.Info(claim);
+                          }
+                      }
+                    }
+                  } else {
+                    Log.Info("User principle is null");
+                  }
 
                 if (!AuthHelper.isAuthenticated(httpRequest)) { 
                     Log.Info("is in authentication loop");
@@ -408,9 +425,9 @@ public class BasicFilter implements Filter {
         httpRequest.getSession().setAttribute(AuthHelper.PRINCIPAL_SESSION_NAME, result);
     }
 
-    private boolean checkPrincipal(){
-        if()
-    }
+    // private boolean checkPrincipal(){
+    //     if()
+    // }
 
     private void removePrincipalFromSession(HttpServletRequest httpRequest) {
         httpRequest.getSession().removeAttribute(AuthHelper.PRINCIPAL_SESSION_NAME);
@@ -436,9 +453,19 @@ public class BasicFilter implements Filter {
       */
      // adminList = gson.fromJson(adminGson, String[].class);
         //Log.Info("admins = " + admins);
-      adminList = new String[1];
-      String admin1 = "ab9a5af3-c926-4638-9bef-bc3c1c256b4c";
-      adminList[0] = admin1;
+
+        //gson variant
+        Gson gson = new Gson();
+        String adminGson = gson.toJson(admins);
+        adminList = gson.fromJson(adminGson, String[].class);
+
+        //comma and space separated string variant
+        //String adminStrings[] = admins.split(", ");
+        //adminList = adminStrings;
+
+        //testing with one string
+      //String admin1 = "ab9a5af3-c926-4638-9bef-bc3c1c256b4c";
+      //adminList[0] = admin1;
       //adminList[0] = admins;
     }
     
