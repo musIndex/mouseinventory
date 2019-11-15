@@ -31,7 +31,7 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.*;
-import com.google.code.gson;
+//import com.google.code.gson;
 import com.google.gson.*;
 
 import javax.naming.ServiceUnavailableException;
@@ -96,7 +96,7 @@ public class BasicFilter implements Filter {
         // if (idList.contains(userId)){
         Log.Info("List of admins: "+adminList);
 
-        if (userId.equals("8de82567-f3d7-4fb6-9513-5bb985378e40")) {
+        if (userId.equals("ab9a5af3-c926-4638-9bef-bc3c1c256b4c")) {
             return true;
         }
         return false;

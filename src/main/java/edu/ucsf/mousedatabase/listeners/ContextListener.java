@@ -54,7 +54,7 @@ public class ContextListener implements ServletContextListener {
     Map<String, String> env = System.getenv();
     Log.Info("admin context: " + env.get("admins"));
     // BasicFilter.setGroups(env.get("admins"));
-    BasicFilter.setGroups("ab9a5af3-c926-4638-9bef-bc3c1c256b4c");
+    //BasicFilter.setGroups("ab9a5af3-c926-4638-9bef-bc3c1c256b4c");
 
     MGIConnect.Initialize(env.get("MGI_DB_DRIVER_CLASSNAME"), env.get("MGI_DB_CONNECTION_STRING"));
 
