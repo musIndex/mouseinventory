@@ -31,7 +31,7 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.*;
-//import com.google.code.gson;
+import com.google.code.gson;
 import com.google.gson.*;
 
 import javax.naming.ServiceUnavailableException;
@@ -87,21 +87,25 @@ public class BasicFilter implements Filter {
 
     private boolean isAdmin(String userId) {
 
-        // String adminString = System.getenv("admins");
-        // = gson.fromJson(adminString, String);
+        String adminString = System.getenv("ADMIN_ARRAY");
+        // String[] adminArray = gson.fromJson(adminString, String);
         // String[] adminArray = new JSONArray(adminString);
         // //org.JSON.parse(adminString);
         // String[] idArray = admins.split(", ");
         // List<String> idList = Arrays.asList(adminArray);
         // if (idList.contains(userId)){
-        Log.Info(adminList);
+        Log.Info("List of admins: "+adminList);
 
-        for (int i = 0; i < adminList.length; i++) {
-            if (userId.equals(adminList[i])) {
-                return true;
-            }
+        if (userId.equals("8de82567-f3d7-4fb6-9513-5bb985378e40")) {
+            return true;
         }
         return false;
+        // for (int i = 0; i < adminList.length; i++) {
+        //     if (userId.equals(adminList[i])) {
+        //         return true;
+        //     }
+        // }
+        // return false;
         /*
          * if(userId.equals(adminList)) { return true; } else return false;
          */
@@ -188,7 +192,8 @@ public class BasicFilter implements Filter {
         setSessionPrincipal(httpRequest, authData);
     }
 
-    private void processAuthenticationData(HttpServletRequest httpRequest, HttpServletResponse httpResponse, String currentUri, String fullUrl) throws Throwable {
+    private void processAuthenticationData(HttpServletRequest httpRequest, HttpServletResponse httpResponse,
+            String currentUri, String fullUrl) throws Throwable {
         HashMap<String, String> params = new HashMap<>();
         Map<String, String[]> parameters = httpRequest.getParameterMap();
 
@@ -200,7 +205,7 @@ public class BasicFilter implements Filter {
         // validate that state in response equals to state in request
         StateData stateData = validateState(httpRequest.getSession(), params.get(STATE));
         AuthenticationResponse authResponse = AuthenticationResponseParser.parse(new URI(fullUrl), params);
-        
+
         if (AuthHelper.isAuthenticationSuccessful(authResponse)) {
             AuthenticationSuccessResponse oidcResponse = (AuthenticationSuccessResponse) authResponse;
             // validate that OIDC Auth Response matches Code Flow (contains only requested
@@ -214,7 +219,7 @@ public class BasicFilter implements Filter {
 
             UserInfo uInfo = authData.getUserInfo();
             String uniqueId = uInfo.getUniqueId();
-            Log.Info(uniqueId.toString());
+            Log.Info("Auth login attempt: "+uniqueId.toString());
 
             if (isAdmin(uniqueId)) {
                 Log.Info("is an admin");
