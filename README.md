@@ -2,69 +2,83 @@
 
 The mouse inventory database is an application for tracking an institution's inventory of mice for genetics research.
 
-
 ## Features
 
-See the <a href="http://musIndex.github.com/mouseinventory">home page</a>
+See the [home page](http://musIndex.github.com/mouseinventory)
 
-## Installation
+## Getting Started
 
-See the installation <a href="https://github.com/musIndex/mouseinventory/wiki/Installation">wiki page</a>
+The following instructions assume you're working on a Mac.
+
+### Installing Prequisites
+
+There are four prequisites that are required to run MouseInventory.
+
+- MariaDB
+- Tomcat (version 9)
+- Java (version 8)
+- Maven (version 3)
+
+The easiest way to install these is using `brew`, a package manager for the Mac.
+
+### Mac
+
+```
+git clone git@github.com:musIndex/mouseinventory.git
+```
+
+1. install tomcat with brew
+2. update tomcat users
+3. start tomcat with the following command
 
 ## Developing
 
-See the [development notes wiki](https://github.com/musIndex/mouseinventory/wiki/Development-notes) to learn about how to work with the code.
+See the [development notes wiki](https://github.com/musIndex/mouseinventory/wiki/Development-notes)
+to learn about how to work with the code.
 
 ## Environment Variables
 
-### DB_DRIVER_CLASSNAME
-Classname of the driver for the main database. Typically `org.mariadb.jdbc.Driver`
-
-### DB_CONNECTION_STRING
-Connection string for the main databse, including the user and password `jdbc:mariadb://localhost:3306/mousespace?user=mousedb&password=abc123`
-
-### MGI_DB_DRIVER_CLASSNAME
-Classname of the driver for the main database. Typically `org.postgresql.Driver`.  Required but server will start with an invalid value.
-
-### MGI_DB_CONNECTION_STRING
-Connection string for the main databse, including the user and password `jdbc:postgresql://mgi-adhoc.jax.org:5432/mgd?username=mousedb&password=abc123`.  Required but server will start with an invalid value.
-
-### SMTP_SERVER
-The domain name (eg. `smtp.server.com`) of the SMTP server. Required but server will start with an invalid value.
-
-### SMTP_USER
-The username for connecting to SMTP server. Required but server will start with an invalid value.
-
-### SMTP_PW
-The password for connecting to SMTP server. Required but server will start with an invalid value.
-
-### SMTP_PORT
-The port used to connect to SMTP server. Required but server will start with an invalid value.
-
-### SMTP_SSL_ENABLED
-Either `true` or `false` (case-insensitive). Required but server will start with an invalid value.
-
-### GOOGLE_ANALYTICS_ACCOUNT
-_Optional_ The accont for Google Analytics.
-
-### GOOGLE_ANALYTICS_DOMAIN_SUFFIX
-_Optional_ The domain suffix used for Google Analytics.
+Environment Variable | Description | Example
+--|--|--
+DB_DRIVER_CLASSNAME      | Classname of the driver for the main database                 | `org.mariadb.jdbc.Driver`
+DB_CONNECTION_STRING     | Connection string for the main databse                        | `jdbc:mariadb://localhost:3306/mousespace?user=fakeUser&password=b4dp455w0rd`
+MGI_DB_DRIVER_CLASSNAME  | Classname of the driver for the MGI database.                 | `org.postgresql.Driver`
+MGI_DB_CONNECTION_STRING | Connection string for the MGI database                        | `jdbc:postgresql://mgi-adhoc.jax.org:5432/mgd?username=prodUser&password=an0th3rp444w0rd`
+SMTP_SERVER              | _optional_ The URL of the SMTP server.                        | `smtp.server.com`
+SMTP_USER                | _optional_ The username for connecting to SMTP server.        | `james.bond@mi6.com`
+SMTP_PW                  | _optional_ The password for connecting to SMTP server.        | `lic3nset0k1ll`
+SMTP_PORT                | _optional_ The port used to connect to SMTP server..          | `465`
+SMTP_SSL_ENABLED         | _optional_ Whether or not to use encrypted SMTP  (`true` or `false`) | `true`
+GOOGLE_ANALYTICS_ACCOUNT | _optional_ The account for Google Analytics.                  | `18988`
+GOOGLE_ANALYTICS_DOMAIN_SUFFIX | _optional_ The domain suffix used for Google Analytics. | `www.example.com`
 
 ## Setting environment variables
 
-### Eclipse
-Add the required environment variables to you your server environment. 
+There are a number of ways to set environment variables.
 
-![Server1](assets/serverEnvironment1.png)
-Open the server properties by double clicking on the server name. 
-Click on "Open launch configuration..." to 
+### Command line (Mac/Linux)
+Assuming you use the command line to start Tomcat, you can also set the enviroment variables directly on the command line.
 
-![Server2](assets/serverEnvironment2.png)
-Open the "Environment" tab and click "New" to add new environment variables.
-Click on save and restart your server.
+```sh
+export DB_DRIVER_CLASSNAME=org.mariadb.jdbc.Driver
+export DB_CONNECTION_STRING="jdbc:mariadb://localhost:3306/mousespace?user=fakeUser&password=b4dp455w0rd"
+export MGI_DB_DRIVER_CLASSNAME=org.postgresql.Driver
+export MGI_DB_CONNECTION_STRING="jdbc:postgresql://mgi-adhoc.jax.org:5432/mgd?username=prodUser&password=an0th3rp444w0rd"
+export SMTP_SERVER=""
+export SMTP_USER=""
+export SMTP_PW=""
+export SMTP_PORT=430
+export SMTP_SSL_ENABLED=True
+export GOOGLE_ANALYTICS_ACCOUNT=""
+export GOOGLE_ANALYTICS_DOMAIN_SUFFIX=""
+catalina start
+```
 
-### Brew
-If Tomcat was installed using `brew`, then s straightforward way to add the requiste environment variables is to update the `homebrew-mxcl.tomcat.plist` file located in the `/usr/local/Cellar/tomcat/<version>/` directory. Open the file and add the following just before the closing `</dict></plist>` tags.
+### Adding to plist (Mac)
+If you installed Tomcat using `brew` and you don't plan on using it for anything
+else, you can hardcode the environment variables directly into the `homebrew-mxcl.tomcat.plist`
+configuration file for Tomcat. Just edit file located in `/usr/local/Cellar/tomcat/<version>/`
+and add the following just before the closing `</dict></plist>` tags.
 
 ```xml
     <key>EnvironmentVariables</key>

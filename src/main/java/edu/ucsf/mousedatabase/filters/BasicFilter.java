@@ -77,62 +77,60 @@ public class BasicFilter implements Filter {
     private String clientSecret = "";
     private String tenant = "";
     private String authority;
-    //private String adminString = "admin";
+    // private String adminString = "admin";
     private static String[] adminList;
     private String jsonTest = "[\"bob\", \"jane\", \"tim\"]";
 
-    public void destroy() { 
+    public void destroy() {
 
     }
-    
+
     private boolean isAdmin(String userId) {
- 
-      //String adminString = System.getenv("admins");
-       //= gson.fromJson(adminString, String);
-      //String[] adminArray = new JSONArray(adminString);   //org.JSON.parse(adminString);
-      //String[] idArray = admins.split(", ");
-      //List<String> idList = Arrays.asList(adminArray);
-      //if (idList.contains(userId)){
-          Log.Info("checking if is admin");
-      Log.Info("adminList[0] = " + adminList[0]);
-      Log.Info("authentication data  = " + userId);
-      for(int i = 0; i < adminList.length; i++) {
-        if (userId.equals(adminList[i])) {
-          return true;
-        }
-      }
-      return false;
-      /*
-      if(userId.equals(adminList)) {
-        return true;
-      } else return false;
-      */
-    }
-    
-    private boolean isAdminLogin(AuthenticationSuccessResponse oidcResponse) {
-      /*HashMap<String, String> params = new HashMap<>();
 
-      Map<String,String[]> parameters = httpRequest.getParameterMap();
-      Set<String> keys = parameters.keySet();
-      for (String key : keys)  {
-          params.put(key, parameters.get(key)[0]);
-      }
-      AuthenticationResponse authResponse = AuthenticationResponseParser.parse(new URI(fullUrl), params);
-      AuthenticationSuccessResponse oidcResponse = (AuthenticationSuccessResponse) authResponse;
-      */
-      
-      try {
-        JWT idToken = oidcResponse.getIDToken();
-        JWTClaimsSet claims = idToken.getJWTClaimsSet();
-        String user = (String) claims.getClaim("objectidentifier");
-        return isAdmin(user);
-      } catch (Exception e) {
+        // String adminString = System.getenv("admins");
+        // = gson.fromJson(adminString, String);
+        // String[] adminArray = new JSONArray(adminString);
+        // //org.JSON.parse(adminString);
+        // String[] idArray = admins.split(", ");
+        // List<String> idList = Arrays.asList(adminArray);
+        // if (idList.contains(userId)){
+        Log.Info(adminList);
+
+        for (int i = 0; i < adminList.length; i++) {
+            if (userId.equals(adminList[i])) {
+                return true;
+            }
+        }
         return false;
+        /*
+         * if(userId.equals(adminList)) { return true; } else return false;
+         */
+    }
+
+    private boolean isAdminLogin(AuthenticationSuccessResponse oidcResponse) {
+        /*
+         * HashMap<String, String> params = new HashMap<>();
+         * 
+         * Map<String,String[]> parameters = httpRequest.getParameterMap(); Set<String>
+         * keys = parameters.keySet(); for (String key : keys) { params.put(key,
+         * parameters.get(key)[0]); } AuthenticationResponse authResponse =
+         * AuthenticationResponseParser.parse(new URI(fullUrl), params);
+         * AuthenticationSuccessResponse oidcResponse = (AuthenticationSuccessResponse)
+         * authResponse;
+         */
+
+        try {
+            JWT idToken = oidcResponse.getIDToken();
+            JWTClaimsSet claims = idToken.getJWTClaimsSet();
+            String user = (String) claims.getClaim("objectidentifier");
+            return isAdmin(user);
+        } catch (Exception e) {
+            return false;
         }
     }
 
-    public void doFilter(ServletRequest request, ServletResponse response,
-                         FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
         if (request instanceof HttpServletRequest) {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -141,54 +139,35 @@ public class BasicFilter implements Filter {
                 String currentUri = httpRequest.getRequestURL().toString();
                 String queryStr = httpRequest.getQueryString();
                 String fullUrl = currentUri + (queryStr != null ? "?" + queryStr : "");
-
-                Log.Info("in try loop");
+                Log.Info("full url: " + fullUrl);
                 // check if user has a AuthData in the session
-                //Cookie cookies[] = httpRequest.getCookies();
-                /*for (Cookie cookie : cookies){
-                    Log.Info("cookie name: " + cookie.getName());
-                }*/
-                Map<String, String[]> map = httpRequest.getParameterMap();
-                for(String s : map.keySet()){
-                    Log.Info("requestData: " + map.get(s));
-                }
-
-                if (!AuthHelper.isAuthenticated(httpRequest)) { 
-                    Log.Info("is in authentication loop");
-                    //if (true) { //probably here, for the check?
-
-                    //Log.Info("request info: " + httpRequest.get);
-
-                    //Log.Info("url: " + httpRequest.getRequestURI());
-                    /*if(httpRequest.getRequestURI().equals("/admin/admin.jsp")){ //check if path is admin login page. might be cause of odd behavior.
-                        //chain.doFilter(request, response);
-                        //request.getRequestDispatcher("/admin/admin.jsp").forward(httpRequest, response);
-                        //return;
-                        
-                    }*/
-                    if (AuthHelper.containsAuthenticationData(httpRequest)) {
-                      //if(isAdmin(user.getObjectId()))  //where do we get the user?
-                      //if(isAdminLogin(request, ))
-                      Log.Info("about to process authentication data");
-
-                      processAuthenticationData(httpRequest, currentUri, fullUrl, httpResponse);
+                if (!AuthHelper.isAuthenticated(httpRequest)) {
+                    Log.Info("request is not authenticated");
+                    if (AuthHelper.containsAuthenticationData(httpRequest)) { // probably here, for the check?
+                        // if(isAdmin(user.getObjectId())) //where do we get the user?
+                        // if(isAdminLogin(request, ))
+                        Log.Info("about to process authentication data");
+                        processAuthenticationData(httpRequest, httpResponse, currentUri, fullUrl);
+                        chain.doFilter(request, response);
+                        return;
                     } else {
                         // not authenticated
-                      Log.Info("has no authentication data");
-                      request.getRequestDispatcher("/accessDenied.jsp").forward(httpRequest, response);
-                      return;
+                        Log.Info("about to send auth redirect");
+                        sendAuthRedirect(httpRequest, httpResponse);
+                        return;
                     }
                 }
                 Log.Info("past try loop");
                 if (isAuthDataExpired(httpRequest)) {
                     updateAuthDataUsingRefreshToken(httpRequest);
                 }
-//            } catch (AuthenticationException authException) {
-//                // something went wrong (like expiration or revocation of token)
-//                // we should invalidate AuthData stored in session and redirect to Authorization server
-//                removePrincipalFromSession(httpRequest);
-//                sendAuthRedirect(httpRequest, httpResponse);
-//                return;
+                // } catch (AuthenticationException authException) {
+                // // something went wrong (like expiration or revocation of token)
+                // // we should invalidate AuthData stored in session and redirect to
+                // Authorization server
+                // removePrincipalFromSession(httpRequest);
+                // sendAuthRedirect(httpRequest, httpResponse);
+                // return;
             } catch (Throwable exc) {
                 httpResponse.setStatus(500);
                 request.setAttribute("error", exc.getMessage());
@@ -204,61 +183,51 @@ public class BasicFilter implements Filter {
     }
 
     private void updateAuthDataUsingRefreshToken(HttpServletRequest httpRequest) throws Throwable {
-        AuthenticationResult authData =
-                getAccessTokenFromRefreshToken(AuthHelper.getAuthSessionObject(httpRequest).getRefreshToken());
+        AuthenticationResult authData = getAccessTokenFromRefreshToken(
+                AuthHelper.getAuthSessionObject(httpRequest).getRefreshToken());
         setSessionPrincipal(httpRequest, authData);
     }
 
-    private void processAuthenticationData(HttpServletRequest httpRequest, String currentUri, String fullUrl, HttpServletResponse response)
-            throws Throwable {
+    private void processAuthenticationData(HttpServletRequest httpRequest, HttpServletResponse httpResponse, String currentUri, String fullUrl) throws Throwable {
         HashMap<String, String> params = new HashMap<>();
+        Map<String, String[]> parameters = httpRequest.getParameterMap();
 
-        Map<String,String[]> parameters = httpRequest.getParameterMap();
         Set<String> keys = parameters.keySet();
-        for (String key : keys)  {
+        for (String key : keys) {
             params.put(key, parameters.get(key)[0]);
         }
-        
+
         // validate that state in response equals to state in request
         StateData stateData = validateState(httpRequest.getSession(), params.get(STATE));
-
         AuthenticationResponse authResponse = AuthenticationResponseParser.parse(new URI(fullUrl), params);
+        
         if (AuthHelper.isAuthenticationSuccessful(authResponse)) {
             AuthenticationSuccessResponse oidcResponse = (AuthenticationSuccessResponse) authResponse;
-            // validate that OIDC Auth Response matches Code Flow (contains only requested artifacts)
+            // validate that OIDC Auth Response matches Code Flow (contains only requested
+            // artifacts)
             validateAuthRespMatchesCodeFlow(oidcResponse);
 
-            AuthenticationResult authData =
-                    getAccessToken(oidcResponse.getAuthorizationCode(), currentUri);
-            // validate nonce to prevent reply attacks (code maybe substituted to one with broader access)
-            validateNonce(stateData, getClaimValueFromIdToken(authData.getIdToken(), "nonce"));  
-             
+            AuthenticationResult authData = getAccessToken(oidcResponse.getAuthorizationCode(), currentUri);
+            // validate nonce to prevent reply attacks (code maybe substituted to one with
+            // broader access)
+            validateNonce(stateData, getClaimValueFromIdToken(authData.getIdToken(), "nonce"));
+
             UserInfo uInfo = authData.getUserInfo();
             String uniqueId = uInfo.getUniqueId();
-            Log.Info(uniqueId);
-                        
-            if(isAdmin(uniqueId)) {
-              Log.Info("is an admin");
-              setSessionPrincipal(httpRequest, authData);
+            Log.Info(uniqueId.toString());
+
+            if (isAdmin(uniqueId)) {
+                Log.Info("is an admin");
+                setSessionPrincipal(httpRequest, authData);
             } else {
-              Log.Info("is not an admin");
-              
-//              Map<String, String> env = System.getenv();
-              
-//              String desiredAdmin = adminList;//env.get("admins");//System.getenv("admins");
-//              Log.Info(desiredAdmin);
-              //send redirect
-              //response.sendRedirect(HTMLGeneration.siteRoot + "accessDenied.jsp"); //this hits an issue
-            //   sendAuthRedirect(httpRequest, response);
-              //return;
+                Log.Info("is not an admin");
+                httpRequest.getRequestDispatcher("/accessDenied.jsp").forward(httpRequest, httpResponse);
+                return;
             }
-            //Log.Info("about to set session principal");
-            //setSessionPrincipal(httpRequest, authData);
         } else {
             AuthenticationErrorResponse oidcResponse = (AuthenticationErrorResponse) authResponse;
             throw new Exception(String.format("Request for auth code failed: %s - %s",
-                    oidcResponse.getErrorObject().getCode(),
-                    oidcResponse.getErrorObject().getDescription()));
+                    oidcResponse.getErrorObject().getCode(), oidcResponse.getErrorObject().getDescription()));
         }
     }
 
@@ -273,8 +242,6 @@ public class BasicFilter implements Filter {
     }
 
     private void sendAuthRedirect(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
-        httpResponse.setStatus(302);
-
         // use state parameter to validate response from Authorization server
         String state = UUID.randomUUID().toString();
 
@@ -285,12 +252,14 @@ public class BasicFilter implements Filter {
 
         String currentUri = httpRequest.getRequestURL().toString();
         Log.Info("about to send redirect");
-        httpResponse.sendRedirect(getRedirectUrl(currentUri, state, nonce));
+        String redirectUrl = getRedirectUrl(currentUri, state, nonce);
+        Log.Info("redirect url is " + redirectUrl);
+        httpResponse.sendRedirect(redirectUrl);
     }
 
     /**
-     * make sure that state is stored in the session,
-     * delete it from session - should be used only once
+     * make sure that state is stored in the session, delete it from session -
+     * should be used only once
      *
      * @param session
      * @param state
@@ -307,8 +276,8 @@ public class BasicFilter implements Filter {
     }
 
     private void validateAuthRespMatchesCodeFlow(AuthenticationSuccessResponse oidcResponse) throws Exception {
-        if (oidcResponse.getIDToken() != null || oidcResponse.getAccessToken() != null ||
-                oidcResponse.getAuthorizationCode() == null) {
+        if (oidcResponse.getIDToken() != null || oidcResponse.getAccessToken() != null
+                || oidcResponse.getAuthorizationCode() == null) {
             throw new Exception(FAILED_TO_VALIDATE_MESSAGE + "unexpected set of artifacts received");
         }
     }
@@ -341,8 +310,8 @@ public class BasicFilter implements Filter {
         Date currTime = new Date();
         while (it.hasNext()) {
             Map.Entry<String, StateData> entry = it.next();
-            long diffInSeconds = TimeUnit.MILLISECONDS.
-                    toSeconds(currTime.getTime() - entry.getValue().getExpirationDate().getTime());
+            long diffInSeconds = TimeUnit.MILLISECONDS
+                    .toSeconds(currTime.getTime() - entry.getValue().getExpirationDate().getTime());
 
             if (diffInSeconds > STATE_TTL) {
                 it.remove();
@@ -350,17 +319,15 @@ public class BasicFilter implements Filter {
         }
     }
 
-    private AuthenticationResult getAccessTokenFromRefreshToken(
-            String refreshToken) throws Throwable {
+    private AuthenticationResult getAccessTokenFromRefreshToken(String refreshToken) throws Throwable {
         AuthenticationContext context;
         AuthenticationResult result = null;
         ExecutorService service = null;
         try {
             service = Executors.newFixedThreadPool(1);
-            context = new AuthenticationContext(authority + tenant + "/", true,
-                    service);
-            Future<AuthenticationResult> future = context
-                    .acquireTokenByRefreshToken(refreshToken, new ClientCredential(clientId, clientSecret), null, null);
+            context = new AuthenticationContext(authority + tenant + "/", true, service);
+            Future<AuthenticationResult> future = context.acquireTokenByRefreshToken(refreshToken,
+                    new ClientCredential(clientId, clientSecret), null, null);
             result = future.get();
         } catch (ExecutionException e) {
             throw e.getCause();
@@ -374,22 +341,18 @@ public class BasicFilter implements Filter {
         return result;
     }
 
-    private AuthenticationResult getAccessToken(
-            AuthorizationCode authorizationCode, String currentUri)
+    private AuthenticationResult getAccessToken(AuthorizationCode authorizationCode, String currentUri)
             throws Throwable {
         String authCode = authorizationCode.getValue();
-        ClientCredential credential = new ClientCredential(clientId,
-                clientSecret);
+        ClientCredential credential = new ClientCredential(clientId, clientSecret);
         AuthenticationContext context;
         AuthenticationResult result = null;
         ExecutorService service = null;
         try {
             service = Executors.newFixedThreadPool(1);
-            context = new AuthenticationContext(authority + tenant + "/", true,
-                    service);
-            Future<AuthenticationResult> future = context
-                    .acquireTokenByAuthorizationCode(authCode, new URI(
-                            currentUri), credential, null);
+            context = new AuthenticationContext(authority + tenant + "/", true, service);
+            Future<AuthenticationResult> future = context.acquireTokenByAuthorizationCode(authCode, new URI(currentUri),
+                    credential, null);
             result = future.get();
         } catch (ExecutionException e) {
             throw e.getCause();
@@ -403,45 +366,38 @@ public class BasicFilter implements Filter {
         return result;
     }
 
-    private void setSessionPrincipal(HttpServletRequest httpRequest,
-                                     AuthenticationResult result) {
+    private void setSessionPrincipal(HttpServletRequest httpRequest, AuthenticationResult result) {
         httpRequest.getSession().setAttribute(AuthHelper.PRINCIPAL_SESSION_NAME, result);
     }
 
-    private boolean checkPrincipal(){
-        if()
-    }
+    // private boolean checkPrincipal(){
+    //     if()
+    // }
 
     private void removePrincipalFromSession(HttpServletRequest httpRequest) {
         httpRequest.getSession().removeAttribute(AuthHelper.PRINCIPAL_SESSION_NAME);
     }
 
-    private String getRedirectUrl(String currentUri, String state, String nonce)
-            throws UnsupportedEncodingException {
-        String redirectUrl = authority
-                + this.tenant
+    private String getRedirectUrl(String currentUri, String state, String nonce) throws UnsupportedEncodingException {
+        String redirectUrl = authority + this.tenant
                 + "/oauth2/authorize?response_type=code&scope=directory.read.all&response_mode=form_post&redirect_uri="
-                + URLEncoder.encode(currentUri, "UTF-8") + "&client_id="
-                + clientId + "&resource=https%3a%2f%2fgraph.microsoft.com"
-                + "&state=" + state
-                + "&nonce=" + nonce;
+                + URLEncoder.encode(currentUri, "UTF-8") + "&client_id=" + clientId
+                + "&resource=https%3a%2f%2fgraph.microsoft.com" + "&state=" + state + "&nonce=" + nonce;
 
         return redirectUrl;
     }
 
     public static void setGroups(String admins) {
-      /*String adminString = admins; // "ab9a5af3-c926-4638-9bef-bc3c1c256b4c";
-      Gson gson = new Gson();
-      String adminGson = gson.toJson(adminString);
-      */
-     // adminList = gson.fromJson(adminGson, String[].class);
-        //Log.Info("admins = " + admins);
-      adminList = new String[1];
-      String admin1 = "ab9a5af3-c926-4638-9bef-bc3c1c256b4c";
-      adminList[0] = admin1;
-      //adminList[0] = admins;
+        /*
+         * String adminString = admins; // "ab9a5af3-c926-4638-9bef-bc3c1c256b4c"; Gson
+         * gson = new Gson(); String adminGson = gson.toJson(adminString);
+         */
+        // adminList = gson.fromJson(adminGson, String[].class);
+
+        adminList = new String[1];
+        adminList[0] = admins;
     }
-    
+
     public void init(FilterConfig config) throws ServletException {
         clientId = config.getInitParameter("client_id");
         authority = config.getServletContext().getInitParameter("authority");
