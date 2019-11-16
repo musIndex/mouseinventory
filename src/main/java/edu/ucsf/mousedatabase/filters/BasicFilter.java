@@ -97,18 +97,26 @@ public class BasicFilter implements Filter {
         // Log.Info("List of admins: "+adminList);
 
 
-        // for (int i = 0; i < adminList.length; i++){
-        //     if(userId.equals(adminList[i])){
-        //         return true;
-        //     }
-        // }
-
-        Log.Info("loginAttempt is: " + userId);
-        Log.Info("admin is: " + adminString);
-        if (userId.equals(adminString)) {
-            return true;
+        for (int i = 0; i < adminList.length; i++){
+             Log.Info("adminList: " + adminList[i]);
+            if(userId.equals(adminList[i])){
+                
+                return true;
+            }
         }
         return false;
+
+        // Log.Info("loginAttempt is: " + userId);
+        // Log.Info("admin is: " + adminString);
+        // if (userId.equals(adminString)) {
+        //     return true;
+        // }
+        // return false;
+
+
+
+
+        
         // for (int i = 0; i < adminList.length; i++) {
         //     if (userId.equals(adminList[i])) {
         //         return true;
