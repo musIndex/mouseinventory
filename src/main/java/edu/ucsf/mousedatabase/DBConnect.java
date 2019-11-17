@@ -1293,18 +1293,20 @@ public class DBConnect {
       // out.close();
 
 			String fileName = file.getName();
-			Blob createdBlob = makeBlobFromFile(file);
+			//Blob createdBlob = makeBlobFromFile(file);
 			
 			try {
 				if (con == null) {
 					con = connect();
 				}
 				
-				String query = "Insert into mouseFiles (filename, mouseID) VALUES (?, ?)";
+        String query = "Insert into mouseFiles (filename, mouseID) VALUES (?, ?)";
+        //String query = "Insert into mouseFiles (filename, file, mouseID) VALUES (?, ?)";
 				PreparedStatement statement = con.prepareStatement(query);
 				statement.setNString(1, fileName);
-				statement.setBlob(2, createdBlob);
-				statement.setNString(3, mouseID);
+        //statement.setBlob(2, createdBlob);
+        //statement.setNString(3, mouseID);
+				statement.setNString(2, mouseID);
 				statement.execute();
 				
 			} catch (Exception e) {

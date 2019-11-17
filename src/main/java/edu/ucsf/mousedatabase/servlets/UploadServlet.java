@@ -81,13 +81,14 @@ public class UploadServlet extends HttpServlet {
 	            		fileName = item.getString();
 	            		
 	            	} else if (item.getFieldName().contentEquals(fileFieldName)) {
+						//this might still not work with pdfs- depends on if fileitem works with them.
 	            		//dataFile = item;
 	            		Log.Info("is file"); 
 	            		//String fileName = item.getName();
 	            		if(fileName.length() == 0) {
 	            			fileName = item.getName();
 	            		}
-	            		Log.Info("filename is " + fileName);
+	            		Log.Info("filename is " + fileName); 
 	            		 if (fileName != null) {
 	            		     fileName = FilenameUtils.getName(fileName);
 	            		     Log.Info("new filename: [" + fileName + "]");
