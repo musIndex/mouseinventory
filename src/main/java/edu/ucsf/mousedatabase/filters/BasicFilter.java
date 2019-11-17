@@ -116,7 +116,8 @@ public class BasicFilter implements Filter {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             Log.Info("is a httpservlet request");
             Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Log.Info(httpRequest.getUserPrincipal());
+            Log.Info(httpRequest.getUserPrincipal().getName());
+            Log.Info(httpRequest.getUserPrincipal().toString());
             Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             try {
                 String currentUri = httpRequest.getRequestURL().toString();
