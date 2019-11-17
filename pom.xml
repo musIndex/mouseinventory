@@ -40,10 +40,10 @@
 			<version>1.6.0</version>
 		</dependency>
 		<dependency>
-        	<groupId>com.microsoft.azure</groupId>
-        	<artifactId>applicationinsights-web-auto</artifactId>
-        	<version>2.5.0</version>
-      	</dependency>
+			<groupId>com.microsoft.azure</groupId>
+			<artifactId>applicationinsights-web-auto</artifactId>
+			<version>2.5.0</version>
+		</dependency>
 		<dependency>
 			<groupId>com.nimbusds</groupId>
 			<artifactId>oauth2-oidc-sdk</artifactId>
@@ -119,6 +119,11 @@
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.0-801.jdbc4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.javacsv</groupId>

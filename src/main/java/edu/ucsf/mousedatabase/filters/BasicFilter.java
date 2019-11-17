@@ -354,7 +354,6 @@ public class BasicFilter implements Filter {
                 + "/oauth2/authorize?response_type=code&scope=directory.read.all&response_mode=form_post&redirect_uri="
                 + URLEncoder.encode(patchedUri, "UTF-8") + "&client_id=" + clientId
                 + "&resource=https%3a%2f%2fgraph.microsoft.com" + "&state=" + state + "&nonce=" + nonce;
-        Log.Info("Redirect url is :: " + redirectUrl);
         return redirectUrl;
     }
 
