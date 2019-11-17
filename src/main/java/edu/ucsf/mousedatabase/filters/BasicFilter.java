@@ -111,30 +111,18 @@ public class BasicFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+                Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                Log.Info("In doFilter method");
         if (request instanceof HttpServletRequest) {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             HttpServletResponse httpResponse = (HttpServletResponse) response;
-            Log.Info("is a httpservlet request");
-            Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Log.Info(httpRequest.getScheme());
-            Map<String, Collection<String>> map = (Map<String, Collection<String>>) httpRequest.getUserPrincipal();
-
-            for (Object key : map.keySet()) {
-                Log.Info(String.valueOf(key));
-                Object value = map.get(key);
-                if (value != null && value instanceof Collection) {
-                    Collection claims = (Collection) value;
-                    for (Object claim : claims) {
-                        Log.Info(String.valueOf(claims));
-                    }
-                }
-            }
-            Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Log.Info("---- is a httpservlet request");
+        
             try {
                 String currentUri = httpRequest.getRequestURL().toString();
                 String queryStr = httpRequest.getQueryString();
                 String fullUrl = currentUri + (queryStr != null ? "?" + queryStr : "");
-                Log.Info("full url: " + fullUrl);
+                Log.Info("----- full url: " + fullUrl);
                 // check if user has a AuthData in the session
                 if (!AuthHelper.isAuthenticated(httpRequest)) {
                     Log.Info("request is not authenticated");
