@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 import java.util.Enumeration;
 import java.util.Map;
 import java.lang.System;
-import javax.naming.Context;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -14,7 +13,6 @@ import edu.ucsf.mousedatabase.HTMLGeneration;
 import edu.ucsf.mousedatabase.Log;
 import edu.ucsf.mousedatabase.MGIConnect;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler;
-import edu.ucsf.mousedatabase.filters.BasicFilter;
 import edu.ucsf.mousedatabase.objects.MouseMail;
 
 public class ContextListener implements ServletContextListener {
