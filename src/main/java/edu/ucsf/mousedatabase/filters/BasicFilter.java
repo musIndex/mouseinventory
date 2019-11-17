@@ -115,6 +115,9 @@ public class BasicFilter implements Filter {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             Log.Info("is a httpservlet request");
+            Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Log.Info(httpRequest.getUserPrincipal());
+            Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             try {
                 String currentUri = httpRequest.getRequestURL().toString();
                 String queryStr = httpRequest.getQueryString();
@@ -190,8 +193,7 @@ public class BasicFilter implements Filter {
 
             UserInfo uInfo = authData.getUserInfo();
             String uniqueId = uInfo.getUniqueId();
-            Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Log.Info(httpRequest.getUserPrincipal());
+           
             if (isAdmin(uniqueId)) {
                 Log.Info("is an admin");
                 setSessionPrincipal(httpRequest, authData);
