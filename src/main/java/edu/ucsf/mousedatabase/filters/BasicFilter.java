@@ -86,7 +86,7 @@ public class BasicFilter implements Filter {
         Log.Info("loginAttempt is: " + userId);
         Log.Info("admins are: " + adminString);
 
-        String[] idArray = adminString.split(", ");
+        String[] idArray = adminString.split(",");
         List<String> idList = Arrays.asList(idArray);
         if (idList.contains(userId)) {
             return true;
@@ -193,7 +193,6 @@ public class BasicFilter implements Filter {
 
             UserInfo uInfo = authData.getUserInfo();
             String uniqueId = uInfo.getUniqueId();
-            Log.Info("Auth login attempt: "+uniqueId.toString());
 
             if (isAdmin(uniqueId)) {
                 Log.Info("is an admin");
