@@ -31,9 +31,6 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.*;
-//import com.google.code.gson;
-import com.google.gson.*;
-
 import javax.naming.ServiceUnavailableException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -86,38 +83,17 @@ public class BasicFilter implements Filter {
     }
 
     private boolean isAdmin(String userId) {
-
-        //String adminString = System.getenv("ADMIN_ARRAY");
-        // String[] adminArray = gson.fromJson(adminString, String);
-        // String[] adminArray = new JSONArray(adminString);
-        // //org.JSON.parse(adminString);
-        // String[] idArray = admins.split(", ");
-        // List<String> idList = Arrays.asList(adminArray);
-        // if (idList.contains(userId)){
-        // Log.Info("List of admins: "+adminList);
-
-
-        // for (int i = 0; i < adminList.length; i++){
-        //     if(userId.equals(adminList[i])){
-        //         return true;
-        //     }
-        // }
+        String adminString = System.getenv("ADMINISTRATOR_IDS");
 
         Log.Info("loginAttempt is: " + userId);
-        Log.Info("admin is: " + adminString);
-        if (userId.equals(adminString)) {
+        Log.Info("admins are: " + adminString);
+
+        String[] idArray = adminString.split(", ");
+        List<String> idList = Arrays.asList(idArray);
+        if (idList.contains(userId)) {
             return true;
         }
         return false;
-        // for (int i = 0; i < adminList.length; i++) {
-        //     if (userId.equals(adminList[i])) {
-        //         return true;
-        //     }
-        // }
-        // return false;
-        /*
-         * if(userId.equals(adminList)) { return true; } else return false;
-         */
     }
 
     private boolean isAdminLogin(AuthenticationSuccessResponse oidcResponse) {
