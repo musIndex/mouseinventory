@@ -2983,20 +2983,24 @@ public class DBConnect {
     return MouseRecordResultGetter.getFileIDs(mouseID);
   }
 
+  //public static File getFileByID(Integer ID) throws Exception {
   public static File getFileByID(Integer ID) throws Exception {
-    // Connection con = connect();
+    Connection con = connect();
     // String queryName = "SELECT filename FROM mouseFiles WHERE ID='" + ID + "'";
     // ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(queryName);
     // String filename = allFilenames.get(0);
     // String toLoad = "/userfiles" + filename;
 
+    //String query = "SELECT file, filename FROM mouseFiles WHERE ID='" + ID + "'";
+    //ArrayList<File> allFiles = MouseFileResultGetter.getInstance(con).Get(query);
 
 
-    //this needs to be redone for new file storage.
-    String query = "SELECT file, filename FROM mouseFiles WHERE ID='" + ID + "'";
-    ArrayList<File> allFiles = MouseFileResultGetter.getInstance(con).Get(query);
-    
-    return allFiles.get(0);
+    String query = "SELECT filename FROM mouseFiles WHERE ID='" + ID + "'";
+    ArrayList<String> fileNames = StringResultGetter.getInstance("filename", con).Get(query);
+    String toLoad = "/uploads/" + fileNames.get(0);
+    File outputFile = new File(toLoad);
+    return outputFile;
+    //return fileNames.get(0);
   }
 
   public static String getFilePathByID(Integer ID) throws Exception {
