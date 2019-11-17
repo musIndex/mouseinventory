@@ -2916,14 +2916,22 @@ public class DBConnect {
       return StringResultGetter.getInstance("pmid", _connection).Get(query);
     }
     
-    private ArrayList<File> getFilenames(String mouseID) throws SQLException
+    // private ArrayList<File> getFilenames(String mouseID) throws SQLException
+    // {
+  	//   String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+  	//   return MouseFileResultGetter.getInstance(_connection).Get(query);
+    // }
+
+    private ArrayList<String> getFilenames(String mouseID) throws SQLException
     {
-  	  String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
-  	  return MouseFileResultGetter.getInstance(_connection).Get(query);
+      Log.Info("calling getFilenames");
+  	  String query = "SELECT filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+  	  return StringResultGetter.getInstance("filename").Get(query);
     }
 
     private ArrayList<File> getFiles(String mouseID) throws SQLException
     { //this needs to be redone for new file storage.
+      Log.Info("calling getFiles");
       String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
       return MouseFileResultGetter.getInstance(_connection).Get(query);
     }

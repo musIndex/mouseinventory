@@ -64,8 +64,8 @@ public class MouseRecord {
   
   String filename;
   
-  //ArrayList<String> filenames;
-  ArrayList<File> filenames;
+  ArrayList<String> filenames;
+  //ArrayList<File> filenames;
   ArrayList<Integer> fileIDs;
 
   @Override
@@ -368,16 +368,19 @@ public class MouseRecord {
 	  return filename;
   }
   
-  public ArrayList<File> getFilenames(){
+  //public ArrayList<File> getFilenames(){
+    public ArrayList<String> getFilenames(){
     //Log.Info("called get filenames");
 	  return filenames;
   }
   
-  public void setFilenames(ArrayList<File> Filenames) {
+  // public void setFilenames(ArrayList<File> Filenames) {
+    public void setFilenames(ArrayList<String> Filenames) {
 	  this.filenames = Filenames;
   }
   
-  public void addFiles(ArrayList<File> newFiles) {
+  // public void addFiles(ArrayList<File> newFiles) {
+    public void addFiles(ArrayList<String> newFiles) {
 	  this.filenames.addAll(newFiles);
   }
   

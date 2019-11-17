@@ -1707,16 +1707,21 @@ public class HTMLGeneration {
    // INTERIM column - filenames. adds a link for each file in the existing mouseRecord
      if (showChangeRequest||edit         ) {
       table.append("<td class='mouselistcolumn-files'>\r\n");
-      ArrayList<File> files = nextRecord.getFilenames(); //files should be set when mouseRecord made
+      //ArrayList<File> files = nextRecord.getFilenames(); //files should be set when mouseRecord made
+      ArrayList<String> filenames = nextRecord.getFilenames();
       String fileComment = "";
-      for (File file : files) {
-        String filename = file.getName();
-    	  //fileComment = "<a href=" + file.getAbsolutePath() + " download>" + filename + "</a>";
-    	  // fileComment = "<a href=" + siteRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
-        //fileComment = "<a id=" + filename + " >" + filename + "</a>";
+
+      for (String filename : filenames){
         fileComment = "<a href="+ siteRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
         table.append("<div>" + fileComment + "</div>");
       }
+
+      // for (File file : files) {  //need to change this for new file handling
+      //   String filename = file.getName();
+    	  
+      //   fileComment = "<a href="+ siteRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
+      //   table.append("<div>" + fileComment + "</div>");
+      // }
      }
       else {
         table.append("</td>\r\n<td>\r\n");
