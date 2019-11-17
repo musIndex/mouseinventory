@@ -161,6 +161,7 @@ public class BasicFilter implements Filter {
 
     private void processAuthenticationData(HttpServletRequest httpRequest, HttpServletResponse httpResponse,
             String currentUri, String fullUrl) throws Throwable {
+        Log.Info("0");
         HashMap<String, String> params = new HashMap<>();
         Map<String, String[]> parameters = httpRequest.getParameterMap();
 
@@ -168,25 +169,29 @@ public class BasicFilter implements Filter {
         for (String key : keys) {
             params.put(key, parameters.get(key)[0]);
         }
-
+        Log.Info("1");
         // validate that state in response equals to state in request
         StateData stateData = validateState(httpRequest.getSession(), params.get(STATE));
         AuthenticationResponse authResponse = AuthenticationResponseParser.parse(new URI(fullUrl), params);
+        Log.Info("2");
 
         if (AuthHelper.isAuthenticationSuccessful(authResponse)) {
             AuthenticationSuccessResponse oidcResponse = (AuthenticationSuccessResponse) authResponse;
             // validate that OIDC Auth Response matches Code Flow (contains only requested
             // artifacts)
             validateAuthRespMatchesCodeFlow(oidcResponse);
+            Log.Info("3");
 
             AuthenticationResult authData = getAccessToken(oidcResponse.getAuthorizationCode(), currentUri);
             // validate nonce to prevent reply attacks (code maybe substituted to one with
             // broader access)
             validateNonce(stateData, getClaimValueFromIdToken(authData.getIdToken(), "nonce"));
+            Log.Info("4");
 
             UserInfo uInfo = authData.getUserInfo();
             String uniqueId = uInfo.getUniqueId();
-
+            Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Log.Info(httpRequest.getUserPrincipal());
             if (isAdmin(uniqueId)) {
                 Log.Info("is an admin");
                 setSessionPrincipal(httpRequest, authData);
