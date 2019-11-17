@@ -222,19 +222,8 @@
     <url-pattern>/MouseList2</url-pattern>
   </servlet-mapping>
 
-<!-- WIP Filter -->
-  <!-- <filter-mapping>
-    <filter-name>LoginFilter</filter-name>
-    <url-pattern>/admin/*</url-pattern>
-  </filter-mapping>
-  <filter>
-    <display-name>LoginFilter</display-name>
-    <filter-name>LoginFilter</filter-name>
-    <filter-class>edu.ucsf.mousedatabase.filters.LoginFilter</filter-class>
-  </filter> -->
-
 <!-- ADAL Filter -->
-	<!-- <filter-mapping>
+<filter-mapping>
 		<filter-name>BasicFilter</filter-name>
 		<url-pattern>/admin/*</url-pattern>
 	</filter-mapping>
@@ -249,7 +238,7 @@
       <param-name>secret_key</param-name>
       <param-value>${AUTH_SECRETKEY}</param-value>
     </init-param>
-  </filter> -->
+  </filter>
 
 	<context-param>
 		<param-name>authority</param-name>
@@ -259,10 +248,4 @@
     <param-name>tenant</param-name>
     <param-value>ucsfonline.onmicrosoft.com</param-value>
   </context-param>
-	<context-param>
-		<param-name>authority</param-name>
-		<param-value>https://login.microsoftonline.com/</param-value>
-	</context-param>
-
-
 </web-app>

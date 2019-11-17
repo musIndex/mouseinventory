@@ -74,9 +74,7 @@ public class BasicFilter implements Filter {
     private String clientSecret = "";
     private String tenant = "";
     private String authority;
-    private static String adminString;
-    private static String[] adminList;
-    //private String jsonTest = "[\"bob\", \"jane\", \"tim\"]";
+    private List<String> adminList;
 
     public void destroy() {
 
@@ -132,9 +130,7 @@ public class BasicFilter implements Filter {
                 // check if user has a AuthData in the session
                 if (!AuthHelper.isAuthenticated(httpRequest)) {
                     Log.Info("request is not authenticated");
-                    if (AuthHelper.containsAuthenticationData(httpRequest)) { // probably here, for the check?
-                        // if(isAdmin(user.getObjectId())) //where do we get the user?
-                        // if(isAdminLogin(request, ))
+                    if (AuthHelper.containsAuthenticationData(httpRequest)) {
                         Log.Info("about to process authentication data");
                         processAuthenticationData(httpRequest, httpResponse, currentUri, fullUrl);
                         chain.doFilter(request, response);
@@ -150,13 +146,6 @@ public class BasicFilter implements Filter {
                 if (isAuthDataExpired(httpRequest)) {
                     updateAuthDataUsingRefreshToken(httpRequest);
                 }
-                // } catch (AuthenticationException authException) {
-                // // something went wrong (like expiration or revocation of token)
-                // // we should invalidate AuthData stored in session and redirect to
-                // Authorization server
-                // removePrincipalFromSession(httpRequest);
-                // sendAuthRedirect(httpRequest, httpResponse);
-                // return;
             } catch (Throwable exc) {
                 httpResponse.setStatus(500);
                 request.setAttribute("error", exc.getMessage());
@@ -360,10 +349,6 @@ public class BasicFilter implements Filter {
         httpRequest.getSession().setAttribute(AuthHelper.PRINCIPAL_SESSION_NAME, result);
     }
 
-    // private boolean checkPrincipal(){
-    //     if()
-    // }
-
     private void removePrincipalFromSession(HttpServletRequest httpRequest) {
         httpRequest.getSession().removeAttribute(AuthHelper.PRINCIPAL_SESSION_NAME);
     }
@@ -377,29 +362,25 @@ public class BasicFilter implements Filter {
         return redirectUrl;
     }
 
-    public static void setGroups(String admins) {
-        /*
-         * String adminString = admins; // "ab9a5af3-c926-4638-9bef-bc3c1c256b4c"; Gson
-         * gson = new Gson(); String adminGson = gson.toJson(adminString);
-         */
-        // adminList = gson.fromJson(adminGson, String[].class);
-        Log.Info("setGroups is called");
-        adminList = new String[2];
-        adminList[0] = "testing";
-        adminList[1] = admins;
-        
-        Log.Info("admin from context = " + admins);
-        adminString = admins;
-        //"ab9a5af3-c926-4638-9bef-bc3c1c256b4c";
-
-
-    }
-
     public void init(FilterConfig config) throws ServletException {
-        clientId = config.getInitParameter("client_id");
-        authority = config.getServletContext().getInitParameter("authority");
-        tenant = config.getServletContext().getInitParameter("tenant");
-        clientSecret = config.getInitParameter("secret_key");
+        Log.Info("Initializing BasicFilter- START ###########################");
+        // String adminString = System.getenv("ADMINISTRATOR_IDS");
+        // String adminString = System.getenv("AUTH_CLIENTID");
+        // String adminString = System.getenv("AUTH_AUTHORITY");
+        // String adminString = System.getenv("AUTH_TENANT");
+        // String adminString = System.getenv("AUTH_SECRETKEY");
+
+        // clientId = config.getInitParameter("client_id");
+        // authority = config.getServletContext().getInitParameter("authority");
+        // tenant = config.getServletContext().getInitParameter("tenant");
+        // clientSecret = config.getInitParameter("secret_key");
+        
+        clientId = "eba2ae2c-c07a-45a5-95a3-d669bb8c8933" ;
+        authority = "https://login.microsoftonline.com/";
+        tenant = "ucsfonline.onmicrosoft.com";
+        clientSecret ="14p5XVaUzTtwYtdTQB0=Fa_TBmQ@Z_BC";
+
+        Log.Info("Initializing BasicFilter - DONE ###########################");
     }
 
     private class StateData {
