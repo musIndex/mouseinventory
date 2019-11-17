@@ -35,22 +35,25 @@ public class DownloadServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String mouseID = request.getParameter("mouseID");
-		String fileName = request.getParameter("fileName");
+		//String mouseID = request.getParameter("mouseID");
+		//String fileName = request.getParameter("fileName");
 		Integer id = (Integer) Integer.parseInt(request.getParameter("ID"));
-		File file = null;
-		int BUFF_SIZE = 1024;
-		byte[] buffer = new byte[BUFF_SIZE];
+		//File file = null;
+		//int BUFF_SIZE = 1024;
+		//byte[] buffer = new byte[BUFF_SIZE];
 		try {
 			//file = DBConnect.getFileByNameAndMouseID(fileName, mouseID);
-			file = DBConnect.getFileByID(id);
-			//download file
+			//file = DBConnect.getFileByID(id);  //issue: need to get file length
+			String fileName = DBConnect.getFilePathByID(id);
+			FileInputStream input = new FileInputStream("/uploads/" + fileName); 
+
 			response.setContentType("text");
-			response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() +"\"");
-			response.setContentLength((int) file.length());
-			Log.Info("file length: " + file.length());
+			//response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() +"\"");
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName +"\"");
+			//response.setContentLength((int) file.length()); see if it works with this surpressed
+			//Log.Info("file length: " + file.length());
 			OutputStream output = response.getOutputStream();
-			FileInputStream input = new FileInputStream(file);
+			//FileInputStream input = new FileInputStream(file);
 			IOUtils.copy(input, output);
 
 			/*
@@ -63,10 +66,8 @@ public class DownloadServlet extends HttpServlet {
 		    output.close();
 		    input.close();
 			
-			
 			//FileUtils.copyFile(file, response.getOutputStream());
-		} catch (Exception e) {}	
-		
+		} catch (Exception e) {}		
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

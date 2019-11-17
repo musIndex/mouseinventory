@@ -81,13 +81,14 @@ public class UploadServlet extends HttpServlet {
 	            		fileName = item.getString();
 	            		
 	            	} else if (item.getFieldName().contentEquals(fileFieldName)) {
+						//this might still not work with pdfs- depends on if fileitem works with them.
 	            		//dataFile = item;
 	            		Log.Info("is file"); 
 	            		//String fileName = item.getName();
 	            		if(fileName.length() == 0) {
 	            			fileName = item.getName();
 	            		}
-	            		Log.Info("filename is " + fileName);
+	            		Log.Info("filename is " + fileName); 
 	            		 if (fileName != null) {
 	            		     fileName = FilenameUtils.getName(fileName);
 	            		     Log.Info("new filename: [" + fileName + "]");
@@ -101,13 +102,14 @@ public class UploadServlet extends HttpServlet {
 	            	  loggedInAsAdmin = isAdmin(item.getString());
 	            	  Log.Info("setting admin in uploadServlet: " + loggedInAsAdmin);
 	            	  //isAdmin = Boolean.parseBoolean(item.getString());
-	            	} else {
+					} else {
 	            		Log.Info("name = " + item.getName());
 	            	}
 	            }
 	        //}
 	        if(!files.isEmpty() && mouseID != null) {
-	        	DBConnect.sendFilesToDatabase(files, mouseID);
+				DBConnect.sendFilesToDatabase(files, mouseID); 
+				
 	        	Log.Info("sending files to database");
 	        } else {
 	        	Log.Info("files or mouseID not set");
