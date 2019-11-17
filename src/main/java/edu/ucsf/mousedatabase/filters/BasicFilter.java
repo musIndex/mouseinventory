@@ -116,6 +116,7 @@ public class BasicFilter implements Filter {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             Log.Info("is a httpservlet request");
             Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Log.Info(httpRequest.getScheme());
             Map<String, Collection<String>> map = (Map<String, Collection<String>>) httpRequest.getUserPrincipal();
 
             for (Object key : map.keySet()) {
