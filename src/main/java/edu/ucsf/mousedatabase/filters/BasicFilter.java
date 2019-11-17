@@ -353,9 +353,13 @@ public class BasicFilter implements Filter {
     }
 
     private String getRedirectUrl(String currentUri, String state, String nonce) throws UnsupportedEncodingException {
+        String patchedUri = currentUri;
+        if (!currentUri.contains("localhost")) {
+            patchedUri  = currentUri.replace("http:", "https:");
+        }
         String redirectUrl = authority + this.tenant
                 + "/oauth2/authorize?response_type=code&scope=directory.read.all&response_mode=form_post&redirect_uri="
-                + URLEncoder.encode(currentUri, "UTF-8") + "&client_id=" + clientId
+                + URLEncoder.encode(patchedUri, "UTF-8") + "&client_id=" + clientId
                 + "&resource=https%3a%2f%2fgraph.microsoft.com" + "&state=" + state + "&nonce=" + nonce;
 
         return redirectUrl;
