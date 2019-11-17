@@ -111,13 +111,21 @@ public class BasicFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-                Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                Log.Info("In doFilter method");
         if (request instanceof HttpServletRequest) {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             HttpServletResponse httpResponse = (HttpServletResponse) response;
+            Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+            Log.Info(httpRequest.getHeader("X-MS-CLIENT-PRINCIPAL-NAME"));
+            Log.Info(httpRequest.getHeader("X-MS-CLIENT-PRINCIPAL-ID"));
+            Enumeration headerEnumeration = httpRequest.getHeaderNames();
+            while (headerEnumeration.hasMoreElements()) {
+                String header = (String) headerEnumeration.nextElement();
+                Log.Info("header: "+header);
+            }
+
             Log.Info("---- is a httpservlet request");
-        
+
             try {
                 String currentUri = httpRequest.getRequestURL().toString();
                 String queryStr = httpRequest.getQueryString();
