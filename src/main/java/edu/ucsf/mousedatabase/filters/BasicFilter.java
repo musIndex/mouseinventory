@@ -116,8 +116,18 @@ public class BasicFilter implements Filter {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             Log.Info("is a httpservlet request");
             Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Log.Info(httpRequest.getUserPrincipal().getName());
-            Log.Info(httpRequest.getUserPrincipal().toString());
+            Map<String, Collection<String>> map = (Map<String, Collection<String>>) httpRequest.getUserPrincipal();
+
+            for (Object key : map.keySet()) {
+                Log.Info(String.valueOf(key));
+                Object value = map.get(key);
+                if (value != null && value instanceof Collection) {
+                    Collection claims = (Collection) value;
+                    for (Object claim : claims) {
+                        Log.Info(String.valueOf(claims));
+                    }
+                }
+            }
             Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             try {
                 String currentUri = httpRequest.getRequestURL().toString();
