@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
@@ -1254,10 +1258,40 @@ public class DBConnect {
 		  //statement2.execute();
 	  } catch (Exception e) {}	  
   }
+
+
+  private static void copyFileUsingStream(File source, File dest) throws IOException {
+    InputStream input = null;
+    OutputStream output = null;
+    try {
+      input = new FileInputStream(source);
+      output = new FileOutputStream(dest);
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = input.read(buffer)) > 0) {
+          output.write(buffer, 0, length);
+        }
+    } finally {
+      input.close();
+      output.close();
+    }
+}
   
   public static void sendFilesToDatabase(ArrayList<File> files, String mouseID) {
-	  Connection con = null; 
+    Connection con = null; 
+    String path = "/userfiles/";
 	  for(File file : files){
+      File destination = new File(path + file.getName());
+      try{
+        copyFileUsingStream(file, destination);
+      } catch (Exception e){
+        ///
+      }
+      
+      // BufferedWriter out = new BufferedWriter(new FileWriter(file)); 
+      // out.write(text);
+      // out.close();
+
 			String fileName = file.getName();
 			Blob createdBlob = makeBlobFromFile(file);
 			
@@ -1266,12 +1300,7 @@ public class DBConnect {
 					con = connect();
 				}
 				
-				//try with basic string query
-				
-				String query = "Insert into mouseFiles (filename, file, mouseID) VALUES (?, ?, ?)";
-				//String test2 = "Insert into mouseTest (name) values (\'testing\')";
-				//executeNonQuery(test2);
-				//PreparedStatement statement = con.prepareStatement(test2);
+				String query = "Insert into mouseFiles (filename, mouseID) VALUES (?, ?)";
 				PreparedStatement statement = con.prepareStatement(query);
 				statement.setNString(1, fileName);
 				statement.setBlob(2, createdBlob);
@@ -1281,15 +1310,10 @@ public class DBConnect {
 			} catch (Exception e) {
 				///
 			}
-	    	/*String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (" + fileName + ", " + createdBlob
-	        		+ ", " + mouseID + ");";//for saving files
-	    	*/
-
-	    	
-	    	
 	    	Log.Info("fileQuery");
 	        //DBConnect.executeNonQuery(fileQuery);//note: executeNonQuery will not handle blobs.
-	  }
+    }
+    
   }
   
   public static void testFunction(String fileQuery) {
@@ -2897,7 +2921,7 @@ public class DBConnect {
     }
 
     private ArrayList<File> getFiles(String mouseID) throws SQLException
-    {
+    { //this needs to be redone for new file storage.
       String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
       return MouseFileResultGetter.getInstance(_connection).Get(query);
     }
@@ -2910,7 +2934,7 @@ public class DBConnect {
   }
   //added static to getFileByNameAndMouseID -EW
   public static File getFileByNameAndMouseID(String fileName, String mouseID) throws Exception
-  {
+  { //this needs to be redone for new file storage.
     Connection con = connect();
     String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'" + " AND filename='" + fileName + "'";
       ArrayList<File> allFiles = MouseFileResultGetter.getInstance(con).Get(query);
@@ -2950,13 +2974,32 @@ public class DBConnect {
   }
 
   public static File getFileByID(Integer ID) throws Exception {
-    Connection con = connect();
+    // Connection con = connect();
+    // String queryName = "SELECT filename FROM mouseFiles WHERE ID='" + ID + "'";
+    // ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(queryName);
+    // String filename = allFilenames.get(0);
+    // String toLoad = "/userfiles" + filename;
+
+
+
+    //this needs to be redone for new file storage.
     String query = "SELECT file, filename FROM mouseFiles WHERE ID='" + ID + "'";
     ArrayList<File> allFiles = MouseFileResultGetter.getInstance(con).Get(query);
+    
     return allFiles.get(0);
   }
 
+  public static String getFilePathByID(Integer ID) throws Exception {
+    Connection con = connect();
+    String queryName = "SELECT filename FROM mouseFiles WHERE ID='" + ID + "'";
+    ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(queryName);
+    String filename = allFilenames.get(0);
+    //String toLoad = "/userfiles" + filename;
+    return filename;
+  }
+
   public static void deleteFileByID(Integer ID) throws Exception {
+    //this needs to be redone for new file storage.
     //Connection con = connect();
     String query = "DELETE FROM mouseFiles WHERE ID = '" + ID + "'";
     executeNonQuery(query);

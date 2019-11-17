@@ -101,13 +101,14 @@ public class UploadServlet extends HttpServlet {
 	            	  loggedInAsAdmin = isAdmin(item.getString());
 	            	  Log.Info("setting admin in uploadServlet: " + loggedInAsAdmin);
 	            	  //isAdmin = Boolean.parseBoolean(item.getString());
-	            	} else {
+					} else {
 	            		Log.Info("name = " + item.getName());
 	            	}
 	            }
 	        //}
 	        if(!files.isEmpty() && mouseID != null) {
-	        	DBConnect.sendFilesToDatabase(files, mouseID);
+				DBConnect.sendFilesToDatabase(files, mouseID); 
+				
 	        	Log.Info("sending files to database");
 	        } else {
 	        	Log.Info("files or mouseID not set");
