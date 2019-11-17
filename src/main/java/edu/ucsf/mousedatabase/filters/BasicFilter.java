@@ -81,14 +81,7 @@ public class BasicFilter implements Filter {
     }
 
     private boolean isAdmin(String userId) {
-        String adminString = System.getenv("ADMINISTRATOR_IDS");
-
-        Log.Info("loginAttempt is: " + userId);
-        Log.Info("admins are: " + adminString);
-
-        String[] idArray = adminString.split(",");
-        List<String> idList = Arrays.asList(idArray);
-        if (idList.contains(userId)) {
+        if (adminList.contains(userId)) {
             return true;
         }
         return false;
@@ -366,24 +359,11 @@ public class BasicFilter implements Filter {
     }
 
     public void init(FilterConfig config) throws ServletException {
-        Log.Info("Initializing BasicFilter- START ###########################");
-        // String adminString = System.getenv("ADMINISTRATOR_IDS");
-        // String adminString = System.getenv("AUTH_CLIENTID");
-        // String adminString = System.getenv("AUTH_AUTHORITY");
-        // String adminString = System.getenv("AUTH_TENANT");
-        // String adminString = System.getenv("AUTH_SECRETKEY");
-
-        // clientId = config.getInitParameter("client_id");
-        // authority = config.getServletContext().getInitParameter("authority");
-        // tenant = config.getServletContext().getInitParameter("tenant");
-        // clientSecret = config.getInitParameter("secret_key");
-        
-        clientId = "eba2ae2c-c07a-45a5-95a3-d669bb8c8933" ;
-        authority = "https://login.microsoftonline.com/";
-        tenant = "ucsfonline.onmicrosoft.com";
-        clientSecret ="14p5XVaUzTtwYtdTQB0=Fa_TBmQ@Z_BC";
-
-        Log.Info("Initializing BasicFilter - DONE ###########################");
+        adminList = Arrays.asList(System.getenv("ADMINISTRATOR_IDS").split(","));
+        clientId = System.getenv("AUTH_CLIENTID");
+        authority = System.getenv("AUTH_AUTHORITY");
+        tenant = System.getenv("AUTH_TENANT");
+        clientSecret = System.getenv("AUTH_SECRETKEY");
     }
 
     private class StateData {
