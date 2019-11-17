@@ -59,6 +59,12 @@ public class UploadServlet extends HttpServlet {
 		String mouseID = "";
 		String fileName = defaultFileName;
 		ArrayList<File> files = new ArrayList<File>();
+
+		// File folder = new File(":/");
+		// 	String[] listOfFiles = folder.list();
+		// 	for (String f : listOfFiles){
+		// 		Log.Info("filename: " + f);
+		// 	}
 		
 	    try {
 	    	List items = uploadHandler.parseRequest(request);

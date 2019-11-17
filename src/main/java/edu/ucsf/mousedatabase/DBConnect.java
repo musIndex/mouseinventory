@@ -2983,7 +2983,6 @@ public class DBConnect {
     return MouseRecordResultGetter.getFileIDs(mouseID);
   }
 
-  //public static File getFileByID(Integer ID) throws Exception {
   public static File getFileByID(Integer ID) throws Exception {
     Connection con = connect();
     // String queryName = "SELECT filename FROM mouseFiles WHERE ID='" + ID + "'";
@@ -2997,7 +2996,7 @@ public class DBConnect {
 
     String query = "SELECT filename FROM mouseFiles WHERE ID='" + ID + "'";
     ArrayList<String> fileNames = StringResultGetter.getInstance("filename", con).Get(query);
-    String toLoad = "/uploads/" + fileNames.get(0);
+    String toLoad = "/userfiles/" + fileNames.get(0);
     File outputFile = new File(toLoad);
     return outputFile;
     //return fileNames.get(0);

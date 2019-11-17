@@ -45,7 +45,8 @@ public class DownloadServlet extends HttpServlet {
 			//file = DBConnect.getFileByNameAndMouseID(fileName, mouseID);
 			//file = DBConnect.getFileByID(id);  //issue: need to get file length
 			String fileName = DBConnect.getFilePathByID(id);
-			FileInputStream input = new FileInputStream("/uploads/" + fileName); 
+			FileInputStream input = new FileInputStream("/userfiles/" + fileName); 
+			
 
 			response.setContentType("text");
 			//response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() +"\"");
