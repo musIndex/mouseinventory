@@ -19,7 +19,7 @@
 		<input type="text" name="<%=UploadServlet.newNameFieldName %>"></input>
 	</div>
 	<input type="text" value= <%=request.getParameter("mouseID")%> name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
-	<input id = "adminState" type="text" value= "" name="<%=UploadServlet.userFieldName %>" style="display:none"></input>
+	<input id = "adminState" type="text" value= "admin" name="<%=UploadServlet.userFieldName %>" style="display:none"></input>
 	<input type="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>
 	<input type="submit" />
 </form>
@@ -27,7 +27,7 @@
 <div id = "test2" style="display:none"><%=DBConnect.getIDsAsString(request.getParameter("mouseID")) %></div>
 <h3>Files To Delete</h3>
 <ul id = "listFiles"></ul>
-<div id = "test3"></div>
+<div id = "test3" style="display:none"></div>
 
 
 

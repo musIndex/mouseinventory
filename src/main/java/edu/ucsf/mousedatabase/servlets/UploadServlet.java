@@ -34,7 +34,7 @@ public class UploadServlet extends HttpServlet {
 	private boolean loggedInAsAdmin = true;
 	
 	boolean isAdmin(String adminState) {
-	  if (adminState == adminStateName) {
+	  if (adminState.equals(adminStateName)) {
 	    return true;
 	  } else {
 	    return false;
