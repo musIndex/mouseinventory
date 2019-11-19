@@ -1282,8 +1282,10 @@ public class DBConnect {
     String path = "/userfiles/";
 	  for(File file : files){
       File destination = new File(path + file.getName());
+      Log.Info("filepath is: " + destination);
       try{
         copyFileUsingStream(file, destination);
+
       } catch (Exception e){
         ///
       }
@@ -3007,15 +3009,27 @@ public class DBConnect {
     String queryName = "SELECT filename FROM mouseFiles WHERE ID='" + ID + "'";
     ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(queryName);
     String filename = allFilenames.get(0);
-    //String toLoad = "/userfiles" + filename;
-    return filename;
+    String filePath = "/userfiles/" + filename;
+    return filePath;
   }
 
   public static void deleteFileByID(Integer ID) throws Exception {
     //this needs to be redone for new file storage.
     //Connection con = connect();
+    Log.Info("about to delete");
     String query = "DELETE FROM mouseFiles WHERE ID = '" + ID + "'";
+    String filename = getFilePathByID(ID);
+    //String toDelete = "/userfiles" + filename;
+    File file = new File(filename);
+    Log.Info("delete target: " + filename);
+    //File file = "/userfiles/" + filename;
+    if(file.delete()){
+      Log.Info("File deleted");
+    } else {
+      Log.Info("file not deleted");
+    }
     executeNonQuery(query);
+
   }
 
   private static final class ChangeRequestResultGetter extends ResultGetter {
