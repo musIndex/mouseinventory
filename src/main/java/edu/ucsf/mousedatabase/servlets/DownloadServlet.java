@@ -37,6 +37,7 @@ public class DownloadServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//String mouseID = request.getParameter("mouseID");
 		//String fileName = request.getParameter("fileName");
+		Log.Info("download called");
 		Integer id = (Integer) Integer.parseInt(request.getParameter("ID"));
 		//File file = null;
 		//int BUFF_SIZE = 1024;

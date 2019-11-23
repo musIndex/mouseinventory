@@ -37,7 +37,7 @@ public class BasicFilter implements Filter {
                 String userName = httpRequest.getHeader("X-MS-CLIENT-PRINCIPAL-NAME");
                 String userId = httpRequest.getHeader("X-MS-CLIENT-PRINCIPAL-ID");
 
-                Log.Info("Access attempt by <" + userName + ">, oid " + userId);
+                Log.Info("Access attempt by <" + userName + ">, oid " + userId); 
                 if (userId.isEmpty()) {
                     // No user info. Redirect to login.
                     httpResponse.sendRedirect("https://" + host + "/.auth/login/aad");
@@ -59,6 +59,7 @@ public class BasicFilter implements Filter {
 
     public void init(FilterConfig config) throws ServletException {
         adminList = Arrays.asList(System.getenv("ADMINISTRATOR_IDS").split(","));
+        Log.Info("System env admins: " + System.getenv("ADMINISTRATOR_IDS"));
     }
 
     public void destroy() {
