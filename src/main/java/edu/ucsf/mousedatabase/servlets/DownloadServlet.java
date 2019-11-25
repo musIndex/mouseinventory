@@ -37,17 +37,21 @@ public class DownloadServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//String mouseID = request.getParameter("mouseID");
 		//String fileName = request.getParameter("fileName");
-		Integer id = (Integer) Integer.parseInt(request.getParameter("ID"));
+		Log.Info("downloadServlet reached");
+
+		Integer id = (Integer) Integer.parseInt(request.getParameter("mouseID"));
+		Log.Info("id is " + id);
 		//File file = null;
 		//int BUFF_SIZE = 1024;
 		//byte[] buffer = new byte[BUFF_SIZE];
 		try {
 			//file = DBConnect.getFileByNameAndMouseID(fileName, mouseID);
 			//file = DBConnect.getFileByID(id);  //issue: need to get file length
+			
 			String mouseID = Integer.toString(id);
 			String fileName = DBConnect.getFilePathByID(mouseID);
 			//FileInputStream input = new FileInputStream("/userfiles/" + fileName); 
-			
+			Log.Info("filename returned is " + fileName);
 
 			response.setContentType("text");
 			//response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() +"\"");
@@ -66,10 +70,14 @@ public class DownloadServlet extends HttpServlet {
 		    */
 		    //output.flush();
 		    output.close();
-		    input.close();
+			input.close();
+			
+			Log.Info("end of download servlet");
 			
 			//FileUtils.copyFile(file, response.getOutputStream());
-		} catch (Exception e) {}		
+		} catch (Exception e) {
+			Log.Info("exception in download servlet");
+		}		
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
