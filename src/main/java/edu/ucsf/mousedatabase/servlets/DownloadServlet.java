@@ -44,7 +44,8 @@ public class DownloadServlet extends HttpServlet {
 		try {
 			//file = DBConnect.getFileByNameAndMouseID(fileName, mouseID);
 			//file = DBConnect.getFileByID(id);  //issue: need to get file length
-			String fileName = DBConnect.getFilePathByID(id);
+			String mouseID = Integer.toString(id);
+			String fileName = DBConnect.getFilePathByID(mouseID);
 			//FileInputStream input = new FileInputStream("/userfiles/" + fileName); 
 			
 
@@ -54,7 +55,7 @@ public class DownloadServlet extends HttpServlet {
 			//response.setContentLength((int) file.length()); see if it works with this surpressed
 			//Log.Info("file length: " + file.length());
 			OutputStream output = response.getOutputStream();
-			//FileInputStream input = new FileInputStream(file);
+			FileInputStream input = new FileInputStream(fileName);
 			IOUtils.copy(input, output);
 
 			/*

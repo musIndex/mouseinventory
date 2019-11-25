@@ -3004,10 +3004,15 @@ public class DBConnect {
     //return fileNames.get(0);
   }
 
-  public static String getFilePathByID(Integer ID) throws Exception {
+  public static String getFilePathByID(String mouseID) throws Exception {
     Connection con = connect();
-    String queryName = "SELECT filename FROM mouseFiles WHERE ID='" + ID + "'";
+    String queryName = "SELECT filename FROM mouseFiles WHERE ID='" + mouseID + "'";
     ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(queryName);
+    Log.Info("getFilePathByID reached, query is " + queryName);
+    Log.Info("size of result is " + allFilenames.size());
+    
+    
+    
     String filename = allFilenames.get(0);
     String filePath = "/userfiles/" + filename;
     return filePath;
