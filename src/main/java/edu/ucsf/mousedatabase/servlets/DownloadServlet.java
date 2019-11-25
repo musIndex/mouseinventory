@@ -44,13 +44,15 @@ public class DownloadServlet extends HttpServlet {
 		//File file = null;
 		//int BUFF_SIZE = 1024;
 		//byte[] buffer = new byte[BUFF_SIZE];
+
+
+
+
+
 		try {
-			//file = DBConnect.getFileByNameAndMouseID(fileName, mouseID);
-			//file = DBConnect.getFileByID(id);  //issue: need to get file length
-			
-			String mouseID = Integer.toString(id);
-			String fileName = DBConnect.getFilePathByID(mouseID);
-			//FileInputStream input = new FileInputStream("/userfiles/" + fileName); 
+
+			//String fileName = DBConnect.getFilePathByID(id);
+			String fileName = request.getParameter("fileName");
 			Log.Info("filename returned is " + fileName);
 
 			response.setContentType("text");
