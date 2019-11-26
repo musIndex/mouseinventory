@@ -2,6 +2,9 @@ package edu.ucsf.mousedatabase.servlets;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -98,8 +101,22 @@ public class UploadServlet extends HttpServlet {
 	            		 if (fileName != null) {
 	            		     fileName = FilenameUtils.getName(fileName);
 	            		     Log.Info("new filename: [" + fileName + "]");
-	            		 }
-	            		 File file = new File(fileName);
+						 }
+						 //String fileSeparator = System.getProperty("file.separator");
+						 String protoPath = mouseID;
+						 Path path = Paths.get(protoPath);
+						 if (!Files.exists(path)){
+							File dir = new File(protoPath);
+							dir.mkdir(); //does not work
+							Log.Info("made directory");
+						 } else {
+							 Log.Info("directory exists");
+						 }
+						 
+
+						 File file = new File(fileName);
+						 //String fileSeparator = System.getProperty("file.separator");
+	            		 //File file = new File(mouseID+ fileSeparator + fileName); //does not do the trick
 	            		 Log.Info("about to write");
 	            		 item.write(file);
 	            		files.add(file);
