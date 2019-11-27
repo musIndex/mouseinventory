@@ -99,7 +99,18 @@ public class UploadServlet extends HttpServlet {
 	            		     fileName = FilenameUtils.getName(fileName);
 	            		     Log.Info("new filename: [" + fileName + "]");
 						 }
-						 
+						 ArrayList<String> mouseFiles = DBConnect.getFilenamesByMouseID(mouseID);
+						 if(mouseFiles.contains(fileName)){
+							String fileParts[] = fileName.split("\\.");
+							fileName = fileParts[0] + " (1)." + fileParts[1];
+							 //fileName = fileName + "(1)";
+						 }
+						 while(mouseFiles.contains(fileName)){
+							 int dotPlace = fileName.indexOf(".");
+							 int place = dotPlace - 1;//fileName.length() - 2;
+							 int num = (int) fileName.charAt(place);
+							fileName = fileName.replace("(" + num + ")", "(" + num++ + ")");//    charAt(place) = Integer.toString(num + 1);
+						 }
 						 
 	            		 File file = new File(fileName);
 	            		 Log.Info("about to write");
