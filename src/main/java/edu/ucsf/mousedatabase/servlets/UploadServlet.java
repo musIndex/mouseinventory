@@ -103,15 +103,15 @@ public class UploadServlet extends HttpServlet {
 	            		     Log.Info("new filename: [" + fileName + "]");
 						 }
 						 //String fileSeparator = System.getProperty("file.separator");
-						 String protoPath = mouseID;
-						 Path path = Paths.get(protoPath);
-						 if (!Files.exists(path)){
-							File dir = new File(protoPath);
-							dir.mkdir(); //does not work
-							Log.Info("made directory");
-						 } else {
-							 Log.Info("directory exists");
-						 }
+						//  String protoPath = mouseID;
+						//  Path path = Paths.get(protoPath);
+						//  if (!Files.exists(path)){
+						// 	File dir = new File(protoPath);
+						// 	dir.mkdir(); //does not work
+						// 	Log.Info("made directory");
+						//  } else {
+						// 	 Log.Info("directory exists");
+						//  }
 						 
 
 						 File file = new File(fileName);
