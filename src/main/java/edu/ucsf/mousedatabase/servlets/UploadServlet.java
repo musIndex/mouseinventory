@@ -98,7 +98,9 @@ public class UploadServlet extends HttpServlet {
 	            		 if (fileName != null) {
 	            		     fileName = FilenameUtils.getName(fileName);
 	            		     Log.Info("new filename: [" + fileName + "]");
-	            		 }
+						 }
+						 
+						 
 	            		 File file = new File(fileName);
 	            		 Log.Info("about to write");
 	            		 item.write(file);
