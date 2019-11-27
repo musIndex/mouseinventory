@@ -2,6 +2,9 @@ package edu.ucsf.mousedatabase.servlets;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -103,14 +106,30 @@ public class UploadServlet extends HttpServlet {
 						 if(mouseFiles.contains(fileName)){
 							String fileParts[] = fileName.split("\\.");
 							fileName = fileParts[0] + " (1)." + fileParts[1];
-							 //fileName = fileName + "(1)";
 						 }
-						 while(mouseFiles.contains(fileName)){
-							 int dotPlace = fileName.indexOf(".");
-							 int place = dotPlace - 1;//fileName.length() - 2;
-							 int num = (int) fileName.charAt(place);
-							fileName = fileName.replace("(" + num + ")", "(" + num++ + ")");//    charAt(place) = Integer.toString(num + 1);
+						// while(mouseFiles.contains(fileName)){
+						for(int i = 0; i <mouseFiles.size(); i++){
+							if(mouseFiles.contains(fileName)){
+								int dotPlace = fileName.indexOf(".");
+								int place = dotPlace - 2;//fileName.length() - 2;
+								int num = Integer.parseInt(String.valueOf(fileName.charAt(place)));
+								Log.Info("num = " + num);
+								int num2 = num + 1;
+								Log.Info("num2 = " + num2);
+							   fileName = fileName.replace("(" + num + ")", "(" + num2 + ")");//    charAt(place) = Integer.toString(num + 1);
+							
+							}
+						}
+						 Path path = Paths.get(mouseID);
+
+						 if (Files.exists(path)) {
+							 Log.Info("folder exists");
+						 } else {
+							 Log.Info("folder does not exist");
 						 }
+
+		
+
 						 
 	            		 File file = new File(fileName);
 	            		 Log.Info("about to write");

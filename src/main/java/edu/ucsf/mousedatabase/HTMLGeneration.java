@@ -1712,11 +1712,11 @@ public class HTMLGeneration {
       String fileComment = "";
 
       for (String filename : filenames){
-        Log.Info("starting filename: " + filename);
+        //Log.Info("starting filename: " + filename);
         String filenameHref = filename.replaceAll("\\s", "%20"); //check that this works
-        Log.Info("ending filename: " + filename);
+        //Log.Info("ending filename: " + filename);
         String linkString = adminRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename;
-        Log.Info("linkstring = " + linkString);
+        //Log.Info("linkstring = " + linkString);
         fileComment = "<a href="+ adminRoot +"/download" + "?fileName=" + filenameHref +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
         table.append("<div>" + fileComment + "</div>");
       }
