@@ -29,9 +29,10 @@ public class RemoveServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Integer id = Integer.parseInt(request.getParameter("id"));
-		String mouseID = request.getParameter("mouseID");
+		//String mouseID = request.getParameter("mouseID");
+		Integer mouseID = Integer.parseInt(request.getParameter("mouseID"));
 		try {
-			DBConnect.deleteFileByID(id);
+			DBConnect.deleteFileByID(id, mouseID);
 
 		} catch (Exception e) {}
 		
