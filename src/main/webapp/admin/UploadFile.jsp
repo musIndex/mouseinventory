@@ -18,9 +18,9 @@
 		<span>New Filename</span>
 		<input type="text" name="<%=UploadServlet.newNameFieldName %>"></input>
 	</div>
-	<input type="text" value= <%=request.getParameter("mouseID")%> name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
-	<input id = "adminState" type="text" value= "admin" name="<%=UploadServlet.userFieldName %>" style="display:none"></input>
-	<input type="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>
+	<input id="newName" type="text" value= <%=request.getParameter("mouseID")%> name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
+	<input id="adminState" type="text" value= "admin" name="<%=UploadServlet.userFieldName %>" style="display:none"></input>
+	<input type="file" id="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>
 	<input type="submit" />
 </form>
 <div id = "test" style="display:none"><%=DBConnect.getFileNamesAsString(request.getParameter("mouseID")) %></div>
@@ -49,6 +49,8 @@ function listCookies() {
     }
     return aString;
 }
+
+
 
 
 function sendDelete(phrase){

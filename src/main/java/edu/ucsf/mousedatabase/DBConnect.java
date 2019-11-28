@@ -1279,7 +1279,7 @@ public class DBConnect {
   
   public static void sendFilesToDatabase(ArrayList<File> files, String mouseID) {
     Connection con = null; 
-    String path = "/userfiles/";
+    String path = "/userfiles/" + mouseID + "/";
 	  for(File file : files){
       File destination = new File(path + file.getName());
       Log.Info("filepath is: " + destination);

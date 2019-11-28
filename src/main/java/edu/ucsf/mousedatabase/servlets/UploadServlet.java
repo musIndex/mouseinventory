@@ -120,18 +120,26 @@ public class UploadServlet extends HttpServlet {
 							
 							}
 						}
-						 Path path = Paths.get(mouseID);
+						 //Path path = Paths.get(mouseID);
 
-						 if (Files.exists(path)) {
-							 Log.Info("folder exists");
-						 } else {
-							 Log.Info("folder does not exist");
-						 }
+						//  if (Files.exists(path)) {
+						// 	 Log.Info("folder exists");
+						//  } else {
+						// 	 Log.Info("folder does not exist");
+						//  }
 
-		
 
-						 
-	            		 File file = new File(fileName);
+						File f = new File(mouseID);
+						if(f.exists() && f.isDirectory()) { 
+							Log.Info("folder exists");
+						} else {
+							Log.Info("folder does not exist");
+						}
+						Log.Info("in servlet, filename is currently : " + fileName);
+						//  String targetName = "6/" + fileName; 
+						//  Log.Info("target name is " + targetName);
+						//  File file = new File(targetName);
+						 File file = new File(fileName);
 	            		 Log.Info("about to write");
 	            		 item.write(file);
 	            		files.add(file);
