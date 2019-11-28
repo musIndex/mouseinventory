@@ -1280,6 +1280,18 @@ public class DBConnect {
   public static void sendFilesToDatabase(ArrayList<File> files, String mouseID) {
     Connection con = null; 
     String path = "/userfiles/" + mouseID + "/";
+    String pathZero = "/userfiles/" + mouseID;
+
+    File f = new File(pathZero);
+    if(f.exists() && f.isDirectory()) { 
+      Log.Info("folder exists");
+    } else {
+      Log.Info("folder does not exist");
+      f.mkdir();
+    }
+
+
+
 	  for(File file : files){
       File destination = new File(path + file.getName());
       Log.Info("filepath is: " + destination);
