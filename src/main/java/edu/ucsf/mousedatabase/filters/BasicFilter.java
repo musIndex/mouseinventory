@@ -33,6 +33,7 @@ public class BasicFilter implements Filter {
                 if (host.equals("localhost")) {
                     Log.Info("Access attempt on localhost... allowing.");
                     chain.doFilter(request, response);
+                    return;
                 }
                 String userName = httpRequest.getHeader("X-MS-CLIENT-PRINCIPAL-NAME");
                 String userId = httpRequest.getHeader("X-MS-CLIENT-PRINCIPAL-ID");
