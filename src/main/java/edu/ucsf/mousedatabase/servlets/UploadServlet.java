@@ -102,23 +102,6 @@ public class UploadServlet extends HttpServlet {
 	            		     fileName = FilenameUtils.getName(fileName);
 	            		     Log.Info("new filename: [" + fileName + "]");
 						 }
-<<<<<<< HEAD
-						 //String fileSeparator = System.getProperty("file.separator");
-						//  String protoPath = mouseID;
-						//  Path path = Paths.get(protoPath);
-						//  if (!Files.exists(path)){
-						// 	File dir = new File(protoPath);
-						// 	dir.mkdir(); //does not work
-						// 	Log.Info("made directory");
-						//  } else {
-						// 	 Log.Info("directory exists");
-						//  }
-						 
-
-						 File file = new File(fileName);
-						 //String fileSeparator = System.getProperty("file.separator");
-	            		 //File file = new File(mouseID+ fileSeparator + fileName); //does not do the trick
-=======
 						 ArrayList<String> mouseFiles = DBConnect.getFilenamesByMouseID(mouseID);
 						 if(mouseFiles.contains(fileName)){
 							String fileParts[] = fileName.split("\\.");
@@ -157,7 +140,6 @@ public class UploadServlet extends HttpServlet {
 						//  Log.Info("target name is " + targetName);
 						//  File file = new File(targetName);
 						 File file = new File(fileName);
->>>>>>> develop4
 	            		 Log.Info("about to write");
 	            		 item.write(file);
 	            		files.add(file);
