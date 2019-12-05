@@ -1712,9 +1712,9 @@ public class HTMLGeneration {
       String fileComment = "";
 
       for (String filename : filenames){
-        String linkString = siteRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename;
+        String linkString = adminRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename;
         Log.Info("linkstring = " + linkString);
-        fileComment = "<a href="+ siteRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
+        fileComment = "<a href="+ adminRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
         table.append("<div>" + fileComment + "</div>");
       }
 

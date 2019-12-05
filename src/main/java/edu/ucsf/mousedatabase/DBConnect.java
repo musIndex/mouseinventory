@@ -3004,13 +3004,38 @@ public class DBConnect {
     //return fileNames.get(0);
   }
 
-  public static String getFilePathByID(Integer ID) throws Exception {
+  //old version, not used, does not work
+  public static String getFilePathByID(Integer mouseID) throws Exception {
+    String masterString = getIDsAsString(Integer.toString(mouseID));
+    Log.Info("file string found is " + masterString);
+    String files[] = masterString.split("/");
+    for (String s : files) {
+      Log.Info("filename found is " + s);
+
+    }
+
+
+
+
+
+
+
     Connection con = connect();
-    String queryName = "SELECT filename FROM mouseFiles WHERE ID='" + ID + "'";
+    String queryName = "SELECT filename FROM mouseFiles WHERE ID='" + mouseID + "'";
     ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(queryName);
-    String filename = allFilenames.get(0);
-    String filePath = "/userfiles/" + filename;
-    return filePath;
+    Log.Info("getFilePathByID reached, query is " + queryName);
+    Log.Info("size of result is " + allFilenames.size());
+    
+    
+    if(allFilenames.size() > 0){
+      String filename = allFilenames.get(0);
+      String filePath = "/userfiles/" + filename;
+      return filePath;
+    } else {
+      Log.Info("size is zero");
+      return "error: no such file";
+    }
+    
   }
 
   public static void deleteFileByID(Integer ID) throws Exception {
