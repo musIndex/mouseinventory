@@ -1279,7 +1279,19 @@ public class DBConnect {
   
   public static void sendFilesToDatabase(ArrayList<File> files, String mouseID) {
     Connection con = null; 
-    String path = "/userfiles/";
+    String path = "/userfiles/" + mouseID + "/";
+    String pathZero = "/userfiles/" + mouseID;
+
+    File f = new File(pathZero);
+    if(f.exists() && f.isDirectory()) { 
+      Log.Info("folder exists");
+    } else {
+      Log.Info("folder does not exist");
+      f.mkdir();
+    }
+
+
+
 	  for(File file : files){
       File destination = new File(path + file.getName());
       Log.Info("filepath is: " + destination);
@@ -3005,23 +3017,16 @@ public class DBConnect {
   }
 
   //old version, not used, does not work
-  public static String getFilePathByID(Integer mouseID) throws Exception {
-    String masterString = getIDsAsString(Integer.toString(mouseID));
+  public static String getFilePathByID(Integer ID, Integer mouseID) throws Exception {
+    String masterString = getIDsAsString(Integer.toString(ID));
     Log.Info("file string found is " + masterString);
     String files[] = masterString.split("/");
     for (String s : files) {
       Log.Info("filename found is " + s);
 
     }
-
-
-
-
-
-
-
     Connection con = connect();
-    String queryName = "SELECT filename FROM mouseFiles WHERE ID='" + mouseID + "'";
+    String queryName = "SELECT filename FROM mouseFiles WHERE ID='" + ID + "'";
     ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(queryName);
     Log.Info("getFilePathByID reached, query is " + queryName);
     Log.Info("size of result is " + allFilenames.size());
@@ -3029,7 +3034,9 @@ public class DBConnect {
     
     if(allFilenames.size() > 0){
       String filename = allFilenames.get(0);
-      String filePath = "/userfiles/" + filename;
+      //int mouseNum = getMouseIDbyID(ID);
+      String filePath = "/userfiles/" + mouseID + "/" + filename; //need to add mouseID to this
+      Log.Info("in getFilePathByID, filePath is " + filePath);
       return filePath;
     } else {
       Log.Info("size is zero");
@@ -3038,12 +3045,26 @@ public class DBConnect {
     
   }
 
-  public static void deleteFileByID(Integer ID) throws Exception {
+  public static int getMouseIDbyID(Integer ID) throws Exception {
+    //Connection con = connect();
+    String query = "SELECT mouseID FROM mouseFiles WHERE ID='" + ID + "'";
+    Log.Info("getMouseIDbyID query : " + query);
+    ArrayList<Integer> results = IntResultGetter.getInstance("ID").Get(query);
+    //ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(query);
+    if(results.size() > 0){
+      return results.get(0);
+    } else {
+      Log.Info("no entry found for getMouseIDbyID");
+      return -1;
+    }
+  }
+
+  public static void deleteFileByID(Integer ID, Integer mouseID) throws Exception {
     //this needs to be redone for new file storage.
     //Connection con = connect();
     Log.Info("about to delete");
     String query = "DELETE FROM mouseFiles WHERE ID = '" + ID + "'";
-    String filename = getFilePathByID(ID);
+    String filename = getFilePathByID(ID, mouseID);
     //String toDelete = "/userfiles" + filename;
     File file = new File(filename);
     Log.Info("delete target: " + filename);

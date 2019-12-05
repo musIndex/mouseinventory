@@ -102,6 +102,7 @@ public class UploadServlet extends HttpServlet {
 	            		     fileName = FilenameUtils.getName(fileName);
 	            		     Log.Info("new filename: [" + fileName + "]");
 						 }
+<<<<<<< HEAD
 						 //String fileSeparator = System.getProperty("file.separator");
 						//  String protoPath = mouseID;
 						//  Path path = Paths.get(protoPath);
@@ -117,6 +118,46 @@ public class UploadServlet extends HttpServlet {
 						 File file = new File(fileName);
 						 //String fileSeparator = System.getProperty("file.separator");
 	            		 //File file = new File(mouseID+ fileSeparator + fileName); //does not do the trick
+=======
+						 ArrayList<String> mouseFiles = DBConnect.getFilenamesByMouseID(mouseID);
+						 if(mouseFiles.contains(fileName)){
+							String fileParts[] = fileName.split("\\.");
+							fileName = fileParts[0] + " (1)." + fileParts[1];
+						 }
+						// while(mouseFiles.contains(fileName)){
+						for(int i = 0; i <mouseFiles.size(); i++){
+							if(mouseFiles.contains(fileName)){
+								int dotPlace = fileName.indexOf(".");
+								int place = dotPlace - 2;//fileName.length() - 2;
+								int num = Integer.parseInt(String.valueOf(fileName.charAt(place)));
+								Log.Info("num = " + num);
+								int num2 = num + 1;
+								Log.Info("num2 = " + num2);
+							   fileName = fileName.replace("(" + num + ")", "(" + num2 + ")");//    charAt(place) = Integer.toString(num + 1);
+							
+							}
+						}
+						 //Path path = Paths.get(mouseID);
+
+						//  if (Files.exists(path)) {
+						// 	 Log.Info("folder exists");
+						//  } else {
+						// 	 Log.Info("folder does not exist");
+						//  }
+
+
+						File f = new File(mouseID);
+						if(f.exists() && f.isDirectory()) { 
+							Log.Info("folder exists");
+						} else {
+							Log.Info("folder does not exist");
+						}
+						Log.Info("in servlet, filename is currently : " + fileName);
+						//  String targetName = "6/" + fileName; 
+						//  Log.Info("target name is " + targetName);
+						//  File file = new File(targetName);
+						 File file = new File(fileName);
+>>>>>>> develop4
 	            		 Log.Info("about to write");
 	            		 item.write(file);
 	            		files.add(file);
