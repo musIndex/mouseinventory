@@ -1,5 +1,6 @@
 package edu.ucsf.mousedatabase.objects;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -64,7 +65,16 @@ public class ChangeRequest {
   
   private String requestSource;
   private Action actionRequested;
+
+  private File file;
   
+  public File getFile(){
+    return file;
+  }
+
+  public void setFile(File file){
+    this.file = file;
+  }
   
   public String getMouseName() {
     return mouseName;

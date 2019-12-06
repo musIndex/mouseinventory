@@ -19,7 +19,6 @@
 		<input type="text" name="<%=UploadServlet.newNameFieldName %>"></input>
 	</div>
 	<input id="newName" type="text" value= <%=request.getParameter("mouseID")%> name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
-	<input id="adminState" type="text" value= "admin" name="<%=UploadServlet.userFieldName %>" style="display:none"></input>
 	<input type="file" id="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>
 	<input type="submit" />
 </form>
@@ -41,34 +40,15 @@ ArrayList<Integer> ids = DBConnect.getFileIDsByMouseID(mouseID);
 
 
 %>
-function listCookies() {
-    var theCookies = document.cookie.split(';');
-    var aString = '';
-    for (var i = 1 ; i <= theCookies.length; i++) {
-        aString += i + ' ' + theCookies[i-1] + "\n";
-    }
-    return aString;
-}
-
-
-
 
 function sendDelete(phrase){
 	window.location = phrase;
 }
 
-function setAdminStatus(){
-	var adminStatus = "admin";
-	if(location.pathname.split('/')[1] != "admin"){
-		adminStatus = "user";
-	}
-	Log.Info("adminStatus is: " + adminStatus);
-	//return adminStatus;
-	document.getElementById("adminState").value = adminStatus; //check by making it visible
-}
+
 
 function myFunction(){
-	setAdminStatus;
+	//setAdminStatus;
 	document.getElementById("test3").innerHTML = listCookies();
 	//set link to download
 	//add button for delete

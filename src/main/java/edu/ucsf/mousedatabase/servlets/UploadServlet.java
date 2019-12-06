@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.microsoft.applicationinsights.core.dependencies.google.logging.type.HttpRequest;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -22,6 +24,7 @@ import org.apache.commons.io.FilenameUtils;
 import edu.ucsf.mousedatabase.DBConnect;
 import edu.ucsf.mousedatabase.HTMLGeneration;
 import edu.ucsf.mousedatabase.Log;
+import java.util.regex.*; 
 
 /**
  * Servlet implementation class UploadServlet
@@ -32,12 +35,13 @@ public class UploadServlet extends HttpServlet {
 	public static final String fileFieldName =  "fieldName";
 	public static final String newNameFieldName =  "newName";
 	private static final String defaultFileName = "";
-	public static final String userFieldName = "adminState";
-	private static final String adminStateName = "admin";
+	//public static final String userFieldName = "adminState";
+	//private static final String adminStateName = "admin";
 	private boolean loggedInAsAdmin = true;
 	
-	boolean isAdmin(String adminState) {
-	  if (adminState.equals(adminStateName)) {
+	boolean isAdmin(HttpServletRequest request) {
+	  //if (adminState.equals(adminStateName)) {
+	if(Pattern.matches(request.getRequestURI(), ".*/admin/.*")){
 	    return true;
 	  } else {
 	    return false;
@@ -73,7 +77,8 @@ public class UploadServlet extends HttpServlet {
 	    	List items = uploadHandler.parseRequest(request);
 	        Iterator itr = items.iterator();
 	        //final HashMap<String,String> parameters = new HashMap<String, String>();
-	        
+	        loggedInAsAdmin = isAdmin(request);
+	        Log.Info("setting admin in uploadServlet: " + loggedInAsAdmin);
 	        
 	        
 	        while(itr.hasNext()) {
@@ -144,9 +149,8 @@ public class UploadServlet extends HttpServlet {
 	            		 item.write(file);
 	            		files.add(file);
 	            		Log.Info("wrote file");
-	            	} else if (item.getFieldName().contentEquals(userFieldName)) {
-	            	  loggedInAsAdmin = isAdmin(item.getString());
-	            	  Log.Info("setting admin in uploadServlet: " + loggedInAsAdmin);
+	            	//} else if (item.getFieldName().contentEquals(userFieldName)) {
+	            	  
 	            	  //isAdmin = Boolean.parseBoolean(item.getString());
 					} else {
 	            		Log.Info("name = " + item.getName());
@@ -169,8 +173,10 @@ public class UploadServlet extends HttpServlet {
 	      response.sendRedirect(HTMLGeneration.adminRoot + "EditMouseForm.jsp?id=" + mouseID);
 
 	    } else {
-	    //set this to wherever the new redirect should be
-	      response.sendRedirect(HTMLGeneration.siteRoot);// + "EditMouseForm.jsp?id=" + mouseID); 
+		//set this to wherever the new redirect should be
+		String url = HTMLGeneration.siteRoot + "ChangeRequestForm.jsp" + "?mouseID=" + request.getParameter(mouseID) + "&success=true";
+
+	      response.sendRedirect(url);// + "EditMouseForm.jsp?id=" + mouseID); 
 	    }
 	}
 
