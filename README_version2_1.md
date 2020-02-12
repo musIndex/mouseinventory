@@ -1,4 +1,4 @@
-# Mouse Inventory Database
+# Mouse Inventory Database version 2.1
 
 The mouse inventory database is an application for tracking an institution's inventory of mice for genetics research.
 
