@@ -4,7 +4,7 @@ The mouse inventory database is an application for tracking an institution's inv
 
 ## Features
 
-See the [home page](http://musIndex.github.com/mouseinventory)
+See the [home page](https://github.com/musIndex/mouseinventory)
 
 ## Getting Started
 
