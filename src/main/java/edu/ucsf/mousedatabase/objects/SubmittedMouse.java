@@ -101,7 +101,11 @@ public class SubmittedMouse {
   public boolean isMA(){ return mouseType!= null && mouseType.equalsIgnoreCase("Mutant Allele");}
   public boolean isTG(){ return mouseType!= null && (mouseType.equalsIgnoreCase("Transgene") || (mouseType.equalsIgnoreCase("Transgenic")));}
   public boolean isIS(){return mouseType!= null && mouseType.equalsIgnoreCase("Inbred Strain");}
-  public boolean isKnockIn() { return transgenicType != null && transgenicType.equalsIgnoreCase("Knock-in");}
+  public boolean isKnockIn() { 
+    Boolean val = transgenicType != null && (transgenicType.equalsIgnoreCase("Knock-in")|| (transgenicType.equalsIgnoreCase("endonuclease-mediated")));
+    System.out.println(val+"transgenic type");
+    return val;
+  }
   public boolean isRandomInsertion() { return transgenicType != null && transgenicType.equalsIgnoreCase("Random insertion");}
   public boolean isPublished() { return isPublished != null && isPublished.equalsIgnoreCase("Yes"); }
 

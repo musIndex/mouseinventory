@@ -1043,10 +1043,11 @@ public class ImportHandler
           MouseSubmission sub = successfulSubmissions.get(catalogMgiId);
 
           String officialSymbol = sub.getOfficialSymbol();
-          //added <em for endonuclease mediated, but this line of code still excludes chemically induced, spontaneous mutations, 
-          //does this exist becuase of Inbred Strain?  Need to be able to distinguish inbred strains from mutant allele and transgene
-          //currently using JaxMiceConnect.java JAX stock # to scrape MGI ID and get allele data from MGIConnect.java
-          //Try with "<" to get any mutant allele including spontaneous/radiation incuded-EW
+          /*added <em for endonuclease mediated, but this line of code still excludes chemically induced, spontaneous mutations, 
+          does this exist becuase of Inbred Strain?  Need to be able to distinguish inbred strains from mutant allele and transgene
+          currently using JaxMiceConnect.java JAX stock # to scrape MGI ID and get allele data from MGIConnect.java
+          Try with "<" to get any mutant allele including spontaneous/radiation incuded-EW
+          */
           if (officialSymbol != null && !(officialSymbol.contains("<")|| officialSymbol.contains("<tm") || officialSymbol.contains("Tg(")))
           {
             for (PurchaseInfo purchase : currentPurchases) {

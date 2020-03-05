@@ -65,7 +65,6 @@ public class MouseRecord {
   String filename;
   
   ArrayList<String> filenames;
-  //ArrayList<File> filenames;
   ArrayList<Integer> fileIDs;
 
   @Override
@@ -103,14 +102,14 @@ public class MouseRecord {
     //NOT FULLY IMPLEMENTED - using javascript to clear hidden fields on edit form for now.
     if (getModificationType() != null)
     {
-      if (!getModificationType().equals("targeted knock-in"))
+      if (!getModificationType().equals("targeted knock-in")|| !getModificationType().equals("endonuclease-mediated"))//-EW
       {
         setTargetGeneID(null);
         setReporter(null);
         setOtherComment(null);
         setExpressedSequence(null);
       }
-      else if (getModificationType().equals("targeted knock-in"))
+      else if (getModificationType().equals("targeted knock-in")|| (getModificationType().equals("endonuclease-mediated")))//-EW
       {
         if (getExpressedSequence() != null)
         {
@@ -368,18 +367,15 @@ public class MouseRecord {
 	  return filename;
   }
   
-  //public ArrayList<File> getFilenames(){
     public ArrayList<String> getFilenames(){
     //Log.Info("called get filenames");
 	  return filenames;
   }
   
-  // public void setFilenames(ArrayList<File> Filenames) {
     public void setFilenames(ArrayList<String> Filenames) {
 	  this.filenames = Filenames;
   }
   
-  // public void addFiles(ArrayList<File> newFiles) {
     public void addFiles(ArrayList<String> newFiles) {
 	  this.filenames.addAll(newFiles);
   }

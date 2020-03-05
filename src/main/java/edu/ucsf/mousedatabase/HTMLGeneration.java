@@ -181,7 +181,7 @@ public class HTMLGeneration {
       table.append("</div>");
 
     }
-    table.append("<img src=/img/OR_logo_10year.png title='Founded by Gail Martin 2009' style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year'>");
+    table.append("<img src=/img/OR_logo_10year.png style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year'>");
     
     table.append("</div>"); //pagetitlecontainer
     table.append("</div>"); //pageheader
@@ -533,7 +533,7 @@ public class HTMLGeneration {
               r.getExpressedSequence(), "onChange=\"UpdateExpressedSequenceEdit()\""),
           "id=\"trExprSeqRow\" style=\""
               + rowVisibility(r.isTG() || (r.getModificationType() != null 
-                && r.getModificationType().equalsIgnoreCase("targeted knock-in"))) + "\"",
+                && r.getModificationType().equalsIgnoreCase("targeted knock-in")^(r.getModificationType().equalsIgnoreCase("endonuclease-mediated")))) + "\"",
           "editMouseRow");
 
       String mgiID = r.getTargetGeneID();
@@ -1151,7 +1151,7 @@ public class HTMLGeneration {
       if (nextSubmission.getMouseType() != null) {
         table.append("<dt class='mouseType'>\r\n" + nextSubmission.getMouseType());
         if (nextSubmission.isTG()) {
-          if (nextSubmission.getTransgenicType().equalsIgnoreCase("knock-in")) {
+          if ((nextSubmission.getTransgenicType().equalsIgnoreCase("knock-in"))^(nextSubmission.getTransgenicType().equalsIgnoreCase("endonuclease-mediated"))) {
             table.append(" - <b>Knock-in</b></dt>\r\n");
           } else if (nextSubmission.getTransgenicType()
               .equalsIgnoreCase("random insertion")) {
@@ -1224,9 +1224,10 @@ public class HTMLGeneration {
           table.append("<dt><b>Modification Type:</b> "
               + nextSubmission.getMAModificationType()
               + "</dt>\r\n");
+          //Added endonuclease-mediated -EW
           if (nextSubmission.getMAModificationType() != null
-              && nextSubmission.getMAModificationType()
-                  .equalsIgnoreCase("targeted knock-in")) {
+              && (nextSubmission.getMAModificationType()
+                  .equalsIgnoreCase("targeted knock-in")|| nextSubmission.getMAModificationType().equalsIgnoreCase("endonuclease-mediated"))) {
             if (nextSubmission.getTGExpressedSequence() != null) {
               if (nextSubmission.getTGExpressedSequence()
                   .equalsIgnoreCase("mouse gene")
@@ -1532,8 +1533,8 @@ public class HTMLGeneration {
           }
         }
         if (nextRecord.getTransgenicType() != null
-            && nextRecord.getTransgenicType().equalsIgnoreCase(
-                "knock-in")) {
+            && (nextRecord.getTransgenicType().equalsIgnoreCase(
+                "knock-in")^nextRecord.getTransgenicType().equalsIgnoreCase("endonuclease-mediated"))) {
           table.append("<dt><b><span class='lbl'>Knocked-in to:</span></b></dt>\r\n");
           table.append(formatGene(nextRecord.getTargetGeneSymbol(),
               nextRecord.getTargetGeneName(),
@@ -1551,9 +1552,9 @@ public class HTMLGeneration {
             nextRecord.getGeneName(), nextRecord.getGeneID()));
         table.append("<dt><b><span class='lbl'>Modification Type:</span></b> "
             + (nextRecord.getModificationType() != null ? nextRecord.getModificationType() : "TBD") + "</dt>\r\n");
-
+//added endonuclease-mediated -EW
         if (!(nextRecord.getModificationType() == null || nextRecord .getModificationType().isEmpty())) {
-          if (nextRecord.getModificationType().equalsIgnoreCase( "targeted knock-in")) {
+          if (nextRecord.getModificationType().equalsIgnoreCase( "targeted knock-in")||nextRecord.getModificationType().equalsIgnoreCase("endonuclease-mediated")) {
             if (nextRecord.getExpressedSequence() != null) {
               if (nextRecord.getExpressedSequence() .equalsIgnoreCase("mouse gene")
                   || nextRecord.getExpressedSequence() .equalsIgnoreCase( "Mouse Gene (unmodified)")) {

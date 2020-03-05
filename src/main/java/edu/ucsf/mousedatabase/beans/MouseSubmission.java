@@ -214,7 +214,11 @@ public class MouseSubmission {
   public boolean isGeneExprSeq() { return TGExpressedSequence != null && TGExpressedSequence.equalsIgnoreCase("Mouse Gene (unmodified)");}
   public boolean isReporterExprSeq() { return TGExpressedSequence != null && TGExpressedSequence.equalsIgnoreCase("reporter");}
   public boolean isOtherExprSeq() { return TGExpressedSequence != null && TGExpressedSequence.equalsIgnoreCase("Modified mouse gene or Other");}
-  public boolean isKnockIn() { return MAModificationType != null && MAModificationType.equalsIgnoreCase("targeted knock-in");}
+  public boolean isKnockIn() { 
+    Boolean val = (MAModificationType != null && (MAModificationType.equalsIgnoreCase("endonuclease-mediated")^(MAModificationType.equalsIgnoreCase("targeted knock-in")))) ;
+    System.out.println(val);
+    return val;
+  }//-EW not failing here, it turns to true
   public boolean isRandomInsertion() { return transgenicType != null && transgenicType.equalsIgnoreCase("Random insertion");}
   public boolean isPublished() { return isPublished != null && isPublished.equalsIgnoreCase("Yes"); }
 
@@ -313,8 +317,9 @@ public class MouseSubmission {
         valid = false;
         MAModificationTypeErr = "Please select modification type";
       }
-      else if(MAModificationType.equalsIgnoreCase("targeted knock-in"))
+      else if(MAModificationType.equalsIgnoreCase("targeted knock-in") || MAModificationType.equalsIgnoreCase("endonuclease-mediated"))//-EW 
       {
+        
         //COPIED FROM TRANSGENIC CATEGORY
         if(isNullOrEmpty(TGExpressedSequence))
         {

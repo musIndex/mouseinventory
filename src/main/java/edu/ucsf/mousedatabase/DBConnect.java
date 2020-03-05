@@ -1197,7 +1197,7 @@ public class DBConnect {
     			}      
     		}
     	}
-    	String fileQuery = "Insert into mouseFiles (filename, file, mouseID) VALUES (" + file.getName() + ", " + createdBlob
+    	String fileQuery = "Insert into mouse_files (filename, file, mouseID) VALUES (" + file.getName() + ", " + createdBlob
         		+ ", " + updatedRecord.getMouseID() + ");";//for saving files
         executeNonQuery(fileQuery);
     }*/
@@ -1219,7 +1219,7 @@ public class DBConnect {
   } 
 
   public static void initialTable() {
-  String  query =  "create table if not exists mouseFiles (ID int auto_increment, filename text, file blob, mouseID text, PRIMARY  KEY  (ID));";
+  String  query =  "create table if not exists mouse_files (ID int auto_increment, filename text, file blob, mouseID text, PRIMARY  KEY  (ID));";
   executeNonQuery(query);
   }
   
@@ -1238,7 +1238,7 @@ public class DBConnect {
 
 		  //Blob createdBlob = con.createBlob();//makeBlobFromFile(file);
 		  String mouseID = "6";
-		  String query = "Insert into mouseFiles (filename, file, mouseID) VALUES (?, ?, ?)";
+		  String query = "Insert into mouse_files (filename, file, mouseID) VALUES (?, ?, ?)";
 		  String test2 = "Insert into mouseTest (name) values (?)";
 		  PreparedStatement statement = con.prepareStatement(query);
 		  PreparedStatement statement2 = con.prepareStatement(test2);
@@ -1314,8 +1314,8 @@ public class DBConnect {
 					con = connect();
 				}
 				
-        String query = "Insert into mouseFiles (filename, mouseID) VALUES (?, ?)";
-        //String query = "Insert into mouseFiles (filename, file, mouseID) VALUES (?, ?)";
+        String query = "Insert into mouse_files (filename, mouseID) VALUES (?, ?)";
+        //String query = "Insert into mouse_files (filename, file, mouseID) VALUES (?, ?)";
 				PreparedStatement statement = con.prepareStatement(query);
 				statement.setNString(1, fileName);
         //statement.setBlob(2, createdBlob);
@@ -2932,26 +2932,26 @@ public class DBConnect {
     
     // private ArrayList<File> getFilenames(String mouseID) throws SQLException
     // {
-  	//   String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+  	//   String query = "SELECT file, filename FROM mouse_files WHERE mouseID='" + mouseID + "'";
   	//   return MouseFileResultGetter.getInstance(_connection).Get(query);
     // }
 
     private ArrayList<String> getFilenames(String mouseID) throws SQLException
     {
       Log.Info("calling getFilenames");
-  	  String query = "SELECT filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+  	  String query = "SELECT filename FROM mouse_files WHERE mouseID='" + mouseID + "'";
   	  return StringResultGetter.getInstance("filename").Get(query);
     }
 
     private ArrayList<File> getFiles(String mouseID) throws SQLException
     { //this needs to be redone for new file storage.
       Log.Info("calling getFiles");
-      String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+      String query = "SELECT file, filename FROM mouse_files WHERE mouseID='" + mouseID + "'";
       return MouseFileResultGetter.getInstance(_connection).Get(query);
     }
     
     protected static ArrayList<Integer> getFileIDs(String mouseID) throws  SQLException {
-      String query = "SELECT ID FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+      String query = "SELECT ID FROM mouse_files WHERE mouseID='" + mouseID + "'";
       return IntResultGetter.getInstance("ID").Get(query);
     }
 
@@ -2960,7 +2960,7 @@ public class DBConnect {
   public static File getFileByNameAndMouseID(String fileName, String mouseID) throws Exception
   { //this needs to be redone for new file storage.
     Connection con = connect();
-    String query = "SELECT file, filename FROM mouseFiles WHERE mouseID='" + mouseID + "'" + " AND filename='" + fileName + "'";
+    String query = "SELECT file, filename FROM mouse_files WHERE mouseID='" + mouseID + "'" + " AND filename='" + fileName + "'";
       ArrayList<File> allFiles = MouseFileResultGetter.getInstance(con).Get(query);
     return allFiles.get(0);
   } 
@@ -2976,7 +2976,7 @@ public class DBConnect {
 
     public static ArrayList<String> getFilenamesByMouseID(String  mouseID) throws Exception{
     Connection con = connect(); 
-    String query = "SELECT filename FROM mouseFiles WHERE mouseID='" + mouseID + "'";
+    String query = "SELECT filename FROM mouse_files WHERE mouseID='" + mouseID + "'";
     ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(query);
     for(String filename : allFilenames) {
       Log.Info("filename looked up: " + filename);
@@ -2999,16 +2999,16 @@ public class DBConnect {
 
   public static File getFileByID(Integer ID) throws Exception {
     Connection con = connect();
-    // String queryName = "SELECT filename FROM mouseFiles WHERE ID='" + ID + "'";
+    // String queryName = "SELECT filename FROM mouse_files WHERE ID='" + ID + "'";
     // ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(queryName);
     // String filename = allFilenames.get(0);
     // String toLoad = "/userfiles" + filename;
 
-    //String query = "SELECT file, filename FROM mouseFiles WHERE ID='" + ID + "'";
+    //String query = "SELECT file, filename FROM mouse_files WHERE ID='" + ID + "'";
     //ArrayList<File> allFiles = MouseFileResultGetter.getInstance(con).Get(query);
 
 
-    String query = "SELECT filename FROM mouseFiles WHERE ID='" + ID + "'";
+    String query = "SELECT filename FROM mouse_files WHERE ID='" + ID + "'";
     ArrayList<String> fileNames = StringResultGetter.getInstance("filename", con).Get(query);
     String toLoad = "/userfiles/" + fileNames.get(0);
     File outputFile = new File(toLoad);
@@ -3026,7 +3026,7 @@ public class DBConnect {
 
     }
     Connection con = connect();
-    String queryName = "SELECT filename FROM mouseFiles WHERE ID='" + ID + "'";
+    String queryName = "SELECT filename FROM mouse_files WHERE ID='" + ID + "'";
     ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(queryName);
     Log.Info("getFilePathByID reached, query is " + queryName);
     Log.Info("size of result is " + allFilenames.size());
@@ -3046,8 +3046,12 @@ public class DBConnect {
   }
 
   public static int getMouseIDbyID(Integer ID) throws Exception {
+// Douglas removed this statement public static void deleteFileByID(Integer ID) throws Exception {
+// String query = "DELETE FROM mouse_files WHERE ID = '" + ID + "'";
+//   executeNonQuery(query);
+//}
     //Connection con = connect();
-    String query = "SELECT mouseID FROM mouseFiles WHERE ID='" + ID + "'";
+    String query = "SELECT mouseID FROM mouse_files WHERE ID='" + ID + "'";
     Log.Info("getMouseIDbyID query : " + query);
     ArrayList<Integer> results = IntResultGetter.getInstance("ID").Get(query);
     //ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(query);
@@ -3063,7 +3067,7 @@ public class DBConnect {
     //this needs to be redone for new file storage.
     //Connection con = connect();
     Log.Info("about to delete");
-    String query = "DELETE FROM mouseFiles WHERE ID = '" + ID + "'";
+    String query = "DELETE FROM mouse_files WHERE ID = '" + ID + "'";
     String filename = getFilePathByID(ID, mouseID);
     //String toDelete = "/userfiles" + filename;
     File file = new File(filename);
@@ -3074,8 +3078,8 @@ public class DBConnect {
     } else {
       Log.Info("file not deleted");
     }
+ //   String query = "DELETE FROM mouse_files WHERE ID = '" + ID + "'";
     executeNonQuery(query);
-
   }
 
   private static final class ChangeRequestResultGetter extends ResultGetter {

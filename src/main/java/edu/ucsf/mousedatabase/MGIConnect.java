@@ -228,6 +228,7 @@ public class MGIConnect {
           else if (prop.equals("mouseType"))
           {
             propertyList.append("*" + prop + ":* " + value + "\r\n");
+            //targeted captures knockout ot knockin mice 
             if(value.startsWith("Targeted"))
             {
               sub.setMouseType("Mutant Allele");
@@ -283,7 +284,7 @@ public class MGIConnect {
 //              gene mgi ID : 98747
             }
             //Enodnuclease-mediated mice will switch to this type -EW
-            else if (value.startsWith("Endonuclease"))
+            else if (value.startsWith("Endonuclease-mediated"))
             {
               sub.setMouseType("Mutant Allele");
               sub.setMAModificationType("undetermined");

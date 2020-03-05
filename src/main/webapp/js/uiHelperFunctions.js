@@ -82,8 +82,11 @@ function UpdateModificationType()
   if(chosen == "targeted knock-in"){
     setElementVisibility("trExprSeqRow","");
     UpdateExpressedSequenceDetail();
-
   }
+  else if(chosen == "endonuclease-mediated"){
+	    setElementVisibility("trExprSeqRow","");
+	    UpdateExpressedSequenceDetail();
+	  }
 
 }
 
@@ -113,6 +116,12 @@ function UpdateModificationTypeEdit()
     UpdateExpressedSequenceEdit();
 
   }
+  
+  else if(chosen == "endonuclease-mediated"){
+	    setElementVisibility("trExprSeqRow","");
+	    UpdateExpressedSequenceEdit();
+
+	  }
 
 }
 
@@ -443,5 +452,8 @@ function two2one(elementID) {
      }
    }
 }
+
+
+
 
 
