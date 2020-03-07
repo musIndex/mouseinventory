@@ -84,9 +84,9 @@ function UpdateModificationType()
     UpdateExpressedSequenceDetail();
   }
   else if(chosen == "endonuclease-mediated"){
-	    setElementVisibility("trExprSeqRow","");
-	    UpdateExpressedSequenceDetail();
-	  }
+      setElementVisibility("trExprSeqRow","");
+      UpdateExpressedSequenceDetail();
+    }
 
 }
 
@@ -118,10 +118,10 @@ function UpdateModificationTypeEdit()
   }
   
   else if(chosen == "endonuclease-mediated"){
-	    setElementVisibility("trExprSeqRow","");
-	    UpdateExpressedSequenceEdit();
+      setElementVisibility("trExprSeqRow","");
+      UpdateExpressedSequenceEdit();
 
-	  }
+    }
 
 }
 
