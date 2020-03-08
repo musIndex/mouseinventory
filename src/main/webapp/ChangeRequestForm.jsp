@@ -242,6 +242,11 @@ $(document).ready(function(){
         <li>
         <input type="radio" name="actionRequested" value="<%= Action.UPLOAD_FILE.ordinal() %>" <%= (changeRequest.actionRequested() == Action.UPLOAD_FILE) ? "checked" : "" %>>
         <a class='btn' href='#'><i class='icon-white icon-file'></i>Upload/Delete file for Genotyping/Sequences</a>
+		<div id='file_label'>
+       
+       <jsp:include page="admin/UploadFile.jsp" />
+         
+		</div>
          
         </li>
       </ul>
