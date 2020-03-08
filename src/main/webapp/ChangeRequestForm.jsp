@@ -274,11 +274,7 @@ $(document).ready(function(){
         <span id='comments_label'>Comments:</span></td><td>
         <textarea rows="8" cols="80" name="userComment"></textarea>
         </tr>
-          <div id='file_label'>
-       
-       <jsp:include page="admin/UploadFile.jsp" />
-         
-		</div>
+        
         </table>
      
        
