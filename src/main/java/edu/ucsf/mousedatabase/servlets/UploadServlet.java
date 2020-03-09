@@ -172,12 +172,15 @@ public class UploadServlet extends HttpServlet {
 	    if (loggedInAsAdmin) {
 	      response.sendRedirect(HTMLGeneration.adminRoot + "EditMouseForm.jsp?id=" + mouseID);
 
-	    } else {
+		} 
+		/*
+		else {
 		//set this to wherever the new redirect should be
 		String url = HTMLGeneration.siteRoot + "ChangeRequestForm.jsp" + "?mouseID=" + request.getParameter(mouseID) + "&success=true";
 
 	      response.sendRedirect(url);// + "EditMouseForm.jsp?id=" + mouseID); 
-	    }
+		}
+		*/
 	}
 
 	/**
