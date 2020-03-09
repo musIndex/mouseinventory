@@ -20,13 +20,15 @@
 	</div>
 	<input id="newName" type="text" value= <%=request.getParameter("mouseID")%> name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
 	<input type="file" id="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>
+	
 	<input type="submit" />
 </form>
 <div id = "test" style="display:none"><%=DBConnect.getFileNamesAsString(request.getParameter("mouseID")) %></div>
 <div id = "test2" style="display:none"><%=DBConnect.getIDsAsString(request.getParameter("mouseID")) %></div>
 <h3>Files To Delete</h3>
 <ul id = "listFiles"></ul>
-<div id = "test3" style="display:none"></div>
+//<div id = "test3" style="display:none"></div>
+<div id = "test3"></div>
 
 
 
@@ -40,15 +42,24 @@ ArrayList<Integer> ids = DBConnect.getFileIDsByMouseID(mouseID);
 
 
 %>
+function listCookies() {
+    var theCookies = document.cookie.split(';');
+    var aString = '';
+    for (var i = 1 ; i <= theCookies.length; i++) {
+        aString += i + ' ' + theCookies[i-1] + "\n";
+    }
+    return aString;
+}
+
 
 function sendDelete(phrase){
 	window.location = phrase;
 }
 
 
-
 function myFunction(){
 	//setAdminStatus;
+	
 	document.getElementById("test3").innerHTML = listCookies();
 	//set link to download
 	//add button for delete
