@@ -169,10 +169,10 @@ public class UploadServlet extends HttpServlet {
 	    	Log.Info("Exception occurred while processing post request for file upload");
 	    }	
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-	    if (loggedInAsAdmin) {
+	    
 	      response.sendRedirect(HTMLGeneration.adminRoot + "EditMouseForm.jsp?id=" + mouseID);
 
-		} 
+		
 		/*
 		else {
 		//set this to wherever the new redirect should be
