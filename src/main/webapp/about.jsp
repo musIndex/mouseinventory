@@ -53,7 +53,7 @@ categoryLabels.add("Did you know...?");
 <div class='site_container'>
   <div class='about_container'>
     <div class='about_welcome'>
-      <h1>Welcome to the UCSF Mouse Inventory Database</h1>
+      <h1>Welcome to the MSU Rodent Inventory Database</h1>
       <div class='purpose'><%= DBConnect.loadSetting("home_page_text_purpose").value %></div>
     </div>
     <div class='about_banner'>
