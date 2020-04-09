@@ -191,7 +191,7 @@ public class HTMLGeneration {
     table.append("<ul class=\"navLinkUL\">");
     table.append(addNavLink("Search", "search.jsp", null,
         currentPageFilename, false,"nav-search-link"));
-    table.append(addNavLink("Mouse Records", "MouseReport.jsp", null,
+    table.append(addNavLink("Rodent Records", "MouseReport.jsp", null,
         currentPageFilename, false,"nav-mouselist"));
     table.append(addNavLink("Gene List", "GeneReport.jsp", null,
         currentPageFilename, false));
