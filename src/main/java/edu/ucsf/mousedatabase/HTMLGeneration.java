@@ -201,7 +201,7 @@ public class HTMLGeneration {
         currentPageFilename, false));
     // table.append(addNavLink("Endangered Mice", "EndangeredReport.jsp",
     // null,currentPageFilename,false));
-    table.append(addNavLink("Submit Mice", "submitforminit.jsp", null,
+    table.append(addNavLink("Submit Rodents", "submitforminit.jsp", null,
         currentPageFilename, false));
     if (isAdminPage && showAdminControls){
       table.append(addNavLink("Log out", "logout.jsp", null,
@@ -2130,7 +2130,7 @@ public class HTMLGeneration {
         String email = expert.substring(0, spaceLocation);
         String name = expert.substring(spaceLocation).trim();
 
-        table.append("<dt>" + name + ": " + formatEmail(email, email, "Requesting help using the UCSF Mouse database") + "</dt>");
+        table.append("<dt>" + name + ": " + formatEmail(email, email, "Requesting help using the MSU Rodent Database") + "</dt>");
       }
       table.append("</dl>");
       
