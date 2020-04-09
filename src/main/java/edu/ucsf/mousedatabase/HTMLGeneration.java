@@ -146,7 +146,7 @@ public class HTMLGeneration {
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div>"); //pagetitle
     
-    table.append("<img src=/img/logo_mouse_database_UCSF.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>");
+    table.append("<img src=/img/logo_mouse_database_MSU.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>");
     table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + DBConnect.loadSetting("general_site_name").value + "</a></span>");
     
     
