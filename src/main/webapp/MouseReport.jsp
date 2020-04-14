@@ -147,8 +147,8 @@
 		"Use this " +  emailAdminLink +
 	    " to notify admin when update is complete</span>" +
 	    "<div class='holderNotice'>" +
-	    "<b>To delete a mouse</b> that is no longer being maintained " +
-	    "but is still listed here, go to the record for that mouse, " +
+	    "<b>To delete a rodent</b> that is no longer being maintained " +
+	    "but is still listed here, go to the record for that rodent, " +
 	    "click on 'request change in record,' and follow the instructions " +
 	    "for deleting a holder.<br><br>" +
 	    "If any corrections need to be made, click on 'request change in record,'" +
@@ -156,17 +156,17 @@
 	    "(For example, is an 'unpublished' allele/transgene now published?" +
 	      "Is there genetic background information that could be included?)" +
 	      "<br><br>" +
-	    "<b>To add a mouse</b> that is being maintained by this holder but " +
+	    "<b>To add a rodent</b> that is being maintained by this holder but " +
 	    "is not yet listed:"+
 	    "<ul>"+
 	    "<li>First do a quick search of the database "+
-	    "(top right of the screen) to see if there is already a record for that mouse."+
+	    "(top right of the screen) to see if there is already a record for that rodent."+
 	    "</li>"+
 	    "<li>"+
 	    "If so, click on 'request change in record,' and follow the instructions for adding a holder." +
 	    "</li>"+
 	    "<li>"+
-	    "If there is no record for that mouse in the database, complete a new submission for it or " +
+	    "If there is no record for that rodent in the database, complete a new submission for it or " +
 	    "contact database admin to request assistance in entering it." +
 	    "</li>" +
 	    "</ul>" +

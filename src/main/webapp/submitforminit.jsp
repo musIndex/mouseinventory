@@ -48,16 +48,16 @@
 Each submission should be for an
 <span style="color: red;text-decoration: underline">individual</span>
 mutant allele or transgene (or inbred strain) - generically referred
-to as a &quot;mouse&quot;, irrespective of whether the allele or transgene
+to as a &quot;rodent&quot;, irrespective of whether the allele or transgene
 is maintained in combination with other mutant alleles or transgenes.
 </p>
 <p class="header3"><span class=red>Before completing a
-submission form, use the Search feature above to determine if the mouse
+submission form, use the Search feature above to determine if the rodent
 is already listed in the inventory.</span> If it is, and if you want to note
 that it is also being housed by another investigator or to add
-information about the mouse, <span class=red>do not</span> use this
+information about the rodent, <span class=red>do not</span> use this
 form. Instead, go to the "<a href="MouseReport.jsp">Mouse Records</a>" page, find the
-one for that mouse, click on "Request change in record" (under the name of that mouse),
+one for that rodent, click on "Request change in record" (under the name of that rodent),
 and complete the form.
 <br>
 <br>
