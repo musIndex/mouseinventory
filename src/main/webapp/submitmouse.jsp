@@ -23,7 +23,7 @@
     if(!newMouse.validateMouseType())
     {
       %>
-        <h2>Invalid mouse type.  Please go back to step 2.</h2>
+        <h2>Invalid rodent type.  Please go back to step 2.</h2>
         <a href="submitformMouseType.jsp">Back to step 2</a>
 
       <%
@@ -32,7 +32,7 @@
     if(!newMouse.validateMouseDetails())
     {
       %>
-        <h2>Invalid mouse data.  Please go back to step 3.</h2>
+        <h2>Invalid rodent data.  Please go back to step 3.</h2>
         <a href="submitformMouseDetails.jsp">Back to step 3</a>
 
       <%
@@ -86,7 +86,7 @@
       {
           existingRecordTable = HTMLGeneration.getMouseTable(existingMice,false,true,false);
         err = "This appears to be a duplicate entry and will not be processed.  The exisiting record is shown below.";
-          err += "<br><br>To add another holder to <u>this</u> mouse record, click 'request change in record,' and submit a change request.";
+          err += "<br><br>To add another holder to <u>this</u> rodent record, click 'request change in record,' and submit a change request.";
           isDuplicate = true;
           ok = false;
       }
@@ -123,19 +123,19 @@
     HTMLUtilities.logRequest(request);
   %>
   <h2>Submission #<%=submissionID %> (<%=newMouse.getMouseName()%>) was successful.</h2>
-  <p>We have received your request to add your mouse to the inventory.
+  <p>We have received your request to add your rodent to the inventory.
   It will be reviewed by the administrator.
   <br>
   <br>
   If you believe you have made an error in your submission, click on "submit feedback"
-  in the menu above and send an explanatory email to the Mouse Inventory Administrator.
+  in the menu above and send an explanatory email to the Rodent Inventory Administrator.
   <br>
   Thank you.
   </p>
 
   <br>
   <br>
-  If you would like to submit another mouse, <span style="font-size:120%" class=red>do not use the back button</span>, but
+  If you would like to submit another rodent, <span style="font-size:120%" class=red>do not use the back button</span>, but
   <a href="submitforminit.jsp">click here</a> instead.
   <br/>
 

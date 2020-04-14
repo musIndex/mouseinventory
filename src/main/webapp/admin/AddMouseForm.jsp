@@ -14,7 +14,7 @@
   {
     %>
     <div class="site_container">
-    <h2>Error - no mouse type received</h2>
+    <h2>Error - no rodent type received</h2>
     </div>
 
     <%
