@@ -98,7 +98,7 @@
       mouseCountStr += " (" + limit + " shown per page)";
   	}
 	String holderData = "<p style='color: blue; font-weight: bold;''>" +
-	                    "<i>To obtain a list of all mice held by an investigator, go to the 'Holder List'."+
+	                    "<i>To obtain a list of all rodents held by an investigator, go to the 'Holder List'."+
 	                    "</i></p>";
 	mouseTypeStr += " records";
 	
@@ -136,10 +136,10 @@
 	    }
 	  
 	    String emailAdminLink = getMailToLink(DBConnect.loadSetting("admin_info_email").value, null, holder.getLastname() + " rodent list reviewed", 
-	            "The list of mice held by "+ holder.getFullname() + " " +
+	            "The list of rodents held by "+ holder.getFullname() + " " +
 	            "was thoroughly reviewed and any necessary deletions/additions/corrections " +
 	            "were made today" +
-	            "\n(If mice still need to be added, please provide a list of " +
+	            "\n(If rodents still need to be added, please provide a list of " +
 	            "their names below.)", "email link");
 	
 	    holderData = "<div class='holderData'>" +

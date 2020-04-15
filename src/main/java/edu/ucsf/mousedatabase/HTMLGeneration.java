@@ -2893,7 +2893,7 @@ public class HTMLGeneration {
     
     buf.append("<li>Sort by: ");
     buf.append(genSelect("orderby",new String[]{"mouse.name","mouse.id","mouse.id desc"}, 
-                        new String[]{"Mouse Name", "Record #", "Record #(reverse)"},checkedOrderBy,null));
+                        new String[]{"Rodent Name", "Record #", "Record #(reverse)"},checkedOrderBy,null));
     
     buf.append("</li>\n");
     buf.append("<li>Category: ");
