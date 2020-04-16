@@ -9,7 +9,7 @@
     String table = HTMLGeneration.getHolderTable(holders,false);
 
     String[] orderOpts = new String[]{"firstname,lastname","lastname,firstname","department","count","datevalidated","primary_mouse_location"};
-    String[] orderOptLabels = new String[]{"First name","Last name","Department","Mice held","Last review date","Primary location of Colony"};
+    String[] orderOptLabels = new String[]{"First name","Last name","Department","Rodents held","Last review date","Primary location of Colony"};
     
     
 %>

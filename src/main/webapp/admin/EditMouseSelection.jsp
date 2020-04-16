@@ -128,7 +128,7 @@
 
     <h2><%=mouseTypeStr %></h2>
     <h4><%=mouseCountStr %></h4>
-    <a href="CovertMice.jsp">Covert Mice</a>
+    <a href="CovertMice.jsp">Covert Rodents</a>
     
 
   <form class='view_opts' action="EditMouseSelection.jsp">
