@@ -22,7 +22,7 @@ There are 5 Azure items within the ITM444 Subscription
 |RodentResourceGroup|Resource Group|
 |rodentaccount|Storage account|
 
-`msurodentdatabaseservice` is the front-end for the web app, accessible via [MSU's domain](https://carrodentdatabase.msu.edu/) or [Azure's Domain] (https://msurodentdatabaseservice.azurewebsites.net/)
+`msurodentdatabaseservice` is the front-end for the web app, accessible via [MSU's domain](https://carrodentdatabase.msu.edu/) or [Azure's Domain](https://msurodentdatabaseservice.azurewebsites.net/)
 
 `msurodentdatabaseservice-dev` ist the front end for the dev envrionemnt, accessible via [Azure's domain](https://msurodentdatabaseservice-dev.azurewebsites.net/)
 
