@@ -217,6 +217,7 @@ $('#accordion2').collapse({
 </div>
 <div>
 v3.0 MSU Rodent Database 2020
+Developed by UCSF
 </div>
 <div>
 <a href="https://github.com/musIndex/mouseinventory">View in Github
