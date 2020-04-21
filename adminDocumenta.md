@@ -64,7 +64,7 @@ Fill the connection settings with the following settings (Note: the URL string f
 |Database| *Empty*|
 |URL| jdbc://rodentdatabase.cix4pp5vgvuz.us-east-2.rds.amazonaws.com|
 
-Select [*any* of 7] and ensure **both schemas `rodentdatabase` and `rodentdatabase-dev` are both checked off and able to be opened**
+Select [*any* of 7] and ensure **both schemas `rodentdatabase` and `rodentdatabase-dev` are checked off and able to be opened**
 
 Expand to view Settings and you can edit and push from here.
 
