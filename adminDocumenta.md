@@ -26,7 +26,7 @@ There are 5 Azure items within the ITM444 Subscription
 
 `msurodentdatabaseservice-dev` is the front end for the dev envrionemnt, accessible via [Azure's domain](https://msurodentdatabaseservice-dev.azurewebsites.net/)
 
-Both App Services are cconfigured using envrionment variables. The path to change the environment variables is `App Service Name > Settings > Configuration`. The description of the environment variables canbe found [here](https://github.com/musIndex/mouseinventory#environment-variables).
+Both App Services are cconfigured using envrionment variables. The path to change the environment variables is `App Service Name > Settings > Configuration`. The description of the environment variables can be found [here](https://github.com/musIndex/mouseinventory#environment-variables).
 
 ### How to Manage the Single-Sign-On (SSO) Settings
 
