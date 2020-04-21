@@ -2231,7 +2231,7 @@ public class HTMLGeneration {
     table.append("Last Review Date");
     table.append("</td>\r\n");
     table.append("<td style='min-width:100px'\">\r\n");
-    table.append("Mice Held");
+    table.append("Rodents Held");
     table.append("</td>\r\n");
     if (edit) {
       table.append("<td style='width:100px'\">\r\n");
