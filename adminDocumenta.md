@@ -13,4 +13,11 @@ More detailed AWS billing information can be found in the "Bills" tab on the lef
 ### Azure Resource Overview
 
 There are 5 Azure items within the ITM444 Subscription
-| 
+
+| Name | Type |
+|------|------|
+|msurodentdatabaseservice|App Service|
+|msurodentdatabaseservice-dev|App Service|
+|RodentServicePlan|App Service plan|
+|RodentResourceGroup|Resource Group|
+|rodentaccount|Storage account|
