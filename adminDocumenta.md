@@ -55,7 +55,8 @@ A [DataGrip](https://www.jetbrains.com/datagrip/) educational [license](https://
 To add a new datasource, click `File > New > Data Source > MariaDB`
 
 Fill the connection settings with the following settings (Note: the URL string following `jdbc:mariadb://` is the RDS instance's endpoint which can be found in AWS):
-
+|*parameter*| *value*|
+|---------|----------|
 | Name| MariaDB - @rodentdatabase.cix4pp5vgvuz.us-east-2.rds.amazonaws.com|
 |Host| rodentdatabase.cix4pp5vgvuz.us-east-2.rds.amazonaws.com|
 |User| caradmin|
