@@ -216,7 +216,7 @@ $('#accordion2').collapse({
 <a href="mailto:<%=DBConnect.loadSetting("admin_info_email").value %>"> Contact Administrator</a>
 </div>
 <div>
-v0.1 MSU Rodent Database 2020
+v3.0 MSU Rodent Database 2020
 </div>
 <div>
 <a href="https://github.com/musIndex/mouseinventory">View in Github
