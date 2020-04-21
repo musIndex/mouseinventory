@@ -24,7 +24,7 @@ There are 5 Azure items within the ITM444 Subscription
 
 `msurodentdatabaseservice` is the front-end for the web app, accessible via [MSU's domain](https://carrodentdatabase.msu.edu/) or [Azure's Domain](https://msurodentdatabaseservice.azurewebsites.net/)
 
-`msurodentdatabaseservice-dev` ist the front end for the dev envrionemnt, accessible via [Azure's domain](https://msurodentdatabaseservice-dev.azurewebsites.net/)
+`msurodentdatabaseservice-dev` is the front end for the dev envrionemnt, accessible via [Azure's domain](https://msurodentdatabaseservice-dev.azurewebsites.net/)
 
 Both App Services are cconfigured using envrionment variables. The path to change the environment variables is `App Service Name > Settings > Configuration`. The description of the environment variables canbe found [here](https://github.com/musIndex/mouseinventory#environment-variables).
 
