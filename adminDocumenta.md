@@ -107,7 +107,7 @@ mysql -h rodentdatabase.cix4pp5vgvuz.us-east-2.rds.amazonaws.com -u caradmin -p 
 This file `Demo_Database.sql` can be found in the Github repo.
 
 ### How to Deploy GitHub Code Changes to the Web App
-*must be a member of the `mousespace` Azure DevOps project or else you will have a **permissions error**
+*must be a member of the `mousespace` Azure DevOps project or else you will have a* ***permissions error***
 
 * Change code from the `release/msu` branch on the `mouseinventory` [repo](https://github.com/musIndex/mouseinventory/tree/release/msu) 
 * Go to the Azure DevOps [pipeline](https://dev.azure.com/EstelleWall/mousespace/_releaseDefinition?definitionId=2&_a=definition-tasks) and create a new release from the MSU pipeline
