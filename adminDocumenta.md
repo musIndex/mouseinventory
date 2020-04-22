@@ -50,7 +50,7 @@ Instruct the user to log out, close their browser, and go to the web app. Verify
 
 ### How to Edit the Database via SQL Editor (DataGrip)
 
-A [DataGrip](https://www.jetbrains.com/datagrip/) educational [license](https://www.jetbrains.com/community/education/#students) is free for those with an `.edu` address. After acquring the licese, install the software. Once installed, yiu must create a connection to the datasource.
+A [DataGrip](https://www.jetbrains.com/datagrip/) educational [license](https://www.jetbrains.com/community/education/#students) is free for those with an `.edu` address. After acquring the license, install the software. Once installed, you must create a connection to the datasource.
 
 To add a new datasource, click `File > New > Data Source > MariaDB`
 
