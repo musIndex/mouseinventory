@@ -1173,37 +1173,6 @@ public class DBConnect {
     Log.Info("Updating mouse record with query: \r\n" + query);
     executeNonQuery(query.toString());
     
-    /*
-    ArrayList<File> files = updatedRecord.getFilenames();
-    
-    for (File file : files) {
-    	//Blob createdBlob = _connection.createBlob(file);
-    	byte[] createdBlob = new byte[(int) file.length()];
-    	FileInputStream inputStream = null;
-    	try {
-    		// create an input stream pointing to the file
-    		inputStream = new FileInputStream(file);
-    		// read the contents of file into byte array
-    		inputStream.read(createdBlob);
-    	} catch (IOException e) {
-    		
-    	} finally {
-    		// close input stream
-    		if (inputStream != null) {
-    			try {
-    				inputStream.close();
-    			} catch (Exception e) {
-    				///
-    			}      
-    		}
-    	}
-    	String fileQuery = "Insert into mouse_files (filename, file, mouseID) VALUES (" + file.getName() + ", " + createdBlob
-        		+ ", " + updatedRecord.getMouseID() + ");";//for saving files
-        executeNonQuery(fileQuery);
-    }*/
-    
-    
-    
 
     // holders
     updateMouseHolders(updatedRecord);
@@ -1219,7 +1188,7 @@ public class DBConnect {
   } 
 
   public static void initialTable() {
-  String  query =  "create table if not exists mouse_files (ID int auto_increment, filename text, file blob, mouseID text, PRIMARY  KEY  (ID));";
+  String  query =  "create table if not exists mouse_files (ID int auto_increment, filename text, file blob, mouseID text, PRIMARY  KEY  (ID), filestatus text);";
   executeNonQuery(query);
   }
   
@@ -1276,9 +1245,43 @@ public class DBConnect {
       output.close();
     }
 }
+public static void sendFilesToStorage(ArrayList<File> files, String mouseID){
+  String path = "/userfiles/" + mouseID + "/";
+  String pathZero = "/userfiles/" + mouseID;
+
+  File f = new File(pathZero);
+  if(f.exists() && f.isDirectory()) { 
+    Log.Info("folder exists");
+  } else {
+    Log.Info("folder does not exist");
+    f.mkdir();
+  }
+
+  for(File file : files){
+    File destination = new File(path + file.getName());
+    Log.Info("filepath is: " + destination);
+    try{
+      copyFileUsingStream(file, destination);
+
+    } catch (Exception e){
+      
+    } 
+  }
   
-  public static void sendFilesToDatabase(ArrayList<File> files, String mouseID) {
+
+}
+  public static void sendFilesToDatabase(ArrayList<File> files, String mouseID, String filestatus) {
     Connection con = null; 
+    /*
+    for (File file : files){
+      try{
+        sendFilesToStorage(files, mouseID);
+      } catch (Exception e){
+
+      }
+    }
+    */
+    
     String path = "/userfiles/" + mouseID + "/";
     String pathZero = "/userfiles/" + mouseID;
 
@@ -1290,8 +1293,6 @@ public class DBConnect {
       f.mkdir();
     }
 
-
-
 	  for(File file : files){
       File destination = new File(path + file.getName());
       Log.Info("filepath is: " + destination);
@@ -1299,35 +1300,27 @@ public class DBConnect {
         copyFileUsingStream(file, destination);
 
       } catch (Exception e){
-        ///
+        
       }
       
-      // BufferedWriter out = new BufferedWriter(new FileWriter(file)); 
-      // out.write(text);
-      // out.close();
-
+      
 			String fileName = file.getName();
-			//Blob createdBlob = makeBlobFromFile(file);
 			
 			try {
 				if (con == null) {
 					con = connect();
 				}
 				
-        String query = "Insert into mouse_files (filename, mouseID) VALUES (?, ?)";
-        //String query = "Insert into mouse_files (filename, file, mouseID) VALUES (?, ?)";
+        String query = "Insert into mouse_files (filename, mouseID, filestatus) VALUES (?, ?, ?)";
 				PreparedStatement statement = con.prepareStatement(query);
 				statement.setNString(1, fileName);
-        //statement.setBlob(2, createdBlob);
-        //statement.setNString(3, mouseID);
-				statement.setNString(2, mouseID);
+        statement.setNString(2, mouseID);
+        statement.setNString(3, filestatus);
 				statement.execute();
 				
 			} catch (Exception e) {
-				///
 			}
 	    	Log.Info("fileQuery");
-	        //DBConnect.executeNonQuery(fileQuery);//note: executeNonQuery will not handle blobs.
     }
     
   }
@@ -1577,7 +1570,7 @@ public class DBConnect {
   public static int insertChangeRequest(ChangeRequest req) {
     String query = "INSERT into changerequest " + "(id,mouse_id,firstname,lastname,email,status,user_comment,"
         + "admin_comment,requestdate,properties,holder_name,holder_id,holder_email,"
-        + "facility_name,facility_id,action_requested,request_source,cryo_live_status," + "genetic_background_info) "
+        + "facility_name,facility_id,action_requested,request_source,cryo_live_status," + "genetic_background_info,new_files,delete_files) "
         + "VALUES (NULL" + "," + req.getMouseID() + "," + safeText(req.getFirstname()) + ","
         + safeText(req.getLastname()) + "," + safeText(req.getEmail()) + "," + safeText(req.getStatus()) + ","
         + safeText(req.getUserComment()) + "," + safeText(HTMLGeneration.emptyIfNull(req.getAdminComment())) + ","
@@ -1585,7 +1578,7 @@ public class DBConnect {
         + safeText(req.getHolderName()) + "," + req.getHolderId() + "," + safeText(req.getHolderEmail()) + ","
         + safeText(req.getFacilityName()) + "," + req.getFacilityId() + "," + req.actionRequested().ordinal() + ","
         + safeText(req.getRequestSource()) + "," + safeText(req.getCryoLiveStatus()) + ","
-        + safeText(req.getGeneticBackgroundInfo()) + ")";
+        + safeText(req.getGeneticBackgroundInfo()) + "," +safeText(req.getNewFileNames())+ "," +safeText(req.getDeleteFileNames()) + ")";
     return executeNonQuery(query, true);
   }
 
@@ -2910,9 +2903,11 @@ public class DBConnect {
 
       nextMouse.setHolders(getMouseHolders(nextMouse.getMouseID()));
       nextMouse.setPubmedIDs(getMousePubmedIDs(nextMouse.getMouseID()));
+      nextMouse.setFilenames(getFilenames((nextMouse.getMouseID()), "approved"));
       
-      nextMouse.setFilenames(getFilenames(nextMouse.getMouseID()));
-      nextMouse.setFileIDs(getFileIDs(nextMouse.getMouseID()));
+      //nextMouse.setFilenames(getFilenames(nextMouse.getMouseID()));
+      nextMouse.setFileIDs(getFileIDs((nextMouse.getMouseID()), "approved"));
+      //nextMouse.setFileStatus(getFileStatus(getFilenames(nextMouse.getMouseID()), nextMouse.getMouseID()));
 
       return nextMouse;
     }
@@ -2930,16 +2925,10 @@ public class DBConnect {
       return StringResultGetter.getInstance("pmid", _connection).Get(query);
     }
     
-    // private ArrayList<File> getFilenames(String mouseID) throws SQLException
-    // {
-  	//   String query = "SELECT file, filename FROM mouse_files WHERE mouseID='" + mouseID + "'";
-  	//   return MouseFileResultGetter.getInstance(_connection).Get(query);
-    // }
-
-    private ArrayList<String> getFilenames(String mouseID) throws SQLException
+    private ArrayList<String> getFilenames(String mouseID, String filestatus) throws SQLException
     {
       Log.Info("calling getFilenames");
-  	  String query = "SELECT filename FROM mouse_files WHERE mouseID='" + mouseID + "'";
+  	  String query = "SELECT filename FROM mouse_files WHERE mouseID='" + mouseID + "'"+ " AND filestatus='" + filestatus + "'";
   	  return StringResultGetter.getInstance("filename").Get(query);
     }
 
@@ -2950,8 +2939,8 @@ public class DBConnect {
       return MouseFileResultGetter.getInstance(_connection).Get(query);
     }
     
-    protected static ArrayList<Integer> getFileIDs(String mouseID) throws  SQLException {
-      String query = "SELECT ID FROM mouse_files WHERE mouseID='" + mouseID + "'";
+    protected static ArrayList<Integer> getFileIDs(String mouseID, String filestatus) throws  SQLException {
+      String query = "SELECT ID FROM mouse_files WHERE mouseID='" + mouseID + "'"+ " AND filestatus='" + filestatus + "'";
       return IntResultGetter.getInstance("ID").Get(query);
     }
 
@@ -2984,8 +2973,8 @@ public class DBConnect {
     return allFilenames;   
   }
   
-  public static String getIDsAsString(String mouseID) throws Exception{
-    ArrayList<Integer> ids = getFileIDsByMouseID(mouseID);
+  public static String getIDsAsString(String mouseID, String filestatus) throws Exception{
+    ArrayList<Integer> ids = getFileIDsByMouseID(mouseID, filestatus);
     String store = "";
     for(Integer id : ids){
       store += "/" + id;
@@ -2993,21 +2982,12 @@ public class DBConnect {
     return store;
   }
 
-  public static ArrayList<Integer> getFileIDsByMouseID(String mouseID) throws Exception{
-    return MouseRecordResultGetter.getFileIDs(mouseID);
+  public static ArrayList<Integer> getFileIDsByMouseID(String mouseID, String filestatus) throws Exception{
+    return MouseRecordResultGetter.getFileIDs(mouseID, filestatus);
   }
 
   public static File getFileByID(Integer ID) throws Exception {
     Connection con = connect();
-    // String queryName = "SELECT filename FROM mouse_files WHERE ID='" + ID + "'";
-    // ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(queryName);
-    // String filename = allFilenames.get(0);
-    // String toLoad = "/userfiles" + filename;
-
-    //String query = "SELECT file, filename FROM mouse_files WHERE ID='" + ID + "'";
-    //ArrayList<File> allFiles = MouseFileResultGetter.getInstance(con).Get(query);
-
-
     String query = "SELECT filename FROM mouse_files WHERE ID='" + ID + "'";
     ArrayList<String> fileNames = StringResultGetter.getInstance("filename", con).Get(query);
     String toLoad = "/userfiles/" + fileNames.get(0);
@@ -3017,8 +2997,8 @@ public class DBConnect {
   }
 
   //old version, not used, does not work
-  public static String getFilePathByID(Integer ID, Integer mouseID) throws Exception {
-    String masterString = getIDsAsString(Integer.toString(ID));
+  public static String getFilePathByID(Integer ID, Integer mouseID, String filestatus) throws Exception {
+    String masterString = getIDsAsString(Integer.toString(ID), filestatus);
     Log.Info("file string found is " + masterString);
     String files[] = masterString.split("/");
     for (String s : files) {
@@ -3062,13 +3042,13 @@ public class DBConnect {
       return -1;
     }
   }
-
-  public static void deleteFileByID(Integer ID, Integer mouseID) throws Exception {
+//This does not delete file from storage -EW
+  public static void deleteFileByID(Integer ID, Integer mouseID, String filestatus) throws Exception {
     //this needs to be redone for new file storage.
     //Connection con = connect();
     Log.Info("about to delete");
     String query = "DELETE FROM mouse_files WHERE ID = '" + ID + "'";
-    String filename = getFilePathByID(ID, mouseID);
+    String filename = getFilePathByID(ID, mouseID, filestatus);
     //String toDelete = "/userfiles" + filename;
     File file = new File(filename);
     Log.Info("delete target: " + filename);

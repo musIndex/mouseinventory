@@ -1,6 +1,7 @@
 package edu.ucsf.mousedatabase.objects;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -47,7 +48,8 @@ public class ChangeRequest {
   private String lastAdminDate;
   private String properties;
   private String mouseName;
-  private String fileName;
+  private String fileNames;
+  private String deleteFileNames;
   
   private Properties props;
   
@@ -65,17 +67,20 @@ public class ChangeRequest {
   
   private String requestSource;
   private Action actionRequested;
-
-  private File file;
   
-  public File getFile(){
-    return file;
-  }
 
-  public void setFile(File file){
-    this.file = file;
+  public String getNewFileNames(){
+    return fileNames;
   }
-  
+  public void setNewFileNames(String fileNames){
+    this.fileNames = fileNames;
+  }
+  public String getDeleteFileNames(){
+    return deleteFileNames;
+  }
+  public void setDeleteFileNames(String deleteFileNames){
+    this.deleteFileNames =  deleteFileNames;
+  }
   public String getMouseName() {
     return mouseName;
   }
@@ -129,12 +134,6 @@ public class ChangeRequest {
   }
   public void setAdminComment(String adminComment) {
     this.adminComment = adminComment;
-  }
-  public String getFileName() {
-    return fileName;
-  }
-  public void setFileName(String fileName) {
-    this.fileName = fileName;
   }
   public String getRequestDate() {
     return requestDate;
@@ -275,7 +274,7 @@ public class ChangeRequest {
   }
   //added fileName to be cleared -EW
   public void clearData() {
-    this.adminComment = this.lastAdminDate = this.mouseName = this.properties = this.requestDate = this.status = this.userComment = this.fileName = null;
+    this.adminComment = this.lastAdminDate = this.mouseName = this.properties = this.requestDate = this.status = this.userComment = this.fileNames = this.deleteFileNames = null;
   }
   
   public String validate() {
@@ -326,7 +325,12 @@ public class ChangeRequest {
         errors.add("Please describe the changes in the comment field.");
       }
     }
-    
+    /*
+    else if (actionRequested == Action.UPLOAD_FILE) {
+      if (fileNames == null) {
+        errors.add("Please provide file name.");
+      }
+      */
     
     return StringUtils.join(errors,"|");
   }

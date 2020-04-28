@@ -1705,8 +1705,8 @@ public class HTMLGeneration {
 
      
       
-   // INTERIM column - filenames. adds a link for each file in the existing mouseRecord
-     if (showChangeRequest||edit         ) {
+   // INTERIM column - filenames. adds a link for each file in the existing mouseRecord, add User file view
+     if (showChangeRequest||edit ) {
       table.append("<td class='mouselistcolumn-files'>\r\n");
       //ArrayList<File> files = nextRecord.getFilenames(); //files should be set when mouseRecord made
       ArrayList<String> filenames = nextRecord.getFilenames();
@@ -1716,35 +1716,16 @@ public class HTMLGeneration {
         //Log.Info("starting filename: " + filename);
         String filenameHref = filename.replaceAll("\\s", "%20"); //check that this works
         //Log.Info("ending filename: " + filename);
-        String linkString = adminRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename;
-        //Log.Info("linkstring = " + linkString);
-        fileComment = "<a href="+ adminRoot +"/download" + "?fileName=" + filenameHref +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
+        
+        fileComment = "<a href="+ siteRoot +"/download" + "?fileName=" + filenameHref +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
         table.append("<div>" + fileComment + "</div>");
       }
 
-      // for (File file : files) {  //need to change this for new file handling
-      //   String filename = file.getName();
-    	  
-      //   fileComment = "<a href="+ siteRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
-      //   table.append("<div>" + fileComment + "</div>");
-      // }
      }
       else {
         table.append("</td>\r\n<td>\r\n");
       }
         
-     
-      
-     
-     
-      /*table.append("<span class=\"mouseComment\">"
-          //+ emptyIfNull(HTMLUtilities.getCommentForDisplay(fileComment)) //adjustments go here
-    		  + fileComment
-          + "</span>");
-      table.append("</td>\r\n");*/
-      
-      
-      //table.append("</tr>\r\n");
       // Fifth column - holders -EW change to last column
       table.append("<td class='mouselistcolumn-holders'>\r\n");
 
@@ -1982,7 +1963,7 @@ public class HTMLGeneration {
       table.append("<dl><dt class='" + nextRequest.actionRequested() + "'>");
       table.append(nextRequest.actionRequested().label + "&nbsp;</dt>");
       if (nextRequest.actionRequested() == Action.ADD_HOLDER || nextRequest.actionRequested() == Action.REMOVE_HOLDER ||
-          nextRequest.actionRequested() == Action.CHANGE_CRYO_LIVE_STATUS) {
+          nextRequest.actionRequested() == Action.CHANGE_CRYO_LIVE_STATUS || nextRequest.actionRequested() == Action.UPLOAD_FILE) {
         table.append("<dt>" + emptyIfNull(nextRequest.getHolderName()));
         if (nextRequest.getHolderId() == -2) {
           //TODO build a link to add new holder, with link back to this page.
@@ -1999,6 +1980,13 @@ public class HTMLGeneration {
         }
         if (nextRequest.getCryoLiveStatus() != null && !nextRequest.getCryoLiveStatus().isEmpty()){
           table.append("</dt><dt>Status: " + nextRequest.getCryoLiveStatus() + "</dt>");
+        }
+        if (nextRequest.getNewFileNames() != null && !nextRequest.getNewFileNames().isEmpty()){
+          table.append("</dt><dt>Add New Files: " + nextRequest.getNewFileNames() + "</dt>");
+        }
+
+        if (nextRequest.getDeleteFileNames() != null && !nextRequest.getDeleteFileNames().isEmpty()){
+          table.append("</dt><dt>Remove Files: " + nextRequest.getDeleteFileNames() + "</dt>");
         }
       }
 

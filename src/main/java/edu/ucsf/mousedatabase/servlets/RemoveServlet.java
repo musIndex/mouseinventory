@@ -32,7 +32,7 @@ public class RemoveServlet extends HttpServlet {
 		//String mouseID = request.getParameter("mouseID");
 		Integer mouseID = Integer.parseInt(request.getParameter("mouseID"));
 		try {
-			DBConnect.deleteFileByID(id, mouseID);
+			DBConnect.deleteFileByID(id, mouseID, "approved");
 
 		} catch (Exception e) {}
 		

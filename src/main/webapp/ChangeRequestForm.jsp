@@ -39,12 +39,14 @@ function updateRequestFormUI(selected) {
     $(".add_holder").show();
     $('#cryo_live_status').hide();
     $("#background_info").hide();
+    $('#file_label').hide();
     $('#comments_label').text('Describe the changes you would like to have made to this record:');
   }
   else if (selected == <%= Action.ADD_HOLDER.ordinal() %>) {
     $(".add_holder").show();
     $('#cryo_live_status').show();
     $("#background_info").show();
+    $('#file_label').hide();
     $('#action_summary').text("The holder and facility selected in step 2 will be added.").show();
     $('#comments_label').text('If you want to add a different unofficial name for the mouse or have other comments, enter them here:');
   }
@@ -52,6 +54,7 @@ function updateRequestFormUI(selected) {
     $(".add_holder").show();
     $('#cryo_live_status').hide();
     $("#background_info").hide();
+    $('#file_label').hide();
     $('#action_summary').text("The holder and facility selected in step 2 will be removed.").show();
     $('#comments_label').text('Comments: (optional)');
   }
@@ -59,15 +62,16 @@ function updateRequestFormUI(selected) {
     $(".add_holder").show();
     $('#cryo_live_status').show();
     $("#background_info").hide();
+    $('#file_label').hide();
     $('#action_summary').text("Modify the cryo/live status of this mouse, which is being maintained by the holder/in the facility selected in step 2.").show();
     $('#comments_label').text('Comments: (optional)');
   }
   else if (selected == <%= Action.UPLOAD_FILE.ordinal() %>) {
 	$(".add_holder").show();
-	$('#cryo_live_status').show();
-	$("#background_info").show();
-	$('#action_summary').text("Upload or delete file for this mouse record.").show();
-	$('#file_label').text('Upload File:');
+	$('#cryo_live_status').hide();
+	$("#background_info").hide();
+	$('#action_summary').text("Upload file for this mouse record.").show();
+	$('#file_label').show();
 	$('#comments_label').text('Comments: (optional)');
 
 	  }
@@ -100,9 +104,10 @@ function validateInput() {
     if (!data.userComment)
       validation_messages.push("Specify other changes in the comment field.")
   }
+
   else if (data.actionRequested == <%= Action.ADD_HOLDER.ordinal() %> ||
       	   data.actionRequested == <%= Action.REMOVE_HOLDER.ordinal() %> ||
-      	   data.actionRequested == <%= Action.UPLOAD_FILE.ordinal() %> ||
+      	   
   		   data.actionRequested == <%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>) {
     valid = valid && data.holderId != -1;
     valid = valid && (data.holderId > 0 || (data.holderId == -2 && data.holderName));
@@ -241,15 +246,15 @@ $(document).ready(function(){
         </li>
         <li>
         <input type="radio" name="actionRequested" value="<%= Action.UPLOAD_FILE.ordinal() %>" <%= (changeRequest.actionRequested() == Action.UPLOAD_FILE) ? "checked" : "" %>>
-        <a class='btn' href='#'><i class='icon-white icon-file'></i>Upload/Delete file for Genotyping/Sequences</a>
+        <a class='btn' href='#'><i class='icon-white icon-file'></i>File Upload/Delete for Genotyping/TargetSequences</a>
 		
          
         </li>
       </ul>
+    
+      
       <div class='form_controls'>
       <span id='action_summary'></span>
-      
-      
       
       <table class='form_table'>
       <tr id='cryo_live_status'>
@@ -269,16 +274,79 @@ $(document).ready(function(){
           </td>
        </tr>
       
-      
        <tr>
-          <td style='max-width:200px'>
-        <span id='comments_label'>Comments:</span></td><td>
-        <textarea rows="8" cols="80" name="userComment"></textarea>
-        </tr>
-        
-        </table>
+        <td style='max-width:200px'>
+      <span id='comments_label'>Comments:</span></td><td>
+      <textarea rows="8" cols="80" name="userComment"></textarea>
+      </tr>
+      <tr>
+        <td>
+          <span id='file_label'>Upload Files:</span> 
+          <form action="/upload" enctype="multipart/form-data" method="post">
+            <div>
+              <span>New Filename</span>
+              <input id="newFileName" type="text" name="<%=UploadServlet.newNameFieldName %>"></input>
+           </div>
+           <input id="mouseID" type="text" value= <%=request.getParameter("mouseID")%> name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
+           <input type="file" id="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>
+           <input type="submit" onclick="newFileArray('newFileName', 'newFileNames');"/>
+           <input type="hidden" id="newFileNames" value="${changeRequest.fileNames}"/>
+          </form>
+          <h3>Files To Delete</h3>
+          <div id = "test" style="display:none"><%=DBConnect.getFileNamesAsString(request.getParameter("mouseID")) %></div>
+          <ul id = "listFiles"></ul> 
+          <input type="hidden" id="deleteFileNamesList" value="${changeRequest.deleteFileNames}"/>
+        </div>
+      </td>
+    </tr>
+    
+        <script>
+          //need to make newFileArray take in either newfiles or deletefiles for adding to array and submitting string
+        function newFileArray(name, nameList) {
+          var fileNames = document.getElementById("name").innerHTML;
+          var fileNameString = document.getElementById("nameList");
+          var fileNamesArray = [];
+          fileNamesArray.push(fileNames.value);
+          console.log(fileNames);
+          fileNameString = fileNamesArray.join();
+        }
+      </script>
+    
+        <script>
+          function deleteFile(){
+          //Creates file name with delete buttons, does not list 
+          var  string1 = document.getElementById("test").innerHTML;
+          var names = string1.split("/");
+          var listF = document.getElementById("listFiles");
+
+          
+            for (var i = 1; i < names.length; i++) { 
+              var btn = document.createElement("BUTTON");
+              btn.innerHTML = "Delete";
+              
+              var s = document.createElement('span');
+                  
+              var a = document.createElement('a');
+              var linkText = document.createTextNode(names[i]);
+              
+              a.appendChild(linkText); 
+              s.appendChild(a);
+              s.appendChild(btn);
+          
+              var entry = document.createElement('li');
+              entry.appendChild(s);
+              btn.setAttribute("onClick", "newFileArray('names[i]','deleteFileNamesList');");
+            
+              listF.appendChild(entry);
+            }
+          }
+          </script>
+     
      
        
+  </div>
+      </table>
+
         <div class='form_invalid' style='margin-bottom: 5px'>
           <i>Please complete all three steps of the form:</i>
           <div class='details' style='margin: 3px 0 0 10px'></div>

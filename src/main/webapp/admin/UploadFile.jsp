@@ -24,24 +24,15 @@
 	<input type="submit" />
 </form>
 <div id = "test" style="display:none"><%=DBConnect.getFileNamesAsString(request.getParameter("mouseID")) %></div>
-<div id = "test2" style="display:none"><%=DBConnect.getIDsAsString(request.getParameter("mouseID")) %></div>
+<div id = "test2" style="display:none"><%=DBConnect.getIDsAsString(request.getParameter("mouseID", "approved")) %></div>
 <h3>Files To Delete</h3>
 <ul id = "listFiles"></ul>
-//<div id = "test3" style="display:none"></div>
 <div id = "test3"></div>
 
 
 
 <script>
-<%
 
-String mouseID = request.getParameter("mouseID");
-
-//ArrayList<String> filenames = DBConnect.getFilenamesByMouseID(mouseID);
-ArrayList<Integer> ids = DBConnect.getFileIDsByMouseID(mouseID);
-
-
-%>
 function listCookies() {
     var theCookies = document.cookie.split(';');
     var aString = '';
@@ -100,18 +91,5 @@ function myFunction(){
 }
 
 window.onload = myFunction();
-
-
-
-//var filenames = DBConnect.getFilenamesByMouseID(mouseID);
-
-/*
-
- var entry = document.createElement('li');
- entry.appendChile(document.createTextNode(filenames[0]));
- list.appendChild(entry);
- */
- 
-
 
 </script>

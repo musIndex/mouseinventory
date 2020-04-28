@@ -50,6 +50,7 @@
   <servlet-mapping>
     <servlet-name>UploadServlet</servlet-name>
     <url-pattern>/admin/upload</url-pattern>
+    <url-pattern>/upload</url-pattern>
   </servlet-mapping>
 
   <servlet>
