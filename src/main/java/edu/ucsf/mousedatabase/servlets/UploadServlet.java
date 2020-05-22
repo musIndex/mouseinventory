@@ -1,5 +1,9 @@
 package edu.ucsf.mousedatabase.servlets;
 
+import static edu.ucsf.mousedatabase.HTMLGeneration.siteRoot;
+import static edu.ucsf.mousedatabase.HTMLGeneration.stringToInt;
+import static edu.ucsf.mousedatabase.HTMLGeneration.urlEncode;
+
 import java.io.File;
 import java.io.IOException;
 //import java.nio.file.Files;
@@ -8,11 +12,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 
 //import com.microsoft.applicationinsights.core.dependencies.google.logging.type.HttpRequest;
 
@@ -24,6 +32,8 @@ import org.apache.commons.io.FilenameUtils;
 import edu.ucsf.mousedatabase.DBConnect;
 import edu.ucsf.mousedatabase.HTMLGeneration;
 import edu.ucsf.mousedatabase.Log;
+import edu.ucsf.mousedatabase.objects.ChangeRequest;
+
 import java.util.regex.*; 
 
 /**
@@ -36,15 +46,11 @@ public class UploadServlet extends HttpServlet {
 	public static final String newNameFieldName =  "newName";
 	private static final String defaultFileName = "";
 	
+	
 	//private boolean loggedInAsAdmin = true;
 	
-	boolean isAdmin(HttpServletRequest request) {
-	if(Pattern.matches(request.getRequestURI(), ".*/admin/.*")){
-	    return true;
-	  } else {
-	    return false;
-	  }
-	}
+	
+	
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -64,6 +70,7 @@ public class UploadServlet extends HttpServlet {
 		String mouseID = "";
 		String fileName = defaultFileName;
 		String fileStatus = "";
+		
 		ArrayList<File> files = new ArrayList<File>();
 
 	    try {
@@ -81,7 +88,7 @@ public class UploadServlet extends HttpServlet {
 	            	
 	            	if (item.getFieldName().equals(mouseFieldName)){
 	            		mouseID = item.getString();
-	            		Log.Info("is mouseID");
+	            		Log.Info("is mouseID"+mouseID);
 	            	}else if  (item.getFieldName().contentEquals(newNameFieldName)) {
 	            		fileName = item.getString();
 	            		
@@ -139,12 +146,13 @@ public class UploadServlet extends HttpServlet {
 	        if(!files.isEmpty() && mouseID != null) {
 				
 			//Log.Info("setting admin in uploadServlet: " + loggedInAsAdmin);
-			if (isAdmin(request)){
+			if (request.isUserInRole("administrator")){
 				fileStatus = "approved";
 				Log.Info("admin approved file");
 			}else {
 				fileStatus = "new";
 				Log.Info("user submitted file");
+				
 			}
 				
 				DBConnect.sendFilesToDatabase(files, mouseID, fileStatus); 
@@ -153,24 +161,30 @@ public class UploadServlet extends HttpServlet {
 	        } else {
 	        	Log.Info("files or mouseID not set");
 	        }
-	    	 
+	       
 	    } catch (Exception e) {
 	    	Log.Info("Exception occurred while processing post request for file upload");
-	    }	
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+	    }
+	   
 	    
+	      
+	    if (request.isUserInRole("administrator")) {
 	      response.sendRedirect(HTMLGeneration.adminRoot + "EditMouseForm.jsp?id=" + mouseID);
-
-		
-		/*
-		else {
-		//set this to wherever the new redirect should be
-		String url = HTMLGeneration.siteRoot + "ChangeRequestForm.jsp" + "?mouseID=" + request.getParameter(mouseID) + "&success=true";
-
-	      response.sendRedirect(url);// + "EditMouseForm.jsp?id=" + mouseID); 
-		}
-		*/
-	}
+	    }else {
+	    	 response.setContentType("text/plain");  
+	    	 response.setCharacterEncoding("UTF-8"); 
+	    	 response.getWriter().write(fileName); 
+	    	
+	    	//response.sendRedirect(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID);
+	    	//request.setAttribute("fileName", fileName);
+	    	request.getSession().setAttribute("fileName",fileName);
+	    	//request.getRequestDispatcher("SubmitChangeRequest").forward(request, response);
+	    	
+	    	request.getRequestDispatcher(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID).forward(request, response);
+	    	//this.getServletContext().getRequestDispatcher(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID);
+	    	
+	    }
+	    	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -178,6 +192,8 @@ public class UploadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-	}
+		
+		
+}}
 
-}
+ 

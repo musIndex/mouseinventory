@@ -23,8 +23,8 @@
 	
 	<input type="submit" />
 </form>
-<div id = "test" style="display:none"><%=DBConnect.getFileNamesAsString(request.getParameter("mouseID")) %></div>
-<div id = "test2" style="display:none"><%=DBConnect.getIDsAsString(request.getParameter("mouseID", "approved")) %></div>
+<div id = "test" style="display:none"><%=DBConnect.getFileNamesAsStringApproved((request.getParameter("mouseID")),"approved")%></div>
+<div id = "test2" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"approved")%></div>
 <h3>Files To Delete</h3>
 <ul id = "listFiles"></ul>
 <div id = "test3"></div>
@@ -75,7 +75,7 @@ function myFunction(){
 
 		var viewPhrase = "<%=HTMLGeneration.siteRoot %>"
 		var viewPhrase2 = viewPhrase +"/download" + "?ID=" + nums[i];
-		//btn.setAttribute("onClick", "alert('hello')");
+		
 		btn.setAttribute("onClick", "sendDelete('" + deletePhrase2 + "')");
 		
 		a.href = viewPhrase2;

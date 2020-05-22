@@ -39,6 +39,7 @@
   <servlet-mapping>
     <servlet-name>RemoveServlet</servlet-name>
     <url-pattern>/admin/RemoveServlet</url-pattern>
+    <url-pattern>/RemoveServlet</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -210,7 +211,7 @@
   </servlet-mapping>
 
 <!-- ADAL Filter -->
-<filter-mapping>
+  <filter-mapping>
 		<filter-name>BasicFilter</filter-name>
 		<url-pattern>/admin/*</url-pattern>
 	</filter-mapping>

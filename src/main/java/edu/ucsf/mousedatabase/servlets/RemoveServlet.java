@@ -1,5 +1,7 @@
 package edu.ucsf.mousedatabase.servlets;
 
+import static edu.ucsf.mousedatabase.HTMLGeneration.siteRoot;
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ucsf.mousedatabase.DBConnect;
 import edu.ucsf.mousedatabase.HTMLGeneration;
+import edu.ucsf.mousedatabase.Log;
+//import static edu.ucsf.mousedatabase.HTMLGeneration.siteRoot;
 
 /**
  * Servlet implementation class RemoveServlet
@@ -31,13 +35,29 @@ public class RemoveServlet extends HttpServlet {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		//String mouseID = request.getParameter("mouseID");
 		Integer mouseID = Integer.parseInt(request.getParameter("mouseID"));
-		try {
-			DBConnect.deleteFileByID(id, mouseID, "approved");
-
-		} catch (Exception e) {}
+		String filestatus ="";
 		
-		response.sendRedirect(HTMLGeneration.adminRoot + "EditMouseForm.jsp?id=" + mouseID);
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		try {
+			
+			if (request.isUserInRole("administrator")){
+				filestatus = DBConnect.getFileStatus(id);
+				Log.Info("filestatus is "+filestatus);
+				DBConnect.deleteFileByID(id, mouseID, filestatus);
+			}else {
+				filestatus = "delete";
+				Log.Info("filestatus is "+filestatus);
+				DBConnect.updateFileStatus(filestatus, id);
+					
+			}
+			
+		} catch (Exception e) {}
+		if (request.isUserInRole("administrator")) {
+			response.sendRedirect(HTMLGeneration.adminRoot + "EditMouseForm.jsp?id=" + mouseID);
+		}else {
+			//response.sendRedirect(HTMLGeneration.siteRoot + "ChangeRequestForm.jsp?mouseID="+mouseID);
+			request.getRequestDispatcher(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID).forward(request, response);
+		}
+		
 	}
 
 	/**

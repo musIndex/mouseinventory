@@ -66,7 +66,11 @@ public class SubmitChangeRequestServlet extends HttpServlet {
 		  
 		  changeRequest.setUserComment(request.getParameter("userComment"));
 		  //getFileName and getDeleteFileName strings
-		  changeRequest.setNewFileNames(request.getParameter("fileNames"));
+		  
+		  //changeRequest.setNewFileNames((String)request.getSession().getAttribute("fileName"));
+		  
+		  changeRequest.setNewFileNames((String)request.getAttribute("fileName"));
+		  //changeRequest.setNewFileNames(request.getParameter("fileNames"));
 		  changeRequest.setDeleteFileNames(request.getParameter("deleteFileNames"));
 		  
 		  changeRequest.setActionRequested(request.getParameter("actionRequested"));
@@ -86,6 +90,7 @@ public class SubmitChangeRequestServlet extends HttpServlet {
 		  }
 		  
 		  request.getSession().setAttribute("changeRequest", changeRequest);
+		 
 		  message = changeRequest.validate();
 		  if (!message.isEmpty()) {
 		    return;
