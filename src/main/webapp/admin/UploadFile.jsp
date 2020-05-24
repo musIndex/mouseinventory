@@ -9,7 +9,7 @@
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
 
-
+<div class="site_container">
 <div></div>
 <div id = "adminStatus" style="display:none"></div>
 <h2>Upload Files</h2>
@@ -23,13 +23,17 @@
 	
 	<input type="submit" />
 </form>
-<div id = "test" style="display:none"><%=DBConnect.getFileNamesAsStringApproved((request.getParameter("mouseID")),"approved")%></div>
-<div id = "test2" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"approved")%></div>
+<h2>All Files</h2>
+<h3>New Files Uploaded by Users</h3>
+<div id = "newFiles" style="color:blue"><%=DBConnect.getFileNamesAsStringStatus((request.getParameter("mouseID")),"new")%></div>
+<div id = "deleteID" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"new")%></div>
+<h3>Files Requested to be Deleted by Users</h3>
+<div id = "deleteName" style="color:red"><%=DBConnect.getFileNamesAsStringStatus((request.getParameter("mouseID")),"delete")%></div>
+<div id = "deleteID" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"delete")%></div>
 <h3>Files To Delete</h3>
 <ul id = "listFiles"></ul>
 <div id = "test3"></div>
-
-
+</div>
 
 <script>
 
@@ -51,11 +55,11 @@ function sendDelete(phrase){
 function myFunction(){
 	//setAdminStatus;
 	
-	document.getElementById("test3").innerHTML = listCookies();
+	
 	//set link to download
 	//add button for delete
-	var  string1 = document.getElementById("test").innerHTML;
-	var  string2 = document.getElementById("test2").innerHTML;
+	var  string1 = document.getElementById("deleteName").innerHTML;
+	var  string2 = document.getElementById("deleteID").innerHTML;
 	var names = string1.split("/");
 	var nums = string2.split("/");	
 	var list = document.getElementById("listFiles");
