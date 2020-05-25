@@ -2985,7 +2985,7 @@ public class DBConnect {
 		}
 		return store;
 	}
-
+	
 	public static ArrayList<String> getFilenamesByMouseID(String mouseID) throws Exception{
 		Connection con = connect(); 
 		String query = "SELECT filename FROM mouse_files WHERE mouseID='" + mouseID + "'";
@@ -2999,8 +2999,8 @@ public class DBConnect {
 
 	//For userUploadFile.jsp
 	//userUploadFile.jsp
-	public static String getFileNamesAsStringApproved(String mouseID, String filestatus) throws Exception{
-		ArrayList<String> filenames = getFilenamesByMouseIDApproved(mouseID, filestatus);
+	public static String getFileNamesAsStringStatus(String mouseID, String filestatus) throws Exception{
+		ArrayList<String> filenames = getFilenamesByMouseIDStatus(mouseID, filestatus);
 		String store = "";
 		for(String name : filenames){
 			store += "/" + name;
@@ -3008,7 +3008,7 @@ public class DBConnect {
 		return store;
 	}
 
-	public static ArrayList<String> getFilenamesByMouseIDApproved(String mouseID, String filestatus) throws Exception{
+	public static ArrayList<String> getFilenamesByMouseIDStatus(String mouseID, String filestatus) throws Exception{
 		Connection con = connect(); 
 		String query = "SELECT filename FROM mouse_files WHERE mouseID='" + mouseID + "'" + " AND filestatus='" + filestatus + "'";
 		ArrayList<String> allFilenames = StringResultGetter.getInstance("filename", con).Get(query);
@@ -3037,6 +3037,7 @@ public class DBConnect {
 		}
 		return store;
 	}
+	
 	
 	public static ArrayList<Integer> getFileIDsByMouseID(String mouseID, String filestatus) throws Exception{
 		return MouseRecordResultGetter.getFileIDs(mouseID, filestatus);

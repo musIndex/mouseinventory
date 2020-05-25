@@ -23,28 +23,24 @@
 	
 	<input type="submit" />
 </form>
-<h2>All Files</h2>
+<h2>Change Requests for Files</h2>
+<p>Download New Files and make changes. Check that the file name is unique for this record.
+	Upload edited file and delete "new" file from list.
+</p>
 <h3>New Files Uploaded by Users</h3>
-<div id = "newFiles" style="color:blue"><%=DBConnect.getFileNamesAsStringStatus((request.getParameter("mouseID")),"new")%></div>
-<div id = "deleteID" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"new")%></div>
-<h3>Files Requested to be Deleted by Users</h3>
-<div id = "deleteName" style="color:red"><%=DBConnect.getFileNamesAsStringStatus((request.getParameter("mouseID")),"delete")%></div>
+<div id = "newFilename" style="display:none"><%=DBConnect.getFileNamesAsStringStatus((request.getParameter("mouseID")),"new")%></div>
+<div id = "newID" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"new")%></div>
+<ul id = "newFile" style="color:blue"></ul>
+<h3>Delete Files Requested by Users</h3>
+<div id = "deleteName" style="display:none"><%=DBConnect.getFileNamesAsStringStatus((request.getParameter("mouseID")),"delete")%></div>
 <div id = "deleteID" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"delete")%></div>
-<h3>Files To Delete</h3>
-<ul id = "listFiles"></ul>
-<div id = "test3"></div>
+<ul id = "listFiles" style="color:red"></ul>
+
 </div>
 
 <script>
 
-function listCookies() {
-    var theCookies = document.cookie.split(';');
-    var aString = '';
-    for (var i = 1 ; i <= theCookies.length; i++) {
-        aString += i + ' ' + theCookies[i-1] + "\n";
-    }
-    return aString;
-}
+
 
 
 function sendDelete(phrase){
@@ -54,16 +50,23 @@ function sendDelete(phrase){
 
 function myFunction(){
 	//setAdminStatus;
-	
-	
 	//set link to download
 	//add button for delete
-	var  string1 = document.getElementById("deleteName").innerHTML;
-	var  string2 = document.getElementById("deleteID").innerHTML;
+	var  string1 = document.getElementById("newFilename").innerHTML;
+	var  string2 = document.getElementById("newID").innerHTML;
 	var names = string1.split("/");
 	var nums = string2.split("/");	
-	var list = document.getElementById("listFiles");
+	var list = document.getElementById("newFile");
+	deleteButton(names, nums, list);
 	
+	var  string3 = document.getElementById("deleteName").innerHTML;
+	var  string4 = document.getElementById("deleteID").innerHTML;
+	var namesD = string3.split("/");
+	var numsD = string4.split("/");	
+	var listD = document.getElementById("listFiles");
+	deleteButton(namesD, numsD, listD);
+
+	function deleteButton(names, nums, list){
 	for (var i = 1; i < names.length; i++) { 
 		var btn = document.createElement("BUTTON");
 		btn.innerHTML = "Delete";
@@ -91,6 +94,7 @@ function myFunction(){
 		entry.appendChild(s);
 		//entry.appendChild(a);		
 		list.appendChild(entry);
+	}
 	}
 }
 
