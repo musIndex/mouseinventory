@@ -181,7 +181,10 @@ public class HTMLGeneration {
       table.append("</div>");
 
     }
-    table.append("<img src=/img/OR_logo_10year.png style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year'>");
+    table.append("<a href=\"" + siteRoot + "history.jsp\">"
+    		+ "<img src=/img/OR_logo_10year.png title='History of MouseDB' style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year' >");
+    
+   
     
     table.append("</div>"); //pagetitlecontainer
     table.append("</div>"); //pageheader
