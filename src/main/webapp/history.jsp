@@ -21,13 +21,14 @@ and Dr. Mary Elizabeth Hatten (Rockefeller University) that took place in 2007, 
 The Jackson Laboratory Board of Scientific Overseers.  Martin together with Nick Didkovsky, a developer from Rockefeller Univ., created 
 the first version of the Mouse Web App in 2009 with resources provided by Hatten. </p>
 <p>
-It quickly became apperent that more programming was required to make the site useful. Much gratitude is owed to Dr. Clifford Roberts, then 
+It quickly became apparent that more programming was required to make the site useful. Much gratitude is owed to Dr. Clifford Roberts, then 
 head of the UCSF Animal Care Facility, who understood the value of the application for the mouse user
- community. He made funds available to pay Jonathan Scoles, a software engineer with ties to UCSF, for 1000 hours between 2009 -2015. </p>
+ community. He made funds available to pay Jonathan Scoles, a software engineer with ties to UCSF, for 1000 hours between 2009 -2015. As participation in
+ the Mouse Inventory was voluntary it took an email campaign and active engagement by Gail presenting the utility of the web app to researchers. All the while
+ she coordinated the development of an institutional mouse mutation catalog. </p>
  <p>After Martin retired in 2012, the torch was passed to Adriane Joo to be the Mouse Inventory administrator. She would further
-  expand the mouse record list and recruit researchers to participate in this collaborative resource. In 2015 
-  the guidance for the Mouse Inventory was handed to faculty advisors and mouse genetics profs, Diana Laird and Jeff Bush, 
-  with new administrator, Estelle Wall, maintaining it. </p>
+  expand the mouse record list and recruit researchers to participate in this collaborative resource. In 2015 the guidance 
+  for the Mouse Inventory was handed to mouse genetics profs, Diana Laird and Jeff Bush, as faculty advisors. </p>
 <p>Throughout the years former UCSF researchers and colleagues from other institutes have inquired about developing their own
  institutional mouse sharing resource. Answering this need the Mouse Inventory advisors, administrators, and Gail set out to 
  disseminate the design and open source code for this valuable resource. In May 2020 the details of this successful Mouse 
