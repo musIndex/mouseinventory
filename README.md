@@ -4,7 +4,7 @@ The mouse inventory database is an application for tracking an institution's inv
 
 ## Features
 
-See the [home page](https://github.com/musIndex/mouseinventory)
+
 
 ## Getting Started
 
@@ -41,9 +41,9 @@ to learn about how to work with the code.
 Environment Variable | Description | Example
 --|--|--
 DB_DRIVER_CLASSNAME      | Classname of the driver for the main database                 | `org.mariadb.jdbc.Driver`
-DB_CONNECTION_STRING     | Connection string for the main databse                        | `jdbc:mariadb://localhost:3306/mousespace?user=fakeUser&password=b4dp455w0rd`
+DB_CONNECTION_STRING     | Connection string for the main databse                        | `jdbc:mariadb://localhost:3306/mousespace?user=<USER>&password=<PASS>`
 MGI_DB_DRIVER_CLASSNAME  | Classname of the driver for the MGI database.                 | `org.postgresql.Driver`
-MGI_DB_CONNECTION_STRING | Connection string for the MGI database                        | `jdbc:postgresql://mgi-adhoc.jax.org:5432/mgd?username=prodUser&password=an0th3rp444w0rd`
+MGI_DB_CONNECTION_STRING | Connection string for the MGI database                        | `jdbc:postgresql://mgi-adhoc.jax.org:5432/mgd?username=<USER>&password=<PASS>`
 SMTP_SERVER              | _optional_ The URL of the SMTP server.                        | `smtp.server.com`
 SMTP_USER                | _optional_ The username for connecting to SMTP server.        | `james.bond@mi6.com`
 SMTP_PW                  | _optional_ The password for connecting to SMTP server.        | `lic3nset0k1ll`
@@ -61,9 +61,9 @@ Assuming you use the command line to start Tomcat, you can also set the envirome
 
 ```sh
 export DB_DRIVER_CLASSNAME=org.mariadb.jdbc.Driver
-export DB_CONNECTION_STRING="jdbc:mariadb://localhost:3306/mousespace?user=fakeUser&password=b4dp455w0rd"
+export DB_CONNECTION_STRING="jdbc:mariadb://localhost:3306/mousespace?user=<USER>&password=<PASS>"
 export MGI_DB_DRIVER_CLASSNAME=org.postgresql.Driver
-export MGI_DB_CONNECTION_STRING="jdbc:postgresql://mgi-adhoc.jax.org:5432/mgd?username=prodUser&password=an0th3rp444w0rd"
+export MGI_DB_CONNECTION_STRING="jdbc:postgresql://mgi-adhoc.jax.org:5432/mgd?username=<USER>&password=<PASS>"
 export SMTP_SERVER=""
 export SMTP_USER=""
 export SMTP_PW=""
