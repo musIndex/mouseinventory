@@ -67,7 +67,7 @@ function updateRequestFormUI(selected) {
     $('#comments_label').text('Comments: (optional)');
   }
   else if (selected == <%= Action.UPLOAD_FILE.ordinal() %>) {
-	$(".add_holder").show();
+	$(".add_holder").hide();
 	$('#cryo_live_status').hide();
 	$("#background_info").hide();
 	$('#action_summary').text("Upload or delete file for this mouse record.").show();
@@ -248,11 +248,6 @@ $(document).ready(function(){
       <div class='form_controls'>
       <span id='action_summary'></span>
         
-          
-  
-   
-        
-        
       <table class='form_table'>
        
       <tr id='cryo_live_status'>
@@ -279,16 +274,13 @@ $(document).ready(function(){
         <textarea rows="8" cols="80" name="userComment"></textarea>
         </tr>
        
-        </table>
-        <div id='file_label'>
-        	<jsp:include page="userUploadFile.jsp" flush="true"/>	
-	 </div>
-		
-	 <div>
+		</table>
 	 
+	 <span id='file_label'><%@ include file="userUploadFile.jsp" %></span>
+       	
 	
 	 
-	</div>
+	
         <div class='form_invalid' style='margin-bottom: 5px'>
           <i>Please complete all three steps of the form:</i>
           <div class='details' style='margin: 3px 0 0 10px'></div>

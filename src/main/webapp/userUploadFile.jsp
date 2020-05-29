@@ -8,11 +8,12 @@
 <%@page import="edu.ucsf.mousedatabase.servlets.*"%>
 <%=HTMLGeneration.getPageHeader(null,false,false) %>
 <%=HTMLGeneration.getNavBar("ChangeRequestForm.jsp", false) %>
-<jsp:useBean id="changeRequest" class="edu.ucsf.mousedatabase.objects.ChangeRequest" scope="session"></jsp:useBean>
+
+
 
 <div></div>
 
-<h2>Upload Files</h2>
+<h3>Upload Files</h3>
 <form id=uploadfile action="<%=HTMLGeneration.siteRoot %>upload" enctype="multipart/form-data" method="post">
 	<div>
 		<span>New Filename</span>
@@ -30,7 +31,7 @@
  <h3> Last File Uploaded: <%=request.getSession().getAttribute("fileName")%></h3>
  
  <h3>Submit change request when done uploading files.</h3>
- <div id = "test" style="display:none"><%=DBConnect.getFileNamesAsString(request.getParameter("mouseID")) %></div>
+ <div id = "test" style="display:none"><%=DBConnect.getFileNamesAsStringStatus((request.getParameter("mouseID")),"approved")%></div>
  <div id = "test2" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"approved")%></div>
  <h3>Select File To Delete</h3>
 <ul id = "listFiles"></ul>
