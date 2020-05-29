@@ -39,6 +39,7 @@ function updateRequestFormUI(selected) {
     $(".add_holder").show();
     $('#cryo_live_status').hide();
     $("#background_info").hide();
+    $('#file_label').hide();
     $('#comments_label').text('Describe the changes you would like to have made to this record:');
   }
   else if (selected == <%= Action.ADD_HOLDER.ordinal() %>) {
@@ -46,6 +47,7 @@ function updateRequestFormUI(selected) {
     $('#cryo_live_status').show();
     $("#background_info").show();
     $('#action_summary').text("The holder and facility selected in step 2 will be added.").show();
+    $('#file_label').hide();
     $('#comments_label').text('If you want to add a different unofficial name for the mouse or have other comments, enter them here:');
   }
   else if (selected == <%= Action.REMOVE_HOLDER.ordinal() %>) {  //remove holder or change status
@@ -53,6 +55,7 @@ function updateRequestFormUI(selected) {
     $('#cryo_live_status').hide();
     $("#background_info").hide();
     $('#action_summary').text("The holder and facility selected in step 2 will be removed.").show();
+    $('#file_label').hide();
     $('#comments_label').text('Comments: (optional)');
   }
   else if (selected == <%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>) {  //remove holder or change status
@@ -60,6 +63,7 @@ function updateRequestFormUI(selected) {
     $('#cryo_live_status').show();
     $("#background_info").hide();
     $('#action_summary').text("Modify the cryo/live status of this mouse, which is being maintained by the holder/in the facility selected in step 2.").show();
+    $('#file_label').hide();
     $('#comments_label').text('Comments: (optional)');
   }
   else if (selected == <%= Action.UPLOAD_FILE.ordinal() %>) {
@@ -72,6 +76,7 @@ function updateRequestFormUI(selected) {
 	  }
   else {
     $('#action_summary').hide();
+    $('#file_label').hide();
     $(".form_controls").hide();
     $(".form_invalid").hide();
   }
@@ -276,15 +281,7 @@ $(document).ready(function(){
        
         </table>
         <div id='file_label'>
-        	<jsp:include page="userUploadFile.jsp" flush="true"/>
-        	<script>
-        	
-        	</script>
-        	
-	
-        	
-			
-			
+        	<jsp:include page="userUploadFile.jsp" flush="true"/>	
 	 </div>
 		
 	 <div>

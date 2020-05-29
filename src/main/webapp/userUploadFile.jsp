@@ -32,8 +32,10 @@
  <h3>Submit change request when done uploading files.</h3>
  <div id = "test" style="display:none"><%=DBConnect.getFileNamesAsString(request.getParameter("mouseID")) %></div>
  <div id = "test2" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"approved")%></div>
- <h3>Files To Delete</h3>
+ <h3>Select File To Delete</h3>
 <ul id = "listFiles"></ul>
+<h3>File requested to be deleted: </h3>
+<ul id = "listDelete"></ul>
      	
 <script>
       
@@ -93,16 +95,12 @@ function sendDelete(event, phrase) {
 	event.preventDefault();
 	console.log(event.target.parentElement.children[0].textContent);
 	var deleteFileNames = String(event.target.parentElement.children[0].textContent);
-	alert("File to Delete: " + deleteFileNames);
+	deleteFileNames = document.getElementById("listDelete");
 	
 	window.location=phrase;
 	debugger;
 	event.stopPropagation();
-	return false;
-	 
-	
-	
-	
+	return false;	
 }
 </script>
 
