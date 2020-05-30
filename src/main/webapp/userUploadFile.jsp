@@ -6,11 +6,7 @@
 <%@ page import="java.io.IOException"%>
 <%@page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
 <%@page import="edu.ucsf.mousedatabase.servlets.*"%>
-<%=HTMLGeneration.getPageHeader(null,false,false) %>
-<%=HTMLGeneration.getNavBar("ChangeRequestForm.jsp", false) %>
-
-
-
+<div id ="header" style="display:none"><%=HTMLGeneration.getNavBar("ChangeRequestForm.jsp", false) %></div>
 <div></div>
 
 <h3>Upload Files</h3>
@@ -23,9 +19,7 @@
 	</div>
 	<input id="newName" type="text" value= <%=request.getParameter("mouseID")%> name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
 	<input type="file" id="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>	
-	<input type="submit" value="Submit File" name="submit" onclick="newFileArray()"/>
-	
-     
+	<input type="submit" value="Submit File" name="submit" onclick="newFileArray()"/>    
 </form>
 
  <h3> Last File Uploaded: <%=request.getSession().getAttribute("fileName")%></h3>
@@ -35,8 +29,7 @@
  <div id = "test2" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"approved")%></div>
  <h3>Select File To Delete</h3>
 <ul id = "listFiles"></ul>
-<h3>File requested to be deleted: </h3>
-<ul id = "listDelete"></ul>
+
      	
 <script>
       
@@ -95,8 +88,7 @@ for (var i = 1; i < names.length; i++) {
 function sendDelete(event, phrase) {
 	event.preventDefault();
 	console.log(event.target.parentElement.children[0].textContent);
-	var deleteFileNames = String(event.target.parentElement.children[0].textContent);
-	deleteFileNames = document.getElementById("listDelete");
+	
 	
 	window.location=phrase;
 	debugger;
