@@ -47,13 +47,7 @@ public class BasicFilter implements Filter {
 
                 if (adminList.contains(userId)) {
                     Log.Info("User is an admin. Allow access.");
-                    String user = userId;
-          
-                    List<String> roles = new ArrayList<>(Arrays.asList("administrator"));
-                    
-                   // call our request wrapper , which overrides getUserPrincipal and is UserInRole
-                    chain.doFilter(new UserRoleRequestWrapper(user, roles, httpRequest), response);
-                    //chain.doFilter(request, response);
+                    chain.doFilter(request, response);
                     return;
                 }
                 httpRequest.getRequestDispatcher("/accessDenied.jsp").forward(httpRequest, httpResponse);
