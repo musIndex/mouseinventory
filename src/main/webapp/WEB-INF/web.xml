@@ -211,12 +211,12 @@
   </servlet-mapping>
 
 <!-- ADAL Filter -->
-<!-- 
+ <!--  
   <filter-mapping>
 		<filter-name>BasicFilter</filter-name>
 		<url-pattern>/admin/*</url-pattern>
-	</filter-mapping>
--->
+  </filter-mapping>
+  -->
   <filter>
     <filter-name>BasicFilter</filter-name>
     <filter-class>edu.ucsf.mousedatabase.filters.BasicFilter</filter-class>
