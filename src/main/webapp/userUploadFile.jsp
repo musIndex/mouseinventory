@@ -23,7 +23,7 @@
 </form>
 
  <h3> Last File Uploaded: <%=request.getSession().getAttribute("fileName")%></h3>
- <p>This form may reset, but your file has been received. Please fill out the top portion of the form and hit submit blue button.</p>
+ <p>This form may reset after submitting a file. Please fill out the top portion of the form, you do not need to resubmit the file, and hit submit change request.</p>
  
  <h3>Submit change request when done uploading files.</h3>
  <div id = "test" style="display:none"><%=DBConnect.getFileNamesAsStringStatus((request.getParameter("mouseID")),"approved")%></div>
