@@ -1720,7 +1720,7 @@ public class HTMLGeneration {
         String filenameHref = filename.replaceAll("\\s", "%20"); //check that this works
         //Log.Info("ending filename: " + filename);
         
-        fileComment = "<a href="+ adminRoot +"/download" + "?fileName=" + filenameHref +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
+        fileComment = "<a href=/download" + "?fileName=" + filenameHref +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
         table.append("<div>" + fileComment + "</div>");
       }
 
