@@ -150,7 +150,7 @@ $('#accordion2').collapse({
 </div>
 
 
-     <h3 id="details">Mouse Database Details and Resources</h3>
+     <h3 id="details">Mouse Inventory Database Details</h3>
      <div class="accordion" id="accordion2">
       <div class="accordion-group">  
   <div class="panel-group" id="accordion">
