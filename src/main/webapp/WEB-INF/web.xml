@@ -209,6 +209,19 @@
     <servlet-name>CsvServletNew</servlet-name>
     <url-pattern>/MouseList2</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  	<description></description>
+  	<display-name>BasicValve</display-name>
+  	<servlet-name>BasicValve</servlet-name>
+  	<servlet-class>edu.ucsf.mousedatabase.valves.BasicValve</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>BasicValve</servlet-name>
+  	<url-pattern>/*</url-pattern>
+  </servlet-mapping>
+  
 
 <!-- ADAL Filter -->
  <!--  
@@ -216,10 +229,10 @@
 		<filter-name>BasicFilter</filter-name>
 		<url-pattern>/admin/*</url-pattern>
   </filter-mapping>
-  -->
   <filter>
     <filter-name>BasicFilter</filter-name>
     <filter-class>edu.ucsf.mousedatabase.filters.BasicFilter</filter-class>
   </filter>
+  -->
 
 </web-app>
