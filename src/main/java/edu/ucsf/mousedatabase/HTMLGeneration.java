@@ -3181,7 +3181,7 @@ public class HTMLGeneration {
       return "failed to encode";
     }
   }
-
+//part of old Email Template Form improvemtents commit, is it used? -EW
   public static boolean isAdminUser(HttpServletRequest request){
     return request.isUserInRole("administrator");
   }

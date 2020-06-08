@@ -159,7 +159,7 @@
   <listener>
     <listener-class>edu.ucsf.mousedatabase.listeners.ContextListener</listener-class>
   </listener>
-  <!-- <security-constraint>
+  <security-constraint>
     <web-resource-collection>
       <web-resource-name>Admin Pages</web-resource-name>
       <url-pattern>/admin/*</url-pattern>
@@ -170,17 +170,17 @@
       <role-name>administrator</role-name>
     </auth-constraint>
   </security-constraint>
-  <login-config>
+  <!--<login-config>
     <auth-method>FORM</auth-method>
     <form-login-config>
       <form-login-page>/adminLoginForm.jsp</form-login-page>
       <form-error-page>/accessDenied.jsp</form-error-page>
     </form-login-config>
-  </login-config>
+  </login-config>-->
   <security-role>
     <description>Mouse Inventory Site Administrator</description>
     <role-name>administrator</role-name>
-  </security-role> -->
+  </security-role>       
   <error-page>
     <error-code>500</error-code>
     <location>/error.jsp</location>
@@ -210,8 +210,7 @@
     <url-pattern>/MouseList2</url-pattern>
   </servlet-mapping>
 
-<!-- ADAL Filter -->
-<!-- 
+<!-- ADAL Filter 
   <filter-mapping>
 		<filter-name>BasicFilter</filter-name>
 		<url-pattern>/admin/*</url-pattern>
@@ -220,6 +219,5 @@
   <filter>
     <filter-name>BasicFilter</filter-name>
     <filter-class>edu.ucsf.mousedatabase.filters.BasicFilter</filter-class>
-  </filter>
--->
+  </filter> -->
 </web-app>
