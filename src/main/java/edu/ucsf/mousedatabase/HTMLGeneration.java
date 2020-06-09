@@ -146,7 +146,7 @@ public class HTMLGeneration {
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div>"); //pagetitle
     
-    table.append("<img src=/img/logo_mouse_database_UCSF.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>");
+    table.append("<a href='" + siteRoot + "'>"+"<img src=/img/logo_mouse_database_UCSF.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>");
     table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + DBConnect.loadSetting("general_site_name").value + "</a></span>");
     
     
@@ -207,6 +207,7 @@ public class HTMLGeneration {
     // null,currentPageFilename,false));
     table.append(addNavLink("Submit Mice", "submitforminit.jsp", null,
         currentPageFilename, false));
+    table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false));
     if (isAdminPage && showAdminControls){
       table.append(addNavLink("Log out", "logout.jsp", null,
           currentPageFilename, false,"pull-right small"));
