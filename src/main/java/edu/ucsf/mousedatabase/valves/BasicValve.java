@@ -1,5 +1,5 @@
 package edu.ucsf.mousedatabase.valves;
-
+/*
 import org.apache.catalina.valves.ValveBase;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
@@ -16,3 +16,4 @@ public class BasicValve extends ValveBase {
 	 }
 
 }
+*/
