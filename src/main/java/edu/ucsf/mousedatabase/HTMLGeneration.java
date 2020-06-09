@@ -145,8 +145,10 @@ public class HTMLGeneration {
     table.append("<div class='site_container'>");
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div>"); //pagetitle
+    table.append("<span id=\"psgeLogo\">"+ "<a href=\"" + siteRoot + "about.jsp\">"+"<img src=/img/logo_mouse_database_UCSF.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>"+ "</a></span>");
+  
     
-    table.append("<a href='" + siteRoot + "'>"+"<img src=/img/logo_mouse_database_UCSF.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>");
+    
     table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + DBConnect.loadSetting("general_site_name").value + "</a></span>");
     
     
