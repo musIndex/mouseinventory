@@ -13,6 +13,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.servlet.http.HttpServletRequestWrapper;
+
 import edu.ucsf.mousedatabase.Log;
 
 public class BasicFilter implements Filter {
@@ -47,7 +49,9 @@ public class BasicFilter implements Filter {
 
                 if (adminList.contains(userId)) {
                     Log.Info("User is an admin. Allow access.");
-                    chain.doFilter(request, response);
+                    List<String> roles = new ArrayList<>(Arrays.asList("administrator"));
+                    UserRoleRequestWrapper userRoleRequest = new UserRoleRequestWrapper(roles, httpRequest);
+                    chain.doFilter(userRoleRequest, response);
                     return;
                 }
                 httpRequest.getRequestDispatcher("/accessDenied.jsp").forward(httpRequest, httpResponse);
@@ -57,7 +61,27 @@ public class BasicFilter implements Filter {
             }
         }
     }
+    class UserRoleRequestWrapper extends HttpServletRequestWrapper {
+    	 
+    	  List<String> roles = null;
+    	  HttpServletRequest realRequest;
+    	   
+    	  public UserRoleRequestWrapper(List<String> roles, HttpServletRequest request) {
+    	    super(request);
+    	    
+    	    this.roles = roles;
+    	    this.realRequest = request;
 
+    	  }
+    	  @Override
+    	  public boolean isUserInRole(String role) {
+    	    if (roles == null) {
+    	      return this.realRequest.isUserInRole(role);
+    	    }
+    	    return roles.contains(role);
+    	  }
+    	}
+    
     public void init(FilterConfig config) throws ServletException {
         adminList = Arrays.asList(System.getenv("ADMINISTRATOR_IDS").split(","));
         Log.Info("System env admins: " + System.getenv("ADMINISTRATOR_IDS"));
