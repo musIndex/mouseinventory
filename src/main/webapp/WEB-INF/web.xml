@@ -188,7 +188,7 @@
     <filter-class>edu.ucsf.mousedatabase.filters.AdminRoleFilter</filter-class>
   </filter>
   <filter-mapping>
-    <filter-name>BasicFilter</filter-name>
+    <filter-name>AdminRoleFilter</filter-name>
     <servlet-name>SendMailServlet</servlet-name>
   </filter-mapping>
 </web-app>
