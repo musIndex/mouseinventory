@@ -633,7 +633,7 @@ VALUES
 	(20,4,'admin_info_auto_sub_telephone','Auto-fill submission telephone','123-456','2012-09-13 20:06:11',0,NULL,NULL),
 	(21,4,'admin_info_auto_sub_holder','Auto-fill submission holder (Last, First)','holder, admin','2019-10-20 22:43:16',0,NULL,''),
 	(22,4,'admin_info_auto_sub_facility','Auto-fill submission facility','core','2019-10-20 22:36:04',0,NULL,''),
-	(23,5,'general_site_name','Website Name','UCSF Mouse Inventory Database','2012-09-13 20:06:11',0,NULL,NULL),
+	(23,5,'general_site_name','Website Name','MSU Rodent Inventory Database','2012-09-13 20:06:11',0,NULL,NULL),
 	(24,5,'general_site_alert','Alert (dispalyed at top of all pages unless blank)','','2012-11-27 22:27:54',0,NULL,NULL),
 	(25,6,'import_ignored_jax_numbers','Ignored JAX Catalog numbers, one per line.  Blank lines are OK.','','2019-10-08 14:14:47',20,NULL,''),
 	(31,8,'download_files_allele_id','How to find the MGI allele detail page (PDF)','https://s3-us-west-1.amazonaws.com/mousedatabase-files/HelpTextFindingTheMGIAlleleID.pdf','2012-09-26 09:51:57',0,NULL,NULL),

@@ -98,7 +98,7 @@
       mouseCountStr += " (" + limit + " shown per page)";
   	}
 	String holderData = "<p style='color: blue; font-weight: bold;''>" +
-	                    "<i>To obtain a list of all mice held by an investigator, go to the 'Holder List'."+
+	                    "<i>To obtain a list of all rodents held by an investigator, go to the 'Holder List'."+
 	                    "</i></p>";
 	mouseTypeStr += " records";
 	
@@ -135,11 +135,11 @@
 	      holderStatusHeading = "Please take this opportunity to update the list.";
 	    }
 	  
-	    String emailAdminLink = getMailToLink(DBConnect.loadSetting("admin_info_email").value, null, holder.getLastname() + " mouse list reviewed", 
-	            "The list of mice held by "+ holder.getFullname() + " " +
+	    String emailAdminLink = getMailToLink(DBConnect.loadSetting("admin_info_email").value, null, holder.getLastname() + " rodent list reviewed", 
+	            "The list of rodents held by "+ holder.getFullname() + " " +
 	            "was thoroughly reviewed and any necessary deletions/additions/corrections " +
 	            "were made today" +
-	            "\n(If mice still need to be added, please provide a list of " +
+	            "\n(If rodents still need to be added, please provide a list of " +
 	            "their names below.)", "email link");
 	
 	    holderData = "<div class='holderData'>" +
@@ -147,8 +147,8 @@
 		"Use this " +  emailAdminLink +
 	    " to notify admin when update is complete</span>" +
 	    "<div class='holderNotice'>" +
-	    "<b>To delete a mouse</b> that is no longer being maintained " +
-	    "but is still listed here, go to the record for that mouse, " +
+	    "<b>To delete a rodent</b> that is no longer being maintained " +
+	    "but is still listed here, go to the record for that rodent, " +
 	    "click on 'request change in record,' and follow the instructions " +
 	    "for deleting a holder.<br><br>" +
 	    "If any corrections need to be made, click on 'request change in record,'" +
@@ -156,17 +156,17 @@
 	    "(For example, is an 'unpublished' allele/transgene now published?" +
 	      "Is there genetic background information that could be included?)" +
 	      "<br><br>" +
-	    "<b>To add a mouse</b> that is being maintained by this holder but " +
+	    "<b>To add a rodent</b> that is being maintained by this holder but " +
 	    "is not yet listed:"+
 	    "<ul>"+
 	    "<li>First do a quick search of the database "+
-	    "(top right of the screen) to see if there is already a record for that mouse."+
+	    "(top right of the screen) to see if there is already a record for that rodent."+
 	    "</li>"+
 	    "<li>"+
 	    "If so, click on 'request change in record,' and follow the instructions for adding a holder." +
 	    "</li>"+
 	    "<li>"+
-	    "If there is no record for that mouse in the database, complete a new submission for it or " +
+	    "If there is no record for that rodent in the database, complete a new submission for it or " +
 	    "contact database admin to request assistance in entering it." +
 	    "</li>" +
 	    "</ul>" +

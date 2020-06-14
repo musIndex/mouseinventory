@@ -146,7 +146,7 @@ public class HTMLGeneration {
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div>"); //pagetitle
     
-    table.append("<img src=/img/logo_mouse_database_UCSF.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>");
+    table.append("<img src=/img/logo_mouse_database_MSU.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>");
     table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + DBConnect.loadSetting("general_site_name").value + "</a></span>");
     
     
@@ -181,10 +181,6 @@ public class HTMLGeneration {
       table.append("</div>");
 
     }
-    table.append("<a href=\"" + siteRoot + "history.jsp\">"
-    		+ "<img src=/img/OR_logo_10year.png title='History of MouseDB' style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year' >");
-    
-   
     
     table.append("</div>"); //pagetitlecontainer
     table.append("</div>"); //pageheader
@@ -195,7 +191,7 @@ public class HTMLGeneration {
     table.append("<ul class=\"navLinkUL\">");
     table.append(addNavLink("Search", "search.jsp", null,
         currentPageFilename, false,"nav-search-link"));
-    table.append(addNavLink("Mouse Records", "MouseReport.jsp", null,
+    table.append(addNavLink("Rodent Records", "MouseReport.jsp", null,
         currentPageFilename, false,"nav-mouselist"));
     table.append(addNavLink("Gene List", "GeneReport.jsp", null,
         currentPageFilename, false));
@@ -205,7 +201,7 @@ public class HTMLGeneration {
         currentPageFilename, false));
     // table.append(addNavLink("Endangered Mice", "EndangeredReport.jsp",
     // null,currentPageFilename,false));
-    table.append(addNavLink("Submit Mice", "submitforminit.jsp", null,
+    table.append(addNavLink("Submit Rodents", "submitforminit.jsp", null,
         currentPageFilename, false));
     if (isAdminPage && showAdminControls){
       table.append(addNavLink("Log out", "logout.jsp", null,
@@ -2122,7 +2118,7 @@ public class HTMLGeneration {
         String email = expert.substring(0, spaceLocation);
         String name = expert.substring(spaceLocation).trim();
 
-        table.append("<dt>" + name + ": " + formatEmail(email, email, "Requesting help using the UCSF Mouse database") + "</dt>");
+        table.append("<dt>" + name + ": " + formatEmail(email, email, "Requesting help using the MSU Rodent Database") + "</dt>");
       }
       table.append("</dl>");
       
@@ -2223,7 +2219,7 @@ public class HTMLGeneration {
     table.append("Last Review Date");
     table.append("</td>\r\n");
     table.append("<td style='min-width:100px'\">\r\n");
-    table.append("Mice Held");
+    table.append("Rodents Held");
     table.append("</td>\r\n");
     if (edit) {
       table.append("<td style='width:100px'\">\r\n");
@@ -2885,7 +2881,7 @@ public class HTMLGeneration {
     
     buf.append("<li>Sort by: ");
     buf.append(genSelect("orderby",new String[]{"mouse.name","mouse.id","mouse.id desc"}, 
-                        new String[]{"Mouse Name", "Record #", "Record #(reverse)"},checkedOrderBy,null));
+                        new String[]{"Rodent Name", "Record #", "Record #(reverse)"},checkedOrderBy,null));
     
     buf.append("</li>\n");
     buf.append("<li>Category: ");
@@ -2908,7 +2904,7 @@ public class HTMLGeneration {
       buf.append("</li>\n");
     }
     if (creOnly >= 0) {
-      buf.append("<li>Cre-expressing mice only: <input type='checkbox' name='creonly' value='1' "
+      buf.append("<li>Cre-expressing rodents only: <input type='checkbox' name='creonly' value='1' "
           + (creOnly == 1 ? "checked='checked'" : "") + "></li>");
     }
     if (status != null) {

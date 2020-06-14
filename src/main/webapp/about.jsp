@@ -53,14 +53,14 @@ categoryLabels.add("Did you know...?");
 <div class='site_container'>
   <div class='about_container'>
     <div class='about_welcome'>
-      <h1>Welcome to the UCSF Mouse Inventory Database</h1>
+      <h1>Welcome to the MSU Rodent Inventory Database</h1>
       <div class='purpose'><%= DBConnect.loadSetting("home_page_text_purpose").value %></div>
     </div>
     <div class='about_banner'>
       <div class='iwanna'>I would like to...</div>  
       <div class='primary_actions'>
-        <a href='<%=siteRoot%>search.jsp?search-source=about_banner'><i class='icon-search'></i> <span>Search for mice</span></a>
-        <a href='<%=siteRoot%>submitforminit.jsp'><i class='icon-plus'></i> <span>Submit a new mouse</span></a>
+        <a href='<%=siteRoot%>search.jsp?search-source=about_banner'><i class='icon-search'></i> <span>Search for rodents</span></a>
+        <a href='<%=siteRoot%>submitforminit.jsp'><i class='icon-plus'></i> <span>Submit a new rodent</span></a>
         <a href='#about_details'><i class='icon-question'></i> <span>Learn about the database</span></a>
       </div>
     </div>
@@ -150,7 +150,7 @@ $('#accordion2').collapse({
 </div>
 
 
-     <h3 id="details">Mouse Database Details and Resources</h3>
+     <h3 id="details">Rodent Database Details and Resources</h3>
      <div class="accordion" id="accordion2">
       <div class="accordion-group">  
   <div class="panel-group" id="accordion">
@@ -216,7 +216,8 @@ $('#accordion2').collapse({
 <a href="mailto:<%=DBConnect.loadSetting("admin_info_email").value %>"> Contact Administrator</a>
 </div>
 <div>
-v2.1 Mouse Inventory 2019
+v3.0 MSU Rodent Database 2020<br/>
+Developed by University of California, San Francisco (UCSF)
 </div>
 <div>
 <a href="https://github.com/musIndex/mouseinventory">View in Github

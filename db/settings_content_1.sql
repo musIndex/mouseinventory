@@ -47,7 +47,7 @@ VALUES
 	(4,'admin_info_auto_sub_telephone','Auto-fill submission telephone','123-456'),
 	(4,'admin_info_auto_sub_holder','Auto-fill submission holder (Last, First)','Martin, Gail'),
 	(4,'admin_info_auto_sub_facility','Auto-fill submission facility','MB-RH'),
-	(5,'general_site_name','Website Name','UCSF Mouse Inventory Database'),
+	(5,'general_site_name','Website Name','MSU Rodent Inventory Database'),
 	(5,'general_site_alert','Alert (dispalyed at top of all pages unless blank)',''),
 	(6,'import_ignored_jax_numbers','Ignored JAX catalog numbers (comma separated, e.g. 000123,000456)','');
 

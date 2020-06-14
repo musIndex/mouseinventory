@@ -851,7 +851,7 @@ public class ImportHandler
             }
             String emailBodyText = getCombinedImportEmail(null,null,purchase.strain,purchase,importDefinition);
             String subjectText = "Listing " + formatHolderName(purchase.holderName) +
-                " as a holder of " + purchase.strain + " in the UCSF Mouse Database";
+                " as a holder of " + purchase.strain + " in the MSU Rodent Database";
             String emailLink = getMailToLink(importDefinition.Id == 1 ? purchase.purchaserEmail : purchase.recipientEmail, 
                     purchase.holderEmail, subjectText, emailBodyText, "Email " + formatHolderName(purchase.holderName));
 
@@ -1324,7 +1324,7 @@ public class ImportHandler
     
     StringBuilder emailBodyText = new StringBuilder();
     emailBodyText.append(
-      "In an effort to keep the UCSF mouse inventory database up-to-date, we have implemented a system that tracks " +
+      "In an effort to keep the MSU rodent inventory database up-to-date, we have implemented a system that tracks " +
       "mouse " + action + "s.  ");
     if (definition.Id == 1 || purchase.published){
       emailBodyText.append("When a mouse carrying a published mutant allele or transgene that is ");
@@ -1349,7 +1349,7 @@ public class ImportHandler
     emailBodyText.append( ", by " + formatHolderName((definition.Id == 1 ? purchase.purchaserName : purchase.recipientName)));
     emailBodyText.append(" for the " + holderLastName(purchase.holderName) +  " lab.");
     if (definition.Id == 2 && !purchase.published){
-      emailBodyText.append("\n\nWe would like to list all alleles and transgenes that are imported into the UCSF barrier in the database, even if they have not yet been published, and are therefore writing to ask if you would be willing to provide the information necessary to create a record(s) in the database for the allele(s) or transgene(s) carried by the mice you imported.");
+      emailBodyText.append("\n\nWe would like to list all alleles and transgenes that are imported into the MSU barrier in the database, even if they have not yet been published, and are therefore writing to ask if you would be willing to provide the information necessary to create a record(s) in the database for the allele(s) or transgene(s) carried by the mice you imported.");
     }
     return emailBodyText.toString();
 

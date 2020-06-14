@@ -29,7 +29,7 @@ if (!confirmed){
    String table = HTMLGeneration.getMouseTable(records,false,false,false);
 %>
 
-<h2><font color="red">Please Confirm that you want to change the mouse category of record # <%= mouseID %>
+<h2><font color="red">Please Confirm that you want to change the rodent category of record # <%= mouseID %>
 from <%= record.getMouseType() %> to <%= newMouseType.getTypeName() %>
 </font></h2>
 <%= table %>
@@ -50,7 +50,7 @@ If not click your browser's BACK button.
   DBConnect.updateMouseRecord(record);
   records = DBConnect.getMouseRecord(mouseID);
 %>
-<font size="4" color="black">The category of mouse ID <%= mouseID %> has been changed. <a
+<font size="4" color="black">The category of rodent ID <%= mouseID %> has been changed. <a
         href="EditMouseForm.jsp?id=<%= mouseID %>">Click here</a> to make other changes to record.  
         If this is an incomplete submission, you will need to 
         return to the submission page to edit it.</font><br><br>

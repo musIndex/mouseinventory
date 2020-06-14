@@ -18,7 +18,7 @@
 
   if ("true".equals(request.getParameter("process"))) {
     //check for save or submit button clicked
-    if ("I'm done! Submit Mouse".equalsIgnoreCase(request.getParameter("submitButton"))) {
+    if ("I'm done! Submit Rodent".equalsIgnoreCase(request.getParameter("submitButton"))) {
       if (newMouse.validateMouseDetails()) {
         %>
         <jsp:forward page="submitmouse.jsp" />
@@ -33,7 +33,7 @@
 
   String[] mtaOptions = {"Yes", "No", "Don't Know"};
   String mouseTypeTitle = newMouse.getFullMouseTypeTitle();
-  String mouseNameStr = "<b>Mouse Name</b> (unofficial nomenclature used by holder):";
+  String mouseNameStr = "<b>Rodent Name</b> (unofficial nomenclature used by holder):";
   if (newMouse.isIS()) {
     mouseNameStr = "<b>Inbred Strain Name</b>";
   }
@@ -111,7 +111,7 @@ $(document).ready(function(){
               $("#PMID").val("");
               $("#PMIDValid").val(false);
               $("#PMIDValidation").html("");
-              notes += "NOTE: MGI does not show a reference for this mouse in Pubmed. If it is unpublished, please go back to step 2, select 'unpublished,' and complete the form including the MGI ID you entered here.";
+              notes += "NOTE: MGI does not show a reference for this rodent in Pubmed. If it is unpublished, please go back to step 2, select 'unpublished,' and complete the form including the MGI ID you entered here.";
               success = false;
             }
 
@@ -192,7 +192,7 @@ $(document).ready(function(){
 <div class="site_container">
   <div class="formbody">
     <div class="introduction">
-      <h2>New Submission Step 3: Mouse Details</h2>
+      <h2>New Submission Step 3: Rodent Details</h2>
       <%=savedMessage%>
       <h3>
         <span class=red><%=errorsMessage%></span>
@@ -272,9 +272,9 @@ $(document).ready(function(){
       </div>
       <input type="hidden" name="process" value="true">
       <input type="submit" class="btn" name="submitButton" value="I'm not done yet. Save data">
-      (This will save data as  long as your browser window stays open, or until you submit the  mouse).
+      (This will save data as  long as your browser window stays open, or until you submit the  rodent).
       <br> <br>
-      <input type="submit" class="btn btn-primary"  name="submitButton" value="I'm done! Submit Mouse">
+      <input type="submit" class="btn btn-primary"  name="submitButton" value="I'm done! Submit Rodent">
     </form>
   </div>
 </div>

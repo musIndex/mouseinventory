@@ -183,8 +183,8 @@
 
 %>
 <div class="site_container">
-<h2>Welcome to Mouse Inventory Administration.</h2>
-Administer the Mouse Inventory by choosing from the menu items above.<br>
+<h2>Welcome to Rodent Inventory Administration.</h2>
+Administer the Rodent Inventory by choosing from the menu items above.<br>
 
 <%=buf.toString() %>
 </div>

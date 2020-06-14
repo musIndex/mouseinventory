@@ -74,7 +74,7 @@
     <input type="submit" class="btn btn-danger" name="command" value="Delete">
 </form>
 <%}else{ %>
-  This Holder is linked to one or more mouse records and cannot be deleted:
+  This Holder is linked to one or more rodent records and cannot be deleted:
   <dl>
   <%
   int max = 20;
