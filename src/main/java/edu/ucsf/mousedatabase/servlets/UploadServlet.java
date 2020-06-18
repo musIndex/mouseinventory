@@ -85,8 +85,9 @@ public class UploadServlet extends HttpServlet {
 	            if(item.isFormField()) {
 	            	Log.Info("is form field");
 	            }
+	           
 	            	
-	            	if (item.getFieldName().equals(mouseFieldName)){
+	             if (item.getFieldName().equals(mouseFieldName)){
 	            		mouseID = item.getString();
 	            		Log.Info("is mouseID"+mouseID);
 	            	}else if  (item.getFieldName().contentEquals(newNameFieldName)) {
@@ -145,7 +146,6 @@ public class UploadServlet extends HttpServlet {
 	        
 	        if(!files.isEmpty() && mouseID != null) {
 				
-			//Log.Info("setting admin in uploadServlet: " + loggedInAsAdmin);
 			if (request.isUserInRole("administrator")){
 				fileStatus = "approved";
 				Log.Info("admin approved file");
