@@ -5,6 +5,7 @@
 
 trigger:
 - *
+- msudevelop
 
 pool:
   vmImage: 'ubuntu-latest'
