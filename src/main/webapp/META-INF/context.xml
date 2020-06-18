@@ -1,4 +1,1 @@
-<Context>
-<Valve className="edu.ucsf.mousedatabase.valves.BasicValve"
-      allow="127.0.0.1, ::1"/>
-</Context>
+<Context></Context>
