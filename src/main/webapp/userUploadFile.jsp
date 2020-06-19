@@ -9,7 +9,7 @@
 <div id ="header" style="display:none"><%=HTMLGeneration.getNavBar("ChangeRequestForm.jsp", false) %></div>
 <div></div>
 
-<h3>Upload Files</h3>
+<h3>Upload pdf or txt Files</h3>
 <form id=uploadfile action="<%=HTMLGeneration.siteRoot %>upload" enctype="multipart/form-data" method="post">
 	<div>
 		<span>New Filename</span>
@@ -18,7 +18,7 @@
 		
 	</div>
 	<input id="newName" type="text" value= <%=request.getParameter("mouseID")%> name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
-	<input type="file" id="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>	
+	<input type="file" id="file" accept=".pdf, .txt" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>	
 	<input type="submit" value="Submit File" name="submit" onclick="newFileArray()"/>    
 </form>
 
