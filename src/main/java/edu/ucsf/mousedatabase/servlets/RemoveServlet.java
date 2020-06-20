@@ -38,16 +38,20 @@ public class RemoveServlet extends HttpServlet {
 		String filestatus ="";
 		
 		try {
+			if (request.isUserInRole("administrator")) {
 			
-			if (request.isUserInRole("administrator")){
 				filestatus = DBConnect.getFileStatus(id);
 				Log.Info("filestatus is "+filestatus);
+				if (filestatus.equalsIgnoreCase("new")) {
+					DBConnect.updateFileStatus("approved", id);
+				}
+				else {
 				DBConnect.deleteFileByID(id, mouseID, filestatus);
+				}
 			}else {
 				filestatus = "delete";
 				Log.Info("filestatus is "+filestatus);
 				DBConnect.updateFileStatus(filestatus, id);
-					
 			}
 			
 		} catch (Exception e) {}

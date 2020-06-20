@@ -9,7 +9,7 @@
 <div id ="header" style="display:none"><%=HTMLGeneration.getNavBar("ChangeRequestForm.jsp", false) %></div>
 <div></div>
 
-<h3>Upload pdf or txt Files</h3>
+<h3>Upload Files (pdf or text)</h3>
 <form id=uploadfile action="<%=HTMLGeneration.siteRoot %>upload" enctype="multipart/form-data" method="post">
 	<div>
 		<span>New Filename</span>
