@@ -27,6 +27,8 @@
       table = getMouseTable(mice,false,true,true,true,true);
     }
 %>
+
+
 <script>
 function updateRequestFormUI(selected) {
   if (selected) {
@@ -73,6 +75,7 @@ function updateRequestFormUI(selected) {
 	$('#action_summary').text("Upload or delete file for this mouse record.").show();
 	$('#file_label').show();
 	$('#comments_label').text('Comments: (optional)');
+	
 	  }
   else {
     $('#action_summary').hide();
@@ -104,7 +107,8 @@ function validateInput() {
   }
   else if (data.actionRequested == <%= Action.ADD_HOLDER.ordinal() %> ||
       	   data.actionRequested == <%= Action.REMOVE_HOLDER.ordinal() %> ||
-  		   data.actionRequested == <%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>) {
+  		   data.actionRequested == <%= Action.CHANGE_CRYO_LIVE_STATUS.ordinal() %>||
+  		   data.actionRequested == <%= Action.UPLOAD_FILE.ordinal()%>) {
     valid = valid && data.holderId != -1;
     valid = valid && (data.holderId > 0 || (data.holderId == -2 && data.holderName));
     valid = valid && data.facilityId != -1;
@@ -130,18 +134,23 @@ $(document).ready(function(){
   $("#facilityId").change(function(){
     $("#otherFacilitySpan").toggle($(this).val() == -2);
   }).change();
-  $(".change_request_form > ul > li a.btn").click(function(){
-    var selected = $(this).parent().find('input[type=radio]').prop('checked',true).val();
-    $(this).addClass('active');
-    $(this).parent().siblings().find("a.btn").removeClass('active');
-    updateRequestFormUI(selected);
-    return false;
-  });
-  $("#changerequestform select").change(validateInput);
-  $("#changerequestform input[type=text], form textarea").keyup(validateInput);
-  updateRequestFormUI();
-});
+  	$(".change_request_form > ul > li a.btn").click(function(){
+	    var selected = $(this).parent().find('input[type=radio]').prop('checked',true).val();
+	    $(this).addClass('active');
+	    $(this).parent().siblings().find("a.btn").removeClass('active');
+	    updateRequestFormUI(selected);
+	    return false;
+	  });
+  	 if ( <%=request.getSession().getAttribute("fileName")%>!==null){
+	      	$(".changerequestform > ul > li:nth-child(5) > a").addClass('active');
+	      }
+	  $("#changerequestform select").change(validateInput);
+	  $("#changerequestform input[type=text], form textarea").keyup(validateInput);
+	  updateRequestFormUI();
+	});
+
 </script>
+ 
 <div class="site_container">
 <% if (success) { %>
 <h2>Change request completed</h2>
@@ -165,17 +174,17 @@ $(document).ready(function(){
     <table>
         <tr>
             <td><font color="red">*</font> First Name</td>
-            <td><input type="text" size="30" name="firstname"
+            <td><input type="text" size="30" name="firstname" 
             value="${changeRequest.firstname}"></td>
         </tr>
         <tr>
             <td><font color="red">*</font> Last Name</td>
-            <td><input type="text" size="30" name="lastname"
+            <td><input type="text" size="30" name="lastname" 
             value="${changeRequest.lastname}"></td>
         </tr>
         <tr>
             <td><font color="red">*</font> Email Address</td>
-            <td><input type="text" size="30" maxlength="" name="email"
+            <td><input type="text" size="30" maxlength="" name="email" 
             value="${changeRequest.email}"></td>
         </tr>
         </table>
@@ -205,6 +214,7 @@ $(document).ready(function(){
        </tr>
        
     </table>
+    
   </div>
   <div style='min-height: 600px'>
     <div class='change_request_form well cf' style="margin:20px 20px 20px 0">
@@ -238,13 +248,17 @@ $(document).ready(function(){
         <a class='btn' href='#'><i class='icon-pencil'></i> Make other changes</a>
         </li>
         <li>
-        <input type="radio" name="actionRequested" value="<%= Action.UPLOAD_FILE.ordinal() %>" <%= (changeRequest.actionRequested() == Action.UPLOAD_FILE) ? "checked" : "" %>>
-        <a class='btn' href='#'><i class='icon-white icon-file'></i>Upload/Delete file for Genotyping/Sequences</a>
+        <input type="radio" id="actionUpload" name="actionRequested" value="<%= Action.UPLOAD_FILE.ordinal() %>" <%= (changeRequest.actionRequested() == Action.UPLOAD_FILE) ? "checked" : "" %>>
+        <a class='btn' href='#'><i class='icon-white icon-file'></i>Upload/Delete files</a>
        
    
          
         </li>
       </ul>
+      
+      
+	
+      
       <div class='form_controls'>
       
       <span id='action_summary'></span>
@@ -275,15 +289,16 @@ $(document).ready(function(){
         <span id='comments_label'>Comments:</span></td><td>
         <textarea rows="8" cols="80" name="userComment"></textarea>
         </tr>
-        <tr id='file_label'>	
+        <tr id='file_label'>
 	  <td>
-	  <jsp:include page="userUploadFile.jsp" flush="true"/>
+	 
+	  <jsp:include page="userUploadFile.jsp" flush="true" />
+	  
+      
      </td>
      </tr>
      
 	</table>
-	
-	
 	
         <div class='form_invalid' style='margin-bottom: 5px'>
           <i>Please complete all three steps of the form:</i>
@@ -296,6 +311,7 @@ $(document).ready(function(){
         </div>
       </div>
   </div>
+   
 </form>
 
 
