@@ -2063,7 +2063,7 @@ public class DBConnect {
 		+ " AND user_comment='" + changeRequest.getUserComment() + "' AND email='" + changeRequest.getEmail() + "'"
 		+ " AND (status='need more info' OR status='new')" + " AND holder_id=" + changeRequest.getHolderId()
 		+ " AND cryo_live_status='" + changeRequest.getCryoLiveStatus() + "'"
-		+ (changeRequest.actionRequested() != Action.UNDEFINED
+		+ (changeRequest.actionRequested() != Action.UNDEFINED || changeRequest.actionRequested() != Action.UPLOAD_FILE
 		? " AND action_requested=" + changeRequest.actionRequested().ordinal()
 				: "");
 		ArrayList<Integer> results = IntResultGetter.getInstance("id").Get(query);
