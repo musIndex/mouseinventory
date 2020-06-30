@@ -3195,6 +3195,8 @@ public class DBConnect {
 				}
 				result.setGeneticBackgroundInfo(g_str("genetic_background_info"));
 				result.setCryoLiveStatus(g_str("cryo_live_status"));
+				result.setNewFileNames(g_str("new_files"));
+				result.setDeleteFileNames(g_str("delete_files"));
 			} else if (result.Properties() != null) {
 				// legacy change requests
 				result.setFacilityId(-1);

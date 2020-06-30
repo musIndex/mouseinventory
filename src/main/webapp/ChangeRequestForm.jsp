@@ -21,6 +21,7 @@
     String table = "";
     if (success) {
       changeRequest.clearData();
+      session.removeAttribute("fileName");
     }
     else {
       ArrayList<MouseRecord> mice = DBConnect.getMouseRecord(mouseID);
@@ -130,7 +131,7 @@ function validateInput() {
 $(document).ready(function(){
   $("#holderId").change(function(){
     $("#otherHolderSpan").toggle($(this).val() == -2);
-  }).change();
+  }).change();     
   $("#facilityId").change(function(){
     $("#otherFacilitySpan").toggle($(this).val() == -2);
   }).change();
@@ -143,7 +144,8 @@ $(document).ready(function(){
 	  });
   	 if ( <%=request.getSession().getAttribute("fileName")%>!==null){
 	      	$(".changerequestform > ul > li:nth-child(5) > a").addClass('active');
-	      }
+	      	$(".changerequestform > ul > li:nth-child(5) > a").parent().siblings().find("a.btn").removeClass('active');
+		      }
 	  $("#changerequestform select").change(validateInput);
 	  $("#changerequestform input[type=text], form textarea").keyup(validateInput);
 	  updateRequestFormUI();
@@ -161,6 +163,7 @@ $(document).ready(function(){
   <br>
   <br>
   <%@ include file='_lastMouseListLink.jspf' %>
+  
 <% } else { %>
 <h2>Submit a request to change Mouse Record # <%= mouseID %></h2>
 <% if (message != null && !message.isEmpty()){ %>

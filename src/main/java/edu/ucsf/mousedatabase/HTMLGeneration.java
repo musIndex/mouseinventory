@@ -1987,13 +1987,7 @@ public class HTMLGeneration {
         if (nextRequest.getCryoLiveStatus() != null && !nextRequest.getCryoLiveStatus().isEmpty()){
           table.append("</dt><dt>Status: " + nextRequest.getCryoLiveStatus() + "</dt>");
         }
-        if (nextRequest.getNewFileNames() != null && !nextRequest.getNewFileNames().isEmpty()){
-          table.append("</dt><dt>Add New Files: " + nextRequest.getNewFileNames() + "</dt>");
-        }
-
-        if (nextRequest.getDeleteFileNames() != null && !nextRequest.getDeleteFileNames().isEmpty()){
-          table.append("</dt><dt>Remove Files: " + nextRequest.getDeleteFileNames() + "</dt>");
-        }
+       
       }
 
      
@@ -2005,6 +1999,13 @@ public class HTMLGeneration {
       if (nextRequest.getGeneticBackgroundInfo() != null && !nextRequest.getGeneticBackgroundInfo().isEmpty()) {
         table.append("<b>Genetic background info:</b> " + nextRequest.getGeneticBackgroundInfo() + "<br><br>");
       }
+      if (nextRequest.getNewFileNames() != null && !nextRequest.getNewFileNames().isEmpty()) {
+          table.append("<b>Add New Files:</b> " + nextRequest.getNewFileNames() + "<br><br>");
+        }
+
+      if (nextRequest.getDeleteFileNames() != null && !nextRequest.getDeleteFileNames().isEmpty()){
+          table.append("<b>Remove Files:</b> " + nextRequest.getDeleteFileNames() + "<br><br>");
+        }
       table.append("<span class=\"mouseComment\">" +  HTMLUtilities.getCommentForDisplay(emptyIfNull(nextRequest.getUserComment())) + "</span><br>");
 
       table.append("</td>");

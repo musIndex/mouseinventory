@@ -74,6 +74,7 @@ public class UploadServlet extends HttpServlet {
 		ArrayList<File> files = new ArrayList<File>();
 
 	    try {
+	    	
 	    	List items = uploadHandler.parseRequest(request);
 	        Iterator itr = items.iterator();
 	        
@@ -161,6 +162,7 @@ public class UploadServlet extends HttpServlet {
 	        } else {
 	        	Log.Info("files or mouseID not set");
 	        }
+	    
 	       
 	    } catch (Exception e) {
 	    	Log.Info("Exception occurred while processing post request for file upload");
@@ -174,13 +176,17 @@ public class UploadServlet extends HttpServlet {
 	    	 response.setContentType("text/plain");  
 	    	 response.setCharacterEncoding("UTF-8"); 
 	    	 response.getWriter().write(fileName); 
-	    	
-	    	//response.sendRedirect(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID);
+	    	 request.getSession().setAttribute("fileName",fileName);
+	    	 
+	    	// request.getSession().setAttribute("actionRequested", 6);
+	 		 response.sendRedirect(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID);
 	    	//request.setAttribute("fileName", fileName);
-	    	request.getSession().setAttribute("fileName",fileName);
+	    	
+	    	
+	    	
 	    	//request.getRequestDispatcher("SubmitChangeRequest").forward(request, response);
 	    	
-	    	request.getRequestDispatcher(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID).forward(request, response);
+	    	//request.getRequestDispatcher(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID).forward(request, response);
 	    	//this.getServletContext().getRequestDispatcher(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID);
 	    	
 	    }
