@@ -44,10 +44,10 @@ categories.add(Setting.SettingCategory.WED_LIKE_TO_HEAR_FROM_YOU);
 categories.add(Setting.SettingCategory.RECENT_SITE_UPDATES);
 categories.add(Setting.SettingCategory.DID_YOU_KNOW);
 ArrayList<String> categoryLabels = new ArrayList<String>();
-categoryLabels.add("Need help using the database?");
-categoryLabels.add("Help keep the database up-to-date:");
-categoryLabels.add("Recent site updates:");
-categoryLabels.add("Did you know...?");
+categoryLabels.add("Mouse Inventory Updates");
+categoryLabels.add("");
+categoryLabels.add("");
+categoryLabels.add("Mutant Mice Resources");
 %>
 
 <div class='site_container'>
@@ -57,7 +57,7 @@ categoryLabels.add("Did you know...?");
       <div class='purpose'><%= DBConnect.loadSetting("home_page_text_purpose").value %></div>
     </div>
     <div class='about_banner'>
-      <div class='iwanna'>I would like to...</div>  
+      <div class='iwanna'></div>  
       <div class='primary_actions'>
         <a href='<%=siteRoot%>search.jsp?search-source=about_banner'><i class='icon-search'></i> <span>Search for rodents</span></a>
         <a href='<%=siteRoot%>submission.jsp'><i class='icon-plus'></i> <span>Submit a new rodent</span></a>

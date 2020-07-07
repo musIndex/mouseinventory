@@ -15,7 +15,7 @@
 </style>
 <div class="site_container">
 <div>
-<h3>UCSF Mouse Inventory Database - a brief history</h3>
+<h2>UCSF Mouse Inventory Database - a brief history</h2>
 <p>The idea for a mutant mouse sharing resource came from a “wouldn’t it be great if” conversation between Dr. Gail Martin (UCSF) 
 and Dr. Mary Elizabeth Hatten (Rockefeller University) that took place in 2007, when both were serving on 
 The Jackson Laboratory Board of Scientific Overseers.  Martin together with Nick Didkovsky, a developer from Rockefeller Univ., created 
@@ -36,10 +36,18 @@ head of the UCSF Animal Care Facility, who understood the value of the applicati
  Suggestions for improvements, new features, or issues may be posted on our repository.</p>
 <a href="https://github.com/musIndex/mouseinventory/issues">Mouse Inventory Github Repository</a>
 <div>
+<h2>Mouse Inventory Resources</h2>
+<p>Dr. Martin created these presentations to explain the differences between mutant allele and transgene mice, and how to find these mutations for your gene of interest. </p>
+<a class="btn btn-success" href="https://mousespace.blob.core.windows.net/$web/MouseMutantsPrimer.pdf">DOWNLOAD MOUSE MUTANTS (pdf)</a>
+<a class="btn btn-success" href="https://mousespace.blob.core.windows.net/$web/HaveGeneWantMouse.pdf">DOWNLOAD MOUSE GENE (pdf)</a>
+<p>User Manual that describes Mouse Inventory features.</p>
+<a class="btn btn-success" href="https://mousespace.blob.core.windows.net/$web/UserManual.pdf">DOWNLOAD USER MANUAL(pdf)</a>
+ <h4>Logos Designed by Marta Dansa 2019</h4>
+ <div class="search-box search-box-small">
+      <img src="<%=imageRoot %>target_mice.png" class="woodmouse"/>
+      </div>
 
-<img src="<%=imageRoot %>target_mice.png" style="margin-left:150px" class="woodmouse"/>
-<h4>Logos Designed by Marta Dansa 2019</h4>
-</div>
+
 
 </div>
 </div>

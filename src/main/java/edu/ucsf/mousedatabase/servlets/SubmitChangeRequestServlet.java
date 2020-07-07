@@ -53,6 +53,7 @@ public class SubmitChangeRequestServlet extends HttpServlet {
 		HTMLUtilities.logRequest(request);
 	  String message = "";
 		boolean success = false;
+		
 
 
 		try {
@@ -65,12 +66,8 @@ public class SubmitChangeRequestServlet extends HttpServlet {
 		  changeRequest.setLastname(request.getParameter("lastname"));
 		  
 		  changeRequest.setUserComment(request.getParameter("userComment"));
-		  //getFileName and getDeleteFileName strings
 		  
-		  //changeRequest.setNewFileNames((String)request.getSession().getAttribute("fileName"));
-		  
-		  changeRequest.setNewFileNames((String)request.getAttribute("fileName"));
-		  //changeRequest.setNewFileNames(request.getParameter("fileNames"));
+		  changeRequest.setNewFileNames((String)request.getSession().getAttribute("fileName"));
 		  changeRequest.setDeleteFileNames(request.getParameter("deleteFileNames"));
 		  
 		  changeRequest.setActionRequested(request.getParameter("actionRequested"));
@@ -111,8 +108,10 @@ public class SubmitChangeRequestServlet extends HttpServlet {
 		  message = e.getMessage();
 		}
 		finally {
+			
 		  response.sendRedirect(siteRoot + "ChangeRequestForm.jsp?mouseID=" + request.getParameter("mouseID") 
 		      + "&success=" + urlEncode(Boolean.toString(success)) + "&message=" + urlEncode(message));
+		 
 		}
 	}
 }

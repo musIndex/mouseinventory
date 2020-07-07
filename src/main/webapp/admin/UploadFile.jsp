@@ -19,13 +19,14 @@
 		<input type="text" name="<%=UploadServlet.newNameFieldName %>"></input>
 	</div>
 	<input id="newName" type="text" value= <%=request.getParameter("mouseID")%> name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
-	<input type="file" id="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>
+	<input type="file" id="file" accept=".pdf, .txt" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>
 	
 	<input type="submit" />
 </form>
-<h2>Change Requests for Files</h2>
-<p>Download New Files and make changes. Check that the file name is unique for this record.
-	Upload edited file and delete "new" file from list.
+<h2>Change Requests for Files</h2>	
+<p>	New Files SELECT will change filestatus to "approved" and will be viewable by users.</p>
+<p>View new files and check that the file name is unique for this record, choosing SELECT from Approved Files removes files from mouse record.</p>
+ <p>Delete files SELECT will remove files from mouse record.
 </p>
 <h3>New Files Uploaded by Users</h3>
 <div id = "newFilename" style="display:none"><%=DBConnect.getFileNamesAsStringStatus((request.getParameter("mouseID")),"new")%></div>
@@ -35,6 +36,10 @@
 <div id = "deleteName" style="display:none"><%=DBConnect.getFileNamesAsStringStatus((request.getParameter("mouseID")),"delete")%></div>
 <div id = "deleteID" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"delete")%></div>
 <ul id = "listFiles" style="color:red"></ul>
+<h3>Approved Files to Delete by Administrator</h3>
+<div id = "approvedName" style="display:none"><%=DBConnect.getFileNamesAsStringStatus((request.getParameter("mouseID")),"approved")%></div>
+<div id = "approvedID" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"approved")%></div>
+<ul id = "approvedFiles" ></ul>
 
 </div>
 
@@ -66,10 +71,17 @@ function myFunction(){
 	var listD = document.getElementById("listFiles");
 	deleteButton(namesD, numsD, listD);
 
+	var  string5 = document.getElementById("approvedName").innerHTML;
+	var  string6 = document.getElementById("approvedID").innerHTML;
+	var namesA = string5.split("/");
+	var numsA = string6.split("/");	
+	var listA = document.getElementById("approvedFiles");
+	deleteButton(namesA, numsA, listA);
+	
 	function deleteButton(names, nums, list){
 	for (var i = 1; i < names.length; i++) { 
 		var btn = document.createElement("BUTTON");
-		btn.innerHTML = "Delete";
+		btn.innerHTML = "SELECT";
 		console.log("made button")
 		
 		var s = document.createElement('span');
@@ -89,7 +101,6 @@ function myFunction(){
 		//a.href = deletePhrase2;
 		s.appendChild(a);
 		s.appendChild(btn);
-
 		var entry = document.createElement('li');
 		entry.appendChild(s);
 		//entry.appendChild(a);		
