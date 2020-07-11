@@ -28,6 +28,7 @@
 </form>
 
 <h3>Last File Uploaded: <%=request.getSession().getAttribute("fileName")%></h3>
+
  
  
  <h3>Submit change request when done uploading files.</h3>
@@ -39,10 +40,13 @@
 	
 <script>
 
+
 $(document).on("submit", "#uploadfile", function(event) {
+	alert( sessionStorage.getItem('firstname') );
 	event.preventDefault(); // Important! Prevents submitting the form.
 	event.stopPropagation();
 	return false;
+	
 	});
 
 </script>
