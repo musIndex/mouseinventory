@@ -125,6 +125,8 @@ function validateInput() {
 	  sessionStorage.setItem('email', data.email);
 	  sessionStorage.setItem('holderId', data.holderId);
 	  sessionStorage.setItem('facilityId', data.facilityId);
+	  //sessionStorage.setItem('actionRequested', data.actionRequested);
+	  sessionStorage.setItem('actionRequested', $(".changerequestform > ul > li:nth-child(5) > a").parent().find('input[type=radio]').prop('checked'));
 	  }
   
   $(".form_invalid > .details").html(validation_messages.join("<br>"));
@@ -153,15 +155,13 @@ $(document).ready(function(){
 	    return false;
 	  });
   	 if ( <%=request.getSession().getAttribute("fileName")%>!==null){
-	      	$(".changerequestform > ul > li:nth-child(5) > a").addClass('active');
-	      	$(".changerequestform > ul > li:nth-child(5) > a").parent().siblings().find("a.btn").removeClass('active');
-	      	//alert( sessionStorage.getItem('firstname') );
 	      	alert("File Uploaded");
 	      	$('#firstnameInput').val(sessionStorage.getItem('firstname'));
 	      	$('#lastnameInput').val(sessionStorage.getItem('lastname'));
 	      	$('#emailInput').val(sessionStorage.getItem('email'));
 	      	$('#holderId').val(sessionStorage.getItem('holderId'));
 	      	$('#facilityId').val(sessionStorage.getItem('facilityId'));
+	      	$('#actionInput').val(sessionStorage.getIem('actionRequested'));
 	      	
 		      }
 	  $("#changerequestform select").change(validateInput);
@@ -269,7 +269,7 @@ $(document).ready(function(){
         <a class='btn' href='#'><i class='icon-pencil'></i> Make other changes</a>
         </li>
         <li>
-        <input type="radio" name="actionRequested" value="<%= Action.UPLOAD_FILE.ordinal() %>" <%= (changeRequest.actionRequested() == Action.UPLOAD_FILE) ? "checked" : "" %>>
+        <input id="actionInput" type="radio" name="actionRequested" value="<%= Action.UPLOAD_FILE.ordinal() %>" <%= (changeRequest.actionRequested() == Action.UPLOAD_FILE) ? "checked" : "" %>>
         <a class='btn' href='#'><i class='icon-white icon-file'></i>Upload/Delete files</a>
        
    
