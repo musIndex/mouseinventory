@@ -155,13 +155,13 @@ $(document).ready(function(){
 	    return false;
 	  });
   	 if ( <%=request.getSession().getAttribute("fileName")%>!==null){
-	      	alert("File Uploaded");
+	      	alert("Checking for file");
 	      	$('#firstnameInput').val(sessionStorage.getItem('firstname'));
 	      	$('#lastnameInput').val(sessionStorage.getItem('lastname'));
 	      	$('#emailInput').val(sessionStorage.getItem('email'));
 	      	$('#holderId').val(sessionStorage.getItem('holderId'));
 	      	$('#facilityId').val(sessionStorage.getItem('facilityId'));
-	      	$('#actionInput').val(sessionStorage.getIem('actionRequested'));
+	      	$('#actionInput').val(sessionStorage.getItem('actionRequested'));
 	      	
 		      }
 	  $("#changerequestform select").change(validateInput);
