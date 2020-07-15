@@ -125,7 +125,6 @@ function validateInput() {
 	  sessionStorage.setItem('email', data.email);
 	  sessionStorage.setItem('holderId', data.holderId);
 	  sessionStorage.setItem('facilityId', data.facilityId);
-	  //sessionStorage.setItem('actionRequested', data.actionRequested);
 	  sessionStorage.setItem('actionRequested', $(".changerequestform > ul > li:nth-child(5) > a").parent().find('input[type=radio]').prop('checked'));
 	  }
   
@@ -155,15 +154,17 @@ $(document).ready(function(){
 	    return false;
 	  });
   	 if ( <%=request.getSession().getAttribute("fileName")%>!==null){
-	      	alert("Checking for file");
+	      	//alert("Checking for file");
+	        $(".changerequestform > ul > li:nth-child(5) > a").addClass('active');
+	      	$(".changerequestform > ul > li:nth-child(5) > a").parent().siblings().find("a.btn").removeClass('active');
+	        alert("Checking for file");
 	      	$('#firstnameInput').val(sessionStorage.getItem('firstname'));
 	      	$('#lastnameInput').val(sessionStorage.getItem('lastname'));
 	      	$('#emailInput').val(sessionStorage.getItem('email'));
 	      	$('#holderId').val(sessionStorage.getItem('holderId'));
 	      	$('#facilityId').val(sessionStorage.getItem('facilityId'));
-	      	$('#actionInput').val(sessionStorage.getItem('actionRequested'));
-	      	
-		      }
+	      	//$('#actionInput').val(sessionStorage.getItem('actionRequested'));
+	      	}
 	  $("#changerequestform select").change(validateInput);
 	  $("#changerequestform input[type=text], form textarea").keyup(validateInput);
 	  updateRequestFormUI();
