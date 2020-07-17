@@ -70,15 +70,15 @@ public class DownloadServlet extends HttpServlet {
 		    	output.write(buffer, 0, content);
 		    }
 		    */
-		    //output.flush();
-		    output.close();
+		    // output.flush();
+		  output.close();
 			input.close();
 			
 			Log.Info("end of download servlet");
 			
 			//FileUtils.copyFile(file, response.getOutputStream());
-		} catch (Exception e) {
-			Log.Info("exception in download servlet");
+		} catch (Exception exception) {
+			Log.Error("exception in download servlet", exception);
 		}		
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
