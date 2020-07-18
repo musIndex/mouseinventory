@@ -38,14 +38,15 @@ public class DownloadServlet extends HttpServlet {
 		//String mouseID = request.getParameter("mouseID");
 		//String fileName = request.getParameter("fileName");
 		Log.Info("downloadServlet reached");
-
+		
 		Integer id = (Integer) Integer.parseInt(request.getParameter("mouseID"));
 		Log.Info("id is " + id);
+		
 		//File file = null;
 		//int BUFF_SIZE = 1024;
 		//byte[] buffer = new byte[BUFF_SIZE];
-
-
+		
+		
 
 
 
@@ -54,14 +55,18 @@ public class DownloadServlet extends HttpServlet {
 			//String fileName = DBConnect.getFilePathByID(id);
 			String fileName = request.getParameter("fileName");
 			Log.Info("filename returned is " + fileName);
-
+			String path = "/userfiles/" + id + "/" +fileName;
 			response.setContentType("text");
 			//response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() +"\"");
 			response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName +"\"");
+			
 			//response.setContentLength((int) file.length()); see if it works with this surpressed
 			//Log.Info("file length: " + file.length());
 			OutputStream output = response.getOutputStream();
-			FileInputStream input = new FileInputStream(fileName);
+			File downloadFile = new File(path);
+	        FileInputStream input = new FileInputStream(downloadFile);
+			//FileInputStream input = new FileInputStream(fileName);
+	        Log.Info("file path is " + path);
 			IOUtils.copy(input, output);
 
 			/*
