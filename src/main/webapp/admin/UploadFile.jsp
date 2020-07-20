@@ -9,7 +9,7 @@
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
 
-
+<div class="site_container">
 <div></div>
 <div id = "adminStatus" style="display:none"></div>
 <h2>Upload Files</h2>
@@ -19,37 +19,33 @@
 		<input type="text" name="<%=UploadServlet.newNameFieldName %>"></input>
 	</div>
 	<input id="newName" type="text" value= <%=request.getParameter("mouseID")%> name="<%=UploadServlet.mouseFieldName %>" style="display:none"></input>
-	<input type="file" id="file" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>
+	<input type="file" id="file" accept=".pdf, .txt" data-validate='notempty' data-title='Input file' name="<%=UploadServlet.fileFieldName %>" size="75"></input>
 	
 	<input type="submit" />
 </form>
-<div id = "test" style="display:none"><%=DBConnect.getFileNamesAsString(request.getParameter("mouseID")) %></div>
-<div id = "test2" style="display:none"><%=DBConnect.getIDsAsString(request.getParameter("mouseID")) %></div>
-<h3>Files To Delete</h3>
-<ul id = "listFiles"></ul>
-//<div id = "test3" style="display:none"></div>
-<div id = "test3"></div>
+<h2>Change Requests for Files</h2>	
+<p>	New Files SELECT will change filestatus to "approved" and will be viewable by users.</p>
+<p>View new files and check that the file name is unique for this record, choosing SELECT from Approved Files removes files from mouse record.</p>
+ <p>Delete files SELECT will remove files from mouse record.
+</p>
+<h3>New Files Uploaded by Users</h3>
+<div id = "newFilename" style="display:none"><%=DBConnect.getFileNamesAsStringStatus((request.getParameter("mouseID")),"new")%></div>
+<div id = "newID" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"new")%></div>
+<ul id = "newFile" style="color:blue"></ul>
+<h3>Delete Files Requested by Users</h3>
+<div id = "deleteName" style="display:none"><%=DBConnect.getFileNamesAsStringStatus((request.getParameter("mouseID")),"delete")%></div>
+<div id = "deleteID" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"delete")%></div>
+<ul id = "listFiles" style="color:red"></ul>
+<h3>Approved Files to Delete by Administrator</h3>
+<div id = "approvedName" style="display:none"><%=DBConnect.getFileNamesAsStringStatus((request.getParameter("mouseID")),"approved")%></div>
+<div id = "approvedID" style="display:none"><%=DBConnect.getIDsAsString((request.getParameter("mouseID")),"approved")%></div>
+<ul id = "approvedFiles" ></ul>
 
-
+</div>
 
 <script>
-<%
-
-String mouseID = request.getParameter("mouseID");
-
-//ArrayList<String> filenames = DBConnect.getFilenamesByMouseID(mouseID);
-ArrayList<Integer> ids = DBConnect.getFileIDsByMouseID(mouseID);
 
 
-%>
-function listCookies() {
-    var theCookies = document.cookie.split(';');
-    var aString = '';
-    for (var i = 1 ; i <= theCookies.length; i++) {
-        aString += i + ' ' + theCookies[i-1] + "\n";
-    }
-    return aString;
-}
 
 
 function sendDelete(phrase){
@@ -59,19 +55,33 @@ function sendDelete(phrase){
 
 function myFunction(){
 	//setAdminStatus;
-	
-	document.getElementById("test3").innerHTML = listCookies();
 	//set link to download
 	//add button for delete
-	var  string1 = document.getElementById("test").innerHTML;
-	var  string2 = document.getElementById("test2").innerHTML;
+	var  string1 = document.getElementById("newFilename").innerHTML;
+	var  string2 = document.getElementById("newID").innerHTML;
 	var names = string1.split("/");
 	var nums = string2.split("/");	
-	var list = document.getElementById("listFiles");
+	var list = document.getElementById("newFile");
+	deleteButton(names, nums, list);
 	
+	var  string3 = document.getElementById("deleteName").innerHTML;
+	var  string4 = document.getElementById("deleteID").innerHTML;
+	var namesD = string3.split("/");
+	var numsD = string4.split("/");	
+	var listD = document.getElementById("listFiles");
+	deleteButton(namesD, numsD, listD);
+
+	var  string5 = document.getElementById("approvedName").innerHTML;
+	var  string6 = document.getElementById("approvedID").innerHTML;
+	var namesA = string5.split("/");
+	var numsA = string6.split("/");	
+	var listA = document.getElementById("approvedFiles");
+	deleteButton(namesA, numsA, listA);
+	
+	function deleteButton(names, nums, list){
 	for (var i = 1; i < names.length; i++) { 
 		var btn = document.createElement("BUTTON");
-		btn.innerHTML = "Delete";
+		btn.innerHTML = "SELECT";
 		console.log("made button")
 		
 		var s = document.createElement('span');
@@ -84,34 +94,21 @@ function myFunction(){
 
 		var viewPhrase = "<%=HTMLGeneration.siteRoot %>"
 		var viewPhrase2 = viewPhrase +"/download" + "?ID=" + nums[i];
-		//btn.setAttribute("onClick", "alert('hello')");
+		
 		btn.setAttribute("onClick", "sendDelete('" + deletePhrase2 + "')");
 		
 		a.href = viewPhrase2;
 		//a.href = deletePhrase2;
 		s.appendChild(a);
 		s.appendChild(btn);
-
 		var entry = document.createElement('li');
 		entry.appendChild(s);
 		//entry.appendChild(a);		
 		list.appendChild(entry);
 	}
+	}
 }
 
 window.onload = myFunction();
-
-
-
-//var filenames = DBConnect.getFilenamesByMouseID(mouseID);
-
-/*
-
- var entry = document.createElement('li');
- entry.appendChile(document.createTextNode(filenames[0]));
- list.appendChild(entry);
- */
- 
-
 
 </script>

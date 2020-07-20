@@ -44,20 +44,20 @@ categories.add(Setting.SettingCategory.WED_LIKE_TO_HEAR_FROM_YOU);
 categories.add(Setting.SettingCategory.RECENT_SITE_UPDATES);
 categories.add(Setting.SettingCategory.DID_YOU_KNOW);
 ArrayList<String> categoryLabels = new ArrayList<String>();
-categoryLabels.add("Need help using the database?");
-categoryLabels.add("Help keep the database up-to-date:");
-categoryLabels.add("Recent site updates:");
-categoryLabels.add("Did you know...?");
+categoryLabels.add("Mouse Inventory Updates");
+categoryLabels.add("");
+categoryLabels.add("");
+categoryLabels.add("Mutant Mice Resources");
 %>
 
 <div class='site_container'>
   <div class='about_container'>
     <div class='about_welcome'>
-      <h1>Welcome to the UCSF Mouse Inventory Database</h1>
+      
       <div class='purpose'><%= DBConnect.loadSetting("home_page_text_purpose").value %></div>
     </div>
     <div class='about_banner'>
-      <div class='iwanna'>I would like to...</div>  
+      <div class='iwanna'></div>  
       <div class='primary_actions'>
         <a href='<%=siteRoot%>search.jsp?search-source=about_banner'><i class='icon-search'></i> <span>Search for mice</span></a>
         <a href='<%=siteRoot%>submitforminit.jsp'><i class='icon-plus'></i> <span>Submit a new mouse</span></a>
@@ -150,7 +150,7 @@ $('#accordion2').collapse({
 </div>
 
 
-     <h3 id="details">Mouse Database Details and Resources</h3>
+     <h3 id="details">Mouse Inventory Database Details</h3>
      <div class="accordion" id="accordion2">
       <div class="accordion-group">  
   <div class="panel-group" id="accordion">

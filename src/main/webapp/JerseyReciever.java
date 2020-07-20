@@ -1,12 +1,7 @@
-package edu.ucsf.mousedatabase.rest;
-
-import java.io.File;
-import java.io.FileOutputStream;
-//import java.io.IOException;
+import java.io.IOException;
 import java.io.InputStream;
-//import java.nio.file.FileSystems;
-//import java.nio.file.Files;
-import java.util.ArrayList;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -16,28 +11,29 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.sun.jersey.multipart.BodyPartEntity;
-import com.sun.jersey.multipart.FormDataBodyPart;
-import com.sun.jersey.multipart.FormDataParam;
+import org.glassfish.jersey.media.multipart.BodyPartEntity;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.stereotype.Component;
 
 import edu.ucsf.mousedatabase.Log;
-import edu.ucsf.mousedatabase.DBConnect;
-
 
 
 @Path("/upload")
+
 @Component
-public class JerseyReciever {
+public class FileUploadResource {
 	@Path("/files")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response uploadFiles2(@DefaultValue("")
 			@FormDataParam("files") List<FormDataBodyPart> bodyParts,
-	
+			//@FormDataParam("files") FormDataContentDisposition fileDispositions)
 			@FormDataParam("MouseID") String mouseID){
 		
-		ArrayList<File> files = new ArrayList<File>();
+		ArrayList<File> files;
 		Log.Info("reached jerseyReciever");
 		
 		for (int i = 0; i < bodyParts.size(); i++) {
@@ -53,25 +49,21 @@ public class JerseyReciever {
 				InputStream input = bodyPartEntity.getInputStream();
 				FileOutputStream output = new FileOutputStream(file);
 				
-				byte[] buffer = new byte[input.available()];
+				byte[] buffer = new byte[BUFFER_SIZE];
 	            int bytesRead = -1;
 	 
-	            while ((bytesRead = input.read(buffer)) != -1) {
-	                output.write(buffer, 0, bytesRead);
+	            while ((bytesRead = inputStream.read(buffer)) != -1) {
+	                outputStream.write(buffer, 0, bytesRead);
 	            }
-	            output.close();
-	            files.add(file);
+	            files.append(file);
 			} catch (Exception e){
 				///
 			}
 						
 			//saveFile(bodyPartEntity.getInputStream(), fileName);			
 		}
-		//System.out.println("about to send files");
-		Log.Info("about to send files");
-		DBConnect.sendFilesToDatabase(files, mouseID, "approved");
+		sendFilesToDatabase(files, mouseID, "new");
 		
-		return Response.ok("Jersey Recieved").build();
 	}
 
 }

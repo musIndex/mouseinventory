@@ -63,8 +63,10 @@ public class MouseRecord {
   String adminComment;
   
   String filename;
+  String filestatus;
   
   ArrayList<String> filenames;
+  ArrayList<String> filestatusList;
   ArrayList<Integer> fileIDs;
 
   @Override
@@ -374,6 +376,12 @@ public class MouseRecord {
   
     public void setFilenames(ArrayList<String> Filenames) {
 	  this.filenames = Filenames;
+  }
+  public ArrayList<String> getFileStatus(){
+    return filestatusList;
+  }
+  public void setFileStatus(ArrayList<String> FilestatusList) {
+    this.filestatusList = FilestatusList;
   }
   
     public void addFiles(ArrayList<String> newFiles) {

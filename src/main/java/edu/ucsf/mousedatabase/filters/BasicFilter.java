@@ -13,6 +13,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+//import javax.servlet.http.HttpServletRequestWrapper;
+
 import edu.ucsf.mousedatabase.Log;
 
 public class BasicFilter implements Filter {
@@ -47,6 +49,7 @@ public class BasicFilter implements Filter {
 
                 if (adminList.contains(userId)) {
                     Log.Info("User is an admin. Allow access.");
+                   
                     chain.doFilter(request, response);
                     return;
                 }
@@ -57,7 +60,8 @@ public class BasicFilter implements Filter {
             }
         }
     }
-
+   
+    
     public void init(FilterConfig config) throws ServletException {
         adminList = Arrays.asList(System.getenv("ADMINISTRATOR_IDS").split(","));
         Log.Info("System env admins: " + System.getenv("ADMINISTRATOR_IDS"));
