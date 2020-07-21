@@ -93,7 +93,7 @@ function myFunction(){
 		var deletePhrase2 = deletePhrase + nums[i] + "&mouseID=" + <%=request.getParameter("mouseID")%>;
 
 		var viewPhrase = "<%=HTMLGeneration.siteRoot %>"
-		var viewPhrase2 = viewPhrase +"/download" + "?ID=" + nums[i];
+		var viewPhrase2 = viewPhrase +"/download/" + "&mouseID=" +<%=request.getParameter("mouseID")%>+"/"+ names[i];
 		
 		btn.setAttribute("onClick", "sendDelete('" + deletePhrase2 + "')");
 		

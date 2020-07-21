@@ -3124,7 +3124,6 @@ public class DBConnect {
 		} else {
 			Log.Info("file not deleted");
 		}
-		//   String query = "DELETE FROM mouse_files WHERE ID = '" + ID + "'";
 		executeNonQuery(query);
 	}
 

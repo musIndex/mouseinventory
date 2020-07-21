@@ -191,5 +191,6 @@
     <filter-name>AdminRoleFilter</filter-name>
     <servlet-name>SendMailServlet</servlet-name>
     <servlet-name>UploadServlet</servlet-name>
+    <servlet-name>RemoveServlet</servlet-name>
   </filter-mapping>
 </web-app>
