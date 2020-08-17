@@ -726,8 +726,10 @@ public class MGIConnect {
       try {
         // Load the JDBC driver: MySQL MM JDBC driver
         Class.forName(databaseDriverName);
+        String username = "msucardatabase";
+        String password = "abc123";
         // Create a new connection to MGI
-        setConnection(DriverManager.getConnection(databaseConnectionString));
+        setConnection(DriverManager.getConnection("jdbc:postgresql://mgi-adhoc.jax.org:5432/mgd", username, password));
         if (verbose) System.out.println("Successfully connected to MGI, returning connection");
       } catch (ClassNotFoundException e) {
         Log.Error("Failed to connect to MGI:", e);
