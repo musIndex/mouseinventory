@@ -1,0 +1,216 @@
+<%@page import="edu.ucsf.mousedatabase.DBConnect" %>
+<%@page import="edu.ucsf.mousedatabase.objects.*" %>
+<tr class="formField">
+  <td valign="top">
+    <span class=red>*</span> <b>Gene</b> (RGD ID)
+    <br>
+    Find the detail page on Rat Genome Informatics (RGD) for the gene that
+    is mutated, copy and paste the RGD ID for that gene (number only) in the
+    space provided. (Click
+    <a href=http://www.informatics.jax.org/javawi2/servlet/WIFetch?page=markerQF>
+    here</a> for a link to the RGD gene query page.)
+    <br>
+    If you are not certain how to find this information, click the 'How to
+    find the RGD Gene ID' button.
+    <br>
+    The official symbol and  full name of the gene whose accession number you
+    entered will appear. Clicking on the link that has been generated to the
+    RGD accession number will bring up the page that describes this gene.
+    <span class=red>Please make sure it is the one that is mutated in the allele
+    you want to submit.</span> If not, enter the correct number.
+    <div class=help_pdf>
+    <% Setting s2 = DBConnect.loadSetting("download_files_gene_id"); %>
+      <a href='<%= s2.value %>' target=_blank>
+      <span class=full_div_link></span>
+      <%= s2.label %>
+      </a>
+    </div>
+  </td>
+  <td valign="top"><input type="TEXT" id="MARgdGeneID"
+    name="MARgdGeneID" size="20" maxlength="11"
+    onkeyup="validateInput('MARgdGeneID', 'mutantAlleleRGDValidation', 'rgdModifiedGeneId', '')"
+    value="${newRat.MARgdGeneID}">
+    <a title="Check ID in RGD database" href="javascript:"
+    onClick="validateInput('MARgdGeneID', 'mutantAlleleRGDValidation', 'rgdModifiedGeneId', '')">
+    <img style="vertical-align: middle" src="img/arrow_cycle.png" width="24"
+      height="24"> </a> <br />
+      <span class=<%=newRat.hasValidMArgdGeneID() ? "bp_valid" : "bp_invalid"%>
+    id="mutantAlleleRGDValidation">${newRat.MARgdGeneIDErr}</span>
+    <input type="hidden" name="MARgdGeneIDValidationString"
+      id="MARgdGeneIDValidationString"
+      value="${newRat.MARgdGeneIDValidationString}">
+    <input type="hidden" name="MARgdGeneIDValid" id="MARgdGeneIDValid"
+      value="${newRat.MARgdGeneIDValid}">
+  </td>
+</tr>
+<%//****Modification type section***** %>
+<tr valign="top" class="formField">
+  <td style="width: 50%">
+    <span class=red>*</span> <b>Modification type</b>:
+    <br>
+    Choose 'targeted knock-in' when the modification to
+    the gene results in the expression of a sequence of particular
+    interest (e.g. another mouse gene, Cre, a reporter, etc.). If the
+    inserted sequence is a neo cassette choose 'targeted disruption.'
+    Choose 'endonuclease-mediated' for methods using CRISPR/Cas9, TALEN or ZFN. </td>
+  <td><%=getModificationTypeRadioWithParams(
+          emptyIfNull(newRat.getMAModificationType()),
+          "onChange='UpdateModificationType()'")%> <span class="validationError">${newRat.MAModificationTypeErr}</span>
+  </td>
+</tr>
+<tr class="formField" id="trExprSeqRow"
+  style="<%=rowVisibility(newRat.isKnockIn())%>">
+  <td valign="top" class="firstColumn"><span class=red>*</span> <b>Expressed sequence type</b>:
+    <br>
+    For reporter-cre fusions, select 'Cre'
+  </td>
+  <td><%=getExpressedSequenceRadioWithParams(
+          emptyIfNull(newRat.getTGExpressedSequence()),
+          "onChange='UpdateExpressedSequenceDetail()'")%>
+    <span class="validationError">${newRat.TGExpressedSequenceErr}</span>
+  </td>
+</tr>
+<tr class="formField" id="trGeneRow"
+  style="<%=rowVisibility(newRat.isGeneExprSeq())%>">
+  <td valign="top">
+    <span class=red>*</span> Rat gene that is  expressed
+    <br>
+    Go to RGD, find the detail page for the gene that is expressed, copy the
+    RGD ID for that gene and paste it in the space provided. (Click <a
+    href="http://www.informatics.jax.org/javawi2/servlet/WIFetch?page=markerQF"
+    target="_blank">here</a> for a link to the RGD gene query page.)
+    <br>
+    <span class=red>Please make sure that the gene that is entered
+    is the correct one</span>
+    <br>
+    If you are not certain how to find this information, click the
+    'How to find the RGD Gene ID' button, above.
+    <br>
+    If any regulatory sequences that control the expression of this gene were included in the
+    knock-in construct, please make sure that they are described in the comment field.
+  </td>
+  <td valign="top"><input type=text id=TGRatGene name=TGRatGene size=20
+    maxlength=11 value="${newRat.TGRatGene}"
+    onkeyup="validateInput('TGRatGene', 'TGRatGeneValidation', 'rgdExpressedGeneId', '')">
+    <a title="Check ID in RGD database" href="javascript:"
+    onClick="validateInput('TGRatGene', 'TGRatGeneValidation', 'rgdExpressedGeneId', '')">
+    <img style="vertical-align: middle" src="img/arrow_cycle.png" width="24"
+      height="24"> </a>
+    <br>
+    <span class="<%=newRat.hasValidTGRatGene() ? "bp_valid" : "bp_invalid"%>"
+      id="TGRatGeneValidation">${newRat.TGRatGeneErr}</span>
+    <input type="hidden" name="TGRatGeneValidationString"
+      id="TGRatGeneValidationString"
+      value="${newRat.TGRatGeneValidationString}">
+    <input type="hidden" name="TGRatGeneValid" id="TGRatGeneValid"
+      value="${newRat.TGRatGeneValid}">
+    </td>
+</tr>
+<tr class="formField" id="trRepRow"
+  style="<%=rowVisibility(newRat.isReporterExprSeq())%>">
+  <td valign="top"><span class=red>*</span> Reporter</td>
+  <td valign="top"><INPUT TYPE="TEXT" name="TGReporter"
+    value="${newRat.TGReporter}" size="20">
+    <span class="validationError">${newRat.TGReporterErr}</span>
+  </td>
+</tr>
+<tr class="formField" id="trDescRow"
+  style="<%=rowVisibility(newRat.isOtherExprSeq())%>">
+  <td valign="top">
+    <span class=red>*</span> Description of the expressed sequence,
+    as well as any regulatory sequences included in the knock-in construct that
+    control its expression.
+  </td>
+  <td valign="top"><INPUT TYPE="TEXT" name="TGOther"
+    value="${newRat.TGOther}" size="20"> <span
+    class="validationError">${newRat.TGOtherErr}</span>
+  </td>
+</tr>
+<%//****END Modification type section***** %>
+
+<tr class="formField">
+  <td valign="top">
+    <span class=red>*</span> Was the mouse produced in the laboratory of the
+      holder?
+  </td>
+  <td valign="top">
+    <%=genYesNoRadio("producedInLabOfHolder", newRat.getProducedInLabOfHolder())%>
+    If not, please use the comment field to provide the name and Institution
+    of the PI in whose laboratory the mouse was produced (or from whom the
+    mouse was obtained)
+    <span class="validationError">${newRat.producedInLabOfHolderErr}</span>
+  </td>
+</tr>
+
+<tr class="formField">
+  <td valign="top">
+    <span class=red>*</span> <b>Comment</b>
+    <br>
+    Provide a brief description of the allele. This is particularly
+    important when there is no publication describing it.
+  </td>
+  <td valign="top">
+    <textarea name="comment" id="comment" rows="10"
+      cols="60">${newRat.comment}</textarea>
+    <span class="validationError">${newRat.commentErr}</span>
+  </td>
+</tr>
+
+<tr class="formField">
+  <td valign="top">Although most unpublished mice are not yet listed
+    on RGD, a few are. If the mutant allele you want to submit has an <b>RGD ID</b>,
+    please enter it here.
+  </td>
+  <td valign="top"><input type="text" name="mouseRGDID"
+    id="mouseRGDID" maxlength="11"
+    onkeyup="validateInput('mouseRGDID', 'mouseRGDValidation', 'rgdAlleleId', ',')"
+    size="20" value="${newRat.mouseRGDID}">
+    <a title="Check ID in RGD database" href="javascript:"
+    onClick="validateInput('mouseRGDID', 'mouseRGDValidation', 'rgdAlleleId', ',')">
+    <img style="vertical-align: middle" src="img/arrow_cycle.png" width="24"
+      height="24"> </a>
+    <input type="hidden" name="mouseRGDIDValidationString"
+      id="mouseRGDIDValidationString"
+      value="${newRat.mouseRGDIDValidationString}">
+    <input type="hidden" name="mouseRGDIDValid" id="mouseRGDIDValid"
+      value="${newRat.mouseRGDIDValid}">
+  </td>
+</tr>
+<tr class="formField">
+  <td valign="top">
+  If you have entered a valid RGD ID, the official
+    symbol for the allele is shown. Please click on the link that has been
+    generated to the RGD accession number for this allele, and
+    <b>double check</b> to make sure that it describes the allele you want
+    to submit. If not, replace the RGD ID with the one for the
+    correct allele.
+  </td>
+  <td valign="top">
+    <input type="hidden" name="officialSymbol"
+      id="officialSymbol"
+      value="${newRat.officialSymbol}" size="40">
+    <span class="<%=newRat.hasValidRatRGDID() ? "bp_valid" : "bp_invalid"%>"
+      id="mouseRGDValidation">${newRat.mouseRGDIDErr}</span>
+  </td>
+</tr>
+
+<tr class="formField">
+  <td valign="top" class="firstColumn">
+    <b>Background strain</b> of mutant  allele mouse.
+    <br>
+    Enter only defined background strains (i.e. do not enter 'mixed' or 'not known').
+    <br>
+    (Optional: if the mutant allele is being maintained in combination with another mutant
+    allele(s) or a transgene(s), this can be noted here.)
+  </td>
+  <td valign="top">
+    <input type="text" name="backgroundStrain"
+    value="${newRat.backgroundStrain}" size="40"
+    maxlength="255">
+  </td>
+</tr>
+<tr class="formField">
+  <td valign="top" class="firstColumn"><b>Rat status:</b></td>
+  <td><%=genRadio("cryopreserved", new String[] { "Live only",
+          "Live and Cryo", "Cryo only" }, newRat.liveCryoStatus())%></td>
+</tr>

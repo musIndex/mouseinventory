@@ -1,6 +1,7 @@
 package edu.ucsf.mousedatabase.servlets;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -36,16 +37,16 @@ public class MgiDataServlet extends HttpServlet {
   @SuppressWarnings("serial")
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+	String path = request.getRequestURI().replace("/", "");
     String query = request.getParameter("query");
 
     try
     {
-      if (query== null)
+      if (query == null)
       {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         return;
       }
-
       if (query.equals("allele_properties"))
       {
         String accIdParam = request.getParameter("acc_id");
@@ -86,6 +87,7 @@ public class MgiDataServlet extends HttpServlet {
           HashMap<Integer,Properties> props = MGIConnect.getPropertiesFromAlleleMgiID(new ArrayList<Integer>(){{add(accessionId);}}, 0);
           data = props.get(accessionId);
           data.setProperty("is_valid", "true");
+          data.setProperty("path", path);
         }
         else
         {
