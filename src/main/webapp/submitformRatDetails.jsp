@@ -76,7 +76,7 @@ $(document).ready(function(){
         }
       $.ajax({
           type: 'GET',
-          url: '/rgddata?query=allele_properties&acc_id=' + rgdNumber + '&expected_type_name=' + expected_type_name,
+          url: 'https://rest.rgd.mcw.edu/rgdws/genes/' + rgdNumber,
           dataType: 'json',
           success: rgdLookupSuccess,
           error: rgdLookupError,
@@ -89,9 +89,9 @@ $(document).ready(function(){
     function rgdLookupSuccess(data){
       var result = null;
 
-      if (data.is_valid != null && data.is_valid == "true") {
+      if (true) {
 
-          if (!data.officialSymbol)
+          if (!data.rgdId)
           {
             result = { success: false, message: "No data for RGD:" + rgdNumber};
           }
@@ -101,30 +101,30 @@ $(document).ready(function(){
             var success = true;
             $("#ratRGDID").val(rgdNumber);
             $("#ratRGDIDValid").val(true);
-            $("#ratRGDValidation").html(replaceBrackets(data.officialSymbol + " - " + data.ratName) + " " + formatRgdLink(rgdNumber)).switchClass("bp_invalid","bp_valid");
+            $("#ratRGDValidation").html(replaceBrackets(data.symbol + " - " + data.name) + " " + formatRgdLink(rgdNumber)).switchClass("bp_invalid","bp_valid");
 
-            if (data.pubMedID){
-              $("#PMID").val(data.pubMedID);
-              $("#PMIDValid").val(true);
-              $("#PMIDValidation").html(replaceBrackets(data.pubMedTitle + " - " + data.pubMedAuthor) + " " + formatPubmedLink(data.pubMedID)).switchClass("bp_invalid","bp_valid");
-            } else {
-              $("#PMID").val("");
-              $("#PMIDValid").val(false);
-              $("#PMIDValidation").html("");
-              notes += "NOTE: RGD does not show a reference for this rodent in Pubmed. If it is unpublished, please go back to step 2, select 'unpublished,' and complete the form including the RGD ID you entered here.";
-              success = false;
-            }
+            // if (data.pubMedID){
+            //   $("#PMID").val(data.pubMedID);
+            //   $("#PMIDValid").val(true);
+            //   $("#PMIDValidation").html(replaceBrackets(data.pubMedTitle + " - " + data.pubMedAuthor) + " " + formatPubmedLink(data.pubMedID)).switchClass("bp_invalid","bp_valid");
+            // } else {
+            //   $("#PMID").val("");
+            //   $("#PMIDValid").val(false);
+            //   $("#PMIDValidation").html("");
+            //   notes += "NOTE: RGD does not show a reference for this rodent in Pubmed. If it is unpublished, please go back to step 2, select 'unpublished,' and complete the form including the RGD ID you entered here.";
+            //   success = false;
+            // }
 
-            $("#MARgdGeneID").val(data.geneRgdID);
-            $("#MARgdGeneIDValid").val(true);
-            $("#mutantAlleleRGDValidation").html(replaceBrackets(data.geneSymbol + " - " + data.geneName) + " " + formatRgdLink(data.geneRgdID)).switchClass("bp_invalid","bp_valid");
+            // $("#MARgdGeneID").val(data.geneRgdID);
+            // $("#MARgdGeneIDValid").val(true);
+            // $("#mutantAlleleRGDValidation").html(replaceBrackets(data.geneSymbol + " - " + data.geneName) + " " + formatRgdLink(data.geneRgdID)).switchClass("bp_invalid","bp_valid");
             $("#comment").val($.trim(data.description));
             $("#rawRGDComment").val($.trim(data.description));
-            result = { success: success, message: "Properties for " + data.officialSymbol + " loaded into form.", note: notes};
-            if (!$.trim(data.description)) {
-              result.success = false;
-              result.message = "Failed to load description from RGD.  Please try again.  If this error persists, please notify the administrator.  To complete your submission, please manually copy the description from the RGD website."
-            }
+            result = { success: success, message: "Properties for " + data.symbol + " loaded into form.", note: notes};
+            // if (!$.trim(data.description)) {
+            //   result.success = false;
+            //   result.message = "Failed to load description from RGD.  Please try again.  If this error persists, please notify the administrator.  To complete your submission, please manually copy the description from the RGD website."
+            // }
           }
       }
       else

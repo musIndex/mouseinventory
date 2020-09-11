@@ -22,6 +22,7 @@
     int submissionID = Integer.parseInt(request.getParameter("id"));
     String otherRecordInfo = "";
 
+    Boolean isRat = DBConnect.getSubmissionType(submissionID);
     ArrayList<SubmittedMouse> submissions = DBConnect.getMouseSubmission(submissionID);
     if(submissions.size() < 1)
     {
@@ -68,9 +69,15 @@
     }
     else
     {
-      record = submission.toMouseRecord();
+      if (isRat) {
+        record = submission.toRatRecord();
+      }
+      else {
+        record = submission.toMouseRecord();
+      }
       records = new ArrayList<MouseRecord>();
       records.add(record);
+
     }
 
 

@@ -28,14 +28,8 @@
     <a href="submitratinit.jsp">Back to step 1</a>
     <br>
     <p>For the rodent you want to submit, please select a category from the three choices listed.
-    For mutant alleles or transgenes, respond to the query about publication.</p>
-    <p>
-    <b><span class=red>Choose 'Mutant Allele'</span></b> when a gene in the rodent has been modified in some way
-    (e.g. targeted disruption such as replacement with a neo cassette; creation of a floxed allele
-    by insertion of loxP sites; targeted knock-in of a sequence such as Cre, a reporter gene,
-    or a rodent or human gene; spontaneous mutation, endonuclease-mediated, etc.)
+    For transgenes, respond to the query about publication.
     </p>
-    <p>
     <b><span class=red>Choose 'Transgene'</span></b> when a DNA construct (perhaps a BAC) has been randomly
     inserted into the genome, such that the rodent expresses a particular sequence
     (e.g. Cre, a reporter gene, a rodent or human gene) under the control of a
@@ -57,9 +51,6 @@
         New Submission category:
         </td>
         <td style="width:150px">
-        <input type="radio"  value="Mutant Allele" name="ratType" <%=HTMLGeneration.isChecked(newRat.isMA()) %>onclick="UpdateSelectedRatType()" />
-        Mutant Allele
-        <br/>
         <input type="radio" value="Transgene" name="ratType" <%=HTMLGeneration.isChecked(newRat.isTG()) %>onclick="UpdateSelectedRatType()"/>
         Transgene
         <br/>

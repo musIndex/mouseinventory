@@ -58,8 +58,8 @@
     value="${newRat.officialSymbol}"
     size="40"> <span style="display: none"
     id="officialSymbolSpan"><b>${newRat.officialSymbol}</b>
-  </span> <span
-    class="<%=newRat.hasValidRatRGDID()  ? "bp_valid": "bp_invalid"%>"
+  </span>
+    <span class="<%=newRat.hasValidRatRGDID()  ? "bp_valid": "bp_invalid"%>"
     id="ratRGDValidation">${newRat.ratRGDIDErr}</span> <br />
   <a href="#" id="rgdautofillbutton" style="text-decoration:none" class="btn btn-primary btn-large">Auto-fill PubMed and description data</a>
   <input type="hidden"
@@ -71,45 +71,45 @@
   </td>
 </tr>
 
-<tr class="formField">
-  <td valign="top">
-    <span class=red>*</span> <b>Pubmed ID</b>, generally for the publication in which
-    the transgene was first  described (automatically entered when the RGD ID
-    is entered)
-    <br>
-    If you entered 'none' in the RGD ID field above, enter the PMID for a
-    publication in which the transgene is described.
-  </td>
-  <td valign="top">
-    <input type=text id=PMID name=PMID
-      value="${newRat.PMID}"
-      size="20" maxlength="16"
-      onkeyup="validateInput('PMID', 'PMIDValidation', 'pmId', '')">
-    <a title="Check ID in Pubmed database" href="javascript:"
-    onClick="validateInput('PMID', 'PMIDValidation', 'pmId', '')"><img
-      style="vertical-align: middle" src="img/arrow_cycle.png"
-      width="24" height="24"></a>
-    <br>
-    <span class="<%=newRat.hasValidPMID() ? "bp_valid" : "bp_invalid"%>"
-      id="PMIDValidation">${newRat.PMIDErr}</span>
-    <input type="hidden" name="PMIDValidationString" id="PMIDValidationString"
-      value="${newRat.PMIDValidationString}">
-    <input type="hidden" name="PMIDValid" id="PMIDValid" value="${newRat.PMIDValid}">
-  </td>
-</tr>
+<%--<tr class="formField">--%>
+<%--  <td valign="top">--%>
+<%--    <span class=red>*</span> <b>Pubmed ID</b>, generally for the publication in which--%>
+<%--    the transgene was first  described (automatically entered when the RGD ID--%>
+<%--    is entered)--%>
+<%--    <br>--%>
+<%--    If you entered 'none' in the RGD ID field above, enter the PMID for a--%>
+<%--    publication in which the transgene is described.--%>
+<%--  </td>--%>
+<%--  <td valign="top">--%>
+<%--    <input type=text id=PMID name=PMID--%>
+<%--      value="${newRat.PMID}"--%>
+<%--      size="20" maxlength="16"--%>
+<%--      onkeyup="validateInput('PMID', 'PMIDValidation', 'pmId', '')">--%>
+<%--    <a title="Check ID in Pubmed database" href="javascript:"--%>
+<%--    onClick="validateInput('PMID', 'PMIDValidation', 'pmId', '')"><img--%>
+<%--      style="vertical-align: middle" src="img/arrow_cycle.png"--%>
+<%--      width="24" height="24"></a>--%>
+<%--    <br>--%>
+<%--    <span class="<%=newRat.hasValidPMID() ? "bp_valid" : "bp_invalid"%>"--%>
+<%--      id="PMIDValidation">${newRat.PMIDErr}</span>--%>
+<%--    <input type="hidden" name="PMIDValidationString" id="PMIDValidationString"--%>
+<%--      value="${newRat.PMIDValidationString}">--%>
+<%--    <input type="hidden" name="PMIDValid" id="PMIDValid" value="${newRat.PMIDValid}">--%>
+<%--  </td>--%>
+<%--</tr>--%>
 
-<tr class="formField">
-  <td>If the transgene was produced by Gensat, provide 'Founder Line'.  This is included at the end of the Official Symbol, e.g.
-'Tg(Epha2-EGFP)DE51Gsat' - the 'Founder Line' here is DE51.
-    <br> <a href="http://www.gensat.org/search.jsp" target="_blank">Gensat catalog</a>
-  </td>
-  <td><input name="gensatFounderLine" id="gensatFounderLine"
-    type="text" size="40" maxlength="100"
-    onkeyup="validateInput('gensatFounderLine','gensatFounderLineValidation','gensat',',')"
-    value="${newRat.gensatFounderLine}">
-    <span class="bp_valid" id="gensatFounderLineValidation">${newRat.gensatFounderLineErr}</span>
-  </td>
-</tr>
+<%--<tr class="formField">--%>
+<%--  <td>If the transgene was produced by Gensat, provide 'Founder Line'.  This is included at the end of the Official Symbol, e.g.--%>
+<%--'Tg(Epha2-EGFP)DE51Gsat' - the 'Founder Line' here is DE51.--%>
+<%--    <br> <a href="http://www.gensat.org/search.jsp" target="_blank">Gensat catalog</a>--%>
+<%--  </td>--%>
+<%--  <td><input name="gensatFounderLine" id="gensatFounderLine"--%>
+<%--    type="text" size="40" maxlength="100"--%>
+<%--    onkeyup="validateInput('gensatFounderLine','gensatFounderLineValidation','gensat',',')"--%>
+<%--    value="${newRat.gensatFounderLine}">--%>
+<%--    <span class="bp_valid" id="gensatFounderLineValidation">${newRat.gensatFounderLineErr}</span>--%>
+<%--  </td>--%>
+<%--</tr>--%>
 
 <tr class="formField">
   <td valign="top">

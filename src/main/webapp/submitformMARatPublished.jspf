@@ -97,22 +97,22 @@
       </a>
     </div>
   </td>
-  <td valign="top"><input type="TEXT" id="MAMgiGeneID"
-    name="MAMgiGeneID" size="20" maxlength="11"
-    onkeyup="validateInput('MAMgiGeneID', 'mutantAlleleRGDValidation', 'rgdModifiedGeneId', '')"
-    value="${newRat.MAMgiGeneID}">
+  <td valign="top"><input type="TEXT" id="MARgdGeneID"
+    name="MARgdGeneID" size="20" maxlength="11"
+    onkeyup="validateInput('MARgdGeneID', 'mutantAlleleRGDValidation', 'rgdModifiedGeneId', '')"
+    value="${newRat.MARgdGeneID}">
     <a title="Check ID in RGD database" href="javascript:"
-    onClick="validateInput('MAMgiGeneID', 'mutantAlleleRGDValidation', 'rgdModifiedGeneId', '')"><img
+    onClick="validateInput('MARgdGeneID', 'mutantAlleleRGDValidation', 'rgdModifiedGeneId', '')"><img
       style="vertical-align: middle" src="img/arrow_cycle.png"
       width="24" height="24">
   </a> <br /> <span class="<%=newRat.hasValidMArgdGeneID() ? "bp_valid" : "bp_invalid"%>"
-    id="mutantAlleleRGDValidation">${newRat.MAMgiGeneIDErr}</span> <input type="hidden"
-    name="MAMgiGeneIDValidationString"
-    id="MAMgiGeneIDValidationString"
-    value="${newRat.MAMgiGeneIDValidationString}">
-    <input type="hidden" name="MAMgiGeneIDValid"
-    id="MAMgiGeneIDValid"
-    value="${newRat.MAMgiGeneIDValid}">
+    id="mutantAlleleRGDValidation">${newRat.MARgdGeneIDErr}</span> <input type="hidden"
+    name="MARgdGeneIDValidationString"
+    id="MARgdGeneIDValidationString"
+    value="${newRat.MARgdGeneIDValidationString}">
+    <input type="hidden" name="MARgdGeneIDValid"
+    id="MARgdGeneIDValid"
+    value="${newRat.MARgdGeneIDValid}">
   </td>
 </tr>
 

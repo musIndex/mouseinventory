@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 
 //import edu.ucsf.mousedatabase.DBConnect.MouseRecordResultGetter;
 import edu.ucsf.mousedatabase.beans.MouseSubmission;
+import edu.ucsf.mousedatabase.beans.RatSubmission;
 import edu.ucsf.mousedatabase.beans.UserData;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler.ImportObjectType;
@@ -55,6 +56,9 @@ public class DBConnect {
 
 	private static final String mouseRecordQueryCountHeader = "SELECT count(*) as count" + " FROM mouse\r\n"
 			+ mouseRecordTableJoins;
+
+	private static final String mouseSubmissionQueryRodentType = "SELECT submittedmouse.is_rat\r\n"
+			+ "FROM submittedmouse left join mouse on submittedmouse.id=mouse.submittedmouse_id\r\n ";
 
 	private static final String mouseSubmissionQueryHeader = "SELECT  submittedmouse.* , mouse.id as mouseRecordID\r\n"
 			+ " FROM submittedmouse left join mouse on submittedmouse.id=mouse.submittedmouse_id\r\n ";
@@ -181,6 +185,25 @@ public class DBConnect {
 		return getSubmissions(additionalJoins, whereTerms, null);
 	}
 
+	public static Boolean getSubmissionType(int submittedMouseID) {
+		String query = mouseSubmissionQueryRodentType + " WHERE submittedmouse.id=" + submittedMouseID;
+		try {
+			Connection connection = connect();
+
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.execute();
+			ResultSet rs = statement.getResultSet();
+			int rodentType = 0;
+			if(rs.next()) {
+				rodentType = rs.getInt("is_rat");
+			}
+			return rodentType == 1;
+		} catch (Exception e) {
+			Log.Error(e);
+			return false;
+		}
+	}
+
 	public static ArrayList<SubmittedMouse> getMouseSubmission(int submittedMouseID) {
 		ArrayList<String> whereTerms = new ArrayList<String>();
 		String additionalJoins = "";
@@ -204,6 +227,55 @@ public class DBConnect {
 
 	private static ArrayList<SubmittedMouse> getSubmissions(String additionalJoins, ArrayList<String> whereTerms,
 			String orderBy, int limit, int offset) {
+		String whereClause = "";
+		String orderByClause = "";
+		String joinsClause = "";
+		String limitClause = "";
+		if (whereTerms != null && !whereTerms.isEmpty()) {
+			String prefix = " WHERE";
+			for (String whereTerm : whereTerms) {
+				whereClause += prefix + " " + whereTerm + "\r\n ";
+				prefix = " AND";
+			}
+		}
+		if (orderBy != null && !orderBy.equalsIgnoreCase("")) {
+			orderByClause = "ORDER BY " + orderBy;
+		}
+		if (additionalJoins != null) {
+			joinsClause = additionalJoins + "\r\n ";
+		}
+		if (limit > 0 && offset >= 0) {
+			limitClause = "LIMIT " + offset + "," + limit;
+		}
+
+		String query = mouseSubmissionQueryHeader + "\r\n " + joinsClause + whereClause + " " + orderByClause + " "
+				+ limitClause;
+		return SubmittedMouseResultGetter.getInstance().Get(query);
+	}
+
+//	public static ArrayList<SubmittedRat> getRatSubmission(int submittedRatID) {
+//		ArrayList<String> whereTerms = new ArrayList<String>();
+//		String additionalJoins = "";
+//		whereTerms.add("submittedmouse.id=" + submittedRatID);
+//
+//		return getRatSubmissions(additionalJoins, whereTerms, null);
+//	}
+//
+//	private static SubmittedRat getRatSubmission(int submissionID) {
+//		String query = mouseSubmissionQueryHeader + " WHERE submittedmouse.id=" + submissionID;
+//		ArrayList<SubmittedRat> results = SubmittedMouseResultGetter.getInstance().Get(query);
+//		return results.size() > 0 ? results.get(0) : null;
+//
+//	}
+//
+//	private static ArrayList<SubmittedRat> getRatSubmissions(String additionalJoins, ArrayList<String> whereTerms,
+//															String orderBy) {
+//		return getRatSubmissions(additionalJoins, whereTerms, orderBy, 0, 0);
+//
+//	}
+
+	private static ArrayList<SubmittedRat> getRatSubmissions(String additionalJoins, ArrayList<String> whereTerms,
+															String orderBy, int limit, int offset) {
 		String whereClause = "";
 		String orderByClause = "";
 		String joinsClause = "";
@@ -1556,6 +1628,25 @@ public class DBConnect {
 				+ "',\r\n'" + "" + "',\r\n'" + addMySQLEscapes(submitterData.getEmail()) + "',\r\n'"
 				+ addMySQLEscapes(submitterData.getTelephoneNumber()) + "',\r\n curdate(),\r\n'"
 				+ addMySQLEscapes(propsBuf.toString()) + "'" + ",\r\n'" + addMySQLEscapes(submissionSource) + "')";
+		return executeNonQuery(query, true);
+
+	}
+	public static int insertSubmission(UserData submitterData, RatSubmission submission, Properties props,
+									   String submissionSource) {
+		StringBuffer propsBuf = new StringBuffer();
+		Enumeration names = props.propertyNames();
+		while (names.hasMoreElements()) {
+			String name = (String) names.nextElement();
+			propsBuf.append(name + "=" + props.getProperty(name) + "\t");
+		}
+
+		String query = "INSERT into submittedmouse "
+				+ "(id,firstname,lastname,dept,address,email,tel,date,properties,submission_source,is_rat) " + "VALUES " + "(NULL"
+				+ ",\r\n'" + addMySQLEscapes(submitterData.getFirstName()) + "',\r\n'"
+				+ addMySQLEscapes(submitterData.getLastName()) + "',\r\n'" + addMySQLEscapes(submitterData.getDepartment())
+				+ "',\r\n'" + "" + "',\r\n'" + addMySQLEscapes(submitterData.getEmail()) + "',\r\n'"
+				+ addMySQLEscapes(submitterData.getTelephoneNumber()) + "',\r\n curdate(),\r\n'"
+				+ addMySQLEscapes(propsBuf.toString()) + "'" + ",\r\n'" + addMySQLEscapes(submissionSource) + "'" + ",\r\n'" + addMySQLEscapes("1") + "')";
 		return executeNonQuery(query, true);
 
 	}
@@ -3099,7 +3190,7 @@ public class DBConnect {
 			return -1;
 		}
 	}
-	public static String getFileStatus(Integer ID) throws Exception{
+	public static String getFileStatus(Integer ID) throws 	Exception{
 		String query = "SELECT filestatus FROM mouse_files WHERE ID='" + ID + "'";
 		ArrayList<String> results = StringResultGetter.getInstance("filestatus").Get(query);
 		if (results.size() > 0) {
@@ -3289,6 +3380,36 @@ public class DBConnect {
 			result.setSubmissionID(g_int("submittedmouse.id"));
 			int mouseRecordID = g_int("mouseRecordID");
 			result.setMouseRecordID(mouseRecordID <= 0 ? -1 : mouseRecordID);
+
+			result.setFirstName(g_str("firstname"));
+			result.setLastName(g_str("lastname"));
+			result.setDepartment(g_str("dept"));
+			result.setEmail(g_str("email"));
+			result.setTelephoneNumber(g_str("tel"));
+
+			result.setSubmissionDate(g_date("date"));
+			result.setStatus(g_str("status"));
+			result.setAdminComment(g_str("admincomment"));
+			result.setEntered(g_str("entered").equalsIgnoreCase("Y"));
+
+			result.parseProperties(g_str("properties"));
+			result.setSubmissionSource(g_str("submission_source"));
+			return result;
+		}
+	}
+
+	private static final class SubmittedRatResultGetter extends ResultGetter {
+		public static SubmittedRatResultGetter getInstance() {
+			return new SubmittedRatResultGetter();
+		}
+
+		@Override
+		protected Object getNextItem() throws SQLException {
+			SubmittedRat result = new SubmittedRat();
+
+			result.setSubmissionID(g_int("submittedrat.id"));
+			int ratRecordID = g_int("ratRecordID");
+			//result.setRatRecordID(ratRecordID <= 0 ? -1 : ratRecordID);
 
 			result.setFirstName(g_str("firstname"));
 			result.setLastName(g_str("lastname"));

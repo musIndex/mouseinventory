@@ -1,5 +1,10 @@
 package edu.ucsf.mousedatabase;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import edu.ucsf.mousedatabase.objects.RGDResult;
+import org.json.*;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -19,7 +24,7 @@ public class RGDConnect {
                 return "Error: " + responseCode;
             }
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder response = new StringBuilder();
+            StringBuffer response = new StringBuffer();
             String line;
 
             while ((line = in.readLine()) != null) {
@@ -32,7 +37,24 @@ public class RGDConnect {
             System.out.println(e);
             return "";
         }
-}
-    
-    
+    }
+
+    public static RGDResult getGeneQuery(String geneId) {
+        RGDResult result = new RGDResult();
+        String request = "genes/" + geneId;
+        String response = executeGet(request);
+        try {
+            JSONObject jsonResponse = new JSONObject(response);
+            result.setName(jsonResponse.getString("name"));
+            result.setSymbol(jsonResponse.getString("symbol"));
+            result.setComment(jsonResponse.getString("mergedDescription"));
+            result.setValid(true);
+        } catch (JSONException err) {
+            Log.Error(err);
+            result.setValid(false);
+            result.setErrorString(response);
+        }
+
+        return result;
+    }
 }
