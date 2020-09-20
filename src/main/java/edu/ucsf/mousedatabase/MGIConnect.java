@@ -289,6 +289,12 @@ public class MGIConnect {
               sub.setMouseType("Mutant Allele");
               sub.setMAModificationType("undetermined");
             }
+            //Transposon induced added to Mutant Allele category -EW
+            else if (value.startsWith("Transposon induced"))
+            {
+            	sub.setMouseType("Mutant Allele");
+            	sub.setMAModificationType("undetermined");
+            }
             else
             {
               sub.setMouseType("undetermined");

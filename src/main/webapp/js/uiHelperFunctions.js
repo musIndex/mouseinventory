@@ -87,6 +87,10 @@ function UpdateModificationType()
       setElementVisibility("trExprSeqRow","");
       UpdateExpressedSequenceDetail();
     }
+  else if(chosen == "transposon induced"){
+	  setElementVisibility("trExprSeqRow","");
+      UpdateExpressedSequenceDetail();
+  }
 
 }
 
@@ -122,6 +126,10 @@ function UpdateModificationTypeEdit()
       UpdateExpressedSequenceEdit();
 
     }
+  else if(chosen == "transposon induced"){
+	  setElementVisibility("trExprSeqRow","");
+      UpdateExpressedSequenceEdit();
+  }
 
 }
 
