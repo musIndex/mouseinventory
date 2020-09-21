@@ -283,6 +283,10 @@ public class MGIConnect {
 //              officialSymbol : Thy1<a>
 //              gene mgi ID : 98747
             }
+            else if (value.startsWith("QTL"))
+            {
+            	sub.setMouseType("Inbred Strain");
+            }
             //Enodnuclease-mediated mice will switch to this type -EW
             else if (value.startsWith("Endonuclease-mediated"))
             {
