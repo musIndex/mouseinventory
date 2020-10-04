@@ -254,7 +254,7 @@
   <td valign="top">
     <span class=red>*</span> Description of the expressed sequence,
     as well as any regulatory sequences included in the knock-in construct that control
-    its expression.
+    its expression. For endonuclease-mediated null put 'knockout'.
   </td>
   <td valign="top"><INPUT TYPE="TEXT" name="TGOther"
     value="${newMouse.TGOther}"

@@ -74,6 +74,7 @@ public class UploadServlet extends HttpServlet {
 		ArrayList<File> files = new ArrayList<File>();
 
 	    try {
+	    	
 	    	List items = uploadHandler.parseRequest(request);
 	        Iterator itr = items.iterator();
 	        
@@ -85,8 +86,9 @@ public class UploadServlet extends HttpServlet {
 	            if(item.isFormField()) {
 	            	Log.Info("is form field");
 	            }
+	           
 	            	
-	            	if (item.getFieldName().equals(mouseFieldName)){
+	             if (item.getFieldName().equals(mouseFieldName)){
 	            		mouseID = item.getString();
 	            		Log.Info("is mouseID"+mouseID);
 	            	}else if  (item.getFieldName().contentEquals(newNameFieldName)) {
@@ -145,7 +147,6 @@ public class UploadServlet extends HttpServlet {
 	        
 	        if(!files.isEmpty() && mouseID != null) {
 				
-			//Log.Info("setting admin in uploadServlet: " + loggedInAsAdmin);
 			if (request.isUserInRole("administrator")){
 				fileStatus = "approved";
 				Log.Info("admin approved file");
@@ -161,12 +162,12 @@ public class UploadServlet extends HttpServlet {
 	        } else {
 	        	Log.Info("files or mouseID not set");
 	        }
+	    
 	       
 	    } catch (Exception e) {
 	    	Log.Info("Exception occurred while processing post request for file upload");
 	    }
 	   
-	    
 	      
 	    if (request.isUserInRole("administrator")) {
 	      response.sendRedirect(HTMLGeneration.adminRoot + "EditMouseForm.jsp?id=" + mouseID);
@@ -174,14 +175,8 @@ public class UploadServlet extends HttpServlet {
 	    	 response.setContentType("text/plain");  
 	    	 response.setCharacterEncoding("UTF-8"); 
 	    	 response.getWriter().write(fileName); 
-	    	
-	    	//response.sendRedirect(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID);
-	    	//request.setAttribute("fileName", fileName);
-	    	request.getSession().setAttribute("fileName",fileName);
-	    	//request.getRequestDispatcher("SubmitChangeRequest").forward(request, response);
-	    	
-	    	request.getRequestDispatcher(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID).forward(request, response);
-	    	//this.getServletContext().getRequestDispatcher(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID);
+	    	 request.getSession().setAttribute("fileName",fileName);
+	 		 response.sendRedirect(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID);
 	    	
 	    }
 	    	}

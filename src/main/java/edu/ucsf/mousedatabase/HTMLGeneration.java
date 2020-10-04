@@ -181,6 +181,10 @@ public class HTMLGeneration {
       table.append("</div>");
 
     }
+    table.append("<a href=\"" + siteRoot + "history.jsp\">"
+    		+ "<img src=/img/OR_logo_10year.png title='History of MouseDB' style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year' >");
+    
+   
     
     table.append("</div>"); //pagetitlecontainer
     table.append("</div>"); //pageheader
@@ -203,6 +207,7 @@ public class HTMLGeneration {
     // null,currentPageFilename,false));
     table.append(addNavLink("Submit Rodents", "submitforminit.jsp", null,
         currentPageFilename, false));
+    table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false));
     if (isAdminPage && showAdminControls){
       table.append(addNavLink("Log out", "logout.jsp", null,
           currentPageFilename, false,"pull-right small"));
@@ -1715,8 +1720,8 @@ public class HTMLGeneration {
         //Log.Info("starting filename: " + filename);
         String filenameHref = filename.replaceAll("\\s", "%20"); //check that this works
         //Log.Info("ending filename: " + filename);
-        
-        fileComment = "<a href="+ siteRoot +"/download" + "?fileName=" + filenameHref +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
+        //"+adminRoot+"/download" not working /admin//download
+        fileComment = "<a href="+siteRoot+"download" + "?fileName=" + filenameHref +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
         table.append("<div>" + fileComment + "</div>");
       }
 
@@ -1980,13 +1985,7 @@ public class HTMLGeneration {
         if (nextRequest.getCryoLiveStatus() != null && !nextRequest.getCryoLiveStatus().isEmpty()){
           table.append("</dt><dt>Status: " + nextRequest.getCryoLiveStatus() + "</dt>");
         }
-        if (nextRequest.getNewFileNames() != null && !nextRequest.getNewFileNames().isEmpty()){
-          table.append("</dt><dt>Add New Files: " + nextRequest.getNewFileNames() + "</dt>");
-        }
 
-        if (nextRequest.getDeleteFileNames() != null && !nextRequest.getDeleteFileNames().isEmpty()){
-          table.append("</dt><dt>Remove Files: " + nextRequest.getDeleteFileNames() + "</dt>");
-        }
       }
 
      
@@ -1998,6 +1997,13 @@ public class HTMLGeneration {
       if (nextRequest.getGeneticBackgroundInfo() != null && !nextRequest.getGeneticBackgroundInfo().isEmpty()) {
         table.append("<b>Genetic background info:</b> " + nextRequest.getGeneticBackgroundInfo() + "<br><br>");
       }
+      if (nextRequest.getNewFileNames() != null && !nextRequest.getNewFileNames().isEmpty()) {
+          table.append("<b>Add New Files:</b> " + nextRequest.getNewFileNames() + "<br><br>");
+        }
+
+      if (nextRequest.getDeleteFileNames() != null && !nextRequest.getDeleteFileNames().isEmpty()){
+          table.append("<b>Remove Files:</b> " + nextRequest.getDeleteFileNames() + "<br><br>");
+        }
       table.append("<span class=\"mouseComment\">" +  HTMLUtilities.getCommentForDisplay(emptyIfNull(nextRequest.getUserComment())) + "</span><br>");
 
       table.append("</td>");
@@ -3177,7 +3183,7 @@ public class HTMLGeneration {
       return "failed to encode";
     }
   }
-
+//part of old Email Template Form improvemtents commit, is it used? -EW
   public static boolean isAdminUser(HttpServletRequest request){
     return request.isUserInRole("administrator");
   }

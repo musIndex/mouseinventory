@@ -34,53 +34,34 @@ public class DownloadServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//String mouseID = request.getParameter("mouseID");
-		//String fileName = request.getParameter("fileName");
 		Log.Info("downloadServlet reached");
-
+		
 		Integer id = (Integer) Integer.parseInt(request.getParameter("mouseID"));
 		Log.Info("id is " + id);
-		//File file = null;
-		//int BUFF_SIZE = 1024;
-		//byte[] buffer = new byte[BUFF_SIZE];
-
-
-
-
-
+	
 		try {
 
-			//String fileName = DBConnect.getFilePathByID(id);
 			String fileName = request.getParameter("fileName");
 			Log.Info("filename returned is " + fileName);
-
+			String path = "/userfiles/" + id + "/" +fileName;
 			response.setContentType("text");
-			//response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() +"\"");
 			response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName +"\"");
-			//response.setContentLength((int) file.length()); see if it works with this surpressed
-			//Log.Info("file length: " + file.length());
 			OutputStream output = response.getOutputStream();
-			FileInputStream input = new FileInputStream(fileName);
+			File downloadFile = new File(path);
+	        FileInputStream input = new FileInputStream(downloadFile);
+
+	        Log.Info("file path is " + path);
 			IOUtils.copy(input, output);
 
-			/*
-			int len = input.read(buffer);
-		    while (len != -1) {
-		    	output.write(buffer, 0, content);
-		    }
-		    */
-		    //output.flush();
 		    output.close();
 			input.close();
 			
 			Log.Info("end of download servlet");
 			
-			//FileUtils.copyFile(file, response.getOutputStream());
-		} catch (Exception e) {
-			Log.Info("exception in download servlet");
+		} catch (Exception exception) {
+			Log.Error("exception in download servlet", exception);
 		}		
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 	}
 
 	/**
