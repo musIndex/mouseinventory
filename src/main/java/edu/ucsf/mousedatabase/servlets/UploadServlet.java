@@ -168,7 +168,6 @@ public class UploadServlet extends HttpServlet {
 	    	Log.Info("Exception occurred while processing post request for file upload");
 	    }
 	   
-	    
 	      
 	    if (request.isUserInRole("administrator")) {
 	      response.sendRedirect(HTMLGeneration.adminRoot + "EditMouseForm.jsp?id=" + mouseID);
@@ -177,17 +176,7 @@ public class UploadServlet extends HttpServlet {
 	    	 response.setCharacterEncoding("UTF-8"); 
 	    	 response.getWriter().write(fileName); 
 	    	 request.getSession().setAttribute("fileName",fileName);
-	    	 
-	    	// request.getSession().setAttribute("actionRequested", 6);
 	 		 response.sendRedirect(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID);
-	    	//request.setAttribute("fileName", fileName);
-	    	
-	    	
-	    	
-	    	//request.getRequestDispatcher("SubmitChangeRequest").forward(request, response);
-	    	
-	    	//request.getRequestDispatcher(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID).forward(request, response);
-	    	//this.getServletContext().getRequestDispatcher(siteRoot + "ChangeRequestForm.jsp?mouseID=" + mouseID);
 	    	
 	    }
 	    	}

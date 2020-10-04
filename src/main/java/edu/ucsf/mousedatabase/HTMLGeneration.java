@@ -181,6 +181,10 @@ public class HTMLGeneration {
       table.append("</div>");
 
     }
+    table.append("<a href=\"" + siteRoot + "history.jsp\">"
+    		+ "<img src=/img/OR_logo_10year.png title='History of MouseDB' style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year' >");
+    
+   
     
     table.append("</div>"); //pagetitlecontainer
     table.append("</div>"); //pageheader
@@ -1716,8 +1720,8 @@ public class HTMLGeneration {
         //Log.Info("starting filename: " + filename);
         String filenameHref = filename.replaceAll("\\s", "%20"); //check that this works
         //Log.Info("ending filename: " + filename);
-        
-        fileComment = "<a href=/download" + "?fileName=" + filenameHref +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
+        //"+adminRoot+"/download" not working /admin//download
+        fileComment = "<a href="+siteRoot+"download" + "?fileName=" + filenameHref +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
         table.append("<div>" + fileComment + "</div>");
       }
 
@@ -1981,7 +1985,7 @@ public class HTMLGeneration {
         if (nextRequest.getCryoLiveStatus() != null && !nextRequest.getCryoLiveStatus().isEmpty()){
           table.append("</dt><dt>Status: " + nextRequest.getCryoLiveStatus() + "</dt>");
         }
-       
+
       }
 
      
