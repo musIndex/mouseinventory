@@ -92,6 +92,11 @@ public class SubmittedMouse {
   private String PMIDValid;
   private String gensatFounderLine;
   private String producedInLabOfHolder;
+
+  //Rat specific fields
+  private String ratName;
+  private String RatType;
+  private String rawRGDComment;
   
   //other fieds
   private String recordPreviewLink;
@@ -912,6 +917,30 @@ public class SubmittedMouse {
   }
   public void setProducedInLabOfHolder(String producedInLabOfHolder) {
     this.producedInLabOfHolder = producedInLabOfHolder;
+  }
+
+  public String getRatName() {
+    return ratName;
+  }
+
+  public void setRatName(String ratName) {
+    this.ratName = ratName;
+  }
+
+  public String getRatType() {
+    return RatType;
+  }
+
+  public void setRatType(String ratType) {
+    RatType = ratType;
+  }
+
+  public String getRawRGDComment() {
+    return rawRGDComment;
+  }
+
+  public void setRawRGDComment(String rawRGDComment) {
+    this.rawRGDComment = rawRGDComment;
   }
 
   public String getCryoLiveStatus() {

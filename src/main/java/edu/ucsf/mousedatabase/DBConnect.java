@@ -3398,35 +3398,35 @@ public class DBConnect {
 		}
 	}
 
-	private static final class SubmittedRatResultGetter extends ResultGetter {
-		public static SubmittedRatResultGetter getInstance() {
-			return new SubmittedRatResultGetter();
-		}
-
-		@Override
-		protected Object getNextItem() throws SQLException {
-			SubmittedRat result = new SubmittedRat();
-
-			result.setSubmissionID(g_int("submittedrat.id"));
-			int ratRecordID = g_int("ratRecordID");
-			//result.setRatRecordID(ratRecordID <= 0 ? -1 : ratRecordID);
-
-			result.setFirstName(g_str("firstname"));
-			result.setLastName(g_str("lastname"));
-			result.setDepartment(g_str("dept"));
-			result.setEmail(g_str("email"));
-			result.setTelephoneNumber(g_str("tel"));
-
-			result.setSubmissionDate(g_date("date"));
-			result.setStatus(g_str("status"));
-			result.setAdminComment(g_str("admincomment"));
-			result.setEntered(g_str("entered").equalsIgnoreCase("Y"));
-
-			result.parseProperties(g_str("properties"));
-			result.setSubmissionSource(g_str("submission_source"));
-			return result;
-		}
-	}
+//	private static final class SubmittedRatResultGetter extends ResultGetter {
+//		public static SubmittedRatResultGetter getInstance() {
+//			return new SubmittedRatResultGetter();
+//		}
+//
+//		@Override
+//		protected Object getNextItem() throws SQLException {
+//			SubmittedRat result = new SubmittedRat();
+//
+//			result.setSubmissionID(g_int("submittedrat.id"));
+//			int ratRecordID = g_int("ratRecordID");
+//			//result.setRatRecordID(ratRecordID <= 0 ? -1 : ratRecordID);
+//
+//			result.setFirstName(g_str("firstname"));
+//			result.setLastName(g_str("lastname"));
+//			result.setDepartment(g_str("dept"));
+//			result.setEmail(g_str("email"));
+//			result.setTelephoneNumber(g_str("tel"));
+//
+//			result.setSubmissionDate(g_date("date"));
+//			result.setStatus(g_str("status"));
+//			result.setAdminComment(g_str("admincomment"));
+//			result.setEntered(g_str("entered").equalsIgnoreCase("Y"));
+//
+//			result.parseProperties(g_str("properties"));
+//			result.setSubmissionSource(g_str("submission_source"));
+//			return result;
+//		}
+//	}
 
 	private static final class MouseHolderResultGetter extends ResultGetter {
 
