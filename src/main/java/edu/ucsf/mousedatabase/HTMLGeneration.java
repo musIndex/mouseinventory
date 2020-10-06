@@ -205,7 +205,7 @@ public class HTMLGeneration {
         currentPageFilename, false));
     // table.append(addNavLink("Endangered Mice", "EndangeredReport.jsp",
     // null,currentPageFilename,false));
-    table.append(addNavLink("Submit Rodents", "submitforminit.jsp", null,
+    table.append(addNavLink("Submit Rodents", "submission.jsp", null,
         currentPageFilename, false));
     table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false));
     if (isAdminPage && showAdminControls){

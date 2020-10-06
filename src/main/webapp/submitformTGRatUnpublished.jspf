@@ -110,57 +110,58 @@ String[] whereProducedValues = new String[]{"Yes","No"};
 
 <tr class="formField">
   <td valign="top">
-    Although most unpublished mice are not yet
-    listed on rgd, a few are. This is almost certainly the case for Gensat mice.  If the transgene you want to submit has an
+    Although most unpublished rats are not yet
+    listed on rgd, a few are. If the transgene you want to submit has an
     <b>rgd ID</b>, please enter it here <br>
   </td>
   <td valign="top">
-    <input type="text" name="ratrgdID"
-    id="ratrgdID" maxlength="11"
-    onkeyup="validateInput('ratrgdID', 'ratrgdValidation', 'rgdTransgeneId', ',')"
+    <input type="text" name="ratRGDID"
+    id="ratRGDID" maxlength="11"
+    onkeyup="validateInput('ratRGDID', 'ratrgdValidation', 'rgdTransgeneId', ',')"
     size="20"
-    value="${newRat.ratrgdID}">
+    value="${newRat.ratRGDID}">
     <a title="Check ID in rgd database" href="javascript:"
-    onClick="validateInput('ratrgdID', 'ratrgdValidation', 'rgdTransgeneId', ',')"><img
+    onClick="validateInput('ratRGDID', 'ratrgdValidation', 'rgdTransgeneId', ',')"><img
       style="vertical-align: middle" src="img/arrow_cycle.png"
       width="24" height="24">
   </a> <br /> <span
     class="<%=newRat.hasValidRatRGDID() ? "bp_valid" : "bp_invalid"%>"
-    id="ratrgdValidation">${newRat.ratrgddIDErr}</span>
+    id="ratrgdValidation">${newRat.ratRGDIDErr}</span>
     <input type="hidden"
-    name="ratrgdIDValidationString" id="ratrgdIDValidationString"
-    value="${newRat.ratrgdIDValidationString}">
-    <input type="hidden" name="ratrgdIDValid" id="ratrgdIDValid"
-    value="${newRat.ratrgdIDValid}">
+    name="ratRGDIDValidationString" id="ratRGDIDValidationString"
+    value="${newRat.ratRGDIDValidationString}">
+    <input type="hidden" name="ratRGDIDValid" id="ratRGDIDValid"
+    value="${newRat.ratRGDIDValid}">
   </td>
 </tr>
 
-<tr class="formField">
-  <td valign="top">If you have entered a valid rgd ID, the
-    official symbol for the transgene is shown. Please click on the link that
-    has been generated to the rgd accession number for this transgene
-    and <b>double check</b> to make sure that it describes the transgene you
-    want to submit. If not, replace the rgd  ID with the one for the correct
-    transgene.</td>
-  <td valign="top"><input type="hidden" name="officialSymbol"
-    id="officialSymbol"
-    value="${newRat.officialSymbol}"
-    size="40"> <span id="officialSymbolSpan"><b>${newRat.officialSymbol}</b>
-  </span> <span class="validationError">${newRat.officialSymbolErr}</span></td>
-</tr>
+<%--TODO Determine where and how this link is genereated, then fix and readd functionality --%>
+<%--<tr class="formField">--%>
+<%--  <td valign="top">If you have entered a valid rgd ID, the--%>
+<%--    official symbol for the transgene is shown. Please click on the link that--%>
+<%--    has been generated to the rgd accession number for this transgene--%>
+<%--    and <b>double check</b> to make sure that it describes the transgene you--%>
+<%--    want to submit. If not, replace the rgd  ID with the one for the correct--%>
+<%--    transgene.</td>--%>
+<%--  <td valign="top"><input type="hidden" name="officialSymbol"--%>
+<%--    id="officialSymbol"--%>
+<%--    value="${newRat.officialSymbol}"--%>
+<%--    size="40"> <span id="officialSymbolSpan"><b>${newRat.officialSymbol}</b>--%>
+<%--  </span> <span class="validationError">${newRat.officialSymbolErr}</span></td>--%>
+<%--</tr>--%>
 
-<tr class="formField">
-  <td>If the transgene was produced by Gensat, provide 'Founder Line'.  This is included at the end of the Official Symbol, e.g.
-'Tg(Epha2-EGFP)DE51Gsat' - the 'Founder Line' here is DE51.
-    <br> <a href="http://www.gensat.org/search.jsp" target="_blank">Gensat catalog</a>
-  </td>
-  <td><input name="gensatFounderLine" id="gensatFounderLine"
-    type="text" size="40" maxlength="100"
-    onkeyup="validateInput('gensatFounderLine','gensatFounderLineValidation','gensat',',')"
-    value="${newRat.gensatFounderLine}">
-    <span class="bp_valid" id="gensatFounderLineValidation">${newRat.gensatFounderLineErr}</span>
-  </td>
-</tr>
+<%--<tr class="formField">--%>
+<%--  <td>If the transgene was produced by Gensat, provide 'Founder Line'.  This is included at the end of the Official Symbol, e.g.--%>
+<%--'Tg(Epha2-EGFP)DE51Gsat' - the 'Founder Line' here is DE51.--%>
+<%--    <br> <a href="http://www.gensat.org/search.jsp" target="_blank">Gensat catalog</a>--%>
+<%--  </td>--%>
+<%--  <td><input name="gensatFounderLine" id="gensatFounderLine"--%>
+<%--    type="text" size="40" maxlength="100"--%>
+<%--    onkeyup="validateInput('gensatFounderLine','gensatFounderLineValidation','gensat',',')"--%>
+<%--    value="${newRat.gensatFounderLine}">--%>
+<%--    <span class="bp_valid" id="gensatFounderLineValidation">${newRat.gensatFounderLineErr}</span>--%>
+<%--  </td>--%>
+<%--</tr>--%>
 
 <tr class="formField">
   <td valign="top">

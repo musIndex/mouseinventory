@@ -153,10 +153,16 @@ public class SubmittedMouse {
         if(propName.equalsIgnoreCase("MouseType"))
         {
           setMouseType(props.getProperty(propName));
-        }else if(propName.equalsIgnoreCase("isPublished"))
+        }else if(propName.equalsIgnoreCase("RatType")) {
+          setRatType(props.getProperty(propName));
+        }
+        else if(propName.equalsIgnoreCase("isPublished"))
         {
           setIsPublished(props.getProperty(propName));
         }else if(propName.equalsIgnoreCase("mouseName"))
+        {
+          setMouseName(props.getProperty(propName));
+        }else if(propName.equalsIgnoreCase("ratName"))
         {
           setMouseName(props.getProperty(propName));
         }else if(propName.equalsIgnoreCase("officialMouseName"))
@@ -226,6 +232,9 @@ public class SubmittedMouse {
         }else if(propName.equalsIgnoreCase("rawMGIComment"))
         {
           setRawMGIComment(props.getProperty(propName));
+        }else if(propName.equalsIgnoreCase("rawRGDComment"))
+        {
+          setRawRGDComment(props.getProperty(propName));
         }else if(propName.equalsIgnoreCase("repository"))
         {
           setMouseMGIID(props.getProperty(propName));
