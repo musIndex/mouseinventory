@@ -404,6 +404,12 @@ public class MouseSubmission {
           valid = false;
           producedInLabOfHolderErr = "Please specify where the mouse was produced.";
         }
+        //added MTA not chosen error -EW
+        if(isNullOrEmpty(mtaRequired)) 
+        {
+          valid = false;
+          mtaRequiredErr = "Please select a choice for MTA required, choose No if not sure." ;
+        }
 
         if(isNullOrEmpty(comment))
         {
@@ -503,6 +509,13 @@ public class MouseSubmission {
           valid = false;
           producedInLabOfHolderErr = "Please specify where the mouse was produced";
         }
+        //added MTA choice error -EW
+        if(isNullOrEmpty(mtaRequired)) 
+        {
+          valid = false;
+          mtaRequiredErr = "Please select Yes or No for MTA required, choose No if not sure." ;
+        }
+
 
         if(isNullOrEmpty(comment))
         {
@@ -930,6 +943,7 @@ public class MouseSubmission {
           props.setProperty("supplierForInbredStrain",newMouse.getISSupplier());
           props.setProperty("supplierForInbredStrainCatalogNumber",emptyIfNull(newMouse.getISSupplierCatalogNumber()));
           props.setProperty("supplierForInbredStrainCatalogUrl",emptyIfNull(newMouse.getISSupplierCatalogUrl()));
+          props.setProperty("mta",emptyIfNull(newMouse.getMtaRequired()));
         }
         props.setProperty("cryopreserved",emptyIfNull(newMouse.getCryopreserved()));
         //common stuff

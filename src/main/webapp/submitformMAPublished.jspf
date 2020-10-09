@@ -261,7 +261,16 @@
     size="20"> <span class="validationError">${newMouse.TGOtherErr}</span>
     </td>
 </tr>
-
+<tr class="formField">
+  <td valign="top">
+    <span class=red>*</span> Is an MTA required for transfer?
+  </td>
+  <td valign="top">
+    <%=genYesNoRadio("mtaRequired", newMouse.getMtaRequired())%>
+   
+    <span class="validationError">${newMouse.mtaRequiredErr}</span>
+  </td>
+</tr>
 <tr class="formField">
   <td valign="top" class="firstColumn">
     <b>Background strain</b> of mutant allele mouse.

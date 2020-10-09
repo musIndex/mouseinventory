@@ -59,8 +59,18 @@
   </td>
 </tr>
 <tr class="formField">
+  <td valign="top">
+    <span class=red>*</span> Is an MTA required for transfer?
+  </td>
+  <td valign="top">
+    <%=genYesNoRadio("mtaRequired", newMouse.getMtaRequired())%>
+   
+    <span class="validationError">${newMouse.mtaRequiredErr}</span>
+  </td>
+</tr>
+<tr class="formField">
   <td valign="top"><b>Comment</b>
-    <p>Use this field to provide a brief description of the strain,
+    <p>Use this field to provide a brief description of the inbred,
       its uses, and other pertinent information. (Do not include detailed
       information that can be found via the link to the description in the
       supplier's catalog.)</p>

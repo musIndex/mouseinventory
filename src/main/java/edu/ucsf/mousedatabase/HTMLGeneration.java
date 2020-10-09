@@ -1311,6 +1311,11 @@ public class HTMLGeneration {
             + nextSubmission.getProducedInLabOfHolder()
             + "</dt>\r\n");
       }
+      if (nextSubmission.getMtaRequired() != null){
+    	  table.append("<dt>Is MTA Required for Transfer? "
+    	            + nextSubmission.getMtaRequired()
+    	            + "</dt>\r\n");
+      }
       // if (nextSubmission.getCryoLiveStatus() != null) {
       // table.append("<dt>Mouse Status: "
       // + nextSubmission.getCryoLiveStatus() + "</dt>\r\n");

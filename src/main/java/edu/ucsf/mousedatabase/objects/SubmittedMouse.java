@@ -420,6 +420,12 @@ public class SubmittedMouse {
     {
       r.setGeneralComment(r.getGeneralComment() + "  Produced in laboratory of holder (" + holderName + ")");
     }
+    //Append MTA required to end of Comment -EW
+    if(mtaRequired !=null && mtaRequired.equalsIgnoreCase("Yes"))
+    {
+      r.setGeneralComment(r.getGeneralComment() + "  *MTA Required for Transfer ");
+     
+    }
 
     ArrayList<String> pmids = new ArrayList<String>();
     pmids.add(PMID);
