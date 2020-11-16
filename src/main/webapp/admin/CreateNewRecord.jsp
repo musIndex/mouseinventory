@@ -72,12 +72,8 @@
     }
     else
     {
-      if (isRat) {
-        record = submission.toMouseRecord();
-      }
-      else {
-        record = submission.toMouseRecord();
-      }
+
+      record = submission.toMouseRecord();
       records = new ArrayList<MouseRecord>();
       records.add(record);
 

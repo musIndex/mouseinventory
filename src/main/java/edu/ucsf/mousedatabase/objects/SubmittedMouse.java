@@ -154,7 +154,7 @@ public class SubmittedMouse {
         {
           setMouseType(props.getProperty(propName));
         }else if(propName.equalsIgnoreCase("RatType")) {
-          setRatType(props.getProperty(propName));
+          setMouseType(props.getProperty(propName));
         }
         else if(propName.equalsIgnoreCase("isPublished"))
         {

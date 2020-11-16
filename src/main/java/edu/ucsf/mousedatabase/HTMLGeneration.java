@@ -1629,7 +1629,7 @@ public class HTMLGeneration {
           repositoryCatalogNumber = formatMGI(repositoryCatalogNumber);
         }
 
-        table.append("<dt><span class='lbl'>Official Symbol:</span> " + source + "</dt>\r\n");
+        table.append("<dt><span class='lbl'> Symbol:</span> " + source + "</dt>\r\n");
         String officialName = nextRecord.getOfficialMouseName();
         if (officialName != null && !officialName.isEmpty()) {
           table.append("<dt>(");

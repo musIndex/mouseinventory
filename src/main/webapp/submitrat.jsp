@@ -101,6 +101,9 @@
 
     if (!isDuplicate)
     {
+        String id = newRat.getRatRGDID();
+        RGDResult result = RGDConnect.getGeneQuery(id);
+        newRat.setOfficialSymbol(result.getSymbol());
         Properties props = RatSubmission.GetPropertiesString(submitterData,newRat);
         submissionID = DBConnect.insertSubmission(submitterData,newRat,props,SubmittedMouse.SubmissionFormSource);
         if (!submissionAdminComment.isEmpty())

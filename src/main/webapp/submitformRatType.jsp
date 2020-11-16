@@ -37,7 +37,7 @@
     is classified as a ‘mutant allele.’  However, if a gene is disrupted by a random insertion of a DNA construct,
     then the modification, while it is an allele of the disrupted gene, is classified as a transgene.
     </p>
-    <p><b><span class=red>Choose 'Inbred Strain'</span></b> when the major genetic characteristic of the rodent you want to submit is that it is a
+    <p><b><span class=red>Choose 'Inbred Strain/Outbred/Mixed Strain'</span></b> when the major genetic characteristic of the rodent you want to submit is that it is a
     member of a particular inbred strain (mice that are genetically nearly identical as a result of extensive inbreeding -
     usually at least 13 generations). These strains are generally purchased from suppliers such as JAX Mice.
     This category should be used for mice that are maintained because they carry QTLs.</p>
@@ -55,7 +55,7 @@
         Transgene
         <br/>
         <input type="radio" value="Inbred Strain" name="ratType" <%=HTMLGeneration.isChecked(newRat.isIS()) %> onclick="UpdateSelectedRatType()"/>
-        Inbred Strain
+        Inbred Strain/Outbred/Mixed Strain
         </td>
         </tr>
         <tr class="formField" id="isPublishedSection" style="<%=HTMLGeneration.rowVisibility(newRat.isTG() || newRat.isMA()) %>">
