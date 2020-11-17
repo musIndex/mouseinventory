@@ -234,6 +234,7 @@ function UpdateSelectedMouseType()
 
 }
 function UpdateSelectedRatType() {
+  // This is a test for Chris
   len = document.RatTypeForm.ratType.length;
 
   ratType = "none";
