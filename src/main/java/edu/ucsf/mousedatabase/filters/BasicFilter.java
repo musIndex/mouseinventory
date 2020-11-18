@@ -29,35 +29,35 @@ public class BasicFilter implements Filter {
             Log.Info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
             String host;
-            try {
-                host = new URI(httpRequest.getRequestURL().toString()).getHost();
-
-                if (host.equals("localhost")) {
-                    Log.Info("Access attempt on localhost... allowing.");
-                    chain.doFilter(request, response);
-                    return;
-                }
-                String userName = httpRequest.getHeader("X-MS-CLIENT-PRINCIPAL-NAME");
-                String userId = httpRequest.getHeader("X-MS-CLIENT-PRINCIPAL-ID");
-
-                Log.Info("Access attempt by <" + userName + ">, oid " + userId); 
-                if (userId.isEmpty()) {
-                    // No user info. Redirect to login.
-                    httpResponse.sendRedirect("https://" + host + "/.auth/login/aad");
-                    return;
-                }
-
-                if (adminList.contains(userId)) {
-                    Log.Info("User is an admin. Allow access.");
-                   
-                    chain.doFilter(request, response);
-                    return;
-                }
-                httpRequest.getRequestDispatcher("/accessDenied.jsp").forward(httpRequest, httpResponse);
-                return;
-            } catch (URISyntaxException error) {
-                error.printStackTrace();
-            }
+//            try {
+//                host = new URI(httpRequest.getRequestURL().toString()).getHost();
+//
+//                if (host.equals("localhost")) {
+//                    Log.Info("Access attempt on localhost... allowing.");
+//                    chain.doFilter(request, response);
+//                    return;
+//                }
+//                String userName = httpRequest.getHeader("X-MS-CLIENT-PRINCIPAL-NAME");
+//                String userId = httpRequest.getHeader("X-MS-CLIENT-PRINCIPAL-ID");
+//
+//                Log.Info("Access attempt by <" + userName + ">, oid " + userId);
+//                if (userId.isEmpty()) {
+//                    // No user info. Redirect to login.
+//                    httpResponse.sendRedirect("https://" + host + "/.auth/login/aad");
+//                    return;
+//                }
+//
+//                if (adminList.contains(userId)) {
+//                    Log.Info("User is an admin. Allow access.");
+//
+//                    chain.doFilter(request, response);
+//                    return;
+//                }
+//                httpRequest.getRequestDispatcher("/accessDenied.jsp").forward(httpRequest, httpResponse);
+//                return;
+//            } catch (URISyntaxException error) {
+//                error.printStackTrace();
+//            }
         }
     }
    
