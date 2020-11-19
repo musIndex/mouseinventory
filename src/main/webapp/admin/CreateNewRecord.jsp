@@ -67,6 +67,7 @@
            return;
          }
          record = records.get(0);
+         record.setRat(isRat);
          String link = record.getPreviewLink();
          otherRecordInfo = "Public record preview link <a href='" + link + "'>" + link + "</a><br>";
     }
@@ -74,6 +75,7 @@
     {
 
       record = submission.toMouseRecord();
+      record.setRat(isRat);
       records = new ArrayList<MouseRecord>();
       records.add(record);
 
