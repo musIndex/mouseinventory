@@ -1048,7 +1048,7 @@ public class ImportHandler
           currently using JaxMiceConnect.java JAX stock # to scrape MGI ID and get allele data from MGIConnect.java
           Try with "<" to get any mutant allele including spontaneous/radiation incuded-EW
           */
-          if (officialSymbol != null && !(officialSymbol.contains("<")|| officialSymbol.contains("<tm") || officialSymbol.contains("Tg(")))
+          if (officialSymbol != null && !(officialSymbol.contains("<")|| officialSymbol.contains("Tc(") || officialSymbol.contains("Tg(")))
           {
             for (PurchaseInfo purchase : currentPurchases) {
               if (importDefinition.Id == 1){

@@ -539,8 +539,8 @@ public class HTMLGeneration {
               r.getExpressedSequence(), "onChange=\"UpdateExpressedSequenceEdit()\""),
           "id=\"trExprSeqRow\" style=\""
               + rowVisibility(r.isTG() || (r.getModificationType() != null 
-                && r.getModificationType().equalsIgnoreCase("targeted knock-in")||r.getModificationType().equalsIgnoreCase("endonuclease-mediated")||
-                r.getModificationType().equalsIgnoreCase("transposon induced"))) + "\"",
+                && r.getModificationType().equalsIgnoreCase("targeted knock-in")^(r.getModificationType().equalsIgnoreCase("endonuclease-mediated"))^
+                (r.getModificationType().equalsIgnoreCase("transposon induced")))) + "\"",
           "editMouseRow");
 
       String mgiID = r.getTargetGeneID();
