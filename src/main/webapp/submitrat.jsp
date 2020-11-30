@@ -140,7 +140,7 @@
   <br>
   <br>
   If you would like to submit another rodent, <span style="font-size:120%" class=red>do not use the back button</span>, but
-  <a href="submitforminit.jsp">click here</a> instead.
+  <a href="submission.jsp">click here</a> instead.
   <br/>
 
   <%
