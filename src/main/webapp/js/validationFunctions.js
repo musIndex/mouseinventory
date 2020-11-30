@@ -15,6 +15,9 @@ var _jaxUrlTail = ".html";
 var _gensatUrl = "http://www.gensat.org/ShowFounderLineImages.jsp?gensatFounderLine=";
 var _gensatUrlTail = "";
 
+var _rgdDBurl = "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=";
+var _rgdDBurlTail = "";
+
 var _validateUrl = "/validate";
 
 //start a timer every time this is called.  if more than <delay> ms elapses without this function being called again, the timer fires and we run the validation request
@@ -84,7 +87,13 @@ function validateInputCallback(responseXML) {
     linkText = "(" + "MGI:" + inputValue + ")";
     updateHiddenInputs(resultString, valid, inputFieldId);
 
-  } else if (fieldType == "pmId")
+  }
+  else if (fieldType == "rgdModifiedGeneId"){
+    url = _rgdDBurl + inputValue + _rgdDBurlTail;
+    linkText = "(" + "RGD:" + inputValue + ")";
+    updateHiddenInputs(resultString, valid, inputFieldId);
+  }
+  else if (fieldType == "pmId")
   {
     url = _pmDBurl + inputValue + _pmDBurlTail;
     linkText = "(" + "Pubmed:" + inputValue + ")";
