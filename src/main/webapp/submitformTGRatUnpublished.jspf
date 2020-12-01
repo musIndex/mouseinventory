@@ -16,15 +16,15 @@
     <br>
     Go to rgd, find the detail page for the gene that is expressed,
     copy the rgd ID for that gene and paste it in the space provided.
-    (Click <a href="http://www.informatics.jax.org/javawi2/servlet/WIFetch?page=markerQF"
-      target="_blank">here</a> for a link to the rgd gene query page.)
+    (Click <a href="https://rgd.mcw.edu/rgdweb/search/genes.html?100"
+          target="_blank">here</a> for a link to the rgd gene query page.)
     <br>
     <span class=red>Please   make sure that the gene that is entered is the correct one.</span>
     <br>
     If you are not certain how to find this
     information, click the 'How to find rgd Gene ID button'.
     <div class=help_pdf>
-    <% Setting s2 = DBConnect.loadSetting("download_files_gene_id"); %>
+    <% Setting s2 = DBConnect.loadSetting("download_files_rgd_gene_id"); %>
       <a href='<%= s2.value %>' target=_blank>
       <span class=full_div_link></span>
       <%= s2.label %>

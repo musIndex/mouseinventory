@@ -6,12 +6,12 @@
     'Transgene Detail' page for it on the Rat Genome Database (RGD).
     You need to find this page in order to complete this submission.</b>
     <br>
-    <a href="http://www.informatics.jax.org/" target="_blank">Rat Genome Informatics</a>
+    <a href="https://rgd.mcw.edu/" target="_blank">Rat Genome Database</a>
     <br>
     If you are not certain how to find it, click here:
     <br>
     <div class=help_pdf>
-      <% Setting s1 = DBConnect.loadSetting("download_files_transgene_id"); %>
+      <% Setting s1 = DBConnect.loadSetting("download_files_rgd_gene_id"); %>
       <a href='<%= s1.value %>' target=_blank>
       <%= s1.label %>
       <span class=full_div_link></span>
