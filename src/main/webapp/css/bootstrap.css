@@ -1828,3 +1828,7 @@ a:hover {
 .modal-footer .btn-group .btn + .btn {
   margin-left: -1px;
 }
+
+.text-wrap{
+  display:flex
+}
