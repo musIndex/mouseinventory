@@ -41,6 +41,13 @@
     member of a particular inbred strain (mice that are genetically nearly identical as a result of extensive inbreeding -
     usually at least 13 generations). These strains are generally purchased from suppliers such as JAX Mice.
     This category should be used for mice that are maintained because they carry QTLs.</p>
+        After selecting a category, please choose the rodent's publication status.
+        <p><b><span class=red>Choose Published</span></b> when the rodent has been published in a research/scientific
+            paper and has a pubmed ID.</p>
+
+        <p><b><span class=red>Choose Unpublished</span></b> when the rodent has NOT been published in a research/scientific
+            paper and does NOT have a pubmed ID.</p>
+
     </div>
     </div>
 
@@ -60,13 +67,13 @@
         </tr>
         <tr class="formField" id="isPublishedSection" style="<%=HTMLGeneration.rowVisibility(newRat.isTG() || newRat.isMA()) %>">
         <td>
-        Is the rodent published?
+        Publication status:
         </td>
         <td colspan="2">
             <input type="radio" name="isPublished"
-                value="Yes" onclick="UpdateSelectedRatType()" <%=HTMLGeneration.isChecked(newRat.getIsPublished() != null && newRat.isPublished()) %> >Yes<br>
+                value="Yes" onclick="UpdateSelectedRatType()" <%=HTMLGeneration.isChecked(newRat.getIsPublished() != null && newRat.isPublished()) %> >Published<br>
             <input type="radio" name="isPublished"
-                value="No" onclick="UpdateSelectedRatType()" <%=HTMLGeneration.isChecked(newRat.getIsPublished() != null && !newRat.isPublished()) %> >No
+                value="No" onclick="UpdateSelectedRatType()" <%=HTMLGeneration.isChecked(newRat.getIsPublished() != null && !newRat.isPublished()) %> >Unpublished
             </td>
             </tr>
         </table>
