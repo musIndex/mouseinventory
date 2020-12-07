@@ -14,6 +14,16 @@ import edu.ucsf.mousedatabase.beans.UserData;
 
 public class MouseRecord {
 
+
+
+  public boolean isRat;
+  public boolean isRat() {
+    return isRat;
+  }
+  public void setRat(boolean rat) {
+    isRat = rat;
+  }
+
   String mouseID;
   String mouseName;
   String officialMouseName;

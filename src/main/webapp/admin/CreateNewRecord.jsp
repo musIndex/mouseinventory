@@ -22,6 +22,10 @@
     int submissionID = Integer.parseInt(request.getParameter("id"));
     String otherRecordInfo = "";
 
+    Boolean isRat = DBConnect.getSubmissionType(submissionID);
+//    if (isRat) {
+//      ArrayList<SubmittedRat> submissions = DBConnect.getRatSubmission(submissionID);
+//    }
     ArrayList<SubmittedMouse> submissions = DBConnect.getMouseSubmission(submissionID);
     if(submissions.size() < 1)
     {
@@ -63,14 +67,18 @@
            return;
          }
          record = records.get(0);
+         record.setRat(isRat);
          String link = record.getPreviewLink();
          otherRecordInfo = "Public record preview link <a href='" + link + "'>" + link + "</a><br>";
     }
     else
     {
+
       record = submission.toMouseRecord();
+      record.setRat(isRat);
       records = new ArrayList<MouseRecord>();
       records.add(record);
+
     }
 
 

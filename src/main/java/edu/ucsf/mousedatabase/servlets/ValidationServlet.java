@@ -8,10 +8,11 @@ import javax.servlet.http.*;
 
 import edu.ucsf.mousedatabase.HTMLUtilities;
 import edu.ucsf.mousedatabase.MGIConnect;
+import edu.ucsf.mousedatabase.RGDConnect;
 import edu.ucsf.mousedatabase.objects.MGIResult;
+import edu.ucsf.mousedatabase.objects.RGDResult;
 
 import java.util.*;
-import java.util.regex.*;
 
 public class ValidationServlet extends HttpServlet {
 
@@ -95,9 +96,17 @@ public class ValidationServlet extends HttpServlet {
         {
           result = doGensatValidation(inputString, allowedValues);
         }
+        else if (fieldType.equals("rgdTransgeneId")) {
+            result = doRGDGeneValidation(inputString, allowedValues, "rgdTransgeneId");
+        }
+        else if (fieldType.equals("rgdModifiedGeneId")){
+            result = doRGDGeneValidation(inputString, allowedValues, "rgdTransgeneId");
+
+        }
         else
         {
-          result = new ValidationResult("Unknown fieldType error", false, false);
+            String type = fieldType;
+            result = new ValidationResult("Unknown fieldType error", false, false);
         }
 
 
@@ -273,6 +282,28 @@ public class ValidationServlet extends HttpServlet {
       }
 
       return result;
+    }
+
+    private ValidationResult doRGDGeneValidation(String idString, String allowedValues, String type) {
+        ValidationResult result = checkAllowedValues(idString, allowedValues, type);
+        if (result != null) {
+            return result;
+        }
+
+        RGDResult r = null;
+
+        if(type.equalsIgnoreCase("rgdTransgeneId")) {
+            r = RGDConnect.getGeneQuery(idString);
+        }
+
+        if (r.isValid()) {
+            result = new ValidationResult(r.getSymbol() + " - " + r.getName(), true, true);
+        }
+        else {
+            result = new ValidationResult(r.getErrorString(), false, true);
+        }
+
+        return result;
     }
 
     //an allowed values string of '' means no allowed values.  ',' means blank is allowed

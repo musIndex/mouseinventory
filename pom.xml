@@ -183,12 +183,12 @@
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
+				<version>2.2</version>		
 				<configuration>
-					<contextFile>${project.basedir}/src/main/webapp/META-INF/context.xml</contextFile>
 					<server>${tomcat-server}</server>
 					<url>${tomcat-url}</url>
 					<path>${app-path}</path>
+					<update>true</update>
 				</configuration>
 			</plugin>
 		</plugins>

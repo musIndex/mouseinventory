@@ -92,6 +92,11 @@ public class SubmittedMouse {
   private String PMIDValid;
   private String gensatFounderLine;
   private String producedInLabOfHolder;
+
+  //Rat specific fields
+  private String ratName;
+  private String RatType;
+  private String rawRGDComment;
   
   //other fieds
   private String recordPreviewLink;
@@ -148,10 +153,16 @@ public class SubmittedMouse {
         if(propName.equalsIgnoreCase("MouseType"))
         {
           setMouseType(props.getProperty(propName));
-        }else if(propName.equalsIgnoreCase("isPublished"))
+        }else if(propName.equalsIgnoreCase("RatType")) {
+          setMouseType(props.getProperty(propName));
+        }
+        else if(propName.equalsIgnoreCase("isPublished"))
         {
           setIsPublished(props.getProperty(propName));
         }else if(propName.equalsIgnoreCase("mouseName"))
+        {
+          setMouseName(props.getProperty(propName));
+        }else if(propName.equalsIgnoreCase("ratName"))
         {
           setMouseName(props.getProperty(propName));
         }else if(propName.equalsIgnoreCase("officialMouseName"))
@@ -221,6 +232,9 @@ public class SubmittedMouse {
         }else if(propName.equalsIgnoreCase("rawMGIComment"))
         {
           setRawMGIComment(props.getProperty(propName));
+        }else if(propName.equalsIgnoreCase("rawRGDComment"))
+        {
+          setRawRGDComment(props.getProperty(propName));
         }else if(propName.equalsIgnoreCase("repository"))
         {
           setMouseMGIID(props.getProperty(propName));
@@ -364,6 +378,112 @@ public class SubmittedMouse {
     r.setOfficialMouseName(officialMouseName);
     r.setMouseType(mouseType);
     
+    r.setGeneID(MAMgiGeneID);
+    r.setTargetGeneID(TGMouseGene);
+
+    if(MAModificationType != null && !MAModificationType.equalsIgnoreCase("Select One"))
+      r.setModificationType(MAModificationType);
+
+    r.setRegulatoryElement(TGRegulatoryElement);
+
+    if(transgenicType != null && !transgenicType.equalsIgnoreCase("Select One"))
+      r.setTransgenicType(transgenicType);
+
+    if(isTG() && transgenicType == null)
+    {
+      r.setTransgenicType("Random Insertion");
+    }
+
+    if(TGExpressedSequence != null && !TGExpressedSequence.equalsIgnoreCase("Select One"))
+      r.setExpressedSequence(TGExpressedSequence);
+    r.setReporter(TGReporter);
+    r.setOtherComment(TGOther);
+
+    if(isMA() || isTG())
+    {
+      r.setSource(officialSymbol);
+    }
+    else if (isIS())
+    {
+      String sourceString = getISSupplier();
+      if (getISSupplierCatalogNumber() != null)
+      {
+        sourceString += ", " + getISSupplierCatalogNumber();
+      }
+      if (!getISSupplier().startsWith("JAX"))
+      {
+        sourceString += "||" + getISSupplierCatalogUrl();
+      }
+
+      r.setSource(sourceString);
+    }
+
+
+    String trimmedComment = comment;
+    if (trimmedComment != null && !trimmedComment.isEmpty())
+    {
+      int rawPropertiesIndex = trimmedComment.indexOf("Raw properties returned from MGI");
+      if (rawPropertiesIndex > 0)
+      {
+        trimmedComment = trimmedComment.substring(0,rawPropertiesIndex).trim();
+      }
+    }
+    r.setGeneralComment(trimmedComment);
+
+    if(producedInLabOfHolder != null && producedInLabOfHolder.equalsIgnoreCase("Yes"))
+    {
+      r.setGeneralComment(r.getGeneralComment() + "  Produced in laboratory of holder (" + holderName + ")");
+    }
+
+    ArrayList<String> pmids = new ArrayList<String>();
+    pmids.add(PMID);
+    r.setPubmedIDs(pmids);
+    r.setRepositoryCatalogNumber(mouseMGIID);
+    r.setRepositoryTypeID("5");
+
+    r.setBackgroundStrain(backgroundStrain);
+    r.setGensat(gensatFounderLine);
+    r.setMtaRequired(mtaRequired);
+
+
+    try
+    {
+      ArrayList<MouseHolder> mHolders = getHolders();
+      if (mHolders == null)
+      {
+        mHolders = new ArrayList<MouseHolder>();
+      }
+
+      setCryoLiveStatus(cryoLiveStatus);
+      r.setHolders(mHolders);
+    }
+    catch(Exception e)
+    {
+      //use blank holders if anything breaks
+      Holder holder = new Holder();
+      Facility facility = new Facility();
+      MouseHolder mHolder = new MouseHolder(holder,facility,false);
+      ArrayList<MouseHolder> mHolders = new ArrayList<MouseHolder>();
+      mHolders.add(mHolder);
+      r.setHolders(mHolders);
+    }
+
+
+
+    return r;
+  }
+
+  public MouseRecord toRatRecord()
+  {
+    if (isTG()){
+      //for legacy submissions that are set to 'transgenic' instead of 'transgene'
+      mouseType = "Transgene";
+    }
+    MouseRecord r = new MouseRecord();
+    r.setMouseName(mouseName);
+    r.setOfficialMouseName(officialMouseName);
+    r.setMouseType(mouseType);
+
     r.setGeneID(MAMgiGeneID);
     r.setTargetGeneID(TGMouseGene);
 
@@ -806,6 +926,30 @@ public class SubmittedMouse {
   }
   public void setProducedInLabOfHolder(String producedInLabOfHolder) {
     this.producedInLabOfHolder = producedInLabOfHolder;
+  }
+
+  public String getRatName() {
+    return ratName;
+  }
+
+  public void setRatName(String ratName) {
+    this.ratName = ratName;
+  }
+
+  public String getRatType() {
+    return RatType;
+  }
+
+  public void setRatType(String ratType) {
+    RatType = ratType;
+  }
+
+  public String getRawRGDComment() {
+    return rawRGDComment;
+  }
+
+  public void setRawRGDComment(String rawRGDComment) {
+    this.rawRGDComment = rawRGDComment;
   }
 
   public String getCryoLiveStatus() {

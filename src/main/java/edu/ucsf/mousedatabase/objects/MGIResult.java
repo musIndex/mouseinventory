@@ -15,6 +15,7 @@ public class MGIResult {
   private boolean isOGFPage;
   private boolean mgiOffline;
   private boolean mgiConnectionTimedout;
+  private String alleleAccessionID;
 
   public boolean isMgiConnectionTimedout() {
     return mgiConnectionTimedout;
@@ -22,7 +23,7 @@ public class MGIResult {
   public void setMgiConnectionTimedout(boolean mgiConnectionTimedout) {
     this.mgiConnectionTimedout = mgiConnectionTimedout;
   }
-  private String alleleAccessionID;
+
 
 
 

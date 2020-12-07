@@ -1,0 +1,199 @@
+<%@page import="edu.ucsf.mousedatabase.DBConnect" %>
+<%@page import="edu.ucsf.mousedatabase.objects.*" %>
+<%//***Expressed Sequence Section***** %>
+<tr class="formField">
+  <td valign="top" class="firstColumn"><span class=red>*</span>
+    <b>Expressed sequence type</b>: <br>For reporter-cre fusions, select 'Cre'</td>
+  <td><%=getExpressedSequenceRadioWithParams(emptyIfNull(newRat.getTGExpressedSequence()),
+  "onChange='UpdateExpressedSequenceDetail()'")%>
+    <span class="validationError">${newRat.TGExpressedSequenceErr}</span>
+  </td>
+</tr>
+<tr class="formField" id="trGeneRow"
+  style="<%=rowVisibility(newRat.isGeneExprSeq())%>">
+  <td valign="top">
+    <span class=red>*</span> Rat gene that is expressed
+    <br>
+    Go to rgd, find the detail page for the gene that is expressed,
+    copy the rgd ID for that gene and paste it in the space provided.
+    (Click <a href="https://rgd.mcw.edu/rgdweb/search/genes.html?100"
+          target="_blank">here</a> for a link to the rgd gene query page.)
+    <br>
+    <span class=red>Please   make sure that the gene that is entered is the correct one.</span>
+    <br>
+    If you are not certain how to find this
+    information, click the 'How to find rgd Gene ID button'.
+    <div class=help_pdf>
+    <% Setting s2 = DBConnect.loadSetting("download_files_rgd_gene_id"); %>
+      <a href='<%= s2.value %>' target=_blank>
+      <span class=full_div_link></span>
+      <%= s2.label %>
+      </a>
+    </div>
+  </td>
+  <td valign="top"><input type=text id="TGRatGene"
+    maxlength="11" name="TGRatGene" size="20"
+    value="${newRat.TGRatGene}"
+    onkeyup="validateInput('TGRatGene', 'TGRatGeneValidation', 'rgdExpressedGeneId', '')">
+    <a title="Check ID in rgd database" href="javascript:"
+    onClick="validateInput('TGRatGene', 'TGRatGeneValidation', 'rgdExpressedGeneId', '')"><img
+      style="vertical-align: middle" src="img/arrow_cycle.png"
+      width="24" height="24">
+  </a> <br> <span  class="<%=newRat.hasValidTGRatGene() ? "bp_valid" : "bp_invalid"%>"  id="TGRatGeneValidation">
+    ${newRat.TGRatGeneErr}</span>
+    <input type="hidden"
+    name="TGRatGeneValidationString"
+    id="TGRatGeneValidationString"
+    value="${newRat.TGRatGeneValidationString}">
+    <input type="hidden" name="TGRatGeneValid"
+    id="TGRatGeneValid"
+    value="${newRat.TGRatGeneValid}">
+  </td>
+
+</tr>
+<tr class="formField" id="trRepRow"
+  style="<%=rowVisibility(newRat.isReporterExprSeq())%>">
+  <td valign="top"><span class=red>*</span> Reporter</td>
+  <td valign="top"><INPUT TYPE="TEXT" name="TGReporter"
+    value="${newRat.TGReporter}"
+    size="20" maxlength="255"> <span class="validationError"><%=emptyIfNull(newRat
+  .getTGReporterErr())%></span>
+  </td>
+</tr>
+<tr class="formField" id="trDescRow"
+  style="<%=rowVisibility(newRat.isOtherExprSeq())%>">
+  <td valign="top"><span class=red>*</span> Description of the expressed sequence</td>
+  <td valign="top"><INPUT TYPE="TEXT" name="TGOther"
+    value="${newRat.TGOther}"
+    size="20" maxlength="255"> <span class="validationError">${newRat.TGOtherErr}</span>
+  </td>
+</tr>
+<%//***End Expressed Sequence Section***** %>
+
+<tr class="formField" id="trRegEle">
+  <td valign="top"><b>Regulatory Element</b>
+    <br>
+    Briefly describe the sequences that drive expression of the transgene, (e.g. 'CAG promoter').
+    <br>
+    For mice produced using a BAC (e.g. Gensat mice), state 'BAC containing X
+    gene (provide gene symbol)'.
+  </td>
+  <td valign="top"><INPUT TYPE="TEXT"
+    name="TGRegulatoryElement" maxlength="255"
+    value="${newRat.TGRegulatoryElement}"
+    size="20"> <span class="validationError">${newRat.TGRegulatoryElementErr}</span>
+  </td>
+</tr>
+
+<%
+String[] whereProducedLabels = new String[]{
+    "In the laboratory of the holder",
+    "In another laboratory"};
+
+String[] whereProducedValues = new String[]{"Yes","No"};
+%>
+
+<tr class="formField">
+  <td valign="top">
+    <span class=red>*</span> Where was the mouse produced?
+  </td>
+  <td valign="top"><%=genRadio("producedInLabOfHolder", whereProducedValues, whereProducedLabels, newRat.getProducedInLabOfHolder(),"")%>
+    <p style='margin: 0 0 10px 14px'>Please use the
+    comment field to provide the name and Institution of the PI in
+    whose laboratory the mouse was produced (or from whom the mouse
+    was obtained)</p> 
+    <%=genRadio("producedInLabOfHolder", new String[]{"Gensat"}, newRat.getProducedInLabOfHolder(),"")%>
+    <span class="validationError">
+      ${newRat.producedInLabOfHolderErr}</span>
+  </td>
+</tr>
+
+<tr class="formField">
+  <td valign="top">
+    Although most unpublished rats are not yet
+    listed on rgd, a few are. If the transgene you want to submit has an
+    <b>rgd ID</b>, please enter it here <br>
+  </td>
+  <td valign="top">
+    <input type="text" name="ratRGDID"
+    id="ratRGDID" maxlength="11"
+    onkeyup="validateInput('ratRGDID', 'ratrgdValidation', 'rgdTransgeneId', ',')"
+    size="20"
+    value="${newRat.ratRGDID}">
+    <a title="Check ID in rgd database" href="javascript:"
+    onClick="validateInput('ratRGDID', 'ratrgdValidation', 'rgdTransgeneId', ',')"><img
+      style="vertical-align: middle" src="img/arrow_cycle.png"
+      width="24" height="24">
+  </a> <br /> <span
+    class="<%=newRat.hasValidRatRGDID() ? "bp_valid" : "bp_invalid"%>"
+    id="ratrgdValidation">${newRat.ratRGDIDErr}</span>
+    <input type="hidden"
+    name="ratRGDIDValidationString" id="ratRGDIDValidationString"
+    value="${newRat.ratRGDIDValidationString}">
+    <input type="hidden" name="ratRGDIDValid" id="ratRGDIDValid"
+    value="${newRat.ratRGDIDValid}">
+  </td>
+</tr>
+
+<%--TODO Determine where and how this link is genereated, then fix and readd functionality --%>
+<%--<tr class="formField">--%>
+<%--  <td valign="top">If you have entered a valid rgd ID, the--%>
+<%--    official symbol for the transgene is shown. Please click on the link that--%>
+<%--    has been generated to the rgd accession number for this transgene--%>
+<%--    and <b>double check</b> to make sure that it describes the transgene you--%>
+<%--    want to submit. If not, replace the rgd  ID with the one for the correct--%>
+<%--    transgene.</td>--%>
+<%--  <td valign="top"><input type="hidden" name="officialSymbol"--%>
+<%--    id="officialSymbol"--%>
+<%--    value="${newRat.officialSymbol}"--%>
+<%--    size="40"> <span id="officialSymbolSpan"><b>${newRat.officialSymbol}</b>--%>
+<%--  </span> <span class="validationError">${newRat.officialSymbolErr}</span></td>--%>
+<%--</tr>--%>
+
+<%--<tr class="formField">--%>
+<%--  <td>If the transgene was produced by Gensat, provide 'Founder Line'.  This is included at the end of the Official Symbol, e.g.--%>
+<%--'Tg(Epha2-EGFP)DE51Gsat' - the 'Founder Line' here is DE51.--%>
+<%--    <br> <a href="http://www.gensat.org/search.jsp" target="_blank">Gensat catalog</a>--%>
+<%--  </td>--%>
+<%--  <td><input name="gensatFounderLine" id="gensatFounderLine"--%>
+<%--    type="text" size="40" maxlength="100"--%>
+<%--    onkeyup="validateInput('gensatFounderLine','gensatFounderLineValidation','gensat',',')"--%>
+<%--    value="${newRat.gensatFounderLine}">--%>
+<%--    <span class="bp_valid" id="gensatFounderLineValidation">${newRat.gensatFounderLineErr}</span>--%>
+<%--  </td>--%>
+<%--</tr>--%>
+
+<tr class="formField">
+  <td valign="top">
+    <span class=red>*</span> <b>Comment</b>
+    <br>
+    Provide a brief description of the transgene.
+    This is particularly important when there is no publication
+    describing it.</td>
+  <td valign="top"><textarea name="comment" id="comment"
+      rows="10" cols="60">${newRat.comment}</textarea>
+    <span class="validationError">${newRat.commentErr}</span>
+  </td>
+</tr>
+
+<tr class="formField">
+  <td valign="top" class="firstColumn">
+    <b>Background strain</b> of transgene mouse.
+    <br>
+    Enter only defined background strains (i.e. do not enter 'mixed' or 'not known').
+    <br>
+    (Optional: if the transgene is being maintained in combination with another transgene(s)
+    or a mutant allele(s), this can be noted here.)
+  </td>
+  <td valign="top">
+    <input type="text" name="backgroundStrain"
+    value="${newRat.backgroundStrain}"
+    size="40" maxlength="255">
+  </td>
+</tr>
+<tr class="formField">
+  <td valign="top" class="firstColumn"><b>Rat status</b>:</td>
+  <td><%=genRadio("cryopreserved", new String[]{"Live only",
+      "Live and Cryo", "Cryo only"}, newRat.liveCryoStatus())%>
+  </td>
+</tr>
