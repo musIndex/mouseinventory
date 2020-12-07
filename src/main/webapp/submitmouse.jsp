@@ -123,6 +123,8 @@
 <% if (ok) { 
     HTMLUtilities.logRequest(request);
   %>
+    <div class = "category">
+        <div class = "two_column_left">
   <h2>Submission #<%=submissionID %> (<%=newMouse.getMouseName()%>) was successful.</h2>
   <p>We have received your request to add your rodent to the inventory.
   It will be reviewed by the administrator.
@@ -133,12 +135,23 @@
   <br>
   Thank you.
   </p>
+            <br>
+            Your submission is complete! You now can either submit another rodent or go to the homepage.
+            <br>
+            <br>
+            <a href="submission.jsp"><button class = "btn btn-success">Submit another rodent</button></a>   <a href="about.jsp"><button class = "btn btn-info">Return to homepage</button></a>
+            <br/>
 
-  <br>
-  <br>
-  If you would like to submit another rodent, <span style="font-size:120%" class=red>do not use the back button</span>, but
-  <a href="submission.jsp">click here</a> instead.
-  <br/>
+        </div>
+        <div class = "two_column_right">
+            <br>
+            <img src="img/database_check.png">
+            <br>
+            <br>
+            New listings are checked every Tuesday and Friday
+            <br>
+            If you'd like to inquire about your listing, or get it approved sooner, email us at <a href = "mailto:ora.carrodentdatabase@msu.edu">ora.carrodentdatabase@msu.edu</a>.
+        </div></div>
 
   <%
   newMouse.clearMouseData();
