@@ -13,7 +13,7 @@
     
       if(!submitterData.ValidateContactInfo())
       {
-        %><h2><font color="red">Invalid contact information. Please go back to step 1.</font></h2>
+        %><h2><span style="color: #23476b;text-emphasis: #23476b;font-style: italic">Invalid contact information. Please go back to step 1.</font></h2>
         <a href="submitratinit.jsp">Back to step 1</a>
         <%
       }
@@ -30,22 +30,19 @@
     <p>For the rodent you want to submit, please select a category from the three choices listed.
     For transgenes, respond to the query about publication.
     </p>
-    <b><span class=red>Choose 'Transgene'</span></b> when a DNA construct (perhaps a BAC) has been randomly
+    <b><span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic">Choose 'Transgene'</span></b> when a DNA construct (perhaps a BAC) has been randomly
     inserted into the genome, such that the rodent expresses a particular sequence
     (e.g. Cre, a reporter gene, a rodent or human gene) under the control of a
     regulatory sequence included in the construct. Note: a knock-in into a specific locus
     is classified as a ‘mutant allele.’  However, if a gene is disrupted by a random insertion of a DNA construct,
     then the modification, while it is an allele of the disrupted gene, is classified as a transgene.
     </p>
-    <p><b><span class=red>Choose 'Inbred Strain/Outbred/Mixed Strain'</span></b> when the major genetic characteristic of the rodent you want to submit is that it is a
-    member of a particular inbred strain (mice that are genetically nearly identical as a result of extensive inbreeding -
-    usually at least 13 generations). These strains are generally purchased from suppliers such as JAX Mice.
-    This category should be used for mice that are maintained because they carry QTLs.</p>
+    <p><b><span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic">Choose 'Inbred Strain/Outbred/Mixed Strain'</span></b> when the major genetic characteristic of the rodent is a member of a particular inbred strain.</p>
         After selecting a category, please choose the rodent's publication status.
-        <p><b><span class=red>Choose Published</span></b> when the rodent has been published in a research/scientific
+        <p><b><span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic">Choose Published</span></b> when the rodent has been published in a research/scientific
             paper and has a pubmed ID.</p>
 
-        <p><b><span class=red>Choose Unpublished</span></b> when the rodent has NOT been published in a research/scientific
+        <p><b><span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic">Choose Unpublished</span></b> when the rodent has NOT been published in a research/scientific
             paper and does NOT have a pubmed ID.</p>
 
     </div>

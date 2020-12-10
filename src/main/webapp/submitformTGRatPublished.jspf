@@ -22,11 +22,11 @@
 
 <tr class="formField">
   <td style="width: 50%" valign="top">
-    <span class=red>*</span>Copy the <span class=red><b>RGD ID</b></span> for
+    <span class=black>*</span>Copy the <span style="color: #23476b;text-emphasis: #23476b; font-size: larger; font-style: italic"><b>RGD ID</b></span> for
     the transgene from the transgene detail page (number only) and paste it here.
      <br>
      Although each published transgene should have a detail page,
-     occasionally it does not.  If you are <span class=red>absolutely
+     occasionally it does not.  If you are <span style="color: #23476b;text-emphasis: #23476b; font-size: larger; font-style: italic">absolutely
      certain</span> that there is no detail page on RGD for the transgene you
      want to submit, enter none.  Admin will inform RGD, and they will provide
      a detail page for the transgene, usually within a few days.
@@ -67,7 +67,7 @@
     value="${newRat.ratRGDIDValidationString}">
     <input type="hidden" name="ratRGDIDValid" id="ratRGDIDValid"
     value="${newRat.ratRGDIDValid}">
-    <span class="validationError">${newRat.officialSymbolErr}</span>
+    <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.officialSymbolErr}</span>
   </td>
 </tr>
 
@@ -117,7 +117,7 @@
     <br>
     The text automatically entered here is the description of the transgene
     provided by RGD.
-    <span class=red>Please read this text and make sure it accurately describes the
+    <span style="color: #23476b;text-emphasis: #23476b; font-size: larger; font-style: italic">Please read this text and make sure it accurately describes the
     transgene you want to submit.  If not, make the appropriate changes.</span>
     <br />
     <br />
@@ -137,24 +137,24 @@
 
 <%//***Expressed Sequence Section***** %>
 <tr class="formField">
-  <td valign="top" class="firstColumn"><span class=red>*</span>
+  <td valign="top" class="firstColumn"><span class=black>*</span>
   <b>Expressed sequence type</b>: <br>For reporter-cre fusions, select 'Cre'</td>
   <td><%=getExpressedSequenceRadioWithParams(emptyIfNull(newRat.getTGExpressedSequence()),
   "onChange='UpdateExpressedSequenceDetail()'")%>
-    <span class="validationError">${newRat.TGExpressedSequenceErr}</span>
+    <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.TGExpressedSequenceErr}</span>
   </td>
 </tr>
 <tr class="formField" id="trGeneRow"
   style="<%=rowVisibility(newRat.isGeneExprSeq())%>">
   <td valign="top">
-    <span class=red>*</span> Rat gene that is expressed
+    <span class=black>*</span> Rat gene that is expressed
     <br>
     Go to RGD, find the detail page for the gene that is expressed,
     copy the RGD ID for that gene and paste it in the space provided.
     (Click <a href="http://www.informatics.jax.org/javawi2/servlet/WIFetch?page=markerQF"
       target="_blank">here</a> for a link to the RGD gene query page.)
     <br>
-    <span class=red>Please   make sure that the gene that is entered is the correct one.</span>
+    <span style="color: #23476b;text-emphasis: #23476b; font-size: larger; font-style: italic">Please   make sure that the gene that is entered is the correct one.</span>
     <br>
   </td>
   <td valign="top"><input type=text id="TGRatGene"
@@ -179,19 +179,19 @@
 </tr>
 <tr class="formField" id="trRepRow"
   style="<%=rowVisibility(newRat.isReporterExprSeq())%>">
-  <td valign="top"><span class=red>*</span> Reporter</td>
+  <td valign="top"><span class=black>*</span> Reporter</td>
   <td valign="top"><INPUT TYPE="TEXT" name="TGReporter"
     value="${newRat.TGReporter}"
-    size="20" maxlength="255"> <span class="validationError"><%=emptyIfNull(newRat
+    size="20" maxlength="255"> <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><%=emptyIfNull(newRat
   .getTGReporterErr())%></span>
   </td>
 </tr>
 <tr class="formField" id="trDescRow"
   style="<%=rowVisibility(newRat.isOtherExprSeq())%>">
-  <td valign="top"><span class=red>*</span> Description of the expressed sequence</td>
+  <td valign="top"><span class=black>*</span> Description of the expressed sequence</td>
   <td valign="top"><INPUT TYPE="TEXT" name="TGOther"
     value="${newRat.TGOther}"
-    size="20" maxlength="255"> <span class="validationError">${newRat.TGOtherErr}</span>
+    size="20" maxlength="255"> <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.TGOtherErr}</span>
   </td>
 </tr>
 <%//***End Expressed Sequence Section***** %>
@@ -207,7 +207,7 @@
   <td valign="top"><INPUT TYPE="TEXT"
     name="TGRegulatoryElement" maxlength="255"
     value="${newRat.TGRegulatoryElement}"
-    size="20"> <span class="validationError">${newRat.TGRegulatoryElementErr}</span>
+    size="20"> <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.TGRegulatoryElementErr}</span>
   </td>
 </tr>
 

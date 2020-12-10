@@ -149,7 +149,7 @@ $(document).ready(function(){
     function rgdLookupError(data){
       var message = $("#popupDialogMessage");
       message.html("Unexpected error.  Please try again later.");
-      message.css("color","red");
+      message.css("color","black");
     }
 
     function formatRgdLink(rgdNumber)
@@ -195,29 +195,29 @@ $(document).ready(function(){
       <h2>New Submission Step 3: Rodent Details</h2>
       <%=savedMessage%>
       <h3>
-        <span class=red><%=errorsMessage%></span>
+        <span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic"><%=errorsMessage%></span>
       </h3>
       <a href="submitformRatType.jsp">Back to step 2</a>
       <br>
-      <span style='font-size:120%;font-weight:bold' class=red>WARNING: if you leave this page without using the
+      <span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic">WARNING: if you leave this page without using the
       save button at the bottom of the page, the data you entered will be
       lost</span>
       <br> If you encounter any difficulties while completing
       this page, click 'Submit Feedback' at the top of the screen.
       <p>
-        <span class=red>*</span>Indicates required field.
+        <span class=black>*</span>Indicates required field.
       </p>
 
-      <span class="validationError">${newRat.ratTypeErr}</span>
-      <span class="validationError">${newRat.transgenicTypeErr}</span>
-      <span class="validationError">${newRat.isPublishedErr}</span>
+      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.ratTypeErr}</span>
+      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.transgenicTypeErr}</span>
+      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.isPublishedErr}</span>
 
       <%
         if (!newRat.hasType()) {
           //TODO just redirect them back to step 2, step 1 if there is no contact info saved.
       %>
       <p>
-        <font color="red"><b>Unknown Error. Please go back to
+       <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><b>Unknown Error. Please go back to
             step 1 and try again</b>
         </font>
       </p>
@@ -235,12 +235,12 @@ $(document).ready(function(){
           </tr>
           <tr class="formField">
             <td width="50%">
-              <span class=red>*</span> <%=ratNameStr%>
+              <span class=black>*</span> <%=ratNameStr%>
             </td>
             <td>
               <input type="text" name="ratName"  value="${ newRat.ratName}"
               size="40" maxlength="255">
-              <span class="validationError">${ newRat.ratNameErr}</span>
+              <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${ newRat.ratNameErr}</span>
             </td>
           </tr>
           <%

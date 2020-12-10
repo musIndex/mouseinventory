@@ -150,7 +150,7 @@
             <br>
             New listings are checked every Tuesday and Friday
             <br>
-            If you'd like to inquire about your listing, or get it approved sooner, email us at <a href = "mailto:ora.carrodentdatabase@msu.edu">ora.carrodentdatabase@msu.edu</a>.
+            If you'd like to inquire about your listing, email us at <a href = "mailto:ora.carrodentdatabase@msu.edu">ora.carrodentdatabase@msu.edu</a>.
         </div></div>
 
   <%
