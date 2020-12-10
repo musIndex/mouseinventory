@@ -267,8 +267,9 @@ a.navBarAnchor:visited {
 }
 
 .bp_valid {
-  color: green;
-  font-weight: bold;
+  color: #23476b;
+  text-emphasis: #23476b;
+  font-style: italic;
 }
 
 tr {
