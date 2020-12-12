@@ -67,6 +67,9 @@ ul.navLinkUL {
 #pageTitleContainer {
   float: left;
 }
+#pageLogo a{
+	
+}
 
 #pageTitle a {
   color: #667A99;
@@ -258,13 +261,15 @@ a.navBarAnchor:visited {
 }
 
 .bp_invalid {
-  font-weight: bold;
-  color: red;
+  color: #23476b;
+  text-emphasis: #23476b;
+  font-style: italic;
 }
 
 .bp_valid {
-  color: green;
-  font-weight: bold;
+  color: #23476b;
+  text-emphasis: #23476b;
+  font-style: italic;
 }
 
 tr {
@@ -1012,7 +1017,6 @@ a.view_sent {
   margin: 6px 0;
 }
 
-<<<<<<< HEAD
 .about_container {
   max-width: 960px;
   margin: 0 auto;
@@ -1207,8 +1211,8 @@ a.view_sent {
 
 .deadbeat_holder,
 .deadbeat_holder td {
-  background-color: rgba(230,0,0,0.4);
-=======
+  background-color: rgba(230,0,0,0.4);}
+
 .change_request_form > ul {
   list-style-type: none;
   margin: 5px;

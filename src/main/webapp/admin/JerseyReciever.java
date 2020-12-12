@@ -64,7 +64,7 @@ public class FileUploadResource {
 						
 			//saveFile(bodyPartEntity.getInputStream(), fileName);			
 		}
-		sendFilesToDatabase(files, mouseID);
+		sendFilesToDatabase(files, mouseID, "approved");
 		
 	}
 

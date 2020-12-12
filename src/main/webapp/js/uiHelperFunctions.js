@@ -233,8 +233,66 @@ function UpdateSelectedMouseType()
   }
 
 }
+function UpdateSelectedRatType() {
+  // This is a test for Chris
+  len = document.RatTypeForm.ratType.length;
 
-function UpdateSelectedMouseTypeOld() {
+  ratType = "none";
+
+  for (i = 0; i < len; i++) {
+    if (document.RatTypeForm.ratType[i].checked) {
+      ratType = document.RatTypeForm.ratType[i].value;
+    }
+  }
+
+  //len = document.RatTypeForm.transgenicType.length;
+
+  //transgenicType = "none";
+
+  //for (i = 0; i < len; i++) {
+  //  if (document.RatTypeForm.transgenicType[i].checked) {
+  //    transgenicType = document.RatTypeForm.transgenicType[i].value;
+  //  }
+  //}
+
+  len = document.RatTypeForm.isPublished.length;
+
+  isPublished = "none";
+
+  for (i = 0; i < len; i++) {
+    if (document.RatTypeForm.isPublished[i].checked) {
+      isPublished = document.RatTypeForm.isPublished[i].value;
+    }
+  }
+
+  if (ratType == "Mutant Allele") {
+
+    setElementVisibility("nextButton", "none");
+    //setElementVisibility("transgenicTypes", "none");
+    setElementVisibility("isPublishedSection", "");
+
+    if (isPublished != "none") {
+      setElementVisibility("nextButton", "block");
+    }
+  } else if (ratType == "Transgene") {
+    setElementVisibility("nextButton", "none");
+    //setElementVisibility("transgenicTypes", "");
+    setElementVisibility("isPublishedSection", "");
+
+    //ADD red text label saying they have to choose one
+
+    if (isPublished != "none") {
+      setElementVisibility("nextButton", "block");
+    }
+  } else if (ratType == "Inbred Strain") {
+    setElementVisibility("nextButton", "block");
+    //setElementVisibility("transgenicTypes", "none");
+    setElementVisibility("isPublishedSection", "none");
+  }
+
+}
+
+  function UpdateSelectedMouseTypeOld() {
 
   len = document.MouseForm.MouseType.length;
   i = 0;

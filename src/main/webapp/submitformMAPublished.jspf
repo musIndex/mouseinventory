@@ -22,13 +22,13 @@
 </tr>
 <tr class="formField">
   <td valign="top">
-    <span class=red>*</span> Copy the <span class=red><b>MGI ID</b></span>
+    <span class=black>*</span> Copy the <span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic"><b>MGI ID</b></span>
     for the allele from the allele detail page (number only) and paste it here.
     <br>
     Although each published allele should have a detail page, occasionally
     it does not.
     <br>
-    If you are <span class=red>absolutely certain </span> that there is
+    If you are <span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic">absolutely certain </span> that there is
     no detail page on MGI for the mutant allele you want to submit,
     enter 'none'. Admin will inform MGI, and they will provide a
     detail page for the allele, usually within a few days.
@@ -70,12 +70,12 @@
     <br />
     <a href="#" id="mgiautofillbutton" style="text-decoration:none"
       class="btn btn-primary btn-large">Auto-fill Gene, PubMed, and description data</a>
-    <span class="validationError">${newMouse.officialSymbolErr}</span>
+    <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.officialSymbolErr}</span>
   </td>
 </tr>
 <tr class="formField">
   <td valign="top">
-    <span class=red>*</span> <b>Gene</b> (MGI ID)
+    <span class=black>*</span> <b>Gene</b> (MGI ID)
     <br>
     This is the MGI ID for the gene that is mutated in the allele being submitted.
     When auto-filled, the official symbol and full name of the gene will appear.
@@ -118,7 +118,7 @@
 
 <tr class="formField">
   <td valign="top">
-    <span class=red>*</span> <b>Pubmed ID</b>, generally for the publication in which
+    <span class=black>*</span> <b>Pubmed ID</b>, generally for the publication in which
     the mutant allele was first described (automatically entered when the MGI ID
     for the allele is entered)
     <br>
@@ -145,10 +145,10 @@
 </tr>
 
 <tr class="formField">
-  <td valign="top"><span class=red>*</span> <b>Comment</b>
+  <td valign="top"><span class=black>*</span> <b>Comment</b>
     <br>
     Text automatically entered here is the description of the allele
-    provided by MGI. <span class=red>Please read it and make sure it
+    provided by MGI. <span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic">Please read it and make sure it
     accurately describes the allele you want to submit.  If not, make the
     appropriate changes.</span>
     <br />
@@ -166,12 +166,12 @@
   <td valign="top">
     <textarea name="comment" id="comment"
       rows="10" cols="60">${newMouse.comment}</textarea>
-    <span class="validationError">${newMouse.commentErr}</span>
+    <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.commentErr}</span>
   </td>
 </tr>
 <tr valign="top" class="formField">
   <td style="width: 50%">
-    <span class=red>*</span>
+    <span class=black>*</span>
     <b>Modification type</b>:
     <br>
     Choose 'targeted knock-in' when the
@@ -184,8 +184,7 @@
   <td>
     <%=getModificationTypeRadioWithParams(
     emptyIfNull(newMouse.getMAModificationType()),
-    "onChange='UpdateModificationType()'")%> <span
-    class="validationError">${newMouse.MAModificationTypeErr}</span>
+    "onChange='UpdateModificationType()'")%> <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.MAModificationTypeErr}</span>
   </td>
 </tr>
 <tr class="formField" id="trExprSeqRow"
@@ -196,13 +195,13 @@
   <td>
     <%=getExpressedSequenceRadioWithParams(emptyIfNull(newMouse.getTGExpressedSequence()),
     "onChange='UpdateExpressedSequenceDetail()'")%>
-    <span class="validationError">${newMouse.TGExpressedSequenceErr}</span>
+    <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.TGExpressedSequenceErr}</span>
   </td>
 </tr>
 <tr class="formField" id="trGeneRow"
   style="<%=rowVisibility(newMouse.isGeneExprSeq())%>">
   <td valign="top">
-    <span class=red>*</span> Mouse gene that is expressed
+    <span class=black>*</span> Mouse gene that is expressed
     <br>
     Go to MGI, find the detail page for the gene that is expressed,
     copy the MGI ID for that gene and paste it in the space provided.
@@ -211,7 +210,7 @@
     href="http://www.informatics.jax.org/javawi2/servlet/WIFetch?page=markerQF"
     target="_blank">here</a> for a link to the MGI gene query page.)
     <br>
-    <span class=red>Please
+    <span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic">Please
     make sure that the gene that is entered is the correct one.</span>
     <br>
     If you are not certain how to find this information, click the
@@ -246,19 +245,19 @@
   <td valign="top"><span class=red>*</span> Reporter</td>
   <td valign="top"><INPUT TYPE="TEXT" name="TGReporter"
     value="${newMouse.TGReporter}"
-    size="20"> <span class="validationError">${newMouse.TGReporterErr}</span>
+    size="20"> <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.TGReporterErr}</span>
     </td>
 </tr>
 <tr class="formField" id="trDescRow"
   style="<%=rowVisibility(newMouse.isOtherExprSeq())%>">
   <td valign="top">
-    <span class=red>*</span> Description of the expressed sequence,
+    <span class=black>*</span> Description of the expressed sequence,
     as well as any regulatory sequences included in the knock-in construct that control
-    its expression.
+    its expression. For endonuclease-mediated null put 'knockout'.
   </td>
   <td valign="top"><INPUT TYPE="TEXT" name="TGOther"
     value="${newMouse.TGOther}"
-    size="20"> <span class="validationError">${newMouse.TGOtherErr}</span>
+    size="20"> <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.TGOtherErr}</span>
     </td>
 </tr>
 

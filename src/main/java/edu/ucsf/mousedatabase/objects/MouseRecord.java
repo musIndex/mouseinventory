@@ -14,6 +14,16 @@ import edu.ucsf.mousedatabase.beans.UserData;
 
 public class MouseRecord {
 
+
+
+  public boolean isRat;
+  public boolean isRat() {
+    return isRat;
+  }
+  public void setRat(boolean rat) {
+    isRat = rat;
+  }
+
   String mouseID;
   String mouseName;
   String officialMouseName;
@@ -63,8 +73,10 @@ public class MouseRecord {
   String adminComment;
   
   String filename;
+  String filestatus;
   
   ArrayList<String> filenames;
+  ArrayList<String> filestatusList;
   ArrayList<Integer> fileIDs;
 
   @Override
@@ -374,6 +386,12 @@ public class MouseRecord {
   
     public void setFilenames(ArrayList<String> Filenames) {
 	  this.filenames = Filenames;
+  }
+  public ArrayList<String> getFileStatus(){
+    return filestatusList;
+  }
+  public void setFileStatus(ArrayList<String> FilestatusList) {
+    this.filestatusList = FilestatusList;
   }
   
     public void addFiles(ArrayList<String> newFiles) {

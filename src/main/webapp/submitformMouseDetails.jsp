@@ -195,29 +195,29 @@ $(document).ready(function(){
       <h2>New Submission Step 3: Rodent Details</h2>
       <%=savedMessage%>
       <h3>
-        <span class=red><%=errorsMessage%></span>
+        <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><%=errorsMessage%></span>
       </h3>
       <a href="submitformMouseType.jsp">Back to step 2</a>
       <br>
-      <span style='font-size:120%;font-weight:bold' class=red>WARNING: if you leave this page without using the
+      <span style="color: #23476b;text-emphasis: #23476b; font-size: larger; font-style: italic">WARNING: if you leave this page without using the
       save button at the bottom of the page, the data you entered will be
       lost</span>
       <br> If you encounter any difficulties while completing
       this page, click 'Submit Feedback' at the top of the screen.
       <p>
-        <span class=red>*</span>Indicates required field.
+        <span class=black>*</span>Indicates required field.
       </p>
 
-      <span class="validationError">${newMouse.mouseTypeErr}</span>
-      <span class="validationError">${newMouse.transgenicTypeErr}</span>
-      <span class="validationError">${newMouse.isPublishedErr}</span>
+      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.mouseTypeErr}</span>
+      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.transgenicTypeErr}</span>
+      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.isPublishedErr}</span>
 
       <%
         if (!newMouse.hasType()) {
           //TODO just redirect them back to step 2, step 1 if there is no contact info saved.
       %>
       <p>
-        <font color="red"><b>Unknown Error. Please go back to
+        <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><b>Unknown Error. Please go back to
             step 1 and try again</b>
         </font>
       </p>
@@ -235,12 +235,12 @@ $(document).ready(function(){
           </tr>
           <tr class="formField">
             <td width="50%">
-              <span class=red>*</span> <%=mouseNameStr%>
+              <span class=black>*</span> <%=mouseNameStr%>
             </td>
             <td>
               <input type="text" name="mouseName"  value="${ newMouse.mouseName}"
               size="40" maxlength="255">
-              <span class="validationError">${ newMouse.mouseNameErr}</span>
+              <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${ newMouse.mouseNameErr}</span>
             </td>
           </tr>
           <%

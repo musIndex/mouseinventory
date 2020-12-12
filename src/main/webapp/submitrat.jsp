@@ -7,13 +7,13 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%=HTMLGeneration.getPageHeader(null, true,false) %>
 <%=HTMLGeneration.getNavBar("submitforminit.jsp", false) %>
-<jsp:useBean id="newMouse" class="edu.ucsf.mousedatabase.beans.MouseSubmission" scope="session" />
+<jsp:useBean id="newRat" class="edu.ucsf.mousedatabase.beans.RatSubmission" scope="session" />
 <jsp:useBean id="submitterData" class="edu.ucsf.mousedatabase.beans.UserData" scope="session" />
 
 <div class="site_container">
 
 <%
-    if(!submitterData.ValidateContactInfo() || ! newMouse.ValidateHolderInfo())
+    if(!submitterData.ValidateContactInfo() || ! newRat.ValidateHolderInfo())
     {
       %>
         <h2>Invalid contact information.  Please go back to step 1.</h2>
@@ -21,20 +21,20 @@
       <%
       return;
     }
-    if(!newMouse.validateMouseType())
+    if(!newRat.validateRatType())
     {
       %>
         <h2>Invalid rodent type.  Please go back to step 2.</h2>
-        <a href="submitformMouseType.jsp">Back to step 2</a>
+        <a href="submitformRatType.jsp">Back to step 2</a>
 
       <%
       return;
     }
-    if(!newMouse.validateMouseDetails())
+    if(!newRat.validateRatDetails())
     {
       %>
         <h2>Invalid rodent data.  Please go back to step 3.</h2>
-        <a href="submitformMouseDetails.jsp">Back to step 3</a>
+        <a href="submitformRatDetails.jsp">Back to step 3</a>
 
       <%
       return;
@@ -48,25 +48,25 @@
     boolean isDuplicate = false;
     int existingRecordID = -1;
 
-  if(newMouse.getMouseMGIID() != null && !(newMouse.getMouseMGIID().isEmpty()) && (newMouse.isTG() || newMouse.isMA()))
+  if(newRat.getRatRGDID() != null && !(newRat.getRatRGDID().isEmpty()) && (newRat.isTG() || newRat.isMA()))
   {
-      String repositoryCatalogID = newMouse.getMouseMGIID();
+      String repositoryCatalogID = newRat.getRatRGDID();
       if (repositoryCatalogID != null && !repositoryCatalogID.equalsIgnoreCase("none")) {
-          existingRecordID = DBConnect.checkForDuplicates(Integer.parseInt(newMouse.getMouseMGIID()),-1);
+          existingRecordID = DBConnect.checkForDuplicates(Integer.parseInt(newRat.getRatRGDID()),-1);
       }
   }
-  else if(newMouse.isIS())
+  else if(newRat.isIS())
   {
     //check supplier
-    String supplier = newMouse.getISSupplier();
-    if (newMouse.getISSupplierCatalogNumber() == null)
+    String supplier = newRat.getISSupplier();
+    if (newRat.getISSupplierCatalogNumber() == null)
     {
       //don't dupe check records with no catalog number
       supplier = null;
     }
     else
     {
-      supplier += ", " + newMouse.getISSupplierCatalogNumber();
+      supplier += ", " + newRat.getISSupplierCatalogNumber();
     }
       if (supplier != null)
       {
@@ -81,9 +81,9 @@
     ArrayList<MouseRecord> existingMice = DBConnect.getMouseRecord(existingRecordID);
     if (existingMice.size() > 0)
     {
-      MouseRecord existingMouse = existingMice.get(0);
+      MouseRecord existingRat = existingMice.get(0);
 
-      if (!existingMouse.isHidden())
+      if (!existingRat.isHidden())
       {
           existingRecordTable = HTMLGeneration.getMouseTable(existingMice,false,true,false);
         err = "This appears to be a duplicate entry and will not be processed.  The exisiting record is shown below.";
@@ -101,8 +101,11 @@
 
     if (!isDuplicate)
     {
-        Properties props = MouseSubmission.GetPropertiesString(submitterData,newMouse);
-        submissionID = DBConnect.insertSubmission(submitterData,newMouse,props,SubmittedMouse.SubmissionFormSource);
+        String id = newRat.getRatRGDID();
+        RGDResult result = RGDConnect.getGeneQuery(id);
+        newRat.setOfficialSymbol(result.getSymbol());
+        Properties props = RatSubmission.GetPropertiesString(submitterData,newRat);
+        submissionID = DBConnect.insertSubmission(submitterData,newRat,props,SubmittedMouse.SubmissionFormSource);
         if (!submissionAdminComment.isEmpty())
         {
           DBConnect.updateSubmission(submissionID,"new",submissionAdminComment);
@@ -115,7 +118,7 @@
     }
     else
     {
-      newMouse.clearMouseData();
+      newRat.clearRatData();
     }
 
 %>
@@ -124,8 +127,8 @@
     HTMLUtilities.logRequest(request);
   %>
     <div class = "category">
-        <div class = "two_column_left">
-  <h2>Submission #<%=submissionID %> (<%=newMouse.getMouseName()%>) was successful.</h2>
+    <div class = "two_column_left">
+  <h2>Submission #<%=submissionID %> (<%=newRat.getRatName()%>) was successful.</h2>
   <p>We have received your request to add your rodent to the inventory.
   It will be reviewed by the administrator.
   <br>
@@ -135,14 +138,15 @@
   <br>
   Thank you.
   </p>
-            <br>
-            Your submission is complete! You now can either submit another rodent or go to the homepage.
-            <br>
-            <br>
-            <a href="submission.jsp"><button class = "btn btn-success">Submit another rodent</button></a>   <a href="about.jsp"><button class = "btn btn-info">Return to homepage</button></a>
-            <br/>
 
-        </div>
+  <br>
+    Your submission is complete! You now can either submit another rodent or go to the homepage.
+  <br>
+        <br>
+        <a href="submission.jsp"><button class = "btn btn-success">Submit another rodent</button></a>   <a href="about.jsp"><button class = "btn btn-info">Return to homepage</button></a>
+        <br/>
+
+</div>
         <div class = "two_column_right">
             <br>
             <img src="img/database_check.png">
@@ -152,9 +156,8 @@
             <br>
             If you'd like to inquire about your listing, email us at <a href = "mailto:ora.carrodentdatabase@msu.edu">ora.carrodentdatabase@msu.edu</a>.
         </div></div>
-
   <%
-  newMouse.clearMouseData();
+  newRat.clearRatData();
 }
 else
 {%>

@@ -19,20 +19,8 @@ import java.sql.Blob;
 
 import edu.ucsf.mousedatabase.admin.EmailRecipientManager;
 import edu.ucsf.mousedatabase.admin.EmailRecipientManager.EmailRecipient;
-import edu.ucsf.mousedatabase.objects.ChangeRequest;
+import edu.ucsf.mousedatabase.objects.*;
 import edu.ucsf.mousedatabase.objects.ChangeRequest.Action;
-import edu.ucsf.mousedatabase.objects.EmailTemplate;
-import edu.ucsf.mousedatabase.objects.Facility;
-import edu.ucsf.mousedatabase.objects.Gene;
-import edu.ucsf.mousedatabase.objects.Holder;
-import edu.ucsf.mousedatabase.objects.IHolder;
-import edu.ucsf.mousedatabase.objects.ImportReport;
-import edu.ucsf.mousedatabase.objects.MGIResult;
-import edu.ucsf.mousedatabase.objects.MouseHolder;
-import edu.ucsf.mousedatabase.objects.MouseRecord;
-import edu.ucsf.mousedatabase.objects.MouseType;
-import edu.ucsf.mousedatabase.objects.Setting;
-import edu.ucsf.mousedatabase.objects.SubmittedMouse;
 
 public class HTMLGeneration {
 //added ROOT to run locally -EW
@@ -94,7 +82,7 @@ public class HTMLGeneration {
     buf.append("<link href='" + styleRoot + "chosen.css' rel='stylesheet' type='text/css'>\r\n");
     buf.append("<link href='" + styleRoot + "MouseInventory.css' rel='stylesheet' type='text/css'>\r\n");
     buf.append("<link href='" + styleRoot + "jquery-ui.css 'rel='stylesheet' type='text/css' />");
-    
+
     buf.append("<script src='" + scriptRoot + "jquery.min.js'></script>\r\n");
     buf.append("<script src='" + scriptRoot + "jquery-ui.min.js'></script>\r\n");
     buf.append("<script src='" + scriptRoot + "chosen.jquery.min.js'></script>\r\n");
@@ -105,7 +93,7 @@ public class HTMLGeneration {
     buf.append("<script src='" + scriptRoot + "application.js'></script>\r\n");
     buf.append("<script src='" + scriptRoot + "respond.min.js'></script>\r\n"); //ie8 fix
     buf.append("<script src='" + scriptRoot + "bootstrap-collapse.js'></script>\r\n"); //ie8 fix
-    
+
     if (isAdminPage) {
       buf.append("<link href='" + styleRoot + "jquery.cleditor.css' type='text/css' rel='stylesheet'>");
       buf.append("<script src='" + scriptRoot  + "bootstrap.min.js'></script>");
@@ -119,7 +107,7 @@ public class HTMLGeneration {
 
     buf.append("</head>\r\n");
     buf.append("<body " + (bodyParams == null ? "" : bodyParams) + " >\r\n");
-    
+
     return buf.toString();
   }
 
@@ -145,13 +133,13 @@ public class HTMLGeneration {
     table.append("<div class='site_container'>");
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div>"); //pagetitle
-    
+
     table.append("<img src=/img/logo_mouse_database_MSU.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>");
     table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + DBConnect.loadSetting("general_site_name").value + "</a></span>");
-    
-    
+
+
     table.append("</div>");
-    
+
     table.append("<div>"); // About, faq, contact links
     table.append("<span class=\"titleSubText\">");
     table.append("<a href=\"" + siteRoot + "about.jsp\">Home</a>&nbsp;");
@@ -159,7 +147,7 @@ public class HTMLGeneration {
     table.append("&nbsp;<a href=\"" + siteRoot
         + "contact.jsp\">Submit Feedback</a>");
     table.append("</span>");
-    
+
     table.append("</div>"); // About, faq, contact links
     table.append("</div>"); //pagetitle
     // Quick Search bar
@@ -170,18 +158,22 @@ public class HTMLGeneration {
       table.append("<form id=\"quickSearchForm\"action=\"" + action + "\" method=\"get\">\r\n");
       table.append("<input type=\"text\" class=\"input-medium search-query\"  name=\"searchterms\" >\r\n");
       table.append("<input type='hidden' name='search-source' value='quicksearch:" + currentPageFilename + "'>\r\n");
-      table.append("<input id='quicksearchbutton' class=\"btn search-query\" type=\"submit\" value=\"" + 
+      table.append("<input id='quicksearchbutton' class=\"btn search-query\" type=\"submit\" value=\"" +
                     (isAdminPage ? "Admin Quick" : "Quick") + " Search\">\r\n");
       table.append("<script type='text/javascript'>\r\n$('input[name=searchterms]').focus()\r\n");
       table.append("$(\"#quicksearchbutton\").click(function(){ \r\n");
       table.append("window.location.href = '" + action + "#' + $(\"#quickSearchForm\").serialize();\r\nreturn false; });");
       table.append("</script>\r\n");
       table.append("</form>");
-      
+
       table.append("</div>");
 
     }
-    
+    table.append("<a href=\"" + siteRoot + "history.jsp\">"
+    		+ "<img src=/img/UCSF_logo.png title='History of MouseDB' style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year' >");
+
+
+
     table.append("</div>"); //pagetitlecontainer
     table.append("</div>"); //pageheader
     table.append("</div>"); //pageheadercontainer
@@ -201,8 +193,9 @@ public class HTMLGeneration {
         currentPageFilename, false));
     // table.append(addNavLink("Endangered Mice", "EndangeredReport.jsp",
     // null,currentPageFilename,false));
-    table.append(addNavLink("Submit Rodents", "submitforminit.jsp", null,
+    table.append(addNavLink("Submit Rodents", "submission.jsp", null,
         currentPageFilename, false));
+    table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false));
     if (isAdminPage && showAdminControls){
       table.append(addNavLink("Log out", "logout.jsp", null,
           currentPageFilename, false,"pull-right small"));
@@ -211,7 +204,7 @@ public class HTMLGeneration {
       table.append(addNavLink("Admin use only", "admin.jsp", null,
           isAdminPage ? "admin.jsp" : currentPageFilename, true, "pull-right small"));
     }
-    
+
     table.append("</ul>");
     table.append("</div>"); //navigationlinks
     table.append("</div>"); //navigationlinkscontainer
@@ -292,6 +285,15 @@ public class HTMLGeneration {
   public static String getEditMouseForm(MouseRecord r, SubmittedMouse sub,
       ChangeRequest req, boolean isAdminCreating) {
 
+    /*
+    * This function has been edited to deal with both mice and rats.
+    * In it, you will see references to r.isRat() - this determines what
+    * methods are executed based upon the rodent's species. For a rat,
+    * we query the RGD database and for a mouse, we use the MGI database.
+    */
+
+    //**BEGIN code performed for all operations
+    //-----------------------------------------------------------------------------------------------------------------
     int size = 35; // default field size
     String field = "";
     StringBuilder buf = new StringBuilder();
@@ -303,14 +305,14 @@ public class HTMLGeneration {
       if (req != null) {
         return null;
       }
-    } 
+    }
     else if (req != null) {
       buf.append("<form name=\"mouseDetails\" action=\"UpdateChangeRequest.jsp\" method=\"post\">\r\n");
       buf.append("<input type=\"hidden\" name=\"changeRequestID\" value=\"" + req.getRequestID() + "\">");
-    } 
+    }
     else if (isAdminCreating) {
       buf.append("<form name=\"mouseDetails\" action=\"CreateRecord.jsp\" method=\"post\">\r\n");
-    } 
+    }
     else {
       buf.append("<form name=\"mouseDetails\" action=\"UpdateMouse.jsp\" method=\"post\">\r\n");
     }
@@ -345,7 +347,7 @@ public class HTMLGeneration {
         }
         if (req.getCryoLiveStatus() != null) {
           if (req.getCryoLiveStatus().matches("Live only")) {
-            addedHolder.setCryoLiveStatus("Live only"); 
+            addedHolder.setCryoLiveStatus("Live only");
           }
           else if (req.getCryoLiveStatus().matches("Live and Cryo")) {
             addedHolder.setCryoLiveStatus("Live and Cryo");
@@ -447,68 +449,137 @@ public class HTMLGeneration {
         255, null, null, "editMouseRow");
 
     // boolean MGIConnectionAvailable = true;
+    //-----------------------------------------------------------------------------------------------------------------
+    //**END code performed for all operations
 
-    // Mutant Allele and Transgene mice
+
+
+
+
+
+
+    //This code block is executed if the rodent is a rat.
+    //The else statement attatched to it corresponds to mice.
+    //-----------------------------------------------------------------------------------------------------------------
+    if (r.isRat()){
+      String mgiID = r.getRepositoryCatalogNumber();
+      String rgdID = mgiID;
+      field = getTextInput(
+              "geneRGDID",
+              emptyIfNull(mgiID),
+              size,
+              11,
+              "id=\"geneRGDID\" onkeyup=\"validateInput('geneRGDID', 'geneRGDIDValidation', 'rgdModifiedGeneId', '')\"");
+
+      if (rgdID != null && !rgdID.isEmpty()) {
+
+        String geneURL = HTMLGeneration.formatRGD(rgdID);
+        String resultString = "";
+        String validationStyle = "";
+        String manualNameSymbolEntry = "<br>RGD SQL connection unavailable.  To continue editing this record, the gene Symbol and Name must be manually entered. <br>Symbol:&nbsp;"
+                + getTextInput("geneManualSymbol", "", 15, 25, null)
+                + "&nbsp;&nbsp;Name:&nbsp;"
+                + getTextInput("geneManualName", "", 15, 25, null);
+
+        Gene knownGene = DBConnect.findGene(rgdID);
+        if (knownGene != null) {
+          resultString = knownGene.getSymbol() + " - "
+                  + knownGene.getFullname();
+          validationStyle = "bp_valid";
+          replaceBrackets(resultString);
+        }
+        else {
+          RGDResult geneResult = RGDConnect.getGeneQuery(rgdID);
+          validationStyle = geneResult.isValid() ? "bp_valid"
+                  : "bp_invalid";
+          if (geneResult.isValid()) {
+            resultString = geneResult.getSymbol() + " - "
+                    + geneResult.getName();
+          }
+          else {
+            resultString = geneResult.getErrorString();
+          }
+        }
+
+        field += "<span class='" + validationStyle
+                + "' id='geneRGDIDValidation'>" + resultString
+                + " (RGD:" + geneURL + ")</span>";
+
+      } else {
+        field += "<span id='geneRGDIDValidation'></span>";
+      }
+      getInputRow(buf, "Gene RGD ID", field, null, "editMouseRow");
+
+
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    //End code performed only for rats
+
+
+
+
+
+
+
+    //Code below is executed if the rodent is a mouse
+    //-----------------------------------------------------------------------------------------------------------------
+    else{
     if (r.isMA() || r.isTG()) {
       if (r.isMA()) {
         // Gene Section
         String mgiID = r.getGeneID();
         if ((mgiID == null || mgiID.isEmpty())
-            && sub != null
-            && (sub.getMAMgiGeneID() != null && !sub.getMAMgiGeneID().isEmpty())) {
+                && sub != null
+                && (sub.getMAMgiGeneID() != null && !sub.getMAMgiGeneID().isEmpty())) {
           mgiID = sub.getMAMgiGeneID();
         }
-
         field = getTextInput(
-            "geneMGIID",
-            emptyIfNull(mgiID),
-            size,
-            11,
-            "id=\"geneMGIID\" onkeyup=\"validateInput('geneMGIID', 'geneMGIIDValidation', 'mgiModifiedGeneId', '')\"");
+                "geneMGIID",
+                emptyIfNull(mgiID),
+                size,
+                11,
+                "id=\"geneMGIID\" onkeyup=\"validateInput('geneMGIID', 'geneMGIIDValidation', 'mgiModifiedGeneId', '')\"");
         if (mgiID != null && !mgiID.isEmpty()) {
-
           String geneURL = HTMLGeneration.formatMGI(mgiID);
           String resultString = "";
           String validationStyle = "";
           String manualNameSymbolEntry = "<br>MGI SQL connection unavailable.  To continue editing this record, the gene Symbol and Name must be manually entered. <br>Symbol:&nbsp;"
-              + getTextInput("geneManualSymbol", "", 15, 25, null)
-              + "&nbsp;&nbsp;Name:&nbsp;"
-              + getTextInput("geneManualName", "", 15, 25, null);
-
+                  + getTextInput("geneManualSymbol", "", 15, 25, null)
+                  + "&nbsp;&nbsp;Name:&nbsp;"
+                  + getTextInput("geneManualName", "", 15, 25, null);
           Gene knownGene = DBConnect.findGene(mgiID);
           if (knownGene != null) {
             resultString = knownGene.getSymbol() + " - "
-                + knownGene.getFullname();
+                    + knownGene.getFullname();
             validationStyle = "bp_valid";
             replaceBrackets(resultString);
           } else {
             MGIResult geneResult = MGIConnect.doMGIQuery(mgiID,
-                MGIConnect.MGI_MARKER,
-                "This MGI ID does not correspond to a Gene",
-                false);
+                    MGIConnect.MGI_MARKER,
+                    "This MGI ID does not correspond to a Gene",
+                    false);
 
             validationStyle = geneResult.isValid() ? "bp_valid"
-                : "bp_invalid";
+                    : "bp_invalid";
             if (geneResult.isValid()) {
               resultString = geneResult.getSymbol() + " - "
-                  + geneResult.getName();
+                      + geneResult.getName();
             } else if (geneResult.isMgiConnectionTimedout()
-                || geneResult.isMgiOffline()) {
+                    || geneResult.isMgiOffline()) {
               resultString = manualNameSymbolEntry;
             } else {
               resultString = geneResult.getErrorString();
             }
           }
-
           field += "<span class='" + validationStyle
-              + "' id='geneMGIIDValidation'>" + resultString
-              + " (MGI:" + geneURL + ")</span>";
-
+                  + "' id='geneMGIIDValidation'>" + resultString
+                  + " (MGI:" + geneURL + ")</span>";
         } else {
           field += "<span id='geneMGIIDValidation'></span>";
         }
         getInputRow(buf, "Gene MGI ID", field, null, "editMouseRow");
       }
+    }
       // Modification type section
       //Added endonuclease-mediated -EW
       String[] values = { "targeted disruption",
@@ -531,219 +602,120 @@ public class HTMLGeneration {
           genRadio("expressedSequence", exprSeqValues,
               r.getExpressedSequence(), "onChange=\"UpdateExpressedSequenceEdit()\""),
           "id=\"trExprSeqRow\" style=\""
-              + rowVisibility(r.isTG() || (r.getModificationType() != null 
+              + rowVisibility(r.isTG() || (r.getModificationType() != null
                 && r.getModificationType().equalsIgnoreCase("targeted knock-in")^(r.getModificationType().equalsIgnoreCase("endonuclease-mediated")))) + "\"",
           "editMouseRow");
 
-      String mgiID = r.getTargetGeneID();
-      if ((mgiID == null || mgiID.isEmpty())
-          && sub != null
-          && (sub.getTGMouseGene() != null && !sub.getTGMouseGene().isEmpty())) {
-        mgiID = sub.getTGMouseGene();
-      }
-      // Mouse Gene section
-      field = getTextInput(
-          "targetGeneMGIID",
-          emptyIfNull(mgiID),
-          size,
-          11,
-          "id=\"targetGeneMGIID\" onkeyup=\"validateInput('targetGeneMGIID', 'targetGeneMGIIDValidation', 'mgiModifiedGeneId', '')\"");
-      if (mgiID != null && !mgiID.isEmpty()) {
-        String geneURL = HTMLGeneration.formatMGI(mgiID);
-        String resultString = "";
-        String validationStyle = "";
-        String manualNameSymbolEntry = "<br>MGI SQL connection unavailable.  To continue editing this record, the gene Symbol and Name must be manually entered. <br>Symbol:&nbsp;"
-            + getTextInput("targetGeneManualSymbol", "", size, 25,
-                null)
-            + "&nbsp;&nbsp;Name:&nbsp;"
-            + getTextInput("targetGeneManualName", "", size, 25,
-                null);
+      field = "<textarea name='adminComment' rows='10' cols='60' >" + emptyIfNull(r.getAdminComment()) + "</textarea>\r\n";
+      getInputRow(buf, "Record Admin Comment",field,"","editMouseRow"); //testing
 
-        Gene knownGene = DBConnect.findGene(mgiID);
-        if (knownGene != null) {
-          resultString = knownGene.getSymbol() + " - "
-              + knownGene.getFullname();
-          validationStyle = "bp_valid";
-          replaceBrackets(resultString);
+      buf.append("<a href=\"UploadFile.jsp?mouseID=" + r.getMouseID() + "\"> Upload/Delete Files</a>"); //trying this out
+
+
+
+      buf.append("</table>\r\n");
+      buf.append("</div>\r\n");
+      buf.append("<div class=\"editMouseFormRightColumn\">");
+      buf.append("<table class=\"editMouseColumn\">\r\n");
+      if (r.isMA()
+              || r.isTG()) {
+        // Allele or Transgene MGI ID
+        String mgiType = r.isMA() ? "Allele"
+                : "Transgene";
+
+        String mgiID = r.getRepositoryCatalogNumber();
+        if ((mgiID == null || mgiID.isEmpty())
+                && sub != null
+                && (sub.getMouseMGIID() != null && !sub.getMouseMGIID()
+                .isEmpty())) {
+          mgiID = sub.getMouseMGIID();
+        }
+
+        String officialSymbol = r.getSource();
+        String officialMouseName = r.getOfficialMouseName();
+
+        field = getTextInput(
+                "repositoryCatalogNumber",
+                emptyIfNull(mgiID),
+                size,
+                11,
+                "id=\"repositoryCatalogNumber\" onkeyup=\"validateInput('repositoryCatalogNumber', 'repositoryCatalogNumberValidation', 'mgi"
+                        + mgiType + "Id', 'none')\"");
+
+        if (mgiID != null && !mgiID.isEmpty()
+                && !mgiID.equalsIgnoreCase("none")) {
+          MGIResult mouseResult = null;
+          String validationStyle = "";
+          String resultString =  "";
+          String geneURL = HTMLGeneration.formatMGI(mgiID);
+
+          if (r.getSource() == null || r.getSource().isEmpty()
+                  || officialMouseName == null
+                  || officialMouseName.isEmpty()) {
+            if (r.isMA()) {
+              mouseResult = MGIConnect
+                      .doMGIQuery(
+                              mgiID,
+                              MGIConnect.MGI_ALLELE,
+                              "This MGI ID does not correspond to an Allele Detail Page",
+                              false);
+            } else {
+              mouseResult = MGIConnect
+                      .doMGIQuery(
+                              mgiID,
+                              MGIConnect.MGI_ALLELE,
+                              "This MGI ID does not correspond to an Allele Detail Page",
+                              false);
+            }
+            if (mouseResult.isMgiConnectionTimedout()
+                    || mouseResult.isMgiOffline()) {
+              // buf = new StringBuilder();
+              // buf
+              // .append("<br><span class='error'>Unable to edit record because the MGI Connection is unavailable.  Please try again later</span>");
+              // return buf.toString();
+            }
+
+            validationStyle = mouseResult.isValid() ? "bp_valid"
+                    : "bp_invalid";
+
+            if (mouseResult.isValid()) {
+              resultString = mouseResult.getSymbol();
+              officialSymbol = mouseResult.getSymbol();
+              officialMouseName = mouseResult.getName();
+              r.setOfficialMouseName(officialMouseName);
+              r.setSource(officialSymbol); // bad programmer!
+            } else {
+              resultString = mouseResult.getErrorString();
+            }
+          }
+          field += "<span class='" + validationStyle
+                  + "' id='repositoryCatalogNumberValidation'>"
+                  + replaceBrackets(resultString) + " (MGI:" + geneURL
+                  + ")</span>";
+
         } else {
-          MGIResult geneResult = MGIConnect.doMGIQuery(mgiID,
-              MGIConnect.MGI_MARKER,
-              "This MGI ID does not correspond to a Gene", false);
-
-          validationStyle = geneResult.isValid() ? "bp_valid"
-              : "bp_invalid";
-          if (geneResult.isValid()) {
-            resultString = geneResult.getSymbol() + " - "
-                + geneResult.getName();
-          } else if (geneResult.isMgiConnectionTimedout()
-              || geneResult.isMgiOffline()) {
-            resultString = manualNameSymbolEntry;
-          } else {
-            resultString = geneResult.getErrorString();
-          }
+          field += "<span id='repositoryCatalogNumberValidation'></span>";
         }
-        field += "<span class='" + validationStyle
-            + "' id='targetGeneMGIIDValidation'>"
-            + replaceBrackets(resultString) + " (MGI:" + geneURL
-            + ")</span>";
-      } else {
-        field += "<span id='targetGeneMGIIDValidation'></span>";
+        getInputRow(buf, mgiType + " MGI ID", field, null, "editMouseRow");
+
+        getTextInputRow(buf, "Official Symbol", "source",
+                emptyIfNull(officialSymbol), size, 255,
+                "id=\"officialSymbol\"", null, "editMouseRow");
+
+        getTextInputRow(buf, "Official Name", "officialMouseName",
+                officialMouseName, size, 255, null, null, "editMouseRow");
       }
-      getInputRow(
-          buf,
-          "Expr. Gene MGI ID:",
-          field,
-          "id=\"trGeneRow\" style=\""
-              + rowVisibility(r.getExpressedSequence() != null
-                  && (r.getExpressedSequence()
-                      .equalsIgnoreCase("mouse gene") || r
-                      .getExpressedSequence()
-                      .equalsIgnoreCase(
-                          "Mouse Gene (unmodified)")))
-              + "\"", "editMouseRow");
+      //-----------------------------------------------------------------------------------------------------------------
+      //End code performed for only mice
 
-      // getTextInputRow(buf, "Reporter", "reporter",
-      // emptyIfNull(r.getReporter()), size, 255, null,
-      // "id=\"trRepRow\" "
-      // , "editMouseRow");
-      field = "<textarea id=\"reporterTextArea\" name=\"reporter\" rows=\"4\" cols=\"40\" onkeypress=\"return imposeMaxLength(this,255);\" >"
-          + emptyIfNull(r.getReporter()) + "</textarea>\r\n";
-      getInputRow(buf, "Reporter", field,
-          "style=\""
-              + rowVisibility(r.getExpressedSequence() != null
-                  && r.getExpressedSequence()
-                      .equalsIgnoreCase("reporter"))
-              + "\"", "editMouseRow", "trRepRow");
 
-      // getTextInputRow(buf, "Other", "otherComment",
-      // emptyIfNull(r.getOtherComment()), size, 255, null,
-      // "id=\"trDescRow\" " +
-      // "style=\"" + rowVisibility(r.getExpressedSequence() != null &&
-      // r.getExpressedSequence().equalsIgnoreCase("other")) + "\"",
-      // "editMouseRow");
 
-      field = "<textarea id=\"otherCommentTextArea\" name=\"otherComment\" rows=\"4\" cols=\"40\" onkeypress=\"return imposeMaxLength(this,255);\" >"
-          + emptyIfNull(r.getOtherComment()) + "</textarea>\r\n";
-      getInputRow(
-          buf,
-          "Modified mouse gene or Other",
-          field,
-          "style=\""
-              + rowVisibility(r.getExpressedSequence() != null
-                  && (r.getExpressedSequence()
-                      .equalsIgnoreCase("other") || r
-                      .getExpressedSequence()
-                      .equalsIgnoreCase(
-                          "Modified mouse gene or Other")))
-              + "\"", "editMouseRow", "trDescRow");
 
-      // Regulatory Element
-      if (r.isTG()) {
-        field = "<textarea id=\"regulatoryElement\" name=\"regulatoryElement\" rows=\"2\" cols=\"40\" >"
-          + emptyIfNull(r.getRegulatoryElement()) + "</textarea>\r\n";
-        getInputRow(buf, "Regulatory Element", field,null, "editMouseRow");
 
-      }
-    }
-    field = "<textarea name='adminComment' rows='10' cols='60' >" + emptyIfNull(r.getAdminComment()) + "</textarea>\r\n";
-    getInputRow(buf, "Record Admin Comment",field,"","editMouseRow"); //testing
-   
-    buf.append("<a href=\"UploadFile.jsp?mouseID=" + r.getMouseID() + "\"> Upload/Delete Files</a>"); //trying this out
 
-    
-   
-    buf.append("</table>\r\n");
-    buf.append("</div>\r\n");
-    buf.append("<div class=\"editMouseFormRightColumn\">");
-    buf.append("<table class=\"editMouseColumn\">\r\n");
-    if (r.isMA()
-        || r.isTG()) {
-      // Allele or Transgene MGI ID
-      String mgiType = r.isMA() ? "Allele"
-          : "Transgene";
 
-      String mgiID = r.getRepositoryCatalogNumber();
-      if ((mgiID == null || mgiID.isEmpty())
-          && sub != null
-          && (sub.getMouseMGIID() != null && !sub.getMouseMGIID()
-              .isEmpty())) {
-        mgiID = sub.getMouseMGIID();
-      }
-
-      String officialSymbol = r.getSource();
-      String officialMouseName = r.getOfficialMouseName();
-
-      field = getTextInput(
-          "repositoryCatalogNumber",
-          emptyIfNull(mgiID),
-          size,
-          11,
-          "id=\"repositoryCatalogNumber\" onkeyup=\"validateInput('repositoryCatalogNumber', 'repositoryCatalogNumberValidation', 'mgi"
-              + mgiType + "Id', 'none')\"");
-
-      if (mgiID != null && !mgiID.isEmpty()
-          && !mgiID.equalsIgnoreCase("none")) {
-        MGIResult mouseResult = null;
-        String validationStyle = "";
-        String resultString =  "";
-        String geneURL = HTMLGeneration.formatMGI(mgiID);
-
-        if (r.getSource() == null || r.getSource().isEmpty()
-            || officialMouseName == null
-            || officialMouseName.isEmpty()) {
-          if (r.isMA()) {
-            mouseResult = MGIConnect
-                .doMGIQuery(
-                    mgiID,
-                    MGIConnect.MGI_ALLELE,
-                    "This MGI ID does not correspond to an Allele Detail Page",
-                    false);
-          } else {
-            mouseResult = MGIConnect
-                .doMGIQuery(
-                    mgiID,
-                    MGIConnect.MGI_ALLELE,
-                    "This MGI ID does not correspond to an Allele Detail Page",
-                    false);
-          }
-          if (mouseResult.isMgiConnectionTimedout()
-              || mouseResult.isMgiOffline()) {
-            // buf = new StringBuilder();
-            // buf
-            // .append("<br><span class='error'>Unable to edit record because the MGI Connection is unavailable.  Please try again later</span>");
-            // return buf.toString();
-          }
-
-          validationStyle = mouseResult.isValid() ? "bp_valid"
-              : "bp_invalid";
-
-          if (mouseResult.isValid()) {
-            resultString = mouseResult.getSymbol();
-            officialSymbol = mouseResult.getSymbol();
-            officialMouseName = mouseResult.getName();
-            r.setOfficialMouseName(officialMouseName);
-            r.setSource(officialSymbol); // bad programmer!
-          } else {
-            resultString = mouseResult.getErrorString();
-          }
-        }
-        field += "<span class='" + validationStyle
-            + "' id='repositoryCatalogNumberValidation'>"
-            + replaceBrackets(resultString) + " (MGI:" + geneURL
-            + ")</span>";
-
-      } else {
-        field += "<span id='repositoryCatalogNumberValidation'></span>";
-      }
-      getInputRow(buf, mgiType + " MGI ID", field, null, "editMouseRow");
-
-      getTextInputRow(buf, "Official Symbol", "source",
-          emptyIfNull(officialSymbol), size, 255,
-          "id=\"officialSymbol\"", null, "editMouseRow");
-
-      getTextInputRow(buf, "Official Name", "officialMouseName", 
-          officialMouseName, size, 255, null, null, "editMouseRow");
-
+      //**BEGIN code performed for all operations
+      //-----------------------------------------------------------------------------------------------------------------
       // PubMed ID(s)
       int pubMedNum = 1;
       for (String pmID : r.getPubmedIDs()) {
@@ -907,7 +879,7 @@ public class HTMLGeneration {
     } else {
       buf.append("<input type=\"submit\" class='btn btn-primary' name=\"submitButton\" value=\"Save Changes to Record\">");
     }
-     
+
     buf.append("</form>\r\n");
 
     if (r.getMouseID() != null && req == null) {
@@ -935,16 +907,19 @@ public class HTMLGeneration {
       buf.append("<br><p>Change Mouse Category to: " + mouseTypeOptions);
       buf.append("&nbsp;&nbsp;<input type='submit' class='btn btn-small' value='Change Category'>");
       buf.append("</form>\r\n");
-      
+
     }
     if (req != null){
       buf.append("<p>Should a change in mouse category be necessary, it can be made using the 'Edit Record' feature.</p>");
     }
     buf.append("</div>\r\n");
     buf.append("</div>\r\n");
-    
+
     buf.append("");
     return buf.toString();
+
+    //-----------------------------------------------------------------------------------------------------------------
+    //**END code performed for all operations
   }
 
   private static void getTextInputRow(StringBuilder buf, String label,
@@ -1026,7 +1001,7 @@ public class HTMLGeneration {
     table.append(getSubmissionTableHeaders());
     for (SubmittedMouse nextSubmission : submissions) {
       nextSubmission.prepareForSerialization();
-        
+
 
       String rowStyle = getRowStyle(numSubmissions, "submissionlist",
           "submissionlistAlt");
@@ -1089,16 +1064,16 @@ public class HTMLGeneration {
         table.append("<dt>\r\n");
         table.append(nextSubmission.getFirstName() + " " + nextSubmission.getLastName());
         table.append("</dt>\r\n");
-  
+
         table.append("<dt>\r\n");
         table.append(nextSubmission.getDepartment());
         table.append("</dt>\r\n");
-  
+
         table.append("<dt>\r\n");
         table.append(nextSubmission.getTelephoneNumber());
         table.append("</dt>\r\n");
       }
-      
+
 
       table.append("<dt>\r\n");
 
@@ -1114,7 +1089,7 @@ public class HTMLGeneration {
           //wont get to this case because the IDU doesn't create submissions for unpublished
         }
       }
-      
+
       for(MouseHolder holder: nextSubmission.getHolders()){
         String email = nextSubmission.isManualFormSubmission() ? nextSubmission.getEmail() : holder.getSubmitterEmail();
         int submitterIndex = -1;
@@ -1123,17 +1098,17 @@ public class HTMLGeneration {
           submitterIndex = holder.getSubmitterIndex();
         }
         EmailRecipient rec = EmailRecipientManager.recipientsForRequestorAndHolder(email, holder);
-        table.append(getAdminMailLink(rec.recipients,rec.ccs, templateType, 
+        table.append(getAdminMailLink(rec.recipients,rec.ccs, templateType,
                                       nextSubmission.getSubmissionID(),-1,Integer.toString(nextSubmission.getMouseRecordID()),-1,submitterIndex));
       }
       table.append("</dt>\r\n");
-      
-      
+
+
       table.append("Source: " + nextSubmission.getSubmissionSource() + "</dt>");
       table.append("</dl>");
       table.append("<div style='font-size:14px;font-weight:700'>Admin Comments:</div>");
       String adminComment = nextSubmission.getAdminComment();
-      
+
       table.append("<span class=\"mouseComment\">" + emptyIfNull(HTMLUtilities.getCommentForDisplay(adminComment)) + "</span>");
       table.append("</td>\r\n");
 
@@ -1406,8 +1381,8 @@ public class HTMLGeneration {
       numSubmissions++;
     }
     table.append("</table>\r\n");
-    
-    
+
+
     table.append("<script type='text/javascript'>\r\n");
     table.append("MouseConf.addSubmissions(" + new Gson().toJson(submissions) + ")");
     table.append("</script>");
@@ -1439,7 +1414,7 @@ public class HTMLGeneration {
     table.append("Holders ");
     table.append("</td>\r\n");
     table.append("</tr>\r\n");
-    
+
     return table.toString();
   }
   //Called during edit record, need to add boolean showFile -EW
@@ -1451,7 +1426,7 @@ public class HTMLGeneration {
       boolean showChangeRequest, boolean showAllHolders, boolean showHeader) {
     return getMouseTable(mice, edit, showChangeRequest, showAllHolders, showHeader, edit);
   }
-    
+
   public static String getMouseTable(ArrayList<MouseRecord> mice, boolean edit,
       boolean showChangeRequest, boolean showAllHolders, boolean showHeader, boolean includeJson) {
     StringBuffer table = new StringBuffer();
@@ -1624,7 +1599,7 @@ public class HTMLGeneration {
           repositoryCatalogNumber = formatMGI(repositoryCatalogNumber);
         }
 
-        table.append("<dt><span class='lbl'>Official Symbol:</span> " + source + "</dt>\r\n");
+        table.append("<dt><span class='lbl'> Symbol:</span> " + source + "</dt>\r\n");
         String officialName = nextRecord.getOfficialMouseName();
         if (officialName != null && !officialName.isEmpty()) {
           table.append("<dt>(");
@@ -1699,13 +1674,13 @@ public class HTMLGeneration {
           + emptyIfNull(HTMLUtilities.getCommentForDisplay(nextRecord.getGeneralComment()))
           + "</span>");
       table.append("</td>\r\n");
-      
-      
 
-     
-      
-   // INTERIM column - filenames. adds a link for each file in the existing mouseRecord
-     if (showChangeRequest||edit         ) {
+
+
+
+
+   // INTERIM column - filenames. adds a link for each file in the existing mouseRecord, add User file view
+     if (showChangeRequest||edit ) {
       table.append("<td class='mouselistcolumn-files'>\r\n");
       //ArrayList<File> files = nextRecord.getFilenames(); //files should be set when mouseRecord made
       ArrayList<String> filenames = nextRecord.getFilenames();
@@ -1715,35 +1690,16 @@ public class HTMLGeneration {
         //Log.Info("starting filename: " + filename);
         String filenameHref = filename.replaceAll("\\s", "%20"); //check that this works
         //Log.Info("ending filename: " + filename);
-        String linkString = adminRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename;
-        //Log.Info("linkstring = " + linkString);
-        fileComment = "<a href="+ adminRoot +"/download" + "?fileName=" + filenameHref +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
+        //"+adminRoot+"/download" not working /admin//download
+        fileComment = "<a href="+siteRoot+"download" + "?fileName=" + filenameHref +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
         table.append("<div>" + fileComment + "</div>");
       }
 
-      // for (File file : files) {  //need to change this for new file handling
-      //   String filename = file.getName();
-    	  
-      //   fileComment = "<a href="+ siteRoot +"/download" + "?fileName=" + filename +"&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
-      //   table.append("<div>" + fileComment + "</div>");
-      // }
      }
       else {
         table.append("</td>\r\n<td>\r\n");
       }
-        
-     
-      
-     
-     
-      /*table.append("<span class=\"mouseComment\">"
-          //+ emptyIfNull(HTMLUtilities.getCommentForDisplay(fileComment)) //adjustments go here
-    		  + fileComment
-          + "</span>");
-      table.append("</td>\r\n");*/
-      
-      
-      //table.append("</tr>\r\n");
+
       // Fifth column - holders -EW change to last column
       table.append("<td class='mouselistcolumn-holders'>\r\n");
 
@@ -1793,25 +1749,25 @@ public class HTMLGeneration {
           }
 
           EmailRecipient rec = EmailRecipientManager.recipientsForHolder(holder);
-          
-          String mailLink = edit ? getAdminMailLink(rec.recipients,rec.ccs, 
-                                            EmailTemplate.MOUSERECORD, 
+
+          String mailLink = edit ? getAdminMailLink(rec.recipients,rec.ccs,
+                                            EmailTemplate.MOUSERECORD,
                                             firstInitial + holder.getLastname(),
                                             holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")",
                                             -1,-1,nextRecord.getMouseID(),holder.getHolderID())
-                                 : getMailToLink(rec.recipients, rec.ccs,  
-                                     "Regarding " + nextRecord.getMouseName() + "-Record# " + nextRecord.getMouseID(), 
+                                 : getMailToLink(rec.recipients, rec.ccs,
+                                     "Regarding " + nextRecord.getMouseName() + "-Record# " + nextRecord.getMouseID(),
                                      null, firstInitial + holder.getLastname(),
                                      holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")");
-                                   
-                                  
-          
+
+
+
           holderBuf.append("<dt" + (overMax ? " style='display:none'" : "") + ">"
               + (holder.isCovert() ? "<span class='covert_tag'>CVT</span>-" : "")
               + mailLink + facilityName
               + "<span class='lbl'>" + cryoLiveStatus + "</span>"
               + "</dt>");
-          
+
           holderCount++;
         }
         if (overMax) {
@@ -1854,7 +1810,7 @@ public class HTMLGeneration {
     table.append("<td style='min-width: 150px'>\r\n");
     table.append("Action requested");
     table.append("</td>\r\n");
-    
+
     table.append("<td>\r\n");
     table.append("User comment");
     table.append("</td>\r\n");
@@ -1876,9 +1832,9 @@ public class HTMLGeneration {
     table.append("<div class=\"mouseTable\">\r\n");
     table.append("<table style='width:100%'>\r\n");
     int numRequests = 0;
-    
+
     ArrayList<Integer> neededRecords = new ArrayList<Integer>();
-    
+
     table.append(getChangeRequestTableHeaders());
     for (ChangeRequest nextRequest : requests) {
 
@@ -1903,7 +1859,7 @@ public class HTMLGeneration {
       table.append("<dt>\r\n");
       table.append("Status: <b>" + nextRequest.getStatus() + "</b>");
       table.append("&nbsp;</dt>\r\n");
-          
+
       table.append("<dt>\r\n");
       table.append("<a href='DeleteChangeRequest.jsp?id="
           + nextRequest.getRequestID() + "'>Delete</a>");
@@ -1922,12 +1878,12 @@ public class HTMLGeneration {
       table.append("&nbsp;</dt>\r\n");
 
       table.append("<dt>\r\n");
-      
-      
+
+
       String emailRecipient = nextRequest.getEmail();
       String emailCc = null;
-      
-      
+
+
       IHolder holder = null;
       if (nextRequest.getHolderId() > 0) {
         holder = DBConnect.getHolder(nextRequest.getHolderId());
@@ -1949,39 +1905,39 @@ public class HTMLGeneration {
         emailRecipient = rec.recipients;
         emailCc = rec.ccs;
       }
-      
+
       String emailType = EmailTemplate.CHANGEREQUEST;
-      
+
       if (nextRequest.getRequestSource() != null) {
         if (nextRequest.getRequestSource().toLowerCase().contains("(pdu)") ||
             nextRequest.getUserComment().toLowerCase().contains("(pdu)")){
           emailType = EmailTemplate.PDU_CHANGEREQUEST;
-        } 
+        }
         else if (nextRequest.getRequestSource().toLowerCase().contains("(tdu)") ||
             nextRequest.getUserComment().toLowerCase().contains("(tdu)")){
           emailType = EmailTemplate.TDU_CHANGEREQUEST;
         }
       }
-      
+
       table.append(getAdminMailLink(emailRecipient, emailCc, emailType, -1,nextRequest.getRequestID(), Integer.toString(nextRequest.getMouseID()),-1));
       table.append("&nbsp;</dt>\r\n");
 
       if (nextRequest.getRequestSource() != null) {
         table.append("<dt>Source: " + nextRequest.getRequestSource() + "&nbsp;</dt>");
       }
-      
+
       table.append("</dl>\r\n");
       table.append("</td>\r\n");
 
       // COLUMN - Requested action
       table.append("<td valign='top'>\r\n");
-      
+
 
       //new change request format, no properties
       table.append("<dl><dt class='" + nextRequest.actionRequested() + "'>");
       table.append(nextRequest.actionRequested().label + "&nbsp;</dt>");
       if (nextRequest.actionRequested() == Action.ADD_HOLDER || nextRequest.actionRequested() == Action.REMOVE_HOLDER ||
-          nextRequest.actionRequested() == Action.CHANGE_CRYO_LIVE_STATUS) {
+          nextRequest.actionRequested() == Action.CHANGE_CRYO_LIVE_STATUS || nextRequest.actionRequested() == Action.UPLOAD_FILE) {
         table.append("<dt>" + emptyIfNull(nextRequest.getHolderName()));
         if (nextRequest.getHolderId() == -2) {
           //TODO build a link to add new holder, with link back to this page.
@@ -1999,17 +1955,25 @@ public class HTMLGeneration {
         if (nextRequest.getCryoLiveStatus() != null && !nextRequest.getCryoLiveStatus().isEmpty()){
           table.append("</dt><dt>Status: " + nextRequest.getCryoLiveStatus() + "</dt>");
         }
+
       }
 
-     
+
       table.append("</td>\r\n");
-      
+
       // COLUMN - User comment
-      
+
       table.append("<td>");
       if (nextRequest.getGeneticBackgroundInfo() != null && !nextRequest.getGeneticBackgroundInfo().isEmpty()) {
         table.append("<b>Genetic background info:</b> " + nextRequest.getGeneticBackgroundInfo() + "<br><br>");
       }
+      if (nextRequest.getNewFileNames() != null && !nextRequest.getNewFileNames().isEmpty()) {
+          table.append("<b>Add New Files:</b> " + nextRequest.getNewFileNames() + "<br><br>");
+        }
+
+      if (nextRequest.getDeleteFileNames() != null && !nextRequest.getDeleteFileNames().isEmpty()){
+          table.append("<b>Remove Files:</b> " + nextRequest.getDeleteFileNames() + "<br><br>");
+        }
       table.append("<span class=\"mouseComment\">" +  HTMLUtilities.getCommentForDisplay(emptyIfNull(nextRequest.getUserComment())) + "</span><br>");
 
       table.append("</td>");
@@ -2039,7 +2003,7 @@ public class HTMLGeneration {
 
       table.append("</tr>\r\n");
       numRequests++;
-      
+
       nextRequest.prepareForSerialization();
       neededRecords.add(nextRequest.getMouseID());
     }
@@ -2133,7 +2097,7 @@ public class HTMLGeneration {
         table.append("<dt>" + name + ": " + formatEmail(email, email, "Requesting help using the MSU Rodent Database") + "</dt>");
       }
       table.append("</dl>");
-      
+
       table.append("</td>");
       if (edit) {
         table.append("<td style='min-width:60px'>" + HTMLGeneration.emptyIfNull(facility.getFacilityCode()) + "</td>");
@@ -2267,13 +2231,13 @@ public class HTMLGeneration {
       table.append(" <div style=\"position: relative; right: 10px; float:right;\">("
           + holder.getDept() + ")</div>");
       table.append("</td>\r\n");
-      
+
       //contact information
       table.append("<td>\r\n");
-      
+
       String emailLink = edit ? getAdminMailLink(holder.getEmail(), null, EmailTemplate.HOLDER, -1, -1, null, holder.getHolderID())
                               : formatEmail(holder.getEmail(), holder.getEmail(),"");
-      
+
       table.append("<div style=\"position:relative; left:2px; float:left;\">" + emailLink   + "</div>");
       table.append("</td>\r\n");
 
@@ -2288,7 +2252,7 @@ public class HTMLGeneration {
       table.append("</td>\r\n");
 
       table.append("<td>" + emptyIfNull(holder.getPrimaryMouseLocation()) + "</td>");
-      
+
       //review date
       table.append("<td>\r\n");
       if (holder.getDateValidated() != null) {
@@ -2300,7 +2264,7 @@ public class HTMLGeneration {
       else if (holder.getValidationStatus() != null && !holder.getValidationStatus().isEmpty()) {
         table.append(holder.getValidationStatus());
       }
-      
+
       table.append("</td>\r\n");
 
       table.append("<td >\r\n");
@@ -2482,6 +2446,23 @@ public class HTMLGeneration {
     return link.toString();
   }
 
+  public static String formatRGD(String id){
+    if (id == null)
+      return "&lt;not available&gt;";
+    try {
+      Integer.parseInt(id.trim());
+    } catch (Exception e) {
+      return id;
+    }
+    String url = "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id="
+            + id.trim();
+    StringBuffer link = new StringBuffer();
+    link.append("<a href=\"" + url + "\" target=\"_blank\">");
+    link.append(id);
+    link.append("</a>");
+    return link.toString();
+  }
+
   public static String formatPubMedID(String value) {
     if (value == null)
       return "&lt;not available&gt;";
@@ -2622,7 +2603,7 @@ public class HTMLGeneration {
       String[] niceNames, Object current, String selectParams) {
     return genSelect(name,values,niceNames,current,selectParams,true,true);
   }
-  
+
   public static String genSelect(String name, Object[] values,
       String[] niceNames, Object current, String selectParams,boolean includeId) {
     return genSelect(name, values, niceNames, current, selectParams, includeId, true);
@@ -2632,11 +2613,11 @@ public class HTMLGeneration {
         String[] niceNames, Object current, String selectParams,boolean includeId,boolean chosenIfLarge) {
     if (selectParams == null) selectParams = "";
     StringBuffer b = new StringBuffer();
-    
+
     String cssClass = values.length > 20 && chosenIfLarge ? "class='chzn-select'" : "";
     b.append("<select " +  cssClass);
     if(includeId){
-      b.append("id='" + name + "' "); 
+      b.append("id='" + name + "' ");
     }
     b.append("name=\"" + name + "\" " + selectParams + ">");
     for (int i = 0; i < values.length; i++) {
@@ -2755,7 +2736,7 @@ public class HTMLGeneration {
     }
     return b.toString();
   }
-  
+
   public static String genRadio(String name, String[] values,
       String[] niceNames, String current, String selectParams) {
 
@@ -2890,11 +2871,11 @@ public class HTMLGeneration {
     StringBuffer buf = new StringBuffer();
     buf.append("<div class='mousetype_selection_links'>");
     buf.append("<ul>");
-    
+
     buf.append("<li>Sort by: ");
-    buf.append(genSelect("orderby",new String[]{"mouse.name","mouse.id","mouse.id desc"}, 
+    buf.append(genSelect("orderby",new String[]{"mouse.name","mouse.id","mouse.id desc"},
                         new String[]{"Rodent Name", "Record #", "Record #(reverse)"},checkedOrderBy,null));
-    
+
     buf.append("</li>\n");
     buf.append("<li>Category: ");
     String[] mouseTypeIds = new String[mouseTypes.size() + 1];
@@ -2909,7 +2890,7 @@ public class HTMLGeneration {
     }
     buf.append(genSelect("mousetype_id", mouseTypeIds, mouseTypeNames, Integer.toString(checkedMouseTypeID), null) );
     buf.append("</li>");
-    
+
     if (status != null) {
       buf.append("<li>Status: ");
       buf.append(genSelect("status",new String[]{"live","deleted","all"},new String[]{"Live","Deleted","All"},status,null));
@@ -2920,7 +2901,7 @@ public class HTMLGeneration {
           + (creOnly == 1 ? "checked='checked'" : "") + "></li>");
     }
     if (status != null) {
-      buf.append("<li class='cf'><input type='text' size='20' id='mousetypeselection_searchterms' name='searchterms'" 
+      buf.append("<li class='cf'><input type='text' size='20' id='mousetypeselection_searchterms' name='searchterms'"
           + (searchTerms != null ? "value='" + searchTerms + "'" : "") + ">&nbsp;");
       buf.append("<input class='btn btn-small' type='submit' value='Search'></input></li>");
     }
@@ -2982,7 +2963,7 @@ public class HTMLGeneration {
     buf.append("</table>");
     return buf.toString();
   }
-  
+
   public static String getNewPageSelectionLinks(int limit, int pageNum,
       int total, boolean includeLimitSelector) {
     StringBuffer buf = new StringBuffer();
@@ -2991,7 +2972,7 @@ public class HTMLGeneration {
       return "";
     }
     buf.append("<div class='pagination-container clearfix'>");
-    
+
     int pageCount = (total + limit - 1) / limit;
     if (limit == -2){
       pageCount = 1;
@@ -3001,11 +2982,11 @@ public class HTMLGeneration {
       pageNums[i] = Integer.toString(i + 1);
     }
     String pageSelect = genSelect("pagenum_select", pageNums, pageNums, Integer.toString(pageNum),"style='vertical-align: 0%;'",false,false);
-    
-    buf.append("<a class='btn" + ((pageNum <= 1) ? " disabled":"" ) + "'href='#' data-pagenum='" + 
+
+    buf.append("<a class='btn" + ((pageNum <= 1) ? " disabled":"" ) + "'href='#' data-pagenum='" +
         (pageNum - 1) +"'><i class='icon-chevron-left'></i> Previous</a>\r\n");
     buf.append("<span class='well' style='padding:6px;vertical-align:middle'>Page " + pageSelect + " of " + pageCount + "</span>\r\n");
-    buf.append("<a class='btn" + ((pageNum >= pageCount) ? " disabled":"" ) + "' href='#' data-pagenum='" + 
+    buf.append("<a class='btn" + ((pageNum >= pageCount) ? " disabled":"" ) + "' href='#' data-pagenum='" +
         (pageNum + 1) +"'>Next <i class='icon-chevron-right'></i></a>\r\n");
     if (includeLimitSelector) {
 
@@ -3015,9 +2996,9 @@ public class HTMLGeneration {
       String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px'",false,false);
       buf.append("<span style='vertical-align:middle'>&nbsp;&nbsp;"  + perPageDropDown + " <span>per page</span></span>");
     }
-   
+
     buf.append("</div>");
-    
+
     return buf.toString();
   }
 
@@ -3048,7 +3029,7 @@ public class HTMLGeneration {
       return -1;
     }
   }
-  
+
   public static boolean stringToBoolean(String str) {
     try {
       return Boolean.parseBoolean(str);
@@ -3065,11 +3046,11 @@ public class HTMLGeneration {
         + (maxLength > 0 ? "maxlength=\"" + maxLength + "\" " : "")
         + (params != null ? params : "") + ">\r\n";
   }
-  
+
   public static String tInput(String name, String current){
     return "<input type='text' name='" + name + (current != null ? "' value=\"" + current + "\"" : "'") + " />";
   }
-  
+
   public static String tArea(String name, String current){
     return "<textarea name='" + name + "'>" + (current != null ? current : "") + "</textarea>";
   }
@@ -3077,38 +3058,38 @@ public class HTMLGeneration {
   public static String formatEmail(String emailAddress, String linkText, String subject) {
     return formatEmail(emailAddress, null, linkText, subject);
   }
-  
+
   public static String formatEmail(String emailAddress, String ccAddress, String linkText, String subject) {
     return getMailToLink(emailAddress, ccAddress, subject, null, linkText);
   }
-  
-  
+
+
   public static String getMailToLink(String address, String cc, String subject, String body, String linkText)
   {
-    return getMailToLink(address, cc, subject, body, linkText, null, false, null); 
+    return getMailToLink(address, cc, subject, body, linkText, null, false, null);
   }
-  
+
   public static String getMailToLink(String address, String cc, String subject, String body, String linkText, String linkTitle)
   {
-    return getMailToLink(address, cc, subject, body, linkText, linkTitle, false, null); 
+    return getMailToLink(address, cc, subject, body, linkText, linkTitle, false, null);
   }
-  
+
   public static String getAdminMailLink(String address, String cc, String templateCategory, int subId, int requestId, String mouseId, int holderId){
     return getAdminMailLink(address, cc, templateCategory, subId, requestId, mouseId, holderId, -1);
   }
-  
+
   public static String getAdminMailLink(String address, String cc, String templateCategory, int subId, int requestId, String mouseId, int holderId,int submitterIndex){
-    return getAdminMailLink(address, cc, templateCategory, null,null, subId, requestId, mouseId, holderId,submitterIndex); 
+    return getAdminMailLink(address, cc, templateCategory, null,null, subId, requestId, mouseId, holderId,submitterIndex);
   }
-  
-  public static String getAdminMailLink(String address, String cc, String templateCategory, String linkText, String linkTitle, int subId, int requestId, 
+
+  public static String getAdminMailLink(String address, String cc, String templateCategory, String linkText, String linkTitle, int subId, int requestId,
                                         String mouseId, int holderId){
     return getAdminMailLink(address, cc, templateCategory, linkText, linkTitle, subId, requestId, mouseId, holderId, -1);
-    
+
   }
-  public static String getAdminMailLink(String address, String cc, String templateCategory, String linkText, String linkTitle, int subId, int requestId, 
+  public static String getAdminMailLink(String address, String cc, String templateCategory, String linkText, String linkTitle, int subId, int requestId,
                                         String mouseId, int holderId, int submitterIndex){
-    
+
     Properties props = new Properties();
     if (subId > 0) {
       props.setProperty("submission_id", Integer.toString(subId));
@@ -3128,14 +3109,14 @@ public class HTMLGeneration {
     props.setProperty("category", templateCategory);
     return getMailToLink(address, cc, null, null, linkText == null ? address : linkText, linkTitle, true, props);
   }
-  
+
   private static String getMailToLink(String address, String cc, String subject, String body, String linkText, String linkTitle, boolean admin, Properties props)
   {
     if (address == null || address.isEmpty()) {
       address = cc;
       cc = null;
     }
-    
+
     String recipient = address;
     String ccRecipient = null;
     String ccAddr = "?";
@@ -3166,22 +3147,22 @@ public class HTMLGeneration {
       return link;
     }
     else {
-      return "<a" + (linkTitle != null ? " title='" + linkTitle + "'":"") + 
-              " href=\"mailto:" + address + ccAddr + 
-              ((subject != null && !subject.isEmpty()) ? "subject=" + urlEncode(subject) : "") + 
+      return "<a" + (linkTitle != null ? " title='" + linkTitle + "'":"") +
+              " href=\"mailto:" + address + ccAddr +
+              ((subject != null && !subject.isEmpty()) ? "subject=" + urlEncode(subject) : "") +
               (body != null ? "&body=" + urlEncode(body) : "") + "\">" + linkText + "</a>";
     }
   }
-  
+
   public static String dataEncode(String text){
     if (text == null || text.isEmpty()){
       return text;
     }
     return text.replace("'", "&quot;");
   }
-  
+
   public static String urlEncode(String text){
-    
+
     try {
       return URLEncoder.encode(text,"ISO-8859-1").replace("+", "%20");
     } catch (UnsupportedEncodingException e) {
@@ -3189,21 +3170,21 @@ public class HTMLGeneration {
       return "failed to encode";
     }
   }
-
+//part of old Email Template Form improvemtents commit, is it used? -EW
   public static boolean isAdminUser(HttpServletRequest request){
     return request.isUserInRole("administrator");
   }
-  
+
   public static String getHolderSelect(String name, int currentHolderId) {
     return getHolderSelect(name, currentHolderId, true);
   }
-  
+
   public static String getHolderSelect(String name, int currentHolderId, boolean includeOther) {
     ArrayList<Holder> holders = DBConnect.getAllHolders(false);
-    
+
     String[] holderNames = new String[holders.size() + 2];
     Integer[] holderIds = new Integer[holderNames.length];
-    
+
     int i = 0;
     holderNames[i] = "Choose one";
     holderIds[i] = -1;
@@ -3218,13 +3199,13 @@ public class HTMLGeneration {
     i++;
     return genSelect(name, holderIds, holderNames, currentHolderId,null);
   }
-  
+
   public static String getFacilitySelect(String name, int currentFacilityId) {
     ArrayList<Facility> facilities = DBConnect.getAllFacilities(false);
-    
+
     String[] facilityNames = new String[facilities.size() + 2];
     Integer[] facilityIds = new Integer[facilityNames.length];
-    
+
     int i = 0;
     facilityNames[i] = "Choose one";
     facilityIds[i] = -1;
