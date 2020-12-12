@@ -154,7 +154,6 @@ $(document).ready(function(){
 
     function formatRgdLink(rgdNumber)
     {
-
       return "<a class='MP' target='_blank' href='https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=" + rgdNumber + "'>(RGD:" + rgdNumber + ")</a>";
     }
 
