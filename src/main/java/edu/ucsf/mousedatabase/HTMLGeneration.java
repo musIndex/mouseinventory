@@ -181,9 +181,10 @@ public class HTMLGeneration {
     table.append("<div id=\"navigationLinksContainer\" class='clearfix'>");
     table.append("<div id='navigationLinks' class='site_container'>");
     table.append("<ul class=\"navLinkUL\">");
+    //Navigation links for the header bar
     table.append(addNavLink("Search", "search.jsp", null,
         currentPageFilename, false,"nav-search-link"));
-    table.append(addNavLink("Rodent Records", "MouseReport.jsp", null,
+    table.append(addNavLink("Rodent Records", "applicationLoginRecords.jsp", null,
         currentPageFilename, false,"nav-mouselist"));
     table.append(addNavLink("Gene List", "GeneReport.jsp", null,
         currentPageFilename, false));
@@ -193,8 +194,10 @@ public class HTMLGeneration {
         currentPageFilename, false));
     // table.append(addNavLink("Endangered Mice", "EndangeredReport.jsp",
     // null,currentPageFilename,false));
-    table.append(addNavLink("Submit Rodents", "submission.jsp", null,
+    table.append(addNavLink("Submit Rodents", "applicationLoginSubmit.jsp", null,
         currentPageFilename, false));
+    table.append(addNavLink("Database Application", "application.jsp", null,
+            currentPageFilename, false));
     table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false));
     if (isAdminPage && showAdminControls){
       table.append(addNavLink("Log out", "logout.jsp", null,
@@ -217,6 +220,7 @@ public class HTMLGeneration {
       table.append(addNavLink("Admin Home", "admin.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Change Requests", "ManageChangeRequests.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Submissions", "ListSubmissions.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Applications", "applicationsList.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Admin Search", "AdminSearch.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Edit Records", "EditMouseSelection.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Edit Holders", "EditHolderChooser.jsp", null, currentPageFilename, true));
@@ -259,6 +263,77 @@ public class HTMLGeneration {
         + "\"><a class=\"navBarAnchor\" href=\"" + url + "\">"
         + targetNiceName + "</a></li>\r\n";
 
+  }
+
+  //Returns the HTML formatting for the applicant records table
+  public static String getApplicantTable(){
+    //First, we get all applicants based upon id
+    ArrayList<Applicant> list_of_applicants = DBConnect.getAllApplicants("id");
+    //Stylistic settings
+    String style =
+            "<style>" +
+            "table, td, th {border: 1px solid black;}" +
+            "table {width: 100%; border-collapse: collapse;}" +
+                    "td{vertical-align:middle;}"+
+                    "tr:nth-child(even) {background-color: #ffc3ad;}"+
+                    "tr:nth-child(odd) {background-color: #ffe9ad;}"+
+                    "tr:nth-child(1) {background-color: #e5e8e3;}"+
+                    "</style>";
+
+    //Break the page into one table with rows for each applicant
+    //and columns for each different piece of information
+
+    //This is the top row
+    String formatting = "<table>"+"<tr>" +
+            "<td>ID</td>" +
+            "<td>First name</td>" +
+            "<td>Last name</td>" +
+            "<td>Email</td>" +
+            "<td>NetID</td>" +
+            "<td>AUF/Protocol Number</td>" +
+            "<td>Position</td>" +
+            "<td>Status</td>" +
+            "<td>Change approval</td>" +
+            "</tr>";
+
+    //Iterate over each user, and add them into a new row
+    for (Applicant user : list_of_applicants){
+      formatting += "<tr>";
+      formatting += "<td>"+user.getId()+"</td>";
+      formatting += "<td>"+user.getFirst_name()+"</td>";
+      formatting += "<td>"+user.getLast_name()+"</td>";
+      formatting += "<td>"+user.getEmail()+"</td>";
+      formatting += "<td>"+user.getNetID()+"</td>";
+      formatting += "<td>"+user.getAUF()+"</td>";
+      formatting += "<td>"+user.getPosition()+"</td>";
+      formatting += "<td>"+user.getApproved()+"</td>";
+
+      //To make the change approval status button work, we need to create a
+      // new form associated with each applicant tied into the last cell
+      formatting += "<td>"+"<form method=\"post\" action=\"statusServlet\">";
+
+      //Pass all the data as hidden inputs. Basically copying what we did above,
+      //but hidden from the user
+      formatting += "<input id=identity name=identity type=hidden value="+user.getId()+">";
+      formatting += "<input id=first_name name=first_name type=hidden value="+user.getFirst_name()+">";
+      formatting += "<input id=last_name name=last_name type=hidden value="+user.getLast_name()+">";
+      formatting += "<input id=email name=email type=hidden value="+user.getEmail()+">";
+      formatting += "<input id=net_id name=net_id type=hidden value="+user.getNetID()+">";
+      formatting += "<input id=auf name=auf type=hidden value="+user.getAUF()+">";
+      formatting += "<input id=position name=position type=hidden value="+user.getPosition()+">";
+      formatting += "<input id=approved name=approved type=hidden value="+user.getApproved()+">";
+
+      //Create the submit button
+      formatting += "<input type=\"submit\" value=\"Change Access\">";
+      //End the form
+      formatting += "</form></td></tr>";
+
+
+    }
+    //End the table
+    formatting +="</table>";
+    //Return the formatted page
+    return style+formatting;
   }
 
   public static String getNewMouseForm(MouseRecord r) {

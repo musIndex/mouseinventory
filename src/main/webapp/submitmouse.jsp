@@ -122,6 +122,10 @@
 
 <% if (ok) { 
     HTMLUtilities.logRequest(request);
+    //The two lines below correspond to a class that is a work in progress - it needs security updates
+    //to be implemented.
+    //Sender Email = new Sender();
+    //Email.SendMail(submitterData.getEmail(),newMouse.getOfficialSymbol(),"Your mouse has been submitted!");
   %>
     <div class = "category">
         <div class = "two_column_left">

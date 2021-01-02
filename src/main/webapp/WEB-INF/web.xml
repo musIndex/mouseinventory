@@ -19,6 +19,21 @@
     <servlet-name>ValidationServlet</servlet-name>
     <url-pattern>/validate</url-pattern>
   </servlet-mapping>
+
+
+  <servlet>
+    <description></description>
+    <display-name>StatusServlet</display-name>
+    <servlet-name>statusServlet</servlet-name>
+    <servlet-class>edu.ucsf.mousedatabase.servlets.StatusServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>statusServlet</servlet-name>
+    <url-pattern>/statusServlet</url-pattern>
+    <url-pattern>/admin/statusServlet</url-pattern>
+  </servlet-mapping>
+
+
   <servlet>
     <description></description>
     <display-name>ReportServlet</display-name>
@@ -197,4 +212,5 @@
     <servlet-name>SendMailServlet</servlet-name>
     <servlet-name>UploadServlet</servlet-name>
   </filter-mapping>
+
 </web-app>
