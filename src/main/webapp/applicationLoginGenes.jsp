@@ -8,9 +8,9 @@
     <table class="site_container">
         <tr>
             <td style="width: 50%">
-                <h2>Rodent Records Login</h2>
-                Welcome to the Rodent Research Database Application's Rodent Records.<br>
-                Before you're able to view rodent records, ensure that
+                <h2>Gene List Login</h2>
+                Welcome to the Rodent Research Database Application's Gene List.<br>
+                Before you're able to view the gene list, ensure that
                 you have filled out the database application.<br>
                 If your application has been approved, please enter your information
                 below.<br><br>
@@ -27,7 +27,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <input type = hidden name="page" value="applicationLoginRecords.jsp">
+                                <input type = hidden name="page" value="applicationLoginGenes.jsp">
                                 <input type="submit" class ="button btn-primary" value="Login">
                             </td>
                         </tr>
@@ -47,5 +47,4 @@
             </td>
         </tr>
     </table>
-
 </div>

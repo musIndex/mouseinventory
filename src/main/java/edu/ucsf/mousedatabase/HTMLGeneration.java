@@ -184,7 +184,7 @@ public class HTMLGeneration {
     //Navigation links for the header bar
     table.append(addNavLink("Search", "search.jsp", null,
         currentPageFilename, false,"nav-search-link"));
-    table.append(addNavLink("Rodent Records", "applicationLoginRecords.jsp", null,
+    table.append(addNavLink("Rodent Records", "MouseReport.jsp", null,
         currentPageFilename, false,"nav-mouselist"));
     table.append(addNavLink("Gene List", "GeneReport.jsp", null,
         currentPageFilename, false));
@@ -194,7 +194,7 @@ public class HTMLGeneration {
         currentPageFilename, false));
     // table.append(addNavLink("Endangered Mice", "EndangeredReport.jsp",
     // null,currentPageFilename,false));
-    table.append(addNavLink("Submit Rodents", "applicationLoginSubmit.jsp", null,
+    table.append(addNavLink("Submit Rodents", "submission.jsp", null,
         currentPageFilename, false));
     table.append(addNavLink("Database Application", "application.jsp", null,
             currentPageFilename, false));
@@ -2148,11 +2148,12 @@ public class HTMLGeneration {
           + facility.getFacilityDescription());
 
       table.append("</td><td style='min-width:100px'>");
-      table.append("<span style=\"position:relative;left:5px\"><a href=\""
-          + siteRoot
-          + "MouseReport.jsp?facility_id="
-          + facility.getFacilityID()
-          + "\">"
+      table.append("<span style=\"position:relative;left:5px\">"
+//              + "<a href=\""
+//          + siteRoot
+//          + "MouseReport.jsp?facility_id="
+//          + facility.getFacilityID()
+//          + "\">"
           + facility.getRecordCount() + " records</a></span>\r\n");
       table.append("</td>\r\n");
       table.append("<td>");
@@ -2356,8 +2357,10 @@ public class HTMLGeneration {
         covertList = "<br>(" + holder.getCovertMouseCount() + " covert)";
         count += holder.getCovertMouseCount();
       }
-      table.append("<a href=\"" + href + "?holder_id=" + holder.getHolderID()
-          + "&mousetype_id=-1\">" + (edit ? "edit " : "") + count + " records</a>" + covertList + "");
+      table.append(
+//              "<a href=\"" + href + "?holder_id=" + holder.getHolderID()
+//          + "&mousetype_id=-1\">" + (edit ? "edit " : "") +
+              count + " records</a>" + covertList + "");
       table.append("</td>\r\n");
       if (edit) {
         table.append("<td><a href=\"EditHolderForm.jsp?holderID="

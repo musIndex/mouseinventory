@@ -7,41 +7,45 @@
 
 <div>
     <form method="post" action="loginServlet">
-        <table>
+        <table class="site_container">
             <tr>
                 <td>
-                    Welcome to the Rodent Research Database Application's Rodent Submittal process.<br>
-                    Before you're able to submit a rodent for the database you must first ensure that
+                    <h2>Rodent Submission Login</h2>
+                    Welcome to the Rodent Research Database Application's Rodent Submission Process.<br>
+                    Before you're able to view rodent records, ensure that
                     you have filled out the database application.<br>
-                    If you've already filled out the application, please enter your information
-                    below.<br>
-                    Thank you!<br><br>
+                    If your application has been approved, please enter your information
+                    below.<br><br>
+
+                    <table>
+                        <form method="post" action="loginServlet">
+                            <tr>
+                                <td><label for="email">Email address:</label></td>
+                                <td><input type="text" id="email" name="email" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="MSU NetID">MSU NetID:</label></td>
+                                <td><input type="text" id="MSU NetID" name="MSU NetID" required></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type = hidden name="page" value="applicationLoginSubmit.jsp">
+                                    <input type="submit" class ="button btn-primary" value="Login">
+                                </td>
+                            </tr>
+                        </form>
+                    </table>
                 </td>
-            </tr>
-        </table>
-        <table>
-            <%--<tr>
-                <td><label for="firstName">First name:</label></td>
-                <td><input type="text" id="firstName" name="firstName"></td>
-            </tr>
-            <tr>
-                <td><label for="lastName">Last name:</label></td>
-                <td><input type="text" id="lastName" name="lastName"></td>
-            </tr>--%>
-            <tr>
-                <td><label for="email">Email address:</label></td>
-                <td><input type="text" id="email" name="email"></td>
-            </tr>
-            <tr>
-                <td><label for="MSU NetID">MSU NetID:</label></td>
-                <td><input type="text" id="MSU NetID" name="MSU NetID"></td>
-            </tr>
-        </table>
-        <table>
-            <tr>
-                <td>
-                    <input type = hidden name="page" value="applicationLoginSubmit.jsp">
-                    <input type="submit" class ="button btn-primary" value="Login">
+                <td style="vertical-align: top;width: 50%">
+                    <h2>Application Information</h2>
+                    In order to access the Rodent Records and submit
+                    rodents to the database, you must first fill out an application.
+                    <br>
+                    This application can be found by following the button below, or
+                    clicking on the "Database Application" tab in the navigation bar.
+                    <br>
+                    <br>
+                    <a href="application.jsp"><button class = "btn btn-success">Database Appication</button></a>
                 </td>
             </tr>
         </table>

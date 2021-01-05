@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,16 @@ public class LoginServlet extends HttpServlet {
     private static String AUF;
     private static String Position;
     private static int approved;
+
+    private static int access_granted = 0;
+    public static int getAccess_granted() {
+        return access_granted;
+    }
+    public static void setAccess_granted(int access_granted) {
+        LoginServlet.access_granted = access_granted;
+    }
+
+
 
 
     /*
@@ -47,6 +58,7 @@ public class LoginServlet extends HttpServlet {
         Map<String,String> pages = new HashMap<String,String>();
         pages.put("applicationLoginRecords.jsp","MouseReport.jsp");
         pages.put("applicationLoginSubmit.jsp","submission.jsp");
+        pages.put("applicationLoginGenes.jsp", "GeneReport.jsp");
 
         //Iterate over the map to find the correct key-value pair
         for (Map.Entry<String,String> entry : pages.entrySet()){
@@ -62,15 +74,16 @@ public class LoginServlet extends HttpServlet {
 
         //If sendToPage is empty, that means the data input is not in the database
         if (sendToPage.isEmpty()) {
-            response.sendError(4560, "Wrong login information.");
+            response.sendRedirect(getPage);
         }
         //If sendToPage==denied, then the user is in the database, but not yet approved
         else if(sendToPage.equals("denied")){
-            response.sendError(4561, "You've submitted an application, but you have not yet been approved.");
+            response.sendRedirect(getPage);
         }
         //Otherwise, the login info was correct and we send them to the correct page
         else {
             response.sendRedirect(sendToPage);
+            setAccess_granted(1);
         }
     }
 
@@ -80,20 +93,23 @@ public class LoginServlet extends HttpServlet {
         ArrayList<Applicant> list_of_applicants = DBConnect.getAllApplicants("approved");
         //Page that we want to send the user to
         //Iterate over applicants/users
+        String user_email = email.toLowerCase();
+        String user_net_id = net_id.toLowerCase();
+
         for (Applicant user: list_of_applicants){
             //Get email, netID, and approval status.
-            String user_email = email.toLowerCase();
-            String user_net_id = net_id.toLowerCase();
+            String applicant_email = user.getEmail().toLowerCase();
+            String applicant_net_id = user.getNetID().toLowerCase();
             int is_approved = user.getApproved();
             //Check email, netID, and approval status.
-            if (user_email.equals(user.getEmail().toLowerCase()) &&
-                    user_net_id.equals(user.getNetID().toLowerCase()) &&
+            if (user_email.equals(applicant_email) &&
+                    user_net_id.equals(applicant_net_id) &&
                     is_approved == 1){
                 //If they all are valid, send them to the correct page.
                 return sendPage;
             }
-            else if (user_email.equals(user.getEmail().toLowerCase()) &&
-                    user_net_id.equals(user.getNetID().toLowerCase()) &&
+            else if (user_email.equals(applicant_email) &&
+                    user_net_id.equals(applicant_net_id) &&
                     is_approved == 0){
                 //If they all are valid, send them to the correct page.
                 return "denied";
