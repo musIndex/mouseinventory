@@ -11,7 +11,7 @@
             <tr>
                 <td>
                     <h2>Rodent Submission Login</h2>
-                    Welcome to the Rodent Research Database Application's Rodent Submission Process.<br>
+                    Welcome to the Rodent Submission Process.<br>
                     Before you're able to view rodent records, ensure that
                     you have filled out the database application.<br>
                     If your application has been approved, please enter your information
