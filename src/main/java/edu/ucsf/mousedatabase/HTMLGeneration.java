@@ -182,8 +182,8 @@ public class HTMLGeneration {
     table.append("<div id='navigationLinks' class='site_container'>");
     table.append("<ul class=\"navLinkUL\">");
     //Navigation links for the header bar
-    table.append(addNavLink("Search", "search.jsp", null,
-        currentPageFilename, false,"nav-search-link"));
+//    table.append(addNavLink("Search", "search.jsp", null,
+//        currentPageFilename, false,"nav-search-link"));
     table.append(addNavLink("Rodent Records", "MouseReport.jsp", null,
         currentPageFilename, false,"nav-mouselist"));
     table.append(addNavLink("Gene List", "GeneReport.jsp", null,
@@ -2229,9 +2229,9 @@ public class HTMLGeneration {
 
       table.append("</td>\r\n<td>\r\n");
       table.append("<span style=\"position:relative;left:5px\">"
-          + "<a href=\"" + siteRoot
-          + "MouseReport.jsp?&geneID=" + gene.getGeneRecordID()
-          + "&orderby=mouse.id&mousetype_id=-1\">"
+//          + "<a href=\"" + siteRoot
+//          + "MouseReport.jsp?&geneID=" + gene.getGeneRecordID()
+//          + "&orderby=mouse.id&mousetype_id=-1\">"
           + gene.getRecordCount() + " record"
           + (gene.getRecordCount() != 1 ? "s" : "")
           + "</a></span>\r\n");

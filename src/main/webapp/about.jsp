@@ -59,7 +59,7 @@ categoryLabels.add("Did you know...?");
     <div class='about_banner'>
       <div class='iwanna'>I would like to...</div>  
       <div class='primary_actions'>
-        <a href='<%=siteRoot%>search.jsp?search-source=about_banner'><i class='icon-search'></i> <span>Search for rodents</span></a>
+        <a href='<%=siteRoot%>applicationLoginSearch.jsp?search-source=about_banner'><i class='icon-search'></i> <span>Search for rodents</span></a>
         <a href='<%=siteRoot%>submission.jsp'><i class='icon-plus'></i> <span>Submit a new rodent</span></a>
         <a href='#about_details'><i class='icon-question'></i> <span>Learn about the database</span></a>
       </div>

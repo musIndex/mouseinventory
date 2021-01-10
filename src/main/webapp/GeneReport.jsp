@@ -2,6 +2,7 @@
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="edu.ucsf.mousedatabase.servlets.LoginServlet" %>
+<%@ page import="static edu.ucsf.mousedatabase.HTMLGeneration.scriptRoot" %>
 <%=HTMLGeneration.getPageHeader(null, false,false,"onload=\"setFocus('quickSearchForm', 'searchterms')\"") %>
 <%=HTMLGeneration.getNavBar("GeneReport.jsp", false) %>
 
@@ -22,13 +23,52 @@
 %>
 <script id="access_granted" type="text/template">
     <div class="site_container">
-        <h2>Gene List for Mutant Alleles</h2>
+        <table>
+            <tr>
+                <td style="width:50%;vertical-align: top">
+                    <h2>Gene List for Mutant Alleles</h2>
 
-        <form class='view_opts' action='GeneReport.jsp'>
-            Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderBy,null) %>
-        </form>
-        <%= table%>
+                    <form class='view_opts' action='GeneReport.jsp'>
+                        Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderBy,null) %>
+                    </form>
+                    <%= table%>
+                </td>
+                <td style="width:50%; text-align: center;vertical-align: top">
+                    <form method="post" action="loginServlet" style="horiz-align: center">
 
+                    <table style="text-align: center">
+                        <tr style="text-align: center">
+                            <div class="flexBox">
+                                <div class="centered">
+                                    <h2>Database Search:</h2>
+                                        <input type="text" name="search_terms" id="search_terms">
+                                        <input type="hidden" name="page" value="GeneReport.jsp">
+                                        <input type="submit" class = "btn btn-primary" value="Search">
+                                    <br>
+                                    <br>
+                                    <b>Search examples:</b>
+                                    <br>
+                                    <i>shh null</i><br>
+                                    Match records that contain both 'shh' <b>and</b> 'null'<br>
+                                    <i>htr</i><br>
+                                    Match words that start with htr, such as htr2c, or htr1a<br>
+                                    <i>htr2c</i><br>
+                                    Find the specific gene 'htr2c'<br>
+                                    <i>1346833</i><br>
+                                    Look up MGI ID 1346833<br>
+                                    <i>12590258</i><br>
+                                    Look up Pubmed ID 1346833<br>
+                                    <i>#101,#103</i><br>
+                                    Show record numbers 101 and 103<br>
+                                </div>
+
+                            </div>
+                    </table>
+                    </form>
+
+                </td>
+            </tr>
+        </table>
     </div>
 </script>
 
@@ -44,7 +84,7 @@
                     If your application has been approved, please enter your information
                     below.<br><br>
                     <form method="post" action="loginServlet">
-                    <table>
+                        <table>
                             <tr>
                                 <td><label for="email">Email address:</label></td>
                                 <td><input type="text" id="email" name="email" required></td>
@@ -60,7 +100,7 @@
                                 </td>
                             </tr>
 
-                    </table>
+                        </table>
                     </form>
                 </td>
                 <td style="vertical-align: top;width: 50%">
