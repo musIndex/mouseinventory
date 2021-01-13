@@ -181,8 +181,11 @@ public class HTMLGeneration {
     table.append("<div id=\"navigationLinksContainer\" class='clearfix'>");
     table.append("<div id='navigationLinks' class='site_container'>");
     table.append("<ul class=\"navLinkUL\">");
-    table.append(addNavLink("Search", "search.jsp", null,
-        currentPageFilename, false,"nav-search-link"));
+    //Navigation links for the header bar
+//    table.append(addNavLink("Search", "search.jsp", null,
+//        currentPageFilename, false,"nav-search-link"));
+    table.append(addNavLink("Registration", "application.jsp", null,
+            currentPageFilename, false));
     table.append(addNavLink("Rodent Records", "MouseReport.jsp", null,
         currentPageFilename, false,"nav-mouselist"));
     table.append(addNavLink("Gene List", "GeneReport.jsp", null,
@@ -215,6 +218,7 @@ public class HTMLGeneration {
       table.append("<div id='adminLinks' class='site_container'>");
       table.append("<ul class=\"navLinkUL\">");
       table.append(addNavLink("Admin Home", "admin.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Registration", "applicationsList.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Change Requests", "ManageChangeRequests.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Submissions", "ListSubmissions.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Admin Search", "AdminSearch.jsp", null, currentPageFilename, true));
@@ -259,6 +263,77 @@ public class HTMLGeneration {
         + "\"><a class=\"navBarAnchor\" href=\"" + url + "\">"
         + targetNiceName + "</a></li>\r\n";
 
+  }
+
+  //Returns the HTML formatting for the applicant records table
+  public static String getApplicantTable(){
+    //First, we get all applicants based upon id
+    ArrayList<Applicant> list_of_applicants = DBConnect.getAllApplicants("id");
+    //Stylistic settings
+    String style =
+            "<style>" +
+            "table, td, th {border: 1px solid black;}" +
+            "table {width: 100%; border-collapse: collapse;}" +
+                    "td{vertical-align:middle;}"+
+                    "tr:nth-child(even) {background-color: #FFFFFF;}"+
+                    "tr:nth-child(odd) {background-color: #f3f3f3ff;}"+
+                    "tr:nth-child(1) {background-color: #d9d9d9ff;}"+
+                    "</style>";
+
+    //Break the page into one table with rows for each applicant
+    //and columns for each different piece of information
+
+    //This is the top row
+    String formatting = "<table>"+"<tr>" +
+            "<td>ID</td>" +
+            "<td>First name</td>" +
+            "<td>Last name</td>" +
+            "<td>Email</td>" +
+            "<td>NetID</td>" +
+            "<td>AUF/Protocol Number</td>" +
+            "<td>Position</td>" +
+            "<td>Status</td>" +
+            "<td>Change approval</td>" +
+            "</tr>";
+
+    //Iterate over each user, and add them into a new row
+    for (Applicant user : list_of_applicants){
+      formatting += "<tr>";
+      formatting += "<td>"+user.getId()+"</td>";
+      formatting += "<td>"+user.getFirst_name()+"</td>";
+      formatting += "<td>"+user.getLast_name()+"</td>";
+      formatting += "<td>"+user.getEmail()+"</td>";
+      formatting += "<td>"+user.getNetID()+"</td>";
+      formatting += "<td>"+user.getAUF()+"</td>";
+      formatting += "<td>"+user.getPosition()+"</td>";
+      formatting += "<td>"+user.getApproved()+"</td>";
+
+      //To make the change approval status button work, we need to create a
+      // new form associated with each applicant tied into the last cell
+      formatting += "<td>"+"<form method=\"post\" action=\"statusServlet\">";
+
+      //Pass all the data as hidden inputs. Basically copying what we did above,
+      //but hidden from the user
+      formatting += "<input id=identity name=identity type=hidden value="+user.getId()+">";
+      formatting += "<input id=first_name name=first_name type=hidden value="+user.getFirst_name()+">";
+      formatting += "<input id=last_name name=last_name type=hidden value="+user.getLast_name()+">";
+      formatting += "<input id=email name=email type=hidden value="+user.getEmail()+">";
+      formatting += "<input id=net_id name=net_id type=hidden value="+user.getNetID()+">";
+      formatting += "<input id=auf name=auf type=hidden value="+user.getAUF()+">";
+      formatting += "<input id=position name=position type=hidden value="+user.getPosition()+">";
+      formatting += "<input id=approved name=approved type=hidden value="+user.getApproved()+">";
+
+      //Create the submit button
+      formatting += "<input type=\"submit\" value=\"Change Access\">";
+      //End the form
+      formatting += "</form></td></tr>";
+
+
+    }
+    //End the table
+    formatting +="</table>";
+    //Return the formatted page
+    return style+formatting;
   }
 
   public static String getNewMouseForm(MouseRecord r) {
@@ -2036,7 +2111,6 @@ public class HTMLGeneration {
     table.append("<td style='min-width:100px'>\r\n");
     table.append("Records");
     table.append("</td>\r\n");
-    table.append("<td>**Need help using the database?</td>\r\n");
     if (edit) {
       table.append("<td style='min-width:60px'\">\r\n");
       table.append("Code (for data uploads)");
@@ -2073,32 +2147,14 @@ public class HTMLGeneration {
           + facility.getFacilityDescription());
 
       table.append("</td><td style='min-width:100px'>");
-      table.append("<span style=\"position:relative;left:5px\"><a href=\""
-          + siteRoot
-          + "MouseReport.jsp?facility_id="
-          + facility.getFacilityID()
-          + "\">"
+      table.append("<span style=\"position:relative;left:5px\">"
+//              + "<a href=\""
+//          + siteRoot
+//          + "MouseReport.jsp?facility_id="
+//          + facility.getFacilityID()
+//          + "\">"
           + facility.getRecordCount() + " records</a></span>\r\n");
       table.append("</td>\r\n");
-      table.append("<td>");
-      table.append("<dl>");
-      for (String expert : emptyIfNull(facility.getLocalExperts()).split("\\n")) {
-        if (expert == null || expert.isEmpty() || expert.trim().isEmpty()) {
-          continue;
-        }
-        int spaceLocation = expert.indexOf(" ");
-        if (spaceLocation <= 0 || (expert.indexOf("@") < 0 && expert.indexOf(".") < 0)) {
-          table.append("<dt>" + expert + "</dt>");
-          continue;
-        }
-        String email = expert.substring(0, spaceLocation);
-        String name = expert.substring(spaceLocation).trim();
-
-        table.append("<dt>" + name + ": " + formatEmail(email, email, "Requesting help using the MSU Rodent Database") + "</dt>");
-      }
-      table.append("</dl>");
-
-      table.append("</td>");
       if (edit) {
         table.append("<td style='min-width:60px'>" + HTMLGeneration.emptyIfNull(facility.getFacilityCode()) + "</td>");
         table.append("<td style='min-width:60px'><a href=\"EditFacilityForm.jsp?facilityID="
@@ -2153,9 +2209,9 @@ public class HTMLGeneration {
 
       table.append("</td>\r\n<td>\r\n");
       table.append("<span style=\"position:relative;left:5px\">"
-          + "<a href=\"" + siteRoot
-          + "MouseReport.jsp?&geneID=" + gene.getGeneRecordID()
-          + "&orderby=mouse.id&mousetype_id=-1\">"
+//          + "<a href=\"" + siteRoot
+//          + "MouseReport.jsp?&geneID=" + gene.getGeneRecordID()
+//          + "&orderby=mouse.id&mousetype_id=-1\">"
           + gene.getRecordCount() + " record"
           + (gene.getRecordCount() != 1 ? "s" : "")
           + "</a></span>\r\n");
@@ -2281,8 +2337,10 @@ public class HTMLGeneration {
         covertList = "<br>(" + holder.getCovertMouseCount() + " covert)";
         count += holder.getCovertMouseCount();
       }
-      table.append("<a href=\"" + href + "?holder_id=" + holder.getHolderID()
-          + "&mousetype_id=-1\">" + (edit ? "edit " : "") + count + " records</a>" + covertList + "");
+      table.append(
+//              "<a href=\"" + href + "?holder_id=" + holder.getHolderID()
+//          + "&mousetype_id=-1\">" + (edit ? "edit " : "") +
+              count + " records</a>" + covertList + "");
       table.append("</td>\r\n");
       if (edit) {
         table.append("<td><a href=\"EditHolderForm.jsp?holderID="

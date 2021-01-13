@@ -25,6 +25,7 @@ import edu.ucsf.mousedatabase.dataimport.ImportHandler;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler.ImportObjectType;
 import edu.ucsf.mousedatabase.objects.*;
 import edu.ucsf.mousedatabase.objects.ChangeRequest.Action;
+import edu.ucsf.mousedatabase.servlets.ApplicantServlet;
 import edu.ucsf.mousedatabase.servlets.ReportServlet;
 
 import org.apache.commons.lang3.StringUtils;
@@ -1806,6 +1807,96 @@ public class DBConnect {
 		query += ");";
 		return executeNonQuery(query);
 	}
+
+	//Applicant functions
+	//------------------------------------------------------------------------------------------------
+
+	/*
+	This function inserts an applicant to the RRD into the SQL database to await approval.
+	It takes in the applicant's information, then queries the database using that information.
+	With this function, the "approved" variable will always be 0, since the user is never
+	approved right on the spot.
+	*/
+	public static int insertApplicant(String firstName, String lastName, String email,
+									  String netID, String AUF, String position, int approved) {
+		//Creating query
+		String query = "INSERT into access_management (first_name,last_name,email,net_id," +
+				"protocol_number,position,approved)";
+		query += "VALUES (";
+		query += safeText(firstName) + ",";
+		query += safeText(lastName) + ",";
+		query += safeText(email) + ",";
+		query += safeText(netID) + ",";
+		query += safeText(AUF) + ",";
+		query += safeText(position) + ",";
+		query += approved;
+		query += ");";
+		//System.out.print(query);
+		return executeNonQuery(query);
+	}
+
+	//This selects each column from the access_management table so that the data can be returned
+	//This string does not change, unless you want to add more columns
+	private static final String ApplicantQueryHeader = "SELECT id,first_name,last_name,email,net_id," +
+			"protocol_number,position,approved \r\n FROM access_management\r\n ";
+
+	//Gets all applicants and puts them into an arraylist
+	public static ArrayList<Applicant> getAllApplicants(String orderby) {
+		//Takes in the final string ApplicantQueryHeader and orders them by orderby (approved status)
+		String query = ApplicantQueryHeader + " ORDER BY " + orderby;
+		//Returns an arraylist of all applicants in the query
+		return ApplicantResultGetter.getInstance().Get(query);
+	}
+
+	//To get all the applicants, we need an entirely new class which extends ResultGetter
+	private static final class ApplicantResultGetter extends ResultGetter {
+
+		//When you get the instance, you return a new ApplicantResultGetter
+		public static ApplicantResultGetter getInstance() {
+			return new ApplicantResultGetter();
+		}
+
+		@Override
+		protected Object getNextItem() throws SQLException {
+			//Create a new user with no information
+			Applicant user = new Applicant();
+			//Give the user information
+			//This can be changed depending on the columns
+			//NOTE: you need the g_str or g_int for this to work. Otherwise,
+			//it'll just be set to whatever string is in there
+			user.setFirst_name(g_str("first_name"));
+			user.setLast_name(g_str("last_name"));
+			user.setEmail(g_str("email"));
+			user.setNetID(g_str("net_id"));
+			user.setAUF(g_str("protocol_number"));
+			user.setPosition(g_str("position"));
+			user.setApproved(g_int("approved"));
+			user.setId(g_int("id"));
+			//Return the user
+			return user;
+		}
+	}
+
+	//Changes the approval status of an applicant.
+	//1==approved, 0==not approved
+	public static void updateApplicantApproval(Applicant user, int approved) {
+		//Takes in a user and their approval status
+		//Appends approval according to int approved
+		if (approved == 1){
+			approved = 0;
+		}
+		else{
+			approved = 1;
+		}
+		//Updating the SQL table, first constructing the string
+		String query = "UPDATE access_management SET ";
+		query += " approved=" + approved;
+		//Identify user based upon id
+		query += " WHERE id=" + user.getId()+ ";";
+		//Execute change
+		executeNonQuery(query);
+	}
+	//------------------------------------------------------------------------------------------------
 
 	public static void updateSetting(Setting setting) {
 		String query = "UPDATE settings SET ";
