@@ -16,8 +16,8 @@
         <table class="site_container">
             <tr>
                 <td style="width: 50%">
-                    <h2>Rodent Research Database Access Application</h2>
-                    Welcome to the Rodent Research Database Application.<br>
+                    <h2>Rodent Research Database Access Registration</h2>
+                    Welcome to the Rodent Research Database registration form.<br>
                     Please fill out the following information.
                     <br>Upon completing the form, your information will be sent to site administrators who will then review your information.<br>
                     Thank you!<br><br>
@@ -48,8 +48,10 @@
                             <td>
                                 <select name="position" id="position" required>
                                     <option value="select">Select position</option>
-                                    <option value="researcher">Researcher</option>
-                                    <option value="assistant">Lab Assistant</option>
+                                    <option value="principal_investigator">Principal Investigator</option>
+                                    <option value="lab_manager">Lab Manager</option>
+                                    <option value="lab_assistant">Lab Assistant</option>
+                                    <option value="study_staff">Study Staff</option>
                                 </select>
                                 <br><br>
                             </td>
@@ -68,9 +70,9 @@
                         <img src="img/database_check.png">
                         <br>
                         <br>
-                        New applications are checked every Tuesday and Friday
+                        Registration forms are checked every Tuesday and Friday.
                         <br>
-                        If you'd like to inquire about your application, email us at <a href = "mailto:ora.carrodentdatabase@msu.edu">ora.carrodentdatabase@msu.edu</a>.
+                        If you'd like to inquire about your registration form, email us at <a href = "mailto:ora.carrodentdatabase@msu.edu">ora.carrodentdatabase@msu.edu</a>.
                 </td>
             </tr>
         </table>

@@ -184,6 +184,8 @@ public class HTMLGeneration {
     //Navigation links for the header bar
 //    table.append(addNavLink("Search", "search.jsp", null,
 //        currentPageFilename, false,"nav-search-link"));
+    table.append(addNavLink("Registration", "application.jsp", null,
+            currentPageFilename, false));
     table.append(addNavLink("Rodent Records", "MouseReport.jsp", null,
         currentPageFilename, false,"nav-mouselist"));
     table.append(addNavLink("Gene List", "GeneReport.jsp", null,
@@ -196,8 +198,6 @@ public class HTMLGeneration {
     // null,currentPageFilename,false));
     table.append(addNavLink("Submit Rodents", "submission.jsp", null,
         currentPageFilename, false));
-    table.append(addNavLink("Database Application", "application.jsp", null,
-            currentPageFilename, false));
     table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false));
     if (isAdminPage && showAdminControls){
       table.append(addNavLink("Log out", "logout.jsp", null,
@@ -218,9 +218,9 @@ public class HTMLGeneration {
       table.append("<div id='adminLinks' class='site_container'>");
       table.append("<ul class=\"navLinkUL\">");
       table.append(addNavLink("Admin Home", "admin.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Registration", "applicationsList.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Change Requests", "ManageChangeRequests.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Submissions", "ListSubmissions.jsp", null, currentPageFilename, true));
-      table.append(addNavLink("Applications", "applicationsList.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Admin Search", "AdminSearch.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Edit Records", "EditMouseSelection.jsp", null, currentPageFilename, true));
       table.append(addNavLink("Edit Holders", "EditHolderChooser.jsp", null, currentPageFilename, true));
@@ -275,9 +275,9 @@ public class HTMLGeneration {
             "table, td, th {border: 1px solid black;}" +
             "table {width: 100%; border-collapse: collapse;}" +
                     "td{vertical-align:middle;}"+
-                    "tr:nth-child(even) {background-color: #ffc3ad;}"+
-                    "tr:nth-child(odd) {background-color: #ffe9ad;}"+
-                    "tr:nth-child(1) {background-color: #e5e8e3;}"+
+                    "tr:nth-child(even) {background-color: #FFFFFF;}"+
+                    "tr:nth-child(odd) {background-color: #f3f3f3ff;}"+
+                    "tr:nth-child(1) {background-color: #d9d9d9ff;}"+
                     "</style>";
 
     //Break the page into one table with rows for each applicant
@@ -2111,7 +2111,6 @@ public class HTMLGeneration {
     table.append("<td style='min-width:100px'>\r\n");
     table.append("Records");
     table.append("</td>\r\n");
-    table.append("<td>**Need help using the database?</td>\r\n");
     if (edit) {
       table.append("<td style='min-width:60px'\">\r\n");
       table.append("Code (for data uploads)");
@@ -2156,25 +2155,6 @@ public class HTMLGeneration {
 //          + "\">"
           + facility.getRecordCount() + " records</a></span>\r\n");
       table.append("</td>\r\n");
-      table.append("<td>");
-      table.append("<dl>");
-      for (String expert : emptyIfNull(facility.getLocalExperts()).split("\\n")) {
-        if (expert == null || expert.isEmpty() || expert.trim().isEmpty()) {
-          continue;
-        }
-        int spaceLocation = expert.indexOf(" ");
-        if (spaceLocation <= 0 || (expert.indexOf("@") < 0 && expert.indexOf(".") < 0)) {
-          table.append("<dt>" + expert + "</dt>");
-          continue;
-        }
-        String email = expert.substring(0, spaceLocation);
-        String name = expert.substring(spaceLocation).trim();
-
-        table.append("<dt>" + name + ": " + formatEmail(email, email, "Requesting help using the MSU Rodent Database") + "</dt>");
-      }
-      table.append("</dl>");
-
-      table.append("</td>");
       if (edit) {
         table.append("<td style='min-width:60px'>" + HTMLGeneration.emptyIfNull(facility.getFacilityCode()) + "</td>");
         table.append("<td style='min-width:60px'><a href=\"EditFacilityForm.jsp?facilityID="

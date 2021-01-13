@@ -11,8 +11,8 @@
                 <h2>Rodent Records Login</h2>
                 Welcome to the Rodent Research Database Application's Rodent Records.<br>
                 Before you're able to view rodent records, ensure that
-                you have filled out the database application.<br>
-                If your application has been approved, please enter your information
+                you have filled out a registration form.<br>
+                If your registration form has been approved, please enter your information
                 below.<br><br>
 
                 <table>
@@ -35,15 +35,15 @@
                 </table>
             </td>
             <td style="vertical-align: top;width: 50%">
-                <h2>Application Information</h2>
+                <h2>Registration Information</h2>
                 In order to access the Rodent Records and submit
-                rodents to the database, you must first fill out an application.
+                rodents to the database, you must first fill out a registration form.
                 <br>
-                This application can be found by following the button below, or
-                clicking on the "Database Application" tab in the navigation bar.
+                Registration can be found by following the button below, or
+                clicking on the "Registration" tab in the navigation bar.
                 <br>
                 <br>
-                <a href="application.jsp"><button class = "btn btn-success">Database Appication</button></a>
+                <a href="application.jsp"><button class = "btn btn-success">Registration</button></a>
             </td>
         </tr>
     </table>

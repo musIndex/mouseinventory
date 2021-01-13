@@ -133,17 +133,17 @@
   It will be reviewed by the administrator.
   <br>
   <br>
-  If you believe you have made an error in your submission, click on "submit feedback"
-  in the menu above and send an explanatory email to the Rodent Inventory Administrator.
-  <br>
-  Thank you.
+      If you believe you have made an error, click on "submit feedback"
+      or send an explanatory email to the Rodent Database Administrator.
+      <br>
+      Thank you.
   </p>
-
-  <br>
-    Your submission is complete! You now can either submit another rodent or go to the homepage.
-  <br>
+        <br>
+        Your submission is complete! You now can either submit another rodent or go to the homepage.
+        <br>
         <br>
         <a href="submission.jsp"><button class = "btn btn-success">Submit another rodent</button></a>   <a href="about.jsp"><button class = "btn btn-info">Return to homepage</button></a>
+        <a href="contact.jsp"><button class = "btn btn-primary">Submit Feedback</button></a>
         <br/>
 
 </div>

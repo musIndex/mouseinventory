@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Chris
-  Date: 12/17/2020
-  Time: 10:08 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@page import="java.util.SortedMap"%>
 <%@page import="java.util.TreeMap"%>
 <%@page import="java.util.HashMap"%>
@@ -19,7 +12,7 @@
 <%=HTMLGeneration.getNavBar("admin.jsp", true) %>
 
 
-<div>
+<div class="site_container">
     <%=
     HTMLGeneration.getApplicantTable()
     %>
