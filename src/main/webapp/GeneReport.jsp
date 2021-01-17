@@ -28,9 +28,11 @@
                 <td style="width:50%;vertical-align: top">
                     <h2>Gene List for Mutant Alleles</h2>
 
+
                     <form class='view_opts' action='loginServlet'>
                         Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderBy,null) %>
                         <input type = hidden name="page" value="gene_search">
+
                     </form>
                     <%= table%>
                 </td>
@@ -44,6 +46,7 @@
                                     <h2>Database Search:</h2>
                                         <input type="text" name="search_terms" id="search_terms">
                                         <input type="hidden" name="page" value="search_bar">
+
                                         <input type="submit" class = "btn btn-primary" value="Search">
                                     <br>
                                     <br>

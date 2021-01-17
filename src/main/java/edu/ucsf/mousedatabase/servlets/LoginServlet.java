@@ -184,6 +184,7 @@ public class LoginServlet extends HttpServlet {
         pages.put("search_bar","search.jsp");
 
 
+
         //Iterate over the map to find the correct key-value pair
         for (Map.Entry<String,String> entry : pages.entrySet()){
             if (getPage.equals(entry.getKey())){
@@ -191,6 +192,7 @@ public class LoginServlet extends HttpServlet {
                 break;
             }
         }
+
 
         if (getPage.equals("search_bar")){
             String keyword = request.getParameter("search_terms");
@@ -225,6 +227,7 @@ public class LoginServlet extends HttpServlet {
         }
 
     }
+
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -75,6 +75,7 @@
     String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
     String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
 
+
     Holder holder = DBConnect.getHolder(holderID);
     Gene gene = DBConnect.getGene(geneID);
     Facility facility = DBConnect.getFacility(facilityID);
@@ -186,6 +187,7 @@
 
     }
 
+
     session.setAttribute("mouseListLastQuery", "MouseReport.jsp?" + queryString);
     session.setAttribute("mouseListLastTitle", mouseTypeStr);
     mouseTypeStr = "Listing" + mouseTypeStr;
@@ -196,12 +198,14 @@
     <div class='site_container'>
         <div id="mousecount" style="display:none">
             <%=mice.size() %>
+
         </div>
         <table>
             <tr>
                 <td style="width: 50%;vertical-align: bottom">
                     <h2><%=mouseTypeStr %></h2>
                     <form class='view_opts' action="loginServlet" >
+
                         <div class='clearfix' style='position:relative;min-height:140px'>
                             <div id="controls" style='position:absolute;bottom:0;left:0;'>
                                 <h4 style='margin-top:0px'><%=mouseCountStr %></h4>
@@ -212,6 +216,7 @@
                             </div>
                         </div>
                         <input type = hidden name="page" value="records_search">
+
                     </form>
                 </td>
                 <td style="width:50%; text-align: center;vertical-align: top">
@@ -249,6 +254,7 @@
                     </td>
                 </tr>
             </table>
+
         </table>
     </div>
 </script>
