@@ -181,7 +181,7 @@ public class LoginServlet extends HttpServlet {
         pages.put("applicationLoginSubmit.jsp","submission.jsp");
         pages.put("applicationLoginGenes.jsp", "GeneReport.jsp");
         pages.put("applicationLoginSearch.jsp", "search.jsp");
-        pages.put("GeneReport.jsp","search.jsp");
+        pages.put("search_bar","search.jsp");
 
 
         //Iterate over the map to find the correct key-value pair
@@ -192,7 +192,7 @@ public class LoginServlet extends HttpServlet {
             }
         }
 
-        if (getPage.equals("GeneReport.jsp")){
+        if (getPage.equals("search_bar")){
             String keyword = request.getParameter("search_terms");
             String begin = "search.jsp#searchterms=";
             String end ="&pagenum=1&search-source=search";
@@ -224,6 +224,38 @@ public class LoginServlet extends HttpServlet {
             }
         }
 
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String getPage = request.getParameter("page");
+
+        if (getPage.equals("gene_search")){
+            String orderby = request.getParameter("orderby");
+            String begin = "GeneReport.jsp?orderby=";
+            String end ="&";
+            response.sendRedirect(begin+orderby+end);
+            setAccess_granted(1);
+        }
+        else if (getPage.equals("records_search")){
+            String orderby = "orderby="+ request.getParameter("orderby") + "&";
+            String category = "mousetype_id=" + request.getParameter("mousetype_id")+"&";
+            String creonly = "creonly="+request.getParameter("creonly")+"&";
+            String page_num = "pagenum="+request.getParameter("pagenum");
+            String limit = "limit="+request.getParameter("limit")+"&";
+
+            String begin = "MouseReport.jsp?";
+            String end ="&";
+            if (creonly.equals("creonly=1&")){
+                response.sendRedirect(begin+orderby+category+creonly+limit+page_num+end);
+                setAccess_granted(1);
+            }
+            else{
+                response.sendRedirect(begin+orderby+category+limit+page_num+end);
+                setAccess_granted(1);
+            }
+        }
     }
 
     //Used to check the login credentials
