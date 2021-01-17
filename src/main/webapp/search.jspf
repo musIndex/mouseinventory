@@ -283,7 +283,8 @@
     var denied = document.getElementById("access_denied").innerHTML;
 
     if (access_status == 1) {
-        document.getElementById("page_content").innerHTML += granted;
+        document.getElementById("page_content").innerHTML = granted + document.getElementById("page_content").innerHTML ;
+
     } else {
         document.getElementById("page_content").innerHTML = denied;
     }

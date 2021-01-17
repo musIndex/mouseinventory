@@ -73,7 +73,8 @@
             mouseTypeID, orderBy,holderID,geneID,mouseTypes,null,searchTerms,creOnly,facilityID);
 
     String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
-    String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
+    String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
+
 
     Holder holder = DBConnect.getHolder(holderID);
     Gene gene = DBConnect.getGene(geneID);
@@ -186,6 +187,7 @@
 
     }
 
+
     session.setAttribute("mouseListLastQuery", "MouseReport.jsp?" + queryString);
     session.setAttribute("mouseListLastTitle", mouseTypeStr);
     mouseTypeStr = "Listing" + mouseTypeStr;
@@ -194,13 +196,16 @@
 
 <script id="access_granted" type="text/template">
     <div class='site_container'>
-        <div id="mousecount" style="display:none"><%=mice.size() %>
+        <div id="mousecount" style="display:none">
+            <%=mice.size() %>
+
         </div>
         <table>
             <tr>
                 <td style="width: 50%;vertical-align: bottom">
                     <h2><%=mouseTypeStr %></h2>
-                    <form class='view_opts' action="MouseReport.jsp" >
+                    <form class='view_opts' action="loginServlet" >
+
                         <div class='clearfix' style='position:relative;min-height:140px'>
                             <div id="controls" style='position:absolute;bottom:0;left:0;'>
                                 <h4 style='margin-top:0px'><%=mouseCountStr %></h4>
@@ -209,57 +214,47 @@
                                 <%= topPageSelectionLinks %>
                                 <% } %>
                             </div>
-                            <div style='margin-left:550px'>
-                                <%=emptyIfNull(holderData) %>
-                            </div>
                         </div>
+                        <input type = hidden name="page" value="records_search">
+
                     </form>
                 </td>
                 <td style="width:50%; text-align: center;vertical-align: top">
                     <form method="post" action="loginServlet" style="horiz-align: center">
 
-                    <table style="text-align: center">
-                        <tr style="text-align: center">
-                            <div class="flexBox">
-                                <div class="centered">
-                                    <h2>Database Search:</h2>
+                        <table style="text-align: center">
+                            <tr style="text-align: center">
+                                <div class="flexBox">
+                                    <div class="centered">
+                                        <h2>Database Search:</h2>
                                         <input type="text" name="search_terms" id="search_terms">
-                                        <input type="hidden" name="page" value="GeneReport.jsp">
+                                        <input type="hidden" name="page" value="search_bar">
                                         <input type="submit" class = "btn btn-primary" value="Search">
+                                        <%=emptyIfNull(holderData) %>
+                                    </div>
 
-<%--                                    <br>--%>
-<%--                                    <br>--%>
-<%--                                    <b>Search examples:</b>--%>
-<%--                                    <br>--%>
-<%--                                    <i>shh null</i><br>--%>
-<%--                                    Match records that contain both 'shh' <b>and</b> 'null'<br>--%>
-<%--                                    <i>htr</i><br>--%>
-<%--                                    Match words that start with htr, such as htr2c, or htr1a<br>--%>
-<%--                                    <i>htr2c</i><br>--%>
-<%--                                    Find the specific gene 'htr2c'<br>--%>
-<%--                                    <i>1346833</i><br>--%>
-<%--                                    Look up MGI ID 1346833<br>--%>
-<%--                                    <i>12590258</i><br>--%>
-<%--                                    Look up Pubmed ID 1346833<br>--%>
-<%--                                    <i>#101,#103</i><br>--%>
-<%--                                    Show record numbers 101 and 103<br>--%>
                                 </div>
-
-                            </div>
-                    </table>
+                        </table>
                     </form>
                 </td>
             </tr>
-            <tr>
-                <form>
-                    <%= table %>
-                    <div id="bottomControls" class="site_container">
-                        <% if (mice.size() > 3) { %>
-                        <%= bottomPageSelectionLinks %>
-                        <% } %>
-                    </div>
-                </form>
-            </tr>
+            <table>
+                <tr style="width: 100%">
+                    <td style="width: 100%">
+                        <form class='view_opts' action="loginServlet" >
+                            <%= table %>
+                            <div id="bottomControls">
+                                <% if (mice.size() > 3) { %>
+                                <%= mouseTypeSelectionLinks %>
+                                <%= bottomPageSelectionLinks %>
+                                <% } %>
+                            </div>
+                            <input type = hidden name="page" value="records_search">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+
         </table>
     </div>
 </script>
@@ -328,13 +323,4 @@
         document.getElementById("page_content").innerHTML = denied;
     }
     <%LoginServlet.setAccess_granted(0);%>;
-</script>
-
-<script>
-    function setLink() {
-        var keyword = document.getElementById("search_terms").value;
-        var begin = "search.jsp#searchterms=";
-        var end ="&pagenum=1&search-source=search";
-        document.getElementById('search_button').setAttribute("href",begin+keyword+end);
-    }
 </script>
