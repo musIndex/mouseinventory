@@ -4,7 +4,7 @@
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%=HTMLGeneration.getPageHeader(null, true,false,"onload=\"setFocus('MouseForm', 'firstName')\"") %>
-<%=HTMLGeneration.getNavBar("submitforminit.jsp", false) %>
+<%=HTMLGeneration.getNavBar("submission.jsp", false, false)%>
 
 <jsp:useBean id="newMouse" class="edu.ucsf.mousedatabase.beans.MouseSubmission" scope="session"></jsp:useBean>
 <jsp:useBean id="submitterData" class="edu.ucsf.mousedatabase.beans.UserData" scope="session"></jsp:useBean>

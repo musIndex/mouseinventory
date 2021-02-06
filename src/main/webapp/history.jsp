@@ -6,10 +6,11 @@
 <%@page import="edu.ucsf.mousedatabase.objects.*"%>
 <%@page contentType="text/html;charset=UTF-8" language="java"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*"%>
+<%@ page import="edu.ucsf.mousedatabase.HTMLGeneration" %>
 
-    
+
 <%=getPageHeader(null, false, false, "onload=\"setFocus('quickSearchForm', 'searchterms')\"")%>
-<%=getNavBar("history.jsp", false)%>
+<%=HTMLGeneration.getNavBar("history.jsp", false)%>
 
 <style type="text/css">
 </style>

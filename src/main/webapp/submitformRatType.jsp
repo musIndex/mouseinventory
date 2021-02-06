@@ -2,7 +2,7 @@
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%=HTMLGeneration.getPageHeader(null, true,false) %>
-<%=HTMLGeneration.getNavBar("submitforminit.jsp", false) %>
+<%=HTMLGeneration.getNavBar("submission.jsp", false, false)%>
 <jsp:useBean id="newRat" class="edu.ucsf.mousedatabase.beans.RatSubmission" scope="session"></jsp:useBean>
 <jsp:setProperty property="*" name="newRat"/>
 <jsp:useBean id="submitterData" class="edu.ucsf.mousedatabase.beans.UserData" scope="session"></jsp:useBean>

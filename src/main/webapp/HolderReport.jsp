@@ -1,8 +1,9 @@
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="edu.ucsf.mousedatabase.servlets.LoginServlet" %>
 <%=HTMLGeneration.getPageHeader(null, false,false,"onload=\"setFocus('quickSearchForm', 'searchterms')\"") %>
-<%=HTMLGeneration.getNavBar("HolderReport.jsp", false) %>
+<%=HTMLGeneration.getNavBar("HolderReport.jsp", false)%>
 <%
   String orderby = request.getParameter("orderby");
     ArrayList<Holder> holders = DBConnect.getAllHolders(false,orderby);

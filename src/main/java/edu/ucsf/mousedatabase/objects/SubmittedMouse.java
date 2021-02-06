@@ -23,7 +23,15 @@ public class SubmittedMouse {
 
   int submissionID;
   int mouseRecordID;
+  public String getIs_rat() {
+    return is_rat;
+  }
 
+  public void setIs_rat(String is_rat) {
+    this.is_rat = is_rat;
+  }
+
+  String is_rat;
   private Properties properties;
 
   private java.util.Date submissionDate;
@@ -263,6 +271,9 @@ public class SubmittedMouse {
         {
           setCryoLiveStatus(props.getProperty(propName));
         }
+        else if (propName.equalsIgnoreCase("is_rat")){
+          setIs_rat(props.getProperty(propName));
+        }
 
 
       }
@@ -377,7 +388,6 @@ public class SubmittedMouse {
     r.setMouseName(mouseName);
     r.setOfficialMouseName(officialMouseName);
     r.setMouseType(mouseType);
-    
     r.setGeneID(MAMgiGeneID);
     r.setTargetGeneID(TGMouseGene);
 
@@ -469,7 +479,8 @@ public class SubmittedMouse {
     }
 
 
-
+    r.setRat(is_rat);
+    System.out.println(r.isRat());
     return r;
   }
 

@@ -5,7 +5,7 @@
 <%@ page import="edu.ucsf.mousedatabase.servlets.LoginServlet" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%=HTMLGeneration.getPageHeader(null, true, false, "onload=\"setFocus('MouseForm', 'firstName')\"") %>
-<%=HTMLGeneration.getNavBar("submission.jsp", false) %>
+<%=HTMLGeneration.getNavBar("submission.jsp", false)%>
 
 <jsp:useBean id="newMouse" class="edu.ucsf.mousedatabase.beans.MouseSubmission" scope="session"></jsp:useBean>
 <jsp:useBean id="submitterData" class="edu.ucsf.mousedatabase.beans.UserData" scope="session"></jsp:useBean>
@@ -21,7 +21,6 @@
 
         if (contactInfoValid && holderDataValid) {
 %>
-<jsp:forward page="submitformMouseType.jsp"/>
 <%
             return;
         }
@@ -51,7 +50,7 @@
         }
     }
 </script>--%>
-<script id="access_granted" type="text/template">
+
     <div class="site_container">
         <div class="formbody">
             <div class="introduction">
@@ -183,84 +182,3 @@ is already listed in the inventory.</span> <br>
             </form>
         </div>
     </div>
-</script>
-
-<script>
-    function AutoPopulateContactInfo() {
-        SetFieldValue("userid", "<%= DBConnect.loadSetting("admin_info_auto_sub_firstname").value %>");
-        SetFieldValue("lastName", "<%= DBConnect.loadSetting("admin_info_auto_sub_lastname").value %>");
-        SetFieldValue("department", "<%= DBConnect.loadSetting("admin_info_auto_sub_department").value %>");
-        SetFieldValue("Email", "<%= DBConnect.loadSetting("admin_info_auto_sub_email").value %>");
-        SetFieldValue("telephoneNumber", "<%= DBConnect.loadSetting("admin_info_auto_sub_telephone").value %>");
-        SetFieldValue("holderName", "<%= DBConnect.loadSetting("admin_info_auto_sub_holder").value %>");
-        SetFieldValue("holderFacility", "<%= DBConnect.loadSetting("admin_info_auto_sub_facility").value %>");
-    }
-
-</script>
-
-
-<script id="access_denied" type="text/template">
-    <div>
-        <form method="post" action="loginServlet">
-            <table class="site_container">
-                <tr>
-                    <td>
-                        <h2>Rodent Submission Login</h2>
-                        Welcome to the Rodent Submission Process.<br>
-                        Before you're able to view rodent records, ensure that
-                        you have filled out a registration form.<br>
-                        If your registration form has been approved, please enter your information
-                        below.<br><br>
-
-                        <table>
-                            <form method="post" action="loginServlet">
-                                <tr>
-                                    <td><label for="email">Email address:</label></td>
-                                    <td><input type="text" id="email" name="email" required></td>
-                                </tr>
-                                <tr>
-                                    <td><label for="MSU NetID">MSU NetID:</label></td>
-                                    <td><input type="text" id="MSU NetID" name="MSU NetID" required></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type = hidden name="page" value="applicationLoginSubmit.jsp">
-                                        <input type="submit" class ="button btn-primary" value="Login">
-                                    </td>
-                                </tr>
-                            </form>
-                        </table>
-                    </td>
-                    <td style="vertical-align: top;width: 50%">
-                        <h2>Registration Information</h2>
-                        In order to access the Rodent Records and submit
-                        rodents to the database, you must first fill out a registration form.
-                        <br>
-                        Registration can be found by following the button below, or
-                        clicking on the "Registration" tab in the navigation bar.
-                        <br>
-                        <br>
-                        <a href="application.jsp"><button class = "btn btn-success">Registration</button></a>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-</script>
-
-<div id="page_content">
-
-</div>
-
-<script>
-    var access_status = <%=LoginServlet.getAccess_granted()%>;
-    var granted = document.getElementById("access_granted").innerHTML;
-    var denied = document.getElementById("access_denied").innerHTML;
-
-    if (access_status == 1) {
-        document.getElementById("page_content").innerHTML = granted;
-    } else {
-        document.getElementById("page_content").innerHTML = denied;
-    }
-    <%LoginServlet.setAccess_granted(0);%>;
-</script>

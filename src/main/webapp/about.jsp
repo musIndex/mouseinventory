@@ -6,9 +6,10 @@
 <%@page import="edu.ucsf.mousedatabase.objects.*"%>
 <%@page contentType="text/html;charset=UTF-8" language="java"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*"%>
+<%@ page import="edu.ucsf.mousedatabase.HTMLGeneration" %>
 
 <%=getPageHeader(null, false, false, "onload=\"setFocus('quickSearchForm', 'searchterms')\"")%>
-<%=getNavBar("about.jsp", false)%>
+<%=HTMLGeneration.getNavBar("about.jsp", false)%>
 <style type="text/css">
 .new_item.NEED_HELP_ITEMS  {
 <% Setting set = DBConnect.loadSetting("category_11_color");%>
@@ -75,16 +76,16 @@ for(Setting.SettingCategory category : categories){
     }
     %>
     <div class='category cf'>
-    
+
     <h3><%=categoryLabels.get(i) %></h3>
-    
+
     <%boolean open = false;
     String lastCustom = null;
     for (Setting newItem : recentSiteUpdateItems) {
       if (category.SecondaryValueName != null && category.SecondaryValueName.equals("Custom style")) {
         if (open && newItem.secondaryValue != null && !newItem.secondaryValue.equals(lastCustom)) {
           %></div><div class='<%=newItem.secondaryValue %>'><%
-          
+
         }
         else if (open && newItem.secondaryValue == null) {
           %></div><%
@@ -96,58 +97,58 @@ for(Setting.SettingCategory category : categories){
         }
         lastCustom = newItem.secondaryValue;
       }
-      
+
      %>
-     
-     
+
+
      <div class='new_item <%= category %>'>
         <% if (newItem.label != null && !newItem.label.isEmpty()){ %>
           <b><%= newItem.label %></b><br>
         <% } %>
         <%= newItem.value %>
-      </div>     
-    <% 
+      </div>
+    <%
     } %>
     <%= open ? "</div>" : ""%>
     </div>
-  <% 
+  <%
     i++;
-  } %> 
+  } %>
     </div>
    
     <div id='about_details'>
-      
-      <div class='content'>
-<h3 id="faq">Frequently Asked Questions</h3>
-        <%
-    ArrayList<Setting> faqItems = DBConnect.getCategorySettings(Setting.SettingCategory.FAQ_ITEMS.Id);
-    i = 0;
-       %>
+<%--      --%>
+<%--      <div class='content'>--%>
+<%--<h3 id="faq">Frequently Asked Questions</h3>--%>
+<%--        <%--%>
+<%--    ArrayList<Setting> faqItems = DBConnect.getCategorySettings(Setting.SettingCategory.FAQ_ITEMS.Id);--%>
+<%--    i = 0;--%>
+<%--       %>--%>
 
-<div class="accordion" id="accordion2">
- <% for (Setting faqItem : faqItems) { 
- %>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#faq<%= faqItem.id %>">
-        <%=faqItem.label %>
-      </a>
-    </div>
-    <div id="faq<%= faqItem.id %>" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <%= faqItem.value %>
-      </div>
-    </div>
-  </div>
-  <% } %>
-</div>
+<%--<div class="accordion" id="accordion2">--%>
+<%-- <% for (Setting faqItem : faqItems) { --%>
+<%-- %>--%>
+<%--  <div class="accordion-group">--%>
+<%--    <div class="accordion-heading">--%>
+<%--      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#faq<%= faqItem.id %>">--%>
+<%--        <%=faqItem.label %>--%>
+<%--      </a>--%>
+<%--    </div>--%>
+<%--    <div id="faq<%= faqItem.id %>" class="accordion-body collapse">--%>
+<%--      <div class="accordion-inner">--%>
+<%--        <%= faqItem.value %>--%>
+<%--      </div>--%>
+<%--    </div>--%>
+<%--  </div>--%>
+<%--  <% } %>--%>
+<%--</div>--%>
 
-<script>
-$('#accordion2').collapse({
-  toggle: true
-});
-</script> 
-</div>
+<%--<script>--%>
+<%--$('#accordion2').collapse({--%>
+<%--  toggle: true--%>
+<%--});--%>
+<%--</script> --%>
+<%--</div>--%>
 
 
      <h3 id="details">Rodent Database Details and Resources</h3>
@@ -161,7 +162,7 @@ $('#accordion2').collapse({
         <%=DBConnect.loadSetting("home_page_text_how_mice_are_listed").label%></a>
       </h4>
     </div>
-    <div id="collapse1" class="panel-collapse collapse in" >
+    <div id="collapse1" class="panel-collapse collapse collapse" >
       <div class="panel-body" style="padding-left: 10px" > 
        <%=DBConnect.loadSetting("home_page_text_how_mice_are_listed").value%>
       </div>
@@ -216,7 +217,7 @@ $('#accordion2').collapse({
 <a href="mailto:<%=DBConnect.loadSetting("admin_info_email").value %>"> Contact Administrator</a>
 </div>
 <div>
-v3.1 MSU Rodent Database 2020<br/>
+v3.2 MSU Rodent Database 2020<br/>
 Developed by University of California, San Francisco (UCSF)
 </div>
 <div>

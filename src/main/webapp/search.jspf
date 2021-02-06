@@ -1,12 +1,13 @@
 <%@page import="org.apache.commons.lang3.StringUtils"%>
+<%@page import="java.net.URLEncoder"%>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="edu.ucsf.mousedatabase.*"%>
 <%@page import="edu.ucsf.mousedatabase.objects.*"%>
+<%@page import="static edu.ucsf.mousedatabase.HTMLUtilities.*"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
-<%@ page import="edu.ucsf.mousedatabase.servlets.LoginServlet" %>
-<% boolean isAjaxRequest = request.getParameter("ajax") != null;
-    if (!isAjaxRequest) {
+<% boolean isAjaxRequest = request.getParameter("ajax") != null; 
+  if (!isAjaxRequest) {
 %>
 <%=getPageHeader(null,true,isAdminSearch, null) %>
 <%=getNavBar("search.jsp", isAdminSearch) %>
@@ -23,19 +24,19 @@
 
     if (limit == -1)
     {
-        if (session.getAttribute("limit") != null)
-        {
-            limit = Integer.parseInt(session.getAttribute("limit").toString());
-        }
-        else
-        {
-            limit = 25;
-        }
+      if (session.getAttribute("limit") != null)
+      {
+        limit = Integer.parseInt(session.getAttribute("limit").toString());
+      }
+      else
+      {
+        limit = 25;
+      }
     }
     session.setAttribute("limit",limit);
     if (pagenum == -1)
     {
-        pagenum = 1;
+      pagenum = 1;
     }
     int offset = limit * (pagenum - 1);
 
@@ -49,244 +50,183 @@
     String resultSummary = "";
     int exactMatches = 0;
     int partialMatches = 0;
-
-
+    
+    
 
     if(searchterms != null && !searchterms.isEmpty())
     {
 
-        String trimmedTerms = searchterms.trim().toLowerCase();
-        if (!trimmedTerms.matches(".*[/\\)\\(\\.].*")){
-            ArrayList<Holder> holders = DBConnect.getAllHolders();
-            for(Holder holder : holders){
-                if (holder.getHolderID() == 1) {
-                    continue;
-                }
-                if (holder.getLastname().toLowerCase().equals(trimmedTerms) ||
-                        holder.getFullname().toLowerCase().equals(trimmedTerms) ||
-                        trimmedTerms.matches("(.*[\\s]+)*" + holder.getLastname().toLowerCase() + "([\\s]+.*)*")) {
-                    searchTips.append("<p>Are you looking for <a href='" + siteRoot +
-                            "MouseReport.jsp?holder_id="+ holder.getHolderID() +
-                            "'>" + holder.getFullname() + "'s mouse list?</a>" +
-                            " (found on the <a href='" + siteRoot +
-                            "HolderReport.jsp'>Holder List</a>)");
-                }
-            }
+      String trimmedTerms = searchterms.trim().toLowerCase();
+      if (!trimmedTerms.matches(".*[/\\)\\(\\.].*")){
+        ArrayList<Holder> holders = DBConnect.getAllHolders();
+        for(Holder holder : holders){
+          if (holder.getHolderID() == 1) {
+           continue; 
+          }
+          if (holder.getLastname().toLowerCase().equals(trimmedTerms) ||
+              holder.getFullname().toLowerCase().equals(trimmedTerms) ||
+              trimmedTerms.matches("(.*[\\s]+)*" + holder.getLastname().toLowerCase() + "([\\s]+.*)*")) {
+            searchTips.append("<p>Are you looking for <a href='" + siteRoot + 
+                                "MouseReport.jsp?holder_id="+ holder.getHolderID() +
+                                 "'>" + holder.getFullname() + "'s mouse list?</a>" +
+                                 " (found on the <a href='" + siteRoot + 
+                                 "HolderReport.jsp'>Holder List</a>)");
+          }
         }
-
-        try
+      }
+      
+      try
+      {
+        ArrayList<SearchResult> searchresults =  DBConnect.doMouseSearch(searchterms, "live");
+        ArrayList<Integer> allMatches = new ArrayList<Integer>();
+        for(SearchResult result : searchresults) {
+          allMatches.addAll(result.getMatchingIds());
+        }
+        mouseCount = allMatches.size();
+        String mouseTable = "";
+        if (allMatches.size() > 0)
         {
-            ArrayList<SearchResult> searchresults =  DBConnect.doMouseSearch(searchterms, "live");
-            ArrayList<Integer> allMatches = new ArrayList<Integer>();
-            for(SearchResult result : searchresults) {
-                allMatches.addAll(result.getMatchingIds());
-            }
-            mouseCount = allMatches.size();
-            String mouseTable = "";
-            if (allMatches.size() > 0)
-            {
-                if (!searchterms.toLowerCase().equals(searchterms)) {
-                    searchTips.append("<p>Tip: searches are not case-sensitive</p>");
-                }
-                String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
-                results.append(topPageSelectionLinks);
-            }
-            else
-            {
-                searchTips.append("<p>Tip: searches are not case-sensitive</p>");
-            }
-            int miceSeen = 0;
-            //String resultLog = "Search=" + searchterms + "||:source=" + (searchsource != null ? searchsource : "search");
-            for (SearchResult result : searchresults){
-                //resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + "=" + result.getTotal();
-                int resultMouseCount = result.getTotal();
-
-                int startIndex = 0;
-                int endIndex = resultMouseCount;
-                if (offset + limit - miceSeen < resultMouseCount) {
-                    endIndex = offset + limit - miceSeen;
-                }
-                if (offset < (resultMouseCount + miceSeen)) {
-                    startIndex = offset;
-                    if (pagenum > 1) {
-                        startIndex -= (miceSeen - displayedMice);
-                    }
-                }
-                if (limit == -2) { //all
-                    startIndex = 0;
-                    endIndex = resultMouseCount;
-                }
-
-                miceSeen += result.getTotal();
-
-                if (result.getStrategy().getQualityValue() == 0){
-                    exactMatches += result.getTotal();
-                }
-                else {
-                    partialMatches += result.getTotal();
-                }
-
-                if (miceSeen < offset || (displayedMice >= limit && limit != -2) || resultMouseCount == 0) {
-                    continue;
-                }
-
-                if (result.getTotal() > 0 || displayedMice == 0){
-                    ArrayList<MouseRecord> mice = new ArrayList<MouseRecord>();
-                    if (endIndex > 0)
-                    {
-                        mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex),limit < 100);
-                    }
-
-                    results.append("<div class='search-strategy-header' data-tokens='" +
-                            StringUtils.join(result.getStrategy().getTokens(), ",") + "'>" + result.getStrategy().getComment() + ":");
-                    results.append("<a href='#' class='search-strategy-show-details'>Explain these results</a>");
-                    results.append("<div class='search-strategy-details'>" +
-                            result.getStrategy().getDetails());
-                    results.append("</div></div>");
-
-                    results.append("<div class='searchresults-mice " + result.getStrategy().getName() + "'>");
-                    results.append(HTMLGeneration.getMouseTable(mice, isAdminSearch, !isAdminSearch, false,displayedMice == 0));
-                    results.append("</div>");
-                    displayedMice += mice.size();
-
-                }
-            }
-
-            Log.Info("Search='" + searchterms + "', resultcount=" + mouseCount + ", pagenum=" + pagenum + ", perpage=" + limit);
-            if (allMatches.size() > 0)
-            {
-                String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
-                results.append(bottomPageSelectionLinks);
-            }
-            searchPerformed = true;
+          if (!searchterms.toLowerCase().equals(searchterms)) {
+         searchTips.append("<p>Tip: searches are not case-sensitive</p>");
+        } 
+        String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
+        results.append(topPageSelectionLinks);
         }
-        catch(Exception e)
+        else
         {
-            results = new StringBuilder();
-            results.append("<p class='red'><b>We're sorry, but an error prevented us from completing your search.  Please let the administrator know about this!</b></p>");
-            Log.Error("Error searching", e);
+          searchTips.append("<p>Tip: searches are not case-sensitive</p>");
         }
+        int miceSeen = 0;
+        //String resultLog = "Search=" + searchterms + "||:source=" + (searchsource != null ? searchsource : "search");
+      for (SearchResult result : searchresults){
+        //resultLog += ":" + (result.getStrategy() != null ? result.getStrategy().getName() : "--") + "=" + result.getTotal();
+          int resultMouseCount = result.getTotal();
 
-        String lastQuery = "searchterms=" + urlEncode(searchterms) + "&pagenum=" + pagenum + "&limit=" + limit;
-        String lastTitle = "Search results for '" + searchterms + ", page " + pagenum;
-        if (isAdminSearch) {
-            session.setAttribute("editMiceLastQuery","AdminSearch.jsp#" + lastQuery);
-            session.setAttribute("editMiceLastTitle",lastTitle);
+          int startIndex = 0;
+          int endIndex = resultMouseCount;
+          if (offset + limit - miceSeen < resultMouseCount) {
+            endIndex = offset + limit - miceSeen;
+          }
+          if (offset < (resultMouseCount + miceSeen)) {
+            startIndex = offset;
+            if (pagenum > 1) {
+              startIndex -= (miceSeen - displayedMice);
+            }
+          }
+          if (limit == -2) { //all
+            startIndex = 0;
+            endIndex = resultMouseCount;
+          }
+          
+          miceSeen += result.getTotal();
+          
+          if (result.getStrategy().getQualityValue() == 0){
+            exactMatches += result.getTotal(); 
+          }
+          else {
+            partialMatches += result.getTotal(); 
+          }
+
+          if (miceSeen < offset || (displayedMice >= limit && limit != -2) || resultMouseCount == 0) {
+            continue; 
+          }
+          
+          if (result.getTotal() > 0 || displayedMice == 0){
+            ArrayList<MouseRecord> mice = new ArrayList<MouseRecord>();
+            if (endIndex > 0)
+            {
+              mice = DBConnect.getMouseRecords(result.getMatchingIds().subList(startIndex,endIndex),limit < 100);
+            }
+ 
+            results.append("<div class='search-strategy-header' data-tokens='" + 
+                     StringUtils.join(result.getStrategy().getTokens(), ",") + "'>" + result.getStrategy().getComment() + ":");
+            results.append("<a href='#' class='search-strategy-show-details'>Explain these results</a>");
+            results.append("<div class='search-strategy-details'>" + 
+                 result.getStrategy().getDetails());
+            results.append("</div></div>");
+            
+            results.append("<div class='searchresults-mice " + result.getStrategy().getName() + "'>");
+            results.append(HTMLGeneration.getMouseTable(mice, isAdminSearch, !isAdminSearch, false,displayedMice == 0));
+            results.append("</div>");
+            displayedMice += mice.size();
+           
+          }
         }
-        else {
-            session.setAttribute("mouseListLastQuery", "search.jsp#" +lastQuery);
-            session.setAttribute("mouseListLastTitle","Search results for '" + searchterms + ", page " + pagenum);
+       
+      Log.Info("Search='" + searchterms + "', resultcount=" + mouseCount + ", pagenum=" + pagenum + ", perpage=" + limit);
+      if (allMatches.size() > 0)
+        {
+          String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
+          results.append(bottomPageSelectionLinks);
         }
+      searchPerformed = true;
     }
+    catch(Exception e)
+    {
+      results = new StringBuilder();
+      results.append("<p class='red'><b>We're sorry, but an error prevented us from completing your search.  Please let the administrator know about this!</b></p>");
+      Log.Error("Error searching", e);
+    }
+      
+    String lastQuery = "searchterms=" + urlEncode(searchterms) + "&pagenum=" + pagenum + "&limit=" + limit;
+    String lastTitle = "Search results for '" + searchterms + ", page " + pagenum;
+    if (isAdminSearch) {
+    	session.setAttribute("editMiceLastQuery","AdminSearch.jsp#" + lastQuery);
+    	session.setAttribute("editMiceLastTitle",lastTitle);
+    }
+    else {
+      session.setAttribute("mouseListLastQuery", "search.jsp#" +lastQuery);
+      session.setAttribute("mouseListLastTitle","Search results for '" + searchterms + ", page " + pagenum);
+    }
+  }
 %>
-<% if(!isAjaxRequest){ %>
-<script id="access_granted" type="text/template">
-    <form id="searchForm" action="search.jsp" class="form-search" method="get">
-        <div class="search-box <%= searchPerformed ?  "search-box-small" : "" %> " style="display:none">
-            <img src="<%=imageRoot %>target_mice.png" class="woodmouse"/>
-            <div class="search-box-inner">
-                <input type="text" class="input-xlarge search-query" name="searchterms" value="<%=searchterms %>">
-                <button id="search_button" class="btn btn-primary" type="submit" ><i class='icon-white icon-search'></i> Rodent Search</button>
-                <div class="search-instructions-show"><a href="#" id="show_search_instructions">how do I search?</a></div>
-                <div class="search-instructions">
-                    <b>Search examples:</b>
-                    <dl>
-                        <dt>shh null</dt>
-                        <dd>Match records that contain both 'shh' <b>and</b> 'null'</dd>
-                        <dt>htr</dt>
-                        <dd>Match words that start with htr, such as htr2c, or htr1a</dd>
-                        <dt>htr2c</dt>
-                        <dd>Find the specific gene 'htr2c'</dd>
-                        <dt>1346833</dt>
-                        <dd>Look up MGI ID 1346833</dd>
-                        <dt>12590258</dt>
-                        <dd>Look up Pubmed ID 1346833</dd>
-                        <dt>#101,#103</dt>
-                        <dd>Show record numbers 101 and 103</dd>
-                    </dl>
-                </div>
-            </div>
+  <% if(!isAjaxRequest){ %>
+<div class="site_container">
+  <form id="searchForm" action="search.jsp" class="form-search" method="get">
+    <div class="search-box <%= searchPerformed ?  "search-box-small" : "" %> " style="display:none">
+      <img src="<%=imageRoot %>target_mice.png" class="woodmouse"/>
+      <div class="search-box-inner">
+        <input type="text" class="input-xlarge search-query" name="searchterms" value="<%=searchterms %>">
+        <button id="search_button" class="btn btn-primary" type="submit" ><i class='icon-white icon-search'></i> Rodent Search</button>
+        <div class="search-instructions-show"><a href="#" id="show_search_instructions">how do I search?</a></div>
+        <div class="search-instructions">
+          <b>Search examples:</b>
+          <dl>
+            <dt>shh null</dt>
+            <dd>Match records that contain both 'shh' <b>and</b> 'null'</dd>
+            <dt>htr</dt>
+            <dd>Match words that start with htr, such as htr2c, or htr1a</dd>
+            <dt>htr2c</dt>
+            <dd>Find the specific gene 'htr2c'</dd>
+            <dt>1346833</dt>
+            <dd>Look up MGI ID 1346833</dd>
+            <dt>12590258</dt>
+            <dd>Look up Pubmed ID 1346833</dd>
+            <dt>#101,#103</dt>
+            <dd>Show record numbers 101 and 103</dd>
+          </dl>
         </div>
-    </form>
-</script>
-<% } %>
-
-<script id="access_denied" type="text/template">
-    <div>
-        <table class="site_container">
-            <tr>
-                <td style="width: 50%">
-                    <h2>Search Login</h2>
-                    Welcome to the Rodent Research Database Application's Search bar.<br>
-                    Before you're able to view the search bar, ensure that
-                    you have filled out a registration form.<br>
-                    If your registration form has been approved, please enter your information
-                    below.<br><br>
-                    <form method="post" action="loginServlet">
-                        <table>
-                            <tr>
-                                <td><label for="email">Email address:</label></td>
-                                <td><input type="text" id="email" name="email" required></td>
-                            </tr>
-                            <tr>
-                                <td><label for="MSU NetID">MSU NetID:</label></td>
-                                <td><input type="text" id="MSU NetID" name="MSU NetID" required></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type = hidden name="page" value="applicationLoginSearch.jsp">
-                                    <input type="submit" class ="button btn-primary" value="Login">
-                                </td>
-                            </tr>
-
-                        </table>
-                    </form>
-                </td>
-                <td style="vertical-align: top;width: 50%">
-                    <h2>Registration Information</h2>
-                    In order to access the Rodent Records and submit
-                    rodents to the database, you must first fill out a registration form.
-                    <br>
-                    Registration can be found by following the button below, or
-                    clicking on the "Registration" tab in the navigation bar.
-                    <br>
-                    <br>
-                    <a href="application.jsp"><button class = "btn btn-success">Registration</button></a>
-                </td>
-            </tr>
-        </table>
+      </div>
     </div>
-</script>
-
-<div id="page_content">
     <div id="searchresults-container">
-        <p>Okay, does this work?</p>
-        <div id="searchresults">
-            <div class="search-resultcount" data-resultcount="<%=mouseCount %>">
-                <% if (searchPerformed && mouseCount > 0) { %>
-                <span class='<%=exactMatches > 0 ? "quality-good" : "quality-bad" %>'>
-            <%=exactMatches > 0 ? exactMatches : "No" %> exact match<%=exactMatches == 1 ? "" : "es" %></span>, <%=partialMatches %> partial
-                <%} else if (searchPerformed && mouseCount ==0) { %>
-                No records match your query
-                <%} %>
-            </div>
-            <%= results.toString() %>
-        </div>
-        <% if(!isAjaxRequest){ %>
-    </div>
     <%} %>
+      <div id="searchresults">
+        <div class="search-resultcount" data-resultcount="<%=mouseCount %>">
+          <% if (searchPerformed && mouseCount > 0) { %> 
+            <span class='<%=exactMatches > 0 ? "quality-good" : "quality-bad" %>'>
+            <%=exactMatches > 0 ? exactMatches : "No" %> exact match<%=exactMatches == 1 ? "" : "es" %></span>, <%=partialMatches %> partial
+          <%} else if (searchPerformed && mouseCount ==0) { %>
+            No records match your query
+          <%} %>
+        </div>
+        <div class="clearfix"></div>
+        <div class="searchtips" >
+        <%=searchTips.toString() %>
+        </div>
+        <%= results.toString() %>      
+      </div>
+      <% if(!isAjaxRequest){ %>
+    </div>
+  </form>
 </div>
-
-<script>
-    var access_status = <%=LoginServlet.getAccess_granted()%>;
-    var granted = document.getElementById("access_granted").innerHTML;
-    var denied = document.getElementById("access_denied").innerHTML;
-
-    if (access_status == 1) {
-        document.getElementById("page_content").innerHTML = granted + document.getElementById("page_content").innerHTML ;
-
-    } else {
-        document.getElementById("page_content").innerHTML = denied;
-    }
-    <%LoginServlet.setAccess_granted(0);%>;
-</script>
+<% } %>

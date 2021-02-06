@@ -99,15 +99,19 @@ Log.Error("Error processing csv!",e);
 }
 }
 
-private ArrayList<String> getMouseListCsv(HttpServletRequest request) throws Exception
-{
-int holderID = stringToInt(request.getParameter("holder_id"));
-int geneID = stringToInt(request.getParameter("geneID"));
-int mouseTypeID = stringToInt(request.getParameter("mousetype_id"));
-int creOnly = stringToInt(request.getParameter("creonly"));
-int facilityID = stringToInt(request.getParameter("facility_id"));
-int offset = -1;
-int limit = -1;
+    private ArrayList<String> getMouseListCsv(HttpServletRequest request) throws Exception
+    {
+        int holderID = stringToInt(request.getParameter("holder_id"));
+        int geneID = stringToInt(request.getParameter("geneID"));
+        int mouseTypeID = stringToInt(request.getParameter("mousetype_id"));
+        int creOnly = stringToInt(request.getParameter("creonly"));
+        int facilityID = stringToInt(request.getParameter("facility_id"));
+        int is_rat = stringToInt(request.getParameter("is_rat"));
+        boolean species = false;
+        if (is_rat == 1)
+            species = true;
+        int offset = -1;
+        int limit = -1;
 
 String orderBy = request.getParameter("orderby");
 String searchTerms = request.getParameter("searchterms");
@@ -132,7 +136,7 @@ creOnly = 0;
 Holder holder = DBConnect.getHolder(holderID);
 Gene gene = DBConnect.getGene(geneID);
 Facility facility = DBConnect.getFacility(facilityID);
-ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms, false, creOnly, facilityID,limit,offset);
+ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms, false, creOnly, facilityID,limit,offset,false,species);
 
 ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
 String mouseTypeStr = "Listing";
@@ -185,8 +189,7 @@ mouseTypeStr += " with status='" + status + "'";
 }
 
 ArrayList<String> stringList = new ArrayList<String>();
-stringList.add("Mouse DB ID,Type,Common Name,Official Symbol,Official Name,Mouse MGI ID,"
-    + "Gene/Regulatory Element,Inserted Sequence,PMID,Gene MGI ID"+"\n");
+
 for(MouseRecord mouse : mice){  
 
 String mouseName = getMouseName(mouse).getContent();
@@ -203,6 +206,14 @@ String mouseGID = getMouseGeneID(mouse).getContent();
 
 String csvLine = mouseNumber+mouseStatus+ "," +mouseCategory + "," +mouseName + "," +mouseDetails+ ","
 + mouseGene+","+mouseSeq+","+mousePMID+","+mouseGID+"\n";
+if (mouse.isRat()){
+    stringList.add("Mouse DB ID,Type,Common Name,Official Symbol,Official Name,Mouse RGD ID,"
+            + "Gene/Regulatory Element,Inserted Sequence,PMID,Gene RGD ID"+"\n");
+    }
+else{
+    stringList.add("Mouse DB ID,Type,Common Name,Official Symbol,Official Name,Mouse MGI ID,"
+            + "Gene/Regulatory Element,Inserted Sequence,PMID,Gene MGI ID"+"\n");
+    }
 
 stringList.add(csvLine);
 
@@ -446,9 +457,17 @@ Phrase p = phr();
 if (mouse.getExpressedSequence() != null) {
 if (mouse.getExpressedSequence().equalsIgnoreCase("mouse gene")
 || mouse.getExpressedSequence().equalsIgnoreCase("Mouse Gene (unmodified)")) {
-p.add(formatGeneID(mouse.getTargetGeneSymbol(),
-          mouse.getTargetGeneName(),
-          mouse.getTargetGeneID()));
+    if (mouse.isRat()){
+        p.add(formatGeneID(mouse.getTargetGeneSymbol(),
+                mouse.getTargetGeneName(),
+                mouse.getTargetGeneID()));
+    }
+    else{
+        p.add(formatGeneID(mouse.getTargetGeneSymbol(),
+                mouse.getTargetGeneName(),
+                mouse.getTargetGeneID()));
+    }
+
 } else if (mouse.getExpressedSequence().equalsIgnoreCase("reporter")) {
  String reporter ="reporter: " +mouse.getReporter().replace(",", ";");
  //p.add(phr("\""+mouse.getReporter()+"\""));
@@ -503,6 +522,12 @@ Phrase gene = phr("   ");
 gene.add("Gene MGI: " + id);
 return gene;
 }
+
+    private static Phrase formatRGDID(String symbol, String name, String id){
+        Phrase gene = phr("   ");
+        gene.add("Gene RGD: " + id);
+        return gene;
+    }
 
 private static Phrase formatSymbolPdf(String symbol)
 {

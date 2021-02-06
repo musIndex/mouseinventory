@@ -11,8 +11,8 @@
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*"%>
 <%@ page import="edu.ucsf.mousedatabase.servlets.LoginServlet" %>
 <%=getPageHeader(null, false,false,"onload=\"setFocus('quickSearchForm', 'searchterms')\"") %>
+<%=HTMLGeneration.getNavBar("MouseReport.jsp", false)%>
 <%@include file="mouselistcommon.jspf" %>
-<%=getNavBar("MouseReport.jsp", false) %>
 
 
 <%
@@ -25,6 +25,7 @@
     int facilityID = stringToInt(request.getParameter("facility_id"));
     int pagenum = stringToInt(request.getParameter("pagenum"));
     int limit = stringToInt(request.getParameter("limit"));
+    boolean species = stringToBoolean(request.getParameter("species"));
 
     String orderBy = request.getParameter("orderby");
 
@@ -61,16 +62,21 @@
     query.add("mousetype_id=" + mouseTypeID);
     query.add("facility_id=" + facilityID);
     query.add("status=live");
+    if (species)
+        query.add("is_rat=" + 1);
+    else
+        query.add("is_rat=" + 0);
+
 
     String queryString = StringUtils.join(query, "&");
 
-    int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID);
-    ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID,limit,offset);
+    int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID,false, species);
+    ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID,limit,offset,false,species);
 
     String table = getMouseTable(mice, false, true, false);
     ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
     String mouseTypeSelectionLinks = getMouseTypeSelectionLinks(
-            mouseTypeID, orderBy,holderID,geneID,mouseTypes,null,searchTerms,creOnly,facilityID);
+            mouseTypeID, orderBy,holderID,geneID,mouseTypes,null,searchTerms,creOnly,facilityID,species);
 
     String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
     String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
@@ -79,7 +85,6 @@
     Holder holder = DBConnect.getHolder(holderID);
     Gene gene = DBConnect.getGene(geneID);
     Facility facility = DBConnect.getFacility(facilityID);
-
     String mouseTypeStr = "";
     String mouseCountStr = "";
     if(mouseTypeID != -1)  {
@@ -99,9 +104,9 @@
         if (limit > 0 && mice.size() == limit)
             mouseCountStr += " (" + limit + " shown per page)";
     }
-    String holderData = "<p style='color: blue; font-weight: bold;''>" +
-            "<i>To obtain a list of all rodents held by an investigator, go to the 'Holder List'."+
-            "</i></p>";
+    String holderData = "<p>" +
+            "<i><b>To obtain a list of all rodents held by an investigator, go to the 'Holder List'."+
+            "</b></i></p>";
     mouseTypeStr += " records";
 
     if (facility != null) {
@@ -134,7 +139,7 @@
             mouseTypeStr += " (Last reviewed: " + holder.getDateValidated() + ")";
         }
         else {
-            holderStatusHeading = "Please take this opportunity to update the list.";
+            holderStatusHeading = "";
         }
 
         String emailAdminLink = getMailToLink(DBConnect.loadSetting("admin_info_email").value, null, holder.getLastname() + " rodent list reviewed",
@@ -145,39 +150,12 @@
                         "their names below.)", "email link");
 
         holderData = "<div class='holderData'>" +
-                "<span class='boldheading "+holderStatusHeadingStyle + "'>" + holderStatusHeading + "<br>" +
-                "Use this " +  emailAdminLink +
-                " to notify admin when update is complete</span>" +
-                "<div class='holderNotice'>" +
-                "<b>To delete a rodent</b> that is no longer being maintained " +
-                "but is still listed here, go to the record for that rodent, " +
-                "click on 'request change in record,' and follow the instructions " +
-                "for deleting a holder.<br><br>" +
-                "If any corrections need to be made, click on 'request change in record,'" +
-                "and follow the instructions for entering info about the changes.'" +
-                "(For example, is an 'unpublished' allele/transgene now published?" +
-                "Is there genetic background information that could be included?)" +
-                "<br><br>" +
-                "<b>To add a rodent</b> that is being maintained by this holder but " +
-                "is not yet listed:"+
-                "<ul>"+
-                "<li>First do a quick search of the database "+
-                "(top right of the screen) to see if there is already a record for that rodent."+
-                "</li>"+
-                "<li>"+
-                "If so, click on 'request change in record,' and follow the instructions for adding a holder." +
-                "</li>"+
-                "<li>"+
-                "If there is no record for that rodent in the database, complete a new submission for it or " +
-                "contact database admin to request assistance in entering it." +
-                "</li>" +
-                "</ul>" +
-                "</div>" +
-                "\r\n<a class='btn btn-primary' style='' href='" + siteRoot + "MouseList" + (queryString.length() > 0 ? "?" + queryString : "") +
-                "'>Download this list (pdf)</a>" +
-                "</div>" +
                 "<div>" +
-                "\r\n<a class='btn btn-primary' style='' href='" + siteRoot + "MouseList2" + (queryString.length() > 0 ? "?" + queryString : "") +
+                "<br>To update a rodent's details, add or remove yourself as a holder, click <b>request change in record.</b><br>"+
+                "</div>" +
+                "<br>\r\n<a class='btn btn-primary' style='' href='" + siteRoot + "MouseList" + (queryString.length() > 0 ? "?" + queryString : "") +
+                "'>Download this list (pdf)</a>"
+                 + "\r\n<a class='btn btn-primary' style='' href='" + siteRoot + "MouseList2" + (queryString.length() > 0 ? "?" + queryString : "") +
                 "'>Download this list (csv)</a>" +
                 "</div>"
 
@@ -194,7 +172,7 @@
 %>
 
 
-<script id="access_granted" type="text/template">
+<%--//<script id="access_granted" type="text/template">--%>
     <div class='site_container'>
         <div id="mousecount" style="display:none">
             <%=mice.size() %>
@@ -204,10 +182,10 @@
             <tr>
                 <td style="width: 50%;vertical-align: bottom">
                     <h2><%=mouseTypeStr %></h2>
-                    <form class='view_opts' action="loginServlet" >
+                    <form class='view_opts' action="MouseReport.jsp" >
 
                         <div class='clearfix' style='position:relative;min-height:140px'>
-                            <div id="controls" style='position:absolute;bottom:0;left:0;'>
+                            <div id="controls">
                                 <h4 style='margin-top:0px'><%=mouseCountStr %></h4>
                                 <%= mouseTypeSelectionLinks %>
                                 <% if (mice.size() > 0) { %>
@@ -257,70 +235,83 @@
 
         </table>
     </div>
-</script>
+<%--//</script>--%>
 
-<script id="access_denied" type="text/template">
-    <div>
-        <table class="site_container">
-            <tr>
-                <td style="width: 50%">
-                    <h2>Rodent Records Login</h2>
-                    Welcome to the Rodent Research Database Application's Rodent Records.<br>
-                    Before you're able to view rodent records, ensure that
-                    you have filled out a registration form.<br>
-                    If your registration form has been approved, please enter your information
-                    below.<br><br>
-                    <form method="post" action="loginServlet">
-                        <table>
+<%--<script id="access_denied" type="text/template">--%>
+<%--    <div>--%>
+<%--        <table class="site_container">--%>
+<%--            <tr>--%>
+<%--                <td style="width: 50%">--%>
+<%--                    <h2>Rodent Records Login</h2>--%>
+<%--                    Welcome to the Rodent Research Database Application's Rodent Records.<br>--%>
+<%--                    Before you're able to view rodent records, ensure that--%>
+<%--                    you have filled out a registration form.<br>--%>
+<%--                    If your registration form has been approved, please enter your information--%>
+<%--                    below.<br><br>--%>
+<%--                    <form method="post" action="loginServlet">--%>
+<%--                        <table>--%>
 
-                            <tr>
-                                <td><label for="email">Email address:</label></td>
-                                <td><input type="text" id="email" name="email" required></td>
-                            </tr>
-                            <tr>
-                                <td><label for="MSU NetID">MSU NetID:</label></td>
-                                <td><input type="text" id="MSU NetID" name="MSU NetID" required></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type = hidden name="page" value="applicationLoginRecords.jsp">
-                                    <input type="submit" class ="button btn-primary" value="Login">
-                                </td>
-                            </tr>
+<%--                            <tr>--%>
+<%--                                <td><label for="email">Email address:</label></td>--%>
+<%--                                <td><input type="text" id="email" name="email" required></td>--%>
+<%--                            </tr>--%>
+<%--                            <tr>--%>
+<%--                                <td><label for="MSU NetID">MSU NetID:</label></td>--%>
+<%--                                <td><input type="text" id="MSU NetID" name="MSU NetID" required></td>--%>
+<%--                            </tr>--%>
+<%--                            <tr>--%>
+<%--                                <td>--%>
+<%--                                    <input type = hidden name="page" value="applicationLoginRecords.jsp">--%>
+<%--                                    <input type="submit" class ="button btn-primary" value="Login">--%>
+<%--                                </td>--%>
+<%--                            </tr>--%>
 
-                        </table>
-                    </form>
-                </td>
-                <td style="vertical-align: top;width: 50%">
-                    <h2>Registration Information</h2>
-                    In order to access the Rodent Records and submit
-                    rodents to the database, you must first fill out a registration form.
-                    <br>
-                    Registration can be found by following the button below, or
-                    clicking on the "Registration" tab in the navigation bar.
-                    <br>
-                    <br>
-                    <a href="application.jsp"><button class = "btn btn-success">Registration</button></a>
-                </td>
-            </tr>
-        </table>
+<%--                        </table>--%>
+<%--                    </form>--%>
+<%--                </td>--%>
+<%--                <td style="vertical-align: top;width: 50%">--%>
+<%--                    <h2>Registration Information</h2>--%>
+<%--                    In order to access the Rodent Records and submit--%>
+<%--                    rodents to the database, you must first fill out a registration form.--%>
+<%--                    <br>--%>
+<%--                    Registration can be found by following the button below, or--%>
+<%--                    clicking on the "Registration" tab in the navigation bar.--%>
+<%--                    <br>--%>
+<%--                    <br>--%>
+<%--                    <a href="application.jsp"><button class = "btn btn-success">Registration</button></a>--%>
+<%--                </td>--%>
+<%--            </tr>--%>
+<%--        </table>--%>
 
-    </div>
-</script>
+<%--    </div>--%>
+<%--</script>--%>
 
-<div id="page_content">
+<%--<div id="page_content">--%>
 
-</div>
+<%--</div>--%>
 
-<script>
-    var access_status = <%=LoginServlet.getAccess_granted()%>;
-    var granted = document.getElementById("access_granted").innerHTML;
-    var denied = document.getElementById("access_denied").innerHTML;
+<%--<script>--%>
+<%--    var access_status = <%=LoginServlet.getAccess_granted()%>;--%>
+<%--    var granted = document.getElementById("access_granted").innerHTML;--%>
+<%--    var denied = document.getElementById("access_denied").innerHTML;--%>
 
-    if (access_status == 1) {
-        document.getElementById("page_content").innerHTML = granted;
-    } else {
-        document.getElementById("page_content").innerHTML = denied;
-    }
-    <%LoginServlet.setAccess_granted(0);%>;
-</script>
+<%--    if (access_status == 1) {--%>
+<%--        document.getElementById("page_content").innerHTML = granted;--%>
+<%--    } else {--%>
+<%--        document.getElementById("page_content").innerHTML = denied;--%>
+<%--    }--%>
+<%--    <%LoginServlet.setAccess_granted(0);%>;--%>
+<%--</script>--%>
+
+<%--<script type="text/javascript">--%>
+<%--    function submitformsubmitrodents() {   document.submitrodents.submit();}--%>
+<%--    function submitformmouseregister() {   document.mouseregister.submit();}--%>
+<%--    function submitformrodentrecords() {   document.rodentrecords.submit();}--%>
+<%--    function submitformgenelist() {   document.genelist.submit();}--%>
+<%--    function submitformabout() {   document.about.submit();}--%>
+<%--    function submitformfacilitylist() {   document.facilitylist.submit();}--%>
+<%--    function submitformholderlist() {   document.holderlist.submit();}--%>
+<%--    function submitformhome(){document.home.submit();}--%>
+<%--    function submitformfeedback(){document.submitfeedback.submit();}--%>
+<%--    function submitlogout(){document.logout.submit();}--%>
+<%--</script>--%>

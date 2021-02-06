@@ -11,6 +11,7 @@
   String errorsMessage = "";
   String savedMessage = "";
 
+  newRat.setIs_rat("1");
   newRat.setMtaRequired(request.getParameter("mtaRequired"));
   newRat.setCryopreserved(request.getParameter("cryopreserved"));
 
@@ -43,7 +44,7 @@
 
 <%=getPageHeader("<script language=\"javascript\" type=\"text/javascript\">document.onkeypress = checkCR;</script>\r\n",
           true, false, "onload=\"setFocus('ratDetails', 'ratName')\"")%>
-<%=getNavBar("submitforminit.jsp", false)%>
+<%=HTMLGeneration.getNavBar("submission.jsp", false, false)%>
 
 
 <script>

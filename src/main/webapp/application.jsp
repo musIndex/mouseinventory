@@ -1,3 +1,4 @@
+<%--
 <%@page import="java.util.SortedMap"%>
 <%@page import="java.util.TreeMap"%>
 <%@page import="java.util.HashMap"%>
@@ -7,8 +8,15 @@
 <%@ page import="static edu.ucsf.mousedatabase.HTMLGeneration.getNavBar" %>
 <%@page contentType="text/html;charset=UTF-8" language="java"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*"%>
+<%@ page import="edu.ucsf.mousedatabase.HTMLGeneration" %>
+<%@ page import="edu.ucsf.mousedatabase.servlets.LoginServlet" %>
 <%=getPageHeader(null, false, false, "onload=\"setFocus('quickSearchForm', 'searchterms')\"")%>
-<%=getNavBar("about.jsp", false)%>
+<%if (LoginServlet.getAccess_granted() == 0){%>
+<%=HTMLGeneration.getNavBar("about.jsp", false)%>
+<%}
+else{%>
+<%=HTMLGeneration.getLoggedInNavBar("about.jsp", false, false)%>
+<%}%>
 
 
 <div>
@@ -52,6 +60,8 @@
                                     <option value="lab_manager">Lab Manager</option>
                                     <option value="lab_assistant">Lab Assistant</option>
                                     <option value="study_staff">Study Staff</option>
+                                    <option value="car_employee">CAR Employee</option>
+
                                 </select>
                                 <br><br>
                             </td>
@@ -78,3 +88,20 @@
         </table>
     </form>
 </div>
+
+<script>
+    <%LoginServlet.setAccess_granted(0);%>
+</script>
+
+<script type="text/javascript">
+    function submitformsubmitrodents() {   document.submitrodents.submit();}
+    function submitformmouseregister() {   document.mouseregister.submit();}
+    function submitformrodentrecords() {   document.rodentrecords.submit();}
+    function submitformgenelist() {   document.genelist.submit();}
+    function submitformabout() {   document.about.submit();}
+    function submitformfacilitylist() {   document.facilitylist.submit();}
+    function submitformholderlist() {   document.holderlist.submit();}
+    function submitformhome(){document.home.submit();}
+    function submitformfeedback(){document.submitfeedback.submit();}
+    function submitlogout(){document.logout.submit();}
+</script>--%>

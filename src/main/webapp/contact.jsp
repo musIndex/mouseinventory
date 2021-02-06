@@ -1,7 +1,7 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="edu.ucsf.mousedatabase.*" %>
 <%=HTMLGeneration.getPageHeader(null, false,false,"onload=\"setFocus('quickSearchForm', 'searchterms')\"") %>
-<%=HTMLGeneration.getNavBar("contact.jsp", false) %>
+<%=HTMLGeneration.getNavBar("contact.jsp", false)%>
 
 <div class="site_container">
     <h2>Submit Feedback</h2>

@@ -24,7 +24,15 @@ public class SubmittedRat {
 
     int submissionID;
     int ratRecordID;
+    public String getIs_rat() {
+        return is_rat;
+    }
 
+    public void setIs_rat(String is_rat) {
+        this.is_rat = is_rat;
+    }
+
+    String is_rat;
     private Properties properties;
 
     private java.util.Date submissionDate;
@@ -251,6 +259,9 @@ public class SubmittedRat {
             }else if(propName.equalsIgnoreCase("cryopreserved"))
             {
                 setCryoLiveStatus(props.getProperty(propName));
+            }
+            else if (propName.equalsIgnoreCase("is_rat")){
+                setIs_rat(props.getProperty(propName));
             }
 
 

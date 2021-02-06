@@ -16,4 +16,3 @@
 <p>You can contact the Database admin at <%=HTMLGeneration.formatEmail(adminEmail, adminEmail, null) %></p>
 </div>
 
-

@@ -18,6 +18,15 @@ public class MouseSubmission {
   String otherHolderFacility;
   String isPublished;
 
+  public String getIs_rat() {
+    return is_rat;
+  }
+
+  public void setIs_rat(String is_rat) {
+    this.is_rat = is_rat;
+  }
+
+  String is_rat;
   //Mutant Allele fields
   String MAModificationType;
   String MAMgiGeneID;
@@ -880,6 +889,9 @@ public class MouseSubmission {
         props.setProperty("Email",submitterData.getEmail());
 
         //all types
+        props.setProperty("is_rat", newMouse.getIs_rat());
+
+        //System.out.println("Is rat? " + props.getProperty("is_rat"));
         props.setProperty("MouseType", newMouse.getMouseType());
     if(newMouse.isMA() || newMouse.isTG())
     {

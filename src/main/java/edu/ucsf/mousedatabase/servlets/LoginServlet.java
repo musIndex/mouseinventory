@@ -149,6 +149,16 @@ public class LoginServlet extends HttpServlet {
     private static String AUF;
     private static String Position;
     private static int approved;
+    private static String getEmail = "";
+    private static String getNetID = "";
+
+    public static String getEmail() {
+        return getEmail;
+    }
+
+    public static String getNetID() {
+        return getNetID;
+    }
 
     private static int access_granted = 0;
     public static int getAccess_granted() {
@@ -169,8 +179,7 @@ public class LoginServlet extends HttpServlet {
     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String getEmail = "";
-        String getNetID = "";
+
         String getPage = request.getParameter("page");
         String sendPage = "";
         String sendToPage = "";
@@ -182,6 +191,7 @@ public class LoginServlet extends HttpServlet {
         pages.put("applicationLoginGenes.jsp", "GeneReport.jsp");
         pages.put("applicationLoginSearch.jsp", "search.jsp");
         pages.put("search_bar","search.jsp");
+        pages.put("facility_search","FacilityReport.jsp");
 
 
 
@@ -199,6 +209,12 @@ public class LoginServlet extends HttpServlet {
             String begin = "search.jsp#searchterms=";
             String end ="&pagenum=1&search-source=search";
             response.sendRedirect(begin+keyword+end);
+            setAccess_granted(1);
+        }
+        else if (getPage.equals("facility_search")){
+            String begin = "MouseReport.jsp?facility_id=";
+            String facilityID = request.getParameter("facilityid");
+            response.sendRedirect(begin+facilityID);
             setAccess_granted(1);
         }
         else{
@@ -242,20 +258,25 @@ public class LoginServlet extends HttpServlet {
             setAccess_granted(1);
         }
         else if (getPage.equals("records_search")){
+
+            //--------------------------------------------------------------------------------------
+
+            //-------------------------------------------------------------------------------------
             String orderby = "orderby="+ request.getParameter("orderby") + "&";
             String category = "mousetype_id=" + request.getParameter("mousetype_id")+"&";
             String creonly = "creonly="+request.getParameter("creonly")+"&";
             String page_num = "pagenum="+request.getParameter("pagenum");
             String limit = "limit="+request.getParameter("limit")+"&";
-
+            String species = "is_rat"+request.getParameter("species")+"&";
+            System.out.println(species);
             String begin = "MouseReport.jsp?";
             String end ="&";
             if (creonly.equals("creonly=1&")){
-                response.sendRedirect(begin+orderby+category+creonly+limit+page_num+end);
+                response.sendRedirect(begin+orderby+category+creonly+limit+species+page_num+end);
                 setAccess_granted(1);
             }
             else{
-                response.sendRedirect(begin+orderby+category+limit+page_num+end);
+                response.sendRedirect(begin+orderby+category+limit+species+page_num+end);
                 setAccess_granted(1);
             }
         }

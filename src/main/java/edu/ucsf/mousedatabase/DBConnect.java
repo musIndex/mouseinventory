@@ -43,7 +43,8 @@ public class DBConnect {
 			+ "gene.symbol as 'gene symbol', gene.fullname as 'gene name',cryopreserved,"
 			+ "status,endangered,submittedmouse_id, targetgenes.mgi as 'target gene MGI',"
 			+ "targetgenes.symbol as 'target gene symbol', targetgenes.fullname as 'target gene name', official_name,"
-			+ "admin_comment\r\n";
+			+ "admin_comment,"
+			+ "is_rat\r\n";
 
 	private static final String mouseRecordTableJoins = "   left join mousetype on mouse.mousetype_id=mousetype.id\r\n"
 			+ "  left join gene on mouse.gene_id=gene.id\r\n"
@@ -333,6 +334,19 @@ public class DBConnect {
 		return new MouseRecordResultGetter().Get(buildMouseQuery(mouseRecordQueryHeader, constraints));
 	}
 
+	public static ArrayList<MouseRecord> getMousePropertiesFromSubmission(int submissionID) {
+		ArrayList<String> whereTerms = new ArrayList<String>();
+		whereTerms.add("mouse.submittedmouse_id=" + submissionID);
+		String constraints = buildMouseQueryConstraints(null, whereTerms, null, -1, -1);
+		return new MouseRecordResultGetter().Get(buildMouseQuery(mouseRecordQueryHeader, constraints));
+	}
+	public static ArrayList<MouseRecord> getSubmittedMousePropertiesFromSubmission(int submissionID) {
+		ArrayList<String> whereTerms = new ArrayList<String>();
+		whereTerms.add("id=" + submissionID);
+		String constraints = buildMouseQueryConstraints(null, whereTerms, null, -1, -1);
+		return new MouseRecordResultGetter().Get(buildMouseQuery(mouseSubmissionQueryHeader, constraints));
+	}
+
 	public static ArrayList<MouseRecord> getMouseRecords(int mouseTypeID, String orderBy, int holderID, int geneRecordID,
 			String status) {
 		return getMouseRecords(mouseTypeID, orderBy, holderID, geneRecordID, status, null);
@@ -363,7 +377,7 @@ public class DBConnect {
 	}
 
 	public static ArrayList<MouseRecord> getCovertMice(String orderby, String status, String searchTerms,
-			int mouseTypeID) {
+			int mouseTypeID, boolean species) {
 		String query = "SELECT distinct mouse_id from mouse_holder_facility where covert=1";
 		ArrayList<Integer> covertMouseIds = IntResultGetter.getInstance("mouse_id").Get(query);
 
@@ -377,8 +391,10 @@ public class DBConnect {
 			builder.append(",");
 		}
 
+
+
 		ArrayList<String> whereTerms = buildMouseQueryWhereTerms(status, searchTerms, mouseTypeID, -1, -1, -1, -1, false,
-				false);
+				false, species);
 		whereTerms.add("mouse.id in (" + builder + ")");
 
 		String constraints = buildMouseQueryConstraints(null, whereTerms, orderby, -1, -1);
@@ -395,8 +411,14 @@ public class DBConnect {
 	public static int countMouseRecords(int mouseTypeID, String orderBy, int holderID, int geneRecordID, String status,
 			String searchTerms, boolean endangeredOnly, int creOnly, int facilityID, boolean edit) {
 
+		return countMouseRecords(mouseTypeID, orderBy, holderID, geneRecordID, status, searchTerms, endangeredOnly, creOnly,
+				facilityID, false,false);
+	}
+	public static int countMouseRecords(int mouseTypeID, String orderBy, int holderID, int geneRecordID, String status,
+										String searchTerms, boolean endangeredOnly, int creOnly, int facilityID, boolean edit, boolean species) {
+
 		ArrayList<String> whereTerms = buildMouseQueryWhereTerms(status, searchTerms, mouseTypeID, geneRecordID, facilityID,
-				holderID, creOnly, endangeredOnly, edit);
+				holderID, creOnly, endangeredOnly, edit, species);
 		String additionalJoins = buildMouseQueryJoins(holderID, facilityID, searchTerms);
 
 		String constraints = buildMouseQueryConstraints(additionalJoins, whereTerms, orderBy, -1, -1);
@@ -419,8 +441,17 @@ public class DBConnect {
 			String status, String searchTerms, boolean endangeredOnly, int creOnly, int facilityID, int limit, int offset,
 			boolean edit) {
 
+		return getMouseRecords(mouseTypeID, orderBy, holderID, geneRecordID, status, searchTerms, endangeredOnly, creOnly,
+				facilityID, limit, offset, false,false);
+	}
+
+	public static ArrayList<MouseRecord> getMouseRecords(int mouseTypeID, String orderBy, int holderID, int geneRecordID,
+														 String status, String searchTerms, boolean endangeredOnly, int creOnly, int facilityID, int limit, int offset,
+														 boolean edit, boolean species) {
+
 		ArrayList<String> whereTerms = buildMouseQueryWhereTerms(status, searchTerms, mouseTypeID, geneRecordID, facilityID,
-				holderID, creOnly, endangeredOnly, edit);
+				holderID, creOnly, endangeredOnly, edit,species);
+		System.out.println(whereTerms.toString());
 		String additionalJoins = buildMouseQueryJoins(holderID, facilityID, searchTerms);
 
 		String constraints = buildMouseQueryConstraints(additionalJoins, whereTerms, orderBy, limit, offset);
@@ -447,7 +478,8 @@ public class DBConnect {
 	}
 
 	private static ArrayList<String> buildMouseQueryWhereTerms(String status, String searchTerms, int mouseTypeID,
-			int geneRecordID, int facilityID, int holderID, int creOnly, boolean endangeredOnly, boolean edit) {
+			int geneRecordID, int facilityID, int holderID, int creOnly, boolean endangeredOnly, boolean edit, boolean species) {
+		System.out.println("Species:" + species);
 		ArrayList<String> whereTerms = new ArrayList<String>();
 		if (status.equalsIgnoreCase("all")) {
 			whereTerms.add("mouse.status<>'incomplete'");
@@ -483,6 +515,11 @@ public class DBConnect {
 		if (creOnly > 0) {
 			whereTerms.add("expressedsequence.expressedsequence='Cre'");
 		}
+		int int_species = 0;
+		if (species)
+			int_species = 1;
+
+		whereTerms.add("mouse.is_rat=" + int_species);
 
 		return whereTerms;
 	}
@@ -1241,7 +1278,14 @@ public class DBConnect {
 				"status=" + (updatedRecord.getStatus() != null ? "'" + updatedRecord.getStatus() + "'" : "NULL") + ", \r\n");
 		query.append("endangered=" + updatedRecord.isEndangered() + ",\r\n");
 
-		query.append("admin_comment=" + safeText(updatedRecord.getAdminComment()) + "\r\n");
+		query.append("admin_comment=" + safeText(updatedRecord.getAdminComment()) + ",\r\n");
+
+		if (updatedRecord.isRat()){
+			query.append("is_rat=1" + "\r\n");
+		}
+		else{
+			query.append("is_rat=0" + "\r\n");
+		}
 
 		query.append("WHERE id=" + updatedRecord.getMouseID());
 		Log.Info("Updating mouse record with query: \r\n" + query);
@@ -3067,6 +3111,8 @@ public class DBConnect {
 			nextMouse.setOfficialMouseName(g_str("official_name"));
 			nextMouse.setMouseName(g_str("name"));
 			nextMouse.setMouseType(g_str("mousetype"));
+			nextMouse.setRat(g_int("is_rat"));
+
 
 			nextMouse.setGeneID(g_str("gene mgi"));
 			nextMouse.setGeneName(g_str("gene name"));
