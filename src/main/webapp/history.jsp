@@ -38,9 +38,8 @@ head of the UCSF Animal Care Facility, who understood the value of the applicati
 <a href="https://github.com/musIndex/mouseinventory/issues">Mouse Inventory Github Repository</a>
 <div>
 <h2>Mouse Inventory Resources</h2>
-<p>Dr. Martin created these presentations to explain the differences between mutant allele and transgene mice, and how to find these mutations for your gene of interest. </p>
+<p>Dr. Martin created these presentations to explain the differences between mutant allele and transgene mice. </p>
 <a class="btn btn-success" href="https://mousespace.blob.core.windows.net/$web/MouseMutantsPrimer.pdf">DOWNLOAD MOUSE MUTANTS (pdf)</a>
-<a class="btn btn-success" href="https://mousespace.blob.core.windows.net/$web/HaveGeneWantMouse.pdf">DOWNLOAD MOUSE GENE (pdf)</a>
 <p>User Manual that describes Mouse Inventory features.</p>
 <a class="btn btn-success" href="https://mousespace.blob.core.windows.net/$web/UserManual.pdf">DOWNLOAD USER MANUAL(pdf)</a>
  <h4>Logos Designed by Marta Dansa 2019</h4>
