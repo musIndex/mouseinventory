@@ -1378,7 +1378,7 @@ public class HTMLGeneration {
               .equalsIgnoreCase("mouse gene")
               || nextSubmission
                   .getTGExpressedSequence()
-                  .equalsIgnoreCase("Mouse Gene (unmodified)")) {
+                  .equalsIgnoreCase("Rodent Gene (unmodified)")) {
             table.append("<dt><b>Expressed Sequence:</b></dt>\r\n");
             if (nextSubmission.getIs_rat().equalsIgnoreCase("1")){
               table.append("<dt>RGD: "
@@ -1411,7 +1411,7 @@ public class HTMLGeneration {
               .equalsIgnoreCase("other")
               || nextSubmission.getTGExpressedSequence()
                   .equalsIgnoreCase(
-                      "Modified mouse gene or Other")) {
+                      "Modified rodent gene or Other")) {
             table.append("<dt><b>Expressed Sequence:</b>\r\n");
             table.append(nextSubmission.getTGOther() + "</dt>\r\n");
           } else {

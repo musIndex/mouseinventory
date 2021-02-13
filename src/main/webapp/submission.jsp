@@ -64,7 +64,7 @@
                     is maintained in combination with other mutant alleles or transgenes.
                 </p>
                 <p class="header3"><span style="color: #23476b;text-emphasis: #23476b; font-size: larger; font-style: italic">Before completing a
-submission form, use the Search feature above to determine if the rodent
+submission form, use the search feature above to determine if the rodent
 is already listed in the inventory.</span> <br>
                     If it is, and if you want to note
                     that it is also being housed by another investigator or to add
