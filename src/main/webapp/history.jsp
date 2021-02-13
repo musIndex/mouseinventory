@@ -39,9 +39,9 @@ head of the UCSF Animal Care Facility, who understood the value of the applicati
 <div>
 <h2>Mouse Inventory Resources</h2>
 <p>Dr. Martin created these presentations to explain the differences between mutant allele and transgene mice. </p>
-<a class="btn btn-success" href="https://mousespace.blob.core.windows.net/$web/MouseMutantsPrimer.pdf">DOWNLOAD MOUSE MUTANTS (pdf)</a>
+<a class="btn btn-success" href="https://msurodentdatabasefiles.s3.us-east-2.amazonaws.com/Mouse+Mutants+Explained.pdf">DOWNLOAD MOUSE MUTANTS (pdf)</a>
 <p>User Manual that describes Mouse Inventory features.</p>
-<a class="btn btn-success" href="https://mousespace.blob.core.windows.net/$web/UserManual.pdf">DOWNLOAD USER MANUAL(pdf)</a>
+<a class="btn btn-success" href="https://msurodentdatabasefiles.s3.us-east-2.amazonaws.com/Rodent+Database+User+Manual+2-13-21.pdf">DOWNLOAD USER MANUAL(pdf)</a>
  <h4>Logos Designed by Marta Dansa 2019</h4>
  <div class="search-box search-box-small">
       <img src="<%=imageRoot %>target_mice.png" class="woodmouse"/>
