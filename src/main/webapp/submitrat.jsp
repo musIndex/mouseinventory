@@ -130,7 +130,7 @@
     <div class = "category">
     <div class = "two_column_left">
   <h2>Submission #<%=submissionID %> (<%=newRat.getRatName()%>) was successful.</h2>
-  <p>We have received your request to add your rodent to the inventory.
+  <p>We have received your request to add your rodent to the MSU Rodent Database.
   It will be reviewed by the administrator.
   <br>
   <br>

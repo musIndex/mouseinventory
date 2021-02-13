@@ -451,7 +451,7 @@ public class DBConnect {
 
 		ArrayList<String> whereTerms = buildMouseQueryWhereTerms(status, searchTerms, mouseTypeID, geneRecordID, facilityID,
 				holderID, creOnly, endangeredOnly, edit,species);
-		System.out.println(whereTerms.toString());
+		//System.out.println(whereTerms.toString());
 		String additionalJoins = buildMouseQueryJoins(holderID, facilityID, searchTerms);
 
 		String constraints = buildMouseQueryConstraints(additionalJoins, whereTerms, orderBy, limit, offset);
@@ -479,7 +479,7 @@ public class DBConnect {
 
 	private static ArrayList<String> buildMouseQueryWhereTerms(String status, String searchTerms, int mouseTypeID,
 			int geneRecordID, int facilityID, int holderID, int creOnly, boolean endangeredOnly, boolean edit, boolean species) {
-		System.out.println("Species:" + species);
+		//System.out.println("Species:" + species);
 		ArrayList<String> whereTerms = new ArrayList<String>();
 		if (status.equalsIgnoreCase("all")) {
 			whereTerms.add("mouse.status<>'incomplete'");

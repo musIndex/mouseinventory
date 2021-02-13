@@ -54,7 +54,7 @@ categoryLabels.add("Did you know...?");
 <div class='site_container'>
   <div class='about_container'>
     <div class='about_welcome'>
-      <h1>Welcome to the MSU Rodent Inventory Database</h1>
+      <h1>Welcome to the MSU Rodent Database</h1>
       <div class='purpose'><%= DBConnect.loadSetting("home_page_text_purpose").value %></div>
     </div>
     <div class='about_banner'>
@@ -151,23 +151,10 @@ for(Setting.SettingCategory category : categories){
 <%--</div>--%>
 
 
-     <h3 id="details">Rodent Database Details and Resources</h3>
+     <h3 id="details">MSU Rodent Database Details and Resources</h3>
      <div class="accordion" id="accordion2">
       <div class="accordion-group">  
   <div class="panel-group" id="accordion">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title"> 
-        <a data-toggle="collapse" data-parent="#accordion" style="padding-left: 10px; font-size: 15px" href="#collapse1"> 
-        <%=DBConnect.loadSetting("home_page_text_how_mice_are_listed").label%></a>
-      </h4>
-    </div>
-    <div id="collapse1" class="panel-collapse collapse collapse" >
-      <div class="panel-body" style="padding-left: 10px" > 
-       <%=DBConnect.loadSetting("home_page_text_how_mice_are_listed").value%>
-      </div>
-    </div>
-  </div>
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
@@ -181,6 +168,19 @@ for(Setting.SettingCategory category : categories){
       </div>
     </div>
   </div>
+      <div class="panel panel-default">
+          <div class="panel-heading">
+              <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" style="padding-left: 10px; font-size: 15px" href="#collapse1">
+                      <%=DBConnect.loadSetting("home_page_text_how_mice_are_listed").label%></a>
+              </h4>
+          </div>
+          <div id="collapse1" class="panel-collapse collapse collapse" >
+              <div class="panel-body" style="padding-left: 10px" >
+                  <%=DBConnect.loadSetting("home_page_text_how_mice_are_listed").value%>
+              </div>
+          </div>
+      </div>
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
@@ -217,7 +217,7 @@ for(Setting.SettingCategory category : categories){
 <a href="mailto:<%=DBConnect.loadSetting("admin_info_email").value %>"> Contact Administrator</a>
 </div>
 <div>
-v3.2 MSU Rodent Database 2020<br/>
+v3.2 MSU Rodent Database 2021<br/>
 Developed by University of California, San Francisco (UCSF)
 </div>
 <div>
