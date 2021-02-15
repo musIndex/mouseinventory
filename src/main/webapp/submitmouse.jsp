@@ -122,17 +122,21 @@
 
 <% if (ok) { 
     HTMLUtilities.logRequest(request);
+    //The two lines below correspond to a class that is a work in progress - it needs security updates
+    //to be implemented.
+    //Sender Email = new Sender();
+    //Email.SendMail(submitterData.getEmail(),newMouse.getOfficialSymbol(),"Your mouse has been submitted!");
   %>
     <div class = "category">
         <div class = "two_column_left">
   <h2>Submission #<%=submissionID %> (<%=newMouse.getMouseName()%>) was successful.</h2>
-  <p>We have received your request to add your rodent to the inventory.
+  <p>We have received your request to add your rodent to the MSU Rodent Database.
   It will be reviewed by the administrator.
   <br>
   <br>
-  If you believe you have made an error in your submission, click on "submit feedback"
-  in the menu above and send an explanatory email to the Rodent Inventory Administrator.
-  <br>
+      If you believe you have made an error, click on "submit feedback"
+      or send an explanatory email to the Rodent Database Administrator.
+      <br>
   Thank you.
   </p>
             <br>
@@ -140,6 +144,7 @@
             <br>
             <br>
             <a href="submission.jsp"><button class = "btn btn-success">Submit another rodent</button></a>   <a href="about.jsp"><button class = "btn btn-info">Return to homepage</button></a>
+            <a href="contact.jsp"><button class = "btn btn-primary">Submit Feedback</button></a>
             <br/>
 
         </div>

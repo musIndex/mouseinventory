@@ -10,7 +10,7 @@
 <%
   String errorsMessage = "";
   String savedMessage = "";
-
+  newMouse.setIs_rat("0");
   newMouse.setMtaRequired(request.getParameter("mtaRequired"));
   newMouse.setCryopreserved(request.getParameter("cryopreserved"));
 
@@ -43,7 +43,7 @@
 
 <%=getPageHeader("<script language=\"javascript\" type=\"text/javascript\">document.onkeypress = checkCR;</script>\r\n",
           true, false, "onload=\"setFocus('mouseDetails', 'mouseName')\"")%>
-<%=getNavBar("submitforminit.jsp", false)%>
+<%=HTMLGeneration.getNavBar("submission.jsp", false, false)%>
 
 
 <script>

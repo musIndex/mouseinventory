@@ -15,6 +15,15 @@ public class RatSubmission {
   String holderFacility;
   String otherHolderFacility;
   String isPublished;
+  public String getIs_rat() {
+    return is_rat;
+  }
+
+  public void setIs_rat(String is_rat) {
+    this.is_rat = is_rat;
+  }
+
+  String is_rat;
 
   //Mutant Allele fields
   String MAModificationType;
@@ -878,6 +887,11 @@ public class RatSubmission {
     props.setProperty("Email",submitterData.getEmail());
 
     //all types
+    props.setProperty("is_rat", newRat.getIs_rat());
+    if (props.get("is_rat").equals("1")){
+      newRat.setIs_rat("1");
+    }
+    //System.out.println("Is rat? " + props.getProperty("is_rat"));
     props.setProperty("RatType", newRat.getRatType());
     if(newRat.isMA() || newRat.isTG())
     {

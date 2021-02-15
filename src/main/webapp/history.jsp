@@ -6,10 +6,11 @@
 <%@page import="edu.ucsf.mousedatabase.objects.*"%>
 <%@page contentType="text/html;charset=UTF-8" language="java"%>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*"%>
+<%@ page import="edu.ucsf.mousedatabase.HTMLGeneration" %>
 
-    
+
 <%=getPageHeader(null, false, false, "onload=\"setFocus('quickSearchForm', 'searchterms')\"")%>
-<%=getNavBar("history.jsp", false)%>
+<%=HTMLGeneration.getNavBar("history.jsp", false)%>
 
 <style type="text/css">
 </style>
@@ -37,11 +38,10 @@ head of the UCSF Animal Care Facility, who understood the value of the applicati
 <a href="https://github.com/musIndex/mouseinventory/issues">Mouse Inventory Github Repository</a>
 <div>
 <h2>Mouse Inventory Resources</h2>
-<p>Dr. Martin created these presentations to explain the differences between mutant allele and transgene mice, and how to find these mutations for your gene of interest. </p>
-<a class="btn btn-success" href="https://mousespace.blob.core.windows.net/$web/MouseMutantsPrimer.pdf">DOWNLOAD MOUSE MUTANTS (pdf)</a>
-<a class="btn btn-success" href="https://mousespace.blob.core.windows.net/$web/HaveGeneWantMouse.pdf">DOWNLOAD MOUSE GENE (pdf)</a>
+<p>Dr. Martin created these presentations to explain the differences between mutant allele and transgene mice. </p>
+<a class="btn btn-success" href="https://msurodentdatabasefiles.s3.us-east-2.amazonaws.com/Mouse+Mutants+Explained.pdf">DOWNLOAD MOUSE MUTANTS (pdf)</a>
 <p>User Manual that describes Mouse Inventory features.</p>
-<a class="btn btn-success" href="https://mousespace.blob.core.windows.net/$web/UserManual.pdf">DOWNLOAD USER MANUAL(pdf)</a>
+<a class="btn btn-success" href="https://msurodentdatabasefiles.s3.us-east-2.amazonaws.com/Rodent+Database+User+Manual+2-13-21.pdf">DOWNLOAD USER MANUAL(pdf)</a>
  <h4>Logos Designed by Marta Dansa 2019</h4>
  <div class="search-box search-box-small">
       <img src="<%=imageRoot %>target_mice.png" class="woodmouse"/>

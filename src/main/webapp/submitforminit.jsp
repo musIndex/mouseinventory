@@ -4,7 +4,7 @@
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%=HTMLGeneration.getPageHeader(null, true,false,"onload=\"setFocus('MouseForm', 'firstName')\"") %>
-<%=HTMLGeneration.getNavBar("submitforminit.jsp", false) %>
+<%=HTMLGeneration.getNavBar("submission.jsp", false, false)%>
 
 <jsp:useBean id="newMouse" class="edu.ucsf.mousedatabase.beans.MouseSubmission" scope="session"></jsp:useBean>
 <jsp:useBean id="submitterData" class="edu.ucsf.mousedatabase.beans.UserData" scope="session"></jsp:useBean>
@@ -52,7 +52,7 @@ to as a &quot;rodent&quot;, irrespective of whether the allele or transgene
 is maintained in combination with other mutant alleles or transgenes.
 </p>
 <p class="header3"><span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic">Before completing a
-submission form, use the Search feature above to determine if the rodent
+submission form, use the search feature above to determine if the rodent
 is already listed in the inventory.</span> If it is, and if you want to note
 that it is also being housed by another investigator or to add
 information about the rodent, <span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic">do not</span> use this

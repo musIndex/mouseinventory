@@ -21,6 +21,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import edu.ucsf.mousedatabase.DBConnect;
+import edu.ucsf.mousedatabase.HTMLGeneration;
 import edu.ucsf.mousedatabase.HTMLUtilities;
 import edu.ucsf.mousedatabase.Log;
 import edu.ucsf.mousedatabase.objects.Facility;
@@ -92,6 +93,10 @@ public class PdfServlet extends HttpServlet {
     int mouseTypeID = stringToInt(request.getParameter("mousetype_id"));
     int creOnly = stringToInt(request.getParameter("creonly"));
     int facilityID = stringToInt(request.getParameter("facility_id"));
+    int is_rat = stringToInt(request.getParameter("is_rat"));
+    boolean species = false;
+    if (is_rat == 1)
+      species = true;
     int offset = -1;
     int limit = -1;
 
@@ -118,7 +123,7 @@ public class PdfServlet extends HttpServlet {
     Holder holder = DBConnect.getHolder(holderID);
       Gene gene = DBConnect.getGene(geneID);
       Facility facility = DBConnect.getFacility(facilityID);
-      ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms, false, creOnly, facilityID,limit,offset);
+      ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms, false, creOnly, facilityID,limit,offset,false,species);
 
     ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
     String mouseTypeStr = "Listing";
@@ -283,7 +288,12 @@ public class PdfServlet extends HttpServlet {
         p.add(phr(officialName));
       }
       p.add(NL);
-      p.add(phr("MGI: " + repositoryCatalogNumber));
+      if (mouse.isRat()){
+        p.add(phr("RGD: " + repositoryCatalogNumber));
+      }
+      else{
+        p.add(phr("MGI: " + repositoryCatalogNumber));
+      }
       if (mouse.getPubmedIDs() == null || mouse.getPubmedIDs().isEmpty()) {
         p.add(NL);
         p.add(phr("Unpublished"));

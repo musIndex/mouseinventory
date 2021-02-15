@@ -20,8 +20,22 @@ public class MouseRecord {
   public boolean isRat() {
     return isRat;
   }
+  public String isRat_string(){
+    if (isRat){
+  return "1";
+    }
+    else{
+      return "0";
+    }
+  }
   public void setRat(boolean rat) {
     isRat = rat;
+  }
+  public void setRat(String rat) {
+    isRat = rat.equals("true");
+  }
+  public void setRat(int rat) {
+    isRat = (rat == 1);
   }
 
   String mouseID;
@@ -437,6 +451,7 @@ public class MouseRecord {
         props.setProperty("Tel",submitterData.getTelephoneNumber());
 
         //all types
+        props.setProperty("is_rat", newMouse.isRat_string());
         props.setProperty("MouseType", newMouse.getMouseType());
     if(newMouse.isMA() || newMouse.isTG())
     {

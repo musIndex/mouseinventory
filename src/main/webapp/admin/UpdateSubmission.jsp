@@ -10,6 +10,7 @@
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%@page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
+<%@ page import="java.sql.Array" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
 <%@ include file='SendMailForm.jspf' %>
@@ -83,9 +84,27 @@ HTMLUtilities.logRequest(request);
         updatedRecord.setStatus("live");
         if(mouseID < 0)
         {
+
+
           mouseID = DBConnect.insertMouseRecord(updatedRecord);
           DBConnect.updateMouseSearchTable(Integer.toString(mouseID)); //redundant, but adding in case this solves odd bug
              DBConnect.setSubmissionID(mouseID, submissionID);
+          ArrayList<SubmittedMouse> props= new ArrayList<SubmittedMouse>();
+          props = DBConnect.getMouseSubmission(submissionID);
+          //System.out.println(props.toString());
+          SubmittedMouse sub = props.get(0);
+          if (sub.getIs_rat().equalsIgnoreCase("1"))
+            //SubmittedRat rat = DBConnect.ge
+            updatedRecord.setRat(1);
+            updatedRecord.setRepositoryCatalogNumber(sub.getMouseMGIID());
+            updatedRecord.setSource(sub.getOfficialSymbol());
+            updatedRecord.setOfficialMouseName(sub.getMouseName());
+            updatedRecord.setAdminComment(sub.getAdminComment());
+            updatedRecord.setModificationType(sub.getTransgenicType());
+            updatedRecord.setExpressedSequence(sub.getTGExpressedSequence());
+            updatedRecord.setRegulatoryElement(sub.getTGRegulatoryElement());
+
+          DBConnect.updateMouseRecord(updatedRecord);
         }
         else {
           DBConnect.updateMouseRecord(updatedRecord);

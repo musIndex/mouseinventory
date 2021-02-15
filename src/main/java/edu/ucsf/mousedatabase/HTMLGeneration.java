@@ -181,8 +181,11 @@ public class HTMLGeneration {
     table.append("<div id=\"navigationLinksContainer\" class='clearfix'>");
     table.append("<div id='navigationLinks' class='site_container'>");
     table.append("<ul class=\"navLinkUL\">");
-    table.append(addNavLink("Search", "search.jsp", null,
-        currentPageFilename, false,"nav-search-link"));
+    //Navigation links for the header bar
+//    table.append(addNavLink("Search", "search.jsp", null,
+//        currentPageFilename, false,"nav-search-link"));
+    table.append(addNavLink("Submit Rodents", "submission.jsp", null,
+            currentPageFilename, false));
     table.append(addNavLink("Rodent Records", "MouseReport.jsp", null,
         currentPageFilename, false,"nav-mouselist"));
     table.append(addNavLink("Gene List", "GeneReport.jsp", null,
@@ -193,8 +196,6 @@ public class HTMLGeneration {
         currentPageFilename, false));
     // table.append(addNavLink("Endangered Mice", "EndangeredReport.jsp",
     // null,currentPageFilename,false));
-    table.append(addNavLink("Submit Rodents", "submission.jsp", null,
-        currentPageFilename, false));
     table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false));
     if (isAdminPage && showAdminControls){
       table.append(addNavLink("Log out", "logout.jsp", null,
@@ -238,6 +239,161 @@ public class HTMLGeneration {
     return table.toString();
   }
 
+  /*public static String getLoggedInNavBar(String currentPageFilename,
+                                 boolean isAdminPage, boolean showAdminControls) {
+    StringBuffer table = new StringBuffer();
+    table.append("<div id=\"navBarContainer\">");
+
+    // Page header
+    table.append("<div id=\"pageHeaderContainer\" class='clearfix'>");
+    table.append("<div class='site_container'>");
+    table.append("<div id=\"pageTitleContainer\">");
+    table.append("<div>"); //pagetitle
+
+    table.append("<img src=/img/logo_mouse_database_MSU.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>");
+    table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + DBConnect.loadSetting("general_site_name").value + "</a></span>");
+
+
+    table.append("</div>");
+
+    table.append("<div>"); // About, faq, contact links
+    table.append("<span class=\"titleSubText\">");
+
+      table.append("<form name=home action=loggedInServlet method=post style=\"display: inline;\">"
+              + "<a href=\"javascript: submitformhome()\">Home</a>"
+              +"<input type=\"hidden\" name=\"page\" value=go_home>"
+              + "</form>");
+      table.append("<form name=submitfeedback action=loggedInServlet method=post style=\"display: inline;\">"
+              + "<a href=\"javascript: submitformfeedback()\">Submit Feedback</a>"
+              +"<input type=\"hidden\" name=\"page\" value=contact>"
+              + "</form>");
+      table.append("<form name=logout action=loggedInServlet method=post style=\"display: inline;\">"
+              + "<a href=\"javascript: submitlogout()\">Logout</a>"
+              +"<input type=\"hidden\" name=\"page\" value=logout>"
+              + "</form>");
+
+
+    table.append("</span>");
+
+    table.append("</div>"); // About, faq, contact links
+    table.append("</div>"); //pagetitle
+    // Quick Search bar
+    if (currentPageFilename == null || !currentPageFilename.equals("search.jsp"))
+    {
+      table.append("<div id=\"quickSearchContainer\">");
+      String action = isAdminPage ? (adminRoot + "AdminSearch.jsp") : (siteRoot + "search.jsp");
+      table.append("<form id=\"quickSearchForm\"action=\"" + action + "\" method=\"get\">\r\n");
+      table.append("<input type=\"text\" class=\"input-medium search-query\"  name=\"searchterms\" >\r\n");
+      table.append("<input type='hidden' name='search-source' value='quicksearch:" + currentPageFilename + "'>\r\n");
+      table.append("<input id='quicksearchbutton' class=\"btn search-query\" type=\"submit\" value=\"" +
+              (isAdminPage ? "Admin Quick" : "Quick") + " Search\">\r\n");
+      table.append("<script type='text/javascript'>\r\n$('input[name=searchterms]').focus()\r\n");
+      table.append("$(\"#quicksearchbutton\").click(function(){ \r\n");
+      table.append("window.location.href = '" + action + "#' + $(\"#quickSearchForm\").serialize();\r\nreturn false; });");
+      table.append("</script>\r\n");
+      table.append("</form>");
+
+      table.append("</div>");
+
+    }
+    table.append("<a href=\"" + siteRoot + "history.jsp\">"
+            + "<img src=/img/UCSF_logo.png title='History of MouseDB' style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year' >");
+
+
+
+    table.append("</div>"); //pagetitlecontainer
+    table.append("</div>"); //pageheader
+    table.append("</div>"); //pageheadercontainer
+    // Navigation Bar
+    table.append("<div id=\"navigationLinksContainer\" class='clearfix'>");
+    table.append("<div id='navigationLinks' class='site_container'>");
+    table.append("<ul class=\"navLinkUL\">");
+    //Navigation links for the header bar
+//    table.append(addNavLink("Search", "search.jsp", null,
+//        currentPageFilename, false,"nav-search-link"));
+    table.append(addLoggedInNavLink("Registration", "application.jsp", null,
+            currentPageFilename, false,""));
+    table.append(addLoggedInNavLink("Rodent Records", "MouseReport.jsp", null,
+            currentPageFilename, false,"nav-mouselist"));
+    table.append(addLoggedInNavLink("Gene List", "GeneReport.jsp", null,
+            currentPageFilename, false,""));
+    table.append(addLoggedInNavLink("Holder List", "HolderReport.jsp", null,
+            currentPageFilename, false,""));
+    table.append(addLoggedInNavLink("Facility List", "FacilityReport.jsp", null,
+            currentPageFilename, false,""));
+    // table.append(addNavLink("Endangered Mice", "EndangeredReport.jsp",
+    // null,currentPageFilename,false));
+    table.append(addLoggedInNavLink("Submit Rodents", "submission.jsp", null,
+            currentPageFilename, false,""));
+    table.append(addLoggedInNavLink("About", "aboutTab.jsp", null, currentPageFilename, false,""));
+    if (isAdminPage && showAdminControls){
+      table.append(addNavLink("Log out", "logout.jsp", null,
+              currentPageFilename, false,"pull-right small"));
+    }
+    else {
+      table.append(addNavLink("Admin use only", "admin.jsp", null,
+              isAdminPage ? "admin.jsp" : currentPageFilename, true, "pull-right small"));
+    }
+
+    table.append("</ul>");
+    table.append("</div>"); //navigationlinks
+    table.append("</div>"); //navigationlinkscontainer
+
+    // Admin Row
+    if (isAdminPage && showAdminControls) {
+      table.append("<div id=\"adminLinksContainer\" class='clearfix'>");
+      table.append("<div id='adminLinks' class='site_container'>");
+      table.append("<ul class=\"navLinkUL\">");
+      table.append(addNavLink("Admin Home", "admin.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Registration", "applicationsList.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Change Requests", "ManageChangeRequests.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Submissions", "ListSubmissions.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Admin Search", "AdminSearch.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Edit Records", "EditMouseSelection.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Edit Holders", "EditHolderChooser.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Edit Facilities","EditFacilityChooser.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Data Upload", "ImportReports.jsp", null,  currentPageFilename, true));
+      table.append(addNavLink("Reports", "Reports.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Notes", "ManageAdminNotes.jsp", null, currentPageFilename, true));
+      table.append(addNavLink("Options", "Options.jsp", null, currentPageFilename, true));
+      table.append("</ul>");
+      table.append("</div>"); //adminlinks
+      table.append("</div>"); //adminlinkscontainer
+    }
+
+    table.append("</div>"); //navbarcontainer
+    Setting alert = DBConnect.loadSetting("general_site_alert");
+    if (alert.value != null && !alert.value.trim().isEmpty()) {
+      table.append("<div class='site_container'><div class='alert alert-error' style='margin-top: 15px'><b>" + alert.value + "</b></div></div>");
+    }
+    return table.toString();
+  }
+
+  private static String addLoggedInNavLink(String targetNiceName,
+                                   String targetPageFilename, String targetPageArguments,
+                                   String currentPageFilename, boolean isAdminPage, String cssClass) {
+
+    cssClass += targetPageFilename.equals(currentPageFilename) ? " current" : "";
+    cssClass += " NavLinkItem";
+
+    String url = (isAdminPage ? adminRoot : siteRoot) + targetPageFilename;
+    if (targetPageArguments != null) {
+      url += targetPageArguments;
+    }
+    
+    String strippedNiceName = targetNiceName.toLowerCase().replaceAll(" ","");
+    if (strippedNiceName.equals("registration")){
+      strippedNiceName="mouseregister";
+    }
+    //System.out.println(strippedNiceName);
+    return "<form name=\""+strippedNiceName+"\"method=post action=loggedInServlet style=\"display: inline;\">"+
+            "<li class=\"" + cssClass + "\">"
+            +"<input type=\"hidden\" name=\"page\" value=\"loggedIn_" + targetNiceName+"\">"
+            +"<a class=\"navBarAnchor\" href=\"javascript: submitform"+strippedNiceName+"()\">"+targetNiceName
+            +"</a></li>\r\n"
+            +"</form>";
+
+  }*/
   private static String addNavLink(String targetNiceName,
       String targetPageFilename, String targetPageArguments,
       String currentPageFilename, boolean isAdminPage) {
@@ -259,6 +415,77 @@ public class HTMLGeneration {
         + "\"><a class=\"navBarAnchor\" href=\"" + url + "\">"
         + targetNiceName + "</a></li>\r\n";
 
+  }
+
+  //Returns the HTML formatting for the applicant records table
+  public static String getApplicantTable(){
+    //First, we get all applicants based upon id
+    ArrayList<Applicant> list_of_applicants = DBConnect.getAllApplicants("id");
+    //Stylistic settings
+    String style =
+            "<style>" +
+            "table, td, th {border: 1px solid black;}" +
+            "table {width: 100%; border-collapse: collapse;}" +
+                    "td{vertical-align:middle;}"+
+                    "tr:nth-child(even) {background-color: #FFFFFF;}"+
+                    "tr:nth-child(odd) {background-color: #f3f3f3ff;}"+
+                    "tr:nth-child(1) {background-color: #d9d9d9ff;}"+
+                    "</style>";
+
+    //Break the page into one table with rows for each applicant
+    //and columns for each different piece of information
+
+    //This is the top row
+    String formatting = "<table>"+"<tr>" +
+            "<td>ID</td>" +
+            "<td>First name</td>" +
+            "<td>Last name</td>" +
+            "<td>Email</td>" +
+            "<td>NetID</td>" +
+            "<td>AUF/Protocol Number</td>" +
+            "<td>Position</td>" +
+            "<td>Status</td>" +
+            "<td>Change approval</td>" +
+            "</tr>";
+
+    //Iterate over each user, and add them into a new row
+    for (Applicant user : list_of_applicants){
+      formatting += "<tr>";
+      formatting += "<td>"+user.getId()+"</td>";
+      formatting += "<td>"+user.getFirst_name()+"</td>";
+      formatting += "<td>"+user.getLast_name()+"</td>";
+      formatting += "<td>"+user.getEmail()+"</td>";
+      formatting += "<td>"+user.getNetID()+"</td>";
+      formatting += "<td>"+user.getAUF()+"</td>";
+      formatting += "<td>"+user.getPosition()+"</td>";
+      formatting += "<td>"+user.getApproved()+"</td>";
+
+      //To make the change approval status button work, we need to create a
+      // new form associated with each applicant tied into the last cell
+      formatting += "<td>"+"<form method=\"post\" action=\"statusServlet\">";
+
+      //Pass all the data as hidden inputs. Basically copying what we did above,
+      //but hidden from the user
+      formatting += "<input id=identity name=identity type=hidden value="+user.getId()+">";
+      formatting += "<input id=first_name name=first_name type=hidden value="+user.getFirst_name()+">";
+      formatting += "<input id=last_name name=last_name type=hidden value="+user.getLast_name()+">";
+      formatting += "<input id=email name=email type=hidden value="+user.getEmail()+">";
+      formatting += "<input id=net_id name=net_id type=hidden value="+user.getNetID()+">";
+      formatting += "<input id=auf name=auf type=hidden value="+user.getAUF()+">";
+      formatting += "<input id=position name=position type=hidden value="+user.getPosition()+">";
+      formatting += "<input id=approved name=approved type=hidden value="+user.getApproved()+">";
+
+      //Create the submit button
+      formatting += "<input type=\"submit\" value=\"Change Access\">";
+      //End the form
+      formatting += "</form></td></tr>";
+
+
+    }
+    //End the table
+    formatting +="</table>";
+    //Return the formatted page
+    return style+formatting;
   }
 
   public static String getNewMouseForm(MouseRecord r) {
@@ -463,6 +690,7 @@ public class HTMLGeneration {
     //-----------------------------------------------------------------------------------------------------------------
     if (r.isRat()){
       String mgiID = r.getRepositoryCatalogNumber();
+
       String rgdID = mgiID;
       field = getTextInput(
               "geneRGDID",
@@ -503,7 +731,7 @@ public class HTMLGeneration {
 
         field += "<span class='" + validationStyle
                 + "' id='geneRGDIDValidation'>" + resultString
-                + " (RGD:" + geneURL + ")</span>";
+                + " (RGD:" + r.getGeneID() + ")</span>";
 
       } else {
         field += "<span id='geneRGDIDValidation'></span>";
@@ -571,9 +799,17 @@ public class HTMLGeneration {
               resultString = geneResult.getErrorString();
             }
           }
-          field += "<span class='" + validationStyle
-                  + "' id='geneMGIIDValidation'>" + resultString
-                  + " (MGI:" + geneURL + ")</span>";
+          if (r.isRat()){
+            field += "<span class='" + validationStyle
+                    + "' id='geneRGDIDValidation'>" + resultString
+                    + " (RGD:" + formatRGD(r.getGeneID()) + ")</span>";
+          }
+          else{
+            field += "<span class='" + validationStyle
+                    + "' id='geneMGIIDValidation'>" + resultString
+                    + " (MGI:" + geneURL + ")</span>";
+          }
+
         } else {
           field += "<span id='geneMGIIDValidation'></span>";
         }
@@ -688,10 +924,16 @@ public class HTMLGeneration {
               resultString = mouseResult.getErrorString();
             }
           }
-          field += "<span class='" + validationStyle
-                  + "' id='repositoryCatalogNumberValidation'>"
-                  + replaceBrackets(resultString) + " (MGI:" + geneURL
-                  + ")</span>";
+          if (r.isRat()){
+            field += "<span class='" + validationStyle
+                    + "' id='geneRGDIDValidation'>" + resultString
+                    + " (RGD:" + formatRGD(r.getGeneID()) + ")</span>";
+          }
+          else{
+            field += "<span class='" + validationStyle
+                    + "' id='geneMGIIDValidation'>" + resultString
+                    + " (MGI:" + geneURL + ")</span>";
+          }
 
         } else {
           field += "<span id='repositoryCatalogNumberValidation'></span>";
@@ -1136,11 +1378,19 @@ public class HTMLGeneration {
               .equalsIgnoreCase("mouse gene")
               || nextSubmission
                   .getTGExpressedSequence()
-                  .equalsIgnoreCase("Mouse Gene (unmodified)")) {
+                  .equalsIgnoreCase("Rodent Gene (unmodified)")) {
             table.append("<dt><b>Expressed Sequence:</b></dt>\r\n");
-            table.append("<dt>MGI: "
-                + formatMGI(nextSubmission.getTGMouseGene())
-                + "</dt>\r\n");
+            if (nextSubmission.getIs_rat().equalsIgnoreCase("1")){
+              table.append("<dt>RGD: "
+                      + formatRGD(""+nextSubmission.getMAMgiGeneID())
+                      + "</dt>\r\n");
+            }
+            else{
+              table.append("<dt>MGI: "
+                      + formatMGI(nextSubmission.getTGMouseGene())
+                      + "</dt>\r\n");
+            }
+
             if (nextSubmission.getTGMouseGeneValid() != null
                 && nextSubmission.getTGMouseGeneValid()
                     .equalsIgnoreCase("true")) {
@@ -1161,7 +1411,7 @@ public class HTMLGeneration {
               .equalsIgnoreCase("other")
               || nextSubmission.getTGExpressedSequence()
                   .equalsIgnoreCase(
-                      "Modified mouse gene or Other")) {
+                      "Modified rodent gene or Other")) {
             table.append("<dt><b>Expressed Sequence:</b>\r\n");
             table.append(nextSubmission.getTGOther() + "</dt>\r\n");
           } else {
@@ -1186,9 +1436,16 @@ public class HTMLGeneration {
           }
         } else if (nextSubmission.isMA()) {
           table.append("</dt>\r\n");
-          table.append("<dt>MGI:"
-              + formatMGI(nextSubmission.getMAMgiGeneID())
-              + "</dt>"); // formatGene(nextSubmission.getGeneSymbol(),
+          if (nextSubmission.getIs_rat().equalsIgnoreCase("1")){
+            table.append("<dt>RGD: "
+                    + formatRGD(""+nextSubmission.getMouseMGIID())
+                    + "</dt>\r\n");
+          }
+          else{
+            table.append("<dt>MGI: "
+                    + formatMGI(nextSubmission.getTGMouseGene())
+                    + "</dt>\r\n");
+          } // formatGene(nextSubmission.getGeneSymbol(),
           if (nextSubmission.getMAMgiGeneIDValid() != null && nextSubmission.getMAMgiGeneIDValid() .equalsIgnoreCase("true")) {
             table.append("<dt>"
                 + nextSubmission .getMAMgiGeneIDValidationString() + "</dt>\r\n");
@@ -1306,7 +1563,12 @@ public class HTMLGeneration {
             || repositoryCatalogNumber.equals("null")) {
           repositoryCatalogNumber = "none";
         } else {
-          repositoryCatalogNumber = formatMGI(repositoryCatalogNumber);
+          if (nextSubmission.getIs_rat().equals("1")){
+            repositoryCatalogNumber = formatRGD(repositoryCatalogNumber);
+          }
+          else{
+            repositoryCatalogNumber = formatMGI(repositoryCatalogNumber);
+          }
         }
 
         table.append("<dt>Official Symbol: " + source + "</dt>\r\n");
@@ -1316,9 +1578,21 @@ public class HTMLGeneration {
           table.append(nextSubmission.getOfficialMouseName());
           table.append(")</dt>\r\n");
         }
-        table.append("<dt>MGI: " + repositoryCatalogNumber
-            + "</dt>\r\n");
-        if (nextSubmission.getPMID() == null) {
+        if (nextSubmission.getIs_rat().equalsIgnoreCase("1")){
+          table.append("<dt>RGD: "
+                  + formatRGD(""+nextSubmission.getMouseMGIID())
+                  + "</dt>\r\n");
+        }
+        else{
+          table.append("<dt>MGI: "
+                  + formatMGI(nextSubmission.getTGMouseGene())
+                  + "</dt>\r\n");
+        }
+        if (nextSubmission.getIs_rat().equals("1") && nextSubmission.isPublished()){
+          // unpublished mice
+          table.append("<dt>Published</dt>\r\n");
+        }
+        else if (nextSubmission.getPMID() == null) {
           // unpublished mice
           table.append("<dt>Unpublished</dt>\r\n");
         } else {
@@ -1596,7 +1870,13 @@ public class HTMLGeneration {
             || repositoryCatalogNumber.equals("null")) {
           repositoryCatalogNumber = "none";
         } else {
-          repositoryCatalogNumber = formatMGI(repositoryCatalogNumber);
+          if (nextRecord.isRat()){
+            repositoryCatalogNumber = formatRGD(repositoryCatalogNumber);
+          }
+          else{
+            repositoryCatalogNumber = formatMGI(repositoryCatalogNumber);
+          }
+
         }
 
         table.append("<dt><span class='lbl'> Symbol:</span> " + source + "</dt>\r\n");
@@ -1606,9 +1886,36 @@ public class HTMLGeneration {
           table.append(officialName);
           table.append(")</dt>\r\n");
         }
-        table.append("<dt><span class='lbl'>MGI:</span> " + repositoryCatalogNumber
-            + "</dt>\r\n");
-        if (nextRecord.getPubmedIDs() == null
+        if (nextRecord.isRat()){
+          table.append("<dt>RGD: "
+                  + formatRGD(""+repositoryCatalogNumber)
+                  + "</dt>\r\n");
+        }
+        else{
+          table.append("<dt>MGI: "
+                  + repositoryCatalogNumber
+                  + "</dt>\r\n");
+        }
+        //For rats ------------------------------------------
+        ArrayList<SubmittedMouse> props= new ArrayList<SubmittedMouse>();
+        boolean is_null = true;
+        boolean is_published = false;
+        SubmittedMouse sub = null;
+        if (nextRecord.getSubmittedMouseID() != null){
+          props = DBConnect.getMouseSubmission(Integer.parseInt(nextRecord.getSubmittedMouseID()));
+        }
+        if (!props.isEmpty()){
+          sub = props.get(0);
+          is_null = (sub == null);
+          is_published = sub.isPublished();
+        }
+        //--------------------------------
+
+        if (!is_null && is_published && sub.getIs_rat() != null && sub.getIs_rat().equals("1")){
+          // unpublished mice
+          table.append("<dt>Published</dt>\r\n");
+        }
+        else if (nextRecord.getPubmedIDs() == null
             || nextRecord.getPubmedIDs().isEmpty()) {
           // unpublished mice
           table.append("<dt>Unpublished</dt>\r\n");
@@ -2036,7 +2343,6 @@ public class HTMLGeneration {
     table.append("<td style='min-width:100px'>\r\n");
     table.append("Records");
     table.append("</td>\r\n");
-    table.append("<td>**Need help using the database?</td>\r\n");
     if (edit) {
       table.append("<td style='min-width:60px'\">\r\n");
       table.append("Code (for data uploads)");
@@ -2073,32 +2379,14 @@ public class HTMLGeneration {
           + facility.getFacilityDescription());
 
       table.append("</td><td style='min-width:100px'>");
-      table.append("<span style=\"position:relative;left:5px\"><a href=\""
+      table.append("<span style=\"position:relative;left:5px\">"
+              + "<a href=\""
           + siteRoot
           + "MouseReport.jsp?facility_id="
           + facility.getFacilityID()
           + "\">"
           + facility.getRecordCount() + " records</a></span>\r\n");
       table.append("</td>\r\n");
-      table.append("<td>");
-      table.append("<dl>");
-      for (String expert : emptyIfNull(facility.getLocalExperts()).split("\\n")) {
-        if (expert == null || expert.isEmpty() || expert.trim().isEmpty()) {
-          continue;
-        }
-        int spaceLocation = expert.indexOf(" ");
-        if (spaceLocation <= 0 || (expert.indexOf("@") < 0 && expert.indexOf(".") < 0)) {
-          table.append("<dt>" + expert + "</dt>");
-          continue;
-        }
-        String email = expert.substring(0, spaceLocation);
-        String name = expert.substring(spaceLocation).trim();
-
-        table.append("<dt>" + name + ": " + formatEmail(email, email, "Requesting help using the MSU Rodent Database") + "</dt>");
-      }
-      table.append("</dl>");
-
-      table.append("</td>");
       if (edit) {
         table.append("<td style='min-width:60px'>" + HTMLGeneration.emptyIfNull(facility.getFacilityCode()) + "</td>");
         table.append("<td style='min-width:60px'><a href=\"EditFacilityForm.jsp?facilityID="
@@ -2281,8 +2569,10 @@ public class HTMLGeneration {
         covertList = "<br>(" + holder.getCovertMouseCount() + " covert)";
         count += holder.getCovertMouseCount();
       }
-      table.append("<a href=\"" + href + "?holder_id=" + holder.getHolderID()
-          + "&mousetype_id=-1\">" + (edit ? "edit " : "") + count + " records</a>" + covertList + "");
+      table.append(
+              "<a href=\"" + href + "?holder_id=" + holder.getHolderID()
+          + "&mousetype_id=-1\">" + (edit ? "edit " : "") +
+              count + " records</a>" + covertList + "");
       table.append("</td>\r\n");
       if (edit) {
         table.append("<td><a href=\"EditHolderForm.jsp?holderID="
@@ -2867,15 +3157,18 @@ public class HTMLGeneration {
   public static String getMouseTypeSelectionLinks(int checkedMouseTypeID,
       String checkedOrderBy, int holderID, int geneRecordID,
       ArrayList<MouseType> mouseTypes, String status, String searchTerms,
-      int creOnly, int facilityID) {
+      int creOnly, int facilityID, boolean species) {
     StringBuffer buf = new StringBuffer();
     buf.append("<div class='mousetype_selection_links'>");
     buf.append("<ul>");
 
+    buf.append("<li>Rodent species: ");
+    buf.append(genSelect("species",new String[]{"false","true",}, new String[]{"Mouse", "Rat"},species,null));
+    buf.append("</li>");
+
     buf.append("<li>Sort by: ");
     buf.append(genSelect("orderby",new String[]{"mouse.name","mouse.id","mouse.id desc"},
                         new String[]{"Rodent Name", "Record #", "Record #(reverse)"},checkedOrderBy,null));
-
     buf.append("</li>\n");
     buf.append("<li>Category: ");
     String[] mouseTypeIds = new String[mouseTypes.size() + 1];

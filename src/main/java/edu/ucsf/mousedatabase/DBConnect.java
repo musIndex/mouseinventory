@@ -25,6 +25,7 @@ import edu.ucsf.mousedatabase.dataimport.ImportHandler;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler.ImportObjectType;
 import edu.ucsf.mousedatabase.objects.*;
 import edu.ucsf.mousedatabase.objects.ChangeRequest.Action;
+import edu.ucsf.mousedatabase.servlets.ApplicantServlet;
 import edu.ucsf.mousedatabase.servlets.ReportServlet;
 
 import org.apache.commons.lang3.StringUtils;
@@ -42,7 +43,8 @@ public class DBConnect {
 			+ "gene.symbol as 'gene symbol', gene.fullname as 'gene name',cryopreserved,"
 			+ "status,endangered,submittedmouse_id, targetgenes.mgi as 'target gene MGI',"
 			+ "targetgenes.symbol as 'target gene symbol', targetgenes.fullname as 'target gene name', official_name,"
-			+ "admin_comment\r\n";
+			+ "admin_comment,"
+			+ "is_rat\r\n";
 
 	private static final String mouseRecordTableJoins = "   left join mousetype on mouse.mousetype_id=mousetype.id\r\n"
 			+ "  left join gene on mouse.gene_id=gene.id\r\n"
@@ -332,6 +334,19 @@ public class DBConnect {
 		return new MouseRecordResultGetter().Get(buildMouseQuery(mouseRecordQueryHeader, constraints));
 	}
 
+	public static ArrayList<MouseRecord> getMousePropertiesFromSubmission(int submissionID) {
+		ArrayList<String> whereTerms = new ArrayList<String>();
+		whereTerms.add("mouse.submittedmouse_id=" + submissionID);
+		String constraints = buildMouseQueryConstraints(null, whereTerms, null, -1, -1);
+		return new MouseRecordResultGetter().Get(buildMouseQuery(mouseRecordQueryHeader, constraints));
+	}
+	public static ArrayList<MouseRecord> getSubmittedMousePropertiesFromSubmission(int submissionID) {
+		ArrayList<String> whereTerms = new ArrayList<String>();
+		whereTerms.add("id=" + submissionID);
+		String constraints = buildMouseQueryConstraints(null, whereTerms, null, -1, -1);
+		return new MouseRecordResultGetter().Get(buildMouseQuery(mouseSubmissionQueryHeader, constraints));
+	}
+
 	public static ArrayList<MouseRecord> getMouseRecords(int mouseTypeID, String orderBy, int holderID, int geneRecordID,
 			String status) {
 		return getMouseRecords(mouseTypeID, orderBy, holderID, geneRecordID, status, null);
@@ -362,7 +377,7 @@ public class DBConnect {
 	}
 
 	public static ArrayList<MouseRecord> getCovertMice(String orderby, String status, String searchTerms,
-			int mouseTypeID) {
+			int mouseTypeID, boolean species) {
 		String query = "SELECT distinct mouse_id from mouse_holder_facility where covert=1";
 		ArrayList<Integer> covertMouseIds = IntResultGetter.getInstance("mouse_id").Get(query);
 
@@ -376,8 +391,10 @@ public class DBConnect {
 			builder.append(",");
 		}
 
+
+
 		ArrayList<String> whereTerms = buildMouseQueryWhereTerms(status, searchTerms, mouseTypeID, -1, -1, -1, -1, false,
-				false);
+				false, species);
 		whereTerms.add("mouse.id in (" + builder + ")");
 
 		String constraints = buildMouseQueryConstraints(null, whereTerms, orderby, -1, -1);
@@ -394,8 +411,14 @@ public class DBConnect {
 	public static int countMouseRecords(int mouseTypeID, String orderBy, int holderID, int geneRecordID, String status,
 			String searchTerms, boolean endangeredOnly, int creOnly, int facilityID, boolean edit) {
 
+		return countMouseRecords(mouseTypeID, orderBy, holderID, geneRecordID, status, searchTerms, endangeredOnly, creOnly,
+				facilityID, false,false);
+	}
+	public static int countMouseRecords(int mouseTypeID, String orderBy, int holderID, int geneRecordID, String status,
+										String searchTerms, boolean endangeredOnly, int creOnly, int facilityID, boolean edit, boolean species) {
+
 		ArrayList<String> whereTerms = buildMouseQueryWhereTerms(status, searchTerms, mouseTypeID, geneRecordID, facilityID,
-				holderID, creOnly, endangeredOnly, edit);
+				holderID, creOnly, endangeredOnly, edit, species);
 		String additionalJoins = buildMouseQueryJoins(holderID, facilityID, searchTerms);
 
 		String constraints = buildMouseQueryConstraints(additionalJoins, whereTerms, orderBy, -1, -1);
@@ -418,8 +441,17 @@ public class DBConnect {
 			String status, String searchTerms, boolean endangeredOnly, int creOnly, int facilityID, int limit, int offset,
 			boolean edit) {
 
+		return getMouseRecords(mouseTypeID, orderBy, holderID, geneRecordID, status, searchTerms, endangeredOnly, creOnly,
+				facilityID, limit, offset, false,false);
+	}
+
+	public static ArrayList<MouseRecord> getMouseRecords(int mouseTypeID, String orderBy, int holderID, int geneRecordID,
+														 String status, String searchTerms, boolean endangeredOnly, int creOnly, int facilityID, int limit, int offset,
+														 boolean edit, boolean species) {
+
 		ArrayList<String> whereTerms = buildMouseQueryWhereTerms(status, searchTerms, mouseTypeID, geneRecordID, facilityID,
-				holderID, creOnly, endangeredOnly, edit);
+				holderID, creOnly, endangeredOnly, edit,species);
+		//System.out.println(whereTerms.toString());
 		String additionalJoins = buildMouseQueryJoins(holderID, facilityID, searchTerms);
 
 		String constraints = buildMouseQueryConstraints(additionalJoins, whereTerms, orderBy, limit, offset);
@@ -446,7 +478,8 @@ public class DBConnect {
 	}
 
 	private static ArrayList<String> buildMouseQueryWhereTerms(String status, String searchTerms, int mouseTypeID,
-			int geneRecordID, int facilityID, int holderID, int creOnly, boolean endangeredOnly, boolean edit) {
+			int geneRecordID, int facilityID, int holderID, int creOnly, boolean endangeredOnly, boolean edit, boolean species) {
+		//System.out.println("Species:" + species);
 		ArrayList<String> whereTerms = new ArrayList<String>();
 		if (status.equalsIgnoreCase("all")) {
 			whereTerms.add("mouse.status<>'incomplete'");
@@ -482,6 +515,11 @@ public class DBConnect {
 		if (creOnly > 0) {
 			whereTerms.add("expressedsequence.expressedsequence='Cre'");
 		}
+		int int_species = 0;
+		if (species)
+			int_species = 1;
+
+		whereTerms.add("mouse.is_rat=" + int_species);
 
 		return whereTerms;
 	}
@@ -1240,7 +1278,14 @@ public class DBConnect {
 				"status=" + (updatedRecord.getStatus() != null ? "'" + updatedRecord.getStatus() + "'" : "NULL") + ", \r\n");
 		query.append("endangered=" + updatedRecord.isEndangered() + ",\r\n");
 
-		query.append("admin_comment=" + safeText(updatedRecord.getAdminComment()) + "\r\n");
+		query.append("admin_comment=" + safeText(updatedRecord.getAdminComment()) + ",\r\n");
+
+		if (updatedRecord.isRat()){
+			query.append("is_rat=1" + "\r\n");
+		}
+		else{
+			query.append("is_rat=0" + "\r\n");
+		}
 
 		query.append("WHERE id=" + updatedRecord.getMouseID());
 		Log.Info("Updating mouse record with query: \r\n" + query);
@@ -1806,6 +1851,96 @@ public class DBConnect {
 		query += ");";
 		return executeNonQuery(query);
 	}
+
+	//Applicant functions
+	//------------------------------------------------------------------------------------------------
+
+	/*
+	This function inserts an applicant to the RRD into the SQL database to await approval.
+	It takes in the applicant's information, then queries the database using that information.
+	With this function, the "approved" variable will always be 0, since the user is never
+	approved right on the spot.
+	*/
+	public static int insertApplicant(String firstName, String lastName, String email,
+									  String netID, String AUF, String position, int approved) {
+		//Creating query
+		String query = "INSERT into access_management (first_name,last_name,email,net_id," +
+				"protocol_number,position,approved)";
+		query += "VALUES (";
+		query += safeText(firstName) + ",";
+		query += safeText(lastName) + ",";
+		query += safeText(email) + ",";
+		query += safeText(netID) + ",";
+		query += safeText(AUF) + ",";
+		query += safeText(position) + ",";
+		query += approved;
+		query += ");";
+		//System.out.print(query);
+		return executeNonQuery(query);
+	}
+
+	//This selects each column from the access_management table so that the data can be returned
+	//This string does not change, unless you want to add more columns
+	private static final String ApplicantQueryHeader = "SELECT id,first_name,last_name,email,net_id," +
+			"protocol_number,position,approved \r\n FROM access_management\r\n ";
+
+	//Gets all applicants and puts them into an arraylist
+	public static ArrayList<Applicant> getAllApplicants(String orderby) {
+		//Takes in the final string ApplicantQueryHeader and orders them by orderby (approved status)
+		String query = ApplicantQueryHeader + " ORDER BY " + orderby;
+		//Returns an arraylist of all applicants in the query
+		return ApplicantResultGetter.getInstance().Get(query);
+	}
+
+	//To get all the applicants, we need an entirely new class which extends ResultGetter
+	private static final class ApplicantResultGetter extends ResultGetter {
+
+		//When you get the instance, you return a new ApplicantResultGetter
+		public static ApplicantResultGetter getInstance() {
+			return new ApplicantResultGetter();
+		}
+
+		@Override
+		protected Object getNextItem() throws SQLException {
+			//Create a new user with no information
+			Applicant user = new Applicant();
+			//Give the user information
+			//This can be changed depending on the columns
+			//NOTE: you need the g_str or g_int for this to work. Otherwise,
+			//it'll just be set to whatever string is in there
+			user.setFirst_name(g_str("first_name"));
+			user.setLast_name(g_str("last_name"));
+			user.setEmail(g_str("email"));
+			user.setNetID(g_str("net_id"));
+			user.setAUF(g_str("protocol_number"));
+			user.setPosition(g_str("position"));
+			user.setApproved(g_int("approved"));
+			user.setId(g_int("id"));
+			//Return the user
+			return user;
+		}
+	}
+
+	//Changes the approval status of an applicant.
+	//1==approved, 0==not approved
+	public static void updateApplicantApproval(Applicant user, int approved) {
+		//Takes in a user and their approval status
+		//Appends approval according to int approved
+		if (approved == 1){
+			approved = 0;
+		}
+		else{
+			approved = 1;
+		}
+		//Updating the SQL table, first constructing the string
+		String query = "UPDATE access_management SET ";
+		query += " approved=" + approved;
+		//Identify user based upon id
+		query += " WHERE id=" + user.getId()+ ";";
+		//Execute change
+		executeNonQuery(query);
+	}
+	//------------------------------------------------------------------------------------------------
 
 	public static void updateSetting(Setting setting) {
 		String query = "UPDATE settings SET ";
@@ -2976,6 +3111,8 @@ public class DBConnect {
 			nextMouse.setOfficialMouseName(g_str("official_name"));
 			nextMouse.setMouseName(g_str("name"));
 			nextMouse.setMouseType(g_str("mousetype"));
+			nextMouse.setRat(g_int("is_rat"));
+
 
 			nextMouse.setGeneID(g_str("gene mgi"));
 			nextMouse.setGeneName(g_str("gene name"));
