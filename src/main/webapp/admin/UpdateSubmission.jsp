@@ -103,8 +103,8 @@ HTMLUtilities.logRequest(request);
             updatedRecord.setModificationType(sub.getTransgenicType());
             updatedRecord.setExpressedSequence(sub.getTGExpressedSequence());
             updatedRecord.setRegulatoryElement(sub.getTGRegulatoryElement());
-          DBConnect.updateMouseRecord(updatedRecord);
 
+          DBConnect.updateMouseRecord(updatedRecord);
         }
         else {
           DBConnect.updateMouseRecord(updatedRecord);
