@@ -51,7 +51,7 @@
  MSU and UCSF continue to collaborate on development and features that are designed to
  augment database use at both institutions</p>
 
- <a href="https://github.com/musIndex/mouseinventory/issues">Mouse Inventory Github Repository</a>
+ <a href="https://github.com/musIndex/mouseinventory/issues">Github Repository</a>
 
  <div>
 <h2>Mouse Inventory Resources</h2>
