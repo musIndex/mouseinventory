@@ -194,7 +194,7 @@ String mouseNumber = getMouseNumber(mouse).getContent();
 String mouseStatus = getMouseStatus(mouse,holderID).getContent();
 String mouseCategory = getMouseCategory(mouse).getContent();
 //String mouseComment= getFormattedMouseComment(mouse.getGeneralComment()).getContent();
-String mouseDetails = getMouseDetails(mouse).getContent();
+String mouseDetails = getMouseDetails(mouse).getContent().replaceAll("\\[|\\]", "");
 String mouseGene = getMouseGene(mouse).getContent();
 String mouseSeq = getExpressedSeq(mouse).getContent();
 String mousePMID = getMousePMID(mouse).getContent();
@@ -263,7 +263,7 @@ p.add(formatGene(mouse.getGeneSymbol()));
 if (mouse.getRegulatoryElement() != null) {
 
 String tgPromoter = mouse.getRegulatoryElement().replace(",",";");
-p.add(phrb("Regulatory Element:"));
+p.add(phrb("Regulatory Element: "));
 p.add(tgPromoter);
 }
 return p;
@@ -302,6 +302,8 @@ String officialName = mouse.getOfficialMouseName();
 if (officialName != null && !officialName.isEmpty()) {
   p.add(",");
   p.add(phr("\""+officialName+"\""));
+}else {
+	p.add(",");
 }
 p.add(",");
 
@@ -360,11 +362,6 @@ String cryoLiveStatus = "";
 	p.add(cryoLiveStatus);
 return p;
 		}
-
-
-
-
-
 
 
 private static Phrase getExpressedSeq(MouseRecord mouse)
