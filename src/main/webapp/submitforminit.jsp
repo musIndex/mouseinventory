@@ -121,7 +121,7 @@ if (request != null && request.getRemoteUser() != null && request.getRemoteUser(
   </tr>
 
   <tr class="formFieldAlt">
-    <td valign="top"><font color="red">* </font>Facility where the rodent is housed:</td>
+    <td valign="top"><font color="black">* </font>Facility where the rodent is housed:</td>
     <td valign="top"><%=HTMLGeneration.genSelect("holderFacility",(String[])facilityList,HTMLGeneration.emptyIfNull(newMouse.getHolderFacility()), "onChange='checkOtherFacility()'")%>
       <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><%=HTMLGeneration.emptyIfNull(newMouse.getHolderFacilityErr()) %></span>
     <span id="otherFacilitySpan" style="<%=HTMLGeneration.rowVisibility(newMouse.hasOtherFacilityName()) %>"> Specify facility name: <input type="text" name="otherHolderFacility" value="<%=HTMLGeneration.emptyIfNull(newMouse.getOtherHolderFacility()) %>" size="20"><span class="validationError"><%=HTMLGeneration.emptyIfNull(newMouse.getOtherFacilityErr()) %></span></span>
