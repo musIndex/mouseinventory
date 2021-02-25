@@ -39,10 +39,10 @@
   graciously shared their expertise, in addition to providing MSU access to their
   database code, provided as an open source on GitHub.</p>
 
- <p>This project was made possible by a grant funded through CVM, CHM, CANR, CSS and the
-  individual MSU departments of Pharmacology & Toxicology, Psychology and Physiology.
-  We appreciate the intellectual contributions of our advisory committee, including
-  Drs. Amy Ralston, Bryan Copple, Ripla Arora, Greg Fink and Kathy Steece-Collier.</p>
+ <p>This project was made possible by a grant funded through CVM, CHM, CANR, CNS/Nat Sci,
+  CSS and the individual MSU departments of Pharmacology & Toxicology, Psychology and
+  Physiology. We appreciate the intellectual contributions of our advisory committee,
+  including Drs. Amy Ralston, Bryan Copple, Ripla Arora, Greg Fink and Kathy Steece-Collier.</p>
 <p>In 2020, critical effort was provided by a talented team of MSU
  undergraduates (E. Begalka, J. Willinger, H. Poster, A. Kohl, J. Butler, and C. Cardimen)
  who largely were recruited as part of a Capstone project in course ITM444, under the
