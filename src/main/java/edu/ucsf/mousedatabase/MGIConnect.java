@@ -301,6 +301,12 @@ public class MGIConnect {
             	sub.setMouseType("Mutant Allele");
             	sub.setMAModificationType("undetermined");
             }
+            else if (value.startsWith("Chemically"))
+            {
+            	sub.setMouseType("Mutant Allele");
+            	sub.setMAModificationType("undetermined");
+            }
+            
             else
             {
               sub.setMouseType("undetermined");
