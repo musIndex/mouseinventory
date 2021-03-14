@@ -6,7 +6,6 @@
 <%@ page import="edu.ucsf.mousedatabase.*"%>
 <%=getPageHeader(null,false,true) %>
 <%=getNavBar("EditMouseSelection.jsp", true) %>
-<%@ include file='SendMailForm.jspf' %>
 <%@ include file="protectAgainstDuplicateHolders.jspf" %>
 <%
   HTMLUtilities.logRequest(request);
@@ -73,9 +72,10 @@
     }
     else
     {
-
       record = submission.toMouseRecord();
-      record.setRat(isRat);
+      if (isRat != null){
+        record.setRat(isRat);
+      }
       records = new ArrayList<MouseRecord>();
       records.add(record);
 

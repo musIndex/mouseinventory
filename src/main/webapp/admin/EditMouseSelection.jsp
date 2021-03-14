@@ -17,10 +17,15 @@
   String searchTerms = request.getParameter("searchterms");
   String orderBy = request.getParameter("orderby");
   String status = request.getParameter("status");
-  
+  boolean species = stringToBoolean(request.getParameter("species"));
 
-  int pagenum = HTMLGeneration.stringToInt(request.getParameter("pagenum"));
-  int limit = HTMLGeneration.stringToInt(request.getParameter("limit"));
+
+  int creOnly = stringToInt(request.getParameter("creonly"));
+  int facilityID = stringToInt(request.getParameter("facility_id"));
+  int pagenum = stringToInt(request.getParameter("pagenum"));
+  int limit = stringToInt(request.getParameter("limit"));
+
+
   if (limit == -1) {
     if (session.getAttribute("limit") != null) {
       limit = Integer.parseInt(session.getAttribute("limit").toString());
@@ -58,17 +63,20 @@
   query.add("mousetype_id=" + mouseTypeID);
   query.add("searchterms=" + searchTerms);
   query.add("status=" + status);
+  if (species)
+    query.add("is_rat=" + 1);
+  else
+    query.add("is_rat=" + 0);
 
   String queryString = "";
 
   for (String s : query) {
       queryString += s + "&";
   }
-  
 
-  int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms, false, -1, -1,true);
 
-  ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, status, searchTerms,false,-1,-1,limit,offset,true);
+  int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID,false, species);
+  ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID,limit,offset,false,species);
 
   String table = HTMLGeneration.getMouseTable(mice, true, false, false); 
 
@@ -76,7 +84,7 @@
 
   ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
 
-  String mouseTypeSelectionLinks = HTMLGeneration.getMouseTypeSelectionLinks(mouseTypeID, orderBy,holderID,geneID, mouseTypes, status,searchTerms,-1,-1);
+  String mouseTypeSelectionLinks = HTMLGeneration.getMouseTypeSelectionLinks(mouseTypeID, orderBy,holderID,geneID, mouseTypes, status,searchTerms,-1,-1,species);
   String topPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
   String bottomPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
 

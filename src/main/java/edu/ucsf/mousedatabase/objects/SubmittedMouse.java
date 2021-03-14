@@ -478,8 +478,9 @@ public class SubmittedMouse {
       r.setHolders(mHolders);
     }
 
-
-    r.setRat(is_rat);
+    if (is_rat != null && !is_rat.isEmpty()){
+      r.setRat(is_rat);
+    }
     System.out.println(r.isRat());
     return r;
   }

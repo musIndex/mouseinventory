@@ -1319,31 +1319,31 @@ public class HTMLGeneration {
 
       table.append("<dt>\r\n");
 
-      String templateType = EmailTemplate.SUBMISSION;
-      if (nextSubmission.getSubmissionSource().contains("PDU")) {
-        templateType = EmailTemplate.PDU_SUBMISSION;
-      }
-      else if (nextSubmission.getSubmissionSource().contains("IDU")) {
-        if (nextSubmission.isPublished()) {
-          templateType = EmailTemplate.IDU_SUBMISSION_PUBLISHED;
-        }
-        else {
-          //wont get to this case because the IDU doesn't create submissions for unpublished
-        }
-      }
-
-      for(MouseHolder holder: nextSubmission.getHolders()){
-        String email = nextSubmission.isManualFormSubmission() ? nextSubmission.getEmail() : holder.getSubmitterEmail();
-        int submitterIndex = -1;
-        if (!nextSubmission.isManualFormSubmission()) {
-          table.append(holder.getSubmitterName() + "</dt><dt>");
-          submitterIndex = holder.getSubmitterIndex();
-        }
-        EmailRecipient rec = EmailRecipientManager.recipientsForRequestorAndHolder(email, holder);
-        table.append(getAdminMailLink(rec.recipients,rec.ccs, templateType,
-                                      nextSubmission.getSubmissionID(),-1,Integer.toString(nextSubmission.getMouseRecordID()),-1,submitterIndex));
-      }
-      table.append("</dt>\r\n");
+//      String templateType = EmailTemplate.SUBMISSION;
+//      if (nextSubmission.getSubmissionSource().contains("PDU")) {
+//        templateType = EmailTemplate.PDU_SUBMISSION;
+//      }
+//      else if (nextSubmission.getSubmissionSource().contains("IDU")) {
+//        if (nextSubmission.isPublished()) {
+//          templateType = EmailTemplate.IDU_SUBMISSION_PUBLISHED;
+//        }
+//        else {
+//          //wont get to this case because the IDU doesn't create submissions for unpublished
+//        }
+//      }
+//
+//      for(MouseHolder holder: nextSubmission.getHolders()){
+//        String email = nextSubmission.isManualFormSubmission() ? nextSubmission.getEmail() : holder.getSubmitterEmail();
+//        int submitterIndex = -1;
+//        if (!nextSubmission.isManualFormSubmission()) {
+//          table.append(holder.getSubmitterName() + "</dt><dt>");
+//          submitterIndex = holder.getSubmitterIndex();
+//        }
+//        EmailRecipient rec = EmailRecipientManager.recipientsForRequestorAndHolder(email, holder);
+//        table.append(getAdminMailLink(rec.recipients,rec.ccs, templateType,
+//                                      nextSubmission.getSubmissionID(),-1,Integer.toString(nextSubmission.getMouseRecordID()),-1,submitterIndex));
+//      }
+//      table.append("</dt>\r\n");
 
 
       table.append("Source: " + nextSubmission.getSubmissionSource() + "</dt>");
@@ -1436,7 +1436,7 @@ public class HTMLGeneration {
           }
         } else if (nextSubmission.isMA()) {
           table.append("</dt>\r\n");
-          if (nextSubmission.getIs_rat().equalsIgnoreCase("1")){
+          if (nextSubmission.getIs_rat() != null && nextSubmission.getIs_rat().equalsIgnoreCase("1")){
             table.append("<dt>RGD: "
                     + formatRGD(""+nextSubmission.getMouseMGIID())
                     + "</dt>\r\n");
@@ -1563,7 +1563,7 @@ public class HTMLGeneration {
             || repositoryCatalogNumber.equals("null")) {
           repositoryCatalogNumber = "none";
         } else {
-          if (nextSubmission.getIs_rat().equals("1")){
+          if (nextSubmission.getIs_rat() != null && nextSubmission.getIs_rat().equals("1")){
             repositoryCatalogNumber = formatRGD(repositoryCatalogNumber);
           }
           else{
@@ -1578,7 +1578,7 @@ public class HTMLGeneration {
           table.append(nextSubmission.getOfficialMouseName());
           table.append(")</dt>\r\n");
         }
-        if (nextSubmission.getIs_rat().equalsIgnoreCase("1")){
+        if (nextSubmission.getIs_rat() != null && nextSubmission.getIs_rat().equalsIgnoreCase("1")){
           table.append("<dt>RGD: "
                   + formatRGD(""+nextSubmission.getMouseMGIID())
                   + "</dt>\r\n");
@@ -1588,7 +1588,7 @@ public class HTMLGeneration {
                   + formatMGI(nextSubmission.getTGMouseGene())
                   + "</dt>\r\n");
         }
-        if (nextSubmission.getIs_rat().equals("1") && nextSubmission.isPublished()){
+        if (nextSubmission.getIs_rat() != null && nextSubmission.getIs_rat().equals("1") && nextSubmission.isPublished()){
           // unpublished mice
           table.append("<dt>Published</dt>\r\n");
         }
