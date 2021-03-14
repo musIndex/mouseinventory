@@ -4,7 +4,6 @@
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%=getPageHeader(null,false,true) %>
 <%=getNavBar("ListSubmissions.jsp", true) %>
-<%@ include file='SendMailForm.jspf' %>
 <%
 
   String orderBy = request.getParameter("orderby");

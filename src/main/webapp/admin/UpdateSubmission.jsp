@@ -13,7 +13,6 @@
 <%@ page import="java.sql.Array" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
-<%@ include file='SendMailForm.jspf' %>
 <jsp:useBean id="updatedRecord" class="edu.ucsf.mousedatabase.objects.MouseRecord" scope="request"/>
 <jsp:setProperty property="*" name="updatedRecord"/>
 
@@ -93,7 +92,7 @@ HTMLUtilities.logRequest(request);
           props = DBConnect.getMouseSubmission(submissionID);
           //System.out.println(props.toString());
           SubmittedMouse sub = props.get(0);
-          if (sub.getIs_rat().equalsIgnoreCase("1"))
+          if (sub.getIs_rat() != null && sub.getIs_rat().equalsIgnoreCase("1"))
             //SubmittedRat rat = DBConnect.ge
             updatedRecord.setRat(1);
             updatedRecord.setRepositoryCatalogNumber(sub.getMouseMGIID());
