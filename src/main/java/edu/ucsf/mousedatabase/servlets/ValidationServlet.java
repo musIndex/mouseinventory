@@ -6,6 +6,7 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import edu.ucsf.mousedatabase.HTMLGeneration;
 import edu.ucsf.mousedatabase.HTMLUtilities;
 import edu.ucsf.mousedatabase.MGIConnect;
 import edu.ucsf.mousedatabase.RGDConnect;

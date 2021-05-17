@@ -1191,6 +1191,11 @@ public class DBConnect {
 		return IntResultGetter.getInstance("id").Get(query);
 	}
 
+	public static ArrayList<Integer> getIsRat_FromRodentRecord (int id) {
+		String query = "SELECT is_rat FROM mouse WHERE id=" + id;
+		return IntResultGetter.getInstance("is_rat").Get(query);
+	}
+
 	// ************************************************************
 	// UPDATE Methods
 	// ************************************************************
@@ -1280,7 +1285,9 @@ public class DBConnect {
 
 		query.append("admin_comment=" + safeText(updatedRecord.getAdminComment()) + ",\r\n");
 
-		if (updatedRecord.isRat()){
+		ArrayList<Integer> is_rat = getIsRat_FromRodentRecord(Integer.parseInt(updatedRecord.getMouseID()));
+
+		if (updatedRecord.isRat() || (is_rat.size() == 1 && is_rat.get(0) == 1)){
 			query.append("is_rat=1" + "\r\n");
 		}
 		else{
