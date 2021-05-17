@@ -41,13 +41,13 @@ public class RGDConnect {
 
     public static RGDResult getGeneQuery(String geneId) {
         RGDResult result = new RGDResult();
-        String request = "genes/" + geneId;
+        String request = "strains/" + geneId;
         String response = executeGet(request);
         try {
             JSONObject jsonResponse = new JSONObject(response);
             result.setName(jsonResponse.getString("name"));
             result.setSymbol(jsonResponse.getString("symbol"));
-            result.setComment(jsonResponse.getString("mergedDescription"));
+            result.setComment(jsonResponse.getString("origin"));
             result.setValid(true);
         } catch (JSONException err) {
             Log.Error(err);

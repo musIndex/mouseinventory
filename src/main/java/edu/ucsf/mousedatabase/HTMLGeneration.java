@@ -170,7 +170,7 @@ public class HTMLGeneration {
 
     }
     table.append("<a href=\"" + siteRoot + "history.jsp\">"
-    		+ "<img src=/img/UCSF_logo.png title='History of MouseDB' style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year' >");
+    		+ "<img src=/img/MSU_logo.png title='History of MouseDB' style='padding-top: 10px !important; padding-bottom: 10px !important; padding-left: 15px !important; background-color:#DDE6E5' width='90px' class='10year' >");
 
 
 
@@ -722,7 +722,7 @@ public class HTMLGeneration {
                   : "bp_invalid";
           if (geneResult.isValid()) {
             resultString = geneResult.getSymbol() + " - "
-                    + geneResult.getName();
+                    + geneResult.getName() + " " + formatRGD(rgdID);
           }
           else {
             resultString = geneResult.getErrorString();
@@ -2744,7 +2744,7 @@ public class HTMLGeneration {
     } catch (Exception e) {
       return id;
     }
-    String url = "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id="
+    String url = "https://rgd.mcw.edu/rgdweb/report/strain/main.html?id="
             + id.trim();
     StringBuffer link = new StringBuffer();
     link.append("<a href=\"" + url + "\" target=\"_blank\">");

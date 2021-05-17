@@ -15,7 +15,7 @@ var _jaxUrlTail = ".html";
 var _gensatUrl = "http://www.gensat.org/ShowFounderLineImages.jsp?gensatFounderLine=";
 var _gensatUrlTail = "";
 
-var _rgdDBurl = "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=";
+var _rgdDBurl = "https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=";
 var _rgdDBurlTail = "";
 
 var _validateUrl = "/validate";
