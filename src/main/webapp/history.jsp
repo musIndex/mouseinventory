@@ -10,7 +10,7 @@
 
 
 <%=getPageHeader(null, false, false, "onload=\"setFocus('quickSearchForm', 'searchterms')\"")%>
-<%=HTMLGeneration.getNavBar("history.jsp", false)%>
+<%=HTMLGeneration.getNavBar("about.jsp", false)%>
 
 <style type="text/css">
 </style>

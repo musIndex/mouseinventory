@@ -134,43 +134,28 @@ public class HTMLGeneration {
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div>"); //pagetitle
 
-    table.append("<img src=/img/logo_mouse_database_MSU.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>");
-    table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + DBConnect.loadSetting("general_site_name").value + "</a></span>");
+    table.append("<a href=\"" + siteRoot + "about.jsp\">"
+            + "<img src=/img/MSU_logo.png title='Homepage' style='image-rendering: -webkit-optimize-contrast; padding-top: 10px !important; padding-bottom: 10px !important; background-color:#FFFFFF' width='7%' class='10year' >");
+    table.append("<a href=\"" + siteRoot + "history.jsp\">"
+            + "<img src=/img/MSURDB-Logo.png title='History of MouseDB' style='image-rendering: -webkit-optimize-contrast; padding-top: 10px !important; padding-bottom: 10px !important; padding-left: 15px !important; background-color:#FFFFFF' width= 67%' class='10year' >");
+
+//    table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + DBConnect.loadSetting("general_site_name").value + "</a></span>");
 
 
     table.append("</div>");
 
     table.append("<div>"); // About, faq, contact links
-    table.append("<span class=\"titleSubText\">");
-    table.append("<a href=\"" + siteRoot + "about.jsp\">Home</a>&nbsp;");
-    // table.append("&nbsp;<a href=\""+siteRoot+"faq.jsp\">FAQ</a>&nbsp;");
-    table.append("&nbsp;<a href=\"" + siteRoot
-        + "contact.jsp\">Submit Feedback</a>");
+//    table.append("<span class=\"titleSubText\">");
+//    table.append("<a href=\"" + siteRoot + "about.jsp\">Home</a>&nbsp;");
+//    // table.append("&nbsp;<a href=\""+siteRoot+"faq.jsp\">FAQ</a>&nbsp;");
+//    table.append("&nbsp;<a href=\"" + siteRoot
+//        + "contact.jsp\">Submit Feedback</a>");
     table.append("</span>");
 
     table.append("</div>"); // About, faq, contact links
     table.append("</div>"); //pagetitle
     // Quick Search bar
-    if (currentPageFilename == null || !currentPageFilename.equals("search.jsp"))
-    {
-      table.append("<div id=\"quickSearchContainer\">");
-      String action = isAdminPage ? (adminRoot + "AdminSearch.jsp") : (siteRoot + "search.jsp");
-      table.append("<form id=\"quickSearchForm\"action=\"" + action + "\" method=\"get\">\r\n");
-      table.append("<input type=\"text\" class=\"input-medium search-query\"  name=\"searchterms\" >\r\n");
-      table.append("<input type='hidden' name='search-source' value='quicksearch:" + currentPageFilename + "'>\r\n");
-      table.append("<input id='quicksearchbutton' class=\"btn search-query\" type=\"submit\" value=\"" +
-                    (isAdminPage ? "Admin Quick" : "Quick") + " Search\">\r\n");
-      table.append("<script type='text/javascript'>\r\n$('input[name=searchterms]').focus()\r\n");
-      table.append("$(\"#quicksearchbutton\").click(function(){ \r\n");
-      table.append("window.location.href = '" + action + "#' + $(\"#quickSearchForm\").serialize();\r\nreturn false; });");
-      table.append("</script>\r\n");
-      table.append("</form>");
 
-      table.append("</div>");
-
-    }
-    table.append("<a href=\"" + siteRoot + "history.jsp\">"
-    		+ "<img src=/img/MSU_logo.png title='History of MouseDB' style='padding-top: 10px !important; padding-bottom: 10px !important; padding-left: 15px !important; background-color:#DDE6E5' width='90px' class='10year' >");
 
 
 
@@ -180,33 +165,57 @@ public class HTMLGeneration {
     // Navigation Bar
     table.append("<div id=\"navigationLinksContainer\" class='clearfix'>");
     table.append("<div id='navigationLinks' class='site_container'>");
+    table.append("<div id='wrap' class='wrapper'>");
     table.append("<ul class=\"navLinkUL\">");
     //Navigation links for the header bar
 //    table.append(addNavLink("Search", "search.jsp", null,
 //        currentPageFilename, false,"nav-search-link"));
+
+    table.append("<li style=padding-top:3px;border-right:none class=\"NavLinkItem\">");
+    table.append("<a href=\"" + siteRoot + "about.jsp\"> <img style=\"width:30px;\" src=/img/House.svg></a>");
+    table.append("</li>");
+
+    table.append("<li style=padding-top:3px;padding-left:7px;border-right:none class=\"NavLinkItem\">");
+    table.append("<a href=mailto:ORA.MSURodentDatabase@msu.edu> <img style=\"width:30px;padding-right:12px\" src=/img/Email.svg></a>");
+    table.append("</li>");
+
     table.append(addNavLink("Submit Rodents", "submission.jsp", null,
-            currentPageFilename, false));
+            currentPageFilename, false,"",true,true));
     table.append(addNavLink("Rodent Records", "MouseReport.jsp", null,
-        currentPageFilename, false,"nav-mouselist"));
+        currentPageFilename, false,"nav-mouselist",true,false));
     table.append(addNavLink("Gene List", "GeneReport.jsp", null,
-        currentPageFilename, false));
+        currentPageFilename, false,"",true,false));
     table.append(addNavLink("Holder List", "HolderReport.jsp", null,
-        currentPageFilename, false));
+        currentPageFilename, false,"",true,false));
     table.append(addNavLink("Facility List", "FacilityReport.jsp", null,
-        currentPageFilename, false));
+        currentPageFilename, false,"",true,false));
     // table.append(addNavLink("Endangered Mice", "EndangeredReport.jsp",
     // null,currentPageFilename,false));
-    table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false));
+    table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false,"",true,false));
+
+    String action = isAdminPage ? (adminRoot + "AdminSearch.jsp") : (siteRoot + "search.jsp");
+
+    table.append("<li style=padding-top:5px;padding-left:12px class=\"NavLinkItem\">");
+    table.append("<form style = \"display: inline;\" id=\"quickSearchForm\"action=\"" + action + "\" method=\"get\">\r\n");
+    table.append("<input type=\"text\" placeholder=\"Search...\" style=font-size:80% class=\"input-medium\"  name=\"searchterms\" >\r\n");
+    table.append("<input type='hidden' name='search-source' value='quicksearch:" + currentPageFilename + "'>\r\n");
+    table.append("<input id='quicksearchbutton' type=\"image\" alt=\"Submit\" src=/img/Eyeglass.svg style=\"height:20px;\">");
+    table.append("<script type='text/javascript'>\r\n$('input[name=searchterms]').focus()\r\n");
+    table.append("$(\"#quicksearchbutton\").click(function(){ \r\n");
+    table.append("window.location.href = '" + action + "#' + $(\"#quickSearchForm\").serialize();\r\nreturn false; });");
+    table.append("</script>\r\n");
+    table.append("</form>");
+    table.append("</li>");
     if (isAdminPage && showAdminControls){
-      table.append(addNavLink("Log out", "logout.jsp", null,
-          currentPageFilename, false,"pull-right small"));
+      table.append(addNavLink("Logout", "logout.jsp", null,
+          currentPageFilename, false,"pull-right",false,true));
     }
     else {
-      table.append(addNavLink("Admin use only", "admin.jsp", null,
-          isAdminPage ? "admin.jsp" : currentPageFilename, true, "pull-right small"));
+      table.append(addNavLink("Admin", "admin.jsp", null,
+          isAdminPage ? "admin.jsp" : currentPageFilename, true, "pull-right",false,true));
     }
-
     table.append("</ul>");
+    table.append("</div>");
     table.append("</div>"); //navigationlinks
     table.append("</div>"); //navigationlinkscontainer
 
@@ -403,6 +412,14 @@ public class HTMLGeneration {
       String targetPageFilename, String targetPageArguments,
       String currentPageFilename, boolean isAdminPage, String cssClass) {
 
+    return addNavLink(targetNiceName, targetPageFilename, targetPageArguments, currentPageFilename, isAdminPage,"",false, false);
+
+  }
+
+  private static String addNavLink(String targetNiceName,
+                                   String targetPageFilename, String targetPageArguments,
+                                   String currentPageFilename, boolean isAdminPage, String cssClass, boolean rightBorder, boolean leftBorder) {
+
     cssClass += targetPageFilename.equals(currentPageFilename) ? " current" : "";
     cssClass += " NavLinkItem";
 
@@ -410,10 +427,16 @@ public class HTMLGeneration {
     if (targetPageArguments != null) {
       url += targetPageArguments;
     }
-
-    return "<li class=\"" + cssClass
-        + "\"><a class=\"navBarAnchor\" href=\"" + url + "\">"
-        + targetNiceName + "</a></li>\r\n";
+    String style = "style=\"";
+    if (rightBorder){
+      style+="border-right: 2px solid #FFFFFF;";
+    }
+    if (leftBorder){
+      style+="border-left: 2px solid #FFFFFF;";
+    }
+    return "<li "+style+"\" "+"class=\"" + cssClass
+            + "\"><a class=\"navBarAnchor\" href=\"" + url + "\">"
+            + targetNiceName + "</a></li>\r\n";
 
   }
 

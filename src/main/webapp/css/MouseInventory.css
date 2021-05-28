@@ -37,7 +37,7 @@ ul.navLinkUL {
 
 #pageHeaderContainer {
   padding: 1px 0px;
-  background-color: #DDE6E5;
+  background-color: #FFFFFF;
 }
 
 
@@ -138,16 +138,19 @@ ul.navLinkUL {
 #navigationLinksContainer,
 #adminLinksContainer {
   font-size: 15px;
-  margin: 0px;
   padding: 0;
   min-width: 920px;
+  overflow: hidden;
 }
 #navigationLinksContainer {
-  background-color: #A3B9BC;
+  background-color: #113D34;
+  height: 35px;
+  overflow: hidden;
 }
 
 #adminLinksContainer {
   background-color: #666699;
+  height: 35px;
 }
 
 
@@ -166,42 +169,34 @@ ul.navLinkUL {
 }
 
 .NavLinkItem {
-  margin: 3px 3px 3px 0px;
+  /*margin: 3px 3px 3px 0px;*/
   padding: 0;
+  height: 35px;
+  padding-top: 10px;
   list-style-type: none;
   float: left;
-  border-radius: 4px;
-  moz-border-radius: 4px;
-  border: 2px solid transparent;
 }
 .NavLinkItem.current,
 .NavLinkItem.nav-mouselist.current {
-  background-color: #335599;
-  border: 2px solid #E6E6E6;
+
 }
 
 #navigationLinks li:nth-child(1) {
-  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(2) {
-  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(3) {
-  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(4) {
-  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(5) {
-  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(6) {
-  background-color: #A3B9BC;
 }
 
 #adminLinks li {
@@ -220,7 +215,7 @@ ul.navLinkUL {
 
 #navigationLinks li:hover,
 #adminLinks li:hover {
-  background-color: #00008B !important;
+  text-decoration: none;
 }
 
 a.navBarAnchor {
