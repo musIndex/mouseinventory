@@ -1249,5 +1249,90 @@ table.form_table td {
   
 }
 
+.main_header{
+  font-size: 36px;
+  color: black;
+}
+
+.image-center{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button_header{
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  color: black;
+}
+
+.button_body_text{
+  text-align: center;
+  font-size: 16px;
+  color: black;
+}
+
+.description_text{
+  font-size: 15px;
+  color: black;
+}
+
+.MSU_green_button{
+  background-color: #18453B;
+  width: 32%;
+  height: 45px;
+  border: black;
+  border-style: solid;
+  border-width: 3px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.MSU_green_button_Text{
+  height: 100%;
+  margin: auto;
+  padding: 13px;
+  text-align: center;
+  color: white;
+  font-size: 18px;
+}
+
+.anchor_no_underline{
+  text-decoration: none;
+  color:white;
+}
+.anchor_no_underline:hover{
+  text-decoration: none;
+}
+
+.MSU_footer{
+  background-color: #113D34;
+  height: 95px;
+  width: 100%;
+  overflow: hidden;
+  text-align: right;
+  margin-top: 0px;
+}
+
+.MSU_footer_text{
+  padding: 15px;
+  margin-top: 0px;
+  color: white;
+  font-size: 16px;
+}
+
+.spacing_div{
+  height: 100px;
+  width: 100%;
+  overflow: hidden;
+}
+
+
+
+
+
+
 
 
