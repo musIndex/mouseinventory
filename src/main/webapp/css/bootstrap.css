@@ -233,6 +233,7 @@ select:focus {
 }
 .input-medium {
   width: 150px;
+  height: 10px;
 }
 .input-large {
   width: 210px;

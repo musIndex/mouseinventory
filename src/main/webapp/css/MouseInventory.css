@@ -37,7 +37,7 @@ ul.navLinkUL {
 
 #pageHeaderContainer {
   padding: 1px 0px;
-  background-color: #DDE6E5;
+  background-color: #FFFFFF;
 }
 
 
@@ -138,16 +138,19 @@ ul.navLinkUL {
 #navigationLinksContainer,
 #adminLinksContainer {
   font-size: 15px;
-  margin: 0px;
   padding: 0;
   min-width: 920px;
+  overflow: hidden;
 }
 #navigationLinksContainer {
-  background-color: #A3B9BC;
+  background-color: #113D34;
+  height: 35px;
+  overflow: hidden;
 }
 
 #adminLinksContainer {
   background-color: #666699;
+  height: 35px;
 }
 
 
@@ -166,42 +169,34 @@ ul.navLinkUL {
 }
 
 .NavLinkItem {
-  margin: 3px 3px 3px 0px;
+  /*margin: 3px 3px 3px 0px;*/
   padding: 0;
+  height: 35px;
+  padding-top: 10px;
   list-style-type: none;
   float: left;
-  border-radius: 4px;
-  moz-border-radius: 4px;
-  border: 2px solid transparent;
 }
 .NavLinkItem.current,
 .NavLinkItem.nav-mouselist.current {
-  background-color: #335599;
-  border: 2px solid #E6E6E6;
+
 }
 
 #navigationLinks li:nth-child(1) {
-  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(2) {
-  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(3) {
-  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(4) {
-  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(5) {
-  background-color: #A3B9BC;
 }
 
 #navigationLinks li:nth-child(6) {
-  background-color: #A3B9BC;
 }
 
 #adminLinks li {
@@ -220,7 +215,7 @@ ul.navLinkUL {
 
 #navigationLinks li:hover,
 #adminLinks li:hover {
-  background-color: #00008B !important;
+  text-decoration: none;
 }
 
 a.navBarAnchor {
@@ -247,9 +242,7 @@ a.navBarAnchor:visited {
   min-width: 920px;
 }
 
-.facilityTable {
-  
-}
+
 
 .mouseSubDetail {
   line-height: 145%;
@@ -374,17 +367,67 @@ tr.changerequestlistAlt {
   background-color: #e6f2f8;
 }
 
+.facilityTable {
+  width: 100%;
+  border-spacing: 0px;
+}
+
+.facilityTableInside {
+  width: 100%;
+  border-spacing: 0px;
+  border-left: 2px solid black;
+  border-bottom: solid 2px black;
+  border-top: solid 2px black;
+}
+
 tr.facilitylistH {
   font-size: 14pt;
-  background-color: #89BBE2;
+  background-color: #133d34;
 }
 
 tr.facilitylist {
-  background-color: #E7EDEC;
+  background-color: #FFFFFF;
 }
 
 tr.facilitylistAlt {
-  background-color: #E2E9DB;
+  background-color: #ccccccff;
+}
+
+.facilityItemLink{
+  color: black;
+  text-decoration: underline;
+}
+
+.facilitylistItemLeft{
+  border-top: solid 2px black;
+  border-right: solid 2px black;
+  font-size: 16px;
+  height: 25px;
+  color: black;
+}
+
+.facilitylistItemRight{
+  border-top: solid 2px black;
+  border-right: solid 2px black;
+  font-size: 16px;
+  height: 25px;
+}
+
+.facilitylistHeaderLeft{
+  width: 75%;
+  height: 35px;
+  font-size: 20px;
+  color: white;
+  border-top: none;
+  border-right: solid 2px black;
+}
+
+.facilitylistHeaderRight{
+  width: 25%;
+  height: 35px;
+  font-size: 20px;
+  color: white;
+  border-top: none;
 }
 
 tr.holderlist {
@@ -428,7 +471,7 @@ dl {
 }
 
 .mouseName {
-  font-size: 11pt;
+  font-size: 16px;
   font-weight: bold;
 }
 
@@ -1253,6 +1296,91 @@ table.form_table td {
   color: #F11C1C;
   
 }
+
+.main_header{
+  font-size: 36px;
+  color: black;
+}
+
+.image-center{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button_header{
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  color: black;
+}
+
+.button_body_text{
+  text-align: center;
+  font-size: 16px;
+  color: black;
+}
+
+.description_text{
+  font-size: 15px;
+  color: black;
+}
+
+.MSU_green_button{
+  background-color: #18453B;
+  width: 32%;
+  height: 45px;
+  border: black;
+  border-style: solid;
+  border-width: 3px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.MSU_green_button_Text{
+  height: 100%;
+  margin: auto;
+  padding: 13px;
+  text-align: center;
+  color: white;
+  font-size: 18px;
+}
+
+.anchor_no_underline{
+  text-decoration: none;
+  color:white;
+}
+.anchor_no_underline:hover{
+  text-decoration: none;
+}
+
+.MSU_footer{
+  background-color: #113D34;
+  height: 95px;
+  width: 100%;
+  overflow: hidden;
+  text-align: right;
+  margin-top: 0px;
+}
+
+.MSU_footer_text{
+  padding: 15px;
+  margin-top: 0px;
+  color: white;
+  font-size: 16px;
+}
+
+.spacing_div{
+  height: 100px;
+  width: 100%;
+  overflow: hidden;
+}
+
+
+
+
+
 
 
 
