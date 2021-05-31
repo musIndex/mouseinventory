@@ -156,6 +156,9 @@ public class HTMLGeneration {
     table.append("</div>"); //pagetitle
     // Quick Search bar
 
+    }
+    table.append("<a href=\"" + siteRoot + "history.jsp\">"
+    		+ "<img src=/img/MSU_logo.png title='History of MouseDB' style='padding-top: 10px !important; padding-bottom: 10px !important; padding-left: 15px !important; background-color:#DDE6E5' width='90px' class='10year' >");
 
 
 

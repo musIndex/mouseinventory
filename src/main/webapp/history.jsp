@@ -39,6 +39,7 @@
    database code, provided as an open source on GitHub.
    <br><br>
 
+
    This project was made possible by a grant funded through CVM, CHM, CANR, CNS/Nat Sci,
    CSS and the individual MSU departments of Pharmacology & Toxicology, Psychology and
    Physiology. We appreciate the intellectual contributions of our advisory committee,
@@ -107,5 +108,4 @@
   <a class="anchor_no_underline" href="https://github.com/musIndex/mouseinventory" style="text-decoration: underline">View in GitHub</a><br>
  </p>
 </div>
-
 
