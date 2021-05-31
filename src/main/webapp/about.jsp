@@ -217,7 +217,7 @@ for(Setting.SettingCategory category : categories){
 <a href="mailto:<%=DBConnect.loadSetting("admin_info_email").value %>"> Contact Administrator</a>
 </div>
 <div>
-v3.2 MSU Rodent Database 2021<br/>
+v3.3 MSU Rodent Database 2021<br/>
 Developed by University of California, San Francisco (UCSF)
 </div>
 <div>
