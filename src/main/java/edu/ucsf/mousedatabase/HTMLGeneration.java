@@ -2360,17 +2360,17 @@ public class HTMLGeneration {
     if (edit) {
       table.append("<td>ID</td>");
     }
-    table.append("<td style='min-width:400px'>\r\n");
+    table.append("<td class='facilitylistHeaderLeft'\">\r\n");
     table.append("Facility");
     table.append("</td>\r\n");
-    table.append("<td style='min-width:100px'>\r\n");
+    table.append("<td class='facilitylistHeaderRight'\">\r\n");
     table.append("Records");
     table.append("</td>\r\n");
     if (edit) {
-      table.append("<td style='min-width:60px'\">\r\n");
+      table.append("<td class='facilitylistHeaderLeft'\">\r\n");
       table.append("Code (for data uploads)");
       table.append("</td>\r\n");
-      table.append("<td style='min-width:60px'\">\r\n");
+      table.append("<td class='facilitylistHeaderLeft'\">\r\n");
       table.append("Edit");
       table.append("</td>\r\n");
     }
@@ -2383,7 +2383,7 @@ public class HTMLGeneration {
       boolean edit) {
     StringBuilder table = new StringBuilder();
     table.append("<div class=\"facilityTable\">\r\n");
-    table.append("<table><thead>\r\n");
+    table.append("<table class='facilityTableInside'><thead>\r\n");
     table.append(getFacilityTableHeaders(edit));
     table.append("</thead><tbody>");
     int numFacilities = 0;
@@ -2396,14 +2396,14 @@ public class HTMLGeneration {
       if (edit) {
         table.append("<td>" + facility.getFacilityID() + "</td>");
       }
-      table.append("<td style='min-width:400px'>\r\n");
+      table.append("<td class='facilitylistItemLeft'>\r\n");
       table.append("<span class=\"mouseName\">"
           + facility.getFacilityName() + "</span> &nbsp;-&nbsp;"
           + facility.getFacilityDescription());
 
-      table.append("</td><td style='min-width:100px'>");
+      table.append("</td><td class='facilitylistItemLeft'>");
       table.append("<span style=\"position:relative;left:5px\">"
-              + "<a href=\""
+              + "<a class='facilityItemLink' href=\""
           + siteRoot
           + "MouseReport.jsp?facility_id="
           + facility.getFacilityID()

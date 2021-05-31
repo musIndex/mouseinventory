@@ -242,9 +242,7 @@ a.navBarAnchor:visited {
   min-width: 920px;
 }
 
-.facilityTable {
-  
-}
+
 
 .mouseSubDetail {
   line-height: 145%;
@@ -369,17 +367,67 @@ tr.changerequestlistAlt {
   background-color: #e6f2f8;
 }
 
+.facilityTable {
+  width: 100%;
+  border-spacing: 0px;
+}
+
+.facilityTableInside {
+  width: 100%;
+  border-spacing: 0px;
+  border-left: 2px solid black;
+  border-bottom: solid 2px black;
+  border-top: solid 2px black;
+}
+
 tr.facilitylistH {
   font-size: 14pt;
-  background-color: #89BBE2;
+  background-color: #133d34;
 }
 
 tr.facilitylist {
-  background-color: #E7EDEC;
+  background-color: #FFFFFF;
 }
 
 tr.facilitylistAlt {
-  background-color: #E2E9DB;
+  background-color: #ccccccff;
+}
+
+.facilityItemLink{
+  color: black;
+  text-decoration: underline;
+}
+
+.facilitylistItemLeft{
+  border-top: solid 2px black;
+  border-right: solid 2px black;
+  font-size: 16px;
+  height: 25px;
+  color: black;
+}
+
+.facilitylistItemRight{
+  border-top: solid 2px black;
+  border-right: solid 2px black;
+  font-size: 16px;
+  height: 25px;
+}
+
+.facilitylistHeaderLeft{
+  width: 75%;
+  height: 35px;
+  font-size: 20px;
+  color: white;
+  border-top: none;
+  border-right: solid 2px black;
+}
+
+.facilitylistHeaderRight{
+  width: 25%;
+  height: 35px;
+  font-size: 20px;
+  color: white;
+  border-top: none;
 }
 
 tr.holderlist {
@@ -423,7 +471,7 @@ dl {
 }
 
 .mouseName {
-  font-size: 11pt;
+  font-size: 16px;
   font-weight: bold;
 }
 
