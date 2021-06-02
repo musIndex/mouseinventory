@@ -156,7 +156,6 @@ public class HTMLGeneration {
     table.append("</div>"); //pagetitle
     // Quick Search bar
 
-
     table.append("</div>"); //pagetitlecontainer
     table.append("</div>"); //pageheader
     table.append("</div>"); //pageheadercontainer
@@ -196,7 +195,6 @@ public class HTMLGeneration {
 
     table.append("<li style=padding-top:5px;padding-left:12px class=\"NavLinkItem\">");
     table.append("<form style = \"display: inline;\" id=\"quickSearchForm\"action=\"" + action + "\" method=\"get\">\r\n");
-
     table.append("<input type=\"text\" placeholder=\"Search...\" style='font-size:80%;outline:none' class=\"input-medium\"  name=\"searchterms\" >\r\n");
 
     table.append("<input type='hidden' name='search-source' value='quicksearch:" + currentPageFilename + "'>\r\n");
@@ -391,7 +389,7 @@ public class HTMLGeneration {
     if (targetPageArguments != null) {
       url += targetPageArguments;
     }
-    
+
     String strippedNiceName = targetNiceName.toLowerCase().replaceAll(" ","");
     if (strippedNiceName.equals("registration")){
       strippedNiceName="mouseregister";
@@ -415,15 +413,8 @@ public class HTMLGeneration {
                                    String targetPageFilename, String targetPageArguments,
                                    String currentPageFilename, boolean isAdminPage, String cssClass) {
 
+
     return addNavLink(targetNiceName, targetPageFilename, targetPageArguments, currentPageFilename, isAdminPage, "", false, false);
-
-  }
-
-  private static String addNavLink(String targetNiceName,
-                                   String targetPageFilename, String targetPageArguments,
-                                   String currentPageFilename, boolean isAdminPage, String cssClass, boolean rightBorder, boolean leftBorder) {
-
-    return addNavLink(targetNiceName, targetPageFilename, targetPageArguments, currentPageFilename, isAdminPage,"",false, false);
 
   }
 
