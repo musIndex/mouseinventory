@@ -215,6 +215,7 @@
             </div>
         </div>
     </div>
+
 </div>
 <%=HTMLGeneration.getWebsiteFooter()%>
 

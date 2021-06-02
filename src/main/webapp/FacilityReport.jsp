@@ -10,8 +10,10 @@
   String adminEmail = DBConnect.loadSetting("admin_info_email").value;
 %>
 <div class="site_container">
+
   <p class="main_header">Facility List</p>
   <%=table%>
+
   <div class="spacing_div"></div>
   <div class="category">
     <div class="three_column_left">
@@ -54,4 +56,6 @@
 </div>
 </div> <!-- This end div is here to end the site container div. For some reason it's not picked up by intellisense, but it is necessary. -->
 
+
 <%=HTMLGeneration.getWebsiteFooter()%>
+

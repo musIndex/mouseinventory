@@ -55,6 +55,7 @@
 
 
 
+
  <div class="category">
   <div class="three_column_left">
    <img src="/img/Download.svg" class="image-center" style="width: 50%;">
@@ -67,6 +68,7 @@
     </a>
    </div>
   </div>
+
 
   <div class="three_column_center">
    <img src="/img/Download.svg" class="image-center" style="width: 50%;">
@@ -97,4 +99,5 @@
 </div>
 
 <%=HTMLGeneration.getWebsiteFooter()%>
+
 

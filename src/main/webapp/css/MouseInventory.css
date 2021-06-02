@@ -376,6 +376,7 @@ tr.changerequestlistAlt {
   width: 100%;
   border-spacing: 0px;
   border-left: solid 1px black;
+
 }
 
 tr.facilitylistH {
@@ -399,6 +400,7 @@ tr.facilitylistAlt {
 .facilitylistItemLeft{
   border-right: solid 1px black;
   border-bottom: solid 1px black;
+
   font-size: 16px;
   height: 25px;
   color: black;
@@ -407,6 +409,7 @@ tr.facilitylistAlt {
 .facilitylistItemRight{
   border-right: solid 1px black;
   border-bottom: solid 1px black;
+
   font-size: 16px;
   height: 25px;
 }
@@ -419,6 +422,7 @@ tr.facilitylistAlt {
   border-top: none;
   border-top: solid 1px black;
   border-right: solid 1px black;
+
 }
 
 .facilitylistHeaderRight{
@@ -469,6 +473,7 @@ td.holderItemCell{
 .holderItemLink{
   color: black;
   text-decoration: underline;
+
 }
 
 tr.holderlist {
@@ -1459,6 +1464,7 @@ table.form_table td {
   overflow: hidden;
 }
 
+
 .dropdown_left{
   font-size: 16px;
   display: inline;
@@ -1473,6 +1479,7 @@ table.form_table td {
 
 .x_clear{
 }
+
 
 
 

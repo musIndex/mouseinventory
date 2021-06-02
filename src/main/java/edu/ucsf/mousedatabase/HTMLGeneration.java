@@ -156,6 +156,7 @@ public class HTMLGeneration {
     table.append("</div>"); //pagetitle
     // Quick Search bar
 
+
     table.append("</div>"); //pagetitlecontainer
     table.append("</div>"); //pageheader
     table.append("</div>"); //pageheadercontainer
@@ -190,11 +191,14 @@ public class HTMLGeneration {
     // null,currentPageFilename,false));
     table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false, "", true, false));
 
+
     String action = isAdminPage ? (adminRoot + "AdminSearch.jsp") : (siteRoot + "search.jsp");
 
     table.append("<li style=padding-top:5px;padding-left:12px class=\"NavLinkItem\">");
     table.append("<form style = \"display: inline;\" id=\"quickSearchForm\"action=\"" + action + "\" method=\"get\">\r\n");
+
     table.append("<input type=\"text\" placeholder=\"Search...\" style='font-size:80%;outline:none' class=\"input-medium\"  name=\"searchterms\" >\r\n");
+
     table.append("<input type='hidden' name='search-source' value='quicksearch:" + currentPageFilename + "'>\r\n");
     table.append("<input id='quicksearchbutton' type=\"image\" alt=\"Submit\" src=/img/Eyeglass.svg style=\"height:20px;\">");
     table.append("<script type='text/javascript'>\r\n$('input[name=searchterms]').focus()\r\n");
@@ -203,12 +207,14 @@ public class HTMLGeneration {
     table.append("</script>\r\n");
     table.append("</form>");
     table.append("</li>");
+
     if (isAdminPage && showAdminControls) {
       table.append(addNavLink("Logout", "logout.jsp", null,
               currentPageFilename, false, "pull-right", false, true));
     } else {
       table.append(addNavLink("Admin", "admin.jsp", null,
               isAdminPage ? "admin.jsp" : currentPageFilename, true, "pull-right", false, true));
+
     }
     table.append("</ul>");
     table.append("</div>");
@@ -417,6 +423,14 @@ public class HTMLGeneration {
                                    String targetPageFilename, String targetPageArguments,
                                    String currentPageFilename, boolean isAdminPage, String cssClass, boolean rightBorder, boolean leftBorder) {
 
+    return addNavLink(targetNiceName, targetPageFilename, targetPageArguments, currentPageFilename, isAdminPage,"",false, false);
+
+  }
+
+  private static String addNavLink(String targetNiceName,
+                                   String targetPageFilename, String targetPageArguments,
+                                   String currentPageFilename, boolean isAdminPage, String cssClass, boolean rightBorder, boolean leftBorder) {
+
     cssClass += targetPageFilename.equals(currentPageFilename) ? " current" : "";
     cssClass += " NavLinkItem";
 
@@ -425,6 +439,7 @@ public class HTMLGeneration {
       url += targetPageArguments;
     }
     String style = "style=\"";
+
     if (rightBorder) {
       style += "border-right: 2px solid #FFFFFF;";
     }
@@ -432,6 +447,7 @@ public class HTMLGeneration {
       style += "border-left: 2px solid #FFFFFF;";
     }
     return "<li " + style + "\" " + "class=\"" + cssClass
+
             + "\"><a class=\"navBarAnchor\" href=\"" + url + "\">"
             + targetNiceName + "</a></li>\r\n";
 
@@ -2360,11 +2376,13 @@ public class HTMLGeneration {
       table.append("</td><td class='facilitylistItemLeft'>");
       table.append("<span style=\"position:relative;left:5px\">"
               + "<a class='facilityItemLink' href=\""
+
               + siteRoot
               + "MouseReport.jsp?facility_id="
               + facility.getFacilityID()
               + "\">"
               + facility.getRecordCount() + " records</a></span>\r\n");
+
       table.append("</td>\r\n");
       if (edit) {
         table.append("<td style='min-width:60px'>" + HTMLGeneration.emptyIfNull(facility.getFacilityCode()) + "</td>");
