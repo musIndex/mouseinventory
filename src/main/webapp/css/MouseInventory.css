@@ -375,9 +375,7 @@ tr.changerequestlistAlt {
 .facilityTableInside {
   width: 100%;
   border-spacing: 0px;
-  border-left: 2px solid black;
-  border-bottom: solid 2px black;
-  border-top: solid 2px black;
+  border-left: solid 1px black;
 }
 
 tr.facilitylistH {
@@ -399,16 +397,16 @@ tr.facilitylistAlt {
 }
 
 .facilitylistItemLeft{
-  border-top: solid 2px black;
-  border-right: solid 2px black;
+  border-right: solid 1px black;
+  border-bottom: solid 1px black;
   font-size: 16px;
   height: 25px;
   color: black;
 }
 
 .facilitylistItemRight{
-  border-top: solid 2px black;
-  border-right: solid 2px black;
+  border-right: solid 1px black;
+  border-bottom: solid 1px black;
   font-size: 16px;
   height: 25px;
 }
@@ -419,7 +417,8 @@ tr.facilitylistAlt {
   font-size: 20px;
   color: white;
   border-top: none;
-  border-right: solid 2px black;
+  border-top: solid 1px black;
+  border-right: solid 1px black;
 }
 
 .facilitylistHeaderRight{
@@ -430,12 +429,54 @@ tr.facilitylistAlt {
   border-top: none;
 }
 
+.holderTable{
+  width: 100%;
+  border-spacing: 0px;
+}
+
+.holderTableInside{
+  width: 100%;
+  border-spacing: 0px;
+  border-left: solid 1px black;
+}
+td.holderHeaderCell{
+  width: 16%;
+  height: 35px;
+  font-size: 20px;
+  color: white;
+  border-top: solid 1px black;
+  border-right: solid 1px black;
+}
+td.holderItemCell{
+  border-right: solid 1px black;
+  border-bottom: solid 1px black;
+  font-size: 16px;
+  height: 25px;
+  color: black;
+}
+
+.holderName{
+  font-size: 16px;
+  font-weight: bold;
+  display: inline;
+}
+
+.holderLocation{
+  font-size: 16px;
+  display: inline;
+}
+
+.holderItemLink{
+  color: black;
+  text-decoration: underline;
+}
+
 tr.holderlist {
-  background-color: #E7EDEC;
+  background-color: #FFFFFF;
 }
 
 tr.holderlistAlt {
-  background-color: #E2E9DB;
+  background-color: #ccccccff;
 }
 
 table.editMouseParent {
@@ -568,13 +609,54 @@ table.inputForm {
   
 }
 
+.geneTable {
+  width: 100%;
+  border-spacing: 0px;
+}
+
+.geneTableInside {
+  width: 100%;
+  border-spacing: 0px;
+  border-left: solid 1px black;
+}
+
+.genelistHeaderLeft{
+  width: 75%;
+  height: 35px;
+  font-size: 20px;
+  color: white;
+  border-top: none;
+  border-top: solid 1px black;
+  border-right: solid 1px black;
+}
+
+.genelistHeaderRight{
+  width: 25%;
+  height: 35px;
+  font-size: 20px;
+  color: white;
+  border-top: none;
+}
+
+.genelistItem{
+  border-right: solid 1px black;
+  border-bottom: solid 1px black;
+  font-size: 16px;
+  height: 25px;
+  color: black;
+}
+
+.geneItemLink{
+  color: black;
+  text-decoration: underline;
+}
+
 .endangered {
   font-weight: bold;
   color: red;
 }
 
 .mgiGeneLink {
-  
 }
 
 
@@ -1377,8 +1459,20 @@ table.form_table td {
   overflow: hidden;
 }
 
+.dropdown_left{
+  font-size: 16px;
+  display: inline;
+  color: black;
+}
 
 
+.search_right{
+  float: right;
+  margin: 0 0 0 0px;
+}
+
+.x_clear{
+}
 
 
 

@@ -10,8 +10,8 @@
   String adminEmail = DBConnect.loadSetting("admin_info_email").value;
 %>
 <div class="site_container">
-<p class="main_header">Facility List</p>
-<%=table%>
+  <p class="main_header">Facility List</p>
+  <%=table%>
   <div class="spacing_div"></div>
   <div class="category">
     <div class="three_column_left">
@@ -54,14 +54,4 @@
 </div>
 </div> <!-- This end div is here to end the site container div. For some reason it's not picked up by intellisense, but it is necessary. -->
 
-<div class="spacing_div"></div>
-
-<div class="MSU_footer">
-  <p class="MSU_footer_text">
-    MSU Rodent Database 2021 Version 3.2 <br>
-    Developed by University of California, San Francisco (UCSF)<br>
-
-    <a class="anchor_no_underline" href="mailto:ORA.MSURodentDatabase@msu.edu" style="text-decoration: underline">Contact Administrator</a><br>
-    <a class="anchor_no_underline" href="https://github.com/musIndex/mouseinventory" style="text-decoration: underline">View in GitHub</a><br>
-  </p>
-</div>
+<%=HTMLGeneration.getWebsiteFooter()%>
