@@ -19,55 +19,64 @@
     ArrayList<Gene> genes = DBConnect.getAllGenes(orderBy);
     String table = HTMLGeneration.getGeneTable(genes,false);
 %>
-    <div class="site_container">
-        <table>
-            <tr>
-                <td style="width:50%;vertical-align: top">
-                    <h2>Gene List for Mutant Alleles</h2>
+<div class="site_container">
+    <p class="main_header">Gene List for Mutant Alleles</p>
+    <div style="padding-bottom: 15px;width: 100%">
+        <form class='view_opts' style='color:black;font-size: 16px;display: inline;' action='GeneReport.jsp'>
+            Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderBy,null) %>
+            <input type = hidden name="page" value="gene_search">
+        </form>
 
-
-                    <form class='view_opts' action='loginServlet'>
-                        Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderBy,null) %>
-                        <input type = hidden name="page" value="gene_search">
-
-                    </form>
-                    <%= table%>
-                </td>
-                <td style="width:50%; text-align: center;vertical-align: top">
-                    <form method="post" action="loginServlet" style="horiz-align: center">
-
-                    <table style="text-align: center">
-                        <tr style="text-align: center">
-                            <div class="flexBox">
-                                <div class="centered">
-                                    <h2>Database Search:</h2>
-                                        <input type="text" name="search_terms" id="search_terms">
-                                        <input type="hidden" name="page" value="search_bar">
-
-                                        <input type="submit" class = "btn btn-primary" value="Search">
-                                    <br>
-                                    <br>
-                                    <b>Search examples:</b>
-                                    <br>
-                                    <i>shh null</i><br>
-                                    Match records that contain both 'shh' <b>and</b> 'null'<br>
-                                    <i>htr</i><br>
-                                    Match words that start with htr, such as htr2c, or htr1a<br>
-                                    <i>htr2c</i><br>
-                                    Find the specific gene 'htr2c'<br>
-                                    <i>1346833</i><br>
-                                    Look up MGI ID 1346833<br>
-                                    <i>12590258</i><br>
-                                    Look up Pubmed ID 1346833<br>
-                                    <i>#101,#103</i><br>
-                                    Show record numbers 101 and 103<br>
-                                </div>
-
-                            </div>
-                    </table>
-                    </form>
-
-                </td>
-            </tr>
-        </table>
+        <form method="post" action="loginServlet" class="search_right">
+            <input type="text" placeholder="Search..." style='font-size:120%;vertical-align:top;margin-top: 0px' class="input-xlarge" name="search_terms" id="search_terms"></input>
+            <input type="image" alt="Submit" src=/img/Eyeglass-black.svg style="height: 28px;margin: 0px">
+            <input type="hidden" name="page" value="search_bar">
+        </form>
     </div>
+    <div style="width: 100%">
+        <%= table%>
+    </div>
+
+    <div class="spacing_div"></div>
+    <div class="category">
+        <div class="three_column_left">
+            <img src="/img/Home.svg" class="image-center" style="width: 50%;">
+            <br>
+            <p class="button_header">Home</p>
+            <p class="button_body_text">Return to the MSU Rodent Database homepage.</p>
+            <div class="MSU_green_button">
+                <a class="anchor_no_underline" href="about.jsp">
+                    <p class="MSU_green_button_Text">Go</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="three_column_center">
+            <img src="/img/Questions.svg" class="image-center" style="width: 50%;">
+            <br>
+            <p class="button_header">Questions?</p>
+            <p class="button_body_text">You can contact the MSU Rodent Database admin at ORA.MSURodentDatabase@msu.edu.</p>
+            <div class="MSU_green_button">
+                <a class="anchor_no_underline" href="mailto:ORA.MSURodentDatabase@msu.edu">
+                    <p class="MSU_green_button_Text">Email</p>
+                </a>
+            </div>
+        </div>
+
+
+        <div class="three_column_right">
+            <img src="/img/AboutUs.svg" class="image-center" style="width: 50%;">
+            <br>
+            <p class="button_header">About Us</p>
+            <p class="button_body_text">Learn more about the history of the MSU Rodent Database.</p>
+            <div class="MSU_green_button">
+                <a class="anchor_no_underline" href="history.jsp">
+                    <p class="MSU_green_button_Text">Go</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</div> <!-- This end div is here to end the site container div. For some reason it's not picked up by intellisense, but it is necessary. -->
+
+<%=HTMLGeneration.getWebsiteFooter()%>
