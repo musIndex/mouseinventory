@@ -1693,8 +1693,8 @@ body {
   position: absolute;
 }
 a {
-  color: #0000FF;
-  text-decoration: none;
+  color: black;
+  text-decoration: underline;
 }
 a:hover {
   color: purple;

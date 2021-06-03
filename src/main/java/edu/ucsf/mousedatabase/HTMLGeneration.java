@@ -1664,21 +1664,21 @@ public class HTMLGeneration {
   private static String getMouseTableHeaders() {
     StringBuffer table = new StringBuffer();
     table.append("<tr class='mouselistH'>\r\n");
-    table.append("<td class='mouselistcolumn-name' >\r\n");
+    table.append("<td class='mouselistcolumn-name-header' >\r\n");
     table.append("Name");
-    table.append("<td class='mouselistcolumn-category'>\r\n");
+    table.append("<td class='mouselistcolumn-category-header'>\r\n");
     table.append("Category");
     table.append("</td>\r\n");
-    table.append("<td class='mouselistcolumn-details'>\r\n");
+    table.append("<td class='mouselistcolumn-details-header'>\r\n");
     table.append("Details");
     table.append("</td>\r\n");
-    table.append("<td class='mouselistcolumn-comment'>\r\n");
+    table.append("<td class='mouselistcolumn-comment-header'>\r\n");
     table.append("Comment ");
     table.append("</td>\r\n");
-    table.append("<td class='mouselistcolumn-files' >\r\n");
-    table.append("Files");
-    table.append("</td>\r\n");
-    table.append("<td class='mouselistcolumn-holders' >\r\n");
+//    table.append("<td class='mouselistcolumn-files-header' >\r\n");
+//    table.append("Files");
+//    table.append("</td>\r\n");
+    table.append("<td class='mouselistcolumn-holders-header' >\r\n");
     table.append("Holders ");
     table.append("</td>\r\n");
     table.append("</tr>\r\n");
@@ -1701,7 +1701,7 @@ public class HTMLGeneration {
                                      boolean showChangeRequest, boolean showAllHolders, boolean showHeader, boolean includeJson) {
     StringBuffer table = new StringBuffer();
     table.append("<div class=\"mouseTable\">\r\n");
-    table.append("<table style='width:100%'>\r\n");
+    table.append("<table class='facilityTableInside' style='width:100%'>\r\n");
     int numMice = 0;
 
     for (MouseRecord nextRecord : mice) {
@@ -1729,9 +1729,9 @@ public class HTMLGeneration {
                 + "</dt>\r\n");
       }
       if (showChangeRequest) {
-        table.append("<dt><span class='changerequest'><a href=ChangeRequestForm.jsp?mouseID="
+        table.append("<dt><span class='changerequest'><a class='geneItemLink' href=ChangeRequestForm.jsp?mouseID="
                 + nextRecord.getMouseID()
-                + "><span class='lbl'>request change in record</span></a></span></dt>\r\n");
+                + "><span class='lbl'>Request record change</span></a></span></dt>\r\n");
       }
       if (edit && nextRecord.getStatus() != null) {
         String style = "";
@@ -1976,25 +1976,25 @@ public class HTMLGeneration {
       table.append("</td>\r\n");
 
 
-      // INTERIM column - filenames. adds a link for each file in the existing mouseRecord, add User file view
-      if (showChangeRequest || edit) {
-        table.append("<td class='mouselistcolumn-files'>\r\n");
-        //ArrayList<File> files = nextRecord.getFilenames(); //files should be set when mouseRecord made
-        ArrayList<String> filenames = nextRecord.getFilenames();
-        String fileComment = "";
-
-        for (String filename : filenames) {
-          //Log.Info("starting filename: " + filename);
-          String filenameHref = filename.replaceAll("\\s", "%20"); //check that this works
-          //Log.Info("ending filename: " + filename);
-          //"+adminRoot+"/download" not working /admin//download
-          fileComment = "<a href=" + siteRoot + "download" + "?fileName=" + filenameHref + "&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
-          table.append("<div>" + fileComment + "</div>");
-        }
-
-      } else {
-        table.append("</td>\r\n<td>\r\n");
-      }
+//      // INTERIM column - filenames. adds a link for each file in the existing mouseRecord, add User file view
+//      if (showChangeRequest || edit) {
+//        table.append("<td class='mouselistcolumn-files'>\r\n");
+//        //ArrayList<File> files = nextRecord.getFilenames(); //files should be set when mouseRecord made
+//        ArrayList<String> filenames = nextRecord.getFilenames();
+//        String fileComment = "";
+//
+//        for (String filename : filenames) {
+//          //Log.Info("starting filename: " + filename);
+//          String filenameHref = filename.replaceAll("\\s", "%20"); //check that this works
+//          //Log.Info("ending filename: " + filename);
+//          //"+adminRoot+"/download" not working /admin//download
+//          fileComment = "<a href=" + siteRoot + "download" + "?fileName=" + filenameHref + "&mouseID=" + nextRecord.getMouseID() + ">" + filename + "</a>";
+//          table.append("<div>" + fileComment + "</div>");
+//        }
+//
+//      } else {
+//        table.append("</td>\r\n<td>\r\n");
+//      }
 
       // Fifth column - holders -EW change to last column
       table.append("<td class='mouselistcolumn-holders'>\r\n");
@@ -2059,7 +2059,7 @@ public class HTMLGeneration {
 
           holderBuf.append("<dt" + (overMax ? " style='display:none'" : "") + ">"
                   + (holder.isCovert() ? "<span class='covert_tag'>CVT</span>-" : "")
-                  + mailLink + facilityName
+                  + mailLink + "<br>" + facilityName
                   + "<span class='lbl'>" + cryoLiveStatus + "</span>"
                   + "</dt>");
 
@@ -2745,7 +2745,7 @@ public class HTMLGeneration {
 
     if (value.equalsIgnoreCase("null"))
       return "";
-    return "<a href=\"http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids="
+    return "<a class='holderItemLink' href=\"http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids="
             + value
             + "&amp;dopt=Abstract\" target=\"_blank\">"
             + value
@@ -2791,7 +2791,7 @@ public class HTMLGeneration {
 
     }
 
-    return "<a target=\"_blank\" href='" + fixedUrl + "'>" + label + "</a>";
+    return "<a class='holderItemLink' target=\"_blank\" href='" + fixedUrl + "'>" + label + "</a>";
   }
 
   public static String formatGensat(String value) {
@@ -3148,9 +3148,9 @@ public class HTMLGeneration {
                                                   int creOnly, int facilityID, boolean species) {
     StringBuffer buf = new StringBuffer();
     buf.append("<div class='mousetype_selection_links'>");
-    buf.append("<ul>");
+    buf.append("<ul class='label_text' style='columns:2;font-size:14px'>");
 
-    buf.append("<li>Rodent species: ");
+    buf.append("<li style='margin-top:0px'>Rodent species: ");
     buf.append(genSelect("species", new String[]{"false", "true",}, new String[]{"Mouse", "Rat"}, species, null));
     buf.append("</li>");
 
