@@ -239,7 +239,8 @@ a.navBarAnchor:visited {
 }
 
 .mouseTable {
-  min-width: 920px;
+  width: 100%;
+  border-spacing: 0px;
 }
 
 
@@ -329,15 +330,15 @@ tr.formFieldAlt {
 
 tr.mouselistH {
   font-size: 14pt;
-  background-color: #89BBE2;
+  background-color: #133d34;
 }
 
 tr.mouselist {
-  background-color: #E7EDEC;
+  background-color: #FFFFFF;
 }
 
 tr.mouselistAlt {
-  background-color: #E2E9DB;
+  background-color: #ccccccff;
 }
 
 tr.submissionlistH {
@@ -484,6 +485,8 @@ tr.holderlistAlt {
   background-color: #ccccccff;
 }
 
+
+
 table.editMouseParent {
   width: 100%;
   padding: 0px;
@@ -517,7 +520,7 @@ dl {
 }
 
 .mouseName {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
 }
 
@@ -778,29 +781,106 @@ span.red {
 }
 
 .mouseTable td {
-  vertical-align: top;
+
+}
+
+td.mouselistcolumn-name-header{
+  width: 11%;
+  height: 35px;
+  font-size: 20px;
+  color: white;
+  border-top: solid 1px black;
+  border-right: solid 1px black;
+}
+
+td.mouselistcolumn-category-header{
+  width: 19%;
+  height: 35px;
+  font-size: 20px;
+  color: white;
+  border-top: solid 1px black;
+  border-right: solid 1px black;
+}
+
+td.mouselistcolumn-details-header{
+  width: 19%;
+  height: 35px;
+  font-size: 20px;
+  color: white;
+  border-top: solid 1px black;
+  border-right: solid 1px black;
+}
+
+td.mouselistcolumn-comment-header{
+  width: 37%;
+  height: 35px;
+  font-size: 20px;
+  color: white;
+  border-top: solid 1px black;
+  border-right: solid 1px black;
+}
+td.mouselistcolumn-files-header {
+  width: 6%;
+  height: 35px;
+  font-size: 20px;
+  color: white;
+  border-top: solid 1px black;
+  border-right: solid 1px black;
+}
+td.mouselistcolumn-holders-header{
+  width: 10%;
+  height: 35px;
+  font-size: 20px;
+  color: white;
+  border-top: solid 1px black;
+  border-right: solid 1px black;
 }
 
 td.mouselistcolumn-name {
-  width: 175px;
+  border-right: solid 1px black;
+  border-bottom: solid 1px black;
+  font-size: 14px;
+  height: 25px;
+  color: black;
 }
 
 td.mouselistcolumn-category {
-  min-width: 250px;
+  border-right: solid 1px black;
+  border-bottom: solid 1px black;
+  font-size: 14px;
+  height: 25px;
+  color: black;
 }
 
 td.mouselistcolumn-details {
-  min-width: 250px;
+  border-right: solid 1px black;
+  border-bottom: solid 1px black;
+  font-size: 14px;
+  height: 25px;
+  color: black;
 }
 
 td.mouselistcolumn-comment {
+  border-right: solid 1px black;
+  border-bottom: solid 1px black;
+  font-size: 14px;
+  height: 25px;
+  color: black;
 }
 td.mouselistcolumn-files{
-	
+  border-right: solid 1px black;
+  border-bottom: solid 1px black;
+  font-size: 14px;
+  height: 25px;
+  color: black;
 }
 
 td.mouselistcolumn-holders {
-  min-width: 150px;
+  border-right: solid 1px black;
+  border-bottom: solid 1px black;
+  font-size: 14px;
+  height: 25px;
+  color: black;
 }
 
 .search-box {
@@ -1098,7 +1178,7 @@ html[xmlns] .cf {
 }
 
 div.mousetype_selection_links {
-	width: 230px;
+	width: 100%;
 }
 
 div.mousetype_selection_links > ul {
@@ -1413,6 +1493,11 @@ table.form_table td {
   color: black;
 }
 
+.label_text{
+  font-size: 16px;
+  color: black;
+}
+
 .MSU_green_button{
   background-color: #18453B;
   width: 32%;
@@ -1480,6 +1565,13 @@ table.form_table td {
 .x_clear{
 }
 
+.records_header{
+  font-size: 36px;
+  color: black;
+  line-height: 36px;
+  margin-block-end: 0.25em;
+  margin-block-start: 0.5em
+}
 
 
 
