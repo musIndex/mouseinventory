@@ -184,6 +184,7 @@
                 <table style="width: 100%">
                     <tr>
                         <p class="label_text" style='margin-top:0px;margin-bottom:5px;padding-left: 2px'><%=mouseTypeStr + ": " + mouseCountStr %></p>
+
                     </tr>
                     <tr>
                         <td style="width: 55%;padding: 0px">

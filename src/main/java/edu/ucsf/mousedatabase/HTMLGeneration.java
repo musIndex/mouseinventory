@@ -3148,7 +3148,9 @@ public class HTMLGeneration {
                                                   int creOnly, int facilityID, boolean species) {
     StringBuffer buf = new StringBuffer();
     buf.append("<div class='mousetype_selection_links'>");
+
     buf.append("<ul class='label_text' style='columns:2;font-size:16px'>");
+
 
     buf.append("<li style='margin-top:0px'>Rodent species: ");
     buf.append(genSelect("species", new String[]{"false", "true",}, new String[]{"Mouse", "Rat"}, species, null));
