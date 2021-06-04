@@ -1510,6 +1510,36 @@ table.form_table td {
   margin-right: auto;
 }
 
+.MSU_green_button_next_previous{
+  background-color: #18453B;
+  width: 85px;
+  height: 35px;
+  border: black;
+  border-style: solid;
+  border-width: 3px;
+}
+
+.MSU_green_button_next_previous_disabled{
+  background-color: #18453B;
+  width: 85px;
+  height: 35px;
+  border: #4c4c4c;
+  border-style: solid;
+  border-width: 3px;
+  opacity: 65%;
+}
+
+.MSU_green_button_next_previous_text{
+  margin: auto;
+  width: 100%;
+  line-height: 35px;
+  text-align: center;
+  color: white;
+  font-size: 18px;
+}
+
+
+
 .MSU_green_button_Text{
   height: 100%;
   margin: auto;
@@ -1518,6 +1548,9 @@ table.form_table td {
   color: white;
   font-size: 18px;
 }
+
+
+
 
 .anchor_no_underline{
   text-decoration: none;
