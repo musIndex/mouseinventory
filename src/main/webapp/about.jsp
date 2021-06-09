@@ -13,7 +13,7 @@
 
 
 <div class="category" style="position: relative;width: 100%;overflow-y: hidden">
-    <img src="/img/msu_airview_cropped.png" style="filter: brightness(70%)">
+    <img src="/img/msu_airview_cropped_smaller.png" style="filter: brightness(70%)">
     <div class="site_container" style="position: absolute;top: 15%;width:100%;margin: 0px 0px !important;">
         <div class="two_column_left" style="padding-left:40px;width: 40%">
             <div class="MSU_green_button_transparent">
