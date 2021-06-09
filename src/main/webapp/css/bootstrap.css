@@ -1615,6 +1615,8 @@ html {
   font-size: 100%;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
+  width: 100%;
+  height: 100%;
 }
 a:focus {
   outline: thin dotted #333;
@@ -1691,6 +1693,8 @@ body {
   color: #333333;
   background-color: #ffffff;
   position: absolute;
+  height: 100%;
+  width:100%;
 }
 a {
   color: black;
