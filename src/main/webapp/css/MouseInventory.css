@@ -1582,6 +1582,12 @@ table.form_table td {
   overflow: hidden;
 }
 
+.spacing_div_mini{
+  height: 50px;
+  width: 100%;
+  overflow: hidden;
+}
+
 
 .dropdown_left{
   font-size: 16px;
@@ -1606,7 +1612,80 @@ table.form_table td {
   margin-block-start: 0.5em
 }
 
+.homepage_label{
+  color: white;
+  font-size: 7vh;
+  line-height: 7vh;
+  margin-block-start: 0em;
+}
+.homepage_text{
+  color: white;
+  font-size: 5vh;
+  line-height: 5vh;
+  margin-block-start: 0em;
+}
+.homepage_text_bold{
+  color: white;
+  font-size: 5vh;
+  font-weight: bold;
+  line-height: 5vh;
+  margin-block-end: 0em;
+}
 
+.homepage_image{
+  margin-left: auto;
+  height: 8vh;
+  margin-right: auto;
+  display: block;
+  padding-top: 0.75vh;
+}
 
+.MSU_green_button_transparent{
+  background-color: #25252591;
+  width: 68%;
+  height: 14vh;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.MSU_green_button_transparent_text{
+  height: 100%;
+  margin: auto;
+  padding: 2vh;
+  text-align: center;
+  color: white;
+  font-size: 3vh;
+  line-height: 2vh;
+}
+
+.MSU_sidebar_button{
+  background-color: #18453B;
+  width: 85%;
+  height: 40px;
+  border: black;
+  border-style: solid;
+  border-width: 3px;
+  display: block;
+  margin-left: 30px;
+  margin-bottom: 10px;
+}
+
+.sidebar_desc{
+  width: 69%;
+  overflow-y:auto;
+  height: 350px;
+  border:solid 1px black;
+  background-color: #80808029;
+}
+
+.sidebar_text{
+  padding-left: 10px;
+  margin-top: 0px;
+  padding-top: 3px;
+  padding-right: 6px;
+  color: black;
+  font-size: 15px;
+}
 
 
