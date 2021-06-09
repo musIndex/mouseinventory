@@ -129,15 +129,15 @@ public class HTMLGeneration {
     table.append("<div id=\"navBarContainer\">");
 
     // Page header
-    table.append("<div id=\"pageHeaderContainer\" class='clearfix'>");
+    table.append("<div id=\"pageHeaderContainer\" class='clearfix' style=background-color:#133D34>");
     table.append("<div class='site_container'>");
     table.append("<div id=\"pageTitleContainer\">");
-    table.append("<div>"); //pagetitle
+    table.append("<div >"); //pagetitle
 
     table.append("<a href=\"" + siteRoot + "about.jsp\">"
-            + "<img src=/img/MSU_logo.png title='Homepage' style='image-rendering: -webkit-optimize-contrast; padding-top: 10px !important; padding-bottom: 10px !important; background-color:#FFFFFF' width='7%' class='10year' >");
+            + "<img src=/img/MSU_logo_white.png title='Homepage' style=\"image-rendering: -webkit-optimize-contrast; padding-top: 10px !important; padding-bottom: 10px !important; width:5%; class:10year\">");
     table.append("<a href=\"" + siteRoot + "history.jsp\">"
-            + "<img src=/img/MSURDB-Logo.png title='History of MouseDB' style='image-rendering: -webkit-optimize-contrast; padding-top: 10px !important; padding-bottom: 10px !important; padding-left: 15px !important; background-color:#FFFFFF' width= 67%' class='10year' >");
+            + "<img src=/img/MSURDB-Logo-White.png title='History of MouseDB' style=\"image-rendering: -webkit-optimize-contrast; padding-top: 10px !important; padding-bottom: 10px !important; padding-left: 15px !important; width:50%; class:10year\">");
 
 //    table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + DBConnect.loadSetting("general_site_name").value + "</a></span>");
 
@@ -160,7 +160,7 @@ public class HTMLGeneration {
     table.append("</div>"); //pageheader
     table.append("</div>"); //pageheadercontainer
     // Navigation Bar
-    table.append("<div id=\"navigationLinksContainer\" class='clearfix'>");
+    table.append("<div id=\"navigationLinksContainer\" class='clearfix' style='border-top:solid white 1px'>");
     table.append("<div id='navigationLinks' class='site_container'>");
     table.append("<div id='wrap' class='wrapper'>");
     table.append("<ul class=\"navLinkUL\">");
@@ -432,10 +432,10 @@ public class HTMLGeneration {
     String style = "style=\"";
 
     if (rightBorder) {
-      style += "border-right: 2px solid #FFFFFF;";
+      style += "border-right: 1px solid #FFFFFF;";
     }
     if (leftBorder) {
-      style += "border-left: 2px solid #FFFFFF;";
+      style += "border-left: 1px solid #FFFFFF;";
     }
     return "<li " + style + "\" " + "class=\"" + cssClass
 
