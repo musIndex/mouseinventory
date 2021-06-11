@@ -74,17 +74,6 @@
             </div>
         </div>
         <div class="three_column_center">
-            <img src="/img/Download.svg" class="image-center" style="width: 50%;">
-            <br>
-            <p class="button_header">Rodent Database User Manual</p>
-            <p class="button_body_text">Dr. Martin created these presentations to explain the differences between mutant allele and transgene mice. </p>
-            <div class="MSU_green_button">
-                <a class="anchor_no_underline" href="https://msurodentdatabasefiles.s3.us-east-2.amazonaws.com/Rodent+Database+User+Manual+2-13-21.pdf">
-                    <p class="MSU_green_button_Text">Download</p>
-                </a>
-            </div>
-        </div>
-        <div class="three_column_right">
             <img src="/img/wordbubble.svg" class="image-center" style="width: 50%;">
             <br>
             <p class="button_header">Request a Demonstration</p>
@@ -95,13 +84,26 @@
                 </a>
             </div>
         </div>
-    </div>
+        <div class="three_column_right">
+            <img src="/img/Download.svg" class="image-center" style="width: 50%;">
+            <br>
+            <p class="button_header">Rodent Database User Manual</p>
+            <p class="button_body_text">Dr. Martin created these presentations to explain the differences between mutant allele and transgene mice. </p>
+            <div class="MSU_green_button">
+                <a class="anchor_no_underline" href="https://msurodentdatabasefiles.s3.us-east-2.amazonaws.com/Rodent+Database+User+Manual+2-13-21.pdf">
+                    <p class="MSU_green_button_Text">Download</p>
+                </a>
+            </div>
+        </div>
+
+
+
 
     <div class="spacing_div"></div>
 
 
 </div>
-<div class='about_container'>
+
     <div id='about_details'>
         <p class="main_header" id="details" style="text-align: left;padding-left: 30px">MSU Rodent Database Details and Resources</p>
         <div class="category">
@@ -129,10 +131,12 @@
                             If the mutant allele or transgene has been published, the record also provides the MGI/RGD allele/transgene ID and official symbol for the rodent, along with the Pubmed ID for the most relevant publication(s) describing the genetic modifications in the allele/transgene. Clicking on the MGI allele/transgene ID or the Pubmed ID will bring up the relevant pages on MGI or Pubmed, respectively.
 
                             Background strain of the mutant allele/transgene can be listed.
+
                         </p>
                     </a>
                 </div>
                 <div class="MSU_sidebar_button">
+
                     <a style='cursor: pointer' class="anchor_no_underline" onclick="sidebar(this, 'rodent_types')">
                         <p class="MSU_green_button_Text">Types of mutant rodents</p>
                         <p id="rodent_types" style="display: none">Each rodent entry in the MSU Rodent Database is classified in one of three categories.
@@ -157,6 +161,7 @@
                             If a rodent is no longer being maintained by a particular holder, the name of that holder should be deleted from the record using the same procedure as for adding a holder. Note, that if the holder to be deleted is the only investigator maintaining the rodent, the record for that rodent will be deleted from the database.
 
                             Requests for other changes to a record can also be submitted using the request change form.
+
 
                             When a completed submission or request change form is submitted, an administrator will generate a record for the rodent in the database or make the requested alterations in holders or other information about a rodent.
                         </p>
