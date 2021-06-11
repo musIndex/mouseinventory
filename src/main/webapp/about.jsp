@@ -12,9 +12,11 @@
 <%=HTMLGeneration.getNavBar("about.jsp", false)%>
 
 
+
 <div class="site_container_pic" style="position: relative;margin:0px;overflow-y: hidden">
 
     <img src="/img/msu_airview_cropped_smallest.png" style="filter: brightness(70%);width: 100%;">
+
 
     <div class="site_container" style="position: absolute;top: 15%;width:100%;margin: 0px 0px !important;">
         <div class="category">
