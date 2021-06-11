@@ -30,7 +30,7 @@ ul.navLinkUL {
 }
 
 #navBarContainer {
-  min-width: 920px;
+  min-width: 1379px;
   position: relative;
   margin: 0px;
 }
@@ -42,25 +42,52 @@ ul.navLinkUL {
 
 
 
-@media all and (min-width: 1601px) {
-  .site_container {
-    width: 1520px;
-  }
-}
+/*@media all and (min-width: 1379px) {*/
+/*  .site_container {*/
+/*    width: 1520px;*/
+/*  }*/
+/*}*/
 
-@media all and (min-width: 1041px) and (max-width: 1600px) {
+@media all and (min-width: 1379px) and (max-width: 1920px) {
   .site_container {
-    margin: 0px 40px !important;
+    /*margin: 0px 40px !important;*/
+    /*width: 1379px;*/
   }
 }
-@media all and (max-width: 1040px){
-  .site_container {
-    width: 920px;
-  }
-}
+/*@media all and (max-width: 1920px){*/
+/*  .site_container {*/
+/*    width: 1379px;*/
+/*  }*/
+/*}*/
 
 .site_container {
-  margin: 0px auto;
+  margin: 0px 40px !important;
+  min-width: 1379px;
+}
+
+/*@media all and (min-width: 1379px) {*/
+/*  .site_container_pic {*/
+/*    width: 1379px;*/
+/*  }*/
+/*}*/
+
+@media all and (min-width: 1379px) and (max-width: 1920px) {
+  .site_container_pic {
+    /*margin: 0px 0px !important;*/
+    /*width: 1379px;*/
+  }
+
+
+}
+/*@media all and (max-width: 1920px){*/
+/*  .site_container_pic {*/
+/*    width: 1379px;*/
+/*  }*/
+/*}*/
+
+.site_container_pic {
+  margin: 0px 0px !important;
+  min-width: 1379px;
 }
 
 
@@ -139,13 +166,14 @@ ul.navLinkUL {
 #adminLinksContainer {
   font-size: 15px;
   padding: 0;
-  min-width: 920px;
+  min-width: 1379px;
   overflow: hidden;
 }
 #navigationLinksContainer {
   background-color: #113D34;
-  height: 35px;
+  height: 50px;
   overflow: hidden;
+  font-size: 16px;
 }
 
 #adminLinksContainer {
@@ -172,9 +200,26 @@ ul.navLinkUL {
   /*margin: 3px 3px 3px 0px;*/
   padding: 0;
   height: 35px;
-  padding-top: 10px;
+  padding-top: 15px;
   list-style-type: none;
   float: left;
+}
+
+.NavLinkImage{
+  padding: 0;
+  height: 35px;
+  padding-top: 15px;
+  list-style-type: none;
+  float: left;
+}
+.NavLinkImage:hover{
+  filter: brightness(0.5);
+}
+.quicksearch_button{
+
+}
+.quicksearch_button:hover{
+  filter: brightness(0.5);
 }
 .NavLinkItem.current,
 .NavLinkItem.nav-mouselist.current {
@@ -224,8 +269,7 @@ a.navBarAnchor {
 }
 
 a.navBarAnchor:hover {
-  color: #FFFFFD;
-  text-decoration: none;
+  filter: brightness(0.5);
 }
 
 a.navBarAnchor:link {
@@ -1228,8 +1272,9 @@ a.view_sent {
 }
 
 .about_container {
-  margin: 0 auto;
+  margin: 0 40px;
   text-align: center;
+  min-width: 1379px;
 }
 
 .about_welcome{
@@ -1567,6 +1612,7 @@ table.form_table td {
   overflow: hidden;
   text-align: right;
   margin-top: 0px;
+  min-width: 1379px;
 }
 
 .MSU_footer_text{
@@ -1614,21 +1660,21 @@ table.form_table td {
 
 .homepage_label{
   color: white;
-  font-size: 7vh;
-  line-height: 7vh;
+  font-size: 7.5vh;
+  line-height: 7.5vh;
   margin-block-start: 0em;
 }
 .homepage_text{
   color: white;
-  font-size: 5vh;
-  line-height: 5vh;
+  font-size: 5.5vh;
+  line-height: 5.5vh;
   margin-block-start: 0em;
 }
 .homepage_text_bold{
   color: white;
-  font-size: 5vh;
+  font-size: 5.5vh;
   font-weight: bold;
-  line-height: 5vh;
+  line-height: 5.5vh;
   margin-block-end: 0em;
 }
 
