@@ -74,17 +74,6 @@
             </div>
         </div>
         <div class="three_column_center">
-            <img src="/img/Download.svg" class="image-center" style="width: 50%;">
-            <br>
-            <p class="button_header">Rodent Database User Manual</p>
-            <p class="button_body_text">Dr. Martin created these presentations to explain the differences between mutant allele and transgene mice. </p>
-            <div class="MSU_green_button">
-                <a class="anchor_no_underline" href="https://msurodentdatabasefiles.s3.us-east-2.amazonaws.com/Rodent+Database+User+Manual+2-13-21.pdf">
-                    <p class="MSU_green_button_Text">Download</p>
-                </a>
-            </div>
-        </div>
-        <div class="three_column_right">
             <img src="/img/wordbubble.svg" class="image-center" style="width: 50%;">
             <br>
             <p class="button_header">Request a Demonstration</p>
@@ -95,13 +84,25 @@
                 </a>
             </div>
         </div>
-    </div>
+        <div class="three_column_right">
+            <img src="/img/Download.svg" class="image-center" style="width: 50%;">
+            <br>
+            <p class="button_header">Rodent Database User Manual</p>
+            <p class="button_body_text">Dr. Martin created these presentations to explain the differences between mutant allele and transgene mice. </p>
+            <div class="MSU_green_button">
+                <a class="anchor_no_underline" href="https://msurodentdatabasefiles.s3.us-east-2.amazonaws.com/Rodent+Database+User+Manual+2-13-21.pdf">
+                    <p class="MSU_green_button_Text">Download</p>
+                </a>
+            </div>
+        </div>
+
+
 
     <div class="spacing_div"></div>
 
 
 </div>
-<div class='about_container'>
+
     <div id='about_details'>
         <p class="main_header" id="details" style="text-align: left;padding-left: 30px">MSU Rodent Database Details and Resources</p>
         <div class="category">

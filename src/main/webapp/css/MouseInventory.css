@@ -50,7 +50,7 @@ ul.navLinkUL {
 
 @media all and (min-width: 1379px) and (max-width: 1920px) {
   .site_container {
-    /*margin: 0px 40px !important;*/
+    margin: 0px 40px !important;
     /*width: 1379px;*/
   }
 }
@@ -61,7 +61,7 @@ ul.navLinkUL {
 /*}*/
 
 .site_container {
-  margin: 0px 40px !important;
+  /*margin: 0px 40px !important;*/
   min-width: 1379px;
 }
 
@@ -73,7 +73,7 @@ ul.navLinkUL {
 
 @media all and (min-width: 1379px) and (max-width: 1920px) {
   .site_container_pic {
-    /*margin: 0px 0px !important;*/
+    margin: 0px 0px !important;
     /*width: 1379px;*/
   }
 
@@ -86,7 +86,7 @@ ul.navLinkUL {
 /*}*/
 
 .site_container_pic {
-  margin: 0px 0px !important;
+  /*margin: 0px 0px !important;*/
   min-width: 1379px;
 }
 
@@ -1272,7 +1272,7 @@ a.view_sent {
 }
 
 .about_container {
-  margin: 0 40px;
+
   text-align: center;
   min-width: 1379px;
 }
@@ -1625,6 +1625,7 @@ table.form_table td {
 .spacing_div{
   height: 100px;
   width: 100%;
+  min-width: 1379px;
   overflow: hidden;
 }
 
