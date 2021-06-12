@@ -3159,9 +3159,9 @@ public class DBConnect {
 
 			nextMouse.setHolders(getMouseHolders(nextMouse.getMouseID()));
 			nextMouse.setPubmedIDs(getMousePubmedIDs(nextMouse.getMouseID()));
-			nextMouse.setFilenames(getFilenames((nextMouse.getMouseID()), "approved"));
+			//nextMouse.setFilenames(getFilenames((nextMouse.getMouseID()), "approved"));
 
-			nextMouse.setFileIDs(getFileIDs((nextMouse.getMouseID()), "approved"));
+			//nextMouse.setFileIDs(getFileIDs((nextMouse.getMouseID()), "approved"));
 
 
 			return nextMouse;
@@ -3808,24 +3808,25 @@ public class DBConnect {
 		@Override
 		protected Object getNextItem() throws SQLException
 		{
+			System.out.println("File");
 			//get blob and filename
-			String filename = g_str("filename");
-			Blob myBlob = g_blob("file");
-			File file = new File(filename);
-			InputStream input = myBlob.getBinaryStream();
-			try {
-				//int fileLength = input.available();
-				byte[] buffer = new byte[input.available()];
-
-				OutputStream output = new FileOutputStream(file);
-
-				input.read(buffer);
-				output.write(buffer);
-				output.close();
-
-			} catch(IOException e) {
-				//exception
-			}
+//			String filename = g_str("filename");
+//			Blob myBlob = g_blob("file");
+			File file = new File("");
+//			InputStream input = myBlob.getBinaryStream();
+//			try {
+//				//int fileLength = input.available();
+//				byte[] buffer = new byte[input.available()];
+//
+//				OutputStream output = new FileOutputStream(file);
+//
+//				input.read(buffer);
+//				output.write(buffer);
+//				output.close();
+//
+//			} catch(IOException e) {
+//				//exception
+//			}
 			return file;
 		}
 	}

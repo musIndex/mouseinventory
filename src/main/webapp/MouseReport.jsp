@@ -14,7 +14,6 @@
 <%=HTMLGeneration.getNavBar("MouseReport.jsp", false)%>
 <%@include file="mouselistcommon.jspf" %>
 
-
 <%
     int holderReviewDays = 180;
 
@@ -142,12 +141,12 @@
             holderStatusHeading = "";
         }
 
-        String emailAdminLink = getMailToLink(DBConnect.loadSetting("admin_info_email").value, null, holder.getLastname() + " rodent list reviewed",
-                "The list of rodents held by "+ holder.getFullname() + " " +
-                        "was thoroughly reviewed and any necessary deletions/additions/corrections " +
-                        "were made today" +
-                        "\n(If rodents still need to be added, please provide a list of " +
-                        "their names below.)", "email link");
+//        String emailAdminLink = getMailToLink(DBConnect.loadSetting("admin_info_email").value, null, holder.getLastname() + " rodent list reviewed",
+//                "The list of rodents held by "+ holder.getFullname() + " " +
+//                        "was thoroughly reviewed and any necessary deletions/additions/corrections " +
+//                        "were made today" +
+//                        "\n(If rodents still need to be added, please provide a list of " +
+//                        "their names below.)", "email link");
 
         holderData = "<div class='holderData'>" +
                 "<div>" +
@@ -210,7 +209,7 @@
                 </table>
             </td>
         </tr>
-        <table>
+        <table style="min-width: 100%;">
             <tr style="width: 100%">
                 <td style="width: 100%">
                     <form class='view_opts' action="MouseReport.jsp">

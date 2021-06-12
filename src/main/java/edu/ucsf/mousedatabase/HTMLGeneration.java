@@ -1898,29 +1898,14 @@ public class HTMLGeneration {
                   + repositoryCatalogNumber
                   + "</dt>\r\n");
         }
-        //For rats ------------------------------------------
-        ArrayList<SubmittedMouse> props = new ArrayList<SubmittedMouse>();
-        boolean is_null = true;
-        boolean is_published = false;
-        SubmittedMouse sub = null;
-        if (nextRecord.getSubmittedMouseID() != null) {
-          props = DBConnect.getMouseSubmission(Integer.parseInt(nextRecord.getSubmittedMouseID()));
-        }
-        if (!props.isEmpty()) {
-          sub = props.get(0);
-          is_null = (sub == null);
-          is_published = sub.isPublished();
-        }
-        //--------------------------------
 
-        if (!is_null && is_published && sub.getIs_rat() != null && sub.getIs_rat().equals("1")) {
-          // unpublished mice
-          table.append("<dt>Published</dt>\r\n");
-        } else if (nextRecord.getPubmedIDs() == null
+        if (nextRecord.getPubmedIDs() == null
                 || nextRecord.getPubmedIDs().isEmpty()) {
           // unpublished mice
           table.append("<dt>Unpublished</dt>\r\n");
         } else {
+          table.append("<dt>Published</dt>\r\n");
+
           String allIDs = "";
           boolean first = true;
           boolean hasValidPmIds = false;
