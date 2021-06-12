@@ -22,7 +22,7 @@
         <div class="category">
 
 
-        <div class="two_column_left" style="padding-left:40px;width: 40%">
+        <div class="two_column_left" style="padding-left:40px;width: 30%">
             <div class="MSU_green_button_transparent">
                 <a class="anchor_no_underline" href='<%=siteRoot%>search.jsp?search-source=about_banner'>
                     <img src="/img/eyeglass_homepage.svg" class="homepage_image">
@@ -44,7 +44,7 @@
                 </a>
             </div>
         </div>
-        <div class="two_column_right" style="padding-right:40px">
+        <div class="two_column_right" style="padding-left:30px;width: 64%">
             <p class="homepage_label">
                 Collaborate, Investigate, Learn.
                 <br>
@@ -104,7 +104,8 @@
 
 </div>
 
-    <div id='about_details'>
+
+    <div id='about_details' style="margin-left:-15px">
         <p class="main_header" id="details" style="text-align: left;padding-left: 30px">MSU Rodent Database Details and Resources</p>
         <div class="category">
             <div class="two_column_left" id="left_side" style="width: 30%">
