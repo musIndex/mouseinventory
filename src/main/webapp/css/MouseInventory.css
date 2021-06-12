@@ -49,10 +49,12 @@ ul.navLinkUL {
 /*}*/
 
 
+
 @media all and (min-width: 1497px) and (max-width: 1920px) {
   .site_container {
     margin: 0px 11px !important;
     /*width: 1497px;*/
+
   }
 }
 /*@media all and (max-width: 1920px){*/
@@ -63,11 +65,13 @@ ul.navLinkUL {
 
 .site_container {
   /*margin: 0px 40px !important;*/
+
   min-width: 1497px;
 }
 
 
 /*@media all and (min-width: 1497px) {*/
+
 /*  .site_container_pic {*/
 /*    width: 1497px;*/
 /*  }*/
@@ -78,7 +82,9 @@ ul.navLinkUL {
 
     margin: 0px 0px !important;
 
+
     /*width: 1497px;*/
+
   }
 
 
@@ -93,7 +99,9 @@ ul.navLinkUL {
 
   /*margin: 0px 0px !important;*/
 
+
   min-width: 1497px;
+
 }
 
 
@@ -1635,7 +1643,9 @@ table.form_table td {
 .spacing_div{
   height: 100px;
   width: 100%;
+
   min-width: 1497px;
+
   overflow: hidden;
 }
 

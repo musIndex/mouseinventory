@@ -104,6 +104,7 @@
 
 </div>
 
+
     <div id='about_details' style="margin-left:-15px">
         <p class="main_header" id="details" style="text-align: left;padding-left: 30px">MSU Rodent Database Details and Resources</p>
         <div class="category">
