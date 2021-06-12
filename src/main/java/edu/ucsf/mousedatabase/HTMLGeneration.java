@@ -162,9 +162,9 @@ public class HTMLGeneration {
 
     table.append("<div style=padding-top:3px;border-right:none;padding-top:3px;margin-top:-5px class=\"NavLinkItem\">");
     table.append("<a href=\"" + siteRoot + "about.jsp\">"
-            + "<img src=/img/Msu-2.png title='Homepage' style=\"image-rendering: -webkit-optimize-contrast; padding-top: none; padding-bottom: 10px !important; height:50px; class:10year\">");
+            + "<img src=/img/Msu-2.png title='Homepage' style=\"image-rendering: -webkit-optimize-contrast; padding-top: none; padding-bottom: 10px !important; height:60px; class:10year\">");
     table.append("</div>");
-    table.append("<div class=\"\" style=\"float:right\">");
+    table.append("<div class=\"\" style=\"float:right;margin-top:6px\">");
     table.append("<ul class=\"navLinkUL\">");
     //Navigation links for the header bar
 //    table.append(addNavLink("Search", "search.jsp", null,
