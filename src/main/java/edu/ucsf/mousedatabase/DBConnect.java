@@ -659,6 +659,7 @@ public class DBConnect {
 	private static ArrayList<Integer> doMouseSearchQuery(String searchTerms, SearchStrategy strategy, String status) {
 
 		String query = "select mouse_id from flattened_mouse_search, mouse WHERE ";
+		String original_query = query;
 		String statusTerm;
 		String orderBy = "mouse_id";
 		if (status.equalsIgnoreCase("all")) {
@@ -735,7 +736,13 @@ public class DBConnect {
 			query += "match(searchtext) against(" + searchTerms + ")";
 		}
 		strategy.setTokens(tokens);
-		query += " and mouse_id=mouse.id" + statusTerm;
+		if (query.equals(original_query)){
+			query += "mouse_id=mouse.id" + statusTerm;
+
+		}
+		else{
+			query += " and mouse_id=mouse.id" + statusTerm;
+		}
 		if (orderBy != null) {
 			query += " ORDER BY " + orderBy;
 		}

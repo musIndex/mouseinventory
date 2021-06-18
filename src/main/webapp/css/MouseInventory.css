@@ -897,6 +897,7 @@ td.mouselistcolumn-holders-header{
 }
 
 td.mouselistcolumn-name {
+  width: 11%;
   border-right: solid 1px black;
   border-bottom: solid 1px black;
   font-size: 14px;
@@ -905,6 +906,7 @@ td.mouselistcolumn-name {
 }
 
 td.mouselistcolumn-category {
+  width: 19%;
   border-right: solid 1px black;
   border-bottom: solid 1px black;
   font-size: 14px;
@@ -913,6 +915,7 @@ td.mouselistcolumn-category {
 }
 
 td.mouselistcolumn-details {
+  width: 19%;
   border-right: solid 1px black;
   border-bottom: solid 1px black;
   font-size: 14px;
@@ -921,6 +924,7 @@ td.mouselistcolumn-details {
 }
 
 td.mouselistcolumn-comment {
+  width: 37%;
   border-right: solid 1px black;
   border-bottom: solid 1px black;
   font-size: 14px;
@@ -928,6 +932,7 @@ td.mouselistcolumn-comment {
   color: black;
 }
 td.mouselistcolumn-files{
+  width: 6%;
   border-right: solid 1px black;
   border-bottom: solid 1px black;
   font-size: 14px;
@@ -936,6 +941,7 @@ td.mouselistcolumn-files{
 }
 
 td.mouselistcolumn-holders {
+  width: 10%;
   border-right: solid 1px black;
   border-bottom: solid 1px black;
   font-size: 14px;
@@ -945,7 +951,7 @@ td.mouselistcolumn-holders {
 
 .search-box {
   vertical-align: middle;
-  text-align: center;
+  /*text-align: center;*/
 }
 
 .search-box a {
@@ -972,7 +978,7 @@ td.mouselistcolumn-holders {
 }
 
 .search-box-small .search-box-inner {
-  width:530px;
+  /*width:530px;*/
 }
 .search-box-small .search-box-inner input,
 .search-box-small .search-box-inner button {
@@ -1033,11 +1039,11 @@ img.MDBlogo {
 }
 
 .search-resultcount {
-  color: gray;
-  margin-left: 5px;
-  font-style: italic;
-  font-size: 130%;
+  color: black;
+  font-size: 18px;
+  margin-top: 10px;
   float:left;
+  width: 100%
 }
 
 .search-resultcount-comment {
@@ -1050,14 +1056,10 @@ img.MDBlogo {
 }
 
 .search-strategy-header {
-  font-size: 12pt;
-  border-radius: 10px 10px 0px 0px;
-  -moz-border-radius: 10px 10px 0px 0px;
-  -webkit-border-radius: 10px 10px 0px 0px;
-  padding-left: 10px;
+  font-size: 16pt;
+  color: black;
   padding-top: 3px;
-  margin: 10px 2px 0px 2px;
-  background-color: gainsboro;
+  padding-bottom: 3px;
 }
 
 .search-strategy-show-details {
@@ -1100,16 +1102,16 @@ input[type="image"],input[type="checkbox"],input[type="radio"] {
 }
 
 .highlight-searchterm {
- color: #EE2BAD;
- font-weight: bold;
+ /*color: #EE2BAD;*/
+ /*font-weight: bold;*/
   
 }
 
 .search-load-message {
-  font-size: 16px;
-  font-style: italic;
-  color: grey;
-  margin-left: 100px;
+  font-size: 16pt;
+  color: black;
+  /*padding-top: 3px;*/
+  padding-bottom: 3px;
 }
 
 .pagination-container a {
@@ -1631,6 +1633,8 @@ table.form_table td {
   text-align: right;
   margin-top: 0px;
   min-width: 1497px;
+  position: absolute;
+  bottom: 0;
 }
 
 .MSU_footer_text{
@@ -1757,4 +1761,18 @@ table.form_table td {
   font-size: 15px;
 }
 
+.block_description_text{
+  font-size: 15px;
+  color: black;
+  margin-block-end: 0em;
+  margin-block-start: 0em;
+}
+
+.block_label_text{
+  font-size: 16px;
+  font-weight: bold;
+  color: black;
+  margin-block-end: 0em;
+  margin-block-start: 0em;
+}
 

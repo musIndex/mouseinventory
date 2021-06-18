@@ -5,6 +5,8 @@ $(document).ready(function(){
   var search_button = $("#search_button");
   var results_div = $("#searchresults");
   var search_box = $('input[name=searchterms]');
+  var pagenum = $('input [name=pagenum_select]');
+  var limit = $('input [name=limit]');
   var search_container = $(".search-box");
 
   instr_link.toggle(show_help,hide_help);
@@ -28,7 +30,7 @@ $(document).ready(function(){
 
     //todo make the search results a js object, load them here after parsing some stuff out
     if (hash.searchterms) {
-      highlight_searchterms(hash.searchterms);
+      // highlight_searchterms(hash.searchterms);
     }
     hide_help(); 
     
@@ -41,43 +43,43 @@ $(document).ready(function(){
     search_container.show();
     search_box.focus();
     //update the handlers for the pagination controls, which are returned by the search
-    $("select[name=limit]").change(function(){
-      $.bbq.pushState({limit:$(this).val(), pagenum:1});
-      return false;
-    }).chosen();
-    $(".pagination-container a").click(function(){
-      if (!($(this).hasClass("disabled"))){
-        $.bbq.pushState({pagenum:$(this).data("pagenum")});
-      }
-      return false;
-    });
-    $("select[name=pagenum_select]").change(function(e){
-      $.bbq.pushState({pagenum:$(this).val()});
-      return false;
-    });
-    $("a.search-strategy-show-details").click(function(){
-      $(this).siblings().toggle();
-      return false;
-    })
+    // $("select[name=limit]").change(function(){
+    //   $.bbq.pushState({limit:$(this).val(), pagenum:1});
+    //   return false;
+    // }).chosen();
+    // $(".pagination-container a").click(function(){
+    //   if (!($(this).hasClass("disabled"))){
+    //     $.bbq.pushState({pagenum:$(this).data("pagenum")});
+    //   }
+    //   return false;
+    // });
+    // $("select[name=pagenum_select]").change(function(e){
+    //   $.bbq.pushState({pagenum:$(this).val()});
+    //   return false;
+    // });
+    // $("a.search-strategy-show-details").click(function(){
+    //   $(this).siblings().toggle();
+    //   return false;
+    // })
   }
   
   function highlight_searchterms(searchterms){
-    $('.searchresults-mice').each(function(){
-      var $results = $(this);
-      var $header = $(this).prev();
-      var tokens = $header.attr('data-tokens').split(',');
-      $results.find(".mouselist, .mouselistAlt").highlight(tokens,{className: 'highlight-searchterm'});
-      $results.find(".lbl").unhighlight({className: 'highlight-searchterm'});
-    });
-
-    $("span.highlight-searchterm").parent().parent().each(function(){
-      var $element = $(this);
-      if($element.is("dt")) {
-        if($element.parent().hasClass("mouselist-holderlist")){
-          $element.show();
-        }
-      }
-    });
+    // $('.searchresults-mice').each(function(){
+    //   var $results = $(this);
+    //   var $header = $(this).prev();
+    //   var tokens = $header.attr('data-tokens').split(',');
+    //   $results.find(".mouselist, .mouselistAlt").highlight(tokens,{className: 'highlight-searchterm'});
+    //   $results.find(".lbl").unhighlight({className: 'highlight-searchterm'});
+    // });
+    //
+    // $("span.highlight-searchterm").parent().parent().each(function(){
+    //   var $element = $(this);
+    //   if($element.is("dt")) {
+    //     if($element.parent().hasClass("mouselist-holderlist")){
+    //       $element.show();
+    //     }
+    //   }
+    // });
   }
     
   function search_button_clicked(){
@@ -116,11 +118,16 @@ $(document).ready(function(){
     if ((hash == null || hash.searchterms == undefined) && query != null && query.searchterms != null) {
       hash.searchterms = query.searchterms;
     }
-    if (!hash.limit) hash.limit = 25;
-    if (!hash.pagenum) hash.pagenum = 1;
+    // if (!hash.limit) hash.limit = 25;
+    // if (!hash.pagenum) hash.pagenum = 1;
     
     search_box.val(hash.searchterms);
-    $("select[name=limit]").val(hash.limit);
+    hash.limit = query.limit;
+    hash.pagenum_select = query.pagenum_select;
+
+     $("select[name=limit]").val(hash.limit);
+     $("select[name=pagenum_select]").val(hash.pagenum_select);
+
     return hash;
   }
 

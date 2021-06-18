@@ -199,9 +199,9 @@ public class HTMLGeneration {
 
     String action = isAdminPage ? (adminRoot + "AdminSearch.jsp") : (siteRoot + "search.jsp");
 
-    table.append("<li style=padding-top:10px;padding-left:12px class=\"NavLinkItem\">");
+    table.append("<li style=padding-top:11px;padding-left:12px class=\"NavLinkItem\">");
     table.append("<form style = \"display: inline;\" id=\"quickSearchForm\"action=\"" + action + "\" method=\"get\">\r\n");
-    table.append("<input type=\"text\" placeholder=\"Search...\" style='font-size:80%;outline:none' class=\"input-medium\"  name=\"searchterms\" >\r\n");
+    table.append("<input onkeydown=\"return event.key != 'Enter'\" type=\"text\" placeholder=\"Search...\" style='font-size:80%;outline:none' class=\"input-medium\"  name=\"searchterms\" >\r\n");
 
     table.append("<input type='hidden' name='search-source' value='quicksearch:" + currentPageFilename + "'>\r\n");
     table.append("<input class='quicksearch_button' id='quicksearchbutton' type=\"image\" alt=\"Submit\" src=/img/Eyeglass.svg style=\"height:20px;\">");
@@ -2888,6 +2888,7 @@ public class HTMLGeneration {
     if (includeId) {
       b.append("id='" + name + "' ");
     }
+    b.append("onchange=\"this.form.submit()\"");
     b.append("name=\"" + name + "\" " + selectParams + ">");
     for (int i = 0; i < values.length; i++) {
       Object value = values[i];
@@ -3257,15 +3258,15 @@ public class HTMLGeneration {
     for (int i = 0; i < pageCount; i++) {
       pageNums[i] = Integer.toString(i + 1);
     }
-    String pageSelect = genSelect("pagenum_select", pageNums, pageNums, Integer.toString(pageNum), "style='vertical-align: 0%'", false, false);
+    String pageSelect = genSelect("pagenum_select", pageNums, pageNums, Integer.toString(pageNum), "style='vertical-align: 0%'", true, false);
 
-    buf.append(((pageNum <= 1)
+    buf.append((((pageNum <= 1) && limit < 0)
             ? "<div class='MSU_green_button_next_previous_disabled'><p class='MSU_green_button_next_previous_text'>Previous</p>"
-            : "<div class='MSU_green_button_next_previous'><a href='#' data-pagenum='" + (pageNum - 1) + "'><p class='MSU_green_button_next_previous_text'>Previous</p></a>" ) +
+            : "<div class='MSU_green_button_next_previous'><a href='#&pagenum_select=" + (pageNum - 1) + "'><p class='MSU_green_button_next_previous_text'>Previous</p></a>" ) +
             "</div>\r\n");
-    buf.append(((pageNum >= pageCount)
+    buf.append((((pageNum >= pageCount) && limit < 0)
             ? "<div class='MSU_green_button_next_previous_disabled'><p class='MSU_green_button_next_previous_text'>Next</p>"
-            : "<div class='MSU_green_button_next_previous'><a href='#' data-pagenum='" + (pageNum + 1) + "'><p class='MSU_green_button_next_previous_text'>Next</p></a>" ) +
+            : "<div class='MSU_green_button_next_previous'><a href='#&pagenum_select=" + (pageNum + 1) + "'><p class='MSU_green_button_next_previous_text'>Next</p></a>" ) +
             "</div>\r\n");
     buf.append("<div><span class='well' style='vertical-align:middle;line-height:35px;font-size:16px;padding-top:2px'>Page " + pageSelect + " of " + pageCount + "</span></div>\r\n");
 
@@ -3274,7 +3275,53 @@ public class HTMLGeneration {
       String[] values = new String[]{"10", "25", "50", "100", "500", "-2"};
       String[] labels = new String[]{"10", "25", "50", "100", "500", "All"};
 
-      String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px;font-size: 16px;'", false, false);
+      String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px;font-size: 16px;display:inline !important'", false, false);
+      buf.append("<div><span style='vertical-align:middle;font-size: 16px;line-height:35px;color:black'>&nbsp;&nbsp;" + perPageDropDown + " <span>per page</span></span></div>");
+    }
+
+    buf.append("</div>");
+
+    return buf.toString();
+  }
+
+  public static String getSearchPageSelectionLinks(int limit, int pageNum,
+                                                int total, boolean includeLimitSelector,String urlBegin, String urlEnd) {
+
+    StringBuffer buf = new StringBuffer();
+
+    urlEnd=urlEnd.substring(0,urlEnd.lastIndexOf('=')+1);
+
+
+    if (limit == -1) {
+      return "";
+    }
+    buf.append("<div class='pagination-container clearfix' style='padding-top:15px;padding-left:0px'>");
+
+    int pageCount = (total + limit - 1) / limit;
+    if (limit == -2) {
+      pageCount = 1;
+    }
+    String[] pageNums = new String[pageCount];
+    for (int i = 0; i < pageCount; i++) {
+      pageNums[i] = Integer.toString(i + 1);
+    }
+    String pageSelect = genSelect("pagenum_select", pageNums, pageNums, Integer.toString(pageNum), "style='vertical-align: 0%'", true, false);
+      buf.append((((pageNum <= 1) ||  limit == -1 || limit == -2)
+              ? "<div class='MSU_green_button_next_previous_disabled'><p class='MSU_green_button_next_previous_text'>Previous</p>"
+              : "<div class='MSU_green_button_next_previous'><a href='" + urlBegin+urlEnd + (pageNum - 1) + "'><p class='MSU_green_button_next_previous_text'>Previous</p></a>" ) +
+              "</div>\r\n");
+      buf.append((((pageNum >= pageCount) || limit == -1 || limit == -2)
+              ? "<div class='MSU_green_button_next_previous_disabled'><p class='MSU_green_button_next_previous_text'>Next</p>"
+              : "<div class='MSU_green_button_next_previous'><a href='" + urlBegin+urlEnd + (pageNum + 1) + "'><p class='MSU_green_button_next_previous_text'>Next</p></a>" ) +
+              "</div>\r\n");
+    buf.append("<div><span class='well' style='vertical-align:middle;line-height:35px;font-size:16px;padding-top:2px'>Page " + pageSelect + " of " + pageCount + "</span></div>\r\n");
+
+    if (includeLimitSelector) {
+
+      String[] values = new String[]{"10", "25", "50", "100", "500", "-2"};
+      String[] labels = new String[]{"10", "25", "50", "100", "500", "All"};
+
+      String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px;font-size: 16px;display:inline !important'", false, false);
       buf.append("<div><span style='vertical-align:middle;font-size: 16px;line-height:35px;color:black'>&nbsp;&nbsp;" + perPageDropDown + " <span>per page</span></span></div>");
     }
 
@@ -3512,7 +3559,7 @@ public class HTMLGeneration {
     String email = "ORA.MSURodentDatabase@msu.edu";
 
     //written HTML for the footer (includes a spacing div at the very beginning of height 100px.
-    String footer_HTML = "<div class=\"spacing_div\"></div>" + "<div class=\"MSU_footer\">\n" +
+    String footer_HTML = "<div class=\"spacing_div\" style=\"height:200px\"></div>" + "<div class=\"MSU_footer\">\n" +
             "\n" +
             " <div class=\"category\">\n" +
             "  <div class=\"two_column_left\">\n" +
