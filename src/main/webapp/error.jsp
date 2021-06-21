@@ -10,27 +10,27 @@
 %>
 
 <div class="site_container">
-<h2>Unknown Error.</h2>
-<p>We're sorry, but the Rodent Inventory Database has encountered an error.
-Please notify the administrator.</p>
-<h3>Error details:</h3>
-<%-- Exception Handler --%>
+  <p class="main_header">Unknown Error</p>
+  <p class="description_text">We're sorry, but the MSU Rodent Database has encountered an error. <br>
+    Please notify the administrator.</p>
+  <p class="label_text" style="font-weight: bold">Error details:</p>
+  <%-- Exception Handler --%>
 
-<pre><font color="red"><%= exception %></font></pre>
+  <pre class="description_text"><%= exception %></pre>
 
-<% if (request != null && request.getRemoteUser() != null && request.getRemoteUser().equals("admin"))
-{
+  <% if (request != null && request.getRemoteUser() != null && request.getRemoteUser().equals("admin"))
+  {
   %>
   <h4>Admin is logged in, showing stack trace.</h4>
   <div style="font-size: 11px; line-height:15px;">
-  <%if (exception != null) { %>
-  <PRE><% exception.printStackTrace(new PrintWriter(out)); %></PRE>
-  <%} %>
+    <%if (exception != null) { %>
+    <PRE><% exception.printStackTrace(new PrintWriter(out)); %></PRE>
+    <%} %>
   </div>
   <%
-}
-%>
-
-
+    }
+  %>
 
 </div>
+
+<%=HTMLGeneration.getWebsiteFooter()%>
