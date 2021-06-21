@@ -366,20 +366,51 @@ tr.InbredAlt {
 }
 
 tr.formFieldH {
-  background-color: #FFFACD;
+  background-color: #133d34;
+  color: white;
+  font-size: 25px !important;
+  height: 60px;
+}
+
+.formInput{
+  border: solid 1px black;
 }
 
 tr.formField {
-  background-color: #EEE9BF;
+  background-color: #FFFFFF;
+}
+
+.formLeft{
+  background-color: #133d34;
+  font-size: 19px;
+  width: 15%;
+  color: white;
+  padding: 0px;
+  border-left: solid 1px black;
+  border-bottom: solid 1px black;
+  height: 60px;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.formRight{
+  background-color: #FFFFFF;
+  font-size: 17px;
+  width: 20%;
+  color: black;
+  padding: 0px;
+  border-right: solid 1px black;
+  border-bottom: solid 1px black;
+  border-left: solid 1px black;
+  height: 60px;
+  text-align: center;
 }
 
 tr.formFieldAlt {
-  background-color: #EEE8AA;
+  background-color: #FFFFFF;
 }
 
 .formbody {
-  background-color: #CDC9A5;
-  padding: 5px;
 }
 
 .introduction {
@@ -391,6 +422,7 @@ tr.formFieldAlt {
 tr.mouselistH {
   font-size: 14pt;
   background-color: #133d34;
+  color: #FFFFFF;
 }
 
 tr.mouselist {
@@ -1659,6 +1691,12 @@ table.form_table td {
   overflow: hidden;
 }
 
+.spacing_div_minix2{
+  height: 12px;
+  width: 100%;
+  overflow: hidden;
+}
+
 
 .dropdown_left{
   font-size: 16px;
@@ -1776,3 +1814,19 @@ table.form_table td {
   margin-block-start: 0em;
 }
 
+.block_form_desc_text{
+  font-size: 16px;
+  color: black;
+  margin-block-end: 0em;
+  margin-block-start: 0em;
+  display: inline;
+}
+
+.block_form_label_text{
+  font-size: 16px;
+  font-weight: bold;
+  color: black;
+  margin-block-end: 0em;
+  margin-block-start: 0em;
+  display: inline;
+}

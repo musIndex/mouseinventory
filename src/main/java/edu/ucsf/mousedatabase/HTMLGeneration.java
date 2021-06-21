@@ -2888,14 +2888,23 @@ public class HTMLGeneration {
     if (includeId) {
       b.append("id='" + name + "' ");
     }
-    b.append("onchange=\"this.form.submit()\"");
+    if (name.equals("holderName") || name.equals("holderFacility")){
+
+    }
+    else{
+      b.append("onchange=\"this.form.submit()\"");
+    }
     b.append("name=\"" + name + "\" " + selectParams + ">");
     for (int i = 0; i < values.length; i++) {
       Object value = values[i];
 
       String niceName = niceNames[i];
-
-      b.append("<option value=\"" + value + "\"");
+      if (value.equals("Choose One")){
+        b.append("<option value=\"\"");
+      }
+      else{
+        b.append("<option value=\"" + value + "\"");
+      }
       if (current != null && value != null
               && value.toString().equalsIgnoreCase(current.toString())) {
         b.append(" selected=selected");
