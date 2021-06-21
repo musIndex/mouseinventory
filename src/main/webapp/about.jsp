@@ -52,7 +52,7 @@
                 <br><br>
             </p>
             <p class="homepage_text" style="display: inline">Welcome to the </p><p class="homepage_text_bold" style="display: inline">MSU Rodent Database:</p>
-            <p class="homepage_text">Explore unique and inbred strains while fostering partnership in research.</p>
+            <p class="homepage_text">Explore unique genetic strains and foster partnerships in research.</p>
         </div>
     </div>
     </div>
