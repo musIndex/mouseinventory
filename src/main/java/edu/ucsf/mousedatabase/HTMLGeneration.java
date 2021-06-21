@@ -2888,7 +2888,7 @@ public class HTMLGeneration {
     if (includeId) {
       b.append("id='" + name + "' ");
     }
-    if (name.equals("holderName") || name.equals("holderFacility")){
+    if (name.equals("holderName") || name.equals("holderFacility") || name.equals("holderId") || name.equals("facilityId")){
 
     }
     else{
