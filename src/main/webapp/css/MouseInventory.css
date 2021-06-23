@@ -372,6 +372,41 @@ tr.formFieldH {
   height: 60px;
 }
 
+.formHeaderCell{
+  width: 100%;
+  text-align: center;
+  border: solid 1px black;
+  height: 60px"
+}
+
+.formRightButtonSelect{
+  width: 222.8px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 50px;
+  text-align: left
+}
+
+.formTopButton{
+  width: 100%;
+  float: left;
+  margin-top: 13px;
+  text-align: left;
+}
+
+.formMidButton{
+  width: 100%;
+  float: left;
+  text-align: left;
+}
+
+.formBottomButton{
+  width: 100%;
+  float: left;
+  margin-bottom: 13px;
+  text-align: left;
+}
+
 .formInput{
   border: solid 1px black;
 }
@@ -698,7 +733,10 @@ th {
 }
 
 table.inputForm {
-  width: 100%;
+  width:55%;
+  margin-left: 0px;
+  margin-right: auto;
+  border-spacing: 0px
 }
 
 .geneSymbol {
@@ -1587,6 +1625,12 @@ table.form_table td {
 
 .description_text{
   font-size: 15px;
+  color: black;
+}
+
+.formButtonText{
+  font-size: 17px;
+  display: inline;
   color: black;
 }
 

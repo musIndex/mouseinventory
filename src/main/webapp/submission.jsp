@@ -50,11 +50,10 @@
                     }%>
                 <form action="submission.jsp" method="post" name="MouseForm" id="MouseForm">
 
-                    <table class="inputForm" style="width:55%;margin-left: 0px;margin-right: auto;border-spacing: 0px">
-
+                    <table class="inputForm">
 
                         <tr class="formFieldH">
-                            <td style="width: 100%;text-align: center;border: solid 1px black;height: 60px" colspan="2">Contact Information</td>
+                            <td class="formHeaderCell" colspan="2">Contact Information</td>
                         </tr>
 
                         <tr class="formField">
@@ -112,14 +111,14 @@
                         <tr class="formFieldAlt">
                             <td class="formLeft">Rodent type</td>
                             <td class="formRight">
-                                <div style="width: 222.8px;margin-left: auto;margin-right: auto;height: 50px">
-                                    <div style="width: 50%;float: left;margin-top: 13px;text-align: left;">
+                                <div class="formRightButtonSelect">
+                                    <div class="formTopButton">
                                         <input type ="radio" id ="mouse" name ="rodent" value ="mouse" onclick="document.getElementById('MouseForm').action='submitforminit.jsp'" style="height: 17px;width: 17px;" required>
-                                        <p class="description_text" style="display: inline;font-size: 17px">Mouse</p>
+                                        <p class="formButtonText">Mouse</p>
                                     </div>
-                                    <div style="width: 50%;float: right;margin-top: 13px;text-align: right;">
+                                    <div class="formBottomButton">
                                         <input type ="radio" id ="rat" name ="rodent" value ="rat" onclick="document.getElementById('MouseForm').action='submitratinit.jsp'" style="height: 17px;width: 17px;" required>
-                                        <p class="description_text" style="display: inline;font-size: 17px">Rat</p>
+                                        <p class="formButtonText">Rat</p>
                                     </div>
                                 </div>
                             </td>
@@ -135,7 +134,7 @@
             </div>
         </div>
         <div class="two_column_right">
-            <div class="sidebar_desc" style="width: 100%;margin-left:-100px;padding-left: 10px;margin-top: 0px;padding-top: 3px;padding-right: 6px;">
+            <div class="sidebar_desc" style="width: 100%;margin-left:-100px;padding-left: 10px;margin-top: 0px;padding-top: 3px;padding-right: 6px;height: 300px">
                 <p class="block_form_label_text">Before completing a submission form</p><p class="block_form_desc_text">, use the search feature above to determine if the rodent is already listed in the inventory. <br><br>Each submission should be for an</p>
                 <p class="block_form_label_text"> individual</p><p class="block_form_desc_text"> mutant allele or transgene (or inbred strain) - generically referred to as a "rodent", irrespective of whether the allele or transgene is maintained in combination with other mutant alleles or transgenes.
                 If it is, and if you want to note that it is also being housed by another investigator or to add information about the rodent, do not use this form. Instead, go to the</p>
