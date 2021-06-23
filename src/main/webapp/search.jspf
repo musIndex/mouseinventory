@@ -85,6 +85,9 @@
                 allMatches.addAll(result.getMatchingIds());
             }
             mouseCount = allMatches.size();
+            if (pagenum > 1 && (mouseCount < limit)){
+                pagenum = 1;
+                offset = 0;            }
             String mouseTable = "";
             if (allMatches.size() > 0)
             {
