@@ -123,13 +123,16 @@
                                 </div>
                             </td>
                         </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="spacing_div_minix2"></div>
+                                <div class="MSU_green_button" style="width: 32%;float: right;margin-right: -3px;">
+                                    <input type="hidden" name="process" value="true">
+                                    <input type="submit" value="Next" style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
+                                </div>
+                            </td>
+                        </tr>
                     </table>
-                    <div class="spacing_div_minix2"></div>
-                    <div class="MSU_green_button" style="width: 20%;margin-left: 255.98px;">
-                        <input type="hidden" name="process" value="true">
-                        <input type="submit" value="Next" style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
-                    </div>
-
                 </form>
             </div>
         </div>

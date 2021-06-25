@@ -62,14 +62,17 @@
                 </div>
               </td>
             </tr>
+            <tr>
+              <td colspan="2">
+                <input type="hidden" value="Random insertion" name="transgenicType">
+                <div class="spacing_div_minix2"></div>
+                <div id="nextButton" class="MSU_green_button" style="margin-right:-3px;float:right;width: 32%;<%=HTMLGeneration.elementVisibility(newMouse.hasType()) %>">
+                  <input type="hidden" name="process" value="true">
+                  <input type="submit" value="Next" style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
+                </div>
+              </td>
+            </tr>
           </table>
-
-          <input type="hidden" value="Random insertion" name="transgenicType">
-          <div class="spacing_div_minix2"></div>
-          <div id="nextButton" class="MSU_green_button" style="width: 20%;margin-left: 293.2px;<%=HTMLGeneration.elementVisibility(newMouse.hasType()) %>">
-            <input type="hidden" name="process" value="true">
-            <input type="submit" value="Next" style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
-          </div>
         </form>
       </div>
     </div>
@@ -80,7 +83,7 @@
           <p class="block_form_desc_text">For the rodent you want to submit, please select a category from the three choices listed. For mutant alleles or transgenes, respond to the query about publication.<br><br>
 
             Choose </p><p class="block_form_label_text">Mutant Allele</p> <p class="block_form_desc_text">when a gene in the rodent has been modified in some way (e.g. targeted disruption such as replacement with a neo cassette; creation of a floxed allele by
-            insertion of loxP sites; targeted knock-in of a sequence such as Cre, a reporter gene, or a rodent or human gene; spontaneous mutation, endonuclease-mediated, etc.)<br><br>
+          insertion of loxP sites; targeted knock-in of a sequence such as Cre, a reporter gene, or a rodent or human gene; spontaneous mutation, endonuclease-mediated, etc.)<br><br>
 
           Choose </p><p class="block_form_label_text">Transgene </p> <p class="block_form_desc_text">when a DNA construct (perhaps a BAC) has been randomly inserted into the genome, such that the rodent expresses a particular sequence
           (e.g. Cre, a reporter gene, a rodent or human gene) under the control of a regulatory sequence included in the construct. Note: a knock-in into a specific locus is classified as a ‘mutant allele.’ However, if a gene is disrupted by a random insertion of
