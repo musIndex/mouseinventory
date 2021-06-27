@@ -1874,3 +1874,16 @@ table.form_table td {
   margin-block-start: 0em;
   display: inline;
 }
+
+.MSU_back_button{
+  background-color: #da3c2f;
+  width: 32%;
+  height: 45px;
+  border: black;
+  border-style: solid;
+  border-width: 3px;
+  display: block;
+  margin-right: auto;
+  margin-left:-3px;
+  float:left;
+}

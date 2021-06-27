@@ -28,7 +28,7 @@
       }
       errorsMessage = "Please correct the errors listed in red below.";
     } else if ("Save Data".equalsIgnoreCase(request.getParameter("submitButton"))) {
-      savedMessage = "<span style='color:green'><b>Saved. Data will be lost if you close your browser window.</b></span>";
+      savedMessage = "Saved. Data will be lost if you close your browser window.";
     }
   }
 
@@ -235,6 +235,11 @@ $(document).ready(function(){
               <tr>
                 <td colspan="2">
                   <div class="spacing_div_minix2"></div>
+                  <div id="backButton" class="MSU_back_button" style="<%=HTMLGeneration.elementVisibility(newRat.hasType()) %>">
+                    <a class="anchor_no_underline" href="submitformRatType.jsp">
+                      <p class="MSU_green_button_Text" style="font-size: 19px">Back</p>
+                    </a>
+                  </div>
                   <div id="nextButton" class="MSU_green_button" style="margin-right:-3px;float:right;width: 32%;<%=HTMLGeneration.elementVisibility(newRat.hasType()) %>">
                     <input type="hidden" name="process" value="true">
                     <input type="submit" name="submitButton" value="Submit Rodent" style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
@@ -254,12 +259,13 @@ $(document).ready(function(){
       </div>
     </div>
     <div class="two_column_right">
-      <div class="sidebar_desc" style="width: 100%;margin-left:-100px;padding-left: 10px;margin-top: 0px;padding-top: 3px;padding-right: 6px;height: 325px">
-        <%=savedMessage%>
+      <%
+        if (newRat.isIS()){
+      %>
+      <div class="sidebar_desc" style="width: 100%;margin-left:-100px;padding-left: 10px;margin-top: 0px;padding-top: 3px;padding-right: 6px;height: 300px">
         <%--      <h3>--%>
         <%--        <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><%=errorsMessage%></span>--%>
         <%--      </h3>--%>
-        <a class="anchor_no_underline" href="submitformRatType.jsp"><p style="text-decoration: underline;margin-block-start: 0em" class="label_text">Back to step 2</p></a>
         <p class="block_form_label_text" style="text-align: center">If you leave this page without saving, ALL the data entered will be lost.</p><br><br>
         <p class="block_form_desc_text">If you encounter any difficulties while completing this page, click 'Submit Feedback' at the top of the screen.</p><br><br>
 
@@ -304,6 +310,12 @@ $(document).ready(function(){
 
         By clicking </p><p class="block_form_label_text">Submit rodent</p><p class="block_form_desc_text">, you will submit the rodent and complete the submission process.
       </p>
+      </div>
+      <%
+        }
+      %>
+      <div class="label_text" style="width: 100%;height: 40px;float: left;margin-left: -100px;margin-top: 25px;vertical-align: middle;">
+        <%=savedMessage%>
       </div>
     </div>
   </div>

@@ -66,6 +66,11 @@
               <td colspan="2">
                 <input type="hidden" value="Random insertion" name="transgenicType">
                 <div class="spacing_div_minix2"></div>
+                <div id="backButton" class="MSU_back_button">
+                  <a class="anchor_no_underline" href="submission.jsp">
+                    <p class="MSU_green_button_Text" style="font-size: 19px">Back</p>
+                  </a>
+                </div>
                 <div id="nextButton" class="MSU_green_button" style="margin-right:-3px;float:right;width: 32%;<%=HTMLGeneration.elementVisibility(newMouse.hasType()) %>">
                   <input type="hidden" name="process" value="true">
                   <input type="submit" value="Next" style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
@@ -79,7 +84,6 @@
     <div class="two_column_right">
       <div class="sidebar_desc" style="height:400px;width: 100%;margin-left:-100px;padding-left: 10px;margin-top: 0px;padding-top: 3px;padding-right: 6px;">
         <div>
-          <a class="anchor_no_underline" href="submission.jsp"><p style="text-decoration: underline;margin-block-start: 0em" class="label_text">Back to step 1</p></a>
           <p class="block_form_desc_text">For the rodent you want to submit, please select a category from the three choices listed. For mutant alleles or transgenes, respond to the query about publication.<br><br>
 
             Choose </p><p class="block_form_label_text">Mutant Allele</p> <p class="block_form_desc_text">when a gene in the rodent has been modified in some way (e.g. targeted disruption such as replacement with a neo cassette; creation of a floxed allele by
