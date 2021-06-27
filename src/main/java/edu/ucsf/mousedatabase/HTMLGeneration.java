@@ -2888,7 +2888,7 @@ public class HTMLGeneration {
     if (includeId) {
       b.append("id='" + name + "' ");
     }
-    if (name.equals("holderName") || name.equals("holderFacility") || name.equals("holderId") || name.equals("facilityId")){
+    if (name.equals("holderName") || name.equals("holderFacility") || name.equals("holderId") || name.equals("facilityId") || name.equals("ISSupplier")){
 
     }
     else{
@@ -2988,7 +2988,7 @@ public class HTMLGeneration {
     for (int i = 0; i < values.length; i++) {
       String value = values[i];
 
-      b.append("<input type=\"radio\" name=\"" + name + "\" value=\""
+      b.append("<input style=\"height:17px;width:17px\" type=\"radio\" name=\"" + name + "\" value=\""
               + value + "\" " + selectParams);
       if (current != null && value.equalsIgnoreCase(current)) {
         b.append(" checked=checked");

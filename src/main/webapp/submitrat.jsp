@@ -62,19 +62,18 @@
     if (newRat.getISSupplierCatalogNumber() == null)
     {
       //don't dupe check records with no catalog number
-      supplier = null;
+      supplier += ": " + newRat.getISSupplierCatalogUrl();
     }
-    else
-    {
-      supplier += ", " + newRat.getISSupplierCatalogNumber();
+    else {
+        supplier += ": " + newRat.getISSupplierCatalogNumber();
+
+        if (supplier != null) {
+            //TODO have different validation rules for non-jax mice
+            String supplierRegex = supplier.trim().replace(",", "[,]*");
+            supplierRegex = supplierRegex.replace(" ", "[ ]*");
+            existingRecordID = DBConnect.checkForDuplicates(supplierRegex);
+        }
     }
-      if (supplier != null)
-      {
-        //TODO have different validation rules for non-jax mice
-      String supplierRegex = supplier.trim().replace(",","[,]*");
-      supplierRegex = supplierRegex.replace(" ","[ ]*");
-          existingRecordID = DBConnect.checkForDuplicates(supplierRegex);
-      }
   }
   if (existingRecordID > 0 )
   {

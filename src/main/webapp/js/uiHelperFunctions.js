@@ -335,23 +335,19 @@ function UpdateSelectedRatType() {
 function UpdateCatalogUrlVisibility()
 {
   var ele = document.getElementById("ISSupplier");
+
+  clearFieldValue("ISSupplierCatalogNumber");
+  clearFieldValue("ISSupplierCatalogUrl");
+
   if (ele.value != "JAX Mice")
   {
-    clearFieldValue("ISSupplierCatalogNumber");
-    setElementVisibility("jaxInstructions","none");
-    setElementVisibility("morejaxinstructions","none");
     setElementVisibility("jaxCatalogNumber", "none");
-    setElementVisibility("nonJaxUrlField","block");
-    setElementVisibility("nonJaxInstructions","block");
+    setElementVisibility("nonJaxUrlField","table-row");
   }
   else
   {
-
     setElementVisibility("jaxCatalogNumber", "table-row");
-    setElementVisibility("jaxInstructions","block");
-    setElementVisibility("morejaxinstructions","block");
     setElementVisibility("nonJaxUrlField","none");
-    setElementVisibility("nonJaxInstructions","none");
   }
 
 }

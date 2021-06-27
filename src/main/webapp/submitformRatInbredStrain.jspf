@@ -2,76 +2,52 @@
   String[] suppliers = new String[] { "JAX Mice", "Taconic", "Charles River", "Harlan", "Other (name in comment)" };
   String supplierDropDown = genSelect("ISSupplier", suppliers,
           newRat.getISSupplier() == null ? "JAX Mice" : newRat.getISSupplier(),
-          "onchange=\"UpdateCatalogUrlVisibility(); validateInput('ISSupplierCatalogNumber','ISSupplierValidation','jaxID',',')\"");
+          "onchange=\"UpdateCatalogUrlVisibility();\"");
 
   String jaxElementStyle = "style=\""  + elementVisibility(newRat.getISSupplier() == null
-              || newRat.getISSupplier().startsWith(  "JAX")) + "\"";
+          || newRat.getISSupplier().startsWith(  "JAX")) + "\"";
   String nonJaxElementStyle = "style=\""  + elementVisibility(newRat.getISSupplier() != null
-              && !newRat.getISSupplier().startsWith("JAX")) + "\"";
+          && !newRat.getISSupplier().startsWith("JAX")) + "\"";
 %>
 
 <tr class="formField">
-  <td valign="top">
-    <dl style="padding-left: 10px; padding-top: 10px;">
-      <dt <%=jaxElementStyle%> id="jaxInstructions">Use the catalog
-        link below to search for JAX mice.</dt>
-      <dt <%=nonJaxElementStyle%> id="morejaxinstructions">
-        <a target="_blank" href="http://jaxmice.jax.org/query">JAX mice
-          Catalog</a>
-      </dt>
-      <dt <%=nonJaxElementStyle%> id="nonJaxInstructions">If
-        available, please enter the URL for the description of the mouse on
-        the supplier's website.</dt>
-    </dl>
+  <td class="formLeft">
+    Supplier
   </td>
-  <td valign="top">
-    <table style="padding: 0px">
-      <tr>
-        <td>Supplier:</td>
-        <td><%=supplierDropDown%></td>
-      </tr>
-      <tr
-        style='display: <%=(newRat.getISSupplier()==  null||  newRat.getISSupplier().startsWith("JAX") )?  "table-row":  "none"%>;'
-        id="jaxCatalogNumber">
-        <td>Catalog Number:</td>
-        <td><input type="text"
-          onkeyup="validateInput('ISSupplierCatalogNumber','ISSupplierValidation','jaxID',',')"
-          name="ISSupplierCatalogNumber" id="ISSupplierCatalogNumber"
-          value="${newRat.ISSupplierCatalogNumber}"
-          size="20"></td>
-      </tr>
-      <tr>
-        <td colspan="2"><span id="nonJaxUrlField"
-          <%=nonJaxElementStyle%>> Catalog URL:&nbsp;
-          <input  type="text" name="ISSupplierCatalogUrl" id="ISSupplierCatalogUrl"
-            size="60"
-            onkeyup="validateInput('ISSupplierCatalogNumber','ISSupplierValidation','jaxID',',')"
-            value="${newRat.ISSupplierCatalogUrl}" />
-        </span>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2"><span class="bp_invalid"
-          id="ISSupplierValidation">&nbsp;${newRat.ISSupplierErr}</span><br>
-        </td>
-      </tr>
-    </table>
+  <td class="formRight">
+      <%=supplierDropDown%>
+</tr>
+<tr  class="formField" style='display: <%=(newRat.getISSupplier()==  null||  newRat.getISSupplier().startsWith("JAX") )?  "table-row":  "none"%>;' id="jaxCatalogNumber">
+  <td class="formLeft" style="line-height: 19px">Catalog Number</td>
+  <td class="formRight">
+    <input type="text" name="ISSupplierCatalogNumber" id="ISSupplierCatalogNumber" value="${newRat.ISSupplierCatalogNumber}">
+  </td>
+</tr>
+<tr class="formField" style='display: <%=(newRat.getISSupplier()==  null||  newRat.getISSupplier().startsWith("JAX") )?  "none":  "table-row"%>' id="nonJaxUrlField">
+  <td class="formLeft">Catalog URL</td>
+  <td  class="formRight">
+    <input  type="text" name="ISSupplierCatalogUrl" id="ISSupplierCatalogUrl" value="${newRat.ISSupplierCatalogUrl}"/>
+  </td>
+</tr>
+<%--      <tr>--%>
+<%--        <td colspan="2"><span class="bp_invalid"--%>
+<%--          id="ISSupplierValidation">&nbsp;${newRat.ISSupplierErr}</span><br>--%>
+<%--        </td>--%>
+<%--      </tr>--%>
+<tr class="formField" style="height: 75px">
+  <td class="formLeft">Comment</td>
+  <td class="formRight">
+    <textarea style="resize: none;margin-top: 13px;margin-bottom: 13px;width: 212.8px" name="comment" rows="7" id="comment">${newRat.comment}</textarea>
   </td>
 </tr>
 <tr class="formField">
-  <td valign="top"><b>Comment</b>
-    <p>Use this field to provide a brief description of the strain,
-      its uses, and other pertinent information. (Do not include detailed
-      information that can be found via the link to the description in the
-      supplier's catalog.)</p>
-  </td>
-  <td valign="top"><textarea name="comment" id="comment" rows="8"
-      cols="60">${newRat.comment}</textarea>
+  <td class="formLeft">Rat status</td>
+  <td class="formRight">
+    <div style="width: 222.8px;text-align: left;margin-left: auto;margin-top: 13px;margin-right: auto;margin-bottom: 13px;">
+      <%=genRadio("cryopreserved", new String[] {
+                      "Live only", "Live and Cryo", "Cryo only" },
+              newRat.liveCryoStatus())%>
+    </div>
   </td>
 </tr>
-<tr class="formField">
-  <td valign="top" class="firstColumn"><b>Mouse status:</b></td>
-  <td><%=genRadio("cryopreserved", new String[] {
-          "Live only", "Live and Cryo", "Cryo only" },
-          newRat.liveCryoStatus())%></td>
-</tr>
+

@@ -96,13 +96,12 @@ HTMLUtilities.logRequest(request);
             //SubmittedRat rat = DBConnect.ge
             updatedRecord.setRat(1);
             updatedRecord.setRepositoryCatalogNumber(sub.getMouseMGIID());
-            updatedRecord.setSource(sub.getOfficialSymbol());
+//            updatedRecord.setSource(sub.getSubmissionSource());
             updatedRecord.setOfficialMouseName(sub.getMouseName());
             updatedRecord.setAdminComment(sub.getAdminComment());
             updatedRecord.setModificationType(sub.getTransgenicType());
             updatedRecord.setExpressedSequence(sub.getTGExpressedSequence());
             updatedRecord.setRegulatoryElement(sub.getTGRegulatoryElement());
-
           DBConnect.updateMouseRecord(updatedRecord);
         }
         else {

@@ -18,63 +18,63 @@
 
   if ("true".equals(request.getParameter("process"))) {
     //check for save or submit button clicked
-    if ("I'm done! Submit Rodent".equalsIgnoreCase(request.getParameter("submitButton"))) {
+    if ("Submit Rodent".equalsIgnoreCase(request.getParameter("submitButton"))) {
       if (newMouse.validateMouseDetails()) {
-        %>
-        <jsp:forward page="submitmouse.jsp" />
-        <%
+%>
+<jsp:forward page="submitmouse.jsp" />
+<%
         return;
       }
       errorsMessage = "Please correct the errors listed in red below.";
-    } else if ("I'm not done yet. Save data".equalsIgnoreCase(request.getParameter("submitButton"))) {
+    } else if ("Save Data".equalsIgnoreCase(request.getParameter("submitButton"))) {
       savedMessage = "<span style='color:green'><b>Saved. Data will be lost if you close your browser window.</b></span>";
     }
   }
 
   String[] mtaOptions = {"Yes", "No", "Don't Know"};
   String mouseTypeTitle = newMouse.getFullMouseTypeTitle();
-  String mouseNameStr = "<b>Rodent Name</b> (unofficial nomenclature used by holder):";
+  String mouseNameStr = "Rodent Name";
   if (newMouse.isIS()) {
-    mouseNameStr = "<b>Inbred Strain Name</b>";
+    mouseNameStr = "Strain Name";
   }
 %>
 
 
 
 <%=getPageHeader("<script language=\"javascript\" type=\"text/javascript\">document.onkeypress = checkCR;</script>\r\n",
-          true, false, "onload=\"setFocus('mouseDetails', 'mouseName')\"")%>
+        true, false, "onload=\"setFocus('mouseDetails', 'mouseName')\"")%>
 <%=HTMLGeneration.getNavBar("submission.jsp", false, false)%>
 
 
 <script>
-$(document).ready(function(){
-  (function(){
-    var mgiNumber = null;
-    $('#popupDialog').dialog({
-      autoOpen: false,
-      buttons: {   "Close" : function(){ $(this).dialog("close"); }
-      }
-    });
+  $(document).ready(function(){
+    (function(){
+      var mgiNumber = null;
+      $('#popupDialog').dialog({
+        autoOpen: false,
+        buttons: {   "Close" : function(){ $(this).dialog("close"); }
+        }
+      });
 
-    $('#mgiautofillbutton').click( function() {
+      $('#mgiautofillbutton').click( function() {
         $('#popupDialog').dialog('open');
         var message = $("#popupDialogMessage");
-      message.text("Please wait...");
-      fillFormFromMgi();
-    });
+        message.text("Please wait...");
+        fillFormFromMgi();
+      });
 
-    function fillFormFromMgi()
-    {
-      var expected_type_name = $("#expected_type_name").data("name");
-      mgiNumber = $.trim($("#mouseMGIID").val());
-      if (mgiNumber == null || mgiNumber == "")
+      function fillFormFromMgi()
+      {
+        var expected_type_name = $("#expected_type_name").data("name");
+        mgiNumber = $.trim($("#mouseMGIID").val());
+        if (mgiNumber == null || mgiNumber == "")
         {
-        var message = $("#popupDialogMessage");
+          var message = $("#popupDialogMessage");
           message.css("color","red");
           message.text("Please enter an MGI ID.");
           return;
         }
-      $.ajax({
+        $.ajax({
           type: 'GET',
           url: '/mgidata?query=allele_properties&acc_id=' + mgiNumber + '&expected_type_name=' + expected_type_name,
           dataType: 'json',
@@ -82,14 +82,14 @@ $(document).ready(function(){
           error: mgiLookupError,
           data: {},
           async: true
-      });
+        });
 
-    }
+      }
 
-    function mgiLookupSuccess(data){
-      var result = null;
+      function mgiLookupSuccess(data){
+        var result = null;
 
-      if (data.is_valid != null && data.is_valid == "true") {
+        if (data.is_valid != null && data.is_valid == "true") {
 
           if (!data.officialSymbol)
           {
@@ -126,155 +126,187 @@ $(document).ready(function(){
               result.message = "Failed to load description from MGI.  Please try again.  If this error persists, please notify the administrator.  To complete your submission, please manually copy the description from the MGI website."
             }
           }
-      }
-      else
-      {
-        result = {success: false, message: data.error_string};
-      }
-      var message = $("#popupDialogMessage");
-      message.text(result.message);
-      if (result.success)
-      {
-        message.css("color","green");
-      }
-      else if (result.note){
-        message.append($("<br>")).append($("<br>")).append($("<span>",{'class':'red',text: result.note})); 
-      }
-      else {
-        message.css("color","red");  
-      }
-
-    }
-
-    function mgiLookupError(data){
-      var message = $("#popupDialogMessage");
-      message.html("Unexpected error.  Please try again later.");
-      message.css("color","red");
-    }
-
-    function formatMgiLink(mgiNumber)
-    {
-
-      return "<a class='MP' target='_blank' href='http://www.informatics.jax.org/accession/MGI:" + mgiNumber + "'>(MGI:" + mgiNumber + ")</a>";
-    }
-
-    function formatPubmedLink(pubmedId)
-    {
-      return "<a class='MP' target='_blank' href='http://www.ncbi.nlm.nih.gov/pubmed/"+pubmedId+"?dopt=Abstract'>(Pubmed:"+pubmedId+")</a>";
-    }
-
-    function htmlEncode(value) {
-        return $('<div/>').text(value).html();
-    }
-
-    function htmlDecode(value) {
-        return $('<div/>').html(value).text();
-    }
-    
-    function nlToBr(text) {
-      return text.replace(/\n/g,"<br>");
-    }
-
-  })();
-});
-
-
-
-
-</script>
-<div id="popupDialog" title="Retrieving Properties from MGI">
-
-  <div id="popupDialogMessage"></div>
-</div>
-
-
-
-<div class="site_container">
-  <div class="formbody">
-    <div class="introduction">
-      <h2>New Submission Step 3: Rodent Details</h2>
-      <%=savedMessage%>
-      <h3>
-        <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><%=errorsMessage%></span>
-      </h3>
-      <a href="submitformMouseType.jsp">Back to step 2</a>
-      <br>
-      <span style="color: #23476b;text-emphasis: #23476b; font-size: larger; font-style: italic">WARNING: if you leave this page without using the
-      save button at the bottom of the page, the data you entered will be
-      lost</span>
-      <br> If you encounter any difficulties while completing
-      this page, click 'Submit Feedback' at the top of the screen.
-      <p>
-        <span class=black>*</span>Indicates required field.
-      </p>
-
-      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.mouseTypeErr}</span>
-      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.transgenicTypeErr}</span>
-      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.isPublishedErr}</span>
-
-      <%
-        if (!newMouse.hasType()) {
-          //TODO just redirect them back to step 2, step 1 if there is no contact info saved.
-      %>
-      <p>
-        <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><b>Unknown Error. Please go back to
-            step 1 and try again</b>
-        </font>
-      </p>
-
-      <%
-        return;
         }
-      %>
-    </div>
-    <form action="submitformMouseDetails.jsp" name="mouseDetails" method="post" id="mouseDetails">
-      <div id="mouseDetails">
-        <table class="inputForm">
-          <tr class="formFieldH">
-            <th colspan="2"><%=  mouseTypeTitle%></th>
-          </tr>
-          <tr class="formField">
-            <td width="50%">
-              <span class=black>*</span> <%=mouseNameStr%>
-            </td>
-            <td>
-              <input type="text" name="mouseName"  value="${ newMouse.mouseName}"
-              size="40" maxlength="255">
-              <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${ newMouse.mouseNameErr}</span>
-            </td>
-          </tr>
-          <%
-            if (newMouse.isMA()) {
-              %> <tr id=expected_type_name data-name=allele style="display:none"></tr>  <%
-              if (newMouse.isPublished()) {
-                %>
-                <%@ include file="submitformMAPublished.jspf" %>
-                <input type="hidden" name="rawMGIComment" id="rawMGIComment" value="${ newMouse.rawMGIComment}" />
-                <%
-              } else  {
-                %><%@ include file="submitformMAUnpublished.jspf" %><%
-              }
-            } else if (newMouse.isTG()) {
-              %> <tr id=expected_type_name data-name=transgene style="display:none"></tr>  <%
-              if (newMouse.isPublished()) {
-                %>
-                <%@ include file="submitformTGPublished.jspf" %>
-                <input type="hidden" name="rawMGIComment" id="rawMGIComment" value="${ newMouse.rawMGIComment}" />
-                <%
-              } else  {
-                %><%@ include file="submitformTGUnpublished.jspf" %><%
-              }
-            } else if (newMouse.isIS()) {
-              %><%@ include file="submitformInbredStrain.jspf" %><%
-            }
-          %>
-        </table>
-      </div>
-      <input type="hidden" name="process" value="true">
-      <input type="submit" class="btn" name="submitButton" value="I'm not done yet. Save data">
-      (This will save data as  long as your browser window stays open, or until you submit the  rodent).
-      <br> <br>
-      <input type="submit" class="btn btn-primary"  name="submitButton" value="I'm done! Submit Rodent">
-    </form>
+        else
+        {
+          result = {success: false, message: data.error_string};
+        }
+        var message = $("#popupDialogMessage");
+        message.text(result.message);
+        if (result.success)
+        {
+          message.css("color","green");
+        }
+        else if (result.note){
+          message.append($("<br>")).append($("<br>")).append($("<span>",{'class':'red',text: result.note}));
+        }
+        else {
+          message.css("color","red");
+        }
+
+      }
+
+      function mgiLookupError(data){
+        var message = $("#popupDialogMessage");
+        message.html("Unexpected error.  Please try again later.");
+        message.css("color","red");
+      }
+
+      function formatMgiLink(mgiNumber)
+      {
+
+        return "<a class='MP' target='_blank' href='http://www.informatics.jax.org/accession/MGI:" + mgiNumber + "'>(MGI:" + mgiNumber + ")</a>";
+      }
+
+      function formatPubmedLink(pubmedId)
+      {
+        return "<a class='MP' target='_blank' href='http://www.ncbi.nlm.nih.gov/pubmed/"+pubmedId+"?dopt=Abstract'>(Pubmed:"+pubmedId+")</a>";
+      }
+
+      function htmlEncode(value) {
+        return $('<div/>').text(value).html();
+      }
+
+      function htmlDecode(value) {
+        return $('<div/>').html(value).text();
+      }
+
+      function nlToBr(text) {
+        return text.replace(/\n/g,"<br>");
+      }
+
+    })();
+  });
+</script>
+
+<div id="popupDialog" title="Retrieving Properties from MGI">
+  <div id="popupDialogMessage">
+
   </div>
 </div>
+
+<div class="site_container">
+  <p class="main_header">New Submission: Step 3</p>
+  <div class="category">
+    <div class="two_column_left">
+      <div class="formbody">
+        <form action="submitformMouseDetails.jsp" name="mouseDetails" method="post" id="mouseDetails">
+          <div id="mouseDetails">
+            <table class="inputForm"  style="width: 60%">
+              <tr class="formFieldH">
+                <td class="formHeaderCell" colspan="2"><%=mouseTypeTitle%></td>
+              </tr>
+              <tr class="formField">
+                <td class="formLeft" style="width: 17%">
+                  * <%=mouseNameStr%>
+                </td>
+                <td class="formRight" style="width: 15%">
+                  <input type="text" name="mouseName"  value="${ newMouse.mouseName}" required>
+                  <%--                  <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${ newMouse.mouseNameErr}</span>--%>
+                </td>
+              </tr>
+              <%
+                if (newMouse.isMA()) {
+              %> <tr id=expected_type_name data-name=allele style="display:none"></tr>  <%
+              if (newMouse.isPublished()) {
+            %>
+              <%@ include file="submitformMAPublished.jspf" %>
+              <input type="hidden" name="rawMGIComment" id="rawMGIComment" value="${ newMouse.rawMGIComment}" required/>
+              <%
+              } else  {
+              %><%@ include file="submitformMAUnpublished.jspf" %><%
+              }
+            } else if (newMouse.isTG()) {
+            %> <tr id=expected_type_name data-name=transgene style="display:none"></tr>  <%
+              if (newMouse.isPublished()) {
+            %>
+              <%@ include file="submitformTGPublished.jspf" %>
+              <input type="hidden" name="rawMGIComment" id="rawMGIComment" value="${ newMouse.rawMGIComment}" />
+              <%
+              } else  {
+              %><%@ include file="submitformTGUnpublished.jspf" %><%
+              }
+            } else if (newMouse.isIS()) {
+            %><%@ include file="submitformInbredStrain.jspf" %><%
+              }
+            %>
+
+              <tr>
+                <td colspan="2">
+                  <div class="spacing_div_minix2"></div>
+                  <div id="nextButton" class="MSU_green_button" style="margin-right:-3px;float:right;width: 32%;<%=HTMLGeneration.elementVisibility(newMouse.hasType()) %>">
+                    <input type="hidden" name="process" value="true">
+                    <input type="submit" name="submitButton" value="Submit Rodent" style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <div id="nextButton" class="MSU_green_button" style="background-color:#008183ff;margin-right:-3px;float:right;width: 32%;<%=HTMLGeneration.elementVisibility(newMouse.hasType()) %>">
+                    <input type="submit" name="submitButton" value="Save Data" style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="two_column_right">
+      <div class="sidebar_desc" style="width: 100%;margin-left:-100px;padding-left: 10px;margin-top: 0px;padding-top: 3px;padding-right: 6px;height: 325px">
+        <%=savedMessage%>
+        <%--      <h3>--%>
+        <%--        <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><%=errorsMessage%></span>--%>
+        <%--      </h3>--%>
+        <a class="anchor_no_underline" href="submitformMouseType.jsp"><p style="text-decoration: underline;margin-block-start: 0em" class="label_text">Back to step 2</p></a>
+        <p class="block_form_label_text" style="text-align: center">If you leave this page without saving, ALL the data entered will be lost.</p><br><br>
+        <p class="block_form_desc_text">If you encounter any difficulties while completing this page, click 'Submit Feedback' at the top of the screen.</p><br><br>
+
+        <p class="block_form_desc_text">Use the catalog link below to search for JAX mice.</p><br>
+        <a class="anchor_no_underline" href="http://jaxmice.jax.org/query"><p style="text-decoration: underline;margin-block-start: 0em" class="label_text">JAX mice catalog</p></a>
+
+        <p class="block_form_desc_text">If available, please enter the URL for the description of the mouse on the supplier's website.<br><br>
+
+        <p class="block_form_desc_text">When entering a </p><p class="block_form_label_text">comment</p><p class="block_form_desc_text">, use the field to provide a brief description of the strain, its uses,
+        and other pertinent information. (Do not include detailed information that can be found
+        via the link to the description in the supplier's catalog.)
+
+      <br><br>
+
+          *Indicates required field.</p>
+
+
+        <%--      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.mouseTypeErr}</span>--%>
+        <%--      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.transgenicTypeErr}</span>--%>
+        <%--      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.isPublishedErr}</span>--%>
+
+        <%--        <%--%>
+        <%--          if (!newMouse.hasType()) {--%>
+        <%--            //TODO just redirect them back to step 2, step 1 if there is no contact info saved.--%>
+        <%--        %>--%>
+        <%--        <p>--%>
+        <%--        <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><b>Unknown Error. Please go back to--%>
+        <%--            step 1 and try again</b>--%>
+        <%--        </span>--%>
+        <%--        </p>--%>
+
+        <%--        <%--%>
+        <%--            return;--%>
+        <%--          }--%>
+        <%--        %>--%>
+      </div>
+
+      <div style="height: 75px;width: 100%"></div>
+      <div class="sidebar_desc" style="width: 100%;margin-left:-100px;padding-left: 10px;margin-top: 0px;padding-top: 3px;padding-right: 6px;height: 90px">
+        <p class="block_form_desc_text">By clicking </p><p class="block_form_label_text">Save data</p><p class="block_form_desc_text">, you will save data that has been entered
+        as long as your browser window stays open, or until you submit the rodent.<br><br>
+
+        By clicking </p><p class="block_form_label_text">Submit rodent</p><p class="block_form_desc_text">, you will submit the rodent and complete the submission process.
+      </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%=HTMLGeneration.getWebsiteFooter()%>
+

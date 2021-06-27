@@ -67,6 +67,7 @@
          }
          record = records.get(0);
          record.setRat(isRat);
+
          String link = record.getPreviewLink();
          otherRecordInfo = "Public record preview link <a href='" + link + "'>" + link + "</a><br>";
     }

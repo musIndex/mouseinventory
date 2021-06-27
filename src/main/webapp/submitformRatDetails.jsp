@@ -19,7 +19,7 @@
 
   if ("true".equals(request.getParameter("process"))) {
     //check for save or submit button clicked
-    if ("I'm done! Submit Rodent".equalsIgnoreCase(request.getParameter("submitButton"))) {
+    if ("Submit Rodent".equalsIgnoreCase(request.getParameter("submitButton"))) {
       if (newRat.validateRatDetails()) {
         %>
         <jsp:forward page="submitrat.jsp" />
@@ -27,16 +27,16 @@
         return;
       }
       errorsMessage = "Please correct the errors listed in red below.";
-    } else if ("I'm not done yet. Save data".equalsIgnoreCase(request.getParameter("submitButton"))) {
+    } else if ("Save Data".equalsIgnoreCase(request.getParameter("submitButton"))) {
       savedMessage = "<span style='color:green'><b>Saved. Data will be lost if you close your browser window.</b></span>";
     }
   }
 
   String[] mtaOptions = {"Yes", "No", "Don't Know"};
   String ratTypeTitle = newRat.getFullRatTypeTitle();
-  String ratNameStr = "<b>Rodent Name</b> (unofficial nomenclature used by holder):";
+  String ratNameStr = "Rodent Name";
   if (newRat.isIS()) {
-    ratNameStr = "<b>Inbred Strain Name</b>";
+    ratNameStr = "Strain Name";
   }
 %>
 
@@ -183,98 +183,130 @@ $(document).ready(function(){
 
 </script>
 <div id="popupDialog" title="Retrieving Properties from RGD">
+  <div id="popupDialogMessage">
 
-  <div id="popupDialogMessage"></div>
-</div>
-
-
-
-<div class="site_container">
-  <div class="formbody">
-    <div class="introduction">
-      <h2>New Submission Step 3: Rodent Details</h2>
-      <%=savedMessage%>
-      <h3>
-        <span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic"><%=errorsMessage%></span>
-      </h3>
-      <a href="submitformRatType.jsp">Back to step 2</a>
-      <br>
-      <span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic">WARNING: if you leave this page without using the
-      save button at the bottom of the page, the data you entered will be
-      lost</span>
-      <br> If you encounter any difficulties while completing
-      this page, click 'Submit Feedback' at the top of the screen.
-      <p>
-        <span class=black>*</span>Indicates required field.
-      </p>
-
-      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.ratTypeErr}</span>
-      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.transgenicTypeErr}</span>
-      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.isPublishedErr}</span>
-
-      <%
-        if (!newRat.hasType()) {
-          //TODO just redirect them back to step 2, step 1 if there is no contact info saved.
-      %>
-      <p>
-       <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><b>Unknown Error. Please go back to
-            step 1 and try again</b>
-        </font>
-      </p>
-
-      <%
-        return;
-        }
-      %>
-    </div>
-    <form action="submitformRatDetails.jsp" name="ratDetails" method="post" id="ratDetails">
-      <div id="ratDetails">
-        <table class="inputForm">
-          <tr class="formFieldH">
-            <th colspan="2"><%=  ratTypeTitle%></th>
-          </tr>
-          <tr class="formField">
-            <td width="50%">
-              <span class=black>*</span> <%=ratNameStr%>
-            </td>
-            <td>
-              <input type="text" name="ratName"  value="${ newRat.ratName}"
-              size="40" maxlength="255">
-              <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${ newRat.ratNameErr}</span>
-            </td>
-          </tr>
-          <%
-            if (newRat.isMA()) {
-              %> <tr id=expected_type_name data-name=allele style="display:none"></tr>  <%
-              if (newRat.isPublished()) {
-                %>
-                <%@ include file="submitformMARatPublished.jspf" %>
-                <input type="hidden" name="rawRGDComment" id="rawRGDComment" value="${ newRat.rawRGDComment}" />
-                <%
-              } else  {
-                %><%@ include file="submitformMARatUnpublished.jspf" %><%
-              }
-            } else if (newRat.isTG()) {
-              %> <tr id=expected_type_name data-name=transgene style="display:none"></tr>  <%
-              if (newRat.isPublished()) {
-                %>
-                <%@ include file="submitformTGRatPublished.jspf" %>
-                <input type="hidden" name="rawRGDComment" id="rawRGDComment" value="${ newRat.rawRGDComment}" />
-                <%
-              } else  {
-                %><%@ include file="submitformTGRatUnpublished.jspf" %><%
-              }
-            } else if (newRat.isIS()) {
-              %><%@ include file="submitformRatInbredStrain.jspf" %><%
-            }
-          %>
-        </table>
-      </div>
-      <input type="hidden" name="process" value="true">
-      <input type="submit" class="btn" name="submitButton" value="I'm not done yet. Save data">
-      (This will save data as  long as your browser window stays open, or until you submit the  rodent).
-      <br> <br>
-      <input type="submit" class="btn btn-primary"  name="submitButton" value="I'm done! Submit Rodent">
-    </form>
   </div>
 </div>
+
+<div class="site_container">
+  <p class="main_header">New Submission: Step 3</p>
+  <div class="category">
+    <div class="two_column_left">
+      <div class="formbody">
+        <form action="submitformRatDetails.jsp" name="ratDetails" method="post" id="ratDetails">
+          <div id="ratDetails">
+            <table class="inputForm"  style="width: 60%">
+              <tr class="formFieldH">
+                <td class="formHeaderCell" colspan="2"><%=ratTypeTitle%></td>
+              </tr>
+              <tr class="formField">
+                <td class="formLeft" style="width: 17%">
+                  * <%=ratNameStr%>
+                </td>
+                <td class="formRight" style="width: 15%">
+                  <input type="text" name="ratName"  value="${ newRat.ratName}" required>
+                </td>
+              </tr>
+              <%
+                if (newRat.isMA()) {
+              %> <tr id=expected_type_name data-name=allele style="display:none"></tr>  <%
+              if (newRat.isPublished()) {
+            %>
+              <%@ include file="submitformMARatPublished.jspf" %>
+              <input type="hidden" name="rawRGDComment" id="rawRGDComment" value="${ newRat.rawRGDComment}" />
+              <%
+              } else  {
+              %><%@ include file="submitformMARatUnpublished.jspf" %><%
+              }
+            } else if (newRat.isTG()) {
+            %> <tr id=expected_type_name data-name=transgene style="display:none"></tr>  <%
+              if (newRat.isPublished()) {
+            %>
+              <%@ include file="submitformTGRatPublished.jspf" %>
+              <input type="hidden" name="rawRGDComment" id="rawRGDComment" value="${ newRat.rawRGDComment}" />
+              <%
+              } else  {
+              %><%@ include file="submitformTGRatUnpublished.jspf" %><%
+              }
+            } else if (newRat.isIS()) {
+            %><%@ include file="submitformRatInbredStrain.jspf" %><%
+              }
+            %>
+              <tr>
+                <td colspan="2">
+                  <div class="spacing_div_minix2"></div>
+                  <div id="nextButton" class="MSU_green_button" style="margin-right:-3px;float:right;width: 32%;<%=HTMLGeneration.elementVisibility(newRat.hasType()) %>">
+                    <input type="hidden" name="process" value="true">
+                    <input type="submit" name="submitButton" value="Submit Rodent" style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <div id="nextButton" class="MSU_green_button" style="background-color:#008183ff;margin-right:-3px;float:right;width: 32%;<%=HTMLGeneration.elementVisibility(newRat.hasType()) %>">
+                    <input type="submit" name="submitButton" value="Save Data" style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="two_column_right">
+      <div class="sidebar_desc" style="width: 100%;margin-left:-100px;padding-left: 10px;margin-top: 0px;padding-top: 3px;padding-right: 6px;height: 325px">
+        <%=savedMessage%>
+        <%--      <h3>--%>
+        <%--        <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><%=errorsMessage%></span>--%>
+        <%--      </h3>--%>
+        <a class="anchor_no_underline" href="submitformRatType.jsp"><p style="text-decoration: underline;margin-block-start: 0em" class="label_text">Back to step 2</p></a>
+        <p class="block_form_label_text" style="text-align: center">If you leave this page without saving, ALL the data entered will be lost.</p><br><br>
+        <p class="block_form_desc_text">If you encounter any difficulties while completing this page, click 'Submit Feedback' at the top of the screen.</p><br><br>
+
+        <p class="block_form_desc_text">Use the catalog link below to search for JAX mice.</p><br>
+        <a class="anchor_no_underline" href="http://jaxmice.jax.org/query"><p style="text-decoration: underline;margin-block-start: 0em" class="label_text">JAX mice catalog</p></a>
+
+        <p class="block_form_desc_text">If available, please enter the URL for the description of the rat on the supplier's website.<br><br>
+
+        <p class="block_form_desc_text">When entering a </p><p class="block_form_label_text">comment</p><p class="block_form_desc_text">, use the field to provide a brief description of the strain, its uses,
+        and other pertinent information. (Do not include detailed information that can be found
+        via the link to the description in the supplier's catalog.)
+
+        <br><br>
+
+        *Indicates required field.</p>
+
+
+        <%--      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.mouseTypeErr}</span>--%>
+        <%--      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.transgenicTypeErr}</span>--%>
+        <%--      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.isPublishedErr}</span>--%>
+
+        <%--        <%--%>
+        <%--          if (!newRat.hasType()) {--%>
+        <%--            //TODO just redirect them back to step 2, step 1 if there is no contact info saved.--%>
+        <%--        %>--%>
+        <%--        <p>--%>
+        <%--        <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><b>Unknown Error. Please go back to--%>
+        <%--            step 1 and try again</b>--%>
+        <%--        </span>--%>
+        <%--        </p>--%>
+
+        <%--        <%--%>
+        <%--            return;--%>
+        <%--          }--%>
+        <%--        %>--%>
+      </div>
+
+      <div style="height: 75px;width: 100%"></div>
+      <div class="sidebar_desc" style="width: 100%;margin-left:-100px;padding-left: 10px;margin-top: 0px;padding-top: 3px;padding-right: 6px;height: 90px">
+        <p class="block_form_desc_text">By clicking </p><p class="block_form_label_text">Save data</p><p class="block_form_desc_text">, you will save data that has been entered
+        as long as your browser window stays open, or until you submit the rodent.<br><br>
+
+        By clicking </p><p class="block_form_label_text">Submit rodent</p><p class="block_form_desc_text">, you will submit the rodent and complete the submission process.
+      </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%=HTMLGeneration.getWebsiteFooter()%>
