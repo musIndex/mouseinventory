@@ -145,7 +145,7 @@ public class HTMLGeneration {
     table.append("<div class='site_container'>");
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div>"); //pagetitle
-    table.append("<span id=\"psgeLogo\">"+ "<a href=\"" + siteRoot + "about.jsp\">"+"<img src=/img/logo_mouse_database_UCSF.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>"+ "</a></span>");
+    table.append("<span id=\"pageLogo\">"+ "<a href=\"" + siteRoot + "about.jsp\">"+"<img src=/img/logo_mouse_database_UCSF.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>"+ "</a></span>");
   
     
     
@@ -184,7 +184,7 @@ public class HTMLGeneration {
 
     }
     table.append("<a href=\"" + siteRoot + "history.jsp\">"
-    		+ "<img src=/img/OR_logo_10year.png title='History of MouseDB' style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year' >");
+    		+ "<img src=/img/OR_logo_10year_update.png title='History of MouseDB' style='padding-top: 10px !important; background-color:#DDE6E5' width='120px' class='10year' >");
     
    
     
@@ -210,6 +210,8 @@ public class HTMLGeneration {
     table.append(addNavLink("Submit Mice", "submitforminit.jsp", null,
         currentPageFilename, false));
     table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false));
+    table.append(addNavLink("Forum", "forum.jsp", null, currentPageFilename, false));
+    
     if (isAdminPage && showAdminControls){
       table.append(addNavLink("Log out", "logout.jsp", null,
           currentPageFilename, false,"pull-right small"));
