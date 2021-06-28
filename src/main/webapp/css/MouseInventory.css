@@ -73,8 +73,8 @@ ul.navLinkUL {
 
 #pageTitle a {
   color: #667A99;
-  font-size: 40px;
-  line-height: 40px;
+  font-size: 40px !important;
+  line-height: 40px !important;
   text-decoration: none;
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.25);
 }
