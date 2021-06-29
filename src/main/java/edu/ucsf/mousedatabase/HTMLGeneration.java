@@ -3267,15 +3267,15 @@ public class HTMLGeneration {
     for (int i = 0; i < pageCount; i++) {
       pageNums[i] = Integer.toString(i + 1);
     }
-    String pageSelect = genSelect("pagenum_select", pageNums, pageNums, Integer.toString(pageNum), "style='vertical-align: 0%'", true, false);
+    String pageSelect = genSelect("pagenum", pageNums, pageNums, Integer.toString(pageNum), "style='vertical-align: 0%'", true, false);
 
-    buf.append((((pageNum <= 1) && limit < 0)
+    buf.append((((pageNum <= 1) ||  limit == -1 || limit == -2)
             ? "<div class='MSU_green_button_next_previous_disabled'><p class='MSU_green_button_next_previous_text'>Previous</p>"
-            : "<div class='MSU_green_button_next_previous'><a href='#&pagenum_select=" + (pageNum - 1) + "'><p class='MSU_green_button_next_previous_text'>Previous</p></a>" ) +
+            : "<div onclick=\"pageSwitch("+(pageNum-1)+")\" class='MSU_green_button_next_previous'><a href=''><p class='MSU_green_button_next_previous_text'>Previous</p></a>" ) +
             "</div>\r\n");
-    buf.append((((pageNum >= pageCount) && limit < 0)
+    buf.append((((pageNum >= pageCount) || limit == -1 || limit == -2)
             ? "<div class='MSU_green_button_next_previous_disabled'><p class='MSU_green_button_next_previous_text'>Next</p>"
-            : "<div class='MSU_green_button_next_previous'><a href='#&pagenum_select=" + (pageNum + 1) + "'><p class='MSU_green_button_next_previous_text'>Next</p></a>" ) +
+            : "<div onclick=\"pageSwitch("+(pageNum+1)+")\" class='MSU_green_button_next_previous'><a href=''><p class='MSU_green_button_next_previous_text'>Next</p></a>" ) +
             "</div>\r\n");
     buf.append("<div><span class='well' style='vertical-align:middle;line-height:35px;font-size:16px;padding-top:2px'>Page " + pageSelect + " of " + pageCount + "</span></div>\r\n");
 

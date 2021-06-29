@@ -176,58 +176,73 @@
     <div id="mousecount" style="display:none">
         <%=mice.size() %>
     </div>
+    <form class='view_opts' action="MouseReport.jsp">
     <table style="width: 100%">
-        <tr>
-            <td style="padding-left: 0px">
-                <p class="records_header">Rodent Records</p>
-                <table style="width: 100%">
-                    <tr>
-                        <p class="label_text" style='margin-top:0px;margin-bottom:5px;padding-left: 2px'><%=mouseTypeStr + ": " + mouseCountStr %></p>
 
-                    </tr>
-                    <tr>
-                        <td style="width: 55%;padding: 0px">
-                            <form class='view_opts' action="MouseReport.jsp">
+            <tr>
+                <td style="padding-left: 0px">
+                    <p class="records_header">Rodent Records</p>
+                    <table style="width: 100%">
+                        <tr>
+                            <p class="label_text" style='margin-top:0px;margin-bottom:5px;padding-left: 2px'><%=mouseTypeStr + ": " + mouseCountStr %></p>
+
+                        </tr>
+                        <tr>
+                            <td style="width: 55%;padding: 0px">
                                 <div class='clearfix' style='position:relative;'>
                                     <div id="controls">
                                         <%= mouseTypeSelectionLinks %>
                                         <% if (mice.size() > 0) { %>
+
                                         <% } %>
                                     </div>
                                 </div>
                                 <input type = hidden name="page" value="records_search">
-                            </form>
-                        </td>
-                        <td style="width: 45%;vertical-align: top">
-                            <form method="post" action="loginServlet" class="search_right">
-                                <input type="text" placeholder="Search..." style='font-size:120%;vertical-align:top;margin-top: 0px' class="input-xlarge" name="search_terms" id="search_terms"></input>
-                                <input type="image" alt="Submit" src=/img/Eyeglass-black.svg style="height: 28px;margin: 0px">
-                                <input type="hidden" name="page" value="search_bar">
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <table style="min-width: 100%;">
-            <tr style="width: 100%">
-                <td style="width: 100%">
-                    <form class='view_opts' action="MouseReport.jsp">
-                        <%= table %>
-                        <div id="bottomControls">
-                            <% if (mice.size() > 3) { %>
-                            <%= bottomPageSelectionLinks %>
-                            <% } %>
-                        </div>
-                        <input type = hidden name="page" value="records_search">
-                    </form>
+                            </td>
+                            <td style="width: 45%;vertical-align: top">
+                                <div class="search_right">
+                                    <input type="text" placeholder="Search..." style='font-size:120%;vertical-align:top;margin-top: 0px' class="input-xlarge" name="search_terms" id="search_terms"></input>
+                                    <input onclick="return searchterm()" type="image" alt="Submit" src=/img/Eyeglass-black.svg style="height: 28px;margin: 0px">
+                                    <input type="hidden" name="page" value="search_bar">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
-        </table>
-
+            <table style="min-width: 100%;">
+                <tr style="width: 100%">
+                    <td style="width: 100%">
+                        <%= table %>
+                        <div id="bottomControls">
+                            <%--                            <% if (mice.size() > 3) { %>--%>
+                            <%= bottomPageSelectionLinks %>
+                            <%--                            <% } %>--%>
+                        </div>
+                        <input type = hidden name="page" value="records_search">
+                    </td>
+                </tr>
+            </table>
     </table>
+    </form>
+
 </div>
 
 </div> <!-- This end div is here to end the site container div. For some reason it's not picked up by intellisense, but it is necessary. -->
 
 <%=HTMLGeneration.getWebsiteFooter()%>
+
+
+<script>
+    function pageSwitch(num){
+        document.getElementById("pagenum").value = num;
+        this.form.submit();
+    }
+
+    function searchterm(){
+        if (search_terms.value != null || search_terms.value != ""){
+            location.replace("search.jsp#searchterms=" + search_terms.value + "&pagenum=1&search-source=search");
+            return false;
+        }
+    }
+</script>
