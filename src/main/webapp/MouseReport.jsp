@@ -77,7 +77,6 @@
     String mouseTypeSelectionLinks = getMouseTypeSelectionLinks(
             mouseTypeID, orderBy,holderID,geneID,mouseTypes,null,searchTerms,creOnly,facilityID,species);
 
-    String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
     String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
 
 
@@ -156,22 +155,13 @@
                 "'>Download this list (pdf)</a>"
                 + "\r\n<a class='btn btn-primary' style='' href='" + siteRoot + "MouseList2" + (queryString.length() > 0 ? "?" + queryString : "") +
                 "'>Download this list (csv)</a>" +
-                "</div>"
-
-        ;
-
-        topPageSelectionLinks += "";
-
+                "</div>";
     }
-
-
     session.setAttribute("mouseListLastQuery", "MouseReport.jsp?" + queryString);
     session.setAttribute("mouseListLastTitle", mouseTypeStr);
     mouseTypeStr = "Listing" + mouseTypeStr;
 %>
 
-
-<%--//<script id="access_granted" type="text/template">--%>
 <div class='site_container'>
     <div id="mousecount" style="display:none">
         <%=mice.size() %>
@@ -201,7 +191,7 @@
                             </td>
                             <td style="width: 45%;vertical-align: top">
                                 <div class="search_right">
-                                    <input type="text" placeholder="Search..." style='font-size:120%;vertical-align:top;margin-top: 0px' class="input-xlarge" name="search_terms" id="search_terms"></input>
+                                    <input type="search" placeholder="Search..." style='font-size:120%;vertical-align:top;margin-top: 0px' class="input-xlarge" name="search_terms" id="search_terms"></input>
                                     <input onclick="return searchterm()" type="image" alt="Submit" src=/img/Eyeglass-black.svg style="height: 28px;margin: 0px">
                                     <input type="hidden" name="page" value="search_bar">
                                 </div>
@@ -240,9 +230,15 @@
     }
 
     function searchterm(){
-        if (search_terms.value != null || search_terms.value != ""){
+        if ((search_terms.value != null || search_terms.value != "")){
+            document.getElementById("pagenum").value = 1;
+            document.getElementById("limit").value = 10;
             location.replace("search.jsp#searchterms=" + search_terms.value + "&pagenum=1&search-source=search");
             return false;
         }
+    }
+    function resetPage(){
+        document.getElementById("pagenum").value = 1;
+        this.form.submit();
     }
 </script>

@@ -314,3 +314,10 @@
 <% } %>
 
 <%=HTMLGeneration.getWebsiteFooter()%>
+
+<script>
+    function resetPage(){
+        document.getElementById("pagenum_select").value = 1;
+        document.getElementById("searchForm").submit();
+    }
+</script>

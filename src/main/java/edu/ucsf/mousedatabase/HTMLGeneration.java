@@ -669,7 +669,7 @@ public class HTMLGeneration {
       buf.append("<tr class=\"editMouseRow\">");
       buf.append("<td colspan=\"2\"><div style=\"position: relative\">Holder:&nbsp;");
       buf.append(HTMLGeneration.genSelect("holder_id-" + k, holderIDs,
-              holderNames, String.valueOf(holder.getHolderID()), null));
+              holderNames, String.valueOf(holder.getHolderID()), null, false));
       buf.append("&nbsp;<a class='btn btn-mini btn-warning' href=\"javascript:\" onclick=\"clearHolder('"
               + k
               + "')\"><i class='icon-remove icon-white'></i></a>");
@@ -677,7 +677,7 @@ public class HTMLGeneration {
       buf.append("&nbsp;");
       buf.append(HTMLGeneration.genSelect("facility_id-" + k,
               facilityIDs, facilityNames,
-              String.valueOf(holder.getFacilityID()), null));
+              String.valueOf(holder.getFacilityID()), null, false));
       buf.append("&nbsp;");
       buf.append("&nbsp;");
       buf.append(HTMLGeneration.genFlatRadio("cryoLiveStatus-" + k,
@@ -1148,7 +1148,7 @@ public class HTMLGeneration {
       }
 
       String mouseTypeOptions = genSelect("mousetype_id", mouseTypeIDs,
-              mouseTypeNames, currentTypeIDstr, "style='width:150px'");
+              mouseTypeNames, currentTypeIDstr, "style='width:150px'",false);
 
       buf.append("<form name='changeMouseType' action='ChangeMouseType.jsp' method='post'>\r\n");
       buf.append("<input type='hidden' name='mouse_id' value='" + r.getMouseID() + "'>");
@@ -2078,7 +2078,7 @@ public class HTMLGeneration {
       table.append("</script>");
     }
     if (numMice <= 0) {
-      return "No results found";
+      return "<p class=\"label_text\">No results found<p>";
     }
 
     return table.toString();
@@ -2865,21 +2865,22 @@ public class HTMLGeneration {
 
   public static String genSelect(String name, Object[] values,
                                  Object current, String selectParams) {
-    return genSelect(name, values, (String[]) values, current, selectParams);
+    return genSelect(name, values, (String[]) values, current, selectParams, false);
   }
 
   public static String genSelect(String name, Object[] values,
-                                 String[] niceNames, Object current, String selectParams) {
-    return genSelect(name, values, niceNames, current, selectParams, true, true);
+                                 String[] niceNames, Object current, String selectParams, boolean onSubmit) {
+    return genSelect(name, values, niceNames, current, selectParams, true, true, onSubmit);
+  }
+
+
+  public static String genSelect(String name, Object[] values,
+                                 String[] niceNames, Object current, String selectParams, boolean includeId, boolean onSubmit) {
+    return genSelect(name, values, niceNames, current, selectParams, includeId, true, onSubmit);
   }
 
   public static String genSelect(String name, Object[] values,
-                                 String[] niceNames, Object current, String selectParams, boolean includeId) {
-    return genSelect(name, values, niceNames, current, selectParams, includeId, true);
-  }
-
-  public static String genSelect(String name, Object[] values,
-                                 String[] niceNames, Object current, String selectParams, boolean includeId, boolean chosenIfLarge) {
+                                 String[] niceNames, Object current, String selectParams, boolean includeId, boolean chosenIfLarge, boolean onSubmit) {
     if (selectParams == null) selectParams = "";
     StringBuffer b = new StringBuffer();
 
@@ -2888,7 +2889,7 @@ public class HTMLGeneration {
     if (includeId) {
       b.append("id='" + name + "' ");
     }
-    if (name.equals("holderName") || name.equals("holderFacility") || name.equals("holderId") || name.equals("facilityId") || name.equals("ISSupplier")){
+    if (!onSubmit){
 
     }
     else{
@@ -3156,12 +3157,12 @@ public class HTMLGeneration {
 
 
     buf.append("<li style='margin-top:0px'>Rodent species: ");
-    buf.append(genSelect("species", new String[]{"false", "true",}, new String[]{"Mouse", "Rat"}, species, null));
+    buf.append(genSelect("species", new String[]{"false", "true",}, new String[]{"Mouse", "Rat"}, species, null,true));
     buf.append("</li>");
 
     buf.append("<li>Sort by: ");
     buf.append(genSelect("orderby", new String[]{"mouse.name", "mouse.id", "mouse.id desc"},
-            new String[]{"Rodent Name", "Record #", "Record #(reverse)"}, checkedOrderBy, null));
+            new String[]{"Rodent Name", "Record #", "Record #(reverse)"}, checkedOrderBy, null,true));
     buf.append("</li>\n");
     buf.append("<li>Category: ");
     String[] mouseTypeIds = new String[mouseTypes.size() + 1];
@@ -3174,12 +3175,12 @@ public class HTMLGeneration {
       mouseTypeNames[i] = type.getTypeName();
       i++;
     }
-    buf.append(genSelect("mousetype_id", mouseTypeIds, mouseTypeNames, Integer.toString(checkedMouseTypeID), null));
+    buf.append(genSelect("mousetype_id", mouseTypeIds, mouseTypeNames, Integer.toString(checkedMouseTypeID), null,true));
     buf.append("</li>");
 
     if (status != null) {
       buf.append("<li>Status: ");
-      buf.append(genSelect("status", new String[]{"live", "deleted", "all"}, new String[]{"Live", "Deleted", "All"}, status, null));
+      buf.append(genSelect("status", new String[]{"live", "deleted", "all"}, new String[]{"Live", "Deleted", "All"}, status, null,true));
       buf.append("</li>\n");
     }
     if (creOnly >= 0) {
@@ -3214,7 +3215,7 @@ public class HTMLGeneration {
     String[] values = new String[]{"10", "25", "50", "100", "500", "-2"};
     String[] labels = new String[]{"10", "25", "50", "100", "500", "All"};
 
-    String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px'");
+    String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px'",true);
     buf.append("<table>");
     if (includeLimitSelector) {
       buf.append("<tr>" + "<td>" + "Records per page: &nbsp;" + perPageDropDown + "</td></tr>");
@@ -3267,7 +3268,13 @@ public class HTMLGeneration {
     for (int i = 0; i < pageCount; i++) {
       pageNums[i] = Integer.toString(i + 1);
     }
-    String pageSelect = genSelect("pagenum", pageNums, pageNums, Integer.toString(pageNum), "style='vertical-align: 0%'", true, false);
+
+    if (pageCount == 0 || pageNums.length ==0){
+      pageNums = new String[1];
+      pageNums[0]="0";
+    }
+
+    String pageSelect = genSelect("pagenum", pageNums, pageNums, Integer.toString(pageNum), "style='vertical-align: 0%'", true, true);
 
     buf.append((((pageNum <= 1) ||  limit == -1 || limit == -2)
             ? "<div class='MSU_green_button_next_previous_disabled'><p class='MSU_green_button_next_previous_text'>Previous</p>"
@@ -3284,7 +3291,7 @@ public class HTMLGeneration {
       String[] values = new String[]{"10", "25", "50", "100", "500", "-2"};
       String[] labels = new String[]{"10", "25", "50", "100", "500", "All"};
 
-      String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px;font-size: 16px;display:inline !important'", false, false);
+      String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px;font-size: 16px;display:inline !important' onchange=\"resetPage()\"", true, false);
       buf.append("<div><span style='vertical-align:middle;font-size: 16px;line-height:35px;color:black'>&nbsp;&nbsp;" + perPageDropDown + " <span>per page</span></span></div>");
     }
 
@@ -3314,7 +3321,7 @@ public class HTMLGeneration {
     for (int i = 0; i < pageCount; i++) {
       pageNums[i] = Integer.toString(i + 1);
     }
-    String pageSelect = genSelect("pagenum_select", pageNums, pageNums, Integer.toString(pageNum), "style='vertical-align: 0%'", true, false);
+    String pageSelect = genSelect("pagenum_select", pageNums, pageNums, Integer.toString(pageNum), "style='vertical-align: 0%'", true, true);
       buf.append((((pageNum <= 1) ||  limit == -1 || limit == -2)
               ? "<div class='MSU_green_button_next_previous_disabled'><p class='MSU_green_button_next_previous_text'>Previous</p>"
               : "<div class='MSU_green_button_next_previous'><a href='" + urlBegin+urlEnd + (pageNum - 1) + "'><p class='MSU_green_button_next_previous_text'>Previous</p></a>" ) +
@@ -3330,7 +3337,7 @@ public class HTMLGeneration {
       String[] values = new String[]{"10", "25", "50", "100", "500", "-2"};
       String[] labels = new String[]{"10", "25", "50", "100", "500", "All"};
 
-      String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px;font-size: 16px;display:inline !important'", false, false);
+      String perPageDropDown = genSelect("limit", values, labels, Integer.toString(limit), "style='width:60px;font-size: 16px;display:inline !important' onchange=\"resetPage()\"", false, false);
       buf.append("<div><span style='vertical-align:middle;font-size: 16px;line-height:35px;color:black'>&nbsp;&nbsp;" + perPageDropDown + " <span>per page</span></span></div>");
     }
 
@@ -3532,7 +3539,7 @@ public class HTMLGeneration {
     holderNames[i] = "Other(specify)";
     holderIds[i] = -2;
     i++;
-    return genSelect(name, holderIds, holderNames, currentHolderId, null);
+    return genSelect(name, holderIds, holderNames, currentHolderId, null,false);
   }
 
   public static String getFacilitySelect(String name, int currentFacilityId) {
@@ -3553,7 +3560,7 @@ public class HTMLGeneration {
     facilityNames[i] = "Other(specify)";
     facilityIds[i] = -2;
     i++;
-    return genSelect(name, facilityIds, facilityNames, currentFacilityId, null);
+    return genSelect(name, facilityIds, facilityNames, currentFacilityId, null,false);
   }
 
   /**Generates the footer for the MSU Rodent Database.<br>
