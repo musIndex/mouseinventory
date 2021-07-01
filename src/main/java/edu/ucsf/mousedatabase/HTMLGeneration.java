@@ -129,7 +129,7 @@ public class HTMLGeneration {
     table.append("<div id=\"navBarContainer\">");
 
     // Page header
-    table.append("<div id=\"pageHeaderContainer\" class='clearfix' style=background-color:#133D34>");
+//    table.append("<div id=\"pageHeaderContainer\" class='clearfix' style=background-color:#133D34>");
     table.append("<div class='site_container'>");
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div >"); //pagetitle
@@ -183,18 +183,30 @@ public class HTMLGeneration {
 
 
     table.append(addNavLink("Submit Rodents", "submission.jsp", null,
-            currentPageFilename, false, "", true, true));
-    table.append(addNavLink("Rodent Records", "MouseReport.jsp", null,
-            currentPageFilename, false, "nav-mouselist", true, false));
-    table.append(addNavLink("Gene List", "GeneReport.jsp", null,
-            currentPageFilename, false, "", true, false));
-    table.append(addNavLink("Holder List", "HolderReport.jsp", null,
-            currentPageFilename, false, "", true, false));
-    table.append(addNavLink("Facility List", "FacilityReport.jsp", null,
-            currentPageFilename, false, "", true, false));
+            currentPageFilename, false, "", "", true, true));
+
+table.append("<li class=\"NavLinkItem\">\n" +
+        " <div class=\"dropdownBorder\">\n" +
+        "  <div class=\"dropdown\">\n" +
+        "   <div style=\"border-right: 1px solid #FFFFFF\"><p class=\"navBarAnchor\" style=\"color: white;margin-block-start: 0em;padding: 0px 12px;margin-top:20px\">Data Tables</p></div>\n" +
+        "   <div class=\"dropdown-content\"><ul style=\"padding-left:0px\">\n");
+
+    table.append(addDropdownLink("Rodents", "MouseReport.jsp", null,
+            currentPageFilename, false, "navLinkDropdown", "width: 110px;text-align: center;height: 50px", false, false));
+    table.append(addDropdownLink("Genes", "GeneReport.jsp", null,
+            currentPageFilename, false, "navLinkDropdown", "width: 110px;text-align: center;height: 50px", false, false));
+    table.append(addDropdownLink("Holders", "HolderReport.jsp", null,
+            currentPageFilename, false, "navLinkDropdown", "width: 110px;text-align: center;height: 50px", false, false));
+    table.append(addDropdownLink("Facilities", "FacilityReport.jsp", null,
+            currentPageFilename, false, "navLinkDropdown", "width: 110px;text-align: center;height: 50px", false, false));
+
+    table.append(        "   </ul></div>\n" +
+            "  </div>\n" +
+            " </div>\n" + "</li>");
+
     // table.append(addNavLink("Endangered Mice", "EndangeredReport.jsp",
     // null,currentPageFilename,false));
-    table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false, "", true, false));
+    table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false, "", "", true, false));
 
 
     String action = isAdminPage ? (adminRoot + "AdminSearch.jsp") : (siteRoot + "search.jsp");
@@ -214,10 +226,10 @@ public class HTMLGeneration {
 
     if (isAdminPage && showAdminControls) {
       table.append(addNavLink("Logout", "logout.jsp", null,
-              currentPageFilename, false, "pull-right", false, true));
+              currentPageFilename, false, "pull-right", "", false, true));
     } else {
       table.append(addNavLink("Admin", "admin.jsp", null,
-              isAdminPage ? "admin.jsp" : currentPageFilename, true, "", false, true));
+              isAdminPage ? "admin.jsp" : currentPageFilename, true, "", "", false, true));
 
     }
     table.append("</ul>");
@@ -422,13 +434,13 @@ public class HTMLGeneration {
                                    String currentPageFilename, boolean isAdminPage, String cssClass) {
 
 
-    return addNavLink(targetNiceName, targetPageFilename, targetPageArguments, currentPageFilename, isAdminPage, "", false, false);
+    return addNavLink(targetNiceName, targetPageFilename, targetPageArguments, currentPageFilename, isAdminPage, "", "", false, false);
 
   }
 
   private static String addNavLink(String targetNiceName,
                                    String targetPageFilename, String targetPageArguments,
-                                   String currentPageFilename, boolean isAdminPage, String cssClass, boolean rightBorder, boolean leftBorder) {
+                                   String currentPageFilename, boolean isAdminPage, String cssClass, String style, boolean rightBorder, boolean leftBorder) {
 
     cssClass += targetPageFilename.equals(currentPageFilename) ? " current" : "";
     cssClass += " NavLinkItem";
@@ -446,11 +458,39 @@ public class HTMLGeneration {
               to_return += "border-right: 1px solid #FFFFFF;";
 
             }
+            to_return += style;
            to_return+= "\"</div><a class=\"navBarAnchor\" href=\"" + url + "\">"
             + targetNiceName + "</a></li>\r\n";
     return to_return;
 
   }
+
+  private static String addDropdownLink(String targetNiceName,
+                                   String targetPageFilename, String targetPageArguments,
+                                   String currentPageFilename, boolean isAdminPage, String cssClass, String style, boolean rightBorder, boolean leftBorder) {
+
+    cssClass += targetPageFilename.equals(currentPageFilename) ? " current" : "";
+    cssClass += " NavLinkItem";
+
+    String url = (isAdminPage ? adminRoot : siteRoot) + targetPageFilename;
+    if (targetPageArguments != null) {
+      url += targetPageArguments;
+    }
+
+    String to_return = "<li class=\"" + cssClass + "\">" +  "<div style=\"";
+    if (leftBorder){
+      to_return += "border-left: 1px solid #FFFFFF;";
+    }
+    if (rightBorder){
+      to_return += "border-right: 1px solid #FFFFFF;";
+
+    }
+    to_return += style;
+    to_return+= "\">"+"<a style=\"height:50px;width:110px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">"+targetNiceName+"</a></div></li>\r\n";
+    return to_return;
+
+  }
+
 
   //Returns the HTML formatting for the applicant records table
   public static String getApplicantTable() {

@@ -22,7 +22,7 @@
 <%--    <%} %>--%>
     <div style="padding-bottom: 15px">
         <form style="color:black;font-size: 16px;display: inline;" class='view_opts' action='HolderReport.jsp'>
-            Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderby,null) %>
+            Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderby,null,true) %>
         </form>
 
         <form class="search_right" id='search_form'>

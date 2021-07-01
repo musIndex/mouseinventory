@@ -23,7 +23,7 @@
     <p class="main_header">Gene List for Mutant Alleles</p>
     <div style="padding-bottom: 15px;width: 100%">
         <form class='view_opts' style='color:black;font-size: 16px;display: inline;' action='GeneReport.jsp'>
-            Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderBy,null) %>
+            Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderBy,null,true) %>
             <input type = hidden name="page" value="gene_search">
         </form>
 

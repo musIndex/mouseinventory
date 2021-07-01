@@ -213,6 +213,7 @@ ul.navLinkUL {
 .NavLinkItem {
   /*margin: 3px 3px 3px 0px;*/
   padding: 0;
+  background-color: #113D34;
   height: 35px;
   padding-top: 15px;
 
@@ -1886,4 +1887,68 @@ table.form_table td {
   margin-right: auto;
   margin-left:-3px;
   float:left;
+}
+
+.dropdown{
+  position: absolute;
+  z-index: 9999;
+  width: 110px;
+  cursor: default;
+  height: 60px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .navBarAnchor {
+  filter: brightness(0.5)
+}
+
+.dropdown-content{
+  display: none;
+  width: 110px;
+  cursor: pointer;
+}
+
+.navLinkDropdown{
+  padding: 0;
+  background-color: #18453B;
+  height: 50px;
+
+  list-style-type: none;
+  float: left;
+}
+
+.navLinkDropdown:hover{
+  filter: brightness(0.9);
+}
+
+.dropdownBorder{
+  width: 110px;
+  height: 60px;
+  margin-top: -20px;
+}
+
+.dropdownBorder:hover{
+  background-color: #18453B;
+}
+
+a.navBarAnchor_noTint {
+  /*padding: 0 12px;*/
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.25);
+}
+
+a.navBarAnchor_noTint:hover {
+  /*filter: brightness(0.5);*/
+}
+
+a.navBarAnchor_noTint:link {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+a.navBarAnchor_noTint:visited {
+  color: #FFFFFD;
+  text-decoration: none;
 }
