@@ -188,17 +188,18 @@ public class HTMLGeneration {
 table.append("<li class=\"NavLinkItem\">\n" +
         " <div class=\"dropdownBorder\">\n" +
         "  <div class=\"dropdown\">\n" +
-        "   <div style=\"border-right: 1px solid #FFFFFF\"><p class=\"navBarAnchor\" style=\"color: white;margin-block-start: 0em;padding: 0px 12px;margin-top:20px\">Data Tables</p></div>\n" +
+        "   <div style=\"border-right: 1px solid #FFFFFF;height: 17.6px;margin-top: 20px;\nmargin-bottom: 1em;\">" +
+        "<p class=\"navBarAnchor\" style=\"display:inline;color: white;margin-block-start: 0em;padding:0px 8px 12px 12px;margin-top:20px;\">Data Tables</p><img class=\"dropImage\" style=\"display:inline;height:7.04px;width:17.6px;margin-top:-3.5px;\" src=\"/img/dropdown_arrow.svg\"></div>\n" +
         "   <div class=\"dropdown-content\"><ul style=\"padding-left:0px\">\n");
 
     table.append(addDropdownLink("Rodents", "MouseReport.jsp", null,
-            currentPageFilename, false, "navLinkDropdown", "width: 110px;text-align: center;height: 50px", false, false));
+            currentPageFilename, false, "navLinkDropdown", "width: 135px;text-align: center;height: 50px", false, false));
     table.append(addDropdownLink("Genes", "GeneReport.jsp", null,
-            currentPageFilename, false, "navLinkDropdown", "width: 110px;text-align: center;height: 50px", false, false));
+            currentPageFilename, false, "navLinkDropdown", "width: 135px;text-align: center;height: 50px", false, false));
     table.append(addDropdownLink("Holders", "HolderReport.jsp", null,
-            currentPageFilename, false, "navLinkDropdown", "width: 110px;text-align: center;height: 50px", false, false));
+            currentPageFilename, false, "navLinkDropdown", "width: 135px;text-align: center;height: 50px", false, false));
     table.append(addDropdownLink("Facilities", "FacilityReport.jsp", null,
-            currentPageFilename, false, "navLinkDropdown", "width: 110px;text-align: center;height: 50px", false, false));
+            currentPageFilename, false, "navLinkDropdown", "width: 135px;text-align: center;height: 50px", false, false));
 
     table.append(        "   </ul></div>\n" +
             "  </div>\n" +
@@ -486,7 +487,7 @@ table.append("<li class=\"NavLinkItem\">\n" +
 
     }
     to_return += style;
-    to_return+= "\">"+"<a style=\"height:50px;width:110px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">"+targetNiceName+"</a></div></li>\r\n";
+    to_return+= "\">"+"<a style=\"margin-left: 12px;height:50px;width:110px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">"+targetNiceName+"</a></div></li>\r\n";
     return to_return;
 
   }

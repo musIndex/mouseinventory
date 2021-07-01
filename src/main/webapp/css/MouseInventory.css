@@ -1892,9 +1892,12 @@ table.form_table td {
 .dropdown{
   position: absolute;
   z-index: 9999;
-  width: 110px;
+  width: 135px;
   cursor: default;
   height: 60px;
+  display: block;
+  /*border-right: 1px solid #FFFFFF;*/
+  margin-bottom: 1em;
 }
 
 .dropdown:hover .dropdown-content {
@@ -1907,7 +1910,7 @@ table.form_table td {
 
 .dropdown-content{
   display: none;
-  width: 110px;
+  width: 135px;
   cursor: pointer;
 }
 
@@ -1925,7 +1928,7 @@ table.form_table td {
 }
 
 .dropdownBorder{
-  width: 110px;
+  width: 135px;
   height: 60px;
   margin-top: -20px;
 }
@@ -1952,3 +1955,10 @@ a.navBarAnchor_noTint:visited {
   color: #FFFFFD;
   text-decoration: none;
 }
+
+.dropImage{
+
+}
+
+.dropdown:hover .dropImage{
+filter: brightness(0.5)}
