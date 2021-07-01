@@ -487,7 +487,7 @@ table.append("<li class=\"NavLinkItem\">\n" +
 
     }
     to_return += style;
-    to_return+= "\">"+"<a style=\"margin-left: 12px;height:50px;width:110px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">"+targetNiceName+"</a></div></li>\r\n";
+    to_return+= "\">"+"<a style=\"padding-left: 12px;padding-right:12px;margin-right:0px;height:50px;width:110px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">"+targetNiceName+"</a></div></li>\r\n";
     return to_return;
 
   }
