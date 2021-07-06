@@ -186,6 +186,18 @@
 </div>
 
 <div class="site_container">
+  <%
+    if (!newMouse.hasType()) {
+      //TODO just redirect them back to step 2, step 1 if there is no contact info saved.
+  %>
+  <p class="main_header">Unknown Error</p>
+  <p class="label_text">We're sorry, but the MSU Rodent Database has encountered an error. <br>
+    Please return to step 1 to begin the submission process.</p>
+
+  <%
+      return;
+    }
+  %>
   <p class="main_header">New Submission: Step 3</p>
   <div class="category">
     <div class="two_column_left">
@@ -280,26 +292,6 @@
         <br><br>
 
         *Indicates required field.</p>
-
-
-        <%--      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.mouseTypeErr}</span>--%>
-        <%--      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.transgenicTypeErr}</span>--%>
-        <%--      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.isPublishedErr}</span>--%>
-
-        <%--        <%--%>
-        <%--          if (!newMouse.hasType()) {--%>
-        <%--            //TODO just redirect them back to step 2, step 1 if there is no contact info saved.--%>
-        <%--        %>--%>
-        <%--        <p>--%>
-        <%--        <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><b>Unknown Error. Please go back to--%>
-        <%--            step 1 and try again</b>--%>
-        <%--        </span>--%>
-        <%--        </p>--%>
-
-        <%--        <%--%>
-        <%--            return;--%>
-        <%--          }--%>
-        <%--        %>--%>
       </div>
 
       <div style="height: 75px;width: 100%"></div>

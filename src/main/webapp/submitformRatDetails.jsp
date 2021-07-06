@@ -21,9 +21,9 @@
     //check for save or submit button clicked
     if ("Submit Rodent".equalsIgnoreCase(request.getParameter("submitButton"))) {
       if (newRat.validateRatDetails()) {
-        %>
-        <jsp:forward page="submitrat.jsp" />
-        <%
+%>
+<jsp:forward page="submitrat.jsp" />
+<%
         return;
       }
       errorsMessage = "Please correct the errors listed in red below.";
@@ -43,39 +43,39 @@
 
 
 <%=getPageHeader("<script language=\"javascript\" type=\"text/javascript\">document.onkeypress = checkCR;</script>\r\n",
-          true, false, "onload=\"setFocus('ratDetails', 'ratName')\"")%>
+        true, false, "onload=\"setFocus('ratDetails', 'ratName')\"")%>
 <%=HTMLGeneration.getNavBar("submission.jsp", false, false)%>
 
 
 <script>
-$(document).ready(function(){
-  (function(){
-    var rgdNumber = null;
-    $('#popupDialog').dialog({
-      autoOpen: false,
-      buttons: {   "Close" : function(){ $(this).dialog("close"); }
-      }
-    });
+  $(document).ready(function(){
+    (function(){
+      var rgdNumber = null;
+      $('#popupDialog').dialog({
+        autoOpen: false,
+        buttons: {   "Close" : function(){ $(this).dialog("close"); }
+        }
+      });
 
-    $('#rgdautofillbutton').click( function() {
+      $('#rgdautofillbutton').click( function() {
         $('#popupDialog').dialog('open');
         var message = $("#popupDialogMessage");
-      message.text("Please wait...");
-      fillFormFromRgd();
-    });
+        message.text("Please wait...");
+        fillFormFromRgd();
+      });
 
-    function fillFormFromRgd()
-    {
-      var expected_type_name = $("#expected_type_name").data("name");
-      rgdNumber = $.trim($("#ratRGDID").val());
-      if (rgdNumber == null || rgdNumber == "")
+      function fillFormFromRgd()
+      {
+        var expected_type_name = $("#expected_type_name").data("name");
+        rgdNumber = $.trim($("#ratRGDID").val());
+        if (rgdNumber == null || rgdNumber == "")
         {
-        var message = $("#popupDialogMessage");
+          var message = $("#popupDialogMessage");
           message.css("color","red");
           message.text("Please enter an RGD ID.");
           return;
         }
-      $.ajax({
+        $.ajax({
           type: 'GET',
           url: 'https://rest.rgd.mcw.edu/rgdws/strains/' + rgdNumber,
           dataType: 'json',
@@ -83,14 +83,14 @@ $(document).ready(function(){
           error: rgdLookupError,
           data: {},
           async: true
-      });
+        });
 
-    }
+      }
 
-    function rgdLookupSuccess(data){
-      var result = null;
+      function rgdLookupSuccess(data){
+        var result = null;
 
-      if (true) {
+        if (true) {
 
           if (!data.rgdId)
           {
@@ -127,56 +127,56 @@ $(document).ready(function(){
               result.message = "Failed to load description from RGD.  Please try again.  If this error persists, please notify the administrator.  To complete your submission, please manually copy the description from the RGD website."
             }
           }
+        }
+        else
+        {
+          result = {success: false, message: data.error_string};
+        }
+        var message = $("#popupDialogMessage");
+        message.text(result.message);
+        if (result.success)
+        {
+          message.css("color","green");
+        }
+        else if (result.note){
+          message.append($("<br>")).append($("<br>")).append($("<span>",{'class':'red',text: result.note}));
+        }
+        else {
+          message.css("color","red");
+        }
+
       }
-      else
+
+      function rgdLookupError(data){
+        var message = $("#popupDialogMessage");
+        message.html("Unexpected error.  Please try again later.");
+        message.css("color","black");
+      }
+
+      function formatRgdLink(rgdNumber)
       {
-        result = {success: false, message: data.error_string};
+        return "<a class='MP' target='_blank' href='https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=" + rgdNumber + "'>(RGD:" + rgdNumber + ")</a>";
       }
-      var message = $("#popupDialogMessage");
-      message.text(result.message);
-      if (result.success)
+
+      function formatPubmedLink(pubmedId)
       {
-        message.css("color","green");
-      }
-      else if (result.note){
-        message.append($("<br>")).append($("<br>")).append($("<span>",{'class':'red',text: result.note})); 
-      }
-      else {
-        message.css("color","red");  
+        return "<a class='MP' target='_blank' href='http://www.ncbi.nlm.nih.gov/pubmed/"+pubmedId+"?dopt=Abstract'>(Pubmed:"+pubmedId+")</a>";
       }
 
-    }
-
-    function rgdLookupError(data){
-      var message = $("#popupDialogMessage");
-      message.html("Unexpected error.  Please try again later.");
-      message.css("color","black");
-    }
-
-    function formatRgdLink(rgdNumber)
-    {
-      return "<a class='MP' target='_blank' href='https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=" + rgdNumber + "'>(RGD:" + rgdNumber + ")</a>";
-    }
-
-    function formatPubmedLink(pubmedId)
-    {
-      return "<a class='MP' target='_blank' href='http://www.ncbi.nlm.nih.gov/pubmed/"+pubmedId+"?dopt=Abstract'>(Pubmed:"+pubmedId+")</a>";
-    }
-
-    function htmlEncode(value) {
+      function htmlEncode(value) {
         return $('<div/>').text(value).html();
-    }
+      }
 
-    function htmlDecode(value) {
+      function htmlDecode(value) {
         return $('<div/>').html(value).text();
-    }
-    
-    function nlToBr(text) {
-      return text.replace(/\n/g,"<br>");
-    }
+      }
 
-  })();
-});
+      function nlToBr(text) {
+        return text.replace(/\n/g,"<br>");
+      }
+
+    })();
+  });
 
 
 
@@ -189,6 +189,18 @@ $(document).ready(function(){
 </div>
 
 <div class="site_container">
+  <%
+    if (!newRat.hasType()) {
+      //TODO just redirect them back to step 2, step 1 if there is no contact info saved.
+  %>
+  <p class="main_header">Unknown Error</p>
+  <p class="label_text">We're sorry, but the MSU Rodent Database has encountered an error. <br>
+    Please return to step 1 to begin the submission process.</p>
+
+  <%
+      return;
+    }
+  %>
   <p class="main_header">New Submission: Step 3</p>
   <div class="category">
     <div class="two_column_left">
@@ -281,26 +293,6 @@ $(document).ready(function(){
         <br><br>
 
         *Indicates required field.</p>
-
-
-        <%--      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.mouseTypeErr}</span>--%>
-        <%--      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.transgenicTypeErr}</span>--%>
-        <%--      <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.isPublishedErr}</span>--%>
-
-        <%--        <%--%>
-        <%--          if (!newRat.hasType()) {--%>
-        <%--            //TODO just redirect them back to step 2, step 1 if there is no contact info saved.--%>
-        <%--        %>--%>
-        <%--        <p>--%>
-        <%--        <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><b>Unknown Error. Please go back to--%>
-        <%--            step 1 and try again</b>--%>
-        <%--        </span>--%>
-        <%--        </p>--%>
-
-        <%--        <%--%>
-        <%--            return;--%>
-        <%--          }--%>
-        <%--        %>--%>
       </div>
 
       <div style="height: 75px;width: 100%"></div>
