@@ -70,7 +70,13 @@
         if (mgiNumber == null || mgiNumber == "")
         {
           var message = $("#popupDialogMessage");
-          message.css("color","red");
+          message.css("text-align","center");
+          message.css("height","100%");
+          message.css("width","100%");
+          message.css("display","table-cell");
+          message.css("vertical-align","middle");
+          message.css("padding-left","5px");
+          message.css("padding-right","5px");
           message.text("Please enter an MGI ID.");
           return;
         }
@@ -135,13 +141,34 @@
         message.text(result.message);
         if (result.success)
         {
-          message.css("color","green");
+          message.css("text-align","center");
+          message.css("height","100%");
+          message.css("width","100%");
+          message.css("display","table-cell");
+          message.css("vertical-align","middle");
+          message.css("padding-left","5px");
+          message.css("padding-right","5px");
+          message.css("color","black");
         }
         else if (result.note){
-          message.append($("<br>")).append($("<br>")).append($("<span>",{'class':'red',text: result.note}));
+          message.css("text-align","center");
+          message.css("height","100%");
+          message.css("width","100%");
+          message.css("display","table-cell");
+          message.css("vertical-align","middle");
+          message.css("padding-left","5px");
+          message.css("padding-right","5px");
+          message.append($("<br>")).append($("<br>")).append($("<span>",{'class':'black',text: result.note}));
         }
         else {
-          message.css("color","red");
+          message.css("color","black");
+          message.css("text-align","center");
+          message.css("height","100%");
+          message.css("width","100%");
+          message.css("display","table-cell");
+          message.css("vertical-align","middle");
+          message.css("padding-left","5px");
+          message.css("padding-right","5px");
         }
 
       }
@@ -149,18 +176,25 @@
       function mgiLookupError(data){
         var message = $("#popupDialogMessage");
         message.html("Unexpected error.  Please try again later.");
-        message.css("color","red");
+        message.css("text-align","center");
+        message.css("height","100%");
+        message.css("width","100%");
+        message.css("display","table-cell");
+        message.css("vertical-align","middle");
+        message.css("padding-left","5px");
+        message.css("padding-right","5px");
+        message.css("color","black");
       }
 
       function formatMgiLink(mgiNumber)
       {
 
-        return "<a class='MP' target='_blank' href='http://www.informatics.jax.org/accession/MGI:" + mgiNumber + "'>(MGI:" + mgiNumber + ")</a>";
+        return "<a class='MP' target='_blank' href='http://www.informatics.jax.org/accession/MGI:" + mgiNumber + "'>MGI:" + mgiNumber + "</a>";
       }
 
       function formatPubmedLink(pubmedId)
       {
-        return "<a class='MP' target='_blank' href='http://www.ncbi.nlm.nih.gov/pubmed/"+pubmedId+"?dopt=Abstract'>(Pubmed:"+pubmedId+")</a>";
+        return "<a class='MP' target='_blank' href='http://www.ncbi.nlm.nih.gov/pubmed/"+pubmedId+"?dopt=Abstract'>Pubmed:"+pubmedId+"</a>";
       }
 
       function htmlEncode(value) {

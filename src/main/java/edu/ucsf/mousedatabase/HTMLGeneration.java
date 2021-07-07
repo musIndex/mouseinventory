@@ -3068,7 +3068,7 @@ table.append("<li class=\"NavLinkItem\">\n" +
 
       String niceName = niceNames[i];
 
-      b.append("<input type=\"radio\" name=\"" + name + "\" value=\""
+      b.append("<input style=\"height:17px;width:17px\" type=\"radio\" name=\"" + name + "\" value=\""
               + value + "\" " + selectParams);
       if (current != null && value.equalsIgnoreCase(current)) {
         b.append(" checked=checked");
@@ -3124,9 +3124,11 @@ table.append("<li class=\"NavLinkItem\">\n" +
                                                            String selectParams) {
 
     String name = "TGExpressedSequence";
-    String[] values = {"Reporter", "Cre", "Mouse Gene (unmodified)",
+    String[] values = { "Mouse Gene (unmodified)", "Reporter", "Cre",
             "Modified mouse gene or Other"};
-    return genRadio(name, values, current, selectParams);
+    String[] niceNames = {"Unmodified Mouse Gene", "Reporter", "Cre",
+            "Other"};
+    return genRadio(name, values, niceNames, current, selectParams);
   }
 
   public static String getExpressedSequenceRadio() {

@@ -71,7 +71,13 @@
         if (rgdNumber == null || rgdNumber == "")
         {
           var message = $("#popupDialogMessage");
-          message.css("color","red");
+          message.css("text-align","center");
+          message.css("height","100%");
+          message.css("width","100%");
+          message.css("display","table-cell");
+          message.css("vertical-align","middle");
+          message.css("padding-left","5px");
+          message.css("padding-right","5px");
           message.text("Please enter an RGD ID.");
           return;
         }
@@ -136,13 +142,13 @@
         message.text(result.message);
         if (result.success)
         {
-          message.css("color","green");
+          message.css("color","black");
         }
         else if (result.note){
-          message.append($("<br>")).append($("<br>")).append($("<span>",{'class':'red',text: result.note}));
+          message.append($("<br>")).append($("<br>")).append($("<span>",{'class':'black',text: result.note}));
         }
         else {
-          message.css("color","red");
+          message.css("color","black");
         }
 
       }
@@ -155,12 +161,12 @@
 
       function formatRgdLink(rgdNumber)
       {
-        return "<a class='MP' target='_blank' href='https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=" + rgdNumber + "'>(RGD:" + rgdNumber + ")</a>";
+        return "<a class='MP' target='_blank' href='https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=" + rgdNumber + "'>RGD:" + rgdNumber + "</a>";
       }
 
       function formatPubmedLink(pubmedId)
       {
-        return "<a class='MP' target='_blank' href='http://www.ncbi.nlm.nih.gov/pubmed/"+pubmedId+"?dopt=Abstract'>(Pubmed:"+pubmedId+")</a>";
+        return "<a class='MP' target='_blank' href='http://www.ncbi.nlm.nih.gov/pubmed/"+pubmedId+"?dopt=Abstract'>Pubmed:"+pubmedId+"</a>";
       }
 
       function htmlEncode(value) {

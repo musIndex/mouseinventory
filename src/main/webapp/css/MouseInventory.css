@@ -316,15 +316,19 @@ a.navBarAnchor:visited {
 }
 
 .bp_invalid {
-  color: #23476b;
-  text-emphasis: #23476b;
-  font-style: italic;
+  color: black;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  /*text-emphasis: #23476b;*/
+  /*font-style: italic;*/
 }
 
 .bp_valid {
-  color: #23476b;
-  text-emphasis: #23476b;
-  font-style: italic;
+  color: black;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  /*text-emphasis: #23476b;*/
+  /*font-style: italic;*/
 }
 
 tr {
