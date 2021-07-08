@@ -13,6 +13,16 @@ public class RGDResult {
     private String alleleAccessionID;
     private String comment;
 
+    public String getPMID() {
+        return PMID;
+    }
+
+    public void setPMID(String PMID) {
+        this.PMID = PMID;
+    }
+
+    private String PMID;
+
     public String getComment() {
         return comment;
     }

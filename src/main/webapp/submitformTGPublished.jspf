@@ -2,154 +2,170 @@
 <%@page import="edu.ucsf.mousedatabase.objects.*" %>
 
 <tr class="formField" style="height: 150px">
-  <td class="formLeft">
-    * MGI ID
-  </td>
-  <td class="formRight">
-    <input type="text" style="margin-top: 15px" name="mouseMGIID" id="mouseMGIID" maxlength="11" onkeyup="validateInput('mouseMGIID', 'mouseMGIValidation', 'mgiTransgeneId', 'none')" value="${newMouse.mouseMGIID}" required>
-    <a href="#" id="mgiautofillbutton" style="text-decoration:none;width: 222.8px;margin-top: 15px" class="MSU_green_button">
-      <p class="MSU_green_button_Text">
-        Autofill using MGI ID
-      </p>
-    </a>
-    <div class="<%=newMouse.hasValidMouseMGIID()  ? "bp_valid": "bp_invalid"%>" id="mouseMGIValidation">
-      ${newMouse.mouseMGIIDErr}
-    </div>
-    <input type="hidden" name="mouseMGIIDValidationString" id="mouseMGIIDValidationString" value="${newMouse.mouseMGIIDValidationString}">
-    <input type="hidden" name="mouseMGIIDValid" id="mouseMGIIDValid" value="${newMouse.mouseMGIIDValid}">
-    <div>${newMouse.officialSymbolErr}</div>
-  </td>
+    <td class="formLeft">
+        * MGI ID
+    </td>
+    <td class="formRight">
+        <input type="text" style="margin-top: 15px" name="mouseMGIID" id="mouseMGIID" maxlength="11"
+               onkeyup="validateInput('mouseMGIID', 'mouseMGIValidation', 'mgiTransgeneId', 'none')"
+               value="${newMouse.mouseMGIID}" required>
+        <a href="#" id="mgiautofillbutton" style="text-decoration:none;width: 222.8px;margin-top: 15px"
+           class="MSU_green_button">
+            <p class="MSU_green_button_Text">
+                Autofill using MGI ID
+            </p>
+        </a>
 
-  <%--    <div class=help_pdf>--%>
-  <%--      <% Setting s1 = DBConnect.loadSetting("download_files_transgene_id"); %>--%>
-  <%--      <a href='<%= s1.value %>' target=_blank>--%>
-  <%--      <%= s1.label %>--%>
-  <%--      <div class=full_div_link></div>--%>
-  <%--      </a>--%>
-  <%--    </div>--%>
+        <input type="hidden" name="mouseMGIIDValidationString" id="mouseMGIIDValidationString"
+               value="${newMouse.mouseMGIIDValidationString}">
+        <input type="hidden" name="mouseMGIIDValid" id="mouseMGIIDValid" value="${newMouse.mouseMGIIDValid}">
+        <div>${newMouse.officialSymbolErr}</div>
+    </td>
+
+    <%--    <div class=help_pdf>--%>
+    <%--      <% Setting s1 = DBConnect.loadSetting("download_files_transgene_id"); %>--%>
+    <%--      <a href='<%= s1.value %>' target=_blank>--%>
+    <%--      <%= s1.label %>--%>
+    <%--      <div class=full_div_link></div>--%>
+    <%--      </a>--%>
+    <%--    </div>--%>
 </tr>
 
 <tr class="formField">
-  <td class="formLeft">
-    Official Symbol
-  <td class="formRight">
-    <input type="text" name="officialSymbol" id="officialSymbol" value="${newMouse.officialSymbol}">
-</td>
+    <td class="formLeft">
+        Official Symbol
+    <td class="formRight">
+        <input type="hidden" name="officialSymbol" id="officialSymbol" value="${newMouse.officialSymbol}">
+        <div class="<%=newMouse.hasValidMouseMGIID()  ? "bp_valid": "bp_invalid"%>" id="mouseMGIValidation">
+            ${newMouse.mouseMGIIDErr}
+        </div>
+    </td>
 </tr>
 
 <tr class="formField">
-  <td class="formLeft">
-    * Pubmed ID
-  </td>
-  <td class="formRight">
-    <input style="margin-top: 15px" type=text id=PMID name=PMID value="${newMouse.PMID}" maxlength="16" onkeyup="validateInput('PMID', 'PMIDValidation', 'pmId', '')" required>
-    <div class="<%=newMouse.hasValidPMID() ? "bp_valid" : "bp_invalid"%>" id="PMIDValidation">${newMouse.PMIDErr}</div>
-    <input type="hidden" name="PMIDValidationString" id="PMIDValidationString" value="${newMouse.PMIDValidationString}">
-    <input type="hidden" name="PMIDValid" id="PMIDValid" value="${newMouse.PMIDValid}">
-  </td>
+    <td class="formLeft">
+        * Pubmed ID
+    </td>
+    <td class="formRight">
+        <input style="margin-top: 15px" type=text id=PMID name=PMID value="${newMouse.PMID}" maxlength="16"
+               onkeyup="validateInput('PMID', 'PMIDValidation', 'pmId', '')" required>
+        <div class="<%=newMouse.hasValidPMID() ? "bp_valid" : "bp_invalid"%>"
+             id="PMIDValidation">${newMouse.PMIDErr}</div>
+        <input type="hidden" name="PMIDValidationString" id="PMIDValidationString"
+               value="${newMouse.PMIDValidationString}">
+        <input type="hidden" name="PMIDValid" id="PMIDValid" value="${newMouse.PMIDValid}">
+    </td>
 </tr>
 
 <tr class="formField">
-  <td class="formLeft">
-    Founder Line
-  </td>
-  <td class="formRight">
-    <input style="margin-top: 15px" name="gensatFounderLine" id="gensatFounderLine" type="text" maxlength="100" onkeyup="validateInput('gensatFounderLine','gensatFounderLineValidation','gensat',',')" value="${newMouse.gensatFounderLine}">
-    <div class="bp_valid" id="gensatFounderLineValidation">${newMouse.gensatFounderLineErr}</div>
-  </td>
+    <td class="formLeft">
+        Founder Line
+    </td>
+    <td class="formRight">
+        <input style="margin-top: 15px" name="gensatFounderLine" id="gensatFounderLine" type="text" maxlength="100"
+               onkeyup="validateInput('gensatFounderLine','gensatFounderLineValidation','gensat',',')"
+               value="${newMouse.gensatFounderLine}">
+        <div class="bp_valid" id="gensatFounderLineValidation">${newMouse.gensatFounderLineErr}</div>
+    </td>
 </tr>
 
 <tr class="formField" style="height: 75px">
-  <td class="formLeft">Comment</td>
-  <td class="formRight">
-        <textarea style="resize: none;margin-top: 13px;margin-bottom: 13px;width: 212.8px" name="comment" rows="7" id="comment">${newMouse.comment}</textarea>
-  </td>
+    <td class="formLeft">Comment</td>
+    <td class="formRight">
+        <textarea style="resize: none;margin-top: 13px;margin-bottom: 13px;width: 212.8px" name="comment" rows="7"
+                  id="comment">${newMouse.comment}</textarea>
+    </td>
 </tr>
 
 <%//***Expressed Sequence Section***** %>
 <tr class="formField">
-  <td class="formLeft">
-    * Expressed sequence type
-  </td>
-  <td class="formRight">
-    <div style="width: 222.8px;text-align: left;margin-left: auto;margin-top: 13px;margin-right: auto;margin-bottom: 13px;">
-      <%=getExpressedSequenceRadioWithParams(emptyIfNull(newMouse.getTGExpressedSequence()), "onChange='UpdateExpressedSequenceDetail()' required")%>
-      <div>${newMouse.TGExpressedSequenceErr}</div>
-    </div>
+    <td class="formLeft">
+        * Expressed sequence type
+    </td>
+    <td class="formRight">
+        <div style="width: 222.8px;text-align: left;margin-left: auto;margin-top: 13px;margin-right: auto;margin-bottom: 13px;">
+            <%=getExpressedSequenceRadioWithParams(emptyIfNull(newMouse.getTGExpressedSequence()), "onChange='UpdateExpressedSequenceDetail()' required")%>
+            <div>${newMouse.TGExpressedSequenceErr}</div>
+        </div>
 
-  </td>
+    </td>
 </tr>
 
 <tr class="formField" id="trGeneRow" style="<%=rowVisibility(newMouse.isGeneExprSeq())%>">
-  <td class="formLeft">
-    * Gene
-  </td>
-  <td class="formRight">
-    <input style="margin-top: 15px;" type=text id="TGMouseGene" maxlength="11" name="TGMouseGene" value="${newMouse.TGMouseGene}" onkeyup="validateInput('TGMouseGene', 'TGMouseGeneValidation', 'mgiExpressedGeneId', '')"
-    <%if (newMouse.isGeneExprSeq()){%>
+    <td class="formLeft">
+        * Gene
+    </td>
+    <td class="formRight">
+        <input style="margin-top: 15px;" type=text id="TGMouseGene" maxlength="11" name="TGMouseGene"
+               value="${newMouse.TGMouseGene}"
+               onkeyup="validateInput('TGMouseGene', 'TGMouseGeneValidation', 'mgiExpressedGeneId', '')"
+            <%if (newMouse.isGeneExprSeq()){%>
             <%="required"%>
-    <%}%>
-    >
-    <div class="<%=newMouse.hasValidTGMouseGene() ? "bp_valid" : "bp_invalid"%>" id="TGMouseGeneValidation">${newMouse.TGMouseGeneErr}</div>
-    <input type="hidden" name="TGMouseGeneValidationString" id="TGMouseGeneValidationString" value="${newMouse.TGMouseGeneValidationString}">
-    <input type="hidden" name="TGMouseGeneValid" id="TGMouseGeneValid" value="${newMouse.TGMouseGeneValid}">
-  </td>
+            <%}%>
+        >
+        <div class="<%=newMouse.hasValidTGMouseGene() ? "bp_valid" : "bp_invalid"%>"
+             id="TGMouseGeneValidation">${newMouse.TGMouseGeneErr}</div>
+        <input type="hidden" name="TGMouseGeneValidationString" id="TGMouseGeneValidationString"
+               value="${newMouse.TGMouseGeneValidationString}">
+        <input type="hidden" name="TGMouseGeneValid" id="TGMouseGeneValid" value="${newMouse.TGMouseGeneValid}">
+    </td>
 </tr>
 
 <tr class="formField" id="trRepRow" style="<%=rowVisibility(newMouse.isReporterExprSeq())%>">
-  <td class="formLeft">
-    * Reporter
-  </td>
-  <td class="formRight">
-    <input type="text" name="TGReporter" value="${newMouse.TGReporter}" maxlength="255"
-      <%if (newMouse.isReporterExprSeq()){%>
-      <%="required"%>
-      <%}%>
-    >
-    <div><%=emptyIfNull(newMouse.getTGReporterErr())%></div>
-  </td>
+    <td class="formLeft">
+        * Reporter
+    </td>
+    <td class="formRight">
+        <input type="text" name="TGReporter" value="${newMouse.TGReporter}" maxlength="255"
+            <%if (newMouse.isReporterExprSeq()){%>
+            <%="required"%>
+            <%}%>
+        >
+        <div><%=emptyIfNull(newMouse.getTGReporterErr())%>
+        </div>
+    </td>
 </tr>
 
 <tr class="formField" id="trDescRow" style="<%=rowVisibility(newMouse.isOtherExprSeq())%>">
-  <td class="formLeft">
-    * Description
-  </td>
-  <td class="formRight">
-    <input type="text" name="TGOther" value="${newMouse.TGOther}" maxlength="255"
-      <%if (newMouse.isOtherExprSeq()){%>
-      <%="required"%>
-      <%}%>
-    >
-    <div>${newMouse.TGOtherErr}</div>
-  </td>
+    <td class="formLeft">
+        * Description
+    </td>
+    <td class="formRight">
+        <input type="text" name="TGOther" value="${newMouse.TGOther}" maxlength="255"
+            <%if (newMouse.isOtherExprSeq()){%>
+            <%="required"%>
+            <%}%>
+        >
+        <div>${newMouse.TGOtherErr}</div>
+    </td>
 </tr>
 <%//***End Expressed Sequence Section***** %>
 
 <tr class="formField" id="trRegEle">
-  <td class="formLeft" style="line-height: 24px">
-    Regulatory Element
-  </td>
+    <td class="formLeft" style="line-height: 24px">
+        Regulatory Element
+    </td>
 
-  <td class="formRight">
-    <input type="text" name="TGRegulatoryElement" maxlength="255" value="${newMouse.TGRegulatoryElement}">
-    <div>${newMouse.TGRegulatoryElementErr}</div>
-  </td>
+    <td class="formRight">
+        <input type="text" name="TGRegulatoryElement" maxlength="255" value="${newMouse.TGRegulatoryElement}">
+        <div>${newMouse.TGRegulatoryElementErr}</div>
+    </td>
 </tr>
 
 <tr class="formField">
-  <td class="formLeft">
-    Background strain
-  </td>
-  <td class="formRight">
-    <input type="text" name="backgroundStrain" value="${newMouse.backgroundStrain}" maxlength="255">
-  </td>
+    <td class="formLeft">
+        Background strain
+    </td>
+    <td class="formRight">
+        <input type="text" name="backgroundStrain" value="${newMouse.backgroundStrain}" maxlength="255">
+    </td>
 </tr>
 
 <tr class="formField">
-  <td class="formLeft">Mouse status</td>
-  <td class="formRight">
-    <div style="width: 222.8px;text-align: left;margin-left: auto;margin-top: 13px;margin-right: auto;margin-bottom: 13px;">
-      <%=genRadio("cryopreserved", new String[]{"Live only", "Live and Cryo", "Cryo only"}, newMouse.liveCryoStatus())%>
-    </div>
-  </td>
+    <td class="formLeft">Mouse status</td>
+    <td class="formRight">
+        <div style="width: 222.8px;text-align: left;margin-left: auto;margin-top: 13px;margin-right: auto;margin-bottom: 13px;">
+            <%=genRadio("cryopreserved", new String[]{"Live only", "Live and Cryo", "Cryo only"}, newMouse.liveCryoStatus())%>
+        </div>
+    </td>
 </tr>

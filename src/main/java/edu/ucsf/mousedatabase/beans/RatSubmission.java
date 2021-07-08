@@ -958,7 +958,7 @@ public class RatSubmission {
 
       props.setProperty("repository",emptyIfNull(newRat.getRatRGDID()));
       props.setProperty("source",emptyIfNull(newRat.getOfficialSymbol()));
-      //props.setProperty("pmid",emptyIfNull(newRat.getPMID()));
+      props.setProperty("pmid",emptyIfNull(newRat.getPMID()));
 
       props.setProperty("geneValid",emptyIfNull(newRat.getMARgdGeneIDValid()));
       props.setProperty("geneValidationString",emptyIfNull(newRat.getMARgdGeneIDValidationString()));

@@ -356,7 +356,7 @@ public class ValidationServlet extends HttpServlet {
       return result;
     }
 
-    if (fieldTypeDescription.equals("Pubmed ID") || fieldTypeDescription.equals("MGI ID"))
+    if (fieldTypeDescription.equals("Pubmed ID") || fieldTypeDescription.equals("MGI ID") || fieldTypeDescription.equals("rgdTransgeneId"))
     {
 
         try

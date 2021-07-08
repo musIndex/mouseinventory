@@ -93,6 +93,11 @@ function validateInputCallback(responseXML) {
     linkText = "" + "RGD:" + inputValue + "";
     updateHiddenInputs(resultString, valid, inputFieldId);
   }
+  else if (fieldType == "rgdTransgeneId"){
+    url = _rgdDBurl + inputValue + _rgdDBurlTail;
+    linkText = "" + "RGD:" + inputValue + "";
+    updateHiddenInputs(resultString, valid, inputFieldId);
+  }
   else if (fieldType == "pmId")
   {
     url = _pmDBurl + inputValue + _pmDBurlTail;
@@ -153,6 +158,13 @@ function validateInputCallback(responseXML) {
       symbolField = document.getElementById("officialSymbolSpan");
       if(symbolField!=null)
         symbolField.innerHTML = "<b>" + replaceBrackets(symbol) + "</b>";
+    }
+
+    if (fieldType == "rgdTransgeneId"){
+      var responseXMLSymbol = responseXML.getElementsByTagName("symbol")[0];
+      var responseXMLSymbolChild = responseXMLSymbol.childNodes[0];
+      var responseXMLSymbolChildValue = responseXMLSymbolChild.value;
+      symbol = decodeXML(symbol);
     }
   }
   catch(Exception)

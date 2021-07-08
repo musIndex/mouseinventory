@@ -103,6 +103,7 @@
         String id = newRat.getRatRGDID();
         RGDResult result = RGDConnect.getGeneQuery(id);
         newRat.setOfficialSymbol(result.getSymbol());
+
         Properties props = RatSubmission.GetPropertiesString(submitterData,newRat);
         newRat.setIs_rat("1");
         submissionID = DBConnect.insertSubmission(submitterData,newRat,props,SubmittedMouse.SubmissionFormSource);
