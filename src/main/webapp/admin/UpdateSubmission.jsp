@@ -101,6 +101,17 @@ HTMLUtilities.logRequest(request);
             updatedRecord.setAdminComment(sub.getAdminComment());
             updatedRecord.setModificationType(sub.getTransgenicType());
             updatedRecord.setExpressedSequence(sub.getTGExpressedSequence());
+            if (updatedRecord.getExpressedSequence().equals("Reporter")){
+              updatedRecord.setReporter(sub.getTGReporter());
+            }
+            else if (updatedRecord.getExpressedSequence().equals("Mouse Gene (unmodified)")){
+                updatedRecord.setGeneID(sub.getProperties().getProperty("rat gene"));
+            }
+            else if (updatedRecord.getExpressedSequence().equals("Modified mouse gene or Other")){
+              updatedRecord.setTargetGeneName(sub.getTGOther());
+              updatedRecord.setGeneName(sub.getTGOther());
+              updatedRecord.setOtherComment(sub.getTGOther());
+            }
             updatedRecord.setRegulatoryElement(sub.getTGRegulatoryElement());
             updatedRecord.setPubmedIDs(sub.toRatRecord().getPubmedIDs());
           DBConnect.updateMouseRecord(updatedRecord);

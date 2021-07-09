@@ -82,7 +82,7 @@
     </td>
     <td class="formRight">
         <div style="width: 222.8px;text-align: left;margin-left: auto;margin-top: 13px;margin-right: auto;margin-bottom: 13px;">
-            <%=getExpressedSequenceRadioWithParams(emptyIfNull(newRat.getTGExpressedSequence()), "onChange='UpdateExpressedSequenceDetail()' required")%>
+            <%=getRatExpressedSequenceRadioWithParams(emptyIfNull(newRat.getTGExpressedSequence()), "onChange='UpdateExpressedSequenceDetail()' required")%>
             <div>${newRat.TGExpressedSequenceErr}</div>
         </div>
 
@@ -167,100 +167,3 @@
         </div>
     </td>
 </tr>
-
-<%--<%//***Expressed Sequence Section***** %>--%>
-<%--<tr class="formField">--%>
-<%--  <td valign="top" class="firstColumn"><span class=black>*</span>--%>
-<%--  <b>Expressed sequence type</b>: <br>For reporter-cre fusions, select 'Cre'</td>--%>
-<%--  <td><%=getExpressedSequenceRadioWithParams(emptyIfNull(newRat.getTGExpressedSequence()),--%>
-<%--  "onChange='UpdateExpressedSequenceDetail()'")%>--%>
-<%--    <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.TGExpressedSequenceErr}</span>--%>
-<%--  </td>--%>
-<%--</tr>--%>
-<%--<tr class="formField" id="trGeneRow"--%>
-<%--  style="<%=rowVisibility(newRat.isGeneExprSeq())%>">--%>
-<%--  <td valign="top">--%>
-<%--    <span class=black>*</span> Rat gene that is expressed--%>
-<%--    <br>--%>
-<%--    Go to RGD, find the detail page for the gene that is expressed,--%>
-<%--    copy the RGD ID for that gene and paste it in the space provided.--%>
-<%--    (Click <a href="http://www.informatics.jax.org/javawi2/servlet/WIFetch?page=markerQF"--%>
-<%--      target="_blank">here</a> for a link to the RGD gene query page.)--%>
-<%--    <br>--%>
-<%--    <span style="color: #23476b;text-emphasis: #23476b; font-size: larger; font-style: italic">Please   make sure that the gene that is entered is the correct one.</span>--%>
-<%--    <br>--%>
-<%--  </td>--%>
-<%--  <td valign="top"><input type=text id="TGRatGene"--%>
-<%--    maxlength="11" name="TGRatGene" size="20"--%>
-<%--    value="${newRat.TGRatGene}"--%>
-<%--    onkeyup="validateInput('TGRatGene', 'TGRatGeneValidation', 'RGDExpressedGeneId', '')">--%>
-<%--    <a title="Check ID in RGD database" href="javascript:"--%>
-<%--    onClick="validateInput('TGRatGene', 'TGRatGeneValidation', 'RGDExpressedGeneId', '')"><img--%>
-<%--      style="vertical-align: middle" src="img/arrow_cycle.png"--%>
-<%--      width="24" height="24">--%>
-<%--  </a> <br> <span  class="<%=newRat.hasValidTGRatGene() ? "bp_valid" : "bp_invalid"%>"  id="TGRatGeneValidation">--%>
-<%--    ${newRat.TGRatGeneErr}</span>--%>
-<%--    <input type="hidden"--%>
-<%--    name="TGRatGeneValidationString"--%>
-<%--    id="TGRatGeneValidationString"--%>
-<%--    value="${newRat.TGRatGeneValidationString}">--%>
-<%--    <input type="hidden" name="TGRatGeneValid"--%>
-<%--    id="TGRatGeneValid"--%>
-<%--    value="${newRat.TGRatGeneValid}">--%>
-<%--  </td>--%>
-
-<%--</tr>--%>
-<%--<tr class="formField" id="trRepRow"--%>
-<%--  style="<%=rowVisibility(newRat.isReporterExprSeq())%>">--%>
-<%--  <td valign="top"><span class=black>*</span> Reporter</td>--%>
-<%--  <td valign="top"><INPUT TYPE="TEXT" name="TGReporter"--%>
-<%--    value="${newRat.TGReporter}"--%>
-<%--    size="20" maxlength="255"> <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><%=emptyIfNull(newRat--%>
-<%--  .getTGReporterErr())%></span>--%>
-<%--  </td>--%>
-<%--</tr>--%>
-<%--<tr class="formField" id="trDescRow"--%>
-<%--  style="<%=rowVisibility(newRat.isOtherExprSeq())%>">--%>
-<%--  <td valign="top"><span class=black>*</span> Description of the expressed sequence</td>--%>
-<%--  <td valign="top"><INPUT TYPE="TEXT" name="TGOther"--%>
-<%--    value="${newRat.TGOther}"--%>
-<%--    size="20" maxlength="255"> <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.TGOtherErr}</span>--%>
-<%--  </td>--%>
-<%--</tr>--%>
-<%--<%//***End Expressed Sequence Section***** %>--%>
-
-<%--<tr class="formField" id="trRegEle">--%>
-<%--  <td valign="top"><b>Regulatory Element</b>--%>
-<%--    <br>--%>
-<%--    Briefly describe the sequences that drive expression of the transgene, (e.g. 'CAG promoter').--%>
-<%--    <br>--%>
-<%--    For mice produced using a BAC (e.g. Gensat mice), state 'BAC containing X--%>
-<%--    gene (provide gene symbol)'.--%>
-<%--  </td>--%>
-<%--  <td valign="top"><INPUT TYPE="TEXT"--%>
-<%--    name="TGRegulatoryElement" maxlength="255"--%>
-<%--    value="${newRat.TGRegulatoryElement}"--%>
-<%--    size="20"> <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newRat.TGRegulatoryElementErr}</span>--%>
-<%--  </td>--%>
-<%--</tr>--%>
-
-<%--<tr class="formField">--%>
-<%--  <td valign="top" class="firstColumn">--%>
-<%--    <b>Background strain</b> of transgene rat.--%>
-<%--    <br>--%>
-<%--    Enter only defined background strains (i.e. do not enter 'mixed' or 'not known').--%>
-<%--    <br>--%>
-<%--    (Optional: if the transgene is being maintained in combination with another transgene(s)--%>
-<%--    or a mutant allele(s), this can be noted here.)--%>
-<%--  </td>--%>
-<%--  <td valign="top"><input type="text" name="backgroundStrain"--%>
-<%--    value="${newRat.backgroundStrain}"--%>
-<%--    size="40" maxlength="255">--%>
-<%--  </td>--%>
-<%--</tr>--%>
-<%--<tr class="formField">--%>
-<%--  <td valign="top" class="firstColumn"><b>Rat status</b>:</td>--%>
-<%--  <td><%=genRadio("cryopreserved", new String[]{"Live only",--%>
-<%--      "Live and Cryo", "Cryo only"},  newRat.liveCryoStatus())%>--%>
-<%--  </td>--%>
-<%--</tr>--%>

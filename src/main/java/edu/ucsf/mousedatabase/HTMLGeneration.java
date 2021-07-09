@@ -3131,6 +3131,17 @@ table.append("<li class=\"NavLinkItem\">\n" +
     return genRadio(name, values, niceNames, current, selectParams);
   }
 
+  public static String getRatExpressedSequenceRadioWithParams(String current,
+                                                           String selectParams) {
+
+    String name = "TGExpressedSequence";
+    String[] values = { "Reporter", "Cre",
+            "Modified mouse gene or Other"};
+    String[] niceNames = {"Reporter", "Cre",
+            "Other"};
+    return genRadio(name, values, niceNames, current, selectParams);
+  }
+
   public static String getExpressedSequenceRadio() {
     return getExpressedSequenceRadio(null);
   }
