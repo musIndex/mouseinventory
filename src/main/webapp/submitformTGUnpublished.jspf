@@ -36,10 +36,10 @@
 </tr>
 
 <tr class="formField" style="height: 75px">
-    <td class="formLeft">Comment</td>
+    <td class="formLeft">* Comment</td>
     <td class="formRight">
         <textarea style="resize: none;margin-top: 13px;margin-bottom: 13px;width: 212.8px" name="comment" rows="7"
-                  id="comment">${newMouse.comment}</textarea>
+                  id="comment" required>${newMouse.comment}</textarea>
     </td>
 </tr>
 
