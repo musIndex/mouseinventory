@@ -104,6 +104,9 @@ public class ValidationServlet extends HttpServlet {
             result = doRGDGeneValidation(inputString, allowedValues, "rgdTransgeneId");
 
         }
+        else if (fieldType.equals("rgdExpressedGeneId")){
+            result = doRGDGeneValidation(inputString, allowedValues, "rgdTransgeneId");
+        }
         else
         {
             String type = fieldType;

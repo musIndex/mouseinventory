@@ -42,7 +42,7 @@
   </td>
   <td class="formRight">
     <div style="width: 222.8px;text-align: left;margin-left: auto;margin-top: 13px;margin-right: auto;margin-bottom: 13px;">
-      <%=getRatExpressedSequenceRadioWithParams(emptyIfNull(newRat.getTGExpressedSequence()), "onChange='UpdateExpressedSequenceDetail()' required")%>
+      <%=getExpressedSequenceRadioWithParams(emptyIfNull(newRat.getTGExpressedSequence()), "onChange='UpdateExpressedSequenceDetail()' required")%>
       <div>${newRat.TGExpressedSequenceErr}</div>
     </div>
 

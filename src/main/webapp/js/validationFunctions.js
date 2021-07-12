@@ -98,6 +98,11 @@ function validateInputCallback(responseXML) {
     linkText = "" + "RGD:" + inputValue + "";
     updateHiddenInputs(resultString, valid, inputFieldId);
   }
+  else if (fieldType == "rgdExpressedGeneId"){
+    url = _rgdDBurl + inputValue + _rgdDBurlTail;
+    linkText = "" + "RGD:" + inputValue + "";
+    updateHiddenInputs(resultString, valid, inputFieldId);
+  }
   else if (fieldType == "pmId")
   {
     url = _pmDBurl + inputValue + _pmDBurlTail;
