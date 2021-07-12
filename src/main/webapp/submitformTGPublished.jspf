@@ -6,7 +6,7 @@
         * MGI ID
     </td>
     <td class="formRight">
-        <input type="text" style="margin-top: 15px" name="mouseMGIID" id="mouseMGIID" maxlength="11"
+        <input type="text" name="mouseMGIID" id="mouseMGIID" maxlength="11"
                onkeyup="validateInput('mouseMGIID', 'mouseMGIValidation', 'mgiTransgeneId', 'none')"
                value="${newMouse.mouseMGIID}" required>
         <a href="#" id="mgiautofillbutton" style="text-decoration:none;width: 222.8px;margin-top: 15px"
@@ -21,14 +21,6 @@
         <input type="hidden" name="mouseMGIIDValid" id="mouseMGIIDValid" value="${newMouse.mouseMGIIDValid}">
         <div>${newMouse.officialSymbolErr}</div>
     </td>
-
-    <%--    <div class=help_pdf>--%>
-    <%--      <% Setting s1 = DBConnect.loadSetting("download_files_transgene_id"); %>--%>
-    <%--      <a href='<%= s1.value %>' target=_blank>--%>
-    <%--      <%= s1.label %>--%>
-    <%--      <div class=full_div_link></div>--%>
-    <%--      </a>--%>
-    <%--    </div>--%>
 </tr>
 
 <tr class="formField">

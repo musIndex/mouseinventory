@@ -381,16 +381,13 @@
                 <p class="block_form_desc_text">If you encounter any difficulties while completing this page, click
                     'Submit
                     Feedback' at the top of the screen.<br><br>
-
-                    If the transgene you want to submit is published, there should be a </p>
-                <p class="block_form_label_text">Transgene Detail</p>
-                <p class="block_form_desc_text"> page for it on Mouse Genome Informatics (MGI). You need to find this
-                    page in
-                    order to complete this submission. If you are not certain how to find it, click here:<br><br>
-
                 </p>
                 <p class="block_form_label_text">Rodent Name</p>
                 <p class="block_form_desc_text">is the unofficial nomenclature used by holder.<br><br>
+
+                    <%
+                        if (newMouse.isPublished()) {
+                    %>
 
                     Copy the </p>
                 <p class="block_form_label_text">MGI ID</p>
@@ -403,6 +400,46 @@
                     Admin will inform MGI, and they will provide a detail page for the transgene, usually within a few
                     days.<br><br>
 
+                    If the transgene you want to submit is published, there should be a </p>
+                <p class="block_form_label_text">Transgene Detail</p>
+                <p class="block_form_desc_text"> page for it on <a href="http://www.informatics.jax.org/"
+                                                                   style="font-weight: bold">Mouse Genome
+                    Informatics</a> (MGI). You need to find this
+                    page in
+                    order to complete this submission. If you are not certain how to find it, click here:</p><br>
+                <div class="MSU_green_button"
+                     style="margin-top: 10px;margin-bottom: 10px;display: inline-block;width: 60%">
+                    <% Setting s3 = DBConnect.loadSetting("download_files_transgene_id"); %>
+                    <a class="anchor_no_underline" href='<%= s3.value %>' target=_blank>
+                        <p class="MSU_green_button_Text" style="font-size: 16px">
+                            <%= s3.label %>
+                        </p>
+                    </a>
+                </div>
+                <br>
+                <%
+                } else {
+                %>
+                </p>
+                <%
+                    }
+                %>
+
+                <%
+                    if (!newMouse.isPublished()) {
+                %>
+                <p class="block_form_desc_text">
+                    If you have entered a valid MGI ID, the official symbol for the transgene is shown. Please click on
+                    the link that has been generated
+                    to the MGI accession number for this transgene and</p>
+                <p class="block_form_label_text">double check</p>
+                <p class="block_form_desc_text"> to make sure that it
+                    describes the transgene you want to submit. If not, replace the MGI ID with the one for the correct
+                    transgene.
+                    <br><br>
+                    <%
+                        }
+                    %>
                 </p>
                 <p class="block_form_label_text">Official Symbol</p>
                 <p class="block_form_desc_text"> for the transgene being submitted (automatically entered when the MGI
@@ -410,8 +447,11 @@
                     entered). If the official symbol seems to be correct, click the autofill button. If not, replace the
                     MGI ID
                     with the one for the correct allele.<br><br>
-
+                    <%
+                        if (newMouse.isPublished()) {
+                    %>
                 </p>
+
                 <p class="block_form_label_text">Pubmed ID</p>
                 <p class="block_form_desc_text">, generally for the publication in which the mutant allele was first
                     described
@@ -419,12 +459,15 @@
                     If you entered 'none' in the MGI ID field above, enter the PMID for a publication in which the
                     mutant allele
                     is described.<br><br>
-
+                    <%
+                        }
+                    %>
                     If the transgene was produced by Gensat, please provide a</p>
                 <p class="block_form_label_text">Founder Line</p>
                 <p class="block_form_desc_text">. This is included at the end of the Official Symbol, e.g.
                     'Tg(Epha2-EGFP)DE51Gsat' - the 'Founder Line' here is DE51.<br>
-                    Gensat catalog<br><br>
+                    <a style="font-weight: bold;text-decoration: underline" href="http://www.gensat.org/search.jsp">Gensat
+                        catalog</a><br><br>
 
                     Text automatically entered in the </p>
                 <p class="block_form_label_text">Comment</p>
@@ -449,16 +492,26 @@
                     the link
                     that has been generated to the MGI accession number will bring up the page that describes this gene.
                     If you
-                    are not certain how to find this information, click the 'How to find the MGI Gene ID'
-                    button.<br><br>
+                    are not certain how to find this information, click the 'How to find the MGI gene ID'
+                    button.</p><br>
+                <div class="MSU_green_button"
+                     style="margin-top: 10px;margin-bottom: 10px;display: inline-block;width: 45%">
+                    <% Setting s4 = DBConnect.loadSetting("download_files_gene_id"); %>
+                    <a class="anchor_no_underline" href='<%= s4.value %>' target=_blank>
+                        <p class="MSU_green_button_Text" style="font-size: 16px">
+                            <%= s4.label %>
+                        </p>
+                    </a>
+                </div>
+                <br>
 
-                    For </p>
+                <p class="block_form_desc_text">For </p>
                 <p class="block_form_label_text">reporter-cre</p>
                 <p class="block_form_desc_text"> fusions, select 'Cre'.<br><br>
 
                     For </p>
                 <p class="block_form_label_text">Other</p>
-                <p class="block_form_desc_text"> exoressed sequence types, write the description of the expressed
+                <p class="block_form_desc_text"> expressed sequence types, write the description of the expressed
                     sequence.<br><br>
 
                     When entering the </p>
@@ -476,6 +529,18 @@
                     a
                     transgene(s), this can be noted here.)<br><br>
 
+                    <%
+                        if (!newMouse.isPublished()) {
+                    %>
+                    If the mouse was produced in
+                </p>
+                <p class="block_form_label_text">another laboratory</p>
+                <p class="block_form_desc_text">, please use the comment field to provide the name and
+                    Institution of the PI in whose laboratory the mouse was produced (or from whom the mouse was
+                    obtained)<br><br>
+                    <%
+                        }
+                    %>
                     *Indicates required field.</p>
             </div>
 
@@ -504,5 +569,9 @@
     </div>
 </div>
 
-<%=HTMLGeneration.getWebsiteFooter()%>
+<%=HTMLGeneration
+        .
+                getWebsiteFooter
+                        (
+                        )%>
 

@@ -6,7 +6,7 @@
         * RGD ID
     </td>
     <td class="formRight">
-        <input type="text" style="margin-top: 15px" name="ratRGDID" id="ratRGDID" maxlength="11"
+        <input type="text" name="ratRGDID" id="ratRGDID" maxlength="11"
                onkeyup="validateInput('ratRGDID', 'ratRGDValidation', 'rgdTransgeneId', 'none')"
                value="${newRat.ratRGDID}" required>
         <a href="#" id="rgdautofillbutton" style="text-decoration:none;width: 222.8px;margin-top: 15px"
