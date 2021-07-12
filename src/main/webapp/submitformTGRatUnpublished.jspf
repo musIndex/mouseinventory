@@ -14,14 +14,6 @@
     <input type="hidden" name="ratRGDIDValid" id="ratRGDIDValid" value="${newRat.ratRGDIDValid}">
     <div>${newRat.officialSymbolErr}</div>
   </td>
-
-  <%--    <div class=help_pdf>--%>
-  <%--      <% Setting s1 = DBConnect.loadSetting("download_files_transgene_id"); %>--%>
-  <%--      <a href='<%= s1.value %>' target=_blank>--%>
-  <%--      <%= s1.label %>--%>
-  <%--      <div class=full_div_link></div>--%>
-  <%--      </a>--%>
-  <%--    </div>--%>
 </tr>
 
 <tr class="formField">

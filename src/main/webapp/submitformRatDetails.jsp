@@ -349,84 +349,121 @@
                 <p class="block_form_desc_text">If you encounter any difficulties while completing this page, click
                     'Submit
                     Feedback' at the top of the screen.<br><br>
-
-                    If the transgene you want to submit is published, there should be a </p>
-                <p class="block_form_label_text">Transgene Detail</p>
-                <p class="block_form_desc_text"> page for it on Mouse Genome Informatics (MGI). You need to find this
-                    page in
-                    order to complete this submission. If you are not certain how to find it, click here:<br><br>
-
                 </p>
                 <p class="block_form_label_text">Rodent Name</p>
                 <p class="block_form_desc_text">is the unofficial nomenclature used by holder.<br><br>
 
+                    <%
+                        if (newRat.isPublished()) {
+                    %>
+
                     Copy the </p>
-                <p class="block_form_label_text">MGI ID</p>
+                <p class="block_form_label_text">RGD ID</p>
                 <p class="block_form_desc_text"> for the transgene from the transgene detail page (number only) and
                     paste it
                     here. Although each published transgene should have a detail page, occasionally it does not. If you
                     are
-                    absolutely certain that there is no detail page on MGI for the transgene you want to submit, enter
+                    absolutely certain that there is no detail page on RGD for the transgene you want to submit, enter
                     'none'.
-                    Admin will inform MGI, and they will provide a detail page for the transgene, usually within a few
+                    Admin will inform RGD, and they will provide a detail page for the transgene, usually within a few
                     days.<br><br>
 
+                    If the transgene you want to submit is published, there should be a </p>
+                <p class="block_form_label_text">Transgene Detail</p>
+                <p class="block_form_desc_text"> page for it on the <a href="https://rgd.mcw.edu/"
+                                                                   style="font-weight: bold">Rat Genome
+                    Database</a> (RGD). You need to find this
+                    page in
+                    order to complete this submission. If you are not certain how to find it, click here:</p><br>
+                    <div class="MSU_green_button"
+                         style="margin-top: 10px;margin-bottom: 10px;display: inline-block;width: 45%">
+                        <% Setting s4 = DBConnect.loadSetting("download_files_rgd_gene_id"); %>
+                        <a class="anchor_no_underline" href='<%= s4.value %>' target=_blank>
+                            <p class="MSU_green_button_Text" style="font-size: 16px">
+                                <%= s4.label %>
+                            </p>
+                        </a>
+                    </div>
+                <br>
+                <%
+                } else {
+                %>
+                </p>
+                <%
+                    }
+                %>
+
+                <%
+                    if (!newRat.isPublished()) {
+                %>
+                <p class="block_form_desc_text">
+                    If you have entered a valid RGD ID, the official symbol for the transgene is shown. Please click on
+                    the link that has been generated
+                    to the RGD accession number for this transgene and</p>
+                <p class="block_form_label_text">double check</p>
+                <p class="block_form_desc_text"> to make sure that it
+                    describes the transgene you want to submit. If not, replace the RGD ID with the one for the correct
+                    transgene.
+                    <br><br>
+                    <%
+                        }
+                    %>
                 </p>
                 <p class="block_form_label_text">Official Symbol</p>
-                <p class="block_form_desc_text"> for the transgene being submitted (automatically entered when the MGI
+                <p class="block_form_desc_text"> for the transgene being submitted (automatically entered when the RGD
                     ID is
                     entered). If the official symbol seems to be correct, click the autofill button. If not, replace the
-                    MGI ID
-                    with the one for the correct allele.<br><br>
-
+                    RGD ID
+                    with the one for the correct strain.<br><br>
+                    <%
+                        if (newRat.isPublished()) {
+                    %>
                 </p>
-                <p class="block_form_label_text">Pubmed ID</p>
-                <p class="block_form_desc_text">, generally for the publication in which the mutant allele was first
-                    described
-                    (automatically entered when the MGI ID for the allele is entered)
-                    If you entered 'none' in the MGI ID field above, enter the PMID for a publication in which the
-                    mutant allele
-                    is described.<br><br>
 
-                    If the transgene was produced by Gensat, please provide a</p>
-                <p class="block_form_label_text">Founder Line</p>
-                <p class="block_form_desc_text">. This is included at the end of the Official Symbol, e.g.
-                    'Tg(Epha2-EGFP)DE51Gsat' - the 'Founder Line' here is DE51.<br>
-                    Gensat catalog<br><br>
+                <p class="block_form_label_text">Pubmed ID</p>
+                <p class="block_form_desc_text">, generally for the publication in which the strain was first
+                    described
+                    (automatically entered when the RGD ID for the strain is entered)
+                    If you entered 'none' in the RGD ID field above, enter the PMID for a publication in which the strain is described.<br><br>
+                    <%
+                        }
+                    %>
 
                     Text automatically entered in the </p>
                 <p class="block_form_label_text">Comment</p>
-                <p class="block_form_desc_text"> section is the description of the allele provided by MGI. Please read
+                <p class="block_form_desc_text"> section is the description of the strain provided by RGD. Please read
                     it and
                     make sure it accurately describes the transgene you want to submit. If not, make the appropriate
                     changes.
                     If, after checking the information that has been entered (i.e. name of gene modified, relevant
                     publication,
-                    and description of the allele) you realize that this is not the transgene you want to submit, please
+                    and description of the strain) you realize that this is not the transgene you want to submit, please
                     start
-                    over by entering the MGI ID for the correct transgene and clicking the autofill button.
-                    If you entered 'none' in the MGI ID field above, enter a brief description of the transgene
+                    over by entering the RGD ID for the correct transgene and clicking the autofill button.
+                    If you entered 'none' in the RGF ID field above, enter a brief description of the transgene
                     here.<br><br>
 
                 </p>
 
-                <p class="block_form_label_text">Gene</p>
-                <p class="block_form_desc_text"> (MGI ID), is the MGI ID for the gene that is mutated in the allele
-                    being
-                    submitted. When auto-filled, the official symbol and full name of the gene will appear. Clicking on
-                    the link
-                    that has been generated to the MGI accession number will bring up the page that describes this gene.
-                    If you
-                    are not certain how to find this information, click the 'How to find the MGI Gene ID'
-                    button.<br><br>
+<%--                <p class="block_form_label_text">Gene</p>--%>
+<%--                <p class="block_form_desc_text"> (RGD ID), is the RGD ID for the gene that is mutated in the strain--%>
+<%--                    being--%>
+<%--                    submitted. When auto-filled, the official symbol and full name of the gene will appear. Clicking on--%>
+<%--                    the link--%>
+<%--                    that has been generated to the RGD accession number will bring up the page that describes this gene.--%>
+<%--                    If you--%>
+<%--                    are not certain how to find this information, click the 'How to find the RGD Gene ID'--%>
+<%--                    button.</p><br>--%>
 
-                    For </p>
+<%--                <br>--%>
+
+                <p class="block_form_desc_text">For </p>
                 <p class="block_form_label_text">reporter-cre</p>
                 <p class="block_form_desc_text"> fusions, select 'Cre'.<br><br>
 
                     For </p>
                 <p class="block_form_label_text">Other</p>
-                <p class="block_form_desc_text"> exoressed sequence types, write the description of the expressed
+                <p class="block_form_desc_text"> expressed sequence types, write the description of the expressed
                     sequence.<br><br>
 
                     When entering the </p>
@@ -440,10 +477,22 @@
                     Enter only defined </p>
                 <p class="block_form_label_text">Background Strains</p>
                 <p class="block_form_desc_text"> (i.e. do not enter 'mixed' or 'not known').<br>
-                    (Optional: if the mutant allele is being maintained in combination with another mutant allele(s) or
+                    (Optional: if the strain is being maintained in combination with another strain(s) or
                     a
                     transgene(s), this can be noted here.)<br><br>
 
+                    <%
+                        if (!newRat.isPublished()) {
+                    %>
+                    If the mouse was produced in
+                </p>
+                <p class="block_form_label_text">another laboratory</p>
+                <p class="block_form_desc_text">, please use the comment field to provide the name and
+                    Institution of the PI in whose laboratory the mouse was produced (or from whom the mouse was
+                    obtained)<br><br>
+                    <%
+                        }
+                    %>
                     *Indicates required field.</p>
             </div>
 

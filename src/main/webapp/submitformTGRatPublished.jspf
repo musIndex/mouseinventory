@@ -20,14 +20,6 @@
         <input type="hidden" name="ratRGDIDValid" id="ratRGDIDValid" value="${newRat.ratRGDIDValid}">
         <div>${newRat.officialSymbolErr}</div>
     </td>
-
-    <%--    <div class=help_pdf>--%>
-    <%--      <% Setting s1 = DBConnect.loadSetting("download_files_transgene_id"); %>--%>
-    <%--      <a href='<%= s1.value %>' target=_blank>--%>
-    <%--      <%= s1.label %>--%>
-    <%--      <div class=full_div_link></div>--%>
-    <%--      </a>--%>
-    <%--    </div>--%>
 </tr>
 
 <tr class="formField">
@@ -55,17 +47,17 @@
     </td>
 </tr>
 
-<tr class="formField">
-    <td class="formLeft">
-        Founder Line
-    </td>
-    <td class="formRight">
-        <input style="margin-top: 15px" name="gensatFounderLine" id="gensatFounderLine" type="text" maxlength="100"
-               onkeyup="validateInput('gensatFounderLine','gensatFounderLineValidation','gensat',',')"
-               value="${newRat.gensatFounderLine}">
-        <div class="bp_valid" id="gensatFounderLineValidation">${newRat.gensatFounderLineErr}</div>
-    </td>
-</tr>
+<%--<tr class="formField">--%>
+<%--    <td class="formLeft">--%>
+<%--        Founder Line--%>
+<%--    </td>--%>
+<%--    <td class="formRight">--%>
+<%--        <input style="margin-top: 15px" name="gensatFounderLine" id="gensatFounderLine" type="text" maxlength="100"--%>
+<%--               onkeyup="validateInput('gensatFounderLine','gensatFounderLineValidation','gensat',',')"--%>
+<%--               value="${newRat.gensatFounderLine}">--%>
+<%--        <div class="bp_valid" id="gensatFounderLineValidation">${newRat.gensatFounderLineErr}</div>--%>
+<%--    </td>--%>
+<%--</tr>--%>
 
 <tr class="formField" style="height: 75px">
     <td class="formLeft">* Comment</td>
