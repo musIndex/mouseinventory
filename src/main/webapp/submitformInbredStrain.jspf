@@ -1,5 +1,5 @@
 <%
-  String[] suppliers = new String[] { "JAX Mice", "Taconic", "Charles River", "Harlan", "Other (name in comment)" };
+  String[] suppliers = new String[] { "JAX Mice", "Taconic", "Charles River", "Envigo", "Other (name in comment)" };
   String supplierDropDown = genSelect("ISSupplier", suppliers,
           newMouse.getISSupplier() == null ? "JAX Mice" : newMouse.getISSupplier(),
           "onchange=\"UpdateCatalogUrlVisibility();\"");

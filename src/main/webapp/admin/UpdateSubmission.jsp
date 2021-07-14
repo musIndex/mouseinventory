@@ -88,19 +88,23 @@
                         //SubmittedRat rat = DBConnect.ge
                         updatedRecord.setRat(1);
                         updatedRecord.setRepositoryCatalogNumber(sub.getMouseMGIID());
-                        updatedRecord.setSource(sub.getOfficialSymbol());
+                        if (!updatedRecord.isIS()) {
+                            updatedRecord.setSource(sub.getOfficialSymbol());
+                        }
                         updatedRecord.setOfficialMouseName(sub.getMouseName());
                         updatedRecord.setAdminComment(sub.getAdminComment());
                         updatedRecord.setModificationType(sub.getTransgenicType());
                         updatedRecord.setExpressedSequence(sub.getTGExpressedSequence());
-                        if (updatedRecord.getExpressedSequence().equals("Reporter")) {
-                            updatedRecord.setReporter(sub.getTGReporter());
-                        } else if (updatedRecord.getExpressedSequence().equals("Mouse Gene (unmodified)")) {
-                            updatedRecord.setGeneID(sub.getProperties().getProperty("rat gene"));
-                        } else if (updatedRecord.getExpressedSequence().equals("Modified mouse gene or Other")) {
-                            updatedRecord.setTargetGeneName(sub.getTGOther());
-                            updatedRecord.setGeneName(sub.getTGOther());
-                            updatedRecord.setOtherComment(sub.getTGOther());
+                        if (updatedRecord.getExpressedSequence() != null) {
+                            if (updatedRecord.getExpressedSequence().equals("Reporter")) {
+                                updatedRecord.setReporter(sub.getTGReporter());
+                            } else if (updatedRecord.getExpressedSequence().equals("Mouse Gene (unmodified)")) {
+                                updatedRecord.setGeneID(sub.getProperties().getProperty("rat gene"));
+                            } else if (updatedRecord.getExpressedSequence().equals("Modified mouse gene or Other")) {
+                                updatedRecord.setTargetGeneName(sub.getTGOther());
+                                updatedRecord.setGeneName(sub.getTGOther());
+                                updatedRecord.setOtherComment(sub.getTGOther());
+                            }
                         }
                         updatedRecord.setRegulatoryElement(sub.getTGRegulatoryElement());
                         updatedRecord.setPubmedIDs(sub.toRatRecord().getPubmedIDs());

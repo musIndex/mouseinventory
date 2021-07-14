@@ -336,7 +336,7 @@
 
                 <p class="block_form_desc_text">Use the catalog link below to search for JAX mice.</p><br>
                 <a class="anchor_no_underline" href="http://jaxmice.jax.org/query"><p
-                        style="text-decoration: underline;margin-block-start: 0em" class="label_text">JAX mice
+                        style="text-decoration: underline;margin-block-start: 0em;font-weight: bold" class="label_text">JAX mice
                     catalog</p></a>
 
                 <p class="block_form_desc_text">If available, please enter the URL for the description of the mouse on

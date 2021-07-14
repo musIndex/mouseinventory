@@ -1,5 +1,5 @@
 <%
-  String[] suppliers = new String[] { "JAX Mice", "Taconic", "Charles River", "Harlan", "Other (name in comment)" };
+  String[] suppliers = new String[] {"Taconic", "Charles River", "Envigo", "Other (name in comment)" };
   String supplierDropDown = genSelect("ISSupplier", suppliers,
           newRat.getISSupplier() == null ? "JAX Mice" : newRat.getISSupplier(),
           "onchange=\"UpdateCatalogUrlVisibility();\"");
@@ -17,13 +17,13 @@
   <td class="formRight">
       <%=supplierDropDown%>
 </tr>
-<tr  class="formField" style='display: <%=(newRat.getISSupplier()==  null||  newRat.getISSupplier().startsWith("JAX") )?  "table-row":  "none"%>;' id="jaxCatalogNumber">
+<tr  class="formField" style='display: none' id="jaxCatalogNumber">
   <td class="formLeft" style="line-height: 19px">Catalog Number</td>
   <td class="formRight">
     <input type="text" name="ISSupplierCatalogNumber" id="ISSupplierCatalogNumber" value="${newRat.ISSupplierCatalogNumber}">
   </td>
 </tr>
-<tr class="formField" style='display: <%=(newRat.getISSupplier()==  null||  newRat.getISSupplier().startsWith("JAX") )?  "none":  "table-row"%>' id="nonJaxUrlField">
+<tr class="formField" id="nonJaxUrlField">
   <td class="formLeft">Catalog URL</td>
   <td  class="formRight">
     <input  type="text" name="ISSupplierCatalogUrl" id="ISSupplierCatalogUrl" value="${newRat.ISSupplierCatalogUrl}"/>

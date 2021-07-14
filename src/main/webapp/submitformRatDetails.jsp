@@ -294,7 +294,7 @@
                 if (newRat.isIS()) {
             %>
             <div class="sidebar_desc"
-                 style="width: 100%;margin-left:-100px;padding-left: 10px;margin-top: 0px;padding-top: 3px;padding-right: 6px;height: 300px">
+                 style="width: 100%;margin-left:-100px;padding-left: 10px;margin-top: 0px;padding-top: 3px;padding-right: 6px;height: 250px">
                 <%--      <h3>--%>
                 <%--        <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><%=errorsMessage%></span>--%>
                 <%--      </h3>--%>
@@ -302,11 +302,6 @@
                     the data entered will be lost.</p><br><br>
                 <p class="block_form_desc_text">If you encounter any difficulties while completing this page, click
                     'Submit Feedback' at the top of the screen.</p><br><br>
-
-                <p class="block_form_desc_text">Use the catalog link below to search for JAX mice.</p><br>
-                <a class="anchor_no_underline" href="http://jaxmice.jax.org/query"><p
-                        style="text-decoration: underline;margin-block-start: 0em" class="label_text">JAX mice
-                    catalog</p></a>
 
                 <p class="block_form_desc_text">If available, please enter the URL for the description of the rat on the
                     supplier's website.<br><br>
