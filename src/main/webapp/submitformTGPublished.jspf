@@ -85,7 +85,7 @@
 
 <tr class="formField" id="trGeneRow" style="<%=rowVisibility(newMouse.isGeneExprSeq())%>">
     <td class="formLeft">
-        * Gene
+        * Gene/Marker Symbol
     </td>
     <td class="formRight">
         <input style="margin-top: 15px;" type=text id="TGMouseGene" maxlength="11" name="TGMouseGene"
