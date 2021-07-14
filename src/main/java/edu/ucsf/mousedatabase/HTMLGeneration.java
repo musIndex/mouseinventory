@@ -3603,7 +3603,7 @@ table.append("<li class=\"NavLinkItem\">\n" +
   public static String getWebsiteFooter() {
 
     //Database version
-    String version = "4.0.02";
+    String version = "4.0.03";
     //Current date
     String year = "2021";
     //Email of database administrator
