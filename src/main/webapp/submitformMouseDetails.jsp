@@ -26,7 +26,7 @@
                 return;
             }
             errorsMessage = "Please correct the errors listed in red below.";
-        } else if ("Save Data".equalsIgnoreCase(request.getParameter("submitButton"))) {
+        } if ("Save Data".equalsIgnoreCase(request.getParameter("submitButton"))) {
             savedMessage = "Saved. Data will be lost if you close your browser window.";
         }
     }

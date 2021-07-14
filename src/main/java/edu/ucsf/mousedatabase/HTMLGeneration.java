@@ -821,7 +821,7 @@ table.append("<li class=\"NavLinkItem\">\n" +
                   emptyIfNull(mgiID),
                   size,
                   11,
-                  "id=\"geneMGIID\" onkeyup=\"validateInput('geneMGIID', 'geneMGIIDValidation', 'mgiModifiedGeneId', '')\"");
+                  "id=\"geneMGIID\"");
           if (mgiID != null && !mgiID.isEmpty()) {
             String geneURL = HTMLGeneration.formatMGI(mgiID);
             String resultString = "";
@@ -1430,11 +1430,11 @@ table.append("<li class=\"NavLinkItem\">\n" +
             table.append("<dt><b>Expressed Sequence:</b></dt>\r\n");
             if (nextSubmission.getIs_rat().equalsIgnoreCase("1")) {
               table.append("<dt>RGD: "
-                      + formatRGD("" + nextSubmission.getMAMgiGeneID())
+                      + nextSubmission.getMAMgiGeneID()
                       + "</dt>\r\n");
             } else {
               table.append("<dt>MGI: "
-                      + formatMGI(nextSubmission.getTGMouseGene())
+                      + nextSubmission.getMAMgiGeneID()
                       + "</dt>\r\n");
             }
 
@@ -1512,9 +1512,7 @@ table.append("<li class=\"NavLinkItem\">\n" +
                       .equalsIgnoreCase(
                               "Mouse Gene (unmodified)")) {
                 table.append("<dt><b>Expressed Sequence:</b></dt>\r\n");
-                table.append("<dd>"
-                        + formatMGI(nextSubmission
-                        .getTGMouseGene()) + "</dd>");// formatGene(nextSubmission.getGeneSymbol(),
+                table.append("<dd>"+ nextSubmission.getTGMouseGene() + "</dd>");// formatGene(nextSubmission.getGeneSymbol(),
                 if (nextSubmission.getTGMouseGeneValid() != null
                         && nextSubmission.getTGMouseGeneValid()
                         .equalsIgnoreCase("true")) {
@@ -1803,11 +1801,10 @@ table.append("<li class=\"NavLinkItem\">\n" +
         if (nextRecord.getExpressedSequence() != null) {
           if (nextRecord.getExpressedSequence().equalsIgnoreCase("mouse gene")
                   || nextRecord.getExpressedSequence().equalsIgnoreCase("Mouse Gene (unmodified)")) {
-            table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b></dt>\r\n");
-            table.append(formatGene(
-                    nextRecord.getTargetGeneSymbol(),
-                    nextRecord.getTargetGeneName(),
-                    nextRecord.getTargetGeneID()));
+            table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b>\r\n");
+              table.append(nextRecord.getGeneID() + "</dt>");
+
+
           } else if (nextRecord.getExpressedSequence()
                   .equalsIgnoreCase("reporter")) {
             table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b>\r\n");
@@ -1828,10 +1825,8 @@ table.append("<li class=\"NavLinkItem\">\n" +
         if (nextRecord.getTransgenicType() != null
                 && (nextRecord.getTransgenicType().equalsIgnoreCase(
                 "knock-in") ^ nextRecord.getTransgenicType().equalsIgnoreCase("endonuclease-mediated"))) {
-          table.append("<dt><b><span class='lbl'>Knocked-in to:</span></b></dt>\r\n");
-          table.append(formatGene(nextRecord.getTargetGeneSymbol(),
-                  nextRecord.getTargetGeneName(),
-                  nextRecord.getTargetGeneID()));
+          table.append("<dt><b><span class='lbl'>Knocked-in to:</span></b><\r\n");
+          table.append(nextRecord.getTargetGeneID() + "</dt>");
 
         } else if (nextRecord.getTransgenicType() != null
                 && nextRecord.getTransgenicType().equalsIgnoreCase(
@@ -1852,10 +1847,7 @@ table.append("<li class=\"NavLinkItem\">\n" +
               if (nextRecord.getExpressedSequence().equalsIgnoreCase("mouse gene")
                       || nextRecord.getExpressedSequence().equalsIgnoreCase("Mouse Gene (unmodified)")) {
                 table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b></dt>\r\n");
-                table.append(formatGene(
-                        nextRecord.getTargetGeneSymbol(),
-                        nextRecord.getTargetGeneName(),
-                        nextRecord.getTargetGeneID()));
+                table.append(nextRecord.getGeneID());
               } else if (nextRecord.getExpressedSequence()
                       .equalsIgnoreCase("reporter")) {
                 table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b>\r\n");

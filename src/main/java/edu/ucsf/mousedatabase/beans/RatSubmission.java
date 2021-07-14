@@ -291,258 +291,258 @@ public class RatSubmission {
     boolean valid = true;
     clearRatDetailsErrors();
 
-    if(isNullOrEmpty(ratName))
-    {
-      valid = false;
-      ratNameErr = "Please enter rat name";
-    }
-    /* Temporarily disable rat discipline field validation
-    if(isMA() || isTG())
-    {
-
-      if(ratDisciplines == null || ratDisciplines.length <= 0)
-      {
-        if(isNullOrEmpty(otherRatDiscipline))
-        {
-          valid = false;
-          ratDisciplinesErr = "Please select a discipline";
-        }
-      }
-    }
-    */
-    if(!isMA() && !isIS() && !isTG())
-    {
-      ratTypeErr = "Unknown error occurred.  Please go back to step 1 and try again.";
-      clearAll();
-      valid = false;
-    }
-//    //MUTANT ALLELE
-//    if(isMA())
+//    if(isNullOrEmpty(ratName))
 //    {
-//      if(MAModificationType == null)
-//      {
-//        valid = false;
-//        MAModificationTypeErr = "Please select modification type";
-//      }
-//      else if(MAModificationType.equalsIgnoreCase("targeted knock-in") || MAModificationType.equalsIgnoreCase("endonuclease-mediated"))//-EW
-//      {
+//      valid = false;
+//      ratNameErr = "Please enter rat name";
+//    }
+//    /* Temporarily disable rat discipline field validation
+//    if(isMA() || isTG())
+//    {
 //
-//        //COPIED FROM TRANSGENIC CATEGORY
-//        if(isNullOrEmpty(TGExpressedSequence))
+//      if(ratDisciplines == null || ratDisciplines.length <= 0)
+//      {
+//        if(isNullOrEmpty(otherRatDiscipline))
 //        {
 //          valid = false;
-//          TGExpressedSequenceErr = "Please select the expressed sequence type";
+//          ratDisciplinesErr = "Please select a discipline";
 //        }
-//        else if (TGExpressedSequence.equalsIgnoreCase("Rat gene")
-//                || TGExpressedSequence.equalsIgnoreCase("Rat Gene (unmodified)"))
-//        {
-//          if(isNullOrEmpty(TGRatGene))
-//          {
-//            valid = false;
-//            TGRatGeneErr = "Please enter the RGD Gene ID number";
-//          }
-//          else if(!"null".equalsIgnoreCase(TGRatGene) && !isNumericString(TGRatGene))
-//          {
-//            valid = false;
-//            TGRatGeneErr = "Please enter only numbers";
-//          } else if(!hasValidTGRatGene())
-//          {
-//            valid = false;
-//            TGRatGeneErr = "Invalid Gene";
-//          }
-//        }
-//        else if (TGExpressedSequence.equalsIgnoreCase("Reporter"))
-//        {
-//          if(isNullOrEmpty(TGReporter))
-//          {
-//            valid = false;
-//            TGReporterErr = "Please enter the Reporter";
-//          }
-//        }
-//        else if (TGExpressedSequence.equalsIgnoreCase("Other")
-//                || TGExpressedSequence.equalsIgnoreCase("Modified rat gene or Other"))
-//        {
-//          if(isNullOrEmpty(TGOther))
-//          {
-//            valid = false;
-//            TGOtherErr = "Please enter a description of the expressed sequence";
-//          }
-//        }
-//        else if (TGExpressedSequence.equalsIgnoreCase("Cre"))
-//        {
-//          //no validation rules for this case yet
-//        }
-//
 //      }
+//    }
+//    */
+//    if(!isMA() && !isIS() && !isTG())
+//    {
+//      ratTypeErr = "Unknown error occurred.  Please go back to step 1 and try again.";
+//      clearAll();
+//      valid = false;
+//    }
+////    //MUTANT ALLELE
+////    if(isMA())
+////    {
+////      if(MAModificationType == null)
+////      {
+////        valid = false;
+////        MAModificationTypeErr = "Please select modification type";
+////      }
+////      else if(MAModificationType.equalsIgnoreCase("targeted knock-in") || MAModificationType.equalsIgnoreCase("endonuclease-mediated"))//-EW
+////      {
+////
+////        //COPIED FROM TRANSGENIC CATEGORY
+////        if(isNullOrEmpty(TGExpressedSequence))
+////        {
+////          valid = false;
+////          TGExpressedSequenceErr = "Please select the expressed sequence type";
+////        }
+////        else if (TGExpressedSequence.equalsIgnoreCase("Rat gene")
+////                || TGExpressedSequence.equalsIgnoreCase("Rat Gene (unmodified)"))
+////        {
+////          if(isNullOrEmpty(TGRatGene))
+////          {
+////            valid = false;
+////            TGRatGeneErr = "Please enter the RGD Gene ID number";
+////          }
+////          else if(!"null".equalsIgnoreCase(TGRatGene) && !isNumericString(TGRatGene))
+////          {
+////            valid = false;
+////            TGRatGeneErr = "Please enter only numbers";
+////          } else if(!hasValidTGRatGene())
+////          {
+////            valid = false;
+////            TGRatGeneErr = "Invalid Gene";
+////          }
+////        }
+////        else if (TGExpressedSequence.equalsIgnoreCase("Reporter"))
+////        {
+////          if(isNullOrEmpty(TGReporter))
+////          {
+////            valid = false;
+////            TGReporterErr = "Please enter the Reporter";
+////          }
+////        }
+////        else if (TGExpressedSequence.equalsIgnoreCase("Other")
+////                || TGExpressedSequence.equalsIgnoreCase("Modified rat gene or Other"))
+////        {
+////          if(isNullOrEmpty(TGOther))
+////          {
+////            valid = false;
+////            TGOtherErr = "Please enter a description of the expressed sequence";
+////          }
+////        }
+////        else if (TGExpressedSequence.equalsIgnoreCase("Cre"))
+////        {
+////          //no validation rules for this case yet
+////        }
+////
+////      }
+////      if(isNullOrEmpty(mtaRequired))
+////      {
+////        //valid = false;
+////        //mtaRequiredErr = "Please specifiy whether or not an MTA is required.  If unknown, choose 'Don't Know'";
+////      }
+////
+////      if(isNullOrEmpty(MARgdGeneID))
+////      {
+////        valid = false;
+////        MARgdGeneIDErr = "Please enter the RGD Gene ID number";
+////      }
+////      else if(!isNumericString(MARgdGeneID))
+////      {
+////        valid = false;
+////        MARgdGeneIDErr = "Please enter only numbers";
+////      }
+////      else if(!hasValidMArgdGeneID())  //this pulls the valid result from the result of the client-side AJAX request to validate the RGD number
+////      {
+////        valid = false;
+////        MARgdGeneIDErr = "Invalid gene ID";  //this will get overwritten by MARGDGeneIDValidationString in getMARgdGeneID()
+////      }
+////
+////      //MUTANT ALLELE PUBLISHED
+////      if(isPublished != null && isPublished())
+////      {
+////        valid &= validateRGDRatID("allele");
+////        valid &= validateOfficialSymbol("allele");
+////        valid &= validatePubmedID();
+////      }
+////      //MUTANT ALLELE UNPUBLISHED
+////      else if (isPublished != null && !isPublished())
+////      {
+////        if(isNullOrEmpty(producedInLabOfHolder))
+////        {
+////          valid = false;
+////          producedInLabOfHolderErr = "Please specify where the rat was produced.";
+////        }
+////
+////        if(isNullOrEmpty(comment))
+////        {
+////          valid = false;
+////          commentErr = "Please provide a description of the allele.";
+////        }
+////      }
+////      else
+////      {
+////        isPublishedErr = "You must select whether or not this allele is published in step 2";
+////        valid = false;
+////      }
+////
+////      //validate comment
+////      //validate background strain
+////      valid &= validateMTA();
+////
+////    }
+//    //TRANSGENIC
+//    else if(isTG())
+//    {
 //      if(isNullOrEmpty(mtaRequired))
 //      {
 //        //valid = false;
-//        //mtaRequiredErr = "Please specifiy whether or not an MTA is required.  If unknown, choose 'Don't Know'";
+//        //mtaRequiredErr = "Please specifiy whether or not an MTA is required.  If uknown, choose 'Don't Know'";
 //      }
 //
-//      if(isNullOrEmpty(MARgdGeneID))
+//      if(isNullOrEmpty(TGExpressedSequence))
 //      {
 //        valid = false;
-//        MARgdGeneIDErr = "Please enter the RGD Gene ID number";
+//        TGExpressedSequenceErr = "Please select the expressed sequence type";
 //      }
-//      else if(!isNumericString(MARgdGeneID))
+//      else if (TGExpressedSequence.equalsIgnoreCase("Rat gene")
+//              || TGExpressedSequence.equalsIgnoreCase("Rat Gene (unmodified)"))
 //      {
-//        valid = false;
-//        MARgdGeneIDErr = "Please enter only numbers";
+//        if(isNullOrEmpty(TGRatGene))
+//        {
+//          valid = false;
+//          TGRatGeneErr = "Please enter the RGD Gene ID number";
+//        }
+//        else if(!"null".equalsIgnoreCase(TGRatGene) && !isNumericString(TGRatGene))
+//        {
+//          valid = false;
+//          TGRatGeneErr = "Please enter only numbers";
+//        } else if(!hasValidTGRatGene())
+//        {
+//          valid = false;
+//          TGRatGeneErr = "Invalid Gene";
+//        }
 //      }
-//      else if(!hasValidMArgdGeneID())  //this pulls the valid result from the result of the client-side AJAX request to validate the RGD number
+//      else if (TGExpressedSequence.equalsIgnoreCase("Reporter"))
 //      {
+//        if(isNullOrEmpty(TGReporter))
+//        {
+//          valid = false;
+//          TGReporterErr = "Please enter the Reporter";
+//        }
+//      }
+//      else if (TGExpressedSequence.equalsIgnoreCase("Other")
+//              || TGExpressedSequence.equalsIgnoreCase("Modified rat gene  or other"))
+//      {
+//        if(isNullOrEmpty(TGOther))
+//        {
+//          valid = false;
+//          TGOtherErr = "Please enter a description of the expressed sequence";
+//        }
+//      }
+//      else if (TGExpressedSequence.equalsIgnoreCase("Cre"))
+//      {
+//        //no validation rules for this case yet
+//      }
+//      if(isRandomInsertion())
+//      {
+//
+//
+//      }
+//      else
+//      {
+//        transgenicTypeErr = "Unrecognized transgenic type!";
 //        valid = false;
-//        MARgdGeneIDErr = "Invalid gene ID";  //this will get overwritten by MARGDGeneIDValidationString in getMARgdGeneID()
 //      }
 //
-//      //MUTANT ALLELE PUBLISHED
+//      String typeString = isKnockIn() ? "transgene/knock-in" : "allele";
+//
+//      //PUBLISHED TRANSGENIC
 //      if(isPublished != null && isPublished())
 //      {
-//        valid &= validateRGDRatID("allele");
-//        valid &= validateOfficialSymbol("allele");
-//        valid &= validatePubmedID();
+//        valid &= validateRGDRatID(typeString);
+//        valid &= validateOfficialSymbol(typeString);
+//        //valid &= validatePubmedID();
 //      }
-//      //MUTANT ALLELE UNPUBLISHED
+//      //UNPUBLISHED TRANSGENIC
 //      else if (isPublished != null && !isPublished())
 //      {
 //        if(isNullOrEmpty(producedInLabOfHolder))
 //        {
 //          valid = false;
-//          producedInLabOfHolderErr = "Please specify where the rat was produced.";
+//          producedInLabOfHolderErr = "Please specify where the rat was produced";
 //        }
 //
 //        if(isNullOrEmpty(comment))
 //        {
 //          valid = false;
-//          commentErr = "Please provide a description of the allele.";
+//          commentErr = "Please provide a description of the transgene.";
 //        }
 //      }
 //      else
 //      {
-//        isPublishedErr = "You must select whether or not this allele is published in step 2";
+//        isPublishedErr = "Select Yes or No";
 //        valid = false;
 //      }
 //
-//      //validate comment
-//      //validate background strain
 //      valid &= validateMTA();
-//
 //    }
-    //TRANSGENIC
-    else if(isTG())
-    {
-      if(isNullOrEmpty(mtaRequired))
-      {
-        //valid = false;
-        //mtaRequiredErr = "Please specifiy whether or not an MTA is required.  If uknown, choose 'Don't Know'";
-      }
-
-      if(isNullOrEmpty(TGExpressedSequence))
-      {
-        valid = false;
-        TGExpressedSequenceErr = "Please select the expressed sequence type";
-      }
-      else if (TGExpressedSequence.equalsIgnoreCase("Rat gene")
-              || TGExpressedSequence.equalsIgnoreCase("Rat Gene (unmodified)"))
-      {
-        if(isNullOrEmpty(TGRatGene))
-        {
-          valid = false;
-          TGRatGeneErr = "Please enter the RGD Gene ID number";
-        }
-        else if(!"null".equalsIgnoreCase(TGRatGene) && !isNumericString(TGRatGene))
-        {
-          valid = false;
-          TGRatGeneErr = "Please enter only numbers";
-        } else if(!hasValidTGRatGene())
-        {
-          valid = false;
-          TGRatGeneErr = "Invalid Gene";
-        }
-      }
-      else if (TGExpressedSequence.equalsIgnoreCase("Reporter"))
-      {
-        if(isNullOrEmpty(TGReporter))
-        {
-          valid = false;
-          TGReporterErr = "Please enter the Reporter";
-        }
-      }
-      else if (TGExpressedSequence.equalsIgnoreCase("Other")
-              || TGExpressedSequence.equalsIgnoreCase("Modified rat gene  or other"))
-      {
-        if(isNullOrEmpty(TGOther))
-        {
-          valid = false;
-          TGOtherErr = "Please enter a description of the expressed sequence";
-        }
-      }
-      else if (TGExpressedSequence.equalsIgnoreCase("Cre"))
-      {
-        //no validation rules for this case yet
-      }
-      if(isRandomInsertion())
-      {
-
-
-      }
-      else
-      {
-        transgenicTypeErr = "Unrecognized transgenic type!";
-        valid = false;
-      }
-
-      String typeString = isKnockIn() ? "transgene/knock-in" : "allele";
-
-      //PUBLISHED TRANSGENIC
-      if(isPublished != null && isPublished())
-      {
-        valid &= validateRGDRatID(typeString);
-        valid &= validateOfficialSymbol(typeString);
-        //valid &= validatePubmedID();
-      }
-      //UNPUBLISHED TRANSGENIC
-      else if (isPublished != null && !isPublished())
-      {
-        if(isNullOrEmpty(producedInLabOfHolder))
-        {
-          valid = false;
-          producedInLabOfHolderErr = "Please specify where the rat was produced";
-        }
-
-        if(isNullOrEmpty(comment))
-        {
-          valid = false;
-          commentErr = "Please provide a description of the transgene.";
-        }
-      }
-      else
-      {
-        isPublishedErr = "Select Yes or No";
-        valid = false;
-      }
-
-      valid &= validateMTA();
-    }
-    else if(isIS())
-    {
-      if(isNullOrEmpty(ISSupplier))
-      {
-        valid = false;
-        ISSupplierErr = "Please provide the supplier name (e.g. 'JAX')";
-      } else if(isNullOrEmpty(ISSupplierCatalogNumber))
-      {
-        //valid = false;
-        //ISSupplierErr = "Please provide the supplier catalog number (e.g '000664')";
-
-      }
-      else if(!isNullOrEmpty(ISSupplierCatalogNumber) && !isNumericString(ISSupplierCatalogNumber))
-      {
-        valid = false;
-        ISSupplierErr = "Please enter only numbers (no spaces), or leave this field blank";
-      }
-    }
+//    else if(isIS())
+//    {
+//      if(isNullOrEmpty(ISSupplier))
+//      {
+//        valid = false;
+//        ISSupplierErr = "Please provide the supplier name (e.g. 'JAX')";
+//      } else if(isNullOrEmpty(ISSupplierCatalogNumber))
+//      {
+//        //valid = false;
+//        //ISSupplierErr = "Please provide the supplier catalog number (e.g '000664')";
+//
+//      }
+//      else if(!isNullOrEmpty(ISSupplierCatalogNumber) && !isNumericString(ISSupplierCatalogNumber))
+//      {
+//        valid = false;
+//        ISSupplierErr = "Please enter only numbers (no spaces), or leave this field blank";
+//      }
+//    }
     return valid;
   }
 

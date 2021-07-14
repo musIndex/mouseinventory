@@ -292,259 +292,259 @@ public class MouseSubmission {
   public boolean validateMouseDetails(){
     boolean valid = true;
     clearMouseDetailsErrors();
-
-    if(isNullOrEmpty(mouseName))
-    {
-      valid = false;
-      mouseNameErr = "Please enter mouse name";
-    }
-    /* Temporarily disable mouse discipline field validation
-    if(isMA() || isTG())
-    {
-
-      if(mouseDisciplines == null || mouseDisciplines.length <= 0)
-      {
-        if(isNullOrEmpty(otherMouseDiscipline))
-        {
-          valid = false;
-          mouseDisciplinesErr = "Please select a discipline";
-        }
-      }
-    }
-    */
-    if(!isMA() && !isIS() && !isTG())
-    {
-      mouseTypeErr = "Unknown error occurred.  Please go back to step 1 and try again.";
-      clearAll();
-      valid = false;
-    }
-    //MUTANT ALLELE
-    if(isMA())
-    {
-      if(MAModificationType == null)
-      {
-        valid = false;
-        MAModificationTypeErr = "Please select modification type";
-      }
-      else if(MAModificationType.equalsIgnoreCase("targeted knock-in") || MAModificationType.equalsIgnoreCase("endonuclease-mediated"))//-EW 
-      {
-        
-        //COPIED FROM TRANSGENIC CATEGORY
-        if(isNullOrEmpty(TGExpressedSequence))
-        {
-          valid = false;
-          TGExpressedSequenceErr = "Please select the expressed sequence type";
-        }
-        else if (TGExpressedSequence.equalsIgnoreCase("Mouse gene")
-            || TGExpressedSequence.equalsIgnoreCase("Mouse Gene (unmodified)"))
-        {
-          if(isNullOrEmpty(TGMouseGene))
-          {
-            valid = false;
-            TGMouseGeneErr = "Please enter the MGI Gene ID number";
-          }
-          else if(!"null".equalsIgnoreCase(TGMouseGene) && !isNumericString(TGMouseGene))
-          {
-              valid = false;
-              TGMouseGeneErr = "Please enter only numbers";
-          } else if(!hasValidTGMouseGene())
-          {
-            valid = false;
-            TGMouseGeneErr = "Invalid Gene";
-          }
-        }
-        else if (TGExpressedSequence.equalsIgnoreCase("Reporter"))
-        {
-          if(isNullOrEmpty(TGReporter))
-          {
-            valid = false;
-            TGReporterErr = "Please enter the Reporter";
-          }
-        }
-        else if (TGExpressedSequence.equalsIgnoreCase("Other")
-            || TGExpressedSequence.equalsIgnoreCase("Modified mouse gene or Other"))
-        {
-          if(isNullOrEmpty(TGOther))
-          {
-            valid = false;
-            TGOtherErr = "Please enter a description of the expressed sequence";
-          }
-        }
-        else if (TGExpressedSequence.equalsIgnoreCase("Cre"))
-        {
-          //no validation rules for this case yet
-        }
-
-      }
-      if(isNullOrEmpty(mtaRequired))
-      {
-        //valid = false;
-        //mtaRequiredErr = "Please specifiy whether or not an MTA is required.  If unknown, choose 'Don't Know'";
-      }
-
-      if(isNullOrEmpty(MAMgiGeneID))
-      {
-        valid = false;
-        MAMgiGeneIDErr = "Please enter the MGI Gene ID number";
-      }
-      else if(!isNumericString(MAMgiGeneID))
-      {
-          valid = false;
-          MAMgiGeneIDErr = "Please enter only numbers";
-      }
-      else if(!hasValidMAmgiGeneID())  //this pulls the valid result from the result of the client-side AJAX request to validate the MGI number
-      {
-        valid = false;
-        MAMgiGeneIDErr = "Invalid gene ID";  //this will get overwritten by MAMGIGeneIDValidationString in getMAMgiGeneID()
-      }
-
-      //MUTANT ALLELE PUBLISHED
-      if(isPublished != null && isPublished())
-      {
-        valid &= validateMGIMouseID("allele");
-        valid &= validateOfficialSymbol("allele");
-        valid &= validatePubmedID();
-      }
-      //MUTANT ALLELE UNPUBLISHED
-      else if (isPublished != null && !isPublished())
-      {
-        if(isNullOrEmpty(producedInLabOfHolder))
-        {
-          valid = false;
-          producedInLabOfHolderErr = "Please specify where the mouse was produced.";
-        }
-
-        if(isNullOrEmpty(comment))
-        {
-          valid = false;
-          commentErr = "Please provide a description of the allele.";
-        }
-      }
-      else
-      {
-        isPublishedErr = "You must select whether or not this allele is published in step 2";
-        valid = false;
-      }
-
-      //validate comment
-      //validate background strain
-      valid &= validateMTA();
-
-    }
-    //TRANSGENIC
-    else if(isTG())
-    {
-      if(isNullOrEmpty(mtaRequired))
-      {
-        //valid = false;
-        //mtaRequiredErr = "Please specifiy whether or not an MTA is required.  If uknown, choose 'Don't Know'";
-      }
-
-      if(isNullOrEmpty(TGExpressedSequence))
-      {
-        valid = false;
-        TGExpressedSequenceErr = "Please select the expressed sequence type";
-      }
-      else if (TGExpressedSequence.equalsIgnoreCase("Mouse gene")
-          || TGExpressedSequence.equalsIgnoreCase("Mouse Gene (unmodified)"))
-      {
-        if(isNullOrEmpty(TGMouseGene))
-        {
-          valid = false;
-          TGMouseGeneErr = "Please enter the MGI Gene ID number";
-        }
-        else if(!"null".equalsIgnoreCase(TGMouseGene) && !isNumericString(TGMouseGene))
-        {
-            valid = false;
-            TGMouseGeneErr = "Please enter only numbers";
-        } else if(!hasValidTGMouseGene())
-        {
-          valid = false;
-          TGMouseGeneErr = "Invalid Gene";
-        }
-      }
-      else if (TGExpressedSequence.equalsIgnoreCase("Reporter"))
-      {
-        if(isNullOrEmpty(TGReporter))
-        {
-          valid = false;
-          TGReporterErr = "Please enter the Reporter";
-        }
-      }
-      else if (TGExpressedSequence.equalsIgnoreCase("Other")
-          || TGExpressedSequence.equalsIgnoreCase("Modified mouse gene  or other"))
-      {
-        if(isNullOrEmpty(TGOther))
-        {
-          valid = false;
-          TGOtherErr = "Please enter a description of the expressed sequence";
-        }
-      }
-      else if (TGExpressedSequence.equalsIgnoreCase("Cre"))
-      {
-        //no validation rules for this case yet
-      }
-      if(isRandomInsertion())
-      {
-
-
-      }
-      else
-      {
-        transgenicTypeErr = "Unrecognized transgenic type!";
-        valid = false;
-      }
-
-      String typeString = isKnockIn() ? "transgene/knock-in" : "allele";
-
-      //PUBLISHED TRANSGENIC
-      if(isPublished != null && isPublished())
-      {
-        valid &= validateMGIMouseID(typeString);
-        valid &= validateOfficialSymbol(typeString);
-        valid &= validatePubmedID();
-      }
-      //UNPUBLISHED TRANSGENIC
-      else if (isPublished != null && !isPublished())
-      {
-        if(isNullOrEmpty(producedInLabOfHolder))
-        {
-          valid = false;
-          producedInLabOfHolderErr = "Please specify where the mouse was produced";
-        }
-
-        if(isNullOrEmpty(comment))
-        {
-          valid = false;
-          commentErr = "Please provide a description of the transgene.";
-        }
-      }
-      else
-      {
-        isPublishedErr = "Select Yes or No";
-        valid = false;
-      }
-
-      valid &= validateMTA();
-    }
-    else if(isIS())
-    {
-      if(isNullOrEmpty(ISSupplier))
-      {
-        valid = false;
-        ISSupplierErr = "Please provide the supplier name (e.g. 'JAX')";
-      } else if(isNullOrEmpty(ISSupplierCatalogNumber))
-      {
-        //valid = false;
-        //ISSupplierErr = "Please provide the supplier catalog number (e.g '000664')";
-
-      }
-      else if(!isNullOrEmpty(ISSupplierCatalogNumber) && !isNumericString(ISSupplierCatalogNumber))
-      {
-        valid = false;
-        ISSupplierErr = "Please enter only numbers (no spaces), or leave this field blank";
-      }
-    }
+//
+//    if(isNullOrEmpty(mouseName))
+//    {
+////      valid = false;
+////      mouseNameErr = "Please enter mouse name";
+//    }
+//    /* Temporarily disable mouse discipline field validation
+//    if(isMA() || isTG())
+//    {
+//
+//      if(mouseDisciplines == null || mouseDisciplines.length <= 0)
+//      {
+//        if(isNullOrEmpty(otherMouseDiscipline))
+//        {
+//          valid = false;
+//          mouseDisciplinesErr = "Please select a discipline";
+//        }
+//      }
+//    }
+//    */
+//    if(!isMA() && !isIS() && !isTG())
+//    {
+//      mouseTypeErr = "Unknown error occurred.  Please go back to step 1 and try again.";
+//      clearAll();
+//      valid = false;
+//    }
+//    //MUTANT ALLELE
+//    if(isMA())
+//    {
+//      if(MAModificationType == null)
+//      {
+//        valid = false;
+//        MAModificationTypeErr = "Please select modification type";
+//      }
+//      else if(MAModificationType.equalsIgnoreCase("targeted knock-in") || MAModificationType.equalsIgnoreCase("endonuclease-mediated"))//-EW
+//      {
+//
+//        //COPIED FROM TRANSGENIC CATEGORY
+//        if(isNullOrEmpty(TGExpressedSequence))
+//        {
+//          valid = false;
+//          TGExpressedSequenceErr = "Please select the expressed sequence type";
+//        }
+//        else if (TGExpressedSequence.equalsIgnoreCase("Mouse gene")
+//            || TGExpressedSequence.equalsIgnoreCase("Mouse Gene (unmodified)"))
+//        {
+//          if(isNullOrEmpty(TGMouseGene))
+//          {
+//            valid = false;
+//            TGMouseGeneErr = "Please enter the MGI Gene ID number";
+//          }
+//          else if(!"null".equalsIgnoreCase(TGMouseGene) && !isNumericString(TGMouseGene))
+//          {
+////              valid = false;
+////              TGMouseGeneErr = "Please enter only numbers";
+//          } else if(!hasValidTGMouseGene())
+//          {
+////            valid = false;
+////            TGMouseGeneErr = "Invalid Gene";
+//          }
+//        }
+//        else if (TGExpressedSequence.equalsIgnoreCase("Reporter"))
+//        {
+//          if(isNullOrEmpty(TGReporter))
+//          {
+//            valid = false;
+//            TGReporterErr = "Please enter the Reporter";
+//          }
+//        }
+//        else if (TGExpressedSequence.equalsIgnoreCase("Other")
+//            || TGExpressedSequence.equalsIgnoreCase("Modified mouse gene or Other"))
+//        {
+//          if(isNullOrEmpty(TGOther))
+//          {
+//            valid = false;
+//            TGOtherErr = "Please enter a description of the expressed sequence";
+//          }
+//        }
+//        else if (TGExpressedSequence.equalsIgnoreCase("Cre"))
+//        {
+//          //no validation rules for this case yet
+//        }
+//
+//      }
+//      if(isNullOrEmpty(mtaRequired))
+//      {
+//        //valid = false;
+//        //mtaRequiredErr = "Please specifiy whether or not an MTA is required.  If unknown, choose 'Don't Know'";
+//      }
+//
+//      if(isNullOrEmpty(MAMgiGeneID))
+//      {
+//        valid = false;
+//        MAMgiGeneIDErr = "Please enter the MGI Gene ID number";
+//      }
+//      else if(!isNumericString(MAMgiGeneID))
+//      {
+//          valid = false;
+//          MAMgiGeneIDErr = "Please enter only numbers";
+//      }
+//      else if(!hasValidMAmgiGeneID())  //this pulls the valid result from the result of the client-side AJAX request to validate the MGI number
+//      {
+//        valid = false;
+//        MAMgiGeneIDErr = "Invalid gene ID";  //this will get overwritten by MAMGIGeneIDValidationString in getMAMgiGeneID()
+//      }
+//
+//      //MUTANT ALLELE PUBLISHED
+//      if(isPublished != null && isPublished())
+//      {
+//        valid &= validateMGIMouseID("allele");
+//        valid &= validateOfficialSymbol("allele");
+//        valid &= validatePubmedID();
+//      }
+//      //MUTANT ALLELE UNPUBLISHED
+//      else if (isPublished != null && !isPublished())
+//      {
+//        if(isNullOrEmpty(producedInLabOfHolder))
+//        {
+//          valid = false;
+//          producedInLabOfHolderErr = "Please specify where the mouse was produced.";
+//        }
+//
+//        if(isNullOrEmpty(comment))
+//        {
+//          valid = false;
+//          commentErr = "Please provide a description of the allele.";
+//        }
+//      }
+//      else
+//      {
+//        isPublishedErr = "You must select whether or not this allele is published in step 2";
+//        valid = false;
+//      }
+//
+//      //validate comment
+//      //validate background strain
+//      valid &= validateMTA();
+//
+//    }
+//    //TRANSGENIC
+//    else if(isTG())
+//    {
+//      if(isNullOrEmpty(mtaRequired))
+//      {
+//        //valid = false;
+//        //mtaRequiredErr = "Please specifiy whether or not an MTA is required.  If uknown, choose 'Don't Know'";
+//      }
+//
+//      if(isNullOrEmpty(TGExpressedSequence))
+//      {
+////        valid = false;
+////        TGExpressedSequenceErr = "Please select the expressed sequence type";
+//      }
+//      else if (TGExpressedSequence.equalsIgnoreCase("Mouse gene")
+//          || TGExpressedSequence.equalsIgnoreCase("Mouse Gene (unmodified)"))
+//      {
+//        if(isNullOrEmpty(TGMouseGene))
+//        {
+////          valid = false;
+////          TGMouseGeneErr = "Please enter the MGI Gene ID number";
+//        }
+//        else if(!"null".equalsIgnoreCase(TGMouseGene) && !isNumericString(TGMouseGene))
+//        {
+////            valid = false;
+////            TGMouseGeneErr = "Please enter only numbers";
+//        } else if(!hasValidTGMouseGene())
+//        {
+//          valid = false;
+//          TGMouseGeneErr = "Invalid Gene";
+//        }
+//      }
+//      else if (TGExpressedSequence.equalsIgnoreCase("Reporter"))
+//      {
+//        if(isNullOrEmpty(TGReporter))
+//        {
+//          valid = false;
+//          TGReporterErr = "Please enter the Reporter";
+//        }
+//      }
+//      else if (TGExpressedSequence.equalsIgnoreCase("Other")
+//          || TGExpressedSequence.equalsIgnoreCase("Modified mouse gene  or other"))
+//      {
+//        if(isNullOrEmpty(TGOther))
+//        {
+//          valid = false;
+//          TGOtherErr = "Please enter a description of the expressed sequence";
+//        }
+//      }
+//      else if (TGExpressedSequence.equalsIgnoreCase("Cre"))
+//      {
+//        //no validation rules for this case yet
+//      }
+//      if(isRandomInsertion())
+//      {
+//
+//
+//      }
+//      else
+//      {
+//        transgenicTypeErr = "Unrecognized transgenic type!";
+//        valid = false;
+//      }
+//
+//      String typeString = isKnockIn() ? "transgene/knock-in" : "allele";
+//
+//      //PUBLISHED TRANSGENIC
+//      if(isPublished != null && isPublished())
+//      {
+////        valid &= validateMGIMouseID(typeString);
+////        valid &= validateOfficialSymbol(typeString);
+////        valid &= validatePubmedID();
+//      }
+//      //UNPUBLISHED TRANSGENIC
+//      else if (isPublished != null && !isPublished())
+//      {
+//        if(isNullOrEmpty(producedInLabOfHolder))
+//        {
+//          valid = false;
+//          producedInLabOfHolderErr = "Please specify where the mouse was produced";
+//        }
+//
+//        if(isNullOrEmpty(comment))
+//        {
+////          valid = false;
+////          commentErr = "Please provide a description of the transgene.";
+//        }
+//      }
+//      else
+//      {
+//        isPublishedErr = "Select Yes or No";
+//        valid = false;
+//      }
+//
+//      valid &= validateMTA();
+//    }
+//    else if(isIS())
+//    {
+//      if(isNullOrEmpty(ISSupplier))
+//      {
+//        valid = false;
+//        ISSupplierErr = "Please provide the supplier name (e.g. 'JAX')";
+//      } else if(isNullOrEmpty(ISSupplierCatalogNumber))
+//      {
+//        //valid = false;
+//        //ISSupplierErr = "Please provide the supplier catalog number (e.g '000664')";
+//
+//      }
+//      else if(!isNullOrEmpty(ISSupplierCatalogNumber) && !isNumericString(ISSupplierCatalogNumber))
+//      {
+//        valid = false;
+//        ISSupplierErr = "Please enter only numbers (no spaces), or leave this field blank";
+//      }
+//    }
     return valid;
   }
 

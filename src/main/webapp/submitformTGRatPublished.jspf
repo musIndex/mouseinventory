@@ -86,18 +86,17 @@
         * Gene/Marker Symbol
     </td>
     <td class="formRight">
-        <input style="margin-top: 15px;" type=text id="TGRatGene" maxlength="11" name="TGRatGene"
+        <input style="margin-top: 15px;" type=text id="TGRatGene" name="TGRatGene"
                value="${newRat.TGRatGene}"
-               onkeyup="validateInput('TGRatGene', 'TGRatGeneValidation', 'rgdExpressedGeneId', '')"
             <%if (newRat.isGeneExprSeq()){%>
             <%="required"%>
             <%}%>
         >
-        <div class="<%=newRat.hasValidTGRatGene() ? "bp_valid" : "bp_invalid"%>"
-             id="TGRatGeneValidation">${newRat.TGRatGeneErr}</div>
+<%--        <div class="<%=newRat.hasValidTGRatGene() ? "bp_valid" : "bp_invalid"%>"--%>
+<%--             id="TGRatGeneValidation">${newRat.TGRatGeneErr}</div>--%>
         <input type="hidden" name="TGRatGeneValidationString" id="TGRatGeneValidationString"
-               value="${newRat.TGRatGeneValidationString}">
-        <input type="hidden" name="TGRatGeneValid" id="TGRatGeneValid" value="${newRat.TGRatGeneValid}">
+               value="Valid">
+        <input type="hidden" name="TGRatGeneValid" id="TGRatGeneValid" value="Valid">
     </td>
 </tr>
 

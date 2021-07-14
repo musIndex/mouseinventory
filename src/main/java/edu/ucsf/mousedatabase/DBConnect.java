@@ -44,7 +44,7 @@ public class DBConnect {
 			+ "status,endangered,submittedmouse_id, targetgenes.mgi as 'target gene MGI',"
 			+ "targetgenes.symbol as 'target gene symbol', targetgenes.fullname as 'target gene name', official_name,"
 			+ "admin_comment,"
-			+ "is_rat\r\n";
+			+ "is_rat,gene_id\r\n";
 
 	private static final String mouseRecordTableJoins = "   left join mousetype on mouse.mousetype_id=mousetype.id\r\n"
 			+ "  left join gene on mouse.gene_id=gene.id\r\n"
@@ -3128,7 +3128,7 @@ public class DBConnect {
 			nextMouse.setRat(g_int("is_rat"));
 
 
-			nextMouse.setGeneID(g_str("gene mgi"));
+			nextMouse.setGeneID(g_str("gene_id"));
 			nextMouse.setGeneName(g_str("gene name"));
 			nextMouse.setGeneSymbol(g_str("gene symbol"));
 
