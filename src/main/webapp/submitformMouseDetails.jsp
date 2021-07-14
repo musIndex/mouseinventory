@@ -485,25 +485,11 @@
 
                 </p>
 
-                <p class="block_form_label_text">Gene</p>
-                <p class="block_form_desc_text"> (MGI ID), is the MGI ID for the gene that is mutated in the allele
-                    being
-                    submitted. When auto-filled, the official symbol and full name of the gene will appear. Clicking on
-                    the link
-                    that has been generated to the MGI accession number will bring up the page that describes this gene.
-                    If you
-                    are not certain how to find this information, click the 'How to find the MGI gene ID'
-                    button.</p><br>
-                <div class="MSU_green_button"
-                     style="margin-top: 10px;margin-bottom: 10px;display: inline-block;width: 45%">
-                    <% Setting s4 = DBConnect.loadSetting("download_files_gene_id"); %>
-                    <a class="anchor_no_underline" href='<%= s4.value %>' target=_blank>
-                        <p class="MSU_green_button_Text" style="font-size: 16px">
-                            <%= s4.label %>
-                        </p>
-                    </a>
-                </div>
-                <br>
+
+                <p class="block_form_desc_text"> Use the </p>
+                <p class="block_form_label_text">Gene/Marker Symbol</p>
+                <p class="block_form_desc_text"> field to indicate a genetic marker or set of markers with
+                    similar nomenclature, may include abbreviations, synonyms, official naming conventions.</p><br><br>
 
                 <p class="block_form_desc_text">For </p>
                 <p class="block_form_label_text">reporter-cre</p>

@@ -371,19 +371,19 @@
                     If the transgene you want to submit is published, there should be a </p>
                 <p class="block_form_label_text">Transgene Detail</p>
                 <p class="block_form_desc_text"> page for it on the <a href="https://rgd.mcw.edu/"
-                                                                   style="font-weight: bold">Rat Genome
+                                                                       style="font-weight: bold">Rat Genome
                     Database</a> (RGD). You need to find this
                     page in
                     order to complete this submission. If you are not certain how to find it, click here:</p><br>
-                    <div class="MSU_green_button"
-                         style="margin-top: 10px;margin-bottom: 10px;display: inline-block;width: 45%">
-                        <% Setting s4 = DBConnect.loadSetting("download_files_rgd_gene_id"); %>
-                        <a class="anchor_no_underline" href='<%= s4.value %>' target=_blank>
-                            <p class="MSU_green_button_Text" style="font-size: 16px">
-                                <%= s4.label %>
-                            </p>
-                        </a>
-                    </div>
+                <div class="MSU_green_button"
+                     style="margin-top: 10px;margin-bottom: 10px;display: inline-block;width: 45%">
+                    <% Setting s4 = DBConnect.loadSetting("download_files_rgd_gene_id"); %>
+                    <a class="anchor_no_underline" href='<%= s4.value %>' target=_blank>
+                        <p class="MSU_green_button_Text" style="font-size: 16px">
+                            <%= s4.label %>
+                        </p>
+                    </a>
+                </div>
                 <br>
                 <%
                 } else {
@@ -424,7 +424,8 @@
                 <p class="block_form_desc_text">, generally for the publication in which the strain was first
                     described
                     (automatically entered when the RGD ID for the strain is entered)
-                    If you entered 'none' in the RGD ID field above, enter the PMID for a publication in which the strain is described.<br><br>
+                    If you entered 'none' in the RGD ID field above, enter the PMID for a publication in which the
+                    strain is described.<br><br>
                     <%
                         }
                     %>
@@ -445,17 +446,10 @@
 
                 </p>
 
-<%--                <p class="block_form_label_text">Gene</p>--%>
-<%--                <p class="block_form_desc_text"> (RGD ID), is the RGD ID for the gene that is mutated in the strain--%>
-<%--                    being--%>
-<%--                    submitted. When auto-filled, the official symbol and full name of the gene will appear. Clicking on--%>
-<%--                    the link--%>
-<%--                    that has been generated to the RGD accession number will bring up the page that describes this gene.--%>
-<%--                    If you--%>
-<%--                    are not certain how to find this information, click the 'How to find the RGD Gene ID'--%>
-<%--                    button.</p><br>--%>
-
-<%--                <br>--%>
+                <p class="block_form_desc_text"> Use the </p>
+                <p class="block_form_label_text">Gene/Marker Symbol</p>
+                <p class="block_form_desc_text"> field to indicate a genetic marker or set of markers with
+                    similar nomenclature, may include abbreviations, synonyms, official naming conventions.</p><br><br>
 
                 <p class="block_form_desc_text">For </p>
                 <p class="block_form_label_text">reporter-cre</p>
