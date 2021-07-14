@@ -519,7 +519,7 @@ tr.changerequestlistAlt {
 .facilityTableInside {
     width: 100%;
     border-spacing: 0px;
-    border-left: solid 1px black;
+    /*border-left: solid 1px black;*/
 
 }
 
@@ -544,7 +544,7 @@ tr.facilitylistAlt {
 .facilitylistItemLeft {
     border-right: solid 1px black;
     border-bottom: solid 1px black;
-
+    border-left: solid 1px black;
     font-size: 16px;
     height: 25px;
     color: black;
@@ -556,6 +556,7 @@ tr.facilitylistAlt {
 
     font-size: 16px;
     height: 25px;
+    color: black;
 }
 
 .facilitylistHeaderLeft {
@@ -938,6 +939,7 @@ td.mouselistcolumn-name-header {
     color: white;
     border-top: solid 1px black;
     border-right: solid 1px black;
+    border-left: solid 1px black;
 }
 
 td.mouselistcolumn-category-header {
@@ -989,6 +991,7 @@ td.mouselistcolumn-name {
     width: 11%;
     border-right: solid 1px black;
     border-bottom: solid 1px black;
+    border-left: solid 1px black;
     font-size: 14px;
     height: 25px;
     color: black;

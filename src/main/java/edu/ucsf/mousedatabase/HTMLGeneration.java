@@ -2390,7 +2390,7 @@ table.append("<li class=\"NavLinkItem\">\n" +
               + facility.getFacilityName() + "</span> &nbsp;-&nbsp;"
               + facility.getFacilityDescription());
 
-      table.append("</td><td class='facilitylistItemLeft'>");
+      table.append("</td><td class='facilitylistItemRight'>");
       table.append("<span style=\"position:relative;left:5px\">"
               + "<a class='facilityItemLink' href=\""
 
