@@ -176,7 +176,7 @@ public class HTMLGeneration {
         table.append("</li>");
 
         table.append("<li style=padding-top:8px;padding-left:7px;border-right:none class=\"NavLinkImage\">");
-        table.append("<a href=mailto:ORA.MSURodentDatabase@msu.edu> <img style=\"width:30px;padding-right:12px\" src=/img/Email.svg></a>");
+        table.append("<a href=mailto:ORA.MSURodentDatabase@msu.edu> <img style=\"width: 30px;height: 26px;padding-right: 12px;padding-top: 3px;\" src=/img/Email.svg></a>");
         table.append("</li>");
 
 
@@ -3604,7 +3604,7 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.0.04";
+        String version = "4.0.05";
         //Current date
         String year = "2021";
         //Email of database administrator
