@@ -446,7 +446,7 @@ public class SubmittedMouse {
         if (is_rat != null && !is_rat.isEmpty()) {
             r.setRat(is_rat);
         }
-        System.out.println(r.isRat());
+//        System.out.println(r.isRat());
         return r;
     }
 
