@@ -54,10 +54,9 @@
         Founder Line
     </td>
     <td class="formRight">
-        <input style="margin-top: 15px" name="gensatFounderLine" id="gensatFounderLine" type="text" maxlength="100"
-               onkeyup="validateInput('gensatFounderLine','gensatFounderLineValidation','gensat',',')"
+        <input name="gensatFounderLine" id="gensatFounderLine" type="text" maxlength="100"
                value="${newMouse.gensatFounderLine}">
-        <div class="bp_valid" id="gensatFounderLineValidation">${newMouse.gensatFounderLineErr}</div>
+<%--        <div class="bp_valid" id="gensatFounderLineValidation">${newMouse.gensatFounderLineErr}</div>--%>
     </td>
 </tr>
 

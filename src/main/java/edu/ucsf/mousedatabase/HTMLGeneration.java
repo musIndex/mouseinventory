@@ -1117,7 +1117,7 @@ table.append("<li class=\"NavLinkItem\">\n" +
       getInputRow(buf, "Background Strain", field, null, "editMouseRow");
 
       field = getTextInput("gensat", r.getGensat(), size, 100, null);
-      getInputRow(buf, "Gensat Founder Line", field, null, "editMouseRow");
+      getInputRow(buf, "Founder Line", field, null, "editMouseRow");
 
     }
     if (r.getStatus() != null) {
@@ -1659,7 +1659,7 @@ table.append("<li class=\"NavLinkItem\">\n" +
 
         if (nextSubmission.getGensatFounderLine() != null
                 && !nextSubmission.getGensatFounderLine().isEmpty()) {
-          table.append("<dt>Gensat founder line: "
+          table.append("<dt>Founder line: "
                   + formatGensat(nextSubmission
                   .getGensatFounderLine()) + "</dt>\r\n");
         }
@@ -1973,7 +1973,7 @@ table.append("<li class=\"NavLinkItem\">\n" +
 
         if (nextRecord.getGensat() != null
                 && !nextRecord.getGensat().isEmpty()) {
-          table.append("<dt><span class='lbl'>Gensat founder line:</span> "
+          table.append("<dt><span class='lbl'>Founder line:</span> "
                   + formatGensat(nextRecord.getGensat())
                   + "</dt>\r\n");
         }
@@ -2823,9 +2823,12 @@ table.append("<li class=\"NavLinkItem\">\n" +
   public static String formatGensat(String value) {
     if (value == null)
       return "";
-    String gensatUrl = "http://www.gensat.org/ShowFounderLineImages.jsp?gensatFounderLine=";
-    String gensatUrlTail = "";
-    return "<a href='" + gensatUrl + value + gensatUrlTail + "'>" + value + "</a>";
+//    String gensatUrl = "http://www.gensat.org/ShowFounderLineImages.jsp?gensatFounderLine=";
+//    String gensatUrlTail = "";
+    return
+//            "<a href='" + gensatUrl +
+            value;
+//                    + gensatUrlTail + "'>" + value + "</a>";
   }
 
   // To be retired

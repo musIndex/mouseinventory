@@ -112,6 +112,7 @@
                     } else {
                         if (updatedRecord.getExpressedSequence().equals("Mouse Gene (unmodified)")) {
                             updatedRecord.setGeneID(sub.getTGMouseGene());
+                            updatedRecord.setRegulatoryElement(sub.getTGRegulatoryElement());
                             DBConnect.updateMouseRecord(updatedRecord);
 
                         }
