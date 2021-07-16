@@ -2933,7 +2933,7 @@ public class HTMLGeneration {
             Object value = values[i];
 
             String niceName = niceNames[i];
-            if (value.equals("Choose One")) {
+            if (value.equals("Choose One") || (value.equals(-1) && (name.equals("holderId") || name.equals("facilityId")))) {
                 b.append("<option value=\"\"");
             } else {
                 b.append("<option value=\"" + value + "\"");
@@ -3562,7 +3562,7 @@ public class HTMLGeneration {
         Integer[] holderIds = new Integer[holderNames.length];
 
         int i = 0;
-        holderNames[i] = "Choose one";
+        holderNames[i] = "Choose One";
         holderIds[i] = -1;
         i++;
         for (Holder holder : holders) {
@@ -3573,7 +3573,7 @@ public class HTMLGeneration {
         holderNames[i] = "Other(specify)";
         holderIds[i] = -2;
         i++;
-        return genSelect(name, holderIds, holderNames, currentHolderId, null, false);
+        return genSelect(name, holderIds, holderNames, currentHolderId, "required onchange=\"holderVisibility()\" style=\"width: 222.8px;margin-top:4px;margin-bottom:-7px\"", false);
     }
 
     public static String getFacilitySelect(String name, int currentFacilityId) {
@@ -3583,7 +3583,7 @@ public class HTMLGeneration {
         Integer[] facilityIds = new Integer[facilityNames.length];
 
         int i = 0;
-        facilityNames[i] = "Choose one";
+        facilityNames[i] = "Choose One";
         facilityIds[i] = -1;
         i++;
         for (Facility facility : facilities) {
@@ -3594,7 +3594,7 @@ public class HTMLGeneration {
         facilityNames[i] = "Other(specify)";
         facilityIds[i] = -2;
         i++;
-        return genSelect(name, facilityIds, facilityNames, currentFacilityId, null, false);
+        return genSelect(name, facilityIds, facilityNames, currentFacilityId, "required onchange=\"facilityVisibility()\" style=\"width: 222.8px;margin-top:4px;margin-bottom:-7px\"", false);
     }
 
     /**
@@ -3604,7 +3604,7 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.0.06";
+        String version = "4.0.08";
         //Current date
         String year = "2021";
         //Email of database administrator

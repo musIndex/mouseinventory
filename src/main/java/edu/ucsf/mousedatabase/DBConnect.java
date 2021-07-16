@@ -1741,7 +1741,7 @@ public class DBConnect {
 	public static int insertChangeRequest(ChangeRequest req) {
 		String query = "INSERT into changerequest " + "(id,mouse_id,firstname,lastname,email,status,user_comment,"
 				+ "admin_comment,requestdate,properties,holder_name,holder_id,holder_email,"
-				+ "facility_name,facility_id,action_requested,request_source,cryo_live_status," + "genetic_background_info,new_files,delete_files) "
+				+ "facility_name,facility_id,action_requested,request_source,cryo_live_status," + "genetic_background_info) "
 				+ "VALUES (NULL" + "," + req.getMouseID() + "," + safeText(req.getFirstname()) + ","
 				+ safeText(req.getLastname()) + "," + safeText(req.getEmail()) + "," + safeText(req.getStatus()) + ","
 				+ safeText(req.getUserComment()) + "," + safeText(HTMLGeneration.emptyIfNull(req.getAdminComment())) + ","
@@ -1749,7 +1749,7 @@ public class DBConnect {
 				+ safeText(req.getHolderName()) + "," + req.getHolderId() + "," + safeText(req.getHolderEmail()) + ","
 				+ safeText(req.getFacilityName()) + "," + req.getFacilityId() + "," + req.actionRequested().ordinal() + ","
 				+ safeText(req.getRequestSource()) + "," + safeText(req.getCryoLiveStatus()) + ","
-				+ safeText(req.getGeneticBackgroundInfo()) + "," +safeText(req.getNewFileNames())+ "," +safeText(req.getDeleteFileNames()) + ")";
+				+ safeText(req.getGeneticBackgroundInfo()) + ")";
 		return executeNonQuery(query, true);
 	}
 

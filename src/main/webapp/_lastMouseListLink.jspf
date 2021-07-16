@@ -3,6 +3,6 @@
   if (session.getAttribute("mouseListLastQuery") != null && session.getAttribute("mouseListLastTitle") != null) { 
 	  String link = session.getAttribute("mouseListLastQuery").toString();
 	  String title = "Back to last mouse list (" + session.getAttribute("mouseListLastTitle").toString().trim() + ")";
-    %><a href='<%= link %>'><%= title %></a><%
+    %><a style="font-size: 16px" href='<%= link %>'><%= title %></a><%
   }
  %>

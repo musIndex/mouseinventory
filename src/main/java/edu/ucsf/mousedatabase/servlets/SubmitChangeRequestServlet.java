@@ -67,8 +67,8 @@ public class SubmitChangeRequestServlet extends HttpServlet {
 		  
 		  changeRequest.setUserComment(request.getParameter("userComment"));
 		  
-		  changeRequest.setNewFileNames((String)request.getSession().getAttribute("fileName"));
-		  changeRequest.setDeleteFileNames(request.getParameter("deleteFileNames"));
+//		  changeRequest.setNewFileNames((String)request.getSession().getAttribute("fileName"));
+//		  changeRequest.setDeleteFileNames(request.getParameter("deleteFileNames"));
 		  
 		  changeRequest.setActionRequested(request.getParameter("actionRequested"));
 		  changeRequest.setCryoLiveStatus(request.getParameter("cryoLiveStatus"));
