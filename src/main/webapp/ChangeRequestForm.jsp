@@ -47,119 +47,142 @@
     <div class="spacing_div_mini"></div>
 
     <div class="category">
-        <div class="two_column_left">
+        <div class="two_column_left" style="width: 62%;">
             <div class="formbody">
                 <form id="changerequestform" action="SubmitChangeRequest" method="post">
                     <input type="hidden" name="mouseID" value="<%= mouseID %>">
 
-                    <table class="inputForm">
-                        <tr class="formFieldH">
-                            <td class="formHeaderCell" colspan="2">Contact Information</td>
-                        </tr>
-                        <tr class="formField">
-                            <td class="formLeft">* First Name</td>
-                            <td class="formRight"><input id="firstnameInput" type="text" name="firstname"
-                                                         value="${changeRequest.firstname}" required></td>
-                        </tr>
-                        <tr class="formField">
-                            <td class="formLeft">* Last Name</td>
-                            <td class="formRight"><input id="lastnameInput" type="text" name="lastname"
-                                                         value="${changeRequest.lastname}" required></td>
-                        </tr>
-                        <tr class="formField">
-                            <td class="formLeft">* Email Address</td>
-                            <td class="formRight"><input id="emailInput" type="text" maxlength="" name="email"
-                                                         value="${changeRequest.email}" required></td>
-                        </tr>
-                        <tr class="formFieldH">
-                            <td class="formHeaderCell" colspan="2" style="border-top: 0;">Holder Information</td>
-                        </tr>
-                        <tr class="formField">
-                            <td class="formLeft">* Holder</td>
-                            <td class="formRight">
-                                <%= getHolderSelect("holderId", changeRequest.getHolderId()) %>
-                                <div class="spacing_div_minix2"></div>
-                                <div id="otherHolderSpan" style="display: none">
-                                    <input style="border: solid 1px black;margin-bottom: 4px" type="text"
-                                           id="holderName" name="holderName"
-                                           value="<%= emptyIfNull(changeRequest.getHolderName()) %>" size="20">
-                                </div>
+                    <table class="inputForm" style="width: 92%">
+                        <tbody style="vertical-align: top">
+                        <tr>
+                            <td style="width: 43%;padding-left: 0px;">
+                                <table class="inputForm" style="vertical-align: top;width: 92%">
+                                    <tr class="formFieldH">
+                                        <td class="formHeaderCell" colspan="2">Your Contact Information</td>
+                                    </tr>
+                                    <tr class="formField">
+                                        <td class="formLeft">* First Name</td>
+                                        <td class="formRight"><input id="firstnameInput" type="text" name="firstname"
+                                                                     value="${changeRequest.firstname}" required></td>
+                                    </tr>
+                                    <tr class="formField">
+                                        <td class="formLeft">* Last Name</td>
+                                        <td class="formRight"><input id="lastnameInput" type="text" name="lastname"
+                                                                     value="${changeRequest.lastname}" required></td>
+                                    </tr>
+                                    <tr class="formField">
+                                        <td class="formLeft">* Email Address</td>
+                                        <td class="formRight"><input id="emailInput" type="email" maxlength=""
+                                                                     name="email"
+                                                                     value="${changeRequest.email}" required></td>
+                                    </tr>
+                                    <tr class="formFieldH">
+                                        <td class="formHeaderCell" colspan="2" style="border-top: 0;">Holder
+                                            Information
+                                        </td>
+                                    </tr>
+                                    <tr class="formField">
+                                        <td class="formLeft">* Holder</td>
+                                        <td class="formRight">
+                                            <%= getHolderSelect("holderId", changeRequest.getHolderId()) %>
+                                            <div class="spacing_div_minix2"></div>
+                                            <div id="otherHolderSpan" style="display: none">
+                                                <input style="border: solid 1px black;margin-bottom: 4px" type="text"
+                                                       id="holderName" name="holderName"
+                                                       value="<%= emptyIfNull(changeRequest.getHolderName()) %>"
+                                                       size="20">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="formField">
+                                        <td class="formLeft">* Facility</td>
+                                        <td class="formRight">
+                                            <%= getFacilitySelect("facilityId", changeRequest.getFacilityId()) %>
+                                            <div class="spacing_div_minix2"></div>
+                                            <div id="otherFacilitySpan" style="display: none">
+                                                <input type="text" style="border: solid 1px black;margin-bottom: 4px"
+                                                       id="facilityName" name="facilityName"
+                                                       value="<%= emptyIfNull(changeRequest.getFacilityName()) %>"
+                                                       size="20">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
                             </td>
-                        </tr>
-                        <tr class="formField">
-                            <td class="formLeft">* Facility</td>
-                            <td class="formRight">
-                                <%= getFacilitySelect("facilityId", changeRequest.getFacilityId()) %>
-                                <div class="spacing_div_minix2"></div>
-                                <div id="otherFacilitySpan" style="display: none">
-                                    <input type="text" style="border: solid 1px black;margin-bottom: 4px"
-                                           id="facilityName" name="facilityName"
-                                           value="<%= emptyIfNull(changeRequest.getFacilityName()) %>" size="20">
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="formFieldH">
-                            <td class="formHeaderCell" colspan="2" style="border-top: 0;">Requested Changes</td>
-                        </tr>
-                        <tr class="formField">
-                            <td class="formLeft">* Action</td>
-                            <%
-                                String[] actionLabels = new String[]{"Choose One", "Add selected holder", "Remove selected holder", "Change live/cryo status", "Make other changes"};
-                                String[] actionValues = new String[]{"Choose One", "addHolder", "removeHolder", "changeStatus", "other"};
-                            %>
-                            <td class="formRight"><%=genSelect("actionSelect", actionValues, actionLabels, "Choose One", "onchange=\"actionChange(this.value)\" required", false)%>
-                            </td>
-                        </tr>
-                        <tr id="actionRow" class="formField" style="display:none">
-                            <td class="formLeft">
+                            <td style="width: 1%">
 
                             </td>
-                            <td class="formRight" id="action_summary">
+                            <td style="width:43%">
+                                <table class="inputForm" style="width: 100%">
+                                    <tr class="formFieldH">
+                                        <td class="formHeaderCell" colspan="2" style="border-top: 0;">Requested
+                                            Changes
+                                        </td>
+                                    </tr>
+                                    <tr class="formField">
+                                        <td class="formLeft">* Action</td>
+                                        <%
+                                            String[] actionLabels = new String[]{"Choose One", "Add selected holder", "Remove selected holder", "Change live/cryo status", "Make other changes"};
+                                            String[] actionValues = new String[]{"Choose One", "1", "2", "5", "4"};
+                                        %>
+                                        <td class="formRight"><%=genSelect("actionRequested", actionValues, actionLabels, "Choose One", "onchange=\"actionChange(this.value)\" required", false)%>
+                                        </td>
+                                    </tr>
+                                    <tr id="actionRow" class="formField" style="display:none">
+                                        <td class="formLeft">
 
-                            </td>
-                        </tr>
-                        <tr class='formField' id='cryo_live_status' style="display:none">
-                            <td class="formLeft">
-                                * Status
-                            </td>
-                            <td class="formRight">
-                                <div style="width: 222.8px;text-align: left;margin-left: auto;margin-top: 13px;margin-right: auto;margin-bottom: 13px;">
-                                <%=genRadio("cryoLiveStatus", new String[]{"Live only", "Live and Cryo", "Cryo only"}, "Live only", "required")%>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class='formField' id='background_info' style="display:none">
-                            <td class="formLeft" style="line-height: 19px">
-                                Genetic background information
-                            </td>
-                            <td class="formRight">
-                                <input type="text" name="geneticBackgroundInfo">
-                            </td>
-                        </tr>
-                        <tr class='formField' id='comments_label' style="display:none">
-                            <td class="formLeft">
-                                Comments:
-                            <td class="formRight">
+                                        </td>
+                                        <td class="formRight" id="action_summary">
+
+                                        </td>
+                                    </tr>
+                                    <tr class='formField' id='cryo_live_status' style="display:none">
+                                        <td class="formLeft">
+                                            * Status
+                                        </td>
+                                        <td class="formRight">
+                                            <div style="width: 222.8px;text-align: left;margin-left: auto;margin-top: 13px;margin-right: auto;margin-bottom: 13px;">
+                                                <%=genRadio("cryoLiveStatus", new String[]{"Live only", "Live and Cryo", "Cryo only"}, "Live only", "required")%>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class='formField' id='background_info' style="display:none">
+                                        <td class="formLeft" style="line-height: 19px">
+                                            Genetic background information
+                                        </td>
+                                        <td class="formRight">
+                                            <input type="text" name="geneticBackgroundInfo">
+                                        </td>
+                                    </tr>
+                                    <tr class='formField' id='comments_label' style="display:none">
+                                        <td class="formLeft">
+                                            Comments:
+                                        <td class="formRight">
                                 <textarea rows="7"
                                           style="resize: none;margin-top: 13px;margin-bottom: 13px;width: 212.8px"
                                           name="userComment"></textarea>
-                        </tr>
-                        <tr >
-                            <td colspan="2">
-                                <div class="spacing_div_minix2"></div>
-                                <div class='form_submission' id="formSubmission" style="display: none">
-                                    <div class="MSU_green_button" style="width: 32%;float: right;margin-right: -3px;">
-                                        <input type="submit" value="Submit"
-                                               style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
-                                    </div>
-                                </div>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="spacing_div_minix2"></div>
+                                            <div class='form_submission' id="formSubmission" style="display: none">
+                                                <div class="MSU_green_button"
+                                                     style="width: 32%;float: right;margin-right: -3px;">
+                                                    <input type="submit" value="Submit"
+                                                           style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
                             </td>
                         </tr>
+                        </tbody>
                     </table>
                 </form>
             </div>
         </div>
-        <div class="two_column_right">
+        <div class="two_column_right" style="width: 38%">
             <div class="sidebar_desc"
                  style="width: 100%;margin-left: -8px;padding-top: 3px;padding-left: 6px;height: 500px">
                 <p class="block_form_label_text">Before completing a submission form</p>
@@ -265,13 +288,13 @@
         var cryoLiveStatus = document.getElementById("cryo_live_status");
         var backgroundInfo = document.getElementById("background_info");
 
-        if (action == "addHolder") {
+        if (action == "1") {
             addHolder(actionSummary, cryoLiveStatus, backgroundInfo, commentsLabel, actionRow);
-        } else if (action == "removeHolder") {
+        } else if (action == "2") {
             removeHolder(actionSummary, cryoLiveStatus, backgroundInfo, commentsLabel, actionRow);
-        } else if (action == "changeStatus") {
+        } else if (action == "5") {
             changeStatus(actionSummary, cryoLiveStatus, backgroundInfo, commentsLabel, actionRow);
-        } else if (action == "other") {
+        } else if (action == "4") {
             other(actionSummary, cryoLiveStatus, backgroundInfo, commentsLabel, actionRow);
         } else {
             actionSummary.textContent = "";
