@@ -3604,7 +3604,7 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.0.08";
+        String version = "4.0.09";
         //Current date
         String year = "2021";
         //Email of database administrator
