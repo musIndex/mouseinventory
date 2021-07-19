@@ -482,7 +482,7 @@
                     <%
                         }
                     %>
-                    *Indicates required field.</p>
+                    * Indicates required field.</p>
             </div>
 
             <div style="height: 75px;width: 100%"></div>
