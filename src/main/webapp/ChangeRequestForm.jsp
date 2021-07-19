@@ -122,10 +122,13 @@
                                     <tr class="formField">
                                         <td class="formLeft">* Action</td>
                                         <%
-                                            String[] actionLabels = new String[]{"Choose One", "Add selected holder", "Remove selected holder", "Change live/cryo status", "Make other changes"};
-                                            String[] actionValues = new String[]{"Choose One", "1", "2", "5", "4"};
+                                            String[] actionLabels = new String[]{"Add selected holder", "Remove selected holder", "Change live/cryo status", "Make other changes"};
+                                            String[] actionValues = new String[]{"1", "2", "5", "4"};
                                         %>
-                                        <td class="formRight"><%=genSelect("actionRequested", actionValues, actionLabels, "Choose One", "onchange=\"actionChange(this.value)\" required", false)%>
+                                        <td class="formRight">
+                                            <div style="width: 222.8px;text-align: left;margin-left: auto;margin-top: 13px;margin-right: auto;margin-bottom: 13px;">
+                                                <%=genRadio("actionRequested", actionValues, actionLabels, "Choose One", "onchange=\"actionChange(this.value)\" required")%>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr id="actionRow" class="formField" style="display:none">
@@ -147,7 +150,8 @@
                                         </td>
                                     </tr>
                                     <tr class='formField' id='background_info' style="display:none">
-                                        <td class="formLeft" style="line-height: 19px">
+                                        <td class="formLeft"
+                                            style="line-height: 19px;padding-top: 5px;padding-bottom: 5px;">
                                             Genetic background information
                                         </td>
                                         <td class="formRight">
@@ -185,27 +189,50 @@
         <div class="two_column_right" style="width: 38%">
             <div class="sidebar_desc"
                  style="width: 100%;margin-left: -8px;padding-top: 3px;padding-left: 6px;height: 500px">
-                <p class="block_form_label_text">Before completing a submission form</p>
-                <p class="block_form_desc_text">, use the search feature above to determine if the rodent is already
-                    listed in the inventory. <br><br>Each submission should be for an</p>
-                <p class="block_form_label_text"> individual</p>
-                <p class="block_form_desc_text"> mutant allele or transgene (or inbred strain) - generically referred to
-                    as a "rodent", irrespective of whether the allele or transgene is maintained in combination with
-                    other mutant alleles or transgenes.
-                    If it is, and if you want to note that it is also being housed by another investigator or to add
-                    information about the rodent, do not use this form. Instead, go to the</p>
-                <a class="anchor_no_underline" href="MouseReport.jsp">
-                    <p style="color: black;display: inline;text-decoration: underline" class="block_form_label_text">
-                        Rodent Records</p>
-                </a>
-                <p class="block_form_desc_text">page, find the one for that rodent, click on "Request change in record"
-                    (under the name of that rodent), and complete the form.<br><br>
-                    If that individual mutant allele or transgene is not in the database, even if a similar one is,
-                    please complete submission form.<br><br>
-                    Select the field and begin typing the last name of the holder you want to select until it appears in
-                    the field. If the holder/facility is not included in the list, choose 'other' from the drop down
-                    list and enter the information
+                <p class="block_form_label_text" style="text-align: center">If you leave this page without submitting,
+                    ALL
+                    the data entered will be lost.</p><br><br>
+                <p class="block_form_desc_text">If you encounter any difficulties while completing this page, please
+                    contact a database administrator.</p><br><br>
+                <p class="block_form_desc_text">The first step in submitting a change request is to input</p>
+                <p class="block_form_label_text"> your own contact information.</p>
+                <p class="block_form_desc_text">This will allow the database administrators to contact you regarding
+                    your inquiry if there is any additional information required.<br><br>
+                    Then, please enter the information of either:<br>
                 </p>
+                <p class="block_form_label_text">A)</p>
+                <p class="block_form_desc_text"> The current holder (if you are</p>
+                <p class="block_form_label_text"> not </p>
+                <p class="block_form_desc_text">requesting for rodent holder information to be updated).<br>
+                </p>
+                <p class="block_form_label_text">B)</p>
+                <p class="block_form_desc_text"> The holder that you would like to remove, add, or edit.<br><br>
+
+                    Finally, select what type of action you would like to take regarding the rodent record.
+                    <br><br>
+
+                    If you are </p>
+                <p class="block_form_label_text">adding a new holder</p>
+                <p class="block_form_desc_text">and have genetic background information for the
+                    mouse in the new holder's colony, enter it in the designated field. If you want to add a different,
+                    unofficial name for the mouse, or have other comments, enter them in the subsequent comments field.
+                    <br><br>
+                    If you are </p>
+                <p class="block_form_label_text">removing a holder,</p>
+                <p class="block_form_desc_text"> feel free to add any additional information or comments in the
+                    provided space.
+                    <br><br>
+                    If you are </p>
+                <p class="block_form_label_text">changing the rodent's live/cryo status,</p>
+                <p class="block_form_desc_text"> please select its corresponding status. If you have any additional
+                    information regarding the rodent or its colony, please include that information as well.
+                    <br><br>
+                    For </p>
+                <p class="block_form_label_text">any other change requests,</p>
+                <p class="block_form_desc_text"> please leave a detailed comment about what you would like to append,
+                    edit, or remove from the record.
+                    <br><br>
+                    * Indicates required field.
             </div>
         </div>
     </div>
@@ -243,7 +270,7 @@
 
     function addHolder(actionSummary, cryoLiveStatus, backgroundInfo, commentsLabel, actionRow) {
         actionSummary.textContent = "The holder and facility selected in step 2 will be added.";
-        actionSummary.style = "display:table-cell";
+        actionSummary.style = "display:table-cell;margin-left: auto;margin-right: auto;padding: 13px 0px;"
         actionRow.style = "display:table-row"
         commentsLabel.style = "display:table-row";
         backgroundInfo.style = "display:table-row";
@@ -252,7 +279,7 @@
 
     function removeHolder(actionSummary, cryoLiveStatus, backgroundInfo, commentsLabel, actionRow) {
         actionSummary.textContent = "The holder and facility selected in step 2 will be removed.";
-        actionSummary.style = "display:table-cell";
+        actionSummary.style = "display:table-cell;margin-left: auto;margin-right: auto;padding: 13px 0px;";
         actionRow.style = "display:table-row"
         commentsLabel.style = "display:table-row";
         backgroundInfo.style = "display:none";
@@ -261,7 +288,7 @@
 
     function changeStatus(actionSummary, cryoLiveStatus, backgroundInfo, commentsLabel, actionRow) {
         actionSummary.textContent = "Modify the cryo/live status of this mouse, which is being maintained by the holder/in the facility selected in step 2.";
-        actionSummary.style = "display:table-cell";
+        actionSummary.style = "display:table-cell;margin-left: auto;margin-right: auto;padding: 13px 0px;";
         actionRow.style = "display:table-row"
         commentsLabel.style = "display:table-row";
         backgroundInfo.style = "display:none";
