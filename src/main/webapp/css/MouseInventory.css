@@ -2057,3 +2057,36 @@ a.navBarAnchor_noTint:visited {
 .dropdown:hover .dropImage {
     filter: brightness(0.5)
 }
+
+.table_bot_left{
+    border-bottom: solid 1px black;
+    border-left: solid 1px black;
+}
+.table_bot_right{
+    border-bottom: solid 1px black;
+    border-right: solid 1px black;
+    border-left: solid 1px black;
+}
+.table_bot_mid{
+    border-bottom: solid 1px black;
+    border-left: solid 1px black;
+}
+.table_top_left{
+border-top: solid 1px black;
+    border-left: solid 1px black;
+    border-bottom: solid 1px black;
+    width: 90px;
+}
+.table_top_right{
+    border-top: solid 1px black;
+    border-right: solid 1px black;
+    border-left: solid 1px black;
+    border-bottom: solid 1px black;
+    width: 90px;
+}
+.table_top_mid{
+    border-top: solid 1px black;
+    border-left: solid 1px black;
+    border-bottom: solid 1px black;
+    width: 90px;
+}
