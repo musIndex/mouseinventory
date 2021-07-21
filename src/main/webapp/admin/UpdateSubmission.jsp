@@ -99,7 +99,7 @@
                             if (updatedRecord.getExpressedSequence().equals("Reporter")) {
                                 updatedRecord.setReporter(sub.getTGReporter());
                             } else if (updatedRecord.getExpressedSequence().equals("Mouse Gene (unmodified)")) {
-                                updatedRecord.setGeneID(sub.getProperties().getProperty("rat gene"));
+                                updatedRecord.setTargetGeneID(sub.getProperties().getProperty("rat gene"));
                             } else if (updatedRecord.getExpressedSequence().equals("Modified mouse gene or Other")) {
                                 updatedRecord.setTargetGeneName(sub.getTGOther());
                                 updatedRecord.setGeneName(sub.getTGOther());
@@ -111,11 +111,13 @@
                         DBConnect.updateMouseRecord(updatedRecord);
                     } else {
                         if (updatedRecord.getExpressedSequence().equals("Mouse Gene (unmodified)")) {
-                            updatedRecord.setGeneID(sub.getTGMouseGene());
+                            updatedRecord.setTargetGeneID(sub.getTGMouseGene());
                             updatedRecord.setRegulatoryElement(sub.getTGRegulatoryElement());
-                            DBConnect.updateMouseRecord(updatedRecord);
-
                         }
+                        if (updatedRecord.isMA() && (sub.getMAMgiGeneID() != null || !sub.getMAMgiGeneID().equals(""))){
+                            updatedRecord.setGeneLink(sub.getMAMgiGeneID());
+                        }
+                        DBConnect.updateMouseRecord(updatedRecord);
                     }
 
                     pageHeader = "Created new Record #" + mouseID + ":";

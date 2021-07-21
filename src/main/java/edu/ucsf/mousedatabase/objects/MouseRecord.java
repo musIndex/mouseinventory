@@ -16,6 +16,16 @@ public class MouseRecord {
 
 
 
+  //Allows access of gene mgi link, as gene ID is used to access more info and it gets lost
+  private String geneLink;
+
+  public String getGeneLink() {
+    return geneLink;
+  }
+
+  public void setGeneLink(String geneLink) {
+    this.geneLink = geneLink;
+  }
   public boolean isRat;
   public boolean isRat() {
     return isRat;

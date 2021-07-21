@@ -544,6 +544,182 @@
                 </p>
             </div>
             <%
+                } else if (newMouse.isMA()) {
+            %>
+            <div class="sidebar_desc"
+                 style="width: 100%;margin-left:-100px;padding-left: 10px;margin-top: 0px;padding-top: 3px;padding-right: 6px;height:750px">
+                <%--      <h3>--%>
+                <%--        <span style="color: #23476b;text-emphasis: #23476b; font-style: italic"><%=errorsMessage%></span>--%>
+                <%--      </h3>--%>
+                <p class="block_form_label_text" style="text-align: center">If you leave this page without saving, ALL
+                    the data
+                    entered will be lost.</p><br><br>
+                <p class="block_form_desc_text">If you encounter any difficulties while completing this page, click
+                    'Submit
+                    Feedback' at the top of the screen.<br><br>
+                </p>
+                <p class="block_form_label_text">Rodent Name</p>
+                <p class="block_form_desc_text">is the unofficial nomenclature used by holder.<br><br>
+
+                    <%
+                        if (newMouse.isPublished()) {
+                    %>
+
+                    Copy the </p>
+                <p class="block_form_label_text">MGI ID</p>
+                <p class="block_form_desc_text"> for the transgene from the transgene detail page (number only) and
+                    paste it
+                    here. Although each published transgene should have a detail page, occasionally it does not. If you
+                    are
+                    absolutely certain that there is no detail page on MGI for the transgene you want to submit, enter
+                    'none'.
+                    Admin will inform MGI, and they will provide a detail page for the transgene, usually within a few
+                    days.<br><br>
+
+                    If the mutant allele you want to submit is published, there should be an </p>
+                <p class="block_form_label_text">Allele Detail</p>
+                <p class="block_form_desc_text"> page for it on <a href="http://www.informatics.jax.org/"
+                                                                   style="font-weight: bold">Mouse Genome
+                    Informatics</a> (MGI). You need to find this
+                    page in
+                    order to complete this submission. If you are not certain how to find it, click here:</p><br>
+                <div class="MSU_green_button"
+                     style="margin-top: 10px;margin-bottom: 10px;display: inline-block;width: 60%">
+                    <% Setting s6 = DBConnect.loadSetting("download_files_allele_id"); %>
+                    <a class="anchor_no_underline" href='<%= s6.value %>' target=_blank>
+                        <p class="MSU_green_button_Text" style="font-size: 16px">
+                            <%= s6.label %>
+                        </p>
+                    </a>
+                </div>
+                <br>
+                <%
+                    } else {
+                %>
+                </p>
+                <%
+                    }
+                %>
+
+                <%
+                    if (!newMouse.isPublished()) {
+                %>
+                <p class="block_form_desc_text">
+                    If you have entered a valid MGI ID, the official symbol for the transgene is shown. Please click on
+                    the link that has been generated
+                    to the MGI accession number for this transgene and</p>
+                <p class="block_form_label_text">double check</p>
+                <p class="block_form_desc_text"> to make sure that it
+                    describes the transgene you want to submit. If not, replace the MGI ID with the one for the correct
+                    transgene.
+                    <br><br>
+                    <%
+                        }
+                    %>
+                </p>
+                <p class="block_form_label_text">Official Symbol</p>
+                <p class="block_form_desc_text"> for the transgene being submitted (automatically entered when the MGI
+                    ID is
+                    entered). If the official symbol seems to be correct, click the autofill button. If not, replace the
+                    MGI ID
+                    with the one for the correct allele.<br><br>
+                    <%
+                        if (newMouse.isPublished()) {
+                    %>
+                </p>
+
+                <p class="block_form_label_text">Pubmed ID</p>
+                <p class="block_form_desc_text">, generally for the publication in which the mutant allele was first
+                    described
+                    (automatically entered when the MGI ID for the allele is entered)
+                    If you entered 'none' in the MGI ID field above, enter the PMID for a publication in which the
+                    mutant allele
+                    is described.<br><br>
+                    <%
+                        }
+                    %>
+                    If the transgene was produced by Gensat, please provide a</p>
+                <p class="block_form_label_text">Founder Line</p>
+                <p class="block_form_desc_text">. This is included at the end of the Official Symbol, e.g.
+                    'Tg(Epha2-EGFP)DE51Gsat' - the 'Founder Line' here is DE51.<br>
+                    <a style="font-weight: bold;text-decoration: underline" href="http://www.gensat.org/search.jsp">Gensat
+                        catalog</a><br><br>
+
+                    Text automatically entered in the </p>
+                <p class="block_form_label_text">Comment</p>
+                <p class="block_form_desc_text"> section is the description of the allele provided by MGI. Please read
+                    it and
+                    make sure it accurately describes the transgene you want to submit. If not, make the appropriate
+                    changes.
+                    If, after checking the information that has been entered (i.e. name of gene modified, relevant
+                    publication,
+                    and description of the allele) you realize that this is not the transgene you want to submit, please
+                    start
+                    over by entering the MGI ID for the correct transgene and clicking the autofill button.
+                    If you entered 'none' in the MGI ID field above, enter a brief description of the transgene
+                    here.<br><br>
+
+                </p>
+
+
+                <p class="block_form_desc_text"> Use the </p>
+                <p class="block_form_label_text">Gene/Marker Symbol</p>
+                <p class="block_form_desc_text"> field to indicate a genetic marker or set of markers with
+                    similar nomenclature, may include abbreviations, synonyms, official naming conventions.</p><br><br>
+
+                <p class="block_form_desc_text">For </p>
+                <p class="block_form_label_text">reporter-cre</p>
+                <p class="block_form_desc_text"> fusions, select 'Cre'.<br><br>
+
+                    For </p>
+                <p class="block_form_label_text">Other</p>
+                <p class="block_form_desc_text"> expressed sequence types, write the description of the expressed
+                    sequence.<br><br>
+
+                    When entering the </p>
+                <p class="block_form_label_text">Regulatory Element</p>
+                <p class="block_form_desc_text">, briefly describe the sequences that drive expression of the transgene,
+                    (e.g.
+                    'CAG promoter'). For mice produced using a BAC (e.g. Gensat mice), state 'BAC containing X gene
+                    (provide gene
+                    symbol)'.<br><br>
+
+                    Enter only defined </p>
+                <p class="block_form_label_text">Background Strains</p>
+                <p class="block_form_desc_text"> (i.e. do not enter 'mixed' or 'not known').<br>
+                    (Optional: if the mutant allele is being maintained in combination with another mutant allele(s) or
+                    a
+                    transgene(s), this can be noted here.)<br><br>
+
+                    <%
+                        if (!newMouse.isPublished()) {
+                    %>
+                    If the mouse was produced in
+                </p>
+                <p class="block_form_label_text">another laboratory</p>
+                <p class="block_form_desc_text">, please use the comment field to provide the name and
+                    Institution of the PI in whose laboratory the mouse was produced (or from whom the mouse was
+                    obtained)<br><br>
+                    <%
+                        }
+                    %>
+                    *Indicates required field.</p>
+            </div>
+
+            <div style="height: 75px;width: 100%"></div>
+            <div class="sidebar_desc"
+                 style="width: 100%;margin-left:-100px;padding-left: 10px;margin-top: 0px;padding-top: 3px;padding-right: 6px;height: 90px">
+                <p class="block_form_desc_text">By clicking </p>
+                <p class="block_form_label_text">Save data</p>
+                <p class="block_form_desc_text">, you will save data that has been entered
+                    as long as your browser window stays open, or until you submit the rodent.<br><br>
+
+                    By clicking </p>
+                <p class="block_form_label_text">Submit rodent</p>
+                <p class="block_form_desc_text">, you will submit the rodent and complete the submission process.
+                </p>
+            </div>
+            <%
                 }
             %>
             <div class="label_text"

@@ -1800,7 +1800,7 @@ public class HTMLGeneration {
                     if (nextRecord.getExpressedSequence().equalsIgnoreCase("mouse gene")
                             || nextRecord.getExpressedSequence().equalsIgnoreCase("Mouse Gene (unmodified)")) {
                         table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b>\r\n");
-                        table.append(nextRecord.getGeneID() + "</dt>");
+                        table.append(nextRecord.getTargetGeneID() + "</dt>");
 
 
                     } else if (nextRecord.getExpressedSequence()
@@ -1835,7 +1835,7 @@ public class HTMLGeneration {
             } else if (nextRecord.isMA()) {
                 table.append("</dt>\r\n");
                 table.append(formatGene(nextRecord.getGeneSymbol(),
-                        nextRecord.getGeneName(), nextRecord.getGeneID()));
+                        nextRecord.getGeneName(), nextRecord.getGeneLink()));
                 table.append("<dt><b><span class='lbl'>Modification Type:</span></b> "
                         + (nextRecord.getModificationType() != null ? nextRecord.getModificationType() : "TBD") + "</dt>\r\n");
 //added endonuclease-mediated -EW
@@ -1844,8 +1844,8 @@ public class HTMLGeneration {
                         if (nextRecord.getExpressedSequence() != null) {
                             if (nextRecord.getExpressedSequence().equalsIgnoreCase("mouse gene")
                                     || nextRecord.getExpressedSequence().equalsIgnoreCase("Mouse Gene (unmodified)")) {
-                                table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b></dt>\r\n");
-                                table.append(nextRecord.getGeneID());
+                                table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b>\r\n");
+                                table.append(nextRecord.getTargetGeneID() + "</dt>");
                             } else if (nextRecord.getExpressedSequence()
                                     .equalsIgnoreCase("reporter")) {
                                 table.append("<dt><b><span class='lbl'>Expressed Sequence:</span></b>\r\n");
@@ -3604,7 +3604,7 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.0.10";
+        String version = "4.0.11";
         //Current date
         String year = "2021";
         //Email of database administrator
