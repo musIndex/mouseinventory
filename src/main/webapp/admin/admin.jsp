@@ -125,7 +125,7 @@
         ArrayList<SubmittedMouse> newSubmissions = submissionLists.get(i);
         String label = submissionListLabels.get(i);
         if (newSubmissions.size() > 0) {
-            right_buf.append("<div class=\"adminHomeTable\">");
+            right_buf.append("<div class=\"adminHomeTable\" style=\"float:right\">");
             right_buf.append("<table class=\"adminHomeTableInside\">");
             right_buf.append("<tr class=\"adminHomeTableHeader\"><td colspan=\"2\">There are <b>" + newSubmissions.size() + "</b> " + label + ":</td></tr>");
 

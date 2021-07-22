@@ -2109,7 +2109,6 @@ border-top: solid 1px black;
 .adminHomeTable{
     width: 95%;
     border-spacing: 0px;
-    float: right;
 }
 
 .adminHomeTableInside{
