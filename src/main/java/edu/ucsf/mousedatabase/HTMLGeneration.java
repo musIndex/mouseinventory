@@ -241,19 +241,35 @@ public class HTMLGeneration {
         // Admin Row
         if (isAdminPage && showAdminControls) {
             table.append("<div id=\"adminLinksContainer\" class='clearfix'>");
-            table.append("<div id='adminLinks' class='site_container'>");
-            table.append("<ul class=\"navLinkUL\">");
-            table.append(addNavLink("Admin Home", "admin.jsp", null, currentPageFilename, true));
-            table.append(addNavLink("Change Requests", "ManageChangeRequests.jsp", null, currentPageFilename, true));
-            table.append(addNavLink("Submissions", "ListSubmissions.jsp", null, currentPageFilename, true));
-            table.append(addNavLink("Admin Search", "AdminSearch.jsp", null, currentPageFilename, true));
-            table.append(addNavLink("Edit Records", "EditMouseSelection.jsp", null, currentPageFilename, true));
-            table.append(addNavLink("Edit Holders", "EditHolderChooser.jsp", null, currentPageFilename, true));
-            table.append(addNavLink("Edit Facilities", "EditFacilityChooser.jsp", null, currentPageFilename, true));
-            table.append(addNavLink("Data Upload", "ImportReports.jsp", null, currentPageFilename, true));
-            table.append(addNavLink("Reports", "Reports.jsp", null, currentPageFilename, true));
-            table.append(addNavLink("Notes", "ManageAdminNotes.jsp", null, currentPageFilename, true));
-            table.append(addNavLink("Options", "Options.jsp", null, currentPageFilename, true));
+            table.append("<div id='adminLinks' class='site_container' style=\"margin:0 !important\">");
+            table.append("<ul class=\"navLinkUL\" style=\"float:right\">");
+            table.append(addNavLink("Admin Home", "admin.jsp", null, currentPageFilename, true, "", "", true, true));
+            table.append(addNavLink("Submissions", "ListSubmissions.jsp", null, currentPageFilename, true, "", "", true, false));
+
+            table.append("<li class=\"NavLinkItem\">\n" +
+                    " <div class=\"dropdownBorder\" style=\"width:100px\">\n" +
+                    "  <div class=\"dropdown\" style=\"width:100px;z-index:8000\">\n" +
+                    "   <div style=\"border-right: 1px solid #FFFFFF;height: 17.6px;margin-top: 20px;\nmargin-bottom: 1em;\">" +
+                    "<p class=\"navBarAnchor\" style=\"display:inline;color: white;margin-block-start: 0em;padding:0px 8px 0px 25.41px;margin-top:20px;\">Edit</p><img class=\"dropImage\" style=\"display:inline;height:7.04px;width:17.6px;margin-top:-3.5px;\" src=\"/img/dropdown_arrow.svg\"></div>\n" +
+                    "   <div class=\"dropdown-content\" style=\"width:100px\"><ul style=\"padding-left:0px\">\n");
+
+            table.append(addDropdownLink("Records", "EditMouseSelection.jsp", null,
+                    currentPageFilename, true, "adminNavLinkDropdown", "width: 100px;text-align: center;height: 50px", false, false));
+            table.append(addDropdownLink("Holders", "EditHolderChooser.jsp", null,
+                    currentPageFilename, true, "adminNavLinkDropdown", "width: 100px;text-align: center;height: 50px", false, false));
+            table.append(addDropdownLink("Facilities", "EditFacilityChooser.jsp", null,
+                    currentPageFilename, true, "adminNavLinkDropdown", "width: 100px;text-align: center;height: 50px", false, false));
+
+            table.append("   </ul></div>\n" +
+                    "  </div>\n" +
+                    " </div>\n" + "</li>");
+
+            table.append(addNavLink("Change Requests", "ManageChangeRequests.jsp", null, currentPageFilename, true, "", "", false, false));
+//            table.append(addNavLink("Admin Search", "AdminSearch.jsp", null, currentPageFilename, true, "", "", true, false));
+//            table.append(addNavLink("Data Upload", "ImportReports.jsp", null, currentPageFilename, true, "", "", false, false));
+//            table.append(addNavLink("Reports", "Reports.jsp", null, currentPageFilename, true, "", "", true, false));
+//            table.append(addNavLink("Notes", "ManageAdminNotes.jsp", null, currentPageFilename, true, "", "", true, false));
+//            table.append(addNavLink("Options", "Options.jsp", null, currentPageFilename, true, "", "", false, false));
             table.append("</ul>");
             table.append("</div>"); //adminlinks
             table.append("</div>"); //adminlinkscontainer
@@ -485,7 +501,12 @@ public class HTMLGeneration {
 
         }
         to_return += style;
-        to_return += "\">" + "<a style=\"padding-left: 12px;padding-right:12px;margin-right:0px;height:50px;width:110px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">" + targetNiceName + "</a></div></li>\r\n";
+        if (cssClass.equals("adminNavLinkDropdown NavLinkItem")){
+            to_return += "\">" + "<a style=\"height:50px;width:100px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">" + targetNiceName + "</a></div></li>\r\n";
+        }
+        else{
+            to_return += "\">" + "<a style=\"padding-left: 12px;padding-right:12px;margin-right:0px;height:50px;width:110px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">" + targetNiceName + "</a></div></li>\r\n";
+        }
         return to_return;
 
     }
@@ -3604,7 +3625,7 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.1.01";
+        String version = "4.1.02";
         //Current date
         String year = "2021";
         //Email of database administrator
