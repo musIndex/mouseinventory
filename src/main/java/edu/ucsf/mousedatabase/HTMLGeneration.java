@@ -74,7 +74,8 @@ public class HTMLGeneration {
             buf.append("<meta http-equiv='pragma' content='no-cache'>\r\n");
         }
         buf.append("<title>" + DBConnect.loadSetting("general_site_name").value + "</title>\r\n");
-
+        buf.append("<link rel=\"shortcut icon\" href=\"img/favicon.png\" type=\"image/png\">\n");
+        buf.append("<link rel=\"icon\" href=\"img/favicon.png\" type=\"image/png\">");
         buf.append("<link href='" + styleRoot + "bootstrap.css' rel='stylesheet' type='text/css'>\r\n");
         buf.append("<link href='" + styleRoot + "bootstrap-collapse.css' rel='stylesheet' type='text/css'>\r\n");
         buf.append("<link href='" + styleRoot + "font-awesome.min.css' rel='stylesheet' type='text/css'>\r\n");
