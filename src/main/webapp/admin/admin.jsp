@@ -22,6 +22,7 @@
     StringBuffer buf = new StringBuffer();
     StringBuffer right_buf = new StringBuffer();
     StringBuffer hold_buf = new StringBuffer();
+    StringBuffer data_upload = new StringBuffer();
 
     Map<String, String> sourceStatuses = new HashMap<String, String>();
     sourceStatuses.put("new", "new requests");
@@ -30,7 +31,7 @@
     for (String sourceStatus : sourceStatuses.keySet()) {
         ArrayList<ArrayList<String>> openRequestSources = DBConnect.getOpenRequestSources(sourceStatus);
         if (openRequestSources.size() > 0) {
-            buf.append("<dl>");
+            data_upload.append("<dl>");
 
             for (ArrayList<String> source : openRequestSources) {
                 String sourceName = source.get(0);
@@ -42,11 +43,11 @@
                     sourceName = sourceName.replace(def.Name, "");
                 }
 
-                buf.append("<dt style=\"font-size:16px;color:black\">There " + (count > 1 ? "are" : "is") + " <b><a href='" + adminRoot + "ManageChangeRequests.jsp?status=" + sourceStatus + "&requestSource="
+                data_upload.append("<dt style=\"font-size:16px;color:black\">There " + (count > 1 ? "are" : "is") + " <b><a href='" + adminRoot + "ManageChangeRequests.jsp?status=" + sourceStatus + "&requestSource="
                         + sourceName + "'>" + count + " " + sourceStatuses.get(sourceStatus)
                         + " </a></b> from data upload <b>" + sourceName + "</b></dt>");
             }
-            buf.append("</dl>");
+            data_upload.append("</dl>");
         }
     }
 
@@ -58,7 +59,7 @@
         ArrayList<ArrayList<String>> openSubmissionSources = DBConnect.getOpenSubmissionSources(sourceStatus);
         if (openSubmissionSources.size() > 0) {
 //            buf.append("<br>");
-            buf.append("<dl>");
+            data_upload.append("<dl>");
 
             for (ArrayList<String> source : openSubmissionSources) {
                 String sourceName = source.get(0);
@@ -71,7 +72,7 @@
                 }
 
                 if (sourceStatus.equals("new")) {
-                    buf.append("<dt style=\"font-size:16px;color:black\">There " + (count > 1 ? "are" : "is") + "<b> <a href='" + adminRoot + "ListSubmissions.jsp?status=" + sourceStatus + "&submissionSource="
+                    data_upload.append("<dt style=\"font-size:16px;color:black\">There " + (count > 1 ? "are" : "is") + "<b> <a href='" + adminRoot + "ListSubmissions.jsp?status=" + sourceStatus + "&submissionSource="
                             + sourceName + "'>" + count + " " + sourceStatuses.get(sourceStatus)
                             + "</a></b> from data upload <b>" + sourceName + "</b></dt>");
                 } else {
@@ -79,7 +80,7 @@
                     submissionListLabels.add("submissions on hold from data upload " + sourceName);
                 }
             }
-            buf.append("</dl>");
+            data_upload.append("</dl>");
         }
     }
 
@@ -118,6 +119,7 @@
             }
             buf.append("</table>");
             buf.append("</div>");
+            buf.append("<br>");
         }
     }
 
@@ -229,10 +231,13 @@
 %>
 <div class="site_container">
     <p class="main_header">MSU Rodent Database Administration</p>
+    <div style="width: 100%">
+        <br>
+        <%=data_upload.toString()%>
+    </div>
     <div class="category">
         <div class="two_column_left">
             <%=buf.toString() %>
-            <br>
             <%=hold_buf.toString()%>
 
         </div>
