@@ -1054,6 +1054,114 @@ td.mouselistcolumn-holders {
     color: black;
 }
 
+
+
+td.submissioncolumn-name-header {
+    width: 10% !important;
+    height: 35px;
+    font-size: 20px;
+    color: white;
+    border-top: solid 1px black;
+    border-right: solid 1px black;
+    border-left: solid 1px black;
+}
+
+td.submissioncolumn-submissioninfo-header {
+    width: 17.5% !important;
+    height: 35px;
+    font-size: 20px;
+    color: white;
+    border-top: solid 1px black;
+    border-right: solid 1px black;
+}
+
+td.submissioncolumn-category-header {
+    width: 15% !important;
+    height: 35px;
+    font-size: 20px;
+    color: white;
+    border-top: solid 1px black;
+    border-right: solid 1px black;
+}
+
+td.submissioncolumn-details-header {
+    width: 17.5% !important;
+    height: 35px;
+    font-size: 20px;
+    color: white;
+    border-top: solid 1px black;
+    border-right: solid 1px black;
+}
+
+td.submissioncolumn-comment-header {
+    width: 30% !important;
+    height: 35px;
+    font-size: 20px;
+    color: white;
+    border-top: solid 1px black;
+    border-right: solid 1px black;
+}
+
+td.submissioncolumn-holders-header {
+    width: 10% !important;
+    height: 35px;
+    font-size: 20px;
+    color: white;
+    border-top: solid 1px black;
+    border-right: solid 1px black;
+}
+
+td.submissioncolumn-name {
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    border-left: solid 1px black;
+    font-size: 14px;
+    height: 25px;
+    color: black;
+}
+
+td.submissioncolumn-submissioninfo {
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    font-size: 14px;
+    height: 25px;
+    color: black;
+}
+
+td.submissioncolumn-category {
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    font-size: 14px;
+    height: 25px;
+    color: black;
+}
+
+td.submissioncolumn-details {
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    font-size: 14px;
+    height: 25px;
+    color: black;
+}
+
+td.submissioncolumn-comment {
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    font-size: 14px;
+    height: 25px;
+    color: black;
+}
+
+td.submissioncolumn-holders {
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    font-size: 14px;
+    height: 25px;
+    color: black;
+}
+
+
+
 .search-box {
     vertical-align: middle;
     /*text-align: center;*/
