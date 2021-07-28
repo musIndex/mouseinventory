@@ -944,6 +944,16 @@ td.mouselistcolumn-name-header {
     border-left: solid 1px black;
 }
 
+td.mouselistcolumn-submissioninfo-header {
+    width: 11%;
+    height: 35px;
+    font-size: 20px;
+    color: white;
+    border-top: solid 1px black;
+    border-right: solid 1px black;
+    border-left: solid 1px black;
+}
+
 td.mouselistcolumn-category-header {
     width: 19%;
     height: 35px;

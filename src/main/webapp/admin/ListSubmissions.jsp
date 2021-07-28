@@ -2,6 +2,7 @@
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
+<%@ page import="javax.swing.text.html.HTML" %>
 <%=getPageHeader(null,false,true) %>
 <%=getNavBar("ListSubmissions.jsp", true) %>
 <%
@@ -55,7 +56,7 @@
   ArrayList<SubmittedMouse> submissions = DBConnect.getMouseSubmissions(status, entered, orderBy, submissionSource, limit, offset);
 
   String topPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,submissionCount,true);
-  String bottomPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,submissionCount,false);
+  String bottomPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,submissionCount,true);
 
   String[] sortOptions = new String[] {"submittedmouse.id","date","date DESC","mouse.id","mouse.id DESC", "firstname","lastname"};
   String[] sortOptionNiceNames = new String[] {"Submission #", "Submission date","Reverse Submission date", "Record #", "Reverse Record #","Submitter first name", "Submitter last name"};
@@ -69,15 +70,13 @@
 
   StringBuffer sortBuf = new StringBuffer();
   sortBuf.append("<form class='view_opts' action='ListSubmissions.jsp' method='get'>");
-  sortBuf.append("&nbsp;Show: ");
+  sortBuf.append("<div class=\"mousetype_selection_links\" style=\"width:25%;padding-bottom:10px\"><ul class=\"label_text\" style=\"columns:1;font-size:16px\">");
+  sortBuf.append("<li style=\"margin-top:0px\">Show:");
   sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,"",true));
-  sortBuf.append("&nbsp;Source: ");
-  sortBuf.append("<input name='submissionSource' style='width: 200px' type='text' value='" + (submissionSource.equals("all") ? "" : submissionSource) + "'>");
-  sortBuf.append("&nbsp;<input class='btn' type='submit' value='Update'>");
-  sortBuf.append("&nbsp;<a id='clearSource' class='btn'>Clear</a>");
-  sortBuf.append("&nbsp;Sort by: ");
+  sortBuf.append("</li><li style=\"margin: 6px 0;\">Sort by:");
   sortBuf.append(genSelect("orderby",sortOptions,sortOptionNiceNames, orderBy,"",true));
-  sortBuf.append("<input type='hidden' name='entered' value='" + entered +"'>");
+  sortBuf.append("</li><input type='hidden' name='entered' value='" + entered +"'>");
+  sortBuf.append("</ul></div>");
   
   
 
@@ -100,19 +99,23 @@
 %>
 
 <div class="site_container">
-<h2><%= statusString %></h2>
-<h4><%= submissionCount %> found.<span id='matching_search'></span></h4>
-<form id='search_form'>
-Quick search (on page): <input type='text'></input> <a class='btn clear_btn' style='display:none'>Clear</a>
+<p class="main_header" style="margin-block-end: 0.25em;margin-block-start: 0.5em;"><%= statusString %></p>
+<p class="label_text"><%= submissionCount %> found.<span id='matching_search'></span></p>
+<form id='search_form' style="float: right">
+  <input type="search" placeholder="Search..." style="font-size:120%;vertical-align:top;margin-top: 0px" class="input-xlarge" name="search_terms" id="search_terms">
+  <input onclick="document.getElementById('search_form').submit()" type="image" alt="Submit" src="/img/Eyeglass-black.svg" style="height: 28px;margin: 0px">
+  <%--Quick search (on page): <input type='text'></input>--%>
+<%--  <a class='btn clear_btn' style='display:none'>Clear</a>--%>
 </form>
 <%= sortBuf.toString()%>
-<%= topPageSelectionLinks %>
+<%--<%= topPageSelectionLinks %>--%>
 <%= table%>
 <%= bottomPageSelectionLinks %>
 </div>
+<%=HTMLGeneration.getWebsiteFooter()%>
+
+
 <script>
-
-
 !function($){
   
   $('#clearSource').click(function(){
@@ -122,7 +125,7 @@ Quick search (on page): <input type='text'></input> <a class='btn clear_btn' sty
   
   var search_form = $("form#search_form");
   var clear_btn = $("form#search_form a.clear_btn");
-  var search_input = $("form#search_form input[type=text]");
+  var search_input = $("form#search_form input[type=search]");
   var matching_label = $("#matching_search");
   search_form.submit(function(e){
     e.preventDefault();
@@ -154,5 +157,11 @@ Quick search (on page): <input type='text'></input> <a class='btn clear_btn' sty
     search_form.submit();
   });
 }(jQuery);
+
+
+function pageSwitch(num){
+  document.getElementById("pagenum").value = num;
+  this.form.submit();
+}
 
 </script>

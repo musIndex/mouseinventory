@@ -1270,24 +1270,23 @@ public class HTMLGeneration {
 
     private static String getSubmissionTableHeaders() {
         StringBuffer table = new StringBuffer();
-        table.append("<tr class='submissionlistH'>\r\n");
-        table.append("<td style='min-width:130px'\">\r\n");
-        table.append("Status ");
-        table.append("</td>\r\n");
-        table.append("<td style='min-width:250px'>\r\n");
-        table.append("Submission info");
-        table.append("<td style='min-width:110px'>\r\n");
+        table.append("<tr class='mouselistH'>\r\n");
+        table.append("<td class='mouselistcolumn-name-header' style=\"width:21%\">\r\n");
+        table.append("Status");
+        table.append("<td class='mouselistcolumn-category-header' style=\"width:20%\">\r\n");
+        table.append("Submission Info");
+        table.append("<td class='mouselistcolumn-category-header' style=\"width:20%\">\r\n");
         table.append("Category");
         table.append("</td>\r\n");
-        table.append("<td style='min-width:150px'>\r\n");
+        table.append("<td class='mouselistcolumn-details-header' style=\"width:19%\">\r\n");
         table.append("Details");
-        table.append("</td style='min-width:200px'>\r\n");
-        table.append("<td>\r\n");
+        table.append("</td>\r\n");
+        table.append("<td class='mouselistcolumn-comment-header' style=\"width:10%\">\r\n");
         table.append("Comment ");
         table.append("</td>\r\n");
-        table.append("<td >\r\n");
+        table.append("<td class='mouselistcolumn-holders-header' style=\"width:10%\">\r\n");
         table.append("Holders ");
-        table.append("</td style='width:120px'>\r\n");
+        table.append("</td>\r\n");
         table.append("</tr>\r\n");
         return table.toString();
 
@@ -1306,23 +1305,20 @@ public class HTMLGeneration {
 
         StringBuffer table = new StringBuffer();
         table.append("<div class=\"mouseTable\">\r\n");
-        table.append("<table style='width:100%'>\r\n");
+        table.append("<table class='facilityTableInside' style='width:100%'>\r\n");
         int numSubmissions = 0;
         table.append(getSubmissionTableHeaders());
         for (SubmittedMouse nextSubmission : submissions) {
             nextSubmission.prepareForSerialization();
 
-
-            String rowStyle = getRowStyle(numSubmissions, "submissionlist",
-                    "submissionlistAlt");
+            String rowStyle = getRowStyle(numSubmissions, "mouselist", "mouselistAlt");
 
             table.append("<tr class='" + rowStyle + "'>\r\n");
 
             // FIRST COLUMN - status
-            table.append("<td valign='top'>\r\n");
-            table.append("<dl>\r\n");
+            table.append("<td class='mouselistcolumn-name' style=\"width:21%\"><dl>");
 
-            table.append("<dt>\r\n");
+            table.append("<dt class='mouseName'>\r\n");
             table.append("Submission #" + nextSubmission.getSubmissionID());
             table.append("</dt>\r\n");
             table.append("<dt>");
@@ -1367,11 +1363,10 @@ public class HTMLGeneration {
             table.append("</td>");
 
             // COLUMN - submitter data
-            table.append("<td valign='top'>\r\n");
-            table.append("<dl>\r\n");
+            table.append("<td class='mouselistcolumn-category' style=\"width:20%\"><dl>\r\n");
 
             if (nextSubmission.isManualFormSubmission()) {
-                table.append("<dt>\r\n");
+                table.append("<dt class='mouseType'>\r\n");
                 table.append(nextSubmission.getFirstName() + " " + nextSubmission.getLastName());
                 table.append("</dt>\r\n");
 
@@ -1425,7 +1420,7 @@ public class HTMLGeneration {
 
             // COLUMN - details
 
-            table.append("<td valign='top'><dl>\r\n");
+            table.append("<td class='mouselistcolumn-category' style=\"width:20%\">\r\n");
             if (nextSubmission.getMouseName() != null && !nextSubmission.getMouseName().isEmpty()) {
                 table.append("<dt class='mouseName'>\r\n");
                 table.append(nextSubmission.getMouseName());
@@ -1606,7 +1601,7 @@ public class HTMLGeneration {
             table.append("</dl></td>\r\n");
 
             // COLUMN - mouse info (transgenic and mutant allele)
-            table.append("<td valign='top'>\r\n");
+            table.append("<td class='mouselistcolumn-details' style=\"width:19%\">\r\n");
             table.append("<dl>\r\n");
             if (nextSubmission.getMouseType() != null
                     && (nextSubmission.isTG() || nextSubmission.isMA())) {
@@ -1689,14 +1684,14 @@ public class HTMLGeneration {
             table.append("</td>\r\n");
 
             // column - comment
-            table.append("<td valign='top'>\r\n");
+            table.append("<td class='mouselistcolumn-comment' style=\"width:10%\">\r\n");
             table.append("<span class=\"mouseComment\">"
                     + emptyIfNull(HTMLUtilities.getCommentForDisplay(nextSubmission.getComment()))
                     + "</span>");
             table.append("</td>\r\n");
 
             // COLUMN - Holder
-            table.append("<td valign='top'>\r\n");
+            table.append("<td class='mouselistcolumn-holders' style=\"width:10%\">\r\n");
 
             for (MouseHolder mouseHolder : nextSubmission.getHolders()) {
                 table.append("<dt>\r\n");
