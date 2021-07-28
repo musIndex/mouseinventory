@@ -191,10 +191,10 @@ for(MouseRecord mouse : mice){
 
 String mouseName = getMouseName(mouse).getContent();
 String mouseNumber = getMouseNumber(mouse).getContent();
-String mouseStatus = getMouseStatus(mouse).getContent();
+String mouseStatus = getMouseStatus(mouse,holderID).getContent();
 String mouseCategory = getMouseCategory(mouse).getContent();
 //String mouseComment= getFormattedMouseComment(mouse.getGeneralComment()).getContent();
-String mouseDetails = getMouseDetails(mouse).getContent();
+String mouseDetails = getMouseDetails(mouse).getContent().replaceAll("\\[|\\]", "");
 String mouseGene = getMouseGene(mouse).getContent();
 String mouseSeq = getExpressedSeq(mouse).getContent();
 String mousePMID = getMousePMID(mouse).getContent();
@@ -215,17 +215,16 @@ return stringList;
 private static Phrase getMouseName(MouseRecord mouse){
 Phrase p = phr();
 String mName = "\" "+mouse.getMouseName()+ "\"";
-//p.add(phr(mName, FONT_MOUSENAME));
+
 p.add(mName);
 if (mouse.isIS())
 {
-//p.add(NL);
-//p.add(phrb("Supplier and catalog #:"));
+
 String source =" " +mouse.getSource().replace(",",":");
 p.add(source);
 
 }
-//p.add(NL);
+
 return p;
 }
 private static Phrase getMouseNumber(MouseRecord mouse) {
@@ -243,11 +242,11 @@ if (mouse.isMA() && mouse.getModificationType() != null)
 {
 p.add(phrb(": "));
 p.add(phr(mouse.getModificationType()));
-//p.add(",");
+
 }
 else
  p.add("");
-//p.add(phr(mouse.getMouseName())+",");
+
 
 return p;
 }
@@ -256,15 +255,15 @@ Phrase p = phr();
 
 if (mouse.getGeneID() != null)
 {
-//p.add(NL);
+
   
 p.add(formatGene(mouse.getGeneSymbol()));
 }
 
 if (mouse.getRegulatoryElement() != null) {
-//p.add(",");
+
 String tgPromoter = mouse.getRegulatoryElement().replace(",",";");
-p.add(phrb("Regulatory Element:"));
+p.add(phrb("Regulatory Element: "));
 p.add(tgPromoter);
 }
 return p;
@@ -296,17 +295,18 @@ if (repositoryCatalogNumber == null  || repositoryCatalogNumber.equals("") || re
 repositoryCatalogNumber = "none";
 }
 
-//p.add(phr("Official Symbol: "));
+
 p.add(phr("\""+source+"\""));
 
 String officialName = mouse.getOfficialMouseName();
 if (officialName != null && !officialName.isEmpty()) {
   p.add(",");
   p.add(phr("\""+officialName+"\""));
+}else {
+	p.add(",");
 }
 p.add(",");
 
-//p.add(phr(repositoryCatalogNumber));
 p.add(repositoryCatalogNumber);
 }
 return p;
@@ -330,7 +330,7 @@ first = false;
 allIDs += pmid;
 }
 if (hasValidPmIds){
-//p.add(",");
+
 String removeCommaID = allIDs.replaceAll(",",";");
 p.add(removeCommaID);
 }
@@ -338,105 +338,31 @@ p.add(removeCommaID);
 }
 return p;
 }
-
-
-/*
-if (mouse.getBackgroundStrain() != null  && !mouse.getBackgroundStrain().isEmpty()) {
-p.add(",");
-p.add(phr("Background Strain: " + mouse.getBackgroundStrain()));
-}
-if (mouse.getMtaRequired() != null) {
-if (mouse.getMtaRequired().equalsIgnoreCase("Y")) {
-// table.append("<dt>MTA is required.</dt>\r\n");
-} else if (mouse.getMtaRequired().equalsIgnoreCase("D")) {
-// table.append("<dt>Unknown if MTA required.</dt>\r\n");
-} else if (mouse.getMtaRequired().equalsIgnoreCase("N")) {
-// table.append("<dt>MTA is not required</dt>\r\n");
-}
-}
-
-if (mouse.getGensat() != null && !mouse.getGensat().isEmpty()) {
-p.add(",");
-p.add(phr("Gensat founder line: " + mouse.getGensat()));
-}
-
-}
-if (mouse.isCryoOnly()) {
-p.add(",");
-p.add(phrb("Cryopreserved only"));
-}
-if (mouse.getCryopreserved() != null && mouse.getCryopreserved().equalsIgnoreCase("Y")) {
-p.add(",");
-p.add(phrb("Cryopreserved only"));
-}
-//Keep new line
-p.add(NL);
-return p;
-}
-*/
-/*
-private static Phrase getHolderList(MouseRecord mouse)
-{
-Phrase p = phr("Holders:  ");
-Boolean first = true;
-for (MouseHolder holder : mouse.getHolders()) {
-if (holder.isCovert()) {
-continue;
-}
-
-if (holder.getFirstname() == null && holder.getLastname() == null) {
-continue;
-}
-}
-}
-*/
-private static Phrase getMouseStatus(MouseRecord mouse)
+private static Phrase getMouseStatus(MouseRecord mouse, int holderID)
 {
 Phrase p = phr();
 String cryoLiveStatus = "";
-for (MouseHolder holder : mouse.getHolders()) {
-if (holder.isCovert()) {
-continue;
-}
-if (holder.getCryoLiveStatus() != null) {
-// NULL = ignore
-// Live = live only
-// LiveCryo = live and cryo
-// Cryo = cryo only
-if (holder.getCryoLiveStatus().equalsIgnoreCase("Live only")) {
-cryoLiveStatus = "";
-} else if (holder.getCryoLiveStatus().equalsIgnoreCase("Live and cryo")) {
-cryoLiveStatus = " (Cryo/Live)";
-} else if (holder.getCryoLiveStatus().equalsIgnoreCase("Cryo only")) {
-cryoLiveStatus = "(Cryo)";
-}
-}
-}
-p.add(cryoLiveStatus);
+	for (MouseHolder holder : mouse.getHolders()) {
+		if (holder.getHolderID()==holderID) {
+		if (holder.getCryoLiveStatus() != null) 
+		{
+			if (holder.getCryoLiveStatus().equalsIgnoreCase("Live only"))
+			{
+			cryoLiveStatus = "";
+			} else if (holder.getCryoLiveStatus().equalsIgnoreCase("Live and cryo"))
+			{
+			cryoLiveStatus = " (Cryo/Live)";
+			} else if (holder.getCryoLiveStatus().equalsIgnoreCase("Cryo only")) 
+			{
+			cryoLiveStatus = " (Cryo)";
+			}
+		}
+		}
+	}
+	p.add(cryoLiveStatus);
 return p;
-}
+		}
 
-/*
-String facilityName = holder.getFacilityID() == 1 ? " "  : "(" + holder.getFacilityName() + ")";
-
-String firstInitial = "";
-if (holder.getFirstname() != null) {
-firstInitial = holder.getFirstname().substring(0, 1)+ ". ";
-}
-if (!first){
-p.add(phr(", "));
-}
-else {
-first = false;
-}
-p.add(phr(firstInitial  + holder.getLastname() + " " + facilityName  + cryoLiveStatus));
-}
-
-
-
-return p;
-}
-*/
 
 private static Phrase getExpressedSeq(MouseRecord mouse)
 {

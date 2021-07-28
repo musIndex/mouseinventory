@@ -145,7 +145,7 @@ public class HTMLGeneration {
     table.append("<div class='site_container'>");
     table.append("<div id=\"pageTitleContainer\">");
     table.append("<div>"); //pagetitle
-    table.append("<span id=\"psgeLogo\">"+ "<a href=\"" + siteRoot + "about.jsp\">"+"<img src=/img/logo_mouse_database_UCSF.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>"+ "</a></span>");
+    table.append("<span id=\"pageLogo\">"+ "<a href=\"" + siteRoot + "about.jsp\">"+"<img src=/img/logo_mouse_database_UCSF.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>"+ "</a></span>");
   
     
     
@@ -184,7 +184,7 @@ public class HTMLGeneration {
 
     }
     table.append("<a href=\"" + siteRoot + "history.jsp\">"
-    		+ "<img src=/img/OR_logo_10year.png title='History of MouseDB' style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year' >");
+    		+ "<img src=/img/OR_logo_10year_update.png title='History of MouseDB' style='padding-top: 10px !important; background-color:#DDE6E5' width='120px' class='10year' >");
     
    
     
@@ -210,6 +210,8 @@ public class HTMLGeneration {
     table.append(addNavLink("Submit Mice", "submitforminit.jsp", null,
         currentPageFilename, false));
     table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false));
+    table.append(addNavLink("Forum", "forum.jsp", null, currentPageFilename, false));
+    
     if (isAdminPage && showAdminControls){
       table.append(addNavLink("Log out", "logout.jsp", null,
           currentPageFilename, false,"pull-right small"));
@@ -517,11 +519,11 @@ public class HTMLGeneration {
         getInputRow(buf, "Gene MGI ID", field, null, "editMouseRow");
       }
       // Modification type section
-      //Added endonuclease-mediated -EW
+      //Added endonuclease-mediated, transposon induced -EW
       String[] values = { "targeted disruption",
           "conditional allele (loxP/frt)", "targeted knock-in",
           "gene trap insertion", "Chemically induced (ENU)",
-          "spontaneous mutation","endonuclease-mediated", "other (info in comment)" };
+          "spontaneous mutation","endonuclease-mediated","transposon induced", "other (info in comment)" };
       getInputRow(
           buf,
           "Modification Type",
@@ -539,7 +541,8 @@ public class HTMLGeneration {
               r.getExpressedSequence(), "onChange=\"UpdateExpressedSequenceEdit()\""),
           "id=\"trExprSeqRow\" style=\""
               + rowVisibility(r.isTG() || (r.getModificationType() != null 
-                && r.getModificationType().equalsIgnoreCase("targeted knock-in")^(r.getModificationType().equalsIgnoreCase("endonuclease-mediated")))) + "\"",
+                && r.getModificationType().equalsIgnoreCase("targeted knock-in")^(r.getModificationType().equalsIgnoreCase("endonuclease-mediated"))^
+                (r.getModificationType().equalsIgnoreCase("transposon induced")))) + "\"",
           "editMouseRow");
 
       String mgiID = r.getTargetGeneID();
@@ -1157,7 +1160,8 @@ public class HTMLGeneration {
       if (nextSubmission.getMouseType() != null) {
         table.append("<dt class='mouseType'>\r\n" + nextSubmission.getMouseType());
         if (nextSubmission.isTG()) {
-          if ((nextSubmission.getTransgenicType().equalsIgnoreCase("knock-in"))^(nextSubmission.getTransgenicType().equalsIgnoreCase("endonuclease-mediated"))) {
+          if ((nextSubmission.getTransgenicType().equalsIgnoreCase("knock-in"))||(nextSubmission.getTransgenicType().equalsIgnoreCase("endonuclease-mediated"))
+        		  ||(nextSubmission.getTransgenicType().equalsIgnoreCase("transposon induced"))) {
             table.append(" - <b>Knock-in</b></dt>\r\n");
           } else if (nextSubmission.getTransgenicType()
               .equalsIgnoreCase("random insertion")) {
@@ -1230,10 +1234,11 @@ public class HTMLGeneration {
           table.append("<dt><b>Modification Type:</b> "
               + nextSubmission.getMAModificationType()
               + "</dt>\r\n");
-          //Added endonuclease-mediated -EW
+          //Added endonuclease-mediated and transposon induced -EW
           if (nextSubmission.getMAModificationType() != null
               && (nextSubmission.getMAModificationType()
-                  .equalsIgnoreCase("targeted knock-in")|| nextSubmission.getMAModificationType().equalsIgnoreCase("endonuclease-mediated"))) {
+                  .equalsIgnoreCase("targeted knock-in")||nextSubmission.getMAModificationType().equalsIgnoreCase("endonuclease-mediated")
+                  ||nextSubmission.getMAModificationType().equalsIgnoreCase("transposon induced"))) {
             if (nextSubmission.getTGExpressedSequence() != null) {
               if (nextSubmission.getTGExpressedSequence()
                   .equalsIgnoreCase("mouse gene")
@@ -1307,6 +1312,11 @@ public class HTMLGeneration {
         table.append("<dt>Produced in lab of holder: "
             + nextSubmission.getProducedInLabOfHolder()
             + "</dt>\r\n");
+      }
+      if (nextSubmission.getMtaRequired() != null){
+    	  table.append("<dt>Is MTA Required for Transfer? "
+    	            + nextSubmission.getMtaRequired()
+    	            + "</dt>\r\n");
       }
       // if (nextSubmission.getCryoLiveStatus() != null) {
       // table.append("<dt>Mouse Status: "
@@ -1540,7 +1550,8 @@ public class HTMLGeneration {
         }
         if (nextRecord.getTransgenicType() != null
             && (nextRecord.getTransgenicType().equalsIgnoreCase(
-                "knock-in")^nextRecord.getTransgenicType().equalsIgnoreCase("endonuclease-mediated"))) {
+                "knock-in")||nextRecord.getTransgenicType().equalsIgnoreCase("endonuclease-mediated")
+            		||nextRecord.getTransgenicType().equalsIgnoreCase("transposon induced"))) {
           table.append("<dt><b><span class='lbl'>Knocked-in to:</span></b></dt>\r\n");
           table.append(formatGene(nextRecord.getTargetGeneSymbol(),
               nextRecord.getTargetGeneName(),
@@ -1558,9 +1569,10 @@ public class HTMLGeneration {
             nextRecord.getGeneName(), nextRecord.getGeneID()));
         table.append("<dt><b><span class='lbl'>Modification Type:</span></b> "
             + (nextRecord.getModificationType() != null ? nextRecord.getModificationType() : "TBD") + "</dt>\r\n");
-//added endonuclease-mediated -EW
+//added endonuclease-mediated and transposon induced -EW
         if (!(nextRecord.getModificationType() == null || nextRecord .getModificationType().isEmpty())) {
-          if (nextRecord.getModificationType().equalsIgnoreCase( "targeted knock-in")||nextRecord.getModificationType().equalsIgnoreCase("endonuclease-mediated")) {
+          if (nextRecord.getModificationType().equalsIgnoreCase( "targeted knock-in")||nextRecord.getModificationType().equalsIgnoreCase("endonuclease-mediated")
+        		  ||nextRecord.getModificationType().equalsIgnoreCase("transposon induced")) {
             if (nextRecord.getExpressedSequence() != null) {
               if (nextRecord.getExpressedSequence() .equalsIgnoreCase("mouse gene")
                   || nextRecord.getExpressedSequence() .equalsIgnoreCase( "Mouse Gene (unmodified)")) {
@@ -2651,13 +2663,13 @@ public class HTMLGeneration {
     b.append("</select>");
     return b.toString();
   }
-//Added endonuclease-mediated -EW
+//Added endonuclease-mediated and transposon induced -EW
   /* ********************** Modification Type ******************************** */
   public static String getModificationTypeSelect(String current) {
     String name = "modificationType";
     String[] values = { "Select one", "targeted disruption",
         "conditional allele (loxP/frt)", "gene trap insertion",
-        "Chemically induced (ENU)", "spontaneous mutation", "endonuclease-mediated",
+        "Chemically induced (ENU)", "spontaneous mutation", "endonuclease-mediated", "transposon induced",
         "other (info in comment)" };
     return genSelect(name, values, current, "");
   }
@@ -2770,7 +2782,7 @@ public class HTMLGeneration {
     }
     return b.toString();
   }
-//added endonuclease-mediated -EW
+//added endonuclease-mediated and transposon induced -EW
   /* ********************** Modification Type ******************************** */
   public static String getModificationTypeRadio(String current) {
     return getModificationTypeRadioWithParams(current, "");
@@ -2782,7 +2794,7 @@ public class HTMLGeneration {
     String[] values = { "targeted disruption",
         "conditional allele (loxP/frt)", "targeted knock-in",
         "gene trap insertion", "Chemically induced (ENU)",
-        "spontaneous mutation","endonuclease-mediated", "other (info in comment)" };
+        "spontaneous mutation","endonuclease-mediated","transposon induced", "other (info in comment)" };
     return genRadio(name, values, current, selectParams);
   }
 

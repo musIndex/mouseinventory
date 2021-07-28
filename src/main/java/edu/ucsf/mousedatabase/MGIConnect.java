@@ -228,7 +228,7 @@ public class MGIConnect {
           else if (prop.equals("mouseType"))
           {
             propertyList.append("*" + prop + ":* " + value + "\r\n");
-            //targeted captures knockout ot knockin mice 
+            //targeted captures knockout or knockin mice, can be transchromosomal 
             if(value.startsWith("Targeted"))
             {
               sub.setMouseType("Mutant Allele");
@@ -268,9 +268,10 @@ public class MGIConnect {
               sub.setMouseType("Mutant Allele");
               sub.setMAModificationType("undetermined");
             }
-            else if (value.equals("Not Applicable"))
+            else if (value.startsWith("Not Applicable"))
             {
-              sub.setMouseType("Inbred Strain");
+       
+            		sub.setMouseType("Inbred Strain");
               //TODO ????
 //              Allele MGI ID: 3579311
 //              mouseType : Not Applicable
@@ -282,6 +283,11 @@ public class MGIConnect {
 //              pubMedAuthor : REIF AE
 //              officialSymbol : Thy1<a>
 //              gene mgi ID : 98747
+            	
+            }
+            else if (value.startsWith("QTL"))
+            {
+            	sub.setMouseType("Inbred Strain");
             }
             //Enodnuclease-mediated mice will switch to this type -EW
             else if (value.startsWith("Endonuclease-mediated"))
@@ -289,12 +295,24 @@ public class MGIConnect {
               sub.setMouseType("Mutant Allele");
               sub.setMAModificationType("undetermined");
             }
+            //Transposon induced added to Mutant Allele category -EW
+            else if (value.startsWith("Transposon induced"))
+            {
+            	sub.setMouseType("Mutant Allele");
+            	sub.setMAModificationType("undetermined");
+            }
+            else if (value.startsWith("Chemically"))
+            {
+            	sub.setMouseType("Mutant Allele");
+            	sub.setMAModificationType("undetermined");
+            }
+            
             else
             {
               sub.setMouseType("undetermined");
             }
 
-          }
+        }
           else if (prop.equals("mutationType"))
           {
             propertyList.append("*" + prop + ":* " + value + "\r\n");

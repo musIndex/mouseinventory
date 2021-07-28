@@ -469,6 +469,8 @@ public class MouseRecord {
           props.setProperty("supplierForInbredStrain",emptyIfNull(newMouse.getSource()));
           //props.setProperty("supplierForInbredStrainCatalogNumber",emptyIfNull(newMouse.getISSupplierCatalogNumber()));
           //props.setProperty("supplierForInbredStrainCatalogUrl",emptyIfNull(newMouse.getISSupplierCatalogUrl()));
+          //Added MTA to Inbred Strain category -EW
+          props.setProperty("mta",emptyIfNull(newMouse.getMtaRequired()));
         }
         props.setProperty("cryopreserved",emptyIfNull(newMouse.getCryopreserved()));
         //common stuff
