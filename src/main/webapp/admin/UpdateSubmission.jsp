@@ -155,11 +155,11 @@
             }
         } else if (updateCommand.equals("Reject Submission")) {
             DBConnect.updateSubmission(submissionID, "rejected", notes);
-            pageHeader = "Rejected submission #" + submissionID;
+            pageHeader = "Rejected submission #" + submissionID + ".";
             //also delete the incomplete mouse record if there is one.
             if (mouseID > 0) {
                 DBConnect.deleteMouseRecord(mouseID);
-                pageHeader += "<br>Incomplete mouse record #" + mouseID + " was deleted as a result";
+                pageHeader += "<br>Incomplete mouse record #" + mouseID + " was deleted as a result.";
             }
         } else if (updateCommand.equals("Undo conversion to Record")) {
             if (submissionID > 0 && mouseID > 0) {
@@ -182,8 +182,8 @@
     <%
         if (errors.isEmpty()) {
     %>
-    <h2><%=pageHeader %>
-    </h2>
+    <p class="main_header" style="line-height: 36px"><%=pageHeader %>
+    </p>
     <%@ include file='_lastSubmissionListLink.jspf' %>
     <%
         if (updateCommand.equals("Convert to Record")) {
@@ -221,4 +221,6 @@
         }
     %>
 </div>
+
+<%=HTMLGeneration.getWebsiteFooter()%>
 

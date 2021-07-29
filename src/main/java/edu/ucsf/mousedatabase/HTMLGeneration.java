@@ -766,6 +766,12 @@ public class HTMLGeneration {
         //The else statement attatched to it corresponds to mice.
         //-----------------------------------------------------------------------------------------------------------------
         if (r.isRat()) {
+            buf.append("</table></div>");
+            buf.append("<div class=\"editMouseFormRightColumn\">");
+            buf.append("<table class=\"editMouseColumn\">\r\n");
+            buf.append("<tr class=\"mouselistH\">");
+            buf.append("<td class='formHeaderCell' colspan='2' style='height:60px;font-size:25px'>Genetic Details");
+            buf.append("</td></tr>");
             String mgiID = r.getRepositoryCatalogNumber();
 
             String rgdID = mgiID;
@@ -812,7 +818,6 @@ public class HTMLGeneration {
                 field += "<br><span id='geneRGDIDValidation'></span>";
             }
             getInputRow(buf, "Gene RGD ID", field, null, "editMouseRow");
-
 
         }
         //-----------------------------------------------------------------------------------------------------------------
@@ -899,13 +904,15 @@ public class HTMLGeneration {
                     "style=\"" + rowVisibility(r.isMA()) + "\"", "editMouseRow");
 
             // Expressed Sequence section
-            String[] exprSeqValues = {"Reporter", "Cre",
-                    "Mouse Gene (unmodified)", "Modified mouse gene or Other"};
+            String[] exprSeqValues = {"Mouse Gene (unmodified)", "Reporter", "Cre",
+                    "Modified mouse gene or Other"};
+            String[] exprSeqLabels = {"Genetic Marker", "Reporter", "Cre",
+                    "Other"};
             getInputRow(
                     buf,
                     "Expressed<br>Sequence",
-                    genRadio("expressedSequence", exprSeqValues,
-                            r.getExpressedSequence(), "onChange=\"UpdateExpressedSequenceEdit()\""),
+                    genRadio("expressedSequence", exprSeqValues, exprSeqLabels,
+                            r.getExpressedSequence(), ""),
                     "id=\"trExprSeqRow\" style=\""
                             + rowVisibility(r.isTG() || (r.getModificationType() != null
                             && r.getModificationType().equalsIgnoreCase("targeted knock-in") ^ (r.getModificationType().equalsIgnoreCase("endonuclease-mediated")))) + "\"",
@@ -1098,10 +1105,10 @@ public class HTMLGeneration {
         }
         if (r.getMouseType().equalsIgnoreCase("inbred strain")) {
             buf.append("<tr class=\"editMouseRow\">\r\n");
-            buf.append("<td valign=\"top\">\r\n");
-            buf.append("Supplier and catalog link:</td>\r\n");
-            buf.append("<td valign=\"top\">\r\n");
-            buf.append("<input name=\"source\" type=\"text\" size=\"80\" value=\""
+            buf.append("<td class='editMouseCellSmallL'>\r\n");
+            buf.append("Supplier and catalog link</td>\r\n");
+            buf.append("<td class='editMouseCellSmallR'>\r\n");
+            buf.append("<input name=\"source\" type=\"text\" value=\""
                     + emptyIfNull(r.getSource()) + "\">\r\n");
             buf.append("<br>Jax format: JAX Mice, catalog number");
             buf.append("<br>Non-Jax format: supplier || url");
@@ -1181,7 +1188,7 @@ public class HTMLGeneration {
             buf.append("</div>");
 
         } else if (req != null) {
-            buf.append("<div class='editRecordButtonGreen'>");
+            buf.append("<div class='editRecordButtonGreen' style='width:40%'>");
             buf.append("<input type=\"submit\" class='editRecordButtonInput' name=\"submitButton\" value=\"Complete Change Request\">");
             buf.append("</div>");
 
@@ -1234,7 +1241,7 @@ public class HTMLGeneration {
 
         }
         if (req != null) {
-            buf.append("<p>Should a change in mouse category be necessary, it can be made using the 'Edit Record' feature.</p>");
+//            buf.append("<p>Should a change in mouse category be necessary, it can be made using the 'Edit Record' feature.</p>");
         }
         buf.append("</div>\r\n");
         buf.append("</div>\r\n");

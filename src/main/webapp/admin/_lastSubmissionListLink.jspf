@@ -1,18 +1,24 @@
 <%@ page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
 <%
     String link = adminRoot + "ListSubmissions.jsp";
-    String title = "Back (";
+    String homeLink = adminRoot + "admin.jsp";
+    String title = "Back to submissions";
     if (session.getAttribute("listSubmissionsLastQuery") != null && session.getAttribute("listSubmissionsLastTitle") != null) {
         link += "?" + session.getAttribute("listSubmissionsLastQuery");
-        title += session.getAttribute("listSubmissionsLastTitle") + ")";
-    } else {
-        title += "new submissions)";
     }
+    String homeTitle = "Admin Home";
 
 %>
-<div class="MSU_green_button" style="margin-bottom: 20px;margin-left: 0px;margin-right: 0px;">
+<div class="MSU_green_button" style="margin-bottom: 20px;margin-left: 0px;margin-right: 20px;width:20%;display: inline-block">
     <a class='anchor_no_underline' href='<%= link %>'>
         <p class="MSU_green_button_Text"><%= title %>
+        </p>
+    </a>
+</div>
+
+<div class="MSU_green_button" style="margin-bottom: 20px;margin-left: 0px;margin-right: 0px;background-color: #008183ff;width:20%;display: inline-block">
+    <a class='anchor_no_underline' href='<%=homeLink%>'>
+        <p class="MSU_green_button_Text"><%=homeTitle%>
         </p>
     </a>
 </div>

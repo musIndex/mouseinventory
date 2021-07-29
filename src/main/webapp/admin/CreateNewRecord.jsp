@@ -95,7 +95,7 @@
     <%=submissionTable %>
     <p class="label_text" style="font-size: 24px">Record Preview:</p>
     <%=recordPreview %>
-    <%= otherRecordInfo %>
+<%--    <%= otherRecordInfo %>--%>
     <br>
     <%=editForm %>
 </div>
