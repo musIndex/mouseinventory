@@ -69,7 +69,7 @@
   StringBuffer sortBuf = new StringBuffer();
   sortBuf.append("<form class='view_opts' action='ManageChangeRequests.jsp'>");
   sortBuf.append("&nbsp;Show: ");
-  sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,null));
+  sortBuf.append(genSelect("status",filterOptions,filterOptionNiceNames, status,null,false));
   sortBuf.append("&nbsp;Source: ");
   sortBuf.append("<input name='requestSource' style='width: 200px' type='text' value='" + (requestSource.equals("all") ? "" : requestSource) + "'>");
   sortBuf.append("&nbsp;<input class='btn' type='submit' value='Update'>");
@@ -77,7 +77,7 @@
   //sortBuf.append("&nbsp;Filter by holder: ");
   //sortBuf.append(getHolderSelect("holder_id", currentHolderId, false));
   sortBuf.append("&nbsp;Sort by: ");
-  sortBuf.append(genSelect("orderby",sortOptions,sortOptionNiceNames, orderBy,null));
+  sortBuf.append(genSelect("orderby",sortOptions,sortOptionNiceNames, orderBy,null,false));
 
   int requestCount = DBConnect.countChangeRequests(status, orderBy, requestSource);
 

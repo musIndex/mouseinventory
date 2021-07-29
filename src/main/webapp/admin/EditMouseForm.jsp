@@ -3,6 +3,7 @@
 <%@page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
 <%@page import="edu.ucsf.mousedatabase.DBConnect"%>
 <%@ page import="edu.ucsf.mousedatabase.objects.*"%>
+<%@ page import="javax.swing.text.html.HTML" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
 <%@ include file='SendMailForm.jspf' %>
@@ -53,15 +54,18 @@
 
 
 <div class="site_container">
-<h2>Editing record #<%=record.getMouseID() %>: <%=record.getMouseName() %> (<%= record.getMouseType() %>  )
-</h2>
-<%@ include file='_lastEditMiceLink.jspf' %>
+<p class="main_header">Editing record #<%=record.getMouseID() %>: <%=record.getMouseName() %> (<%= record.getMouseType() %>  )
+</p>
+<%--<%@ include file='_lastEditMiceLink.jspf' %>--%>
 <%=existingRecord %>
+<br>
 <%=editForm %>
 
 
 
 </div>
+</div>
+<%=HTMLGeneration.getWebsiteFooter()%>
 
 <script>
 function uploadFile(){

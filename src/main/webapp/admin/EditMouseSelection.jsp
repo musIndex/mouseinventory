@@ -152,6 +152,7 @@
     <%= bottomPageSelectionLinks %>
   </form>
 </div>
+<%=HTMLGeneration.getWebsiteFooter()%>
 
 <script type='text/javascript'>
 function highlight_searchterms(searchterms){

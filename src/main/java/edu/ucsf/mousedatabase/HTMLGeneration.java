@@ -505,7 +505,7 @@ public class HTMLGeneration {
         if (cssClass.equals("adminNavLinkDropdown NavLinkItem")) {
             to_return += "\">" + "<a style=\"height:50px;width:100px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">" + targetNiceName + "</a></div></li>\r\n";
         } else {
-            to_return += "\">" + "<a style=\"padding-left: 12px;padding-right:12px;margin-right:0px;height:50px;width:110px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">" + targetNiceName + "</a></div></li>\r\n";
+            to_return += "\">" + "<a style=\"margin-right:0px;height:50px;width:100px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">" + targetNiceName + "</a></div></li>\r\n";
         }
         return to_return;
 
@@ -1205,7 +1205,7 @@ public class HTMLGeneration {
             buf.append("<input type=\"submit\" class='editRecordButtonInput' name=\"submitButton\" value=\"Save as Incomplete\">");
             buf.append("</div>");
         } else {
-            buf.append("<div class='editRecordButtonGreen'>");
+            buf.append("<div class='editRecordButtonGreen' style='width:40%'>");
             buf.append("<input type=\"submit\" class='editRecordButtonInput' name=\"submitButton\" value=\"Save Changes to Record\">");
             buf.append("</div>");
         }
