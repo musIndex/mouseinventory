@@ -43,9 +43,9 @@
                     sourceName = sourceName.replace(def.Name, "");
                 }
 
-                data_upload.append("<dt style=\"font-size:16px;color:black\">There " + (count > 1 ? "are" : "is") + " <b><a href='" + adminRoot + "ManageChangeRequests.jsp?status=" + sourceStatus + "&requestSource="
+                data_upload.append("<dt style=\"font-size:17px;color:black\">There " + (count > 1 ? "are" : "is") + " <b><a href='" + adminRoot + "ManageChangeRequests.jsp?status=" + sourceStatus + "&requestSource="
                         + sourceName + "'>" + count + " " + sourceStatuses.get(sourceStatus)
-                        + " </a></b> from data upload <b>" + sourceName + "</b></dt>");
+                        + "</a></b> from data upload <b>" + sourceName + "</b></dt>");
             }
             data_upload.append("</dl>");
         }
@@ -72,7 +72,7 @@
                 }
 
                 if (sourceStatus.equals("new")) {
-                    data_upload.append("<dt style=\"font-size:16px;color:black\">There " + (count > 1 ? "are" : "is") + "<b> <a href='" + adminRoot + "ListSubmissions.jsp?status=" + sourceStatus + "&submissionSource="
+                    data_upload.append("<dt style=\"font-size:17px;color:black\">There " + (count > 1 ? "are" : "is") + "<b> <a href='" + adminRoot + "ListSubmissions.jsp?status=" + sourceStatus + "&submissionSource="
                             + sourceName + "'>" + count + " " + sourceStatuses.get(sourceStatus)
                             + "</a></b> from data upload <b>" + sourceName + "</b></dt>");
                 } else {

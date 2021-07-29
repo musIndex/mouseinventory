@@ -663,7 +663,7 @@ tr.editMouseRow {
     background-color: #FFFFFF;
 }
 
-.editMouseCellLarge{
+.editMouseCellLarge {
     border-right: solid 1px black;
     border-bottom: solid 1px black;
     border-left: solid 1px black;
@@ -673,7 +673,7 @@ tr.editMouseRow {
     color: black;
 }
 
-.editMouseCellSmallL{
+.editMouseCellSmallL {
     background-color: #133d34;
     font-size: 19px;
     line-height: 19px;
@@ -688,7 +688,7 @@ tr.editMouseRow {
     width: 20%;
 }
 
-.editRecordButtonGreen{
+.editRecordButtonGreen {
     background-color: #18453B;
     width: 30%;
     height: 45px;
@@ -699,8 +699,8 @@ tr.editMouseRow {
     display: inline-block;
 }
 
-.editRecordButtonBlue{
-    background-color:#008183ff;
+.editRecordButtonBlue {
+    background-color: #008183ff;
     width: 30%;
     height: 45px;
     border: black;
@@ -710,7 +710,7 @@ tr.editMouseRow {
     display: inline-block;
 }
 
-.editRecordButtonRed{
+.editRecordButtonRed {
     background-color: #da3c2f;
     width: 30%;
     height: 45px;
@@ -721,7 +721,7 @@ tr.editMouseRow {
     display: inline-block;
 }
 
-.editRecordButtonInput{
+.editRecordButtonInput {
     background-color: #0000;
     width: 100% !important;
     height: 100% !important;
@@ -735,8 +735,7 @@ tr.editMouseRow {
 }
 
 
-
-.editMouseCellSmallR{
+.editMouseCellSmallR {
     border-right: solid 1px black;
     border-bottom: solid 1px black;
     font-size: 16px;
@@ -1139,7 +1138,6 @@ td.mouselistcolumn-holders {
 }
 
 
-
 td.submissioncolumn-name-header {
     width: 10% !important;
     height: 35px;
@@ -1243,7 +1241,6 @@ td.submissioncolumn-holders {
     height: 25px;
     color: black;
 }
-
 
 
 .search-box {
@@ -2275,66 +2272,71 @@ a.navBarAnchor_noTint:visited {
     filter: brightness(0.5)
 }
 
-.table_bot_left{
+.table_bot_left {
     border-bottom: solid 1px black;
     border-left: solid 1px black;
 }
-.table_bot_right{
+
+.table_bot_right {
     border-bottom: solid 1px black;
     border-right: solid 1px black;
     border-left: solid 1px black;
 }
-.table_bot_mid{
+
+.table_bot_mid {
     border-bottom: solid 1px black;
     border-left: solid 1px black;
 }
-.table_top_left{
-border-top: solid 1px black;
-    border-left: solid 1px black;
-    border-bottom: solid 1px black;
-    width: 90px;
-}
-.table_top_right{
-    border-top: solid 1px black;
-    border-right: solid 1px black;
-    border-left: solid 1px black;
-    border-bottom: solid 1px black;
-    width: 90px;
-}
-.table_top_mid{
+
+.table_top_left {
     border-top: solid 1px black;
     border-left: solid 1px black;
     border-bottom: solid 1px black;
     width: 90px;
 }
 
-.adminHomeTable{
+.table_top_right {
+    border-top: solid 1px black;
+    border-right: solid 1px black;
+    border-left: solid 1px black;
+    border-bottom: solid 1px black;
+    width: 90px;
+}
+
+.table_top_mid {
+    border-top: solid 1px black;
+    border-left: solid 1px black;
+    border-bottom: solid 1px black;
+    width: 90px;
+}
+
+.adminHomeTable {
     width: 95%;
     border-spacing: 0px;
 }
 
-.adminHomeTableInside{
+.adminHomeTableInside {
     width: 100%;
     border-spacing: 0px;
 }
 
-.adminHomeTableHeader{
+.adminHomeTableHeader {
     background-color: #133d34;
     color: white;
-    font-size: 20px !important;
-    height: 35px;
+    font-size: 22px !important;
+    height: 60px;
     text-align: center;
     border: solid 1px black;
 }
 
-.adminButtonText{
+.adminButtonText {
     height: 100%;
     margin-top: auto;
     margin-bottom: auto;
     text-align: center;
     color: white;
-    font-size: 15px;
-    line-height: 15px;
+    font-size: 17px;
+    line-height: 17px;
     vertical-align: middle;
     display: flex;
     justify-content: center;
@@ -2342,25 +2344,28 @@ border-top: solid 1px black;
     align-items: center;
 }
 
-.adminButton{
+.adminButton {
     background-color: #18453B;
     width: 90%;
-    height: 25px;
+    height: 40px;
     border: black;
     border-style: solid;
     border-width: 1px;
     margin-left: auto;
+    margin-right: auto;
 }
 
-.adminTableLeftTd{
-    font-size:15px;
-    color:black;
+.adminTableLeftTd {
+    font-size: 17px;
+    height: 50px;
+    color: black;
     width: 75%;
     border-left: solid 1px black;
     border-bottom: solid 1px black;
 }
 
-.adminTableRightTd{
-border-right: solid 1px black;
+.adminTableRightTd {
+    height: 50px;
+    border-right: solid 1px black;
     border-bottom: solid 1px black;
 }
