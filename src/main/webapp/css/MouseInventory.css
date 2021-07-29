@@ -642,6 +642,7 @@ table.editMouseParent {
 table.editMouseColumn {
     width: 100%;
     padding: 0px;
+    border-spacing: 0px;
 }
 
 div.editMouseFormContainer {
@@ -650,16 +651,99 @@ div.editMouseFormContainer {
 
 div.editMouseFormLeftColumn {
     float: left;
-    width: 50%;
+    width: 48%;
 }
 
 div.editMouseFormRightColumn {
-    float: left;
-    width: 50%;
+    float: right;
+    width: 48%;
 }
 
 tr.editMouseRow {
-    background-color: #E7EDEC;
+    background-color: #FFFFFF;
+}
+
+.editMouseCellLarge{
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    border-left: solid 1px black;
+    font-size: 16px;
+    padding: 5px;
+    height: 25px;
+    color: black;
+}
+
+.editMouseCellSmallL{
+    background-color: #133d34;
+    font-size: 19px;
+    line-height: 19px;
+    color: white;
+    padding: 0px;
+    border-left: solid 1px black;
+    border-bottom: solid 1px black;
+    height: 60px;
+    text-align: right;
+    padding-right: 10px;
+    padding: 5px;
+    width: 20%;
+}
+
+.editRecordButtonGreen{
+    background-color: #18453B;
+    width: 30%;
+    height: 45px;
+    border: black;
+    border-style: solid;
+    border-width: 3px;
+    margin-right: 6px;
+    display: inline-block;
+}
+
+.editRecordButtonBlue{
+    background-color:#008183ff;
+    width: 30%;
+    height: 45px;
+    border: black;
+    border-style: solid;
+    border-width: 3px;
+    margin-right: 6px;
+    display: inline-block;
+}
+
+.editRecordButtonRed{
+    background-color: #da3c2f;
+    width: 30%;
+    height: 45px;
+    border: black;
+    border-style: solid;
+    border-width: 3px;
+    margin-right: 6px;
+    display: inline-block;
+}
+
+.editRecordButtonInput{
+    background-color: #0000;
+    width: 100% !important;
+    height: 100% !important;
+    border-color: #0000;
+    display: block;
+    text-align: center;
+    color: white;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 18px;
+}
+
+
+
+.editMouseCellSmallR{
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    font-size: 16px;
+    padding: 5px;
+    height: 25px;
+    color: black;
+    padding: 5px;
 }
 
 dl {

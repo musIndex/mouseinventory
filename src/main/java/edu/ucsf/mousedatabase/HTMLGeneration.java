@@ -502,10 +502,9 @@ public class HTMLGeneration {
 
         }
         to_return += style;
-        if (cssClass.equals("adminNavLinkDropdown NavLinkItem")){
+        if (cssClass.equals("adminNavLinkDropdown NavLinkItem")) {
             to_return += "\">" + "<a style=\"height:50px;width:100px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">" + targetNiceName + "</a></div></li>\r\n";
-        }
-        else{
+        } else {
             to_return += "\">" + "<a style=\"padding-left: 12px;padding-right:12px;margin-right:0px;height:50px;width:110px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">" + targetNiceName + "</a></div></li>\r\n";
         }
         return to_return;
@@ -722,39 +721,35 @@ public class HTMLGeneration {
         String[] covertOptions = {"Covert"};
 
         k = 0;
+        buf.append("<tr class=\"mouselistH\">");
+        buf.append("<td class='formHeaderCell' colspan='2' style='height:60px;font-size:25px'>General Information");
+        buf.append("</td></tr>");
         for (MouseHolder holder : holderList) {
             if (holder.isNewlyAdded()) {
                 buf.append("<tr class=\"editMouseRow\">");
-                buf.append("<td colspan=\"2\"><b>Auto-filled from change request:</b></td></tr>");
+                buf.append("<td class='editMouseCellLarge' colspan=\"2\"><b>Auto-filled from change request:</b></td></tr>");
             }
             buf.append("<tr class=\"editMouseRow\">");
-            buf.append("<td colspan=\"2\"><div style=\"position: relative\">Holder:&nbsp;");
+            buf.append("<td class='editMouseCellSmallL'>Holder<br><br>Facility</td>");
+            buf.append("<td class='editMouseCellSmallR'><div style=\"position: relative\">");
             buf.append(HTMLGeneration.genSelect("holder_id-" + k, holderIDs,
-                    holderNames, String.valueOf(holder.getHolderID()), null, false));
-            buf.append("&nbsp;<a class='btn btn-mini btn-warning' href=\"javascript:\" onclick=\"clearHolder('"
-                    + k
-                    + "')\"><i class='icon-remove icon-white'></i></a>");
-            buf.append("<br>Facility:");
-            buf.append("&nbsp;");
+                    holderNames, String.valueOf(holder.getHolderID()), "style='width:90%'", false));
+            buf.append("<br><br>");
             buf.append(HTMLGeneration.genSelect("facility_id-" + k,
                     facilityIDs, facilityNames,
-                    String.valueOf(holder.getFacilityID()), null, false));
-            buf.append("&nbsp;");
-            buf.append("&nbsp;");
+                    String.valueOf(holder.getFacilityID()), "style='margin-right:10px'", false));
             buf.append(HTMLGeneration.genFlatRadio("cryoLiveStatus-" + k,
                     new String[]{"Live only", "Live and Cryo", "Cryo only"},
                     new String[]{"Live only", "Live and Cryo", "Cryo only"},
                     holder.getCryoLiveStatus(), null));
-            buf.append("&nbsp;");
-            buf.append("&nbsp;");
-            buf.append("&nbsp;");
             buf.append(HTMLGeneration.genCheckbox("covertHolder_-" + k,
                     covertOptions, (holder.isCovert() ? "Covert" : "")));
+            buf.append("</div>");
             buf.append("</div>");
             buf.append("</td>");
             buf.append("</tr>\n");
             if (holder.isNewlyAdded()) {
-                buf.append("<tr><td>&nbsp;</td></tr>");
+                buf.append("<tr><td></td></tr>");
             }
             k++;
         }
@@ -809,12 +804,12 @@ public class HTMLGeneration {
                     }
                 }
 
-                field += "<span class='" + validationStyle
+                field += "<br><span class='" + validationStyle
                         + "' id='geneRGDIDValidation'>" + resultString
                         + " (RGD:" + r.getGeneID() + ")</span>";
 
             } else {
-                field += "<span id='geneRGDIDValidation'></span>";
+                field += "<br><span id='geneRGDIDValidation'></span>";
             }
             getInputRow(buf, "Gene RGD ID", field, null, "editMouseRow");
 
@@ -908,7 +903,7 @@ public class HTMLGeneration {
                     "Mouse Gene (unmodified)", "Modified mouse gene or Other"};
             getInputRow(
                     buf,
-                    "Expressed Sequence",
+                    "Expressed<br>Sequence",
                     genRadio("expressedSequence", exprSeqValues,
                             r.getExpressedSequence(), "onChange=\"UpdateExpressedSequenceEdit()\""),
                     "id=\"trExprSeqRow\" style=\""
@@ -916,16 +911,31 @@ public class HTMLGeneration {
                             && r.getModificationType().equalsIgnoreCase("targeted knock-in") ^ (r.getModificationType().equalsIgnoreCase("endonuclease-mediated")))) + "\"",
                     "editMouseRow");
 
-            field = "<textarea name='adminComment' rows='10' cols='60' >" + emptyIfNull(r.getAdminComment()) + "</textarea>\r\n";
+            field = "<textarea name='adminComment' rows='5' style='width:90%;resize:none' >" + emptyIfNull(r.getAdminComment()) + "</textarea>\r\n";
             getInputRow(buf, "Record Admin Comment", field, "", "editMouseRow"); //testing
 
-            buf.append("<a href=\"UploadFile.jsp?mouseID=" + r.getMouseID() + "\"> Upload/Delete Files</a>"); //trying this out
+            if (sub != null) {
+                field = "<textarea name=\"submissionNotes\" rows=\"5\" style='width:90%;resize:none'>"
+                        + emptyIfNull(sub.getAdminComment()) + "</textarea>\r\n";
+                getInputRow(buf, "Submission Admin<br>Comment", field, null,
+                        "editMouseRow");
+            }
+            if (req != null) {
+                field = "<textarea name=\"requestNotes\" rows=\"5\" style='width:90%;resize:none'>"
+                        + emptyIfNull(req.getAdminComment()) + "</textarea>\r\n";
+                getInputRow(buf, "Change Request<br>Admin<br>Comment", field, null,
+                        "editMouseRow");
+            }
+//            buf.append("<a href=\"UploadFile.jsp?mouseID=" + r.getMouseID() + "\"> Upload/Delete Files</a>"); //trying this out
 
 
             buf.append("</table>\r\n");
             buf.append("</div>\r\n");
             buf.append("<div class=\"editMouseFormRightColumn\">");
             buf.append("<table class=\"editMouseColumn\">\r\n");
+            buf.append("<tr class=\"mouselistH\">");
+            buf.append("<td class='formHeaderCell' colspan='2' style='height:60px;font-size:25px'>Genetic Details");
+            buf.append("</td></tr>");
             if (r.isMA()
                     || r.isTG()) {
                 // Allele or Transgene MGI ID
@@ -998,17 +1008,17 @@ public class HTMLGeneration {
                         }
                     }
                     if (r.isRat()) {
-                        field += "<span class='" + validationStyle
+                        field += "<br><span class='" + validationStyle
                                 + "' id='geneRGDIDValidation'>" + resultString
                                 + " (RGD:" + formatRGD(r.getGeneID()) + ")</span>";
                     } else {
-                        field += "<span class='" + validationStyle
-                                + "' id='geneMGIIDValidation'>" + resultString
+                        field += "<br><span class='" + validationStyle
+                                + "' id='repositoryCatalogNumberValidation'>" + resultString
                                 + " (MGI:" + geneURL + ")</span>";
                     }
 
                 } else {
-                    field += "<span id='repositoryCatalogNumberValidation'></span>";
+                    field += "<br><span id='repositoryCatalogNumberValidation'></span>";
                 }
                 getInputRow(buf, mgiType + " MGI ID", field, null, "editMouseRow");
 
@@ -1052,7 +1062,7 @@ public class HTMLGeneration {
                         + "', 'pmID" + pubMedNum
                         + "Validation', 'pmId', ',')\"");
 
-                field += "<span class=\""
+                field += "<br><span class=\""
                         + (pubmedResult.isValid() ? "bp_valid" : "bp_invalid")
                         + "\" id=\"pmID" + pubMedNum + "Validation\">"
                         + resultString + " (PubMed:" + formatPubMedID(pmID)
@@ -1068,7 +1078,7 @@ public class HTMLGeneration {
                     + "Validation', 'pmId', ',')\" id=\"pmid" + pubMedNum
                     + "\"");
 
-            field += "<span id=\"pmid" + pubMedNum + "Validation\"></span>";
+            field += "<br><span id=\"pmid" + pubMedNum + "Validation\"></span>";
 
             getInputRow(buf, "PubMed ID #" + pubMedNum, field, null,
                     "editMouseRow");
@@ -1108,10 +1118,10 @@ public class HTMLGeneration {
             buf.append("</td></tr>");
         }
 
-        field = "<textarea name=\"generalComment\" rows=\"10\" cols=\"60\">"
+        field = "<textarea name=\"generalComment\" rows=\"5\" style='width:90%;resize:none'>"
                 + emptyIfNull(r.getGeneralComment()) + "</textarea>\r\n";
         getInputRow(buf, "Comment", field, null, "editMouseRow");
-        buf.append("<tr class=editMouseRow><td colspan=2>To make links, use [URL]http://example.com[/URL] and display name use [link]example[/link].  For bold, use [B]bold text here[/B]</td></tr>");
+//        buf.append("<tr class=editMouseRow><td colspan=2>To make links, use [URL]http://example.com[/URL] and display name use [link]example[/link].  For bold, use [B]bold text here[/B]</td></tr>");
         // if (r.isTG())
         // {
         // String[] transgenicTypes = { "Random Insertion" };
@@ -1132,8 +1142,9 @@ public class HTMLGeneration {
 
         if (r.isMA()
                 || r.isTG()) {
-            field = "<textarea name=\"backgroundStrain\" rows=\"10\" cols=\"60\"  >"
-                    + emptyIfNull(r.getBackgroundStrain()) + "</textarea>\r\n";
+            field = getTextInput("backgroundStrain", r.getBackgroundStrain(), size, 100, null);
+//            field = "<input name=\"backgroundStrain\">"
+//                    + emptyIfNull(r.getBackgroundStrain()) + "</input>\r\n";
             getInputRow(buf, "Background Strain", field, null, "editMouseRow");
 
             field = getTextInput("gensat", r.getGensat(), size, 100, null);
@@ -1152,44 +1163,48 @@ public class HTMLGeneration {
         }
         buf.append("</table>");
         buf.append("</div>\r\n");
-        buf.append("<div style=\"clear: both;\">\r\n");
+        buf.append("<div class='spacing_div_mini'></div>");
+        buf.append("<div style=\"clear: both;float:right;width:48%\">\r\n");
+
 
         if (sub != null) {
-            buf.append("<table style=\"width: 100%;\">");
-            field = "<textarea name=\"submissionNotes\" rows=\"10\" cols=\"60\">"
-                    + emptyIfNull(sub.getAdminComment()) + "</textarea>\r\n";
-            getInputRow(buf, "Submission Admin Comment", field, null,
-                    "editMouseRow");
-            buf.append("</table>");
-        }
-        if (req != null) {
-            buf.append("<table style=\"width: 100%;\">");
-            field = "<textarea name=\"requestNotes\" rows=\"10\" cols=\"60\">"
-                    + emptyIfNull(req.getAdminComment()) + "</textarea>\r\n";
-            getInputRow(buf, "Change Request Admin Comment", field, null,
-                    "editMouseRow");
-            buf.append("</table>");
-        }
+            buf.append("<div class='editRecordButtonGreen'>");
+            buf.append("<input type=\"submit\" class='editRecordButtonInput' name=\"submitButton\" value=\"Convert to Record\">");
+            buf.append("</div>");
 
-        if (sub != null) {
-            buf.append("<input type=\"submit\" class='btn btn-success' name=\"submitButton\" value=\"Convert to Record\">");
-            buf.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                    + "<input type=\"submit\" class='btn btn-warning' name=\"submitButton\" value=\"Move to Hold\">");
-            buf.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                    + "<input type=\"submit\" class='btn btn-danger' name=\"submitButton\" value=\"Reject Submission\">");
+            buf.append("<div class='editRecordButtonBlue'>");
+            buf.append("<input type=\"submit\" class='editRecordButtonInput' name=\"submitButton\" value=\"Move to Hold\">");
+            buf.append("</div>");
+
+            buf.append("<div class='editRecordButtonRed'>");
+            buf.append("<input type=\"submit\" class='editRecordButtonInput' name=\"submitButton\" value=\"Reject Submission\">");
+            buf.append("</div>");
+
         } else if (req != null) {
-            buf.append("<input type=\"submit\" class='btn btn-primary' name=\"submitButton\" value=\"Complete Change Request\">");
-            buf.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                    + "<input type=\"submit\" class='btn btn-warning' name=\"submitButton\" value=\"Move to Pending\">");
+            buf.append("<div class='editRecordButtonGreen'>");
+            buf.append("<input type=\"submit\" class='editRecordButtonInput' name=\"submitButton\" value=\"Complete Change Request\">");
+            buf.append("</div>");
+
+            buf.append("<div class='editRecordButtonBlue'>");
+            buf.append("<input type=\"submit\" class='editRecordButtonInput' name=\"submitButton\" value=\"Move to Pending\">");
+            buf.append("</div>");
+
         } else if (isAdminCreating) {
-            buf.append("<input type=\"submit\" class='btn btn-success' name=\"submitButton\" value=\"Create Record\">");
-            buf.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                    + "<input type=\"submit\" class='btn btn-warning' name=\"submitButton\" value=\"Save as Incomplete\">");
+            buf.append("<div class='editRecordButtonGreen'>");
+            buf.append("<input type=\"submit\" class='editRecordButtonInput' name=\"submitButton\" value=\"Create Record\">");
+            buf.append("</div>");
+
+            buf.append("<div class='editRecordButtonBlue'>");
+            buf.append("<input type=\"submit\" class='editRecordButtonInput' name=\"submitButton\" value=\"Save as Incomplete\">");
+            buf.append("</div>");
         } else {
-            buf.append("<input type=\"submit\" class='btn btn-primary' name=\"submitButton\" value=\"Save Changes to Record\">");
+            buf.append("<div class='editRecordButtonGreen'>");
+            buf.append("<input type=\"submit\" class='editRecordButtonInput' name=\"submitButton\" value=\"Save Changes to Record\">");
+            buf.append("</div>");
         }
 
         buf.append("</form>\r\n");
+
 
         if (r.getMouseID() != null && req == null) {
             ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
@@ -1237,8 +1252,8 @@ public class HTMLGeneration {
         buf.append("<tr "
                 + (cssClass != null ? "class=\"" + cssClass + "\"" : "")
                 + (rowParams != null ? rowParams : "") + ">\r\n");
-        buf.append("<td>" + label + "</td>\r\n");
-        buf.append("<td>"
+        buf.append("<td class='editMouseCellSmallL'>" + label + "</td>\r\n");
+        buf.append("<td class='editMouseCellSmallR'>"
                 + getTextInput(name, current, size, maxLength, inputParams)
                 + "</td>");
         buf.append("</tr>\r\n");
@@ -1255,8 +1270,8 @@ public class HTMLGeneration {
                 + (cssClass != null ? "class=\"" + cssClass + "\"" : "")
                 + (rowId != null ? "id=\"" + rowId + "\"" : "")
                 + (params != null ? params : "") + ">\r\n");
-        buf.append("<td>" + label + "</td>\r\n");
-        buf.append("<td>" + field + "</td>");
+        buf.append("<td class='editMouseCellSmallL'>" + label + "</td>\r\n");
+        buf.append("<td class='editMouseCellSmallR'>" + field + "</td>");
         buf.append("</tr>\r\n");
     }
 
@@ -3057,7 +3072,7 @@ public class HTMLGeneration {
 
             String niceName = niceNames[i];
 
-            b.append("<input type=\"radio\" name=\"" + name + "\" value=\""
+            b.append("<input style=\"height:17px;width:17px\" type=\"radio\" name=\"" + name + "\" value=\""
                     + value + "\" " + selectParams);
             if (current != null && value.equalsIgnoreCase(current)) {
                 b.append(" checked=checked");
@@ -3173,7 +3188,7 @@ public class HTMLGeneration {
         for (int i = 0; i < values.length; i++) {
             String value = values[i];
 
-            b.append("<input type=\"checkbox\" name=\"" + name + "\" value=\""
+            b.append("<input style=\"height:17px;width:17px\" type=\"checkbox\" name=\"" + name + "\" value=\""
                     + value + "\" " + selectParams);
             if (current != null && value.equals(current)) {
                 b.append(" checked=checked");
