@@ -502,10 +502,10 @@ public class HTMLGeneration {
 
         }
         to_return += style;
-        if (cssClass.equals("adminNavLinkDropdown NavLinkItem")) {
+        if (cssClass.equals("adminNavLinkDropdown NavLinkItem") || cssClass.equals("adminNavLinkDropdown current NavLinkItem")) {
             to_return += "\">" + "<a style=\"height:50px;width:100px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">" + targetNiceName + "</a></div></li>\r\n";
         } else {
-            to_return += "\">" + "<a style=\"margin-right:0px;height:50px;width:100px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">" + targetNiceName + "</a></div></li>\r\n";
+            to_return += "\">" + "<a style=\"padding-left: 12px;padding-right:12px;margin-right:0px;height:50px;width:110px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">" + targetNiceName + "</a></div></li>\r\n";
         }
         return to_return;
 
@@ -619,6 +619,58 @@ public class HTMLGeneration {
         int size = 35; // default field size
         String field = "";
         StringBuilder buf = new StringBuilder();
+
+        if (r.getMouseID() != null && req == null) {
+            ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
+
+            String[] mouseTypeIDs = new String[mouseTypes.size()];
+            String[] mouseTypeNames = new String[mouseTypes.size()];
+
+            String currentTypeIDstr = "";
+            String mouseTypeOptions = "";
+            for (int i = 0; i < mouseTypes.size(); i++) {
+                mouseTypeIDs[i] = Integer.toString((mouseTypes.get(i)
+                        .getMouseTypeID()));
+                mouseTypeNames[i] = mouseTypes.get(i).getTypeName();
+                if (mouseTypeNames[i].equalsIgnoreCase(r.getMouseType())) {
+                    currentTypeIDstr = mouseTypeIDs[i];
+                }
+            }
+            if (r.isRat()) {
+                String[] ratTypeIDs = new String[mouseTypes.size()-1];
+                String[] ratTypeNames = new String[mouseTypes.size()-1];
+
+                for (int i = 1; i < mouseTypes.size(); ++i) {
+                    ratTypeIDs[i-1] = Integer.toString((mouseTypes.get(i)
+                            .getMouseTypeID()));
+                    ratTypeNames[i-1] = mouseTypes.get(i).getTypeName();
+                    if (ratTypeNames[i-1].equalsIgnoreCase(r.getMouseType())) {
+                        currentTypeIDstr = ratTypeNames[i-1];
+                    }
+                }
+
+                mouseTypeOptions = genSelect("mousetype_id", ratTypeIDs,
+                        ratTypeNames, currentTypeIDstr, "style='width:150px'", false);
+            } else {
+                mouseTypeOptions = genSelect("mousetype_id", mouseTypeIDs,
+                        mouseTypeNames, currentTypeIDstr, "style='width:150px'", false);
+            }
+
+
+            buf.append("<form name='changeMouseType' action='ChangeMouseType.jsp' method='post'>\r\n");
+            buf.append("<table class=\"editMouseColumn\">\r\n");
+            buf.append("<tr class=\"editMouseRow\">");
+            buf.append("<td class='editMouseCellSmallL' style='width:15%;border-top:solid black 1px;font-size:20px;line-height:20px'>Rodent<br>Category</td>");
+            buf.append("<td class='editMouseCellSmallR' style='border-top:solid black 1px'>");
+            buf.append("<input type='hidden' name='mouse_id' value='" + r.getMouseID() + "'>");
+            buf.append("<p style='display:inline-block'>Change Mouse Category to " + mouseTypeOptions);
+            buf.append("<div class='editRecordButtonGreen' style='float:right;width:23%'>");
+            buf.append("<input type=\"submit\" class='editRecordButtonInput' value='Change Category'>");
+            buf.append("</div>");
+            buf.append("</td></tr></table></form>\r\n");
+
+        }
+
         buf.append("<div class=\"mouseTable\">\r\n");
         if (sub != null) {// sub is null when editing existing mice, not null
             // when this is a new submission
@@ -754,7 +806,7 @@ public class HTMLGeneration {
             k++;
         }
 
-        getTextInputRow(buf, "Mouse Name", "mouseName", r.getMouseName(), size,
+        getTextInputRow(buf, "Rodent Name", "mouseName", r.getMouseName(), size,
                 255, null, null, "editMouseRow");
 
         // boolean MGIConnectionAvailable = true;
@@ -1212,34 +1264,6 @@ public class HTMLGeneration {
 
         buf.append("</form>\r\n");
 
-
-        if (r.getMouseID() != null && req == null) {
-            ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
-
-            String[] mouseTypeIDs = new String[mouseTypes.size()];
-            String[] mouseTypeNames = new String[mouseTypes.size()];
-
-            String currentTypeIDstr = "";
-
-            for (int i = 0; i < mouseTypes.size(); i++) {
-                mouseTypeIDs[i] = Integer.toString((mouseTypes.get(i)
-                        .getMouseTypeID()));
-                mouseTypeNames[i] = mouseTypes.get(i).getTypeName();
-                if (mouseTypeNames[i].equalsIgnoreCase(r.getMouseType())) {
-                    currentTypeIDstr = mouseTypeIDs[i];
-                }
-            }
-
-            String mouseTypeOptions = genSelect("mousetype_id", mouseTypeIDs,
-                    mouseTypeNames, currentTypeIDstr, "style='width:150px'", false);
-
-            buf.append("<form name='changeMouseType' action='ChangeMouseType.jsp' method='post'>\r\n");
-            buf.append("<input type='hidden' name='mouse_id' value='" + r.getMouseID() + "'>");
-            buf.append("<br><p>Change Mouse Category to: " + mouseTypeOptions);
-            buf.append("&nbsp;&nbsp;<input type='submit' class='btn btn-small' value='Change Category'>");
-            buf.append("</form>\r\n");
-
-        }
         if (req != null) {
 //            buf.append("<p>Should a change in mouse category be necessary, it can be made using the 'Edit Record' feature.</p>");
         }
