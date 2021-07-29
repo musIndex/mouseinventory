@@ -161,7 +161,7 @@
                     }
                 }
 
-                right_buf.append("<tr><td class=\"adminTableLeftTd\">" + mouseName + "<span style=\"font-weight:bold\">\""
+                right_buf.append("<tr><td class=\"adminTableLeftTd\">" + mouseName + "<span style=\"font-weight:bold\">"
                         + HTMLUtilities.getCommentForDisplay(HTMLGeneration.emptyIfNull(mouse.getOfficialSymbol()))
                         + "</span> " + action + "  " + holders
                         + "</td><td class=\"adminTableRightTd\">" +
@@ -213,7 +213,7 @@
                         holders += holder.getFullname();
                     }
                 }
-                hold_buf.append("<tr><td class=\"adminTableLeftTd\">" + mouseName + "<span style=\"font-weight:bold\">\""
+                hold_buf.append("<tr><td class=\"adminTableLeftTd\">" + mouseName + "<span style=\"font-weight:bold\">"
                         + HTMLUtilities.getCommentForDisplay(HTMLGeneration.emptyIfNull(mouse.getOfficialSymbol()))
                         + "</span> " + action + "  " + holders
                         + "</td><td class=\"adminTableRightTd\">" +
