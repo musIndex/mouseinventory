@@ -75,8 +75,8 @@
   }
 
 
-  int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID,false, species);
-  ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID,limit,offset,false,species);
+  int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", searchTerms, false, creOnly, facilityID,false, species);
+  ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", searchTerms, false, creOnly, facilityID,limit,offset,false,species);
 
   String table = HTMLGeneration.getMouseTable(mice, true, false, false); 
 
@@ -134,18 +134,39 @@
 %>
 <div class="site_container">
 
-    <h2><%=mouseTypeStr %></h2>
-    <h4><%=mouseCountStr %></h4>
-    <a href="CovertMice.jsp">Covert Rodents</a>
+    <p class="main_header"><%=mouseTypeStr %></p>
+    <p class="label_text"><%=mouseCountStr %></p>
+<%--    <a href="CovertMice.jsp">Covert Rodents</a>--%>
     
 
   <form class='view_opts' action="EditMouseSelection.jsp">
     <div style='position:relative'>
-    <%= mouseTypeSelectionLinks %>
+      <table style="width: 100%">
+        <tr>
+          <td style="width: 55%;padding: 0px">
+            <div class='clearfix' style='position:relative;'>
+              <div id="controls">
+                <%= mouseTypeSelectionLinks %>
+                <% if (mice.size() > 0) { %>
+
+                <% } %>
+              </div>
+            </div>
+            <input type = hidden name="page" value="records_search">
+          </td>
+          <td style="width: 45%;vertical-align: top">
+            <div class="search_right">
+              <input type="search" placeholder="Search..." style='font-size:120%;vertical-align:top;margin-top: 0px' class="input-xlarge" name="searchterms" id="mousetypeselection_searchterms"></input>
+              <input type="image" alt="Submit" src=/img/Eyeglass-black.svg style="height: 28px;margin: 0px" value="Search">
+<%--              <input type="hidden" name="page" value="search_bar">--%>
+            </div>
+          </td>
+        </tr>
+      </table>
+<%--    <%= mouseTypeSelectionLinks %>--%>
     <br>
-    <%= topPageSelectionLinks %>
     <div style='position:absolute;bottom:0;right:0;'>
-    <a class="btn" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
+<%--    <a class="btn" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>--%>
     </div>
     </div>
     <%= table %>
@@ -155,28 +176,45 @@
 <%=HTMLGeneration.getWebsiteFooter()%>
 
 <script type='text/javascript'>
-function highlight_searchterms(searchterms){
-  $('.mouseTable').each(function(){
-    var $results = $(this);
-    $results.find(".mouselist, .mouselistAlt").highlight(searchterms.split(' '),{className: 'highlight-searchterm'});
-    $results.find(".lbl").unhighlight({className: 'highlight-searchterm'});
-  });
+// function highlight_searchterms(searchterms){
+//   $('.mouseTable').each(function(){
+//     var $results = $(this);
+//     $results.find(".mouselist, .mouselistAlt").highlight(searchterms.split(' '),{className: 'highlight-searchterm'});
+//     $results.find(".lbl").unhighlight({className: 'highlight-searchterm'});
+//   });
+//
+//   $("span.highlight-searchterm").parent().parent().each(function(){
+//     var $element = $(this);
+//     if($element.is("dt")) {
+//       if($element.parent().hasClass("mouselist-holderlist")){
+//         $element.show();
+//       }
+//     }
+//   });
 
-  $("span.highlight-searchterm").parent().parent().each(function(){
-    var $element = $(this);
-    if($element.is("dt")) {
-      if($element.parent().hasClass("mouselist-holderlist")){
-        $element.show();
-      }
+  function pageSwitch(num){
+    document.getElementById("pagenum").value = num;
+    this.form.submit();
+  }
+
+  function searchterm(){
+    if ((search_terms.value != null || search_terms.value != "")){
+      document.getElementById("pagenum").value = 1;
+      document.getElementById("limit").value = 10;
+      location.replace("search.jsp#searchterms=" + search_terms.value + "&pagenum=1&search-source=search");
+      return false;
     }
-  });
-}
-
-
-
-var searchterms = $("#mousetypeselection_searchterms").val();
-
-if (searchterms) {
-  highlight_searchterms(searchterms);
-}
+  }
+  function resetPage(){
+    document.getElementById("pagenum").value = 1;
+    this.form.submit();
+  }
+//
+//
+//
+// var searchterms = $("#mousetypeselection_searchterms").val();
+//
+// if (searchterms) {
+//   highlight_searchterms(searchterms);
+// }
 </script>

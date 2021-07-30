@@ -15,7 +15,7 @@
   {
     %>
     <div class="site_container">
-    <h2>No record specified</h2>
+    <p class="main_header">No record specified.</p>
     </div>
     <%
     return;
@@ -28,7 +28,7 @@
     {
       %>
     <div class="site_container">
-    <h2>Record #<%=mouseID %> not found</h2>
+    <p class="main_header">Record #<%=mouseID %> not found</p>
     </div>
     <%
     return;
@@ -41,7 +41,7 @@
   {
     %>
     <div class="site_container">
-    <h2>This record is part of an incomplete submission.  Please go to the 'hold' submissions page and click the 'create new record' link to edit.</h2>
+    <p class="main_header">This record is part of an incomplete submission.  <br>Please go to the 'hold' submissions page and click the 'create new record' link to edit.</p>
     </div>
     <%
     return;
@@ -74,7 +74,7 @@ function uploadFile(){
 	var formData = new FormData();
 	for(i = 0; i<files.length; i++ ){
 		formData.append("files", files[i].name, file);
-	}	
+	}
 	var recordID = document.getElementById("recordID").value;
 	console.log("recordID = " + recordID);
 	formData.append("MouseID", recordID);
@@ -82,10 +82,10 @@ function uploadFile(){
 	var testForm = new FormData();
 
 	var xhr = new XMLHttpRequest();
-	
+
 	xhr.open('POST', 'UploadFile.jsp', true);
 	xhr.setRequestHeader("MouseID", recordID);
-	
+
 	xhr.onload = function () {
 		  if (xhr.status === 200) {
 		    // File(s) uploaded.
@@ -96,54 +96,7 @@ function uploadFile(){
 		};
 
 	xhr.send(formData);
-		
-
-	/*
-	$.ajax({
-		url:"uploadFiles.php",
-		type: 'POST',
-		data: formData, //formData,
-		success: function(response) {
-	            console.log(response);
-	        },
-	    error: function(response) {
-	            console.log(response);
-	    }
-	});*/
 }
-	
 
-	
-	//need to define record
-	
-	//cannot send javascript data to server in script, neet to send as ajax or similar.
-	/*var xhttp = new XMLHttpRequest();
-	for (file : files){
-		xhttp.open("POST", uploadFiles.php, true);
-		xhttp.send();
-		}
-	*/
-	
-	
-	//record.addFiles(files);
-
-
-	
-	////Log.info("called record.addFiles");
-	//const formData = new FormData();// change to blob
-	//var myBlob = null; 
-	/*
-	
-	for (let i = 0; i < files.length; i++) {
-			let file = files[i]
-			var blob = new Blob([file], type = "text");
-			fileName = file.name;
-			//submit 
-			
-			//formData.append('files[]', file) //change to blob
-	}
-	//set value
-	
-	record.setFiles(myBlob);*/
 </script>
 

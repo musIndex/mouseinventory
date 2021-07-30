@@ -623,29 +623,40 @@ public class HTMLGeneration {
         if (r.getMouseID() != null && req == null) {
             ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
 
-            String[] mouseTypeIDs = new String[mouseTypes.size()];
-            String[] mouseTypeNames = new String[mouseTypes.size()];
+            String[] mouseTypeIDs = new String[mouseTypes.size() - 1];
+            String[] mouseTypeNames = new String[mouseTypes.size() - 1];
 
             String currentTypeIDstr = "";
             String mouseTypeOptions = "";
+
+            int index = 0;
+
             for (int i = 0; i < mouseTypes.size(); i++) {
-                mouseTypeIDs[i] = Integer.toString((mouseTypes.get(i)
-                        .getMouseTypeID()));
-                mouseTypeNames[i] = mouseTypes.get(i).getTypeName();
-                if (mouseTypeNames[i].equalsIgnoreCase(r.getMouseType())) {
-                    currentTypeIDstr = mouseTypeIDs[i];
+                if (!r.getMouseType().equals(mouseTypes.get(i).getTypeName())) {
+                    mouseTypeIDs[index] = Integer.toString((mouseTypes.get(i)
+                            .getMouseTypeID()));
+                    mouseTypeNames[index] = mouseTypes.get(i).getTypeName();
+                    if (mouseTypeNames[index].equalsIgnoreCase(r.getMouseType())) {
+                        currentTypeIDstr = mouseTypeIDs[index];
+                    }
+                    ++index;
                 }
             }
             if (r.isRat()) {
-                String[] ratTypeIDs = new String[mouseTypes.size()-1];
-                String[] ratTypeNames = new String[mouseTypes.size()-1];
+                index = 0;
+                String[] ratTypeIDs = new String[mouseTypes.size() - 2];
+                String[] ratTypeNames = new String[mouseTypes.size() - 2];
 
                 for (int i = 1; i < mouseTypes.size(); ++i) {
-                    ratTypeIDs[i-1] = Integer.toString((mouseTypes.get(i)
-                            .getMouseTypeID()));
-                    ratTypeNames[i-1] = mouseTypes.get(i).getTypeName();
-                    if (ratTypeNames[i-1].equalsIgnoreCase(r.getMouseType())) {
-                        currentTypeIDstr = ratTypeNames[i-1];
+                    if (!r.getMouseType().equals(mouseTypes.get(i).getTypeName())) {
+
+                        ratTypeIDs[index] = Integer.toString((mouseTypes.get(i)
+                                .getMouseTypeID()));
+                        ratTypeNames[index] = mouseTypes.get(i).getTypeName();
+                        if (ratTypeNames[index].equalsIgnoreCase(r.getMouseType())) {
+                            currentTypeIDstr = ratTypeNames[index];
+
+                        }
                     }
                 }
 
@@ -1844,9 +1855,9 @@ public class HTMLGeneration {
             if (edit && nextRecord.getStatus() != null) {
                 String style = "";
                 if (nextRecord.getStatus().equalsIgnoreCase("live")) {
-                    style = "style=\"color: green; font-weight: bold;\"";
+                    style = "style=\"font-weight: bold;\"";
                 } else if (nextRecord.getStatus().equalsIgnoreCase("deleted")) {
-                    style = "style=\"color: red; font-weight: bold;\"";
+                    style = "style=\"font-weight: bold;\"";
                 }
                 table.append("<dt>Record status: <span " + style + ">"
                         + nextRecord.getStatus() + "</span></dt>");
@@ -3285,9 +3296,9 @@ public class HTMLGeneration {
                     + (creOnly == 1 ? "checked='checked'" : "") + "></li>");
         }
         if (status != null) {
-            buf.append("<li class='cf'><input type='text' size='20' id='mousetypeselection_searchterms' name='searchterms'"
-                    + (searchTerms != null ? "value='" + searchTerms + "'" : "") + ">&nbsp;");
-            buf.append("<input class='btn btn-small' type='submit' value='Search'></input></li>");
+//            buf.append("<li class='cf'><input type='text' size='20' id='mousetypeselection_searchterms' name='searchterms'"
+//                    + (searchTerms != null ? "value='" + searchTerms + "'" : "") + ">&nbsp;");
+//            buf.append("<input class='btn btn-small' type='submit' value='Search'></input></li>");
         }
 
         if (holderID != -1) {
@@ -3667,7 +3678,7 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.1.05";
+        String version = "4.1.06";
         //Current date
         String year = "2021";
         //Email of database administrator
