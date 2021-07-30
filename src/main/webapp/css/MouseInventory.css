@@ -1941,8 +1941,12 @@ table.form_table td {
 
 .MSU_green_button_Text {
     height: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
     margin: auto;
-    padding: 13px;
+    /*padding: 13px;*/
     text-align: center;
     color: white;
     font-size: 18px;
