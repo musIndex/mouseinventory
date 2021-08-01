@@ -44,7 +44,7 @@
             limit = Integer.parseInt(session.getAttribute("limit").toString());
         }
         else {
-            limit = 25;
+            limit = 10;
         }
     }
     session.setAttribute("limit",limit);
