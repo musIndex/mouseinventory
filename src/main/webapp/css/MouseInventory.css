@@ -501,16 +501,16 @@ tr.submissionlistAlt {
 
 tr.changerequestlistH {
     font-size: 14pt;
-    color: white;
-    background-color: #00688B;
+    background-color: #133d34;
+    color: #FFFFFF;
 }
 
 tr.changerequestlist {
-    background-color: #f4ecf6;
+    background-color: #FFFFF;
 }
 
 tr.changerequestlistAlt {
-    background-color: #e6f2f8;
+    background-color: #ccccccff;
 }
 
 .facilityTable {

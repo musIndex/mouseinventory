@@ -788,13 +788,16 @@ public class HTMLGeneration {
         buf.append("<td class='formHeaderCell' colspan='2' style='height:60px;font-size:25px'>General Information");
         buf.append("</td></tr>");
         for (MouseHolder holder : holderList) {
-            if (holder.isNewlyAdded()) {
-                buf.append("<tr class=\"editMouseRow\">");
-                buf.append("<td class='editMouseCellLarge' colspan=\"2\"><b>Auto-filled from change request:</b></td></tr>");
-            }
             buf.append("<tr class=\"editMouseRow\">");
-            buf.append("<td class='editMouseCellSmallL'>Holder<br><br>Facility</td>");
+            if (holder.isNewlyAdded()) {
+                buf.append("<td class='editMouseCellSmallL'>Holder*<br><br>Facility*</td>");
+            } else {
+                buf.append("<td class='editMouseCellSmallL'>Holder<br><br>Facility</td>");
+            }
             buf.append("<td class='editMouseCellSmallR'><div style=\"position: relative\">");
+            if (holder.isNewlyAdded()){
+                buf.append("<br><br>");
+            }
             buf.append(HTMLGeneration.genSelect("holder_id-" + k, holderIDs,
                     holderNames, String.valueOf(holder.getHolderID()), "style='width:90%'", false));
             buf.append("<br><br>");
@@ -809,11 +812,11 @@ public class HTMLGeneration {
                     covertOptions, (holder.isCovert() ? "Covert" : "")));
             buf.append("</div>");
             buf.append("</div>");
+            if (holder.isNewlyAdded()) {
+                buf.append("<div><p class='label_text' style='margin-bottom:0'>*Holder and facility auto-filled from change request.</p></div>");
+            }
             buf.append("</td>");
             buf.append("</tr>\n");
-            if (holder.isNewlyAdded()) {
-                buf.append("<tr><td></td></tr>");
-            }
             k++;
         }
 
@@ -2193,26 +2196,26 @@ public class HTMLGeneration {
         StringBuffer table = new StringBuffer();
         table.append("<tr class='changerequestlistH'>\r\n");
 
-        table.append("<td style='min-width:120px'>\r\n");
+        table.append("<td class='submissioncolumn-name-header'>\r\n");
         table.append("Status");
         table.append("</td>\r\n");
 
-        table.append("<td style='min-width: 140px'>\r\n");
+        table.append("<td class='class='submissioncolumn-submissioninfo-header''>\r\n");
         table.append("Requestor Info");
         table.append("</td>\r\n");
-        table.append("<td style='min-width: 150px'>\r\n");
+        table.append("<td class='submissioncolumn-category-header'>\r\n");
         table.append("Action requested");
         table.append("</td>\r\n");
 
-        table.append("<td>\r\n");
+        table.append("<td class='submissioncolumn-comment-header'>\r\n");
         table.append("User comment");
         table.append("</td>\r\n");
 
-        table.append("<td >\r\n");
+        table.append("<td class='submissioncolumn-details-header'>\r\n");
         table.append("Administration");
         table.append("</td>\r\n");
 
-        table.append("<td >\r\n");
+        table.append("<td class='submissioncolumn-holders-header'>\r\n");
         table.append("Admin comment");
         table.append("</td>\r\n");
 
@@ -2223,7 +2226,7 @@ public class HTMLGeneration {
     public static String getChangeRequestsTable(ArrayList<ChangeRequest> requests, String currentPageStatus) {
         StringBuffer table = new StringBuffer();
         table.append("<div class=\"mouseTable\">\r\n");
-        table.append("<table style='width:100%'>\r\n");
+        table.append("<table style='width:100%' class=\"mouseTable\">\r\n");
         int numRequests = 0;
 
         ArrayList<Integer> neededRecords = new ArrayList<Integer>();
@@ -2238,7 +2241,7 @@ public class HTMLGeneration {
             table.append("<tr class='" + rowStyle + "'>\r\n");
 
             // COLUMN - Status
-            table.append("<td valign='top'>\r\n");
+            table.append("<td class='submissioncolumn-name'>\r\n");
             table.append("<dl>\r\n");
 
             table.append("<dt>");
@@ -2262,7 +2265,7 @@ public class HTMLGeneration {
             table.append("</td>\r\n");
 
             // COLUMN - Requestor Info
-            table.append("<td valign='top'>\r\n");
+            table.append("<td class='submissioncolumn-submissioninfo'>\r\n");
             table.append("<dl>\r\n");
 
             table.append("<dt>\r\n");
@@ -2321,7 +2324,7 @@ public class HTMLGeneration {
             table.append("</td>\r\n");
 
             // COLUMN - Requested action
-            table.append("<td valign='top'>\r\n");
+            table.append("<td class='submissioncolumn-category'>\r\n");
 
 
             //new change request format, no properties
@@ -2354,7 +2357,7 @@ public class HTMLGeneration {
 
             // COLUMN - User comment
 
-            table.append("<td>");
+            table.append("<td class='submissioncolumn-comment'>");
             if (nextRequest.getGeneticBackgroundInfo() != null && !nextRequest.getGeneticBackgroundInfo().isEmpty()) {
                 table.append("<b>Genetic background info:</b> " + nextRequest.getGeneticBackgroundInfo() + "<br><br>");
             }
@@ -2371,7 +2374,7 @@ public class HTMLGeneration {
 
             // COLUMN - Administration
 
-            table.append("<td valign='top'><dl>\r\n");
+            table.append("<td class='submissioncolumn-details'><dl>\r\n");
             table.append("<dt>");
             table.append("<dt><a href=\"CompleteChangeRequest.jsp?id="
                     + nextRequest.getRequestID() + "\">Edit record #"
@@ -2387,7 +2390,7 @@ public class HTMLGeneration {
             table.append("</dl></td>\r\n");
 
             // COLUMN - Admin comment
-            table.append("<td valign='top'>\r\n");
+            table.append("<td class='submissioncolumn-holders'>\r\n");
             table.append("<span class=\"mouseComment\">" + emptyIfNull(nextRequest.getAdminComment()) + "</span>");
 
             table.append("</td>");
@@ -3678,7 +3681,7 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.1.07";
+        String version = "4.1.08";
         //Current date
         String year = "2021";
         //Email of database administrator

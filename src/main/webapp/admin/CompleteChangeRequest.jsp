@@ -59,13 +59,13 @@
 
 
 <div class="site_container">
-    <h2>Completing change request #<%=requestID %> on record #<%=record.getMouseID() %>: <%=record.getMouseName() %>
+    <p class="main_header">Completing change request #<%=requestID %> on record #<%=record.getMouseID() %>: <%=record.getMouseName() %>
         (<%= record.getMouseType() %>  )
-    </h2>
-    <%@ include file='_lastManageRequestsLink.jspf' %>
-    <h3>Change Request:</h3>
+    </p>
+<%--    <%@ include file='_lastManageRequestsLink.jspf' %>--%>
+    <p class="label_text" style="font-size: 24px">Change Request:</p>
     <%=changeRequestTable %>
-    <h3>Current Record:</h3>
+    <p class="label_text" style="font-size: 24px">Current Record:</p>
     <%=existingRecord %>
     <br>
     <%=editForm %>
