@@ -65,7 +65,7 @@
       int gene_id = Integer.parseInt(DBConnect.getMouseRecord(mouseID).get(0).getGeneID());
       //System.out.println(props.toString());
       SubmittedMouse sub = props.get(0);
-        if (updatedRecord.getExpressedSequence().equals("Mouse Gene (unmodified)") && updatedRecord.getTargetGeneID() == null && updatedRecord.getRegulatoryElement() == null) {
+        if (updatedRecord.getExpressedSequence() != null && updatedRecord.getExpressedSequence().equals("Mouse Gene (unmodified)") && updatedRecord.getTargetGeneID() == null && updatedRecord.getRegulatoryElement() == null) {
           updatedRecord.setTargetGeneID(sub.getTGMouseGene());
           if (updatedRecord.getGeneID() == null){
             updatedRecord.setGeneID(""+gene_id);

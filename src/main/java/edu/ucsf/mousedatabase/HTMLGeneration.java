@@ -74,8 +74,8 @@ public class HTMLGeneration {
             buf.append("<meta http-equiv='pragma' content='no-cache'>\r\n");
         }
         buf.append("<title>" + DBConnect.loadSetting("general_site_name").value + "</title>\r\n");
-        buf.append("<link rel=\"shortcut icon\" href=\"img/favicon.png\" type=\"image/png\">\n");
-        buf.append("<link rel=\"icon\" href=\"img/favicon.png\" type=\"image/png\">");
+//        buf.append("<link rel=\"shortcut icon\" href=\"img/favicon.png\" type=\"image/png\">\n");
+//        buf.append("<link rel=\"icon\" href=\"img/favicon.png\" type=\"image/png\">");
         buf.append("<link href='" + styleRoot + "bootstrap.css' rel='stylesheet' type='text/css'>\r\n");
         buf.append("<link href='" + styleRoot + "bootstrap-collapse.css' rel='stylesheet' type='text/css'>\r\n");
         buf.append("<link href='" + styleRoot + "font-awesome.min.css' rel='stylesheet' type='text/css'>\r\n");
@@ -2554,7 +2554,7 @@ public class HTMLGeneration {
         StringBuilder table = new StringBuilder();
         table.append("<tr class='facilitylistH'>\r\n");
         if (edit) {
-            table.append("<td>ID</td>");
+            table.append("<td class='holderHeaderCell' style='width:4%'>ID</td>");
         }
         table.append("<td class='holderHeaderCell'\">\r\n");
         table.append("Holder");
@@ -2562,20 +2562,33 @@ public class HTMLGeneration {
         table.append("<td class='holderHeaderCell'\">\r\n");
         table.append("Holder Email");
         table.append("</td>\r\n");
-        table.append("<td class='holderHeaderCell'\">\r\n");
+        if (edit){
+            table.append("<td class='holderHeaderCell' style='width:10%'\">\r\n");
+
+        }
+        else{
+            table.append("<td class='holderHeaderCell'\">\r\n");
+
+        }
         table.append("Primary Contact");
         table.append("</td>\r\n");
         table.append("<td class='holderHeaderCell'\">\r\n");
         table.append("Colony Location");
         table.append("</td>\r\n");
-        table.append("<td class='holderHeaderCell'\">\r\n");
-        table.append("Review Date");
+        if (edit){
+            table.append("<td class='holderHeaderCell' style='width:10%'\">\r\n");
+
+        }
+        else{
+            table.append("<td class='holderHeaderCell'\">\r\n");
+
+        }        table.append("Review Date");
         table.append("</td>\r\n");
         table.append("<td class='holderHeaderCell'\">\r\n");
         table.append("Rodents Held");
         table.append("</td>\r\n");
         if (edit) {
-            table.append("<td class='holderHeaderCell'\">\r\n");
+            table.append("<td class='holderHeaderCell' style='width:10%'\">\r\n");
             table.append("Edit");
             table.append("</td>\r\n");
         }
@@ -3681,7 +3694,7 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.1.10";
+        String version = "4.1.11";
         //Current date
         String year = "2021";
         //Email of database administrator
