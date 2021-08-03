@@ -2412,7 +2412,7 @@ public class HTMLGeneration {
         table.append("MouseConf.addMice(" + new Gson().toJson(records) + ")\r\n");
         table.append("</script>");
         if (numRequests <= 0) {
-            return "No results found";
+            return "<p class=\"label_text\">No results found</p>";
         }
 
         return table.toString();
@@ -2486,7 +2486,7 @@ public class HTMLGeneration {
         }
         table.append("</tbody></table>\r\n");
         if (numFacilities <= 0)
-            return "No results found";
+            return "<p class=\"label_text\">No results found</p>";
         return table.toString();
     }
 
@@ -2546,7 +2546,7 @@ public class HTMLGeneration {
         }
         table.append("</table>\r\n");
         if (numFacilities <= 0)
-            return "No results found";
+            return "<p class=\"label_text\">No results found</p>";
         return table.toString();
     }
 
@@ -2674,7 +2674,7 @@ public class HTMLGeneration {
             table.append("</script>");
         }
         if (numFacilities <= 0)
-            return "No results found";
+            return "<p class=\"label_text\">No results found</p>";
         return table.toString();
     }
 
@@ -2736,7 +2736,7 @@ public class HTMLGeneration {
         }
         table.append("</table>\r\n");
         if (numFacilities <= 0)
-            return "No results found";
+            return "<p class=\"label_text\">No results found</p>";
         return table.toString();
     }
 

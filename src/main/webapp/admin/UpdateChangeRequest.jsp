@@ -110,6 +110,7 @@
     <%
         }
             %>
+    <div class="spacing_div_mini"></div>
     <%@ include file='_lastManageRequestsLink.jspf' %>
     <%} else { %>
     <p class="description_text"><%=errors %>

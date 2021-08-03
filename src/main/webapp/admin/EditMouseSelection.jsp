@@ -31,7 +31,7 @@
       limit = Integer.parseInt(session.getAttribute("limit").toString());
     }
     else {
-      limit = 25;
+      limit = 10;
     }
   }
   session.setAttribute("limit",limit);
@@ -158,12 +158,10 @@
             <div class="search_right">
               <input type="search" placeholder="Search..." style='font-size:120%;vertical-align:top;margin-top: 0px' class="input-xlarge" name="searchterms" id="mousetypeselection_searchterms"></input>
               <input type="image" alt="Submit" src=/img/Eyeglass-black.svg style="height: 28px;margin: 0px" value="Search">
-<%--              <input type="hidden" name="page" value="search_bar">--%>
             </div>
           </td>
         </tr>
       </table>
-<%--    <%= mouseTypeSelectionLinks %>--%>
     <br>
     <div style='position:absolute;bottom:0;right:0;'>
 <%--    <a class="btn" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>--%>
@@ -176,22 +174,6 @@
 <%=HTMLGeneration.getWebsiteFooter()%>
 
 <script type='text/javascript'>
-// function highlight_searchterms(searchterms){
-//   $('.mouseTable').each(function(){
-//     var $results = $(this);
-//     $results.find(".mouselist, .mouselistAlt").highlight(searchterms.split(' '),{className: 'highlight-searchterm'});
-//     $results.find(".lbl").unhighlight({className: 'highlight-searchterm'});
-//   });
-//
-//   $("span.highlight-searchterm").parent().parent().each(function(){
-//     var $element = $(this);
-//     if($element.is("dt")) {
-//       if($element.parent().hasClass("mouselist-holderlist")){
-//         $element.show();
-//       }
-//     }
-//   });
-
   function pageSwitch(num){
     document.getElementById("pagenum").value = num;
     this.form.submit();
@@ -209,12 +191,4 @@
     document.getElementById("pagenum").value = 1;
     this.form.submit();
   }
-//
-//
-//
-// var searchterms = $("#mousetypeselection_searchterms").val();
-//
-// if (searchterms) {
-//   highlight_searchterms(searchterms);
-// }
 </script>
