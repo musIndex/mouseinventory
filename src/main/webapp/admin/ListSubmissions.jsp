@@ -164,4 +164,9 @@ function pageSwitch(num){
   this.form.submit();
 }
 
+function resetPage(){
+  document.getElementById("pagenum").value = 1;
+  this.form.submit();
+}
+
 </script>
