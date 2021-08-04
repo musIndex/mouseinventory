@@ -242,7 +242,7 @@
     <%
         if (noTasks){
     %>
-    <p class="label_text">There currently no tasks requiring attention.</p>
+    <p class="label_text">There are currently no tasks requiring attention.</p>
     <%
         }
     %>
