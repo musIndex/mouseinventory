@@ -30,19 +30,20 @@
         }
     }
     if (command == null || command.isEmpty()) {
-        buf.append("<p class=\"main_header\">No command received.<br>Expected 'Edit','Delete',or 'Insert'</p>");
+        buf.append("<p class=\"main_header\" style=\"line-height:36px\">No command received.<br>Expected 'Edit','Delete',or 'Insert'</p>");
     } else if (command.equals("Edit")) {
         if (id <= 0) {
             buf.append("<p class=\"main_header\">No holder ID received</p>");
         } else {
-            buf.append("<h2>Before edit:</h2> ");
+            buf.append("<p class=\"main_header\">Changes successful</p>");
+            buf.append("<p class=\"label_text\" style=\"font-size:24px\">Before edit:</p> ");
             buf.append(originalHolderTable);
 
             DBConnect.updateHolder(editedHolder);
 
             holders.clear();
             holders.add(DBConnect.getHolder(id));
-            buf.append("<h2>After edit:</h2> ");
+            buf.append("<p class=\"label_text\" style=\"font-size:24px\">After edit:</p> ");
             buf.append(HTMLGeneration.getHolderTable(holders, true));
         }
     } else if (command.equals("Insert")) {
@@ -60,21 +61,22 @@
             if (id <= 0) {
                 buf.append("<p class=\"main_header\">No holder ID received</p>");
             } else if (holderMouseIDs != null && holderMouseIDs.size() > 0) {
-                buf.append("<h2>This holder is still liked to a record and cannot be deleted!</h2>");
+                buf.append("<p class=\"main_header\">This holder is still liked to a record and cannot be deleted</p>");
             } else {
                 DBConnect.deleteHolder(id);
-                buf.append("<h2>Holder " + originalHolder.getFullname() + " has been deleted</h2>");
+                buf.append("<p class=\"main_header\">Holder " + originalHolder.getFullname() + " has been deleted</p>");
             }
         } else {
-            buf.append("<h2>Confirm that you want to delete this holder</h2>\r\n");
+            buf.append("<p class=\"main_header\">Confirm that you want to delete this holder</p>\r\n");
             buf.append(originalHolderTable);
+            buf.append("<div class=\"spacing_div_minix2\"></div>");
             buf.append("<form action=\"UpdateHolder.jsp\" method=\"post\">");
+            buf.append("<div class=\"MSU_back_button\" style=\"width: 13%;float: right;float: left;margin-left:0px;\">");
             buf.append("    <input type=\"hidden\" name=\"holderID\" value=\"" + id + "\">");
             buf.append("    <input type=\"hidden\" name=\"confirm\" value=\"yes\">");
-            buf.append("    Yes, I want to delete this holder: ");
-            buf.append("    <input type=\"submit\" class='btn btn-danger' name=\"command\" value=\"Delete\">");
-            buf.append("</form>");
-            buf.append("<p>Else click your browser's BACK button.</p>");
+            buf.append("<input type=\"hidden\" name=\"command\" value=\"Delete\">");
+            buf.append("<input type=\"submit\" value=\"Delete Holder\" style=\"width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;\">");
+            buf.append("</div></form>");
         }
     } else {
         buf.append("<p class=\"main_header\">Unrecognized command '" + command + "'.  Expected 'Edit','Delete',or 'Insert'</p>");
@@ -89,15 +91,17 @@
         String title = "Back to holders";
         String homeTitle = "Admin Home";
     %>
-    <div class="spacing_div_minix2"></div>
-    <div class="MSU_green_button" style="margin-bottom: 20px;margin-left: 0px;margin-right: 20px;width:13%;display: inline-block">
+    <div class="spacing_div_mini"></div>
+    <div class="MSU_green_button"
+         style="margin-bottom: 20px;margin-left: 0px;margin-right: 20px;width:13%;display: inline-block">
         <a class='anchor_no_underline' href='<%= link %>'>
             <p class="MSU_green_button_Text"><%= title %>
             </p>
         </a>
     </div>
 
-    <div class="MSU_green_button" style="margin-bottom: 20px;margin-left: 0px;margin-right: 0px;background-color: #008183ff;width:12%;display: inline-block">
+    <div class="MSU_green_button"
+         style="margin-bottom: 20px;margin-left: 0px;margin-right: 0px;background-color: #008183ff;width:12%;display: inline-block">
         <a class='anchor_no_underline' href='<%=homeLink%>'>
             <p class="MSU_green_button_Text"><%=homeTitle%>
             </p>
@@ -105,7 +109,7 @@
     </div>
 </div>
 
-</div> <!-- This end div is here to end the site container div. For some reason it's not picked up by intellisense, but it is necessary. -->
+</div></div> <!-- This end div is here to end the site container div. For some reason it's not picked up by intellisense, but it is necessary. -->
 
 
 <%=HTMLGeneration.getWebsiteFooter()%>
