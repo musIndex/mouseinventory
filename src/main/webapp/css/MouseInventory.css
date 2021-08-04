@@ -2373,3 +2373,7 @@ a.navBarAnchor_noTint:visited {
     border-right: solid 1px black;
     border-bottom: solid 1px black;
 }
+
+.palette{
+/*    blue*/background-color:#008183ff
+}
