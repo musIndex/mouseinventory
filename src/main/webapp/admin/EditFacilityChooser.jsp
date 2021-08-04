@@ -23,7 +23,7 @@
     <h2>Edit Facilities:</h2>
     <div class='alert' id='top_status_message' style='display:none'></div>
     <form class='view_opts' action='EditFacilityChooser.jsp'>
-    	Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderby,null)  %>
+    	Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderby,null,true)  %>
 	</form>
 	<br>
 	<a class='btn' href='#' id='sort_button'>Change public sort order</a>&nbsp;&nbsp;
