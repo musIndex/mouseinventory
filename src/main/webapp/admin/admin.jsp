@@ -28,12 +28,15 @@
     sourceStatuses.put("new", "new requests");
     sourceStatuses.put("pending", "pending requests");
 
+    Boolean noTasks = true;
+
     for (String sourceStatus : sourceStatuses.keySet()) {
         ArrayList<ArrayList<String>> openRequestSources = DBConnect.getOpenRequestSources(sourceStatus);
         if (openRequestSources.size() > 0) {
             data_upload.append("<dl>");
 
             for (ArrayList<String> source : openRequestSources) {
+                noTasks = false;
                 String sourceName = source.get(0);
                 int count = Integer.parseInt(source.get(1));
                 if (sourceName.equals("Change request form")) {
@@ -62,6 +65,7 @@
             data_upload.append("<dl>");
 
             for (ArrayList<String> source : openSubmissionSources) {
+                noTasks = false;
                 String sourceName = source.get(0);
                 int count = Integer.parseInt(source.get(1));
                 if (sourceName.equals(SubmittedMouse.SubmissionFormSource)) {
@@ -92,6 +96,7 @@
         ArrayList<ChangeRequest> changeRequests = changeRequestLists.get(i);
         String label = changeRequestListLabels[i];
         if (changeRequests.size() > 0) {
+            noTasks = false;
             buf.append("<br>");
             buf.append("<div class=\"adminHomeTable\">");
             buf.append("<table class=\"adminHomeTableInside\">");
@@ -127,6 +132,7 @@
         ArrayList<SubmittedMouse> newSubmissions = submissionLists.get(i);
         String label = submissionListLabels.get(i);
         if (newSubmissions.size() > 0) {
+            noTasks = false;
             right_buf.append("<div class=\"adminHomeTable\" style=\"float:right\">");
             right_buf.append("<br>");
             right_buf.append("<table class=\"adminHomeTableInside\">");
@@ -181,6 +187,7 @@
         ArrayList<SubmittedMouse> newSubmissions = submissionLists.get(i);
         String label = submissionListLabels.get(i);
         if (newSubmissions.size() > 0) {
+            noTasks = false;
             hold_buf.append("<br>");
             hold_buf.append("<div class=\"adminHomeTable\">");
             hold_buf.append("<table class=\"adminHomeTableInside\">");
@@ -232,6 +239,13 @@
 %>
 <div class="site_container">
     <p class="main_header">MSU Rodent Database Administration</p>
+    <%
+        if (noTasks){
+    %>
+    <p class="label_text">There currently no tasks requiring attention.</p>
+    <%
+        }
+    %>
     <div style="width: 100%">
         <br>
         <%=data_upload.toString()%>
