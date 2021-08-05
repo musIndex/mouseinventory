@@ -2421,23 +2421,30 @@ public class HTMLGeneration {
     private static String getFacilityTableHeaders(boolean edit) {
         StringBuilder table = new StringBuilder();
         table.append("<tr class='facilitylistH'>\r\n");
-        if (edit) {
-            table.append("<td>ID</td>");
-        }
-        table.append("<td class='facilitylistHeaderLeft'\">\r\n");
-        table.append("Facility");
-        table.append("</td>\r\n");
-        table.append("<td class='facilitylistHeaderRight'\">\r\n");
-        table.append("Records");
-        table.append("</td>\r\n");
-        if (edit) {
-            table.append("<td class='facilitylistHeaderLeft'\">\r\n");
-            table.append("Code (for data uploads)");
+        if (edit){
+            table.append("<td class='adminFacilityHeaderID'>ID</td>");
+            table.append("<td class='adminFacilityHeaderFacility'\">\r\n");
+            table.append("Facility");
             table.append("</td>\r\n");
-            table.append("<td class='facilitylistHeaderLeft'\">\r\n");
+            table.append("<td class='adminFacilityHeaderRecords'\">\r\n");
+            table.append("Records");
+            table.append("</td>\r\n");
+            table.append("<td class='adminFacilityHeaderCode'\">\r\n");
+            table.append("Building code");
+            table.append("</td>\r\n");
+            table.append("<td class='adminFacilityHeaderEdit'\">\r\n");
             table.append("Edit");
             table.append("</td>\r\n");
         }
+        else{
+            table.append("<td class='facilitylistHeaderLeft'\">\r\n");
+            table.append("Facility");
+            table.append("</td>\r\n");
+            table.append("<td class='facilitylistHeaderRight'\">\r\n");
+            table.append("Records");
+            table.append("</td>\r\n");
+        }
+
         table.append("</tr>\r\n");
 
         return table.toString();
@@ -2458,9 +2465,12 @@ public class HTMLGeneration {
                     "facilitylistAlt");
             table.append("<tr class='" + rowStyle + "'>\r\n");
             if (edit) {
-                table.append("<td>" + facility.getFacilityID() + "</td>");
+                table.append("<td class='facilitylistItemLeft'>" + facility.getFacilityID() + "</td>");
+                table.append("<td class='facilitylistItemRight'>\r\n");
             }
-            table.append("<td class='facilitylistItemLeft'>\r\n");
+            else{
+                table.append("<td class='facilitylistItemLeft'>\r\n");
+            }
             table.append("<span class=\"mouseName\">"
                     + facility.getFacilityName() + "</span> &nbsp;-&nbsp;"
                     + facility.getFacilityDescription());
@@ -2477,9 +2487,9 @@ public class HTMLGeneration {
 
             table.append("</td>\r\n");
             if (edit) {
-                table.append("<td style='min-width:60px'>" + HTMLGeneration.emptyIfNull(facility.getFacilityCode()) + "</td>");
-                table.append("<td style='min-width:60px'><a href=\"EditFacilityForm.jsp?facilityID="
-                        + facility.getFacilityID() + "\">Edit</a></td>\r\n");
+                table.append("<td class='facilitylistItemRight'>" + HTMLGeneration.emptyIfNull(facility.getFacilityCode()) + "</td>");
+                table.append("<td class='facilitylistItemRight'><a href=\"EditFacilityForm.jsp?facilityID="
+                        + facility.getFacilityID() + "\">Edit facility #"+facility.getFacilityID()+"</a></td>\r\n");
             }
             table.append("</tr>");
             numFacilities++;

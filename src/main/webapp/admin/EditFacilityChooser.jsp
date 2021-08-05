@@ -1,179 +1,187 @@
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@ page import="java.util.ArrayList" %>
-<%=HTMLGeneration.getPageHeader(null,false,true) %>
+<%=HTMLGeneration.getPageHeader(null, false, true) %>
 <%=HTMLGeneration.getNavBar("EditFacilityChooser.jsp", true) %>
-<div class="site_container" style='padding-bottom: 100px'>
 <%
-  String command = request.getParameter("command");
-  String orderby = request.getParameter("orderby");
-  
-  String[] orderOpts = new String[]{"position","facility","count"};
-  String[] orderOptLabels = new String[]{"Public-facing","Name","Record count"};
-  
-  if (orderby == null) {
-	  orderby = orderOpts[0];
-  }
-  
-  if (command == null || command.isEmpty() || command.equals("edit"))
-  {
-    ArrayList<Facility> facilities = DBConnect.getAllFacilities(false,orderby);
-    String table = HTMLGeneration.getFacilityTable(facilities,true);
-    %>
-    <h2>Edit Facilities:</h2>
-    <div class='alert' id='top_status_message' style='display:none'></div>
-    <form class='view_opts' action='EditFacilityChooser.jsp'>
-    	Sort by <%= HTMLGeneration.genSelect("orderby",orderOpts,orderOptLabels,orderby,null,true)  %>
-	</form>
-	<br>
-	<a class='btn' href='#' id='sort_button'>Change public sort order</a>&nbsp;&nbsp;
-    <a class='btn btn-success' href="EditFacilityChooser.jsp?command=add"><i class='icon-plus icon-white'></i> Add Facility</a>
-    <div class='sort-instructions' style='display:none'><h3>Click and drag rows to reorder them.  Click 'Save changes' when done</h3></div>
+    String command = request.getParameter("command");
+    String orderby = request.getParameter("orderby");
+
+    String[] orderOpts = new String[]{"position", "facility", "count"};
+    String[] orderOptLabels = new String[]{"Public-facing", "Name", "Record count"};
+
+    if (orderby == null) {
+        orderby = orderOpts[0];
+    }
+
+    if (command == null || command.isEmpty() || command.equals("edit")) {
+        ArrayList<Facility> facilities = DBConnect.getAllFacilities(false, orderby);
+        String table = HTMLGeneration.getFacilityTable(facilities, true);
+%>
+<div class="site_container">
+    <p class="main_header">Edit Facilities:</p>
+    <form style='display: inline-block;width: 16%' class='view_opts' action='EditFacilityChooser.jsp'>
+        <div class="mousetype_selection_links" style="padding-bottom: 10px;">
+            <ul class="label_text" style="columns:1;font-size:16px">
+                <li style="margin-top: 0px;">
+                    Sort by: <%= HTMLGeneration.genSelect("orderby", orderOpts, orderOptLabels, orderby, null, true)  %>
+                </li>
+            </ul>
+        </div>
+    </form>
+    <div class="MSU_green_button" style="float:right;display: inline-block;width: 9%">
+        <a class='anchor_no_underline' href="EditFacilityChooser.jsp?command=add">
+            <p class="MSU_green_button_Text">Add Facility</p>
+        </a>
+    </div>
+    <div class="MSU_green_button" style="float:right;display: inline-block;width: 17%;margin-right: 10px;background-color:#008183ff;">
+        <a class='anchor_no_underline' href='#' id='sort_button' style="height: 100%;display: flex;align-content: center;justify-content: center;align-items: center;margin: auto;text-align: center;color: white;font-size: 18px;">
+            Change public sort order
+        </a>&nbsp;&nbsp;
+    </div>
+    <div class="spacing_div_minix2"></div>
+
+
+    <div class='sort-instructions' style='display:none'>
+        <p class="label_text">Click and drag rows to reorder them. Click 'Save changes' when done.</p>
+    </div>
     <%= table %>
     <%
-  }
-  else if (command.equals("add"))
-  {
+    } else if (command.equals("add")) {
     %>
     <h2>Add New Facility</h2>
 
     <form action="UpdateFacility.jsp" method="post">
         <table>
             <tr>
-                <td>Facility Name: </td>
+                <td>Facility Name:</td>
                 <td><input type=text name="facilityName" size=50></td>
             </tr>
             <tr>
-                <td>Facility Description: </td>
+                <td>Facility Description:</td>
                 <td><input type=text name="facilityDescription" size=50></td>
             </tr>
             <tr>
-                <td style='vertical-align:top'>Local experts:<br><i>email address first (if any),<br>one expert per line.</i></td>
+                <td style='vertical-align:top'>Local experts:<br><i>email address first (if any),<br>one expert per
+                    line.</i></td>
                 <td><textarea name="localExperts" rows="5" cols="50"></textarea></td>
             </tr>
             <tr>
-                <td>Facility Code: </td>
+                <td>Facility Code:</td>
                 <td><input type=text name="facilityCode" size=10></td>
             </tr>
             <tr>
                 <td colspan="2">
-                <input type="hidden" name="command" value="Insert">
-                <input type="submit" class="btn btn-success" value="Create Facility"></td>
+                    <input type="hidden" name="command" value="Insert">
+                    <input type="submit" class="btn btn-success" value="Create Facility"></td>
             </tr>
         </table>
     </form>
     <%
-  }
-%>
-</div>
-<style>
-.dndPlaceHolder {
-    background-color:Red ;
-    color:Red;
-    height: 20px; 
-    line-height:30px;
-    border: solid 2px black;
-  }    
+        }
+    %>
+</div></div>
 
-</style>
+<%=HTMLGeneration.getWebsiteFooter()%>
+
 <script>
-!function($){
-	var order = '<%=orderby%>';
-	var sorting = false;
-	var table_body = $("div.facilityTable table tbody");
-	var sort_button = $("#sort_button");
-	var instructions = $(".sort-instructions");
-	var positions = "";
-	sort_button.click(function(){
-		if (order != "position"){
-			updateStatus("To change the public-facing sort order, please choose 'Public-facing' from the sort menu first.");
-			return false;
-		}
-		if (sort_button.hasClass('disabled')){
-			return false;
-		}
-		sorting = !sorting;
-		
-		if (sorting) {
-			clearStatus();
-			table_body.addClass('sorting');
-			sort_button.text('Save changes');
-			instructions.show();
-			table_body.sortable({
-				placeholder: 'dndPlaceHolder',
-				distance:15,
-		      	items:'tr', 
-		      	forcePlaceholderSize:true, 
-		      	change : dndChange,
-		      	update : dndUpdate
-			}).disableSelection();
-		}
-		else {
-			sort_button.addClass('disabled');
-			sort_button.text('Saving...');
-			table_body.removeClass('sorting');
-			$.ajax({type: 'post',
-		          	url: '<%=HTMLGeneration.adminRoot %>UpdateFacilityOrder',
-		         	dataType: 'json',
-		          	success: updateOrderSuccess,
-		         	error: updateOrderFailed,
-		          	data: 'positions=' + positions,
-		          	async: true
-			});
-			
-		}
-		
-		
-	});
-	
-	function updateOrderSuccess(data) {
-		if (data.success) {
-			updateStatus('Order saved',true);
-		}
-		else{
-			updateOrderFailed(data);
-		}
-		sort_button.removeClass('disabled');
-		sort_button.text('Change public sort order');
-		instructions.hide();
-		
-	}
-	function updateOrderFailed(data){
-		updateStatus('Failed to save changes: ' + data.message,false);
-	}
-	
-	function updateStatus(message,success) {
-		$("#top_status_message").text(message)
-			.removeClass('alert-success').removeClass('alert-error')
-			.addClass(success ? 'alert-success' : 'alert-error')
-			.text(message)
-			.show();
-	}
-	
-	function clearStatus() {
-		$("#top_status_message").hide();
-	}
-	
-	
-	function dndChange(event,ui){
-		positions = "";
-  	}
+    !function ($) {
+        var order = '<%=orderby%>';
+        var sorting = false;
+        var table_body = $("div.facilityTable table tbody");
+        var sort_button = $("#sort_button");
+        var instructions = $(".sort-instructions");
+        var positions = "";
+        sort_button.click(function () {
+            if (order != "position") {
+                updateStatus("To change the public-facing sort order, please choose 'Public-facing' from the sort menu first.");
+                return false;
+            }
+            if (sort_button.hasClass('disabled')) {
+                return false;
+            }
+            sorting = !sorting;
 
-  	function dndUpdate(event,ui){
-  		positions = getSortOrder();
-  	}
-  	
-  	function getSortOrder() {
-  		var order = "";
-  		$("tbody tr td:first-child").each(function(i,column){
-  			if (i > 0) {
-  				order += ',';
-  			}
-  			order += $(column).text() + '-' + i;
-  		});
-  		return order;
-  	}
+            if (sorting) {
+                clearStatus();
+                table_body.addClass('sorting');
+                sort_button.text('Save changes');
+                instructions.show();
+                table_body.sortable({
+                    placeholder: 'dndPlaceHolder',
+                    distance: 15,
+                    items: 'tr',
+                    forcePlaceholderSize: true,
+                    change: dndChange,
+                    update: dndUpdate
+                }).disableSelection();
+            } else {
+                sort_button.addClass('disabled');
+                sort_button.text('Saving...');
+                table_body.removeClass('sorting');
+                $.ajax({
+                    type: 'post',
+                    url: '<%=HTMLGeneration.adminRoot %>UpdateFacilityOrder',
+                    dataType: 'json',
+                    success: updateOrderSuccess,
+                    error: updateOrderFailed,
+                    data: 'positions=' + positions,
+                    async: true
+                });
 
-	dndUpdate();
-}(jQuery);
+            }
+
+
+        });
+
+        function updateOrderSuccess(data) {
+            if (data.success) {
+                updateStatus('Order saved', true);
+            } else {
+                updateOrderFailed(data);
+            }
+            sort_button.removeClass('disabled');
+            sort_button.text('Change public sort order');
+            instructions.hide();
+
+        }
+
+        function updateOrderFailed(data) {
+            updateStatus('Failed to save changes: ' + data.message, false);
+        }
+
+        function updateStatus(message, success) {
+            $("#top_status_message").text(message)
+                .removeClass('alert-success').removeClass('alert-error')
+                .addClass(success ? 'alert-success' : 'alert-error')
+                .text(message)
+                .show();
+        }
+
+        function clearStatus() {
+            $("#top_status_message").hide();
+        }
+
+
+        function dndChange(event, ui) {
+            positions = "";
+        }
+
+        function dndUpdate(event, ui) {
+            positions = getSortOrder();
+        }
+
+        function getSortOrder() {
+            var order = "";
+            $("tbody tr td:first-child").each(function (i, column) {
+                if (i > 0) {
+                    order += ',';
+                }
+                order += $(column).text() + '-' + i;
+            });
+            return order;
+        }
+
+        dndUpdate();
+    }(jQuery);
 </script>

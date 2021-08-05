@@ -569,7 +569,7 @@ tr.facilitylistAlt {
     border-top: none;
     border-top: solid 1px black;
     border-right: solid 1px black;
-
+    border-left: solid 1px black;
 }
 
 .facilitylistHeaderRight {
@@ -578,6 +578,55 @@ tr.facilitylistAlt {
     font-size: 20px;
     color: white;
     border-top: none;
+    border-right: solid 1px black;
+    border-top: solid 1px black;
+}
+
+.adminFacilityHeaderID{
+    width: 5%;
+    height: 35px;
+    font-size: 20px;
+    color: white;
+    border-top: none;
+    border-top: solid 1px black;
+    border-right: solid 1px black;
+    border-left: solid 1px black;
+}
+.adminFacilityHeaderFacility{
+    width: 50%;
+    height: 35px;
+    font-size: 20px;
+    color: white;
+    border-top: none;
+    border-top: solid 1px black;
+    border-right: solid 1px black;
+}
+.adminFacilityHeaderRecords{
+    width: 15%;
+    height: 35px;
+    font-size: 20px;
+    color: white;
+    border-top: none;
+    border-top: solid 1px black;
+    border-right: solid 1px black;
+}
+.adminFacilityHeaderCode{
+    width: 15%;
+    height: 35px;
+    font-size: 20px;
+    color: white;
+    border-top: none;
+    border-top: solid 1px black;
+    border-right: solid 1px black;
+}
+.adminFacilityHeaderEdit{
+    width: 15%;
+    height: 35px;
+    font-size: 20px;
+    color: white;
+    border-top: none;
+    border-top: solid 1px black;
+    border-right: solid 1px black;
 }
 
 .holderTable {
