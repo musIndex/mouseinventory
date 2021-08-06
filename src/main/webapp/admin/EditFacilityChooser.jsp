@@ -59,7 +59,7 @@
                     <form action="UpdateFacility.jsp" method="post">
                         <table class="inputForm" style="width: 62%;">
                             <tr class="formFieldH">
-                                <td class="formHeaderCell" colspan="2">Holder Information</td>
+                                <td class="formHeaderCell" colspan="2">Facility Information</td>
                             </tr>
                             <tr class="formField">
                                 <td class="formLeft">*Facility Name</td>
