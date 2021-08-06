@@ -795,7 +795,7 @@ public class HTMLGeneration {
                 buf.append("<td class='editMouseCellSmallL'>Holder<br><br>Facility</td>");
             }
             buf.append("<td class='editMouseCellSmallR'><div style=\"position: relative\">");
-            if (holder.isNewlyAdded()){
+            if (holder.isNewlyAdded()) {
                 buf.append("<br><br>");
             }
             buf.append(HTMLGeneration.genSelect("holder_id-" + k, holderIDs,
@@ -2421,7 +2421,7 @@ public class HTMLGeneration {
     private static String getFacilityTableHeaders(boolean edit) {
         StringBuilder table = new StringBuilder();
         table.append("<tr class='facilitylistH'>\r\n");
-        if (edit){
+        if (edit) {
             table.append("<td class='adminFacilityHeaderID'>ID</td>");
             table.append("<td class='adminFacilityHeaderFacility'\">\r\n");
             table.append("Facility");
@@ -2435,8 +2435,7 @@ public class HTMLGeneration {
             table.append("<td class='adminFacilityHeaderEdit'\">\r\n");
             table.append("Edit");
             table.append("</td>\r\n");
-        }
-        else{
+        } else {
             table.append("<td class='facilitylistHeaderLeft'\">\r\n");
             table.append("Facility");
             table.append("</td>\r\n");
@@ -2459,41 +2458,57 @@ public class HTMLGeneration {
         table.append("</thead><tbody>");
         int numFacilities = 0;
 
-        for (Facility facility : facilities) {
+        if (edit) {
+            for (Facility facility : facilities) {
+                String rowStyle = getRowStyle(numFacilities, "facilitylist",
+                        "facilitylistAlt");
+                table.append("<tr class='" + rowStyle + "'>\r\n");
+                table.append("<td class='adminFacilityID'>" + facility.getFacilityID() + "</td>");
+                table.append("<td class='adminFacilityFacility'>\r\n");
+                table.append("<span class=\"mouseName\">"
+                        + facility.getFacilityName() + "</span> &nbsp;-&nbsp;"
+                        + facility.getFacilityDescription());
 
-            String rowStyle = getRowStyle(numFacilities, "facilitylist",
-                    "facilitylistAlt");
-            table.append("<tr class='" + rowStyle + "'>\r\n");
-            if (edit) {
-                table.append("<td class='facilitylistItemLeft'>" + facility.getFacilityID() + "</td>");
-                table.append("<td class='facilitylistItemRight'>\r\n");
+                table.append("</td><td class='adminFacilityRecords'>");
+                table.append("<span style=\"position:relative;left:5px\">"
+                        + "<a class='facilityItemLink' href=\""
+                        + siteRoot
+                        + "MouseReport.jsp?facility_id="
+                        + facility.getFacilityID()
+                        + "\">"
+                        + facility.getRecordCount() + " records</a></span>\r\n");
+
+                table.append("</td>\r\n");
+                table.append("<td class='adminFacilityCode'>" + HTMLGeneration.emptyIfNull(facility.getFacilityCode()) + "</td>");
+                table.append("<td class='adminFacilityEdit'><a href=\"EditFacilityForm.jsp?facilityID="
+                            + facility.getFacilityID() + "\">Edit facility #" + facility.getFacilityID() + "</a></td>\r\n");
+                table.append("</tr>");
+                numFacilities++;
             }
-            else{
+        } else {
+            for (Facility facility : facilities) {
+
+                String rowStyle = getRowStyle(numFacilities, "facilitylist",
+                        "facilitylistAlt");
+                table.append("<tr class='" + rowStyle + "'>\r\n");
                 table.append("<td class='facilitylistItemLeft'>\r\n");
+                table.append("<span class=\"mouseName\">"
+                        + facility.getFacilityName() + "</span> &nbsp;-&nbsp;"
+                        + facility.getFacilityDescription());
+                table.append("</td><td class='facilitylistItemRight'>");
+                table.append("<span style=\"position:relative;left:5px\">"
+                        + "<a class='facilityItemLink' href=\""
+                        + siteRoot
+                        + "MouseReport.jsp?facility_id="
+                        + facility.getFacilityID()
+                        + "\">"
+                        + facility.getRecordCount() + " records</a></span>\r\n");
+                table.append("</td>\r\n");
+                table.append("</tr>");
+                numFacilities++;
             }
-            table.append("<span class=\"mouseName\">"
-                    + facility.getFacilityName() + "</span> &nbsp;-&nbsp;"
-                    + facility.getFacilityDescription());
-
-            table.append("</td><td class='facilitylistItemRight'>");
-            table.append("<span style=\"position:relative;left:5px\">"
-                    + "<a class='facilityItemLink' href=\""
-
-                    + siteRoot
-                    + "MouseReport.jsp?facility_id="
-                    + facility.getFacilityID()
-                    + "\">"
-                    + facility.getRecordCount() + " records</a></span>\r\n");
-
-            table.append("</td>\r\n");
-            if (edit) {
-                table.append("<td class='facilitylistItemRight'>" + HTMLGeneration.emptyIfNull(facility.getFacilityCode()) + "</td>");
-                table.append("<td class='facilitylistItemRight'><a href=\"EditFacilityForm.jsp?facilityID="
-                        + facility.getFacilityID() + "\">Edit facility #"+facility.getFacilityID()+"</a></td>\r\n");
-            }
-            table.append("</tr>");
-            numFacilities++;
         }
+
         table.append("</tbody></table>\r\n");
         if (numFacilities <= 0)
             return "<p class=\"label_text\">No results found</p>";
@@ -2572,11 +2587,10 @@ public class HTMLGeneration {
         table.append("<td class='holderHeaderCell'\">\r\n");
         table.append("Holder Email");
         table.append("</td>\r\n");
-        if (edit){
+        if (edit) {
             table.append("<td class='holderHeaderCell' style='width:10%'\">\r\n");
 
-        }
-        else{
+        } else {
             table.append("<td class='holderHeaderCell'\">\r\n");
 
         }
@@ -2585,14 +2599,14 @@ public class HTMLGeneration {
         table.append("<td class='holderHeaderCell'\">\r\n");
         table.append("Colony Location");
         table.append("</td>\r\n");
-        if (edit){
+        if (edit) {
             table.append("<td class='holderHeaderCell' style='width:10%'\">\r\n");
 
-        }
-        else{
+        } else {
             table.append("<td class='holderHeaderCell'\">\r\n");
 
-        }        table.append("Review Date");
+        }
+        table.append("Review Date");
         table.append("</td>\r\n");
         table.append("<td class='holderHeaderCell'\">\r\n");
         table.append("Rodents Held");
@@ -2621,7 +2635,7 @@ public class HTMLGeneration {
             if (holder.isDeadbeat()) rowStyle += " deadbeat_holder";
             table.append("<tr class='" + rowStyle + "'>\r\n");
             if (edit) {
-                table.append("<td class='holderItemCell'>" + holder.getHolderID() + "</td>");
+                table.append("<td class='holderItemCell' style='width:5%'>" + holder.getHolderID() + "</td>");
             }
             table.append("<td class='holderItemCell'>\r\n");
 

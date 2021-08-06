@@ -538,6 +538,52 @@ tr.facilitylistAlt {
     background-color: #ccccccff;
 }
 
+tr.facilityListSpecial {
+    background-color: #FFFFFF;
+    width: 100% !important;
+    position: relative !important;
+}
+
+tr.facilityListSpecial:active {
+    padding: 0px;
+    height: 25px;
+}
+
+tr.facilityListSpecial:active > td.adminFacilityID {
+    width: 5% !important;
+}
+
+tr.facilityListSpecial:active > td.adminFacilityFacility {
+    width: 45% !important;
+}
+
+tr.facilityListSpecial:active > td.adminFacilityRecords, td.adminFacilityCode, td.adminFacilityEdit {
+    width: 15% !important;
+}
+
+tr.facilityListSpecialAlt {
+    background-color: #ccccccff;
+    width: 100% !important;
+    position: relative !important;
+}
+
+tr.facilityListSpecialAlt:active {
+    padding: 0px;
+    height: 25px;
+}
+
+tr.facilityListSpecialAlt:active > td.adminFacilityID {
+    width: 5% !important;
+}
+
+tr.facilityListSpecialAlt:active > td.adminFacilityFacility {
+    width: 45% !important;
+}
+
+tr.facilityListSpecialAlt:active > td.adminFacilityRecords, td.adminFacilityCode, td.adminFacilityEdit {
+    width: 15% !important;
+}
+
 .facilityItemLink {
     color: black;
     text-decoration: underline;
@@ -582,7 +628,7 @@ tr.facilitylistAlt {
     border-top: solid 1px black;
 }
 
-.adminFacilityHeaderID{
+.adminFacilityHeaderID {
     width: 5%;
     height: 35px;
     font-size: 20px;
@@ -592,7 +638,8 @@ tr.facilitylistAlt {
     border-right: solid 1px black;
     border-left: solid 1px black;
 }
-.adminFacilityHeaderFacility{
+
+.adminFacilityHeaderFacility {
     width: 50%;
     height: 35px;
     font-size: 20px;
@@ -601,7 +648,8 @@ tr.facilitylistAlt {
     border-top: solid 1px black;
     border-right: solid 1px black;
 }
-.adminFacilityHeaderRecords{
+
+.adminFacilityHeaderRecords {
     width: 15%;
     height: 35px;
     font-size: 20px;
@@ -610,7 +658,8 @@ tr.facilitylistAlt {
     border-top: solid 1px black;
     border-right: solid 1px black;
 }
-.adminFacilityHeaderCode{
+
+.adminFacilityHeaderCode {
     width: 15%;
     height: 35px;
     font-size: 20px;
@@ -619,7 +668,8 @@ tr.facilitylistAlt {
     border-top: solid 1px black;
     border-right: solid 1px black;
 }
-.adminFacilityHeaderEdit{
+
+.adminFacilityHeaderEdit {
     width: 15%;
     height: 35px;
     font-size: 20px;
@@ -627,6 +677,53 @@ tr.facilitylistAlt {
     border-top: none;
     border-top: solid 1px black;
     border-right: solid 1px black;
+}
+
+
+.adminFacilityID {
+    width: 5%;
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    border-left: solid 1px black;
+    font-size: 16px;
+    height: 25px;
+    color: black;
+}
+
+.adminFacilityFacility {
+    width: 50%;
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    font-size: 16px;
+    height: 25px;
+    color: black;
+}
+
+.adminFacilityRecords {
+    width: 15%;
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    font-size: 16px;
+    height: 25px;
+    color: black;
+}
+
+.adminFacilityCode {
+    width: 15%;
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    font-size: 16px;
+    height: 25px;
+    color: black;
+}
+
+.adminFacilityEdit {
+    width: 15%;
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+    font-size: 16px;
+    height: 25px;
+    color: black;
 }
 
 .holderTable {
@@ -2423,6 +2520,7 @@ a.navBarAnchor_noTint:visited {
     border-bottom: solid 1px black;
 }
 
-.palette{
-/*    blue*/background-color:#008183ff
+.palette {
+    /*    blue*/
+    background-color: #008183ff
 }

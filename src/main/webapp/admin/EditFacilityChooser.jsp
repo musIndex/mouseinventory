@@ -34,8 +34,10 @@
             <p class="MSU_green_button_Text">Add Facility</p>
         </a>
     </div>
-    <div class="MSU_green_button" style="float:right;display: inline-block;width: 17%;margin-right: 10px;background-color:#008183ff;">
-        <a class='anchor_no_underline' href='#' id='sort_button' style="height: 100%;display: flex;align-content: center;justify-content: center;align-items: center;margin: auto;text-align: center;color: white;font-size: 18px;">
+    <div class="MSU_green_button"
+         style="float:right;display: inline-block;width: 17%;margin-right: 10px;background-color:#008183ff;">
+        <a class='anchor_no_underline' href='#' id='sort_button'
+           style="height: 100%;display: flex;align-content: center;justify-content: center;align-items: center;margin: auto;text-align: center;color: white;font-size: 18px;">
             Change public sort order
         </a>&nbsp;&nbsp;
     </div>
@@ -80,7 +82,8 @@
     <%
         }
     %>
-</div></div>
+</div>
+</div>
 
 <%=HTMLGeneration.getWebsiteFooter()%>
 
@@ -104,11 +107,27 @@
 
             if (sorting) {
                 clearStatus();
+                var normalRows = document.getElementsByClassName("facilitylist");
+                var altRows = document.getElementsByClassName("facilitylistAlt");
+                var index = 0;
+                while (index < normalRows.length) {
+                    normalRows[index].classList.add('facilityListSpecial');
+                    normalRows[index].classList.remove('facilitylist');
+                    if (index < altRows.length) {
+                        altRows[index].classList.add('facilityListSpecialAlt');
+                        altRows[index].classList.remove('facilitylistAlt');
+                    }
+                    if (index % 2 == 0) {
+
+                    } else {
+                        index++;
+                    }
+                }
                 table_body.addClass('sorting');
                 sort_button.text('Save changes');
                 instructions.show();
                 table_body.sortable({
-                    placeholder: 'dndPlaceHolder',
+                    placeholder: 'adminFacilityID',
                     distance: 15,
                     items: 'tr',
                     forcePlaceholderSize: true,
@@ -116,6 +135,25 @@
                     update: dndUpdate
                 }).disableSelection();
             } else {
+                var normalRows = document.getElementsByClassName("facilityListSpecial");
+                var altRows = document.getElementsByClassName("facilityListSpecialAlt");
+                document.getSelection()
+                var index = 0;
+                if ((normalRows.length > 0) && (altRows.length > 0)) {
+                    while (index < normalRows.length) {
+                        normalRows[index].classList.add('facilitylist');
+                        normalRows[index].classList.remove('facilityListSpecial');
+                        if (index < altRows.length) {
+                            altRows[index].classList.add('facilitylistAlt');
+                            altRows[index].classList.remove('facilityListSpecialAlt');
+                        }
+                        if (index % 2 == 0) {
+
+                        } else {
+                            index++;
+                        }
+                    }
+                }
                 sort_button.addClass('disabled');
                 sort_button.text('Saving...');
                 table_body.removeClass('sorting');
