@@ -51,34 +51,61 @@
     <%
     } else if (command.equals("add")) {
     %>
-    <h2>Add New Facility</h2>
-
-    <form action="UpdateFacility.jsp" method="post">
-        <table>
-            <tr>
-                <td>Facility Name:</td>
-                <td><input type=text name="facilityName" size=50></td>
-            </tr>
-            <tr>
-                <td>Facility Description:</td>
-                <td><input type=text name="facilityDescription" size=50></td>
-            </tr>
-            <tr>
-                <td style='vertical-align:top'>Local experts:<br><i>email address first (if any),<br>one expert per
-                    line.</i></td>
-                <td><textarea name="localExperts" rows="5" cols="50"></textarea></td>
-            </tr>
-            <tr>
-                <td>Facility Code:</td>
-                <td><input type=text name="facilityCode" size=10></td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input type="hidden" name="command" value="Insert">
-                    <input type="submit" class="btn btn-success" value="Create Facility"></td>
-            </tr>
-        </table>
-    </form>
+    <div class="site_container">
+        <p class="main_header">Add New Facility</p>
+        <div class="category">
+            <div class="two_column_left">
+                <div class="formbody">
+                    <form action="UpdateFacility.jsp" method="post">
+                        <table class="inputForm" style="width: 62%;">
+                            <tr class="formFieldH">
+                                <td class="formHeaderCell" colspan="2">Holder Information</td>
+                            </tr>
+                            <tr class="formField">
+                                <td class="formLeft">*Facility Name</td>
+                                <td class="formRight">
+                                    <input type=text name="facilityName" class='formInput' required>
+                                </td>
+                            </tr>
+                            <tr class="formField">
+                                <td class="formLeft">*Facility Description</td>
+                                <td class="formRight">
+                                    <input type=text name="facilityDescription" class='formInput' required>
+                                </td>
+                            </tr>
+                            <tr class="formField">
+                                <td class="formLeft">
+                                    Local experts
+                                    <%--                                <br><i>email address first (if any),<br>one expert per line.</i>--%>
+                                </td>
+                                <td class="formRight">
+                                <textarea name="localExperts" class="formInput"
+                                          style="resize: none;margin-top: 13px;margin-bottom: 13px;width: 212.8px"
+                                          rows="7"></textarea>
+                                </td>
+                            </tr>
+                            <tr class="formField">
+                                <td class="formLeft">*Facility Code</td>
+                                <td class="formRight">
+                                    <input type=text name="facilityCode" class='formInput' required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="spacing_div_minix2"></div>
+                                    <div class="MSU_green_button" style="width: 32%;float: right;margin-right: -3px;">
+                                        <input type="hidden" name="command" value="Insert">
+                                        <input type="submit" value="Create Facility"
+                                               style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <%
         }
     %>
