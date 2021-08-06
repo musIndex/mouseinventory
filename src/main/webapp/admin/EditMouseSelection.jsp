@@ -2,6 +2,7 @@
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.microsoft.applicationinsights.core.dependencies.apachecommons.lang3.StringUtils" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%@include file="../mouselistcommon.jspf" %>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
@@ -10,9 +11,9 @@
 
 <%
 
-  int holderID = HTMLGeneration.stringToInt(request.getParameter("holder_id"));
-  int geneID = HTMLGeneration.stringToInt(request.getParameter("geneID"));
-  int mouseTypeID = HTMLGeneration.stringToInt(request.getParameter("mousetype_id"));
+  int holderID = stringToInt(request.getParameter("holder_id"));
+  int geneID = stringToInt(request.getParameter("geneID"));
+  int mouseTypeID = stringToInt(request.getParameter("mousetype_id"));
 
   String searchTerms = request.getParameter("searchterms");
   String orderBy = request.getParameter("orderby");
@@ -60,19 +61,17 @@
   query.add("holder_id=" + holderID);
   query.add("orderby=" + orderBy);
   query.add("geneID=" + geneID);
+  query.add("creonly=" + creOnly);
   query.add("mousetype_id=" + mouseTypeID);
-  query.add("searchterms=" + searchTerms);
-  query.add("status=" + status);
+  query.add("facility_id=" + facilityID);
+  query.add("status=live");
   if (species)
     query.add("is_rat=" + 1);
   else
     query.add("is_rat=" + 0);
 
-  String queryString = "";
 
-  for (String s : query) {
-      queryString += s + "&";
-  }
+  String queryString = StringUtils.join(query, "&");
 
 
   int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", searchTerms, false, creOnly, facilityID,false, species);
@@ -84,13 +83,13 @@
 
   ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
 
-  String mouseTypeSelectionLinks = HTMLGeneration.getMouseTypeSelectionLinks(mouseTypeID, orderBy,holderID,geneID, mouseTypes, status,searchTerms,-1,-1,species);
+  String mouseTypeSelectionLinks = HTMLGeneration.getMouseTypeSelectionLinks(mouseTypeID, orderBy,holderID,geneID, mouseTypes, status,searchTerms,-1,facilityID,species);
   String topPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
   String bottomPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
 
 
   Holder holder = DBConnect.getHolder(holderID);
-
+  Facility facility = DBConnect.getFacility(facilityID);
   Gene gene = DBConnect.getGene(geneID);
 
   String mouseTypeStr = "";
