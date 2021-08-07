@@ -64,7 +64,7 @@
                 buf.append("<p class=\"main_header\">This holder is still liked to a record and cannot be deleted</p>");
             } else {
                 DBConnect.deleteHolder(id);
-                buf.append("<p class=\"main_header\">Holder " + originalHolder.getFullname() + " has been deleted</p>");
+                buf.append("<p class=\"main_header\">Holder \"" + originalHolder.getFullname() + "\" has been deleted</p>");
             }
         } else {
             buf.append("<p class=\"main_header\">Confirm that you want to delete this holder</p>\r\n");
