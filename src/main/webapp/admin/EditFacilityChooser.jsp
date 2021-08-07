@@ -122,6 +122,7 @@
         var sort_button = $("#sort_button");
         var instructions = $(".sort-instructions");
         var positions = "";
+        table_body.sortable("disable");
         sort_button.click(function () {
             if (order != "position") {
                 updateStatus("To change the public-facing sort order, please choose 'Public-facing' from the sort menu first.");
