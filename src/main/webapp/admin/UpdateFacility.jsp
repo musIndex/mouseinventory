@@ -30,19 +30,20 @@
         }
     }
     if (command == null || command.isEmpty()) {
-        buf.append("<h2>No command received.  Expected 'Edit','Delete',or 'Insert'</h2>");
+        buf.append("<p class=\"main_header\" style=\"line-height:36px\">No command received.<br>Expected 'Edit','Delete',or 'Insert'</p>");
     } else if (command.equals("Edit")) {
         if (id <= 0) {
-            buf.append("<h2>No facility ID received</h2>");
+            buf.append("<p class=\"main_header\">No facility ID received</p>");
         } else {
-            buf.append("<h2>Before edit:</h2> ");
+            buf.append("<p class=\"main_header\">Changes successful</p>");
+            buf.append("<p class=\"label_text\" style=\"font-size:24px\">Before edit:</p> ");
             buf.append(originalFacilityTable);
 
             DBConnect.updateFacility(editedFacility);
 
             facilities.clear();
             facilities.add(DBConnect.getFacility(id));
-            buf.append("<h2>After edit:</h2> ");
+            buf.append("<p class=\"label_text\" style=\"font-size:24px\">After edit:</p> ");
             buf.append(HTMLGeneration.getFacilityTable(facilities, true));
         }
     } else if (command.equals("Insert")) {
@@ -57,26 +58,27 @@
         if (confirmed) {
             ArrayList<Integer> facilityMouseIDs = DBConnect.getMiceInFacility(id);
             if (id <= 0) {
-                buf.append("<h2>No facility ID received</h2>");
+                buf.append("<p class=\"main_header\">No facility ID received</p>");
             } else if (facilityMouseIDs != null && facilityMouseIDs.size() > 0) {
-                buf.append("<h2>This facility is still liked to a record and cannot be deleted!</h2>");
+                buf.append("<p class=\"main_header\">This facility is still liked to a record and cannot be deleted</p>");
             } else {
                 DBConnect.deleteFacility(id);
-                buf.append("<h2>Facility " + originalFacility.getFacilityName() + " has been deleted</h2>");
+                buf.append("<p class=\"main_header\">Facility \"" + originalFacility.getFacilityName() + "\" has been deleted</p>");
             }
         } else {
-            buf.append("<h2>Confirm that you want to delete this facility</h2>\r\n");
+            buf.append("<p class=\"main_header\">Confirm that you want to delete this facility</p>\r\n");
             buf.append(originalFacilityTable);
+            buf.append("<div class=\"spacing_div_minix2\"></div>");
             buf.append("<form action=\"UpdateFacility.jsp\" method=\"post\">");
+            buf.append("<div class=\"MSU_back_button\" style=\"width: 13%;float: right;float: left;margin-left:0px;\">");
             buf.append("    <input type=\"hidden\" name=\"facilityID\" value=\"" + id + "\">");
             buf.append("    <input type=\"hidden\" name=\"confirm\" value=\"yes\">");
-            buf.append("    Yes, I want to delete this facility: ");
-            buf.append("    <input type=\"submit\" class='btn btn-danger' name=\"command\" value=\"Delete\">");
-            buf.append("</form>");
-            buf.append("<p>Else click your browser's BACK button.</p>");
+            buf.append("<input type=\"hidden\" name=\"command\" value=\"Delete\">");
+            buf.append("<input type=\"submit\" value=\"Delete Facility\" style=\"width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;\">");
+            buf.append("</div></form>");
         }
     } else {
-        buf.append("<h2>Unrecognized command '" + command + "'.  Expected 'Edit','Delete',or 'Insert'</h2>");
+        buf.append("<p class=\"main_header\">Unrecognized command '" + command + "'.  Expected 'Edit','Delete',or 'Insert'</p>");
     }
 %>
 <div class="site_container">

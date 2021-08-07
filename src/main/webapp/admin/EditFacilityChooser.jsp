@@ -153,6 +153,7 @@
                 table_body.addClass('sorting');
                 sort_button.text('Save changes');
                 instructions.show();
+                table_body.sortable("enable");
                 table_body.sortable({
                     placeholder: 'adminFacilityID',
                     distance: 15,
@@ -193,6 +194,7 @@
                     data: 'positions=' + positions,
                     async: true
                 });
+                table_body.sortable("disable");
 
             }
 

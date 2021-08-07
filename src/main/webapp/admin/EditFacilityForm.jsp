@@ -90,7 +90,7 @@
                      style="width: 23%;float: right;float: left;margin-top: -72px;margin-left:0px;">
                     <input type="hidden" name="command" value="Delete">
                     <input type="hidden" name="facilityID" value="<%= id %>">
-                    <input type="submit" value="Delete Holder"
+                    <input type="submit" value="Delete Facility"
                            style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
                 </div>
             </form>
@@ -104,6 +104,18 @@
                 </a>
             </div>
             <%} %>
+        </div>
+        <div class="two_column_right">
+            <%
+                if (!mayDelete) {
+            %>
+            <div style="margin-left: -100px;">
+                <p class="label_text" style="font-weight: bold;margin-top: 0em">This facility is linked to one or more mouse records and
+                    cannot be deleted.</p>
+            </div>
+            <%
+                }
+            %>
         </div>
     </div>
 </div>
