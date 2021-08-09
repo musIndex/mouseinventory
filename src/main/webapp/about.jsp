@@ -179,6 +179,9 @@
                             Version 3.1 Updated by Jacob Willinger, Chris Cardimen November 2020.
                             Version 3.2 Updated by Chris Cardimen February 2021.
                             Version 4.0 Updated by Chris Cardimen June 2021.
+                            <br>
+                            Photo courtesy of University Communications.
+                            Photo © 2015 Michigan State University Board of Trustees.
                         </p>
                     </a>
                 </div>
