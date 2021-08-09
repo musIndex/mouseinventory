@@ -110,11 +110,11 @@
                         updatedRecord.setPubmedIDs(sub.toRatRecord().getPubmedIDs());
                         DBConnect.updateMouseRecord(updatedRecord);
                     } else {
-                        if (updatedRecord.getExpressedSequence().equals("Mouse Gene (unmodified)")) {
+                        if ((updatedRecord.getExpressedSequence() != null) && updatedRecord.getExpressedSequence().equals("Mouse Gene (unmodified)")) {
                             updatedRecord.setTargetGeneID(sub.getTGMouseGene());
                             updatedRecord.setRegulatoryElement(sub.getTGRegulatoryElement());
                         }
-                        if (updatedRecord.isMA() && (sub.getMAMgiGeneID() != null || !sub.getMAMgiGeneID().equals(""))){
+                        if (updatedRecord.isMA() && (sub.getMAMgiGeneID() != null || !sub.getMAMgiGeneID().equals(""))) {
                             updatedRecord.setGeneLink(sub.getMAMgiGeneID());
                         }
                         DBConnect.updateMouseRecord(updatedRecord);
@@ -188,22 +188,25 @@
     <%
         if (updateCommand.equals("Convert to Record")) {
     %>
-    <h3>Submission was:</h3>
-    <%= submissionTable%>
-    <br>
-    <h3>New Record:</h3>
-    <form action="UpdateSubmission.jsp" method="post">
+    <form action="UpdateSubmission.jsp" method="post" style="float: right">
+        <div class="MSU_back_button" style="width: 102%;float: right;margin-left:0px;background-color:#F08521;">
         <input type="hidden" name="mouseID" value="<%= mouseID %>"/>
         <input type="hidden" name="submittedMouseID" value="<%= submissionID %>">
-        <input type="submit" class="btn btn-warning" name="submitButton" value="Undo conversion to Record">
+        <input type="submit" name="submitButton" value="Undo conversion to Record" style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
+        </div>
     </form>
+    <p class="label_text" style="font-size: 24px">Submission was:</p>
+    <%= submissionTable%>
+    <br>
+    <p class="label_text" style="font-size: 24px">New Record:</p>
+
     <%
     } else if (updateCommand.equals("Move to Hold")) {
     %>
-    <h3>Submission was:</h3>
+    <p class="label_text" style="font-size: 24px">Submission was:</p>
     <%= submissionTable%>
     <br>
-    <h3>Incomplete Record:</h3>
+    <p class="label_text" style="font-size: 24px">Incomplete Record:</p>
     <%
         }
 
@@ -214,8 +217,8 @@
         }
     } else {
     %>
-    <h3 class="validationError"><%=errors %>
-    </h3>
+    <p class="label_text"><%=errors %>
+    </p>
     <%=errortext %>
     <%
         }
