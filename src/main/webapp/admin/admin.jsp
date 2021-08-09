@@ -232,7 +232,6 @@
             hold_buf.append("</tr>");
         }
         hold_buf.append("</table>");
-        hold_buf.append("</div>");
     }
 
 
@@ -254,7 +253,6 @@
         <div class="two_column_left">
             <%=buf.toString() %>
             <%=hold_buf.toString()%>
-
         </div>
         <div class="two_column_right">
             <%=right_buf.toString()%>
