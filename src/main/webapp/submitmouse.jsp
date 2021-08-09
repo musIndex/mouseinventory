@@ -218,6 +218,7 @@
         <div class="three_column_right">
             <img src="/img/Mouse.svg" class="image-center" style="width: 50%;">
             <br>
+
             <p class="button_header">Submit Another Rodent</p>
             <p class="button_body_text">Have more rodents to submit? Click below to return to the beginning of the
                 submission process.</p>
@@ -228,6 +229,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 <%=HTMLGeneration.getWebsiteFooter()%>

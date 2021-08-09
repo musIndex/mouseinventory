@@ -77,6 +77,7 @@
                 if (mouseID < 0) {
 
 
+
                     mouseID = DBConnect.insertMouseRecord(updatedRecord);
                     DBConnect.updateMouseSearchTable(Integer.toString(mouseID)); //redundant, but adding in case this solves odd bug
                     DBConnect.setSubmissionID(mouseID, submissionID);

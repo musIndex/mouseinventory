@@ -91,6 +91,7 @@
                     async: true
                 });
 
+
             }
 
             function rgdLookupSuccess(data) {
@@ -150,13 +151,16 @@
                     message.css("color", "black");
                 }
 
+
             }
+
 
             function rgdLookupError(data) {
                 var message = $("#popupDialogMessage");
                 message.html("Unexpected error.  Please try again later.");
                 message.css("color", "black");
             }
+
 
             function formatRgdLink(rgdNumber) {
                 return "<a class='MP' target='_blank' href='https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=" + rgdNumber + "'>RGD:" + rgdNumber + "</a>";
