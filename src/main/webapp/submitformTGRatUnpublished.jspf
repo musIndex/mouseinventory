@@ -121,9 +121,9 @@
 <%
   String[] whereProducedLabels = new String[]{
           "Onsite",
-          "Another laboratory"};
+          "Another laboratory", "Vendor"};
 
-  String[] whereProducedValues = new String[]{"Yes", "No"};
+  String[] whereProducedValues = new String[]{"Yes", "No", "No"};
 %>
 
 <tr class="formField">
