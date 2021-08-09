@@ -1,113 +1,169 @@
 <%@page import="java.util.ArrayList" %>
-<%@page import="edu.ucsf.mousedatabase.*"%>
-<%@page import="edu.ucsf.mousedatabase.objects.*"%>
+<%@page import="edu.ucsf.mousedatabase.*" %>
+<%@page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@page import="static edu.ucsf.mousedatabase.HTMLGeneration.*" %>
-<%=HTMLGeneration.getPageHeader(null,false,true) %>
+<%=HTMLGeneration.getPageHeader(null, false, true) %>
 <%=HTMLGeneration.getNavBar("EditHolderChooser.jsp", true) %>
 
 <%
-  int id = -1;;
-  Holder holder = null;
-  ArrayList<Integer> holderMouseIDs = null;
-  boolean mayDelete = false;
-  try
-  {
-    id = HTMLGeneration.stringToInt(request.getParameter("holderID"));
-    holder = DBConnect.getHolder(id);
-    if (holder == null) throw new Exception("Holder not found");
-      holderMouseIDs = DBConnect.getMiceWithHolder(id);
-       mayDelete = holderMouseIDs.size() <= 0;
-  }
-  catch (Exception e)
-  {
-    %>
-    <div class="site_container">
-    <h2>Holder not found</h2>
-    </div>
-    <%
-    return;
-  }
+    int id = -1;
+    ;
+    Holder holder = null;
+    ArrayList<Integer> holderMouseIDs = null;
+    boolean mayDelete = false;
+    try {
+        id = HTMLGeneration.stringToInt(request.getParameter("holderID"));
+        holder = DBConnect.getHolder(id);
+        if (holder == null) throw new Exception("Holder not found");
+        holderMouseIDs = DBConnect.getMiceWithHolder(id);
+        mayDelete = holderMouseIDs.size() <= 0;
+    } catch (Exception e) {
 %>
 <div class="site_container">
-<h2>Edit Holder #<%=holder.getHolderID() %></h2>
-
-<form action="UpdateHolder.jsp" method="post">
-    <table>
-        <tr>
-            <td>First name</td>
-            <td><input type=text name="firstname" size=20 value="<%= holder.getFirstname() %>"></td>
-        </tr>
-        <tr>
-            <td>Last name</td>
-            <td><input type=text name="lastname" size=20 value="<%= holder.getLastname() %>"></td>
-        </tr>
-        <tr>
-            <td>Department</td>
-            <td><input type=text name="dept" size=40 value="<%= holder.getDept() %>"></td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td><input type=text name="email" size=40 value="<%= holder.getEmail() %>"></td>
-        </tr>
-         <tr>
-            <td>Tel</td>
-            <td><input type=text name="tel" size=20 value="<%= holder.getTel() %>"></td>
-        </tr>
-
-        <tr>
-            <td>Primary Contact Name
-            </td>
-            <td><input type=text name="alternateName" size=40 value="<%= HTMLGeneration.emptyIfNull(holder.getAlternateName()) %>">
-            <br><i>The primary contact for communications about the database, appointed by the holder</i></td>
-        </tr>
-        <tr>
-            <td>Primary Contact Email
-            </td>
-            <td><input type=text name="alternateEmail" size=40 value="<%= HTMLGeneration.emptyIfNull(holder.getAlternateEmail()) %>">
-            <br><i>This email will be the recipient for email links for this holder in the mouse list,
-            with the holder's email address added as a cc.</i>
-            <br>
-            <b>Leave this field blank if the holder is the primary contact.</b></td>
-        </tr>
-        <tr>
-            <td>Primary location of colony</td>
-            <td><input type=text name="primaryMouseLocation" size=20 value="<%= emptyIfNull(holder.getPrimaryMouseLocation()) %>"></td>
-        </tr>
-        <tr>
-            <td>Deadbeat holder (Not updating mouse list)</td>
-            <td><input type=checkbox name="isDeadbeat" <%= holder.isDeadbeat() ? "checked=checked" : "" %>></td>
-        </tr> 
-        <tr>
-            <td>Last review date: (format: yyyy-mm-dd)</td>
-            <td><input type=text name="dateValidated" size=20
-            value="<%= HTMLGeneration.emptyIfNull(holder.getDateValidated())%>"></td>
-        </tr>
-        <tr>
-            <td>Review status:</td>
-            <td><input type=text name="validationStatus" size=20
-            value="<%= HTMLGeneration.emptyIfNull(holder.getValidationStatus())%>"></td>
-        </tr>
-
-        <tr>
-            <td colspan=2>
-            <input type="hidden" name="command" value="Edit">
-            <input type="hidden" name="holderID" value="<%= id %>">
-            <input type="submit" class="btn btn-primary" value="Save Changes"></td>
-        </tr>
-    </table>
-</form>
-<br>
-<%if(mayDelete) { %>
-<form action="UpdateHolder.jsp" method="post">
-    <input type="hidden" name="holderID" value="<%= id %>">
-    Delete this holder?
-    <input type="submit" class="btn btn-danger" name="command" value="Delete">
-</form>
-<%}
-else { %>
-  This Holder is linked to one or more mouse records and cannot be deleted.
-  <br>
-  <br>
-  <a class='btn' href='<%=adminRoot %>EditMouseSelection.jsp?holder_id=<%= id %>'>Edit this holder's records (<%=holderMouseIDs.size() %>)</a>
- <%} %>
+    <p class="main_header">Holder not found</p>
 </div>
+<%
+        return;
+    }
+%>
+<div class="site_container">
+    <p class="main_header">Editing Holder #<%=holder.getHolderID() %>
+    </p>
+    <div class="category">
+        <div class="two_column_left">
+            <div class="formbody">
+                <form action="UpdateHolder.jsp" method="post">
+                    <table class="inputForm" style="width: 62%;">
+                        <tr class="formFieldH">
+                            <td class="formHeaderCell" colspan="2">Holder Information</td>
+                        </tr>
+                        <tr class="formField">
+                            <td class="formLeft">*First name</td>
+                            <td class="formRight">
+                                <input class='formInput' required type=text name="firstname"
+                                       value="<%= holder.getFirstname() %>">
+                            </td>
+                        </tr>
+                        <tr class="formField">
+                            <td class="formLeft">*Last name</td>
+                            <td class="formRight">
+                                <input class='formInput' required type=text name="lastname"
+                                       value="<%= holder.getLastname() %>">
+                            </td>
+                        </tr>
+                        <tr class="formField">
+                            <td class="formLeft">*Department</td>
+                            <td class="formRight">
+                                <input type=text name="dept" class='formInput' required value="<%= holder.getDept() %>">
+                            </td>
+                        </tr>
+                        <tr class="formField">
+                            <td class="formLeft">*Email</td>
+                            <td class="formRight">
+                                <input type=email name="email" class='formInput' required
+                                       value="<%= holder.getEmail() %>">
+                            </td>
+                        </tr>
+                        <tr class="formField">
+                            <td class="formLeft" style="line-height: 21px">*Primary Contact Name</td>
+                            <td class="formRight">
+                                <input type=text name="alternateName" class='formInput' required
+                                       value="<%= HTMLGeneration.emptyIfNull(holder.getAlternateName()) %>">
+                            </td>
+                        </tr>
+                        <tr class="formField">
+                            <td class="formLeft" style="line-height: 21px">Primary Contact Email</td>
+                            <td class="formRight">
+                                <input type=email name="alternateEmail" class='formInput'
+                                       value="<%= HTMLGeneration.emptyIfNull(holder.getAlternateEmail()) %>">
+                            </td>
+                        </tr>
+                        <tr class="formField">
+                            <td class="formLeft" style="line-height: 21px">*Primary Colony Location</td>
+                            <td class="formRight">
+                                <input type=text name="primaryMouseLocation" class='formInput' required
+                                       value="<%= emptyIfNull(holder.getPrimaryMouseLocation()) %>"></td>
+                        </tr>
+                        <tr class="formField">
+                            <td class="formLeft">Last review date</td>
+                            <td class="formRight">
+                                <input type=text name="dateValidated"
+                                       value="<%= HTMLGeneration.emptyIfNull(holder.getDateValidated())%>">
+                            </td>
+                        </tr>
+                        <tr class="formField">
+                            <td class="formLeft">Review status</td>
+                            <td class="formRight">
+                                <input type=text name="validationStatus" size=20
+                                       value="<%= HTMLGeneration.emptyIfNull(holder.getValidationStatus())%>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="spacing_div_minix2"></div>
+                                <div class="MSU_green_button" style="width: 36%;float: right;margin-right: -3px;">
+                                    <input type="hidden" name="command" value="Edit">
+                                    <input type="hidden" name="holderID" value="<%= id %>">
+                                    <input type="submit" value="Save Changes"
+                                           style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <%if (mayDelete) { %>
+                <form action="UpdateHolder.jsp" method="post">
+                    <div class="MSU_back_button"
+                         style="width: 23%;float: right;float: left;margin-top: -72px;margin-left:0px;">
+                        <input type="hidden" name="command" value="Delete">
+                        <input type="hidden" name="holderID" value="<%= id %>">
+                        <input type="submit" value="Delete Holder"
+                               style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
+                    </div>
+                </form>
+                <%} else { %>
+                <div class="MSU_back_button"
+                     style="background-color:#008183ff;width: 23%;margin-left:0px;float: right;float: left;margin-top: -72px;">
+                    <a class='anchor_no_underline' href='<%=adminRoot %>EditMouseSelection.jsp?holder_id=<%= id %>'>
+                        <p class="MSU_green_button_Text">
+                            Edit this holder's records (<%=holderMouseIDs.size() %>)
+                        </p>
+                    </a>
+
+                </div>
+                <%} %>
+            </div>
+        </div>
+        <div class="two_column_right">
+            <div class="sidebar_desc"
+                 style="width: 100%;margin-left:-100px;padding-left: 10px;margin-top: 0px;padding-top: 3px;padding-right: 6px;height: 225px">
+                <p class="block_form_desc_text">When entering a</p>
+                <p class="block_form_label_text"> primary contact name</p>
+                <p class="block_form_desc_text">, please use either the holder themselves or the individual
+                    appointed by the
+                    holder to review and accept communications about the database.<br><br></p>
+                <p class="block_form_desc_text">Similarly, the</p>
+                <p class="block_form_label_text">primary contact email</p>
+                <p class="block_form_desc_text">will be the recipient for email links for this holder in the mouse
+                    list, with the holder's email address added as a cc.<br>
+                    Please leave this field blank if the holder is the primary contact.<br><br>
+                    Format for the </p>
+                <p class="block_form_label_text"> last review date</p>
+                <p class="block_form_desc_text"> is as follows: (mm-dd-yyyy).<br><br>
+                    * Indicates required field.</p>
+            </div>
+            <%
+                if (!mayDelete) {
+            %>
+            <div style="margin-left: -100px;">
+                <p class="label_text" style="font-weight: bold">This Holder is linked to one or more mouse records and
+                    cannot be deleted.</p>
+            </div>
+            <%
+                }
+            %>
+        </div>
+    </div>
+</div>
+
+<%=HTMLGeneration.getWebsiteFooter()%>

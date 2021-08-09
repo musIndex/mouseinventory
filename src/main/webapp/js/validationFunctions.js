@@ -84,19 +84,29 @@ function validateInputCallback(responseXML) {
   if (fieldType == "mgiAlleleId" || fieldType == "mgiTransgeneId" || fieldType == "mgiModifiedGeneId" || fieldType == "mgiKnockedInGeneId" || fieldType == "mgiExpressedGeneId")
   {
     url = _mgiDBurl + inputValue + _mgiDBurlTail;
-    linkText = "(" + "MGI:" + inputValue + ")";
+    linkText = "" + "MGI:" + inputValue + "";
     updateHiddenInputs(resultString, valid, inputFieldId);
 
   }
   else if (fieldType == "rgdModifiedGeneId"){
     url = _rgdDBurl + inputValue + _rgdDBurlTail;
-    linkText = "(" + "RGD:" + inputValue + ")";
+    linkText = "" + "RGD:" + inputValue + "";
+    updateHiddenInputs(resultString, valid, inputFieldId);
+  }
+  else if (fieldType == "rgdTransgeneId"){
+    url = _rgdDBurl + inputValue + _rgdDBurlTail;
+    linkText = "" + "RGD:" + inputValue + "";
+    updateHiddenInputs(resultString, valid, inputFieldId);
+  }
+  else if (fieldType == "rgdExpressedGeneId"){
+    url = _rgdDBurl + inputValue + _rgdDBurlTail;
+    linkText = "" + "RGD:" + inputValue + "";
     updateHiddenInputs(resultString, valid, inputFieldId);
   }
   else if (fieldType == "pmId")
   {
     url = _pmDBurl + inputValue + _pmDBurlTail;
-    linkText = "(" + "Pubmed:" + inputValue + ")";
+    linkText = "" + "Pubmed:" + inputValue + "";
 
     //hack for mice with no MGI allele/transgene page - the pubmed id isn't in MGI so just generate the pubmed link
     //if(document.getElementById("mouseMGIID") != null && document.getElementById("mouseMGIID").value == "none")
@@ -112,17 +122,17 @@ function validateInputCallback(responseXML) {
     if((new String(ISSupplier.value).toLowerCase()== "jax mice"))
     {
       url = _jaxUrl + inputValue + _jaxUrlTail;
-      linkText = "(" + "JAX " + inputValue + ")";
+      linkText = "" + "JAX " + inputValue + "";
     }
     else if((new String(otherUrl.value)!= null))
     {
       url = otherUrl.value;
-      linkText = "(" + ISSupplier.value + " " + inputValue + ")";
+      linkText = "" + ISSupplier.value + " " + inputValue + "";
     }
   } else if (fieldType == "gensat")
   {
     url = _gensatUrl + inputValue + _gensatUrlTail;
-    linkText = "(GENSAT:" + inputValue + ")";
+    linkText = "GENSAT:" + inputValue + "";
   }
 
 
@@ -153,6 +163,13 @@ function validateInputCallback(responseXML) {
       symbolField = document.getElementById("officialSymbolSpan");
       if(symbolField!=null)
         symbolField.innerHTML = "<b>" + replaceBrackets(symbol) + "</b>";
+    }
+
+    if (fieldType == "rgdTransgeneId"){
+      var responseXMLSymbol = responseXML.getElementsByTagName("symbol")[0];
+      var responseXMLSymbolChild = responseXMLSymbol.childNodes[0];
+      var responseXMLSymbolChildValue = responseXMLSymbolChild.value;
+      symbol = decodeXML(symbol);
     }
   }
   catch(Exception)

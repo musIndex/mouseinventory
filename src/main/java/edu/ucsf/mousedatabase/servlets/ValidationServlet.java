@@ -104,6 +104,9 @@ public class ValidationServlet extends HttpServlet {
             result = doRGDGeneValidation(inputString, allowedValues, "rgdTransgeneId");
 
         }
+        else if (fieldType.equals("rgdExpressedGeneId")){
+            result = doRGDGeneValidation(inputString, allowedValues, "rgdTransgeneId");
+        }
         else
         {
             String type = fieldType;
@@ -356,7 +359,7 @@ public class ValidationServlet extends HttpServlet {
       return result;
     }
 
-    if (fieldTypeDescription.equals("Pubmed ID") || fieldTypeDescription.equals("MGI ID"))
+    if (fieldTypeDescription.equals("Pubmed ID") || fieldTypeDescription.equals("MGI ID") || fieldTypeDescription.equals("rgdTransgeneId"))
     {
 
         try

@@ -2,6 +2,7 @@
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.microsoft.applicationinsights.core.dependencies.apachecommons.lang3.StringUtils" %>
 <%=HTMLGeneration.getPageHeader(null,false,true) %>
 <%@include file="../mouselistcommon.jspf" %>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
@@ -10,9 +11,9 @@
 
 <%
 
-  int holderID = HTMLGeneration.stringToInt(request.getParameter("holder_id"));
-  int geneID = HTMLGeneration.stringToInt(request.getParameter("geneID"));
-  int mouseTypeID = HTMLGeneration.stringToInt(request.getParameter("mousetype_id"));
+  int holderID = stringToInt(request.getParameter("holder_id"));
+  int geneID = stringToInt(request.getParameter("geneID"));
+  int mouseTypeID = stringToInt(request.getParameter("mousetype_id"));
 
   String searchTerms = request.getParameter("searchterms");
   String orderBy = request.getParameter("orderby");
@@ -31,7 +32,7 @@
       limit = Integer.parseInt(session.getAttribute("limit").toString());
     }
     else {
-      limit = 25;
+      limit = 10;
     }
   }
   session.setAttribute("limit",limit);
@@ -60,23 +61,25 @@
   query.add("holder_id=" + holderID);
   query.add("orderby=" + orderBy);
   query.add("geneID=" + geneID);
+  query.add("creonly=" + creOnly);
   query.add("mousetype_id=" + mouseTypeID);
-  query.add("searchterms=" + searchTerms);
-  query.add("status=" + status);
+
+  query.add("facility_id=" + facilityID);
+  query.add("status=live");
+
   if (species)
     query.add("is_rat=" + 1);
   else
     query.add("is_rat=" + 0);
 
-  String queryString = "";
-
-  for (String s : query) {
-      queryString += s + "&";
-  }
 
 
-  int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID,false, species);
-  ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", null, false, creOnly, facilityID,limit,offset,false,species);
+  String queryString = StringUtils.join(query, "&");
+
+
+  int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", searchTerms, false, creOnly, facilityID,false, species);
+  ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", searchTerms, false, creOnly, facilityID,limit,offset,false,species);
+
 
   String table = HTMLGeneration.getMouseTable(mice, true, false, false); 
 
@@ -84,13 +87,14 @@
 
   ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
 
-  String mouseTypeSelectionLinks = HTMLGeneration.getMouseTypeSelectionLinks(mouseTypeID, orderBy,holderID,geneID, mouseTypes, status,searchTerms,-1,-1,species);
+  String mouseTypeSelectionLinks = HTMLGeneration.getMouseTypeSelectionLinks(mouseTypeID, orderBy,holderID,geneID, mouseTypes, status,searchTerms,-1,facilityID,species);
+
   String topPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
   String bottomPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
 
 
   Holder holder = DBConnect.getHolder(holderID);
-
+  Facility facility = DBConnect.getFacility(facilityID);
   Gene gene = DBConnect.getGene(geneID);
 
   String mouseTypeStr = "";
@@ -134,48 +138,61 @@
 %>
 <div class="site_container">
 
-    <h2><%=mouseTypeStr %></h2>
-    <h4><%=mouseCountStr %></h4>
-    <a href="CovertMice.jsp">Covert Rodents</a>
+    <p class="main_header"><%=mouseTypeStr %></p>
+    <p class="label_text"><%=mouseCountStr %></p>
+<%--    <a href="CovertMice.jsp">Covert Rodents</a>--%>
     
 
   <form class='view_opts' action="EditMouseSelection.jsp">
     <div style='position:relative'>
-    <%= mouseTypeSelectionLinks %>
+      <table style="width: 100%">
+        <tr>
+          <td style="width: 55%;padding: 0px">
+            <div class='clearfix' style='position:relative;'>
+              <div id="controls">
+                <%= mouseTypeSelectionLinks %>
+                <% if (mice.size() > 0) { %>
+
+                <% } %>
+              </div>
+            </div>
+            <input type = hidden name="page" value="records_search">
+          </td>
+          <td style="width: 45%;vertical-align: top">
+            <div class="search_right">
+              <input type="search" placeholder="Search..." style='font-size:120%;vertical-align:top;margin-top: 0px' class="input-xlarge" name="searchterms" id="mousetypeselection_searchterms"></input>
+              <input type="image" alt="Submit" src=/img/Eyeglass-black.svg style="height: 28px;margin: 0px" value="Search">
+            </div>
+          </td>
+        </tr>
+      </table>
     <br>
-    <%= topPageSelectionLinks %>
     <div style='position:absolute;bottom:0;right:0;'>
-    <a class="btn" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>
+<%--    <a class="btn" style="text-decoration:none" href="<%= siteRoot %>MouseList<%= (queryString.length() > 0 ? "?" + queryString : "") %> ">Download this list (pdf)</a>--%>
     </div>
     </div>
     <%= table %>
     <%= bottomPageSelectionLinks %>
   </form>
 </div>
+<%=HTMLGeneration.getWebsiteFooter()%>
 
 <script type='text/javascript'>
-function highlight_searchterms(searchterms){
-  $('.mouseTable').each(function(){
-    var $results = $(this);
-    $results.find(".mouselist, .mouselistAlt").highlight(searchterms.split(' '),{className: 'highlight-searchterm'});
-    $results.find(".lbl").unhighlight({className: 'highlight-searchterm'});
-  });
+  function pageSwitch(num){
+    document.getElementById("pagenum").value = num;
+    this.form.submit();
+  }
 
-  $("span.highlight-searchterm").parent().parent().each(function(){
-    var $element = $(this);
-    if($element.is("dt")) {
-      if($element.parent().hasClass("mouselist-holderlist")){
-        $element.show();
-      }
+  function searchterm(){
+    if ((search_terms.value != null || search_terms.value != "")){
+      document.getElementById("pagenum").value = 1;
+      document.getElementById("limit").value = 10;
+      location.replace("search.jsp#searchterms=" + search_terms.value + "&pagenum=1&search-source=search");
+      return false;
     }
-  });
-}
-
-
-
-var searchterms = $("#mousetypeselection_searchterms").val();
-
-if (searchterms) {
-  highlight_searchterms(searchterms);
-}
+  }
+  function resetPage(){
+    document.getElementById("pagenum").value = 1;
+    this.form.submit();
+  }
 </script>

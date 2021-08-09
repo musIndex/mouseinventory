@@ -1,30 +1,49 @@
 function UpdateExpressedSequenceDetail()
 {
-  len = document.mouseDetails.TGExpressedSequence.length;
+  var mouseDetails = document.getElementById("mouseDetails");
+  if (mouseDetails != null) {
+    len = document.mouseDetails.TGExpressedSequence.length;
+    chosen = "none";
 
-  chosen = "none";
+    for (i = 0; i < len; i++) {
+      if (document.mouseDetails.TGExpressedSequence[i].checked) {
+        chosen = document.mouseDetails.TGExpressedSequence[i].value;
+      }
+    }
+    setElementVisibility("trGeneRow", "none");
+    setElementVisibility("trRepRow", "none");
+    setElementVisibility("trDescRow", "none");
 
-  for (i = 0; i < len; i++) {
-    if (document.mouseDetails.TGExpressedSequence[i].checked) {
-      chosen = document.mouseDetails.TGExpressedSequence[i].value;
+
+    if (chosen == "Mouse Gene (unmodified)") {
+      setElementVisibility("trGeneRow", "");
+    } else if (chosen == "Reporter") {
+      setElementVisibility("trRepRow", "");
+    } else if (chosen == "Modified mouse gene or Other") {
+      setElementVisibility("trDescRow", "");
     }
   }
-  setElementVisibility("trGeneRow", "none");
-  setElementVisibility("trRepRow", "none");
-  setElementVisibility("trDescRow", "none");
+  else{
+    len = document.ratDetails.TGExpressedSequence.length;
+    chosen = "none";
+
+    for (i = 0; i < len; i++) {
+      if (document.ratDetails.TGExpressedSequence[i].checked) {
+        chosen = document.ratDetails.TGExpressedSequence[i].value;
+      }
+    }
+    setElementVisibility("trGeneRow", "none");
+    setElementVisibility("trRepRow", "none");
+    setElementVisibility("trDescRow", "none");
 
 
-  if(chosen == "Mouse Gene (unmodified)")
-  {
-    setElementVisibility("trGeneRow", "");
-  }
-  else if(chosen == "Reporter")
-  {
-    setElementVisibility("trRepRow", "");
-  }
-  else if(chosen == "Modified mouse gene or Other")
-  {
-    setElementVisibility("trDescRow", "");
+    if (chosen == "Mouse Gene (unmodified)") {
+      setElementVisibility("trGeneRow", "");
+    } else if (chosen == "Reporter") {
+      setElementVisibility("trRepRow", "");
+    } else if (chosen == "Modified mouse gene or Other") {
+      setElementVisibility("trDescRow", "");
+    }
   }
 
 }
@@ -335,23 +354,19 @@ function UpdateSelectedRatType() {
 function UpdateCatalogUrlVisibility()
 {
   var ele = document.getElementById("ISSupplier");
+
+  clearFieldValue("ISSupplierCatalogNumber");
+  clearFieldValue("ISSupplierCatalogUrl");
+
   if (ele.value != "JAX Mice")
   {
-    clearFieldValue("ISSupplierCatalogNumber");
-    setElementVisibility("jaxInstructions","none");
-    setElementVisibility("morejaxinstructions","none");
     setElementVisibility("jaxCatalogNumber", "none");
-    setElementVisibility("nonJaxUrlField","block");
-    setElementVisibility("nonJaxInstructions","block");
+    setElementVisibility("nonJaxUrlField","table-row");
   }
   else
   {
-
     setElementVisibility("jaxCatalogNumber", "table-row");
-    setElementVisibility("jaxInstructions","block");
-    setElementVisibility("morejaxinstructions","block");
     setElementVisibility("nonJaxUrlField","none");
-    setElementVisibility("nonJaxInstructions","none");
   }
 
 }

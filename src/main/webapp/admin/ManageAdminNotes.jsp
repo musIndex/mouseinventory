@@ -85,7 +85,7 @@
   <% if (settings != null) { %>
     <h2><%= title %></h2>
      <form class='view_opts' action='ManageAdminNotes.jsp'>
-      Sort by: <%=genSelect("orderby", orderOptions,orderLabels, orderby,"") %>
+      Sort by: <%=genSelect("orderby", orderOptions,orderLabels, orderby,"",false) %>
      </form>
      <a class='btn btn-success' href='ManageAdminNotes.jsp?command=edit&id=-1'><i class='icon-plus icon-white'></i> Add new note</a>
      <table class='basic'>

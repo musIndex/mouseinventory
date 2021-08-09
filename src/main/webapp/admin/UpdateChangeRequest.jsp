@@ -1,38 +1,36 @@
 <%@ page import="edu.ucsf.mousedatabase.*" %>
 <%@ page import="edu.ucsf.mousedatabase.objects.*" %>
-<%@page import="edu.ucsf.mousedatabase.admin.RecordManager.PopulateMouseResult"%>
-<%@page import="edu.ucsf.mousedatabase.admin.RecordManager"%>
+<%@page import="edu.ucsf.mousedatabase.admin.RecordManager.PopulateMouseResult" %>
+<%@page import="edu.ucsf.mousedatabase.admin.RecordManager" %>
 <%@ page import="java.util.ArrayList" %>
-<%@page import="edu.ucsf.mousedatabase.HTMLGeneration"%>
-<%=HTMLGeneration.getPageHeader(null,false,true) %>
+<%@page import="edu.ucsf.mousedatabase.HTMLGeneration" %>
+<%=HTMLGeneration.getPageHeader(null, false, true) %>
 <%=HTMLGeneration.getNavBar("EditMouseSelection.jsp", true) %>
 <jsp:useBean id="updatedRecord" class="edu.ucsf.mousedatabase.objects.MouseRecord" scope="request"/>
 <jsp:setProperty property="*" name="updatedRecord"/>
 <%@include file='SendMailForm.jspf' %>
 
 <%
-  HTMLUtilities.logRequest(request);
-  int mouseID = HTMLGeneration.stringToInt(request.getParameter("mouseID"));
-  int changeRequestID = HTMLGeneration.stringToInt(request.getParameter("changeRequestID"));
-  ChangeRequest changeRequest = null;
-  String previousRecord = null;
-  if(mouseID > 0)
-  {
-    previousRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false,true);
-  }
+    HTMLUtilities.logRequest(request);
+    int mouseID = HTMLGeneration.stringToInt(request.getParameter("mouseID"));
+    int changeRequestID = HTMLGeneration.stringToInt(request.getParameter("changeRequestID"));
+    ChangeRequest changeRequest = null;
+    String previousRecord = null;
+    if (mouseID > 0) {
+        previousRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID), true, false, true);
+    }
 
-  String updateCommand = request.getParameter("submitButton");
-  if(updateCommand == null || updateCommand.isEmpty() || !(updateCommand.equals("Complete Change Request") || updateCommand.equals("Move to Pending")))
-  {
-    %>
-    <div class="site_container">
-    <h3>ERROR: No valid command received</h3>
-    </div>
-    <%
-    return;
-   }
-  
-  
+    String updateCommand = request.getParameter("submitButton");
+    if (updateCommand == null || updateCommand.isEmpty() || !(updateCommand.equals("Complete Change Request") || updateCommand.equals("Move to Pending"))) {
+%>
+<div class="site_container">
+    <p class="main_header">ERROR: No valid command received</p>
+</div>
+<%
+        return;
+    }
+
+
     String recordUpdateResult = null;
     String notes = request.getParameter("requestNotes");
     String pageHeader = "";
@@ -42,91 +40,87 @@
     String updatedRequest = "";
     boolean errorsEncountered = false;
 
-    PopulateMouseResult result = RecordManager.PopulateMouseDataFromRequest(updatedRecord,request);
-     if (!result.Success)
-     {
-       errorsEncountered = true;
-       errortext += result.Message;
-     }
-     else
-     {
-       if(updateCommand.equals("Complete Change Request"))
-       {
-         int existingRecordID = RecordManager.RecordExists(updatedRecord);
-          if(existingRecordID > 0) {
-            //dupicate found
-            String table = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(existingRecordID),true,false, true);
-            errors += "Duplicate record found with MGI Allele/Transgene ID " + updatedRecord.getRepositoryCatalogNumber();
-            errortext += "<h3>Existing Record:</h3>";
-            errortext += table;
-            errorsEncountered = true;
-          }
-          else {
-            pageHeader = "Completed change request #" +changeRequestID;
-             //update the record
-             recordUpdateResult = DBConnect.updateMouseRecord(updatedRecord);
-             if (recordUpdateResult != null) {
-               errors += recordUpdateResult;
-             }
-             else {
-               resultingRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID),true,false, true);
-             }
-  
-             //update the change request
-             DBConnect.updateChangeRequest(changeRequestID,"done",HTMLGeneration.emptyIfNull(notes));
-          }
-       }
-       else if(updateCommand.equals("Move to Pending")) {
-         pageHeader = "Moved change request #" +changeRequestID + " to Pending.  No changes have been made to record #" + mouseID;
-         //don't update the record
+    PopulateMouseResult result = RecordManager.PopulateMouseDataFromRequest(updatedRecord, request);
+    if (!result.Success) {
+        errorsEncountered = true;
+        errortext += result.Message;
+    } else {
+        if (updateCommand.equals("Complete Change Request")) {
+            int existingRecordID = RecordManager.RecordExists(updatedRecord);
+            if (existingRecordID > 0) {
+                //dupicate found
+                String table = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(existingRecordID), true, false, true);
+                errors += "<p class='main_header'>Duplicate Record Error</p><p class='label_text'>Duplicate record found with MGI Allele/Transgene ID " + updatedRecord.getRepositoryCatalogNumber() + ".</p>";
+                errortext += "<p class='label_text' style='font-size:24px'>Existing Record:</h3>";
+                errortext += table;
+                errorsEncountered = true;
+            } else {
+                pageHeader = "Completed change request #" + changeRequestID;
+                //update the record
+                recordUpdateResult = DBConnect.updateMouseRecord(updatedRecord);
+                if (recordUpdateResult != null) {
+                    errors += recordUpdateResult;
+                } else {
+                    resultingRecord = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(mouseID), true, false, true);
+                }
 
-         //update the change request
-         DBConnect.updateChangeRequest(changeRequestID,"pending",HTMLGeneration.emptyIfNull(notes));
-       }
+                //update the change request
+                DBConnect.updateChangeRequest(changeRequestID, "done", HTMLGeneration.emptyIfNull(notes));
+            }
+        } else if (updateCommand.equals("Move to Pending")) {
+            pageHeader = "Moved change request #" + changeRequestID + " to Pending.  No changes have been made to record #" + mouseID;
+            //don't update the record
 
-       ArrayList<ChangeRequest> requests = DBConnect.getChangeRequest(changeRequestID);
-        if(requests.size() < 1)
-        {
-          throw new ServletException("Change request not found, cannot edit");
+            //update the change request
+            DBConnect.updateChangeRequest(changeRequestID, "pending", HTMLGeneration.emptyIfNull(notes));
+        }
+
+        ArrayList<ChangeRequest> requests = DBConnect.getChangeRequest(changeRequestID);
+        if (requests.size() < 1) {
+            throw new ServletException("Change request not found, cannot edit");
         }
         changeRequest = requests.get(0);
-        updatedRequest = HTMLGeneration.getChangeRequestsTable(requests,null);
-     }
+        updatedRequest = HTMLGeneration.getChangeRequestsTable(requests, null);
+    }
 
 %>
 <div class="site_container">
-<h2><%=pageHeader %></h2>
-<%@ include file='_lastManageRequestsLink.jspf' %>
-<%if(errors.isEmpty())
-{
-  if(updateCommand.equals("Move to Pending"))
-  {
+    <p class="main_header"><%=pageHeader %>
+    </p>
+    <%
+        if (errors.isEmpty()) {
+            if (updateCommand.equals("Move to Pending")) {
     %>
-     <h3>Change request was:</h3>
+    <p class="label_text" style="font-size: 24px">Change request was:</p>
     <%= updatedRequest%>
-    <h3>Unchanged record is:</h3>
+    <p class="label_text" style="font-size: 24px">Unchanged record is:</p>
     <%= previousRecord %>
     <%
 
-  }
-  else
-  {
+    } else {
 
     %>
-     <h3>Change request was:</h3>
+    <p class="label_text" style="font-size: 24px">Change request was:</p>
     <%= updatedRequest%>
-    <h3>Record before changes:</h3>
+    <p class="label_text" style="font-size: 24px">Record before changes:</p>
     <%= previousRecord %>
-    <h3>Record after changes:</h3>
+    <br>
+    <p class="label_text" style="font-size: 24px">Record after changes:</p>
     <%= resultingRecord %>
     <%
-  }
+        }
+            %>
+    <div class="spacing_div_mini"></div>
+    <%@ include file='_lastManageRequestsLink.jspf' %>
+    <%} else { %>
+    <p class="description_text"><%=errors %>
+    </p>
+    <%=errortext %>
+    <div class="spacing_div_mini"></div>
+    <%@ include file='_lastManageRequestsLink.jspf' %>
+    <%
 
-}
-else
-{ %>
-  <h3 class="validationError"><%=errors %></h3>
-  <%=errortext %>
-<%
-} %>
+        } %>
+
 </div>
+<%=HTMLGeneration.getWebsiteFooter()%>

@@ -1,284 +1,185 @@
-<%@page import="edu.ucsf.mousedatabase.DBConnect"%>
+<%@page import="edu.ucsf.mousedatabase.DBConnect" %>
 <%@page import="edu.ucsf.mousedatabase.objects.*" %>
-<tr class="formFieldH">
-  <td colspan="2">
-  <div>
-    <b>If the mutant allele you want to submit is published, there should be
-    an 'allele detail' page for it on Mouse Genome Informatics (MGI).
-    You need to find this page in order to complete this submission.</b>
-    <br>
-    <a href="http://www.informatics.jax.org/" target="_blank">Mouse Genome Informatics</a>
-    <br>
-    If you are not certain how to find it, click here:
-    <div class=help_pdf>
-      <% Setting s1 = DBConnect.loadSetting("download_files_allele_id"); %>
-      <a href='<%= s1.value %>' target=_blank>
-      <%= s1.label %>
-      <span class=full_div_link></span>
-      </a>
-    </div>
-  </div>
-  </td>
-</tr>
-<tr class="formField">
-  <td valign="top">
-    <span class=black>*</span> Copy the <span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic"><b>MGI ID</b></span>
-    for the allele from the allele detail page (number only) and paste it here.
-    <br>
-    Although each published allele should have a detail page, occasionally
-    it does not.
-    <br>
-    If you are <span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic">absolutely certain </span> that there is
-    no detail page on MGI for the mutant allele you want to submit,
-    enter 'none'. Admin will inform MGI, and they will provide a
-    detail page for the allele, usually within a few days.
-  </td>
-  <td valign="top">
-    <input type="text" name="mouseMGIID"
-      id="mouseMGIID" maxlength="11"
-      onkeyup="validateInput('mouseMGIID', 'mouseMGIValidation', 'mgiAlleleId', 'none')"
-      size="20"
-      value="${newMouse.mouseMGIID}">
-    <a title="Check ID in MGI database" href="javascript:"
-    onClick="validateInput('mouseMGIID', 'mouseMGIValidation', 'mgiAlleleId', 'none')">
-      <img style="vertical-align: middle" src="img/arrow_cycle.png" width="24"
-        height="24">
-    </a>
-  </td>
-</tr>
-
-<tr class="formField">
-  <td valign="top"><b>Official Symbol</b> for the allele being submitted
-    (automatically entered when the MGI ID is entered):
-    <br>
-    If the official symbol seems to be correct, click the autofill button.
-    If not, replace the MGI ID with the one for the correct  allele.
-  </td>
-  <td valign="top">
-    <input type="hidden" name="officialSymbol"
-    id="officialSymbol"
-    value="${newMouse.officialSymbol}"size="40">
-    <span style="display: none" id="officialSymbolSpan">
-    <b>${newMouse.officialSymbol}</b></span>
-    <span class="<%=newMouse.hasValidMouseMGIID() ? "bp_valid" : "bp_invalid"%>"
-      id="mouseMGIValidation">${newMouse.mouseMGIIDErr}</span>
-    <input type="hidden" name="mouseMGIIDValidationString"
-      id="mouseMGIIDValidationString"
-      value="${newMouse.mouseMGIIDValidationString}">
-    <input type="hidden" name="mouseMGIIDValid" id="mouseMGIIDValid"
-      value="${newMouse.mouseMGIIDValid}">
-    <br />
-    <a href="#" id="mgiautofillbutton" style="text-decoration:none"
-      class="btn btn-primary btn-large">Auto-fill Gene, PubMed, and description data</a>
-    <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.officialSymbolErr}</span>
-  </td>
-</tr>
-<tr class="formField">
-  <td valign="top">
-    <span class=black>*</span> <b>Gene</b> (MGI ID)
-    <br>
-    This is the MGI ID for the gene that is mutated in the allele being submitted.
-    When auto-filled, the official symbol and full name of the gene will appear.
-    Clicking on the link that has been generated to the MGI accession number will
-    bring up the page that describes this gene.
-    <br>
-    If you entered 'none' in the MGI ID field above, enter the MGI ID for
-    the gene that is mutated in the allele you want to submit.
-    (Click
-    <a href="http://www.informatics.jax.org/javawi2/servlet/WIFetch?page=markerQF"
-    target="_blank">here</a> for a link to the MGI gene query page.) If you are
-    not certain how to find this information, click the 'How to find the MGI
-    Gene ID' button.
-    <div class=help_pdf>
-    <% Setting s2 = DBConnect.loadSetting("download_files_gene_id"); %>
-      <a href='<%= s2.value %>' target=_blank>
-      <span class=full_div_link></span>
-      <%= s2.label %>
-      </a>
-    </div>
-  </td>
-  <td valign="top"><input type="TEXT" id="MAMgiGeneID"
-    name="MAMgiGeneID" size="20" maxlength="11"
-    onkeyup="validateInput('MAMgiGeneID', 'mutantAlleleMGIValidation', 'mgiModifiedGeneId', '')"
-    value="${newMouse.MAMgiGeneID}">
-    <a title="Check ID in MGI database" href="javascript:"
-    onClick="validateInput('MAMgiGeneID', 'mutantAlleleMGIValidation', 'mgiModifiedGeneId', '')"><img
-      style="vertical-align: middle" src="img/arrow_cycle.png"
-      width="24" height="24">
-  </a> <br /> <span class="<%=newMouse.hasValidMAmgiGeneID() ? "bp_valid" : "bp_invalid"%>"
-    id="mutantAlleleMGIValidation">${newMouse.MAMgiGeneIDErr}</span> <input type="hidden"
-    name="MAMgiGeneIDValidationString"
-    id="MAMgiGeneIDValidationString"
-    value="${newMouse.MAMgiGeneIDValidationString}">
-    <input type="hidden" name="MAMgiGeneIDValid"
-    id="MAMgiGeneIDValid"
-    value="${newMouse.MAMgiGeneIDValid}">
-  </td>
-</tr>
-
-<tr class="formField">
-  <td valign="top">
-    <span class=black>*</span> <b>Pubmed ID</b>, generally for the publication in which
-    the mutant allele was first described (automatically entered when the MGI ID
-    for the allele is entered)
-    <br>
-    If you entered 'none' in the MGI ID field above, enter the PMID for a
-    publication in which the mutant allele is described.
-  </td>
-  <td valign="top">
-    <input type=text id=PMID name=PMID
-      value="${newMouse.PMID}"
-      size="20" maxlength="16"
-      onkeyup="validateInput('PMID', 'PMIDValidation', 'pmId', '')">
-    <a title="Check ID in Pubmed database" href="javascript:"
-    onClick="validateInput('PMID', 'PMIDValidation', 'pmId', '')"><img
-      style="vertical-align: middle" src="img/arrow_cycle.png"
-      width="24" height="24">
-    </a>
-    <br>
-    <span class="<%=newMouse.hasValidPMID() ? "bp_valid" : "bp_invalid"%>"
-      id="PMIDValidation">${newMouse.PMIDErr}</span>
-    <input type="hidden" name="PMIDValidationString" id="PMIDValidationString"
-      value="${newMouse.PMIDValidationString}">
-    <input type="hidden" name="PMIDValid" id="PMIDValid" value="${newMouse.PMIDValid}">
-  </td>
-</tr>
-
-<tr class="formField">
-  <td valign="top"><span class=black>*</span> <b>Comment</b>
-    <br>
-    Text automatically entered here is the description of the allele
-    provided by MGI. <span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic">Please read it and make sure it
-    accurately describes the allele you want to submit.  If not, make the
-    appropriate changes.</span>
-    <br />
-    <br />
-    If, after checking the information that has
-    been entered (i.e. name of gene modified, relevant publication, and
-    description of the allele) you realize that this is not the allele you
-    want to submit, please start over by entering the MGI ID for the correct
-    allele and clicking the auto-fill button.
-    <br />
-    <br />
-    If you entered 'none' in the MGI ID field above, enter a brief description
-    of the allele here.
-  </td>
-  <td valign="top">
-    <textarea name="comment" id="comment"
-      rows="10" cols="60">${newMouse.comment}</textarea>
-    <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.commentErr}</span>
-  </td>
-</tr>
-<tr valign="top" class="formField">
-  <td style="width: 50%">
-    <span class=black>*</span>
-    <b>Modification type</b>:
-    <br>
-    Choose 'targeted knock-in' when the
-    modification to the gene results in the expression of a sequence
-    of particular interest (e.g. another mouse gene, Cre, a reporter,
-    etc.). If the inserted sequence is a neo cassette choose
-    'targeted disruption.' Choose 'endonuclease-mediated' for methods 
-    using CRISPR/Cas9, TALEN or ZFN.
-  </td>
-  <td>
-    <%=getModificationTypeRadioWithParams(
-    emptyIfNull(newMouse.getMAModificationType()),
-    "onChange='UpdateModificationType()'")%> <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.MAModificationTypeErr}</span>
-  </td>
-</tr>
-<tr class="formField" id="trExprSeqRow"
-  style="<%=rowVisibility(newMouse.isKnockIn())%>">
-  <td class="firstColumn">
-    <span class=red>*</span> <b>Expressed sequence type</b>: <br>For reporter-cre fusions, select 'Cre'
-  </td>
-  <td>
-    <%=getExpressedSequenceRadioWithParams(emptyIfNull(newMouse.getTGExpressedSequence()),
-    "onChange='UpdateExpressedSequenceDetail()'")%>
-    <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.TGExpressedSequenceErr}</span>
-  </td>
-</tr>
-<tr class="formField" id="trGeneRow"
-  style="<%=rowVisibility(newMouse.isGeneExprSeq())%>">
-  <td valign="top">
-    <span class=black>*</span> Mouse gene that is expressed
-    <br>
-    Go to MGI, find the detail page for the gene that is expressed,
-    copy the MGI ID for that gene and paste it in the space provided.
-    (Click
-    <a
-    href="http://www.informatics.jax.org/javawi2/servlet/WIFetch?page=markerQF"
-    target="_blank">here</a> for a link to the MGI gene query page.)
-    <br>
-    <span style="color: #23476b;text-emphasis: #23476b; font-size: larger;font-style: italic">Please
-    make sure that the gene that is entered is the correct one.</span>
-    <br>
-    If you are not certain how to find this information, click the
-    'How to find the MGI Gene ID' button, above.
-    <br>
-    If any regulatory sequences that control the expression of this gene were included in the knock-in
-    construct, please make sure that they are described in the comment field.
-  </td>
-  <td valign="top"><INPUT TYPE="TEXT" id="TGMouseGene"
-    name="TGMouseGene" size="20" maxlength="11"
-    value="${newMouse.TGMouseGene}"
-    onkeyup="validateInput('TGMouseGene', 'TGMouseGeneValidation', 'mgiExpressedGeneId', '')">
-    <a title="Check ID in MGI database" href="javascript:"
-    onClick="validateInput('TGMouseGene', 'TGMouseGeneValidation', 'mgiExpressedGeneId', '')"><img
-      style="vertical-align: middle" src="img/arrow_cycle.png"
-      width="24" height="24">
-  </a> <br> <span
-    class="<%=newMouse.hasValidTGMouseGene()
-  ? "bp_valid"
-  : "bp_invalid"%>"
-    id="TGMouseGeneValidation">${newMouse.TGMouseGeneErr}</span> <input type="hidden"
-    name="TGMouseGeneValidationString"
-    id="TGMouseGeneValidationString"
-    value="${newMouse.TGMouseGeneValidationString}">
-    <input type="hidden" name="TGMouseGeneValid"
-    id="TGMouseGeneValid"
-    value="${newMouse.TGMouseGeneValid}">
-  </td>
-</tr>
-<tr class="formField" id="trRepRow"
-  style="<%=rowVisibility(newMouse.isReporterExprSeq())%>">
-  <td valign="top"><span class=red>*</span> Reporter</td>
-  <td valign="top"><INPUT TYPE="TEXT" name="TGReporter"
-    value="${newMouse.TGReporter}"
-    size="20"> <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.TGReporterErr}</span>
+<tr class="formField" style="height: 150px">
+    <td class="formLeft">
+        * MGI ID
     </td>
-</tr>
-<tr class="formField" id="trDescRow"
-  style="<%=rowVisibility(newMouse.isOtherExprSeq())%>">
-  <td valign="top">
-    <span class=black>*</span> Description of the expressed sequence,
-    as well as any regulatory sequences included in the knock-in construct that control
-    its expression. For endonuclease-mediated null put 'knockout'.
-  </td>
-  <td valign="top"><INPUT TYPE="TEXT" name="TGOther"
-    value="${newMouse.TGOther}"
-    size="20"> <span style="color: #23476b;text-emphasis: #23476b; font-style: italic">${newMouse.TGOtherErr}</span>
+    <td class="formRight">
+        <input type="text" name="mouseMGIID" id="mouseMGIID" maxlength="11"
+               onkeyup="validateInput('mouseMGIID', 'mouseMGIValidation', 'mgiAlleleId', 'none')"
+               value="${newMouse.mouseMGIID}" required>
+        <a href="#" id="mgiautofillbutton" style="text-decoration:none;width: 222.8px;margin-top: 15px"
+           class="MSU_green_button">
+            <p class="MSU_green_button_Text">
+                Autofill using MGI ID
+            </p>
+        </a>
+
+        <input type="hidden" name="mouseMGIIDValidationString" id="mouseMGIIDValidationString"
+               value="${newMouse.mouseMGIIDValidationString}">
+        <input type="hidden" name="mouseMGIIDValid" id="mouseMGIIDValid" value="${newMouse.mouseMGIIDValid}">
+        <div>${newMouse.officialSymbolErr}</div>
     </td>
 </tr>
 
 <tr class="formField">
-  <td valign="top" class="firstColumn">
-    <b>Background strain</b> of mutant allele mouse.
-    <br>
-    Enter only defined background strains (i.e. do not enter 'mixed' or 'not known').
-    <br>
-    (Optional: if the mutant allele is being maintained in combination with another mutant allele(s)
-    or a transgene(s), this can be noted here.)
-  </td>
-  <td valign="top"><input type="text" name="backgroundStrain"
-    value="${newMouse.backgroundStrain}"
-    size="40" maxlength="255">
-  </td>
-
+    <td class="formLeft">
+        Official Allele Symbol
+    <td class="formRight">
+        <input type="hidden" name="officialSymbol" id="officialSymbol" value="${newMouse.officialSymbol}">
+        <div class="<%=newMouse.hasValidMouseMGIID()  ? "bp_valid": "bp_invalid"%>" id="mouseMGIValidation">
+            ${newMouse.mouseMGIIDErr}
+        </div>
+    </td>
 </tr>
+
 <tr class="formField">
-  <td valign="top" class="firstColumn"><b>Mouse status</b>:</td>
-  <td><%=genRadio("cryopreserved", new String[]{"Live only",
-    "Live and Cryo", "Cryo only"},
-    newMouse.liveCryoStatus())%></td>
+    <td class="formLeft">
+        * Gene ID
+    </td>
+    <td class="formRight">
+        <input type="text" name="MAMgiGeneID" id="MAMgiGeneID" maxlength="11"
+               onkeyup="validateInput('MAMgiGeneID', 'mutantAlleleMGIValidation', 'mgiModifiedGeneId', '')"
+               value="${newMouse.MAMgiGeneID}" required>
+
+        <input type="hidden" name="MAMgiGeneIDValidationString" id="MAMgiGeneIDValidationString"
+               value="${newMouse.MAMgiGeneIDValidationString}">
+        <input type="hidden" name="MAMgiGeneIDValid" id="MAMgiGeneIDValid" value="${newMouse.MAMgiGeneIDValid}">
+        <div>${newMouse.officialSymbolErr}</div>
+    </td>
+</tr>
+
+<tr class="formField">
+    <td class="formLeft">
+        Official Gene Symbol
+    <td class="formRight">
+        <div class="<%=newMouse.hasValidMAmgiGeneID()  ? "bp_valid": "bp_invalid"%>" id="mutantAlleleMGIValidation">
+            ${newMouse.MAMgiGeneIDValidationString}
+        </div>
+    </td>
+</tr>
+
+<tr class="formField">
+    <td class="formLeft">
+        * Pubmed ID
+    </td>
+    <td class="formRight">
+        <input style="margin-top: 15px" type=text id=PMID name=PMID value="${newMouse.PMID}" maxlength="16"
+               onkeyup="validateInput('PMID', 'PMIDValidation', 'pmId', '')" required>
+        <div class="<%=newMouse.hasValidPMID() ? "bp_valid" : "bp_invalid"%>"
+             id="PMIDValidation">${newMouse.PMIDErr}</div>
+        <input type="hidden" name="PMIDValidationString" id="PMIDValidationString"
+               value="${newMouse.PMIDValidationString}">
+        <input type="hidden" name="PMIDValid" id="PMIDValid" value="${newMouse.PMIDValid}">
+    </td>
+</tr>
+
+<tr class="formField" style="height: 75px">
+    <td class="formLeft">Comment</td>
+    <td class="formRight">
+        <textarea style="resize: none;margin-top: 13px;margin-bottom: 13px;width: 212.8px" name="comment" rows="7"
+                  id="comment">${newMouse.comment}</textarea>
+    </td>
+</tr>
+
+<tr class="formField">
+    <td class="formLeft">
+        * Modification type
+    </td>
+    <td class="formRight">
+        <div style="width: 222.8px;text-align: left;margin-left: auto;margin-top: 13px;margin-right: auto;margin-bottom: 13px;">
+            <%=getModificationTypeRadioWithParams(emptyIfNull(newMouse.getTGExpressedSequence()), "onChange='UpdateModificationType()' required")%>
+            <div>${newMouse.TGExpressedSequenceErr}</div>
+        </div>
+    </td>
+</tr>
+
+
+<%//***Expressed Sequence Section***** %>
+<tr class="formField" id="trExprSeqRow" style="<%=rowVisibility(newMouse.isKnockIn())%>">
+    <td class="formLeft">
+        * Expressed sequence type
+    </td>
+    <td class="formRight">
+        <div style="width: 222.8px;text-align: left;margin-left: auto;margin-top: 13px;margin-right: auto;margin-bottom: 13px;">
+            <%
+                if (newMouse.isKnockIn()) {
+            %>
+            <%=getExpressedSequenceRadioWithParams(emptyIfNull(newMouse.getTGExpressedSequence()), "onChange='UpdateExpressedSequenceDetail()' required")%>
+            <%
+                } else{
+            %>
+            <%=getExpressedSequenceRadioWithParams(emptyIfNull(newMouse.getTGExpressedSequence()), "onChange='UpdateExpressedSequenceDetail()'")%>
+            <%
+                }
+            %>
+            <div>${newMouse.TGExpressedSequenceErr}</div>
+        </div>
+
+    </td>
+</tr>
+
+<tr class="formField" id="trGeneRow" style="<%=rowVisibility(newMouse.isGeneExprSeq())%>">
+    <td class="formLeft">
+        * Gene/Marker Symbol
+    </td>
+    <td class="formRight">
+        <input type=text id="TGMouseGene" name="TGMouseGene"
+               value="${newMouse.TGMouseGene}"
+            <%if (newMouse.isGeneExprSeq()){%>
+            <%="required"%>
+            <%}%>
+        >
+        <input type="hidden" name="TGMouseGeneValidationString" id="TGMouseGeneValidationString"
+               value="Valid">
+        <input type="hidden" name="TGMouseGeneValid" id="TGMouseGeneValid" value="Valid">
+    </td>
+</tr>
+
+<tr class="formField" id="trRepRow" style="<%=rowVisibility(newMouse.isReporterExprSeq())%>">
+    <td class="formLeft">
+        * Reporter
+    </td>
+    <td class="formRight">
+        <input type="text" name="TGReporter" value="${newMouse.TGReporter}" maxlength="255"
+            <%if (newMouse.isReporterExprSeq()){%>
+            <%="required"%>
+            <%}%>
+        >
+        <div><%=emptyIfNull(newMouse.getTGReporterErr())%>
+        </div>
+    </td>
+</tr>
+
+<tr class="formField" id="trDescRow" style="<%=rowVisibility(newMouse.isOtherExprSeq())%>">
+    <td class="formLeft">
+        * Description
+    </td>
+    <td class="formRight">
+        <input type="text" name="TGOther" value="${newMouse.TGOther}" maxlength="255"
+            <%if (newMouse.isOtherExprSeq()){%>
+            <%="required"%>
+            <%}%>
+        >
+        <div>${newMouse.TGOtherErr}</div>
+    </td>
+</tr>
+<%//***End Expressed Sequence Section***** %>
+
+<tr class="formField">
+    <td class="formLeft">
+        Background strain
+    </td>
+    <td class="formRight">
+        <input type="text" name="backgroundStrain" value="${newMouse.backgroundStrain}" maxlength="255">
+    </td>
+</tr>
+
+<tr class="formField">
+    <td class="formLeft">Mouse status</td>
+    <td class="formRight">
+        <div style="width: 222.8px;text-align: left;margin-left: auto;margin-top: 13px;margin-right: auto;margin-bottom: 13px;">
+            <%=genRadio("cryopreserved", new String[]{"Live only", "Live and Cryo", "Cryo only"}, newMouse.liveCryoStatus())%>
+        </div>
+    </td>
 </tr>

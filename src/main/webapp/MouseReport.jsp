@@ -14,7 +14,6 @@
 <%=HTMLGeneration.getNavBar("MouseReport.jsp", false)%>
 <%@include file="mouselistcommon.jspf" %>
 
-
 <%
     int holderReviewDays = 180;
 
@@ -45,7 +44,7 @@
             limit = Integer.parseInt(session.getAttribute("limit").toString());
         }
         else {
-            limit = 25;
+            limit = 10;
         }
     }
     session.setAttribute("limit",limit);
@@ -78,7 +77,6 @@
     String mouseTypeSelectionLinks = getMouseTypeSelectionLinks(
             mouseTypeID, orderBy,holderID,geneID,mouseTypes,null,searchTerms,creOnly,facilityID,species);
 
-    String topPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
     String bottomPageSelectionLinks = getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
 
 
@@ -142,12 +140,12 @@
             holderStatusHeading = "";
         }
 
-        String emailAdminLink = getMailToLink(DBConnect.loadSetting("admin_info_email").value, null, holder.getLastname() + " rodent list reviewed",
-                "The list of rodents held by "+ holder.getFullname() + " " +
-                        "was thoroughly reviewed and any necessary deletions/additions/corrections " +
-                        "were made today" +
-                        "\n(If rodents still need to be added, please provide a list of " +
-                        "their names below.)", "email link");
+//        String emailAdminLink = getMailToLink(DBConnect.loadSetting("admin_info_email").value, null, holder.getLastname() + " rodent list reviewed",
+//                "The list of rodents held by "+ holder.getFullname() + " " +
+//                        "was thoroughly reviewed and any necessary deletions/additions/corrections " +
+//                        "were made today" +
+//                        "\n(If rodents still need to be added, please provide a list of " +
+//                        "their names below.)", "email link");
 
         holderData = "<div class='holderData'>" +
                 "<div>" +
@@ -155,82 +153,92 @@
                 "</div>" +
                 "<br>\r\n<a class='btn btn-primary' style='' href='" + siteRoot + "MouseList" + (queryString.length() > 0 ? "?" + queryString : "") +
                 "'>Download this list (pdf)</a>"
-                 + "\r\n<a class='btn btn-primary' style='' href='" + siteRoot + "MouseList2" + (queryString.length() > 0 ? "?" + queryString : "") +
+                + "\r\n<a class='btn btn-primary' style='' href='" + siteRoot + "MouseList2" + (queryString.length() > 0 ? "?" + queryString : "") +
                 "'>Download this list (csv)</a>" +
-                "</div>"
-
-        ;
-
-        topPageSelectionLinks += "";
-
+                "</div>";
     }
-
-
     session.setAttribute("mouseListLastQuery", "MouseReport.jsp?" + queryString);
     session.setAttribute("mouseListLastTitle", mouseTypeStr);
     mouseTypeStr = "Listing" + mouseTypeStr;
 %>
 
+<div class='site_container'>
+    <div id="mousecount" style="display:none">
+        <%=mice.size() %>
+    </div>
+    <form class='view_opts' action="MouseReport.jsp">
+    <table style="width: 100%">
 
-<%--//<script id="access_granted" type="text/template">--%>
-    <div class='site_container'>
-        <div id="mousecount" style="display:none">
-            <%=mice.size() %>
-
-        </div>
-        <table>
             <tr>
-                <td style="width: 50%;vertical-align: bottom">
-                    <h2><%=mouseTypeStr %></h2>
-                    <form class='view_opts' action="MouseReport.jsp" >
-                        <div class='clearfix' style='position:relative;min-height:140px'>
-                            <div id="controls">
-                                <h4 style='margin-top:0px'><%=mouseCountStr %></h4>
-                                <%= mouseTypeSelectionLinks %>
-                                <% if (mice.size() > 0) { %>
-                                <%= topPageSelectionLinks %>
-                                <% } %>
-                            </div>
-                        </div>
-                        <input type = hidden name="page" value="records_search">
+                <td style="padding-left: 0px">
+                    <p class="records_header">Rodent Records</p>
+                    <table style="width: 100%">
+                        <tr>
+                            <p class="label_text" style='margin-top:0px;margin-bottom:5px;padding-left: 2px'><%=mouseTypeStr + ": " + mouseCountStr %></p>
 
-                    </form>
-                </td>
-                <td style="width:50%; text-align: center;vertical-align: top">
-                    <form method="post" action="loginServlet" style="horiz-align: center">
+                        </tr>
+                        <tr>
+                            <td style="width: 55%;padding: 0px">
+                                <div class='clearfix' style='position:relative;'>
+                                    <div id="controls">
+                                        <%= mouseTypeSelectionLinks %>
+                                        <% if (mice.size() > 0) { %>
 
-                        <table style="text-align: center">
-                            <tr style="text-align: center">
-                                <div class="flexBox">
-                                    <div class="centered">
-                                        <h2>Database Search:</h2>
-                                        <input type="text" name="search_terms" id="search_terms">
-                                        <input type="hidden" name="page" value="search_bar">
-                                        <input type="submit" class = "btn btn-primary" value="Search">
-                                        <%=emptyIfNull(holderData) %>
+                                        <% } %>
                                     </div>
-
                                 </div>
-                        </table>
-                    </form>
+                                <input type = hidden name="page" value="records_search">
+                            </td>
+                            <td style="width: 45%;vertical-align: top">
+                                <div class="search_right">
+                                    <input type="search" placeholder="Search..." style='font-size:120%;vertical-align:top;margin-top: 0px' class="input-xlarge" name="search_terms" id="search_terms"></input>
+                                    <input onclick="return searchterm()" type="image" alt="Submit" src=/img/Eyeglass-black.svg style="height: 28px;margin: 0px">
+                                    <input type="hidden" name="page" value="search_bar">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
-            <table>
+            <table style="min-width: 100%;">
                 <tr style="width: 100%">
                     <td style="width: 100%">
-                        <form class='view_opts' action="MouseReport.jsp">
-                            <%= table %>
-                            <div id="bottomControls">
-                                <% if (mice.size() > 3) { %>
-                                <%= mouseTypeSelectionLinks %>
-                                <%= bottomPageSelectionLinks %>
-                                <% } %>
-                            </div>
-                            <input type = hidden name="page" value="records_search">
-                        </form>
+                        <%= table %>
+                        <div id="bottomControls">
+                            <%--                            <% if (mice.size() > 3) { %>--%>
+                            <%= bottomPageSelectionLinks %>
+                            <%--                            <% } %>--%>
+                        </div>
+                        <input type = hidden name="page" value="records_search">
                     </td>
                 </tr>
             </table>
+    </table>
+    </form>
 
-        </table>
-    </div>
+</div>
+
+</div> <!-- This end div is here to end the site container div. For some reason it's not picked up by intellisense, but it is necessary. -->
+
+<%=HTMLGeneration.getWebsiteFooter()%>
+
+
+<script>
+    function pageSwitch(num){
+        document.getElementById("pagenum").value = num;
+        this.form.submit();
+    }
+
+    function searchterm(){
+        if ((search_terms.value != null || search_terms.value != "")){
+            document.getElementById("pagenum").value = 1;
+            document.getElementById("limit").value = 10;
+            location.replace("search.jsp#searchterms=" + search_terms.value + "&pagenum=1&search-source=search");
+            return false;
+        }
+    }
+    function resetPage(){
+        document.getElementById("pagenum").value = 1;
+        this.form.submit();
+    }
+</script>

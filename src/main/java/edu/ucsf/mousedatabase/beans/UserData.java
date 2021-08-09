@@ -36,17 +36,17 @@ public class UserData {
       valid = false;
       emailErr = "Please enter your email address";
     }
-    else
-    {
-      Pattern ptn = Pattern.compile("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}", Pattern.CASE_INSENSITIVE);
-      Matcher matcher = ptn.matcher(email);
-
-        if(!(matcher.find() && matcher.matches()))
-        {
-          valid = false;
-          emailErr = "Please enter a valid email address";
-        }
-    }
+//    else
+//    {
+//      Pattern ptn = Pattern.compile("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}", Pattern.CASE_INSENSITIVE);
+//      Matcher matcher = ptn.matcher(email);
+//
+//        if(!(matcher.find() && matcher.matches()))
+//        {
+//          valid = false;
+//          emailErr = "Please enter a valid email address";
+//        }
+//    }
     if(department == null || department.isEmpty())
     {
       valid = false;

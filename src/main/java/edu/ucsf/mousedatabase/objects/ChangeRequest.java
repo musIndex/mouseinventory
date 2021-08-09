@@ -282,56 +282,56 @@ public class ChangeRequest {
     
     MouseRecord record = DBConnect.getMouseRecord(getMouseID()).get(0);
     
-    if (!HTMLUtilities.validateEmail(getEmail())) {
-      errors.add("Email address is invalid.");
-    }
-    if (firstname == null || firstname.isEmpty()) {
-      errors.add("First name is required.");
-    }
-    if (lastname == null || lastname.isEmpty()) {
-      errors.add("Last name is required.");
-    }
-    if (actionRequested == Action.UNDEFINED) {
-      errors.add("Please specify the action to be performed.");
-    }
-    else if (actionRequested == Action.ADD_HOLDER || actionRequested == Action.REMOVE_HOLDER || actionRequested == Action.CHANGE_CRYO_LIVE_STATUS) {
-      if (holderId == -1) {
-        errors.add("Please select a holder.  If the desired holder is not listed, please select 'Other(specify)' and provide the name.");
-      }
-      else if (holderId == -2 && (holderName == null || holderName.isEmpty())) {
-        errors.add("Please specify the holder name.");
-      }
-      else if (actionRequested == Action.REMOVE_HOLDER || actionRequested == Action.CHANGE_CRYO_LIVE_STATUS){
-        boolean holderFound = false;
-        for (MouseHolder holder : record.getHolders()) {
-          if (holder.getHolderID() == holderId && holder.getFacilityID() == facilityId) {
-            holderFound = true;
-          }
-        }
-        if (!holderFound) {
-          errors.add("That holder and facility cannot be " + (actionRequested == Action.REMOVE_HOLDER ? "removed" : "updated") 
-              + " - it is not currently listed on the record");
-        }
-      }
-      if (facilityId == -1) {
-        errors.add("Please select a facility.  If the desired facility is not listed, please select 'Other(specify)' and provide the name.");
-      }
-      else if (facilityId == -2 && (facilityName == null || facilityName.isEmpty())) {
-        errors.add("Please specify the facility name.");
-      }
-    }
-    else if (actionRequested == Action.OTHER) {
-      if (userComment == null || userComment.isEmpty()) {
-        errors.add("Please describe the changes in the comment field.");
-      }
-    }
-    /*
-    else if (actionRequested == Action.UPLOAD_FILE) {
-      if (fileNames == null) {
-        errors.add("Please provide file name.");
-      }
-      */
-    
+//    if (!HTMLUtilities.validateEmail(getEmail())) {
+//      errors.add("Email address is invalid.");
+//    }
+//    if (firstname == null || firstname.isEmpty()) {
+//      errors.add("First name is required.");
+//    }
+//    if (lastname == null || lastname.isEmpty()) {
+//      errors.add("Last name is required.");
+//    }
+//    if (actionRequested == Action.UNDEFINED) {
+//      errors.add("Please specify the action to be performed.");
+//    }
+//    else if (actionRequested == Action.ADD_HOLDER || actionRequested == Action.REMOVE_HOLDER || actionRequested == Action.CHANGE_CRYO_LIVE_STATUS) {
+//      if (holderId == -1) {
+//        errors.add("Please select a holder.  If the desired holder is not listed, please select 'Other(specify)' and provide the name.");
+//      }
+//      else if (holderId == -2 && (holderName == null || holderName.isEmpty())) {
+//        errors.add("Please specify the holder name.");
+//      }
+//      else if (actionRequested == Action.REMOVE_HOLDER || actionRequested == Action.CHANGE_CRYO_LIVE_STATUS){
+//        boolean holderFound = false;
+//        for (MouseHolder holder : record.getHolders()) {
+//          if (holder.getHolderID() == holderId && holder.getFacilityID() == facilityId) {
+//            holderFound = true;
+//          }
+//        }
+//        if (!holderFound) {
+//          errors.add("That holder and facility cannot be " + (actionRequested == Action.REMOVE_HOLDER ? "removed" : "updated")
+//              + " - it is not currently listed on the record");
+//        }
+//      }
+//      if (facilityId == -1) {
+//        errors.add("Please select a facility.  If the desired facility is not listed, please select 'Other(specify)' and provide the name.");
+//      }
+//      else if (facilityId == -2 && (facilityName == null || facilityName.isEmpty())) {
+//        errors.add("Please specify the facility name.");
+//      }
+//    }
+//    else if (actionRequested == Action.OTHER) {
+//      if (userComment == null || userComment.isEmpty()) {
+//        errors.add("Please describe the changes in the comment field.");
+//      }
+//    }
+//    /*
+//    else if (actionRequested == Action.UPLOAD_FILE) {
+//      if (fileNames == null) {
+//        errors.add("Please provide file name.");
+//      }
+//      */
+//
     return StringUtils.join(errors,"|");
   }
 
