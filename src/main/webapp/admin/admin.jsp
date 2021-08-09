@@ -232,6 +232,7 @@
             hold_buf.append("</tr>");
         }
         hold_buf.append("</table>");
+        hold_buf.append("</div>");
     }
 
 
