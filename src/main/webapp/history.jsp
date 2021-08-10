@@ -50,7 +50,7 @@
   project direction of Dr. F. Claire Hankenson. Development efforts are continuing with
   support from Campus Animal Resources and the Office of Regulatory Affairs.
   MSU and UCSF continue to collaborate on development and features that are designed to
-  augment database use at both institutions</p>
+  augment database use at both institutions.</p>
  <br><br>
 
 
