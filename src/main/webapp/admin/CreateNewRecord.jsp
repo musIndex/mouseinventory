@@ -75,6 +75,7 @@
         records = new ArrayList<MouseRecord>();
         records.add(record);
 
+
     }
 
 

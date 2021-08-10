@@ -14,6 +14,7 @@
 <style type="text/css">
 </style>
 <div class="site_container">
+
  <p class="main_header">History</p>
  <p class="description_text">The MSU Rodent Database project was created to provide a searchable online resource
   of mouse and rat research strains and stocks that are available at
@@ -27,6 +28,7 @@
   through cost savings.
   <br><br>
   Databases of this type have been developed at only a few institutions to our knowledge,
+
   one of which exists at University of California – San Francisco (UCSF).
   Originally, the UCSF resource took shape in 2009 from collaborative conversations between
   Dr. Gail Martin (UCSF) and Dr. Mary Elizabeth Hatten (Rockefeller),
@@ -35,6 +37,7 @@
   created the first version of the Mouse Web App in 2009 with resources provided by Hatten.
   In 2018, the UCSF database representatives, Ms. Estelle Wall and Dr. Carlo Quiñónez,
   graciously shared their expertise, in addition to providing MSU access to their
+
   database code, provided as an open source on GitHub.
   <br><br>
 
@@ -52,6 +55,7 @@
   MSU and UCSF continue to collaborate on development and features that are designed to
   augment database use at both institutions.</p>
  <br><br>
+
 
 
 
@@ -98,6 +102,8 @@
 
 </div>
 
+
 <%=HTMLGeneration.getWebsiteFooter()%>
+
 
 

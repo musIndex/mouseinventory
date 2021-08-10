@@ -953,12 +953,14 @@ public class SubmittedMouse {
         PMIDValidationString = validationString;
     }
 
+
     public String getPMIDValid() {
         return PMIDValid;
     }
 
     public void setPMIDValid(String valid) {
         PMIDValid = valid;
+
     }
 
     public String getGensatFounderLine() {

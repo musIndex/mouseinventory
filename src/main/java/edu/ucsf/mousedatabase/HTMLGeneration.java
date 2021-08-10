@@ -112,6 +112,7 @@ public class HTMLGeneration {
         return buf.toString();
     }
 
+
     public static String getPageFooter() {
         StringBuffer buf = new StringBuffer();
         buf.append("</body>");
@@ -1169,6 +1170,7 @@ public class HTMLGeneration {
 //      getInputRow(buf, "Endangered?", field, null, "editMouseRow");
 
         }
+
         if (r.getMouseType().equalsIgnoreCase("inbred strain")) {
             buf.append("<tr class=\"editMouseRow\">\r\n");
             buf.append("<td class='editMouseCellSmallL'>\r\n");
@@ -1222,6 +1224,7 @@ public class HTMLGeneration {
 
             field = getTextInput("gensat", r.getGensat(), size, 100, null);
             getInputRow(buf, "Founder Line", field, null, "editMouseRow");
+
 
         }
         if (r.getStatus() != null) {
@@ -2553,6 +2556,7 @@ public class HTMLGeneration {
             table.append(formatGene(gene.getSymbol(), gene.getFullname(),
                     gene.getMgiID()));
 
+
             table.append("</td>\r\n<td class='genelistItem'>\r\n");
             table.append("<span style=\"position:relative;left:5px\">"
                     + "<a class='holderItemLink' href=\"" + siteRoot
@@ -2601,6 +2605,7 @@ public class HTMLGeneration {
         table.append("</td>\r\n");
         if (edit) {
             table.append("<td class='holderHeaderCell' style='width:10%'\">\r\n");
+
 
         } else {
             table.append("<td class='holderHeaderCell'\">\r\n");
@@ -2666,12 +2671,14 @@ public class HTMLGeneration {
 
             table.append("<td class='holderItemCell'>" + emptyIfNull(holder.getPrimaryMouseLocation()) + "</td>");
 
+
             //review date
             table.append("<td class='holderItemCell'>\r\n");
             if (holder.getDateValidated() != null) {
                 table.append(holder.getDateValidated());
                 if (holder.getValidationStatus() != null && !holder.getValidationStatus().isEmpty()) {
                     table.append("<br>" + holder.getValidationStatus());
+
                 }
             } else if (holder.getValidationStatus() != null && !holder.getValidationStatus().isEmpty()) {
                 table.append(holder.getValidationStatus());
@@ -2805,9 +2812,11 @@ public class HTMLGeneration {
         return "";
     }
 
+
     public static String elementVisibility(boolean show) {
         if (show) {
             return "display: block";
+
         }
         return "display: none";
     }
@@ -3424,6 +3433,7 @@ public class HTMLGeneration {
 
         String pageSelect = genSelect("pagenum", pageNums, pageNums, Integer.toString(pageNum), "style='vertical-align: 0%'", true, true);
 
+
         buf.append((((pageNum <= 1) || limit == -1 || limit == -2)
                 ? "<div class='MSU_green_button_next_previous_disabled'><p class='MSU_green_button_next_previous_text'>Previous</p>"
                 : "<div onclick=\"pageSwitch(" + (pageNum - 1) + ")\" class='MSU_green_button_next_previous'><a href=''><p class='MSU_green_button_next_previous_text'>Previous</p></a>") +
@@ -3433,6 +3443,7 @@ public class HTMLGeneration {
                 : "<div onclick=\"pageSwitch(" + (pageNum + 1) + ")\" class='MSU_green_button_next_previous'><a href=''><p class='MSU_green_button_next_previous_text'>Next</p></a>") +
                 "</div>\r\n");
         buf.append("<div><span class='well' style='vertical-align:middle;line-height:35px;font-size:16px;padding-top:2px'>Page " + pageSelect + " of " + pageCount + "</span></div>\r\n");
+
 
         if (includeLimitSelector) {
 

@@ -276,6 +276,7 @@ public class DBConnect {
 //
 //	}
 
+
     private static ArrayList<SubmittedRat> getRatSubmissions(String additionalJoins, ArrayList<String> whereTerms,
                                                              String orderBy, int limit, int offset) {
         String whereClause = "";
@@ -1408,11 +1409,13 @@ public class DBConnect {
 
     public static void sendFilesToDatabase(ArrayList<File> files, String mouseID, String filestatus) {
         Connection con = null;
+
 		/*
     for (File file : files){
       try{
         sendFilesToStorage(files, mouseID);
       } catch (Exception e){
+
 
       }
     }
@@ -1807,6 +1810,7 @@ public class DBConnect {
         return "'" + addMySQLEscapes(text) + "'";
     }
 
+
     public static int insertEmail(MouseMail email) {
         String query = "INSERT into emails (recipients,ccs,bccs,emailType,subject,body,status,category,template_name,attachment_names)";
         query += "VALUES (";
@@ -1910,6 +1914,7 @@ public class DBConnect {
         //Returns an arraylist of all applicants in the query
         return ApplicantResultGetter.getInstance().Get(query);
     }
+
 
     //To get all the applicants, we need an entirely new class which extends ResultGetter
     private static final class ApplicantResultGetter extends ResultGetter {
@@ -3550,6 +3555,7 @@ public class DBConnect {
             return result;
         }
     }
+
 
 //	private static final class SubmittedRatResultGetter extends ResultGetter {
 //		public static SubmittedRatResultGetter getInstance() {

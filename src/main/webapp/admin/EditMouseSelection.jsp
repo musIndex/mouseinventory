@@ -63,12 +63,15 @@
   query.add("geneID=" + geneID);
   query.add("creonly=" + creOnly);
   query.add("mousetype_id=" + mouseTypeID);
+
   query.add("facility_id=" + facilityID);
   query.add("status=live");
+
   if (species)
     query.add("is_rat=" + 1);
   else
     query.add("is_rat=" + 0);
+
 
 
   String queryString = StringUtils.join(query, "&");
@@ -77,6 +80,7 @@
   int mouseCount = DBConnect.countMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", searchTerms, false, creOnly, facilityID,false, species);
   ArrayList<MouseRecord> mice = DBConnect.getMouseRecords(mouseTypeID, orderBy, holderID, geneID, "live", searchTerms, false, creOnly, facilityID,limit,offset,false,species);
 
+
   String table = HTMLGeneration.getMouseTable(mice, true, false, false); 
 
   //String table = generateMouseList(mouseTypeID, null, (orderBy== null || orderBy.equals("mouse.id")) ? "mouse.id desc" : orderBy, true);
@@ -84,6 +88,7 @@
   ArrayList<MouseType> mouseTypes = DBConnect.getMouseTypes();
 
   String mouseTypeSelectionLinks = HTMLGeneration.getMouseTypeSelectionLinks(mouseTypeID, orderBy,holderID,geneID, mouseTypes, status,searchTerms,-1,facilityID,species);
+
   String topPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,mouseCount,true);
   String bottomPageSelectionLinks = HTMLGeneration.getNewPageSelectionLinks(limit,pagenum,mouseCount,false);
 
