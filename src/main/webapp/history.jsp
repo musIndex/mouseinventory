@@ -53,7 +53,7 @@
   project direction of Dr. F. Claire Hankenson. Development efforts are continuing with
   support from Campus Animal Resources and the Office of Regulatory Affairs.
   MSU and UCSF continue to collaborate on development and features that are designed to
-  augment database use at both institutions</p>
+  augment database use at both institutions.</p>
  <br><br>
 
 
@@ -80,7 +80,7 @@
    <p class="button_header">Rodent Database User Manual</p>
    <p class="button_body_text">Dr. Martin created these presentations to explain the differences between mutant allele and transgene mice. </p>
    <div class="MSU_green_button">
-    <a class="anchor_no_underline" href="https://msurodentdatabasefiles.s3.us-east-2.amazonaws.com/Rodent+Database+User+Manual+2-13-21.pdf">
+    <a class="anchor_no_underline" href="https://msurodentdatabasefiles.s3.us-east-2.amazonaws.com/MSU+Rodent+Database+User+Manual+-+August+2021.pdf">
      <p class="MSU_green_button_Text">Download</p>
     </a>
    </div>
