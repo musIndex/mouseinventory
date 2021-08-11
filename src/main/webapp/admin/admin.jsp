@@ -118,7 +118,7 @@
                             + changeRequest.getRequestID() + "\"><p class=\"adminButtonText\">Edit record"
 //                            " #"
 //                            + changeRequest.getMouseID()
-                            + "</p></a></td>");
+                            + "</p></a></div></td>");
                 }
                 buf.append("</tr>");
             }
@@ -173,12 +173,14 @@
                         + "</td><td class=\"adminTableRightTd\">" +
                         "<div class=\"adminButton\">" +
                         "<a class=\"anchor_no_underline\" href=\"CreateNewRecord.jsp?id=" + mouse.getSubmissionID() + "\">" +
-                        "<p class=\"adminButtonText\">Convert to record</p></a></td>");
+                        "<p class=\"adminButtonText\">Convert to record</p></a></div></td>");
+                right_buf.append("</tr>");
+
             }
-            right_buf.append("</tr>");
+            right_buf.append("</table>");
+            right_buf.append("</div>");
         }
-        right_buf.append("</table>");
-        right_buf.append("</div>");
+
     }
 
     submissionLists.add(DBConnect.getMouseSubmissions("need more info", null, null, SubmittedMouse.SubmissionFormSource));
@@ -226,13 +228,13 @@
                         + "</td><td class=\"adminTableRightTd\">" +
                         "<div class=\"adminButton\">" +
                         "<a class=\"anchor_no_underline\" href=\"CreateNewRecord.jsp?id=" + mouse.getSubmissionID() + "\">" +
-                        "<p class=\"adminButtonText\">Convert to record</p></a></td>");
-
+                        "<p class=\"adminButtonText\">Convert to record</p></a></div></td>");
+                hold_buf.append("</tr>");
             }
-            hold_buf.append("</tr>");
+            hold_buf.append("</table>");
+            hold_buf.append("</div>");
         }
-        hold_buf.append("</table>");
-        hold_buf.append("</div>");
+
     }
 
 
@@ -240,7 +242,7 @@
 <div class="site_container">
     <p class="main_header">MSU Rodent Database Administration</p>
     <%
-        if (noTasks){
+        if (noTasks) {
     %>
     <p class="label_text">There are currently no tasks requiring attention.</p>
     <%
