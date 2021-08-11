@@ -47,7 +47,11 @@
 
         if (newMouse.getMouseMGIID() != null && !(newMouse.getMouseMGIID().isEmpty()) && (newMouse.isTG() || newMouse.isMA())) {
             String repositoryCatalogID = newMouse.getMouseMGIID();
-            if (repositoryCatalogID != null && !repositoryCatalogID.equalsIgnoreCase("none")) {
+            //remove all special characters that aren't numbers
+            repositoryCatalogID = repositoryCatalogID.replaceAll(" ","");
+            repositoryCatalogID = repositoryCatalogID.replaceAll("[^0-9]","");
+            newMouse.setMouseMGIID(repositoryCatalogID);
+            if (repositoryCatalogID != null && !repositoryCatalogID.equalsIgnoreCase("none") && !repositoryCatalogID.isEmpty()) {
                 existingRecordID = DBConnect.checkForDuplicates(Integer.parseInt(newMouse.getMouseMGIID()), -1);
             }
         } else if (newMouse.isIS()) {
@@ -186,6 +190,7 @@
         <%= err %>
     </p>
     <%=existingRecordTable %>
+    <div class="spacing_div"></div>
     <%}%>
 
     <div class="category">
