@@ -898,9 +898,7 @@ public class HTMLGeneration {
                 if (r.isMA()) {
                     // Gene Section
                     String mgiID = r.getGeneID();
-                    if ((mgiID == null || mgiID.isEmpty())
-                            && sub != null
-                            && (sub.getMAMgiGeneID() != null && !sub.getMAMgiGeneID().isEmpty())) {
+                    if ((sub != null && (sub.getMAMgiGeneID() != null && !sub.getMAMgiGeneID().isEmpty()))) {
                         mgiID = sub.getMAMgiGeneID();
                     }
                     field = getTextInput(
@@ -3729,7 +3727,7 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.2.1.07";
+        String version = "4.2.1.09";
         //Current date
         String year = "2021";
         //Email of database administrator

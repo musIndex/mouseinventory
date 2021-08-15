@@ -54,6 +54,7 @@
     String changeRequestTable = getChangeRequestsTable(requests, null);
     String existingRecord = getMouseTable(records, true, false, true);
     String editForm = getEditMouseForm(record, currentRequest);
+    request.setAttribute("geneMGIID",record.getGeneID());
 
 %>
 

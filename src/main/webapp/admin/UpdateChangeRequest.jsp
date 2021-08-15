@@ -57,6 +57,17 @@
             } else {
                 pageHeader = "Completed change request #" + changeRequestID;
                 //update the record
+                ArrayList<SubmittedMouse> props = new ArrayList<SubmittedMouse>();
+                props = DBConnect.getMouseSubmission(Integer.parseInt(DBConnect.getMouseRecord(mouseID).get(0).getSubmittedMouseID()));
+                SubmittedMouse sub = props.get(0);
+                if ((updatedRecord.getExpressedSequence() != null) && updatedRecord.getExpressedSequence().equals("Mouse Gene (unmodified)")) {
+                    updatedRecord.setTargetGeneID(sub.getTGMouseGene());
+                    updatedRecord.setRegulatoryElement(sub.getTGRegulatoryElement());
+                }
+                if (updatedRecord.isMA() && (sub.getMAMgiGeneID() != null || !sub.getMAMgiGeneID().equals(""))) {
+                    updatedRecord.setGeneLink(sub.getMAMgiGeneID());
+                    updatedRecord.setGeneID(request.getParameter("geneMGIID"));
+                }
                 recordUpdateResult = DBConnect.updateMouseRecord(updatedRecord);
                 if (recordUpdateResult != null) {
                     errors += recordUpdateResult;
