@@ -72,9 +72,26 @@
         if (isRat != null) {
             record.setRat(isRat);
         }
+
+        if (isRat == false && record.isMA()) {
+            ArrayList<SubmittedMouse> props = new ArrayList<SubmittedMouse>();
+            props = DBConnect.getMouseSubmission(submissionID);
+            //System.out.println(props.toString());
+            SubmittedMouse sub = props.get(0);
+            if (record.isMA() && (sub.getMAMgiGeneID() != null || !sub.getMAMgiGeneID().equals(""))) {
+                record.setGeneLink(sub.getMAMgiGeneID());
+                MGIResult geneResult = MGIConnect.doMGIQuery(sub.getMAMgiGeneID(),
+                        MGIConnect.MGI_MARKER,
+                        "This MGI ID does not correspond to a Gene",
+                        false);
+                if (geneResult.getSymbol() != null && geneResult.getName() != null) {
+                    record.setGeneSymbol(geneResult.getSymbol());
+                    record.setGeneName(geneResult.getName());
+                }
+            }
+        }
         records = new ArrayList<MouseRecord>();
         records.add(record);
-
 
     }
 
@@ -85,6 +102,7 @@
 
     String recordPreview = getMouseTable(records, false, false, true, true, true);
 
+
 %>
 
 
@@ -92,11 +110,11 @@
     <p class="main_header">Editing Submission #<%=submission.getSubmissionID() %>: <%=record.getMouseName() %>
         (<%= record.getMouseType() %>)
     </p>
-<%--    <%@ include file='_lastSubmissionListLink.jspf' %>--%>
+    <%--    <%@ include file='_lastSubmissionListLink.jspf' %>--%>
     <%=submissionTable %>
     <p class="label_text" style="font-size: 24px">Record Preview:</p>
     <%=recordPreview %>
-<%--    <%= otherRecordInfo %>--%>
+    <%--    <%= otherRecordInfo %>--%>
     <br>
     <%=editForm %>
 </div>
