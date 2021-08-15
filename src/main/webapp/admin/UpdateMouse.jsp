@@ -65,8 +65,20 @@
                 }
                 updatedRecord.setRegulatoryElement(sub.getTGRegulatoryElement());
             }
+            if (updatedRecord.getExpressedSequence() != null) {
+                if (updatedRecord.getExpressedSequence().equals("Reporter")) {
+                    updatedRecord.setReporter(sub.getTGReporter());
+                } else if (updatedRecord.getExpressedSequence().equals("Modified mouse gene or Other")) {
+                    updatedRecord.setTargetGeneName(sub.getTGOther());
+                    updatedRecord.setGeneName(sub.getTGOther());
+                    updatedRecord.setOtherComment(sub.getTGOther());
+                }
+            }
             if (updatedRecord.isMA() && (sub.getMAMgiGeneID() != null || !sub.getMAMgiGeneID().equals("")) && updatedRecord.getGeneLink() == null) {
                 updatedRecord.setGeneLink(sub.getMAMgiGeneID());
+                if (updatedRecord.getGeneID() == null) {
+                    updatedRecord.setGeneID("" + gene_id);
+                }
             }
 //        DBConnect.updateMouseRecord(updatedRecord);
         }

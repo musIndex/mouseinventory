@@ -56,7 +56,7 @@
                 //dupicate found
                 String table = HTMLGeneration.getMouseTable(DBConnect.getMouseRecord(existingRecordID), true, false, true, true, true);
                 errors += "Duplicate record found with MGI Allele/Transgene ID " + updatedRecord.getRepositoryCatalogNumber();
-                errortext += "<h3>Existing Record:</h3>";
+                errortext += "<p class='label_text'>Existing Record:</p>";
                 errortext += table;
                 errorsEncountered = true;
             } else if (updateCommand.equals("Convert to Record")) {
@@ -75,7 +75,6 @@
                 DBConnect.updateSubmission(submissionID, "accepted", notes);
                 updatedRecord.setStatus("live");
                 if (mouseID < 0) {
-
 
 
                     mouseID = DBConnect.insertMouseRecord(updatedRecord);
@@ -114,6 +113,15 @@
                         if ((updatedRecord.getExpressedSequence() != null) && updatedRecord.getExpressedSequence().equals("Mouse Gene (unmodified)")) {
                             updatedRecord.setTargetGeneID(sub.getTGMouseGene());
                             updatedRecord.setRegulatoryElement(sub.getTGRegulatoryElement());
+                        }
+                        if (updatedRecord.getExpressedSequence() != null) {
+                            if (updatedRecord.getExpressedSequence().equals("Reporter")) {
+                                updatedRecord.setReporter(sub.getTGReporter());
+                            } else if (updatedRecord.getExpressedSequence().equals("Modified mouse gene or Other")) {
+                                updatedRecord.setTargetGeneName(sub.getTGOther());
+                                updatedRecord.setGeneName(sub.getTGOther());
+                                updatedRecord.setOtherComment(sub.getTGOther());
+                            }
                         }
                         if (updatedRecord.isMA() && (sub.getMAMgiGeneID() != null || !sub.getMAMgiGeneID().equals(""))) {
                             updatedRecord.setGeneLink(sub.getMAMgiGeneID());
@@ -191,9 +199,10 @@
     %>
     <form action="UpdateSubmission.jsp" method="post" style="float: right">
         <div class="MSU_back_button" style="width: 102%;float: right;margin-left:0px;background-color:#F08521;">
-        <input type="hidden" name="mouseID" value="<%= mouseID %>"/>
-        <input type="hidden" name="submittedMouseID" value="<%= submissionID %>">
-        <input type="submit" name="submitButton" value="Undo conversion to Record" style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
+            <input type="hidden" name="mouseID" value="<%= mouseID %>"/>
+            <input type="hidden" name="submittedMouseID" value="<%= submissionID %>">
+            <input type="submit" name="submitButton" value="Undo conversion to Record"
+                   style="width: 100%;height: 100%;background-color: transparent;border: none;font-size: 19px;color: white;">
         </div>
     </form>
     <p class="label_text" style="font-size: 24px">Submission was:</p>

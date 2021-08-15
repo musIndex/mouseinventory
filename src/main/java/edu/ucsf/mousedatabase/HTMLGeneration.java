@@ -898,9 +898,7 @@ public class HTMLGeneration {
                 if (r.isMA()) {
                     // Gene Section
                     String mgiID = r.getGeneID();
-                    if ((mgiID == null || mgiID.isEmpty())
-                            && sub != null
-                            && (sub.getMAMgiGeneID() != null && !sub.getMAMgiGeneID().isEmpty())) {
+                    if ((sub != null && (sub.getMAMgiGeneID() != null && !sub.getMAMgiGeneID().isEmpty()))) {
                         mgiID = sub.getMAMgiGeneID();
                     }
                     field = getTextInput(
