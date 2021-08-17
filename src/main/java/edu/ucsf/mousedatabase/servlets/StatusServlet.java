@@ -45,7 +45,7 @@ public class StatusServlet extends HttpServlet {
         //Change the approval of a given user
         changeApproval(getId,getFirstName,getLastName,getEmail,getNetID,getAUFProtocol,getPosition,getApproved);
         //Reload the page
-        response.sendRedirect("applicationsList.jsp");
+        //response.sendRedirect("applicationsList.jsp");
     }
 
     //Sends a trigger to DBConnect to change user approval status
