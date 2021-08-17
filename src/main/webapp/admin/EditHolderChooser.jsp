@@ -62,43 +62,43 @@
                             <tr class="formField">
                                 <td class="formLeft">*First name</td>
                                 <td class="formRight">
-                                    <input class='formInput' type=text name="firstname" required>
+                                    <input  type=text name="firstname" required>
                                 </td>
                             </tr>
                             <tr class="formField">
                                 <td class="formLeft">*Last name</td>
                                 <td class="formRight">
-                                    <input type=text name="lastname" class='formInput' required>
+                                    <input type=text name="lastname"  required>
                                 </td>
                             </tr>
                             <tr class="formField">
                                 <td class="formLeft">*Department</td>
                                 <td class="formRight">
-                                    <input type=text name="dept" class='formInput' required>
+                                    <input type=text name="dept"  required>
                                 </td>
                             </tr>
                             <tr class="formField">
                                 <td class="formLeft">*Email</td>
                                 <td class="formRight">
-                                    <input type=email name="email" class='formInput' required>
+                                    <input type=email name="email"  required>
                                 </td>
                             </tr>
                             <tr class="formField">
                                 <td class="formLeft" style="line-height: 21px">*Primary Contact Name</td>
                                 <td class="formRight">
-                                    <input type=text name="alternateName" class='formInput' required>
+                                    <input type=text name="alternateName"  required>
                                 </td>
                             </tr>
                             <tr class="formField">
                                 <td class="formLeft" style="line-height: 21px">Primary Contact Email</td>
                                 <td class="formRight">
-                                    <input type=email name="alternateEmail" class='formInput'>
+                                    <input type=email name="alternateEmail" >
                                 </td>
                             </tr>
                             <tr class="formField">
                                 <td class="formLeft" style="line-height: 21px">*Primary Colony Location</td>
                                 <td class="formRight">
-                                    <input type=text name="primaryMouseLocation" class='formInput' required>
+                                    <input type=text name="primaryMouseLocation"  required>
                                 </td>
                             </tr>
                             <tr>
