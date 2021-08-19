@@ -1883,7 +1883,7 @@ public class HTMLGeneration {
                             cryoLiveStatus = "";
                         } else if (holder.getCryoLiveStatus().equalsIgnoreCase(
                                 "Live and cryo")) {
-                            cryoLiveStatus = "(Cryo,Live)";
+                            cryoLiveStatus = "(Live & cryo)";
                         } else if (holder.getCryoLiveStatus().equalsIgnoreCase(
                                 "Cryo only")) {
                             cryoLiveStatus = "(Cryo)";
@@ -1913,7 +1913,7 @@ public class HTMLGeneration {
 
 
                     holderBuf.append("<dt" + (overMax ? " style='display:none'" : "") + ">"
-                            + (holder.isCovert() ? "<span class='covert_tag'>CVT</span>-" : "")
+                            + (holder.isCovert() ? "CVT - " : "")
                             + mailLink + "<br>" + facilityName
                             + "<span class='lbl'>" + cryoLiveStatus + "</span>"
                             + "</dt>");
