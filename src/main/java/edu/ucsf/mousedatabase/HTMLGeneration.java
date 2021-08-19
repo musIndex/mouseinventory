@@ -19,6 +19,7 @@ import java.sql.Blob;
 
 import edu.ucsf.mousedatabase.admin.EmailRecipientManager;
 import edu.ucsf.mousedatabase.admin.EmailRecipientManager.EmailRecipient;
+import edu.ucsf.mousedatabase.beans.MouseSubmission;
 import edu.ucsf.mousedatabase.objects.*;
 import edu.ucsf.mousedatabase.objects.ChangeRequest.Action;
 
@@ -651,15 +652,23 @@ public class HTMLGeneration {
                 if (r.isMA()) {
                     // Gene Section
                     String mgiID = r.getGeneID();
+                    ArrayList<SubmittedMouse> tempSubArray = null;
+                    if (sub == null){
+                         tempSubArray = DBConnect.getMouseSubmission(Integer.parseInt(r.getSubmittedMouseID()));
+                    }
                     if ((sub != null && (sub.getMAMgiGeneID() != null && !sub.getMAMgiGeneID().isEmpty()))) {
                         mgiID = sub.getMAMgiGeneID();
+                    }
+                    else if (sub == null && !tempSubArray.isEmpty() && tempSubArray.get(0) != null){
+                        if (tempSubArray.get(0).getMAMgiGeneID() != null && !tempSubArray.get(0).getMAMgiGeneID().isEmpty())
+                        mgiID = tempSubArray.get(0).getMAMgiGeneID();
                     }
                     field = getTextInput(
                             "geneMGIID",
                             emptyIfNull(mgiID),
                             size,
                             11,
-                            "id=\"geneMGIID\"");
+                            "id=\"geneMGIID\" onkeyup=\"validateInput('geneMGIID', 'geneMGIIDValidation', 'mgiModifiedGeneId', 'none')\"");
                     if (mgiID != null && !mgiID.isEmpty()) {
                         String geneURL = HTMLGeneration.formatMGI(mgiID);
                         String resultString = "";
@@ -693,11 +702,11 @@ public class HTMLGeneration {
                             }
                         }
                         if (r.isRat()) {
-                            field += "<span class='" + validationStyle
+                            field += "<br><span class='" + validationStyle
                                     + "' id='geneRGDIDValidation'>" + resultString
                                     + " (RGD:" + formatRGD(r.getGeneID()) + ")</span>";
                         } else {
-                            field += "<span class='" + validationStyle
+                            field += "<br><span class='" + validationStyle
                                     + "' id='geneMGIIDValidation'>" + resultString
                                     + " (MGI:" + geneURL + ")</span>";
                         }
@@ -1883,10 +1892,10 @@ public class HTMLGeneration {
                             cryoLiveStatus = "";
                         } else if (holder.getCryoLiveStatus().equalsIgnoreCase(
                                 "Live and cryo")) {
-                            cryoLiveStatus = "(Live & cryo)";
+                            cryoLiveStatus = "<br>(Live & cryo)";
                         } else if (holder.getCryoLiveStatus().equalsIgnoreCase(
                                 "Cryo only")) {
-                            cryoLiveStatus = "(Cryo)";
+                            cryoLiveStatus = "<br>(Cryo)";
                         }
                     }
 

@@ -75,7 +75,12 @@
                 }
             }
             if (updatedRecord.isMA() && (sub.getMAMgiGeneID() != null || !sub.getMAMgiGeneID().equals("")) && updatedRecord.getGeneLink() == null) {
-                updatedRecord.setGeneLink(sub.getMAMgiGeneID());
+                if (updatedRecord.getGeneLink() == null) {
+                    updatedRecord.setGeneLink(sub.getMAMgiGeneID());
+                }
+                else if (updatedRecord.getGeneLink() != null){
+
+                }
                 if (updatedRecord.getGeneID() == null) {
                     updatedRecord.setGeneID("" + gene_id);
                 }

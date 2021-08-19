@@ -61,6 +61,8 @@ public class RecordManager {
     geneInfo.mgiGeneID = request.getParameter("geneMGIID");
     geneInfo.targetMgiGeneID = request.getParameter("targetGeneMGIID");
 
+    newMouse.setGeneLink(request.getParameter("geneMGIID"));
+
     AddGeneResult geneResult = CreateAndAddGenes(newMouse,geneInfo);
     if (!geneResult.Success)
     {
