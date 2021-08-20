@@ -1011,6 +1011,10 @@ public class HTMLGeneration {
 
 
         }
+        if (r.isTG()){
+            field = getTextInput("regulatoryElement", r.getRegulatoryElement(), size, 100, null);
+            getInputRow(buf, "Regulatory Element", field, "style='line-height:24px'", "editMouseRow");
+        }
         if (r.getStatus() != null) {
             if (r.getStatus().equalsIgnoreCase("live")
                     || r.getStatus().equalsIgnoreCase("deleted")) {

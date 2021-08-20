@@ -90,6 +90,12 @@ public class RecordManager {
                 }
             }
         }
+
+        if (newMouse.isTG()){
+            if (newMouse.getRegulatoryElement() == null){
+                newMouse.setRegulatoryElement(request.getParameter("regulatoryElement"));
+            }
+        }
         return new PopulateMouseResult(true, null);
     }
 
