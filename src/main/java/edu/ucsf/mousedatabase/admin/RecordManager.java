@@ -90,6 +90,12 @@ public class RecordManager {
                 }
             }
         }
+
+        if (newMouse.isTG()){
+            if (newMouse.getRegulatoryElement() == null){
+                newMouse.setRegulatoryElement(request.getParameter("regulatoryElement"));
+            }
+        }
         return new PopulateMouseResult(true, null);
     }
 
@@ -178,8 +184,10 @@ public class RecordManager {
         newMouse.setHolders(holders);
     }
 
+
     public static void AddFile(MouseRecord newMouse, File file) {
         //ArrayList<String> files = new ArrayList<String>();
+
 
         newMouse.setFilename(file.getName());
     }

@@ -121,3 +121,7 @@
 </div> <!-- This end div is here to end the site container div. For some reason it's not picked up by intellisense, but it is necessary. -->
 
 <%=HTMLGeneration.getWebsiteFooter()%>
+
+<script>
+    UpdateExpressedSequenceEdit();
+</script>
