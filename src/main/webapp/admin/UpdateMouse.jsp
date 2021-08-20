@@ -73,6 +73,7 @@
                 if (updatedRecord.getGeneID() == null) {
                     updatedRecord.setGeneID("" + gene_id);
                 }
+
             }
         }
         recordUpdateResult = DBConnect.updateMouseRecord(updatedRecord);
