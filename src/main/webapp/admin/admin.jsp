@@ -140,7 +140,7 @@
 
             for (SubmittedMouse mouse : newSubmissions) {
                 String mouseName = "";
-                if (mouse.getOfficialSymbol() == null || mouse.getOfficialSymbol().isEmpty()) {
+                if (mouse.getOfficialSymbol() == null || mouse.getOfficialSymbol().trim().isEmpty()) {
                     mouseName = mouse.getMouseName();
                     if (mouseName == null || mouseName.isEmpty()) {
                         mouseName = mouse.getOfficialMouseName();

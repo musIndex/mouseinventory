@@ -19,6 +19,7 @@ import java.sql.Blob;
 
 import edu.ucsf.mousedatabase.admin.EmailRecipientManager;
 import edu.ucsf.mousedatabase.admin.EmailRecipientManager.EmailRecipient;
+import edu.ucsf.mousedatabase.beans.MouseSubmission;
 import edu.ucsf.mousedatabase.objects.*;
 import edu.ucsf.mousedatabase.objects.ChangeRequest.Action;
 
@@ -73,9 +74,8 @@ public class HTMLGeneration {
             buf.append("<meta http-equiv='expires' content='0'>\r\n");
             buf.append("<meta http-equiv='pragma' content='no-cache'>\r\n");
         }
-        buf.append("<title>" + DBConnect.loadSetting("general_site_name").value + "</title>\r\n");
-//        buf.append("<link rel=\"shortcut icon\" href=\"img/favicon.png\" type=\"image/png\">\n");
-//        buf.append("<link rel=\"icon\" href=\"img/favicon.png\" type=\"image/png\">");
+        //removed DBConnect.loadSetting to speed up runtimes, changed to "MSU Rodent Database"
+        buf.append("<title>" + "MSU Rodent Database" + "</title>\r\n");
         buf.append("<link href='" + styleRoot + "bootstrap.css' rel='stylesheet' type='text/css'>\r\n");
         buf.append("<link href='" + styleRoot + "bootstrap-collapse.css' rel='stylesheet' type='text/css'>\r\n");
         buf.append("<link href='" + styleRoot + "font-awesome.min.css' rel='stylesheet' type='text/css'>\r\n");
@@ -128,107 +128,82 @@ public class HTMLGeneration {
     public static String getNavBar(String currentPageFilename,
                                    boolean isAdminPage, boolean showAdminControls) {
         StringBuffer table = new StringBuffer();
-        table.append("<div id=\"navBarContainer\">");
-
-        // Page header
-//    table.append("<div id=\"pageHeaderContainer\" class='clearfix' style=background-color:#133D34>");
-        table.append("<div class='site_container'>");
-        table.append("<div id=\"pageTitleContainer\">");
-        table.append("<div >"); //pagetitle
-
-
-//    table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + DBConnect.loadSetting("general_site_name").value + "</a></span>");
-
-
-        table.append("</div>");
-
-        table.append("<div>"); // About, faq, contact links
-//    table.append("<span class=\"titleSubText\">");
-//    table.append("<a href=\"" + siteRoot + "about.jsp\">Home</a>&nbsp;");
-//    // table.append("&nbsp;<a href=\""+siteRoot+"faq.jsp\">FAQ</a>&nbsp;");
-//    table.append("&nbsp;<a href=\"" + siteRoot
-//        + "contact.jsp\">Submit Feedback</a>");
-        table.append("</span>");
-
-        table.append("</div>"); // About, faq, contact links
-        table.append("</div>"); //pagetitle
-        // Quick Search bar
-
-        //table.append("</div>"); //pagetitlecontainer
-        table.append("</div>"); //pageheader
-        table.append("</div>"); //pageheadercontainer
         // Navigation Bar
         table.append("<div id=\"navigationLinksContainer\" class='clearfix'");
         table.append("<div id='navigationLinks' class='site_container'>");
         table.append("<div id='wrap' class='wrapper'>");
 
+        //"Michigan state University" logo, clicking on it takes users to homepage
         table.append("<div style=padding-top:3px;border-right:none;padding-top:3px;margin-top:-5px class=\"NavLinkItem\">");
         table.append("<a href=\"" + siteRoot + "about.jsp\">"
                 + "<img src=/img/Msu-2.png title='Homepage' style=\"image-rendering: -webkit-optimize-contrast; padding-top: none; padding-bottom: 10px !important; height:60px; class:10year\">");
         table.append("</div>");
+        //Navigation links + clickables & searchables
         table.append("<div class=\"\" style=\"float:right;margin-top:6px\">");
         table.append("<ul class=\"navLinkUL\">");
-        //Navigation links for the header bar
-//    table.append(addNavLink("Search", "search.jsp", null,
-//        currentPageFilename, false,"nav-search-link"));
-
-
+        //Homepage icon, takes users to homepage
         table.append("<li style=padding-top:8px;border-right:none;padding-left:5px class=\"NavLinkImage\">");
         table.append("<a href=\"" + siteRoot + "about.jsp\"> <img style=\"width:30px;\" src=/img/House.svg></a>");
         table.append("</li>");
-
+        //Email icon, lets users send an email to car staff
         table.append("<li style=padding-top:8px;padding-left:7px;border-right:none class=\"NavLinkImage\">");
         table.append("<a href=mailto:ORA.MSURodentDatabase@msu.edu> <img style=\"width: 30px;height: 26px;padding-right: 12px;padding-top: 3px;\" src=/img/Email.svg></a>");
         table.append("</li>");
-
-
+        //Submit rodents button
         table.append(addNavLink("Submit Rodents", "submission.jsp", null,
                 currentPageFilename, false, "", "", true, true));
-
+        //Dropdown link for datatables. Hovering over it displays the dropdown links
         table.append("<li class=\"NavLinkItem\">\n" +
                 " <div class=\"dropdownBorder\">\n" +
                 "  <div class=\"dropdown\">\n" +
                 "   <div style=\"border-right: 1px solid #FFFFFF;height: 17.6px;margin-top: 20px;\nmargin-bottom: 1em;\">" +
                 "<p class=\"navBarAnchor\" style=\"display:inline;color: white;margin-block-start: 0em;padding:0px 8px 12px 12px;margin-top:20px;\">Data Tables</p><img class=\"dropImage\" style=\"display:inline;height:7.04px;width:17.6px;margin-top:-3.5px;\" src=\"/img/dropdown_arrow.svg\"></div>\n" +
                 "   <div class=\"dropdown-content\"><ul style=\"padding-left:0px\">\n");
-
+        //Dropdown link for rodent table
         table.append(addDropdownLink("Rodents", "MouseReport.jsp", null,
                 currentPageFilename, false, "navLinkDropdown", "width: 135px;text-align: center;height: 50px", false, false));
+        //Dropdown link for gene table
         table.append(addDropdownLink("Genes", "GeneReport.jsp", null,
                 currentPageFilename, false, "navLinkDropdown", "width: 135px;text-align: center;height: 50px", false, false));
+        //Dropdown link for holder table
         table.append(addDropdownLink("Holders", "HolderReport.jsp", null,
                 currentPageFilename, false, "navLinkDropdown", "width: 135px;text-align: center;height: 50px", false, false));
+        //Dropdown link for facility table
         table.append(addDropdownLink("Facilities", "FacilityReport.jsp", null,
                 currentPageFilename, false, "navLinkDropdown", "width: 135px;text-align: center;height: 50px", false, false));
-
+        //close up the dropdown bar
         table.append("   </ul></div>\n" +
                 "  </div>\n" +
                 " </div>\n" + "</li>");
-
-        // table.append(addNavLink("Endangered Mice", "EndangeredReport.jsp",
-        // null,currentPageFilename,false));
+        //About page button
         table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false, "", "", true, false));
 
 
         String action = isAdminPage ? (adminRoot + "AdminSearch.jsp") : (siteRoot + "search.jsp");
 
+        //Search bar, turned off enter key because it caused some problems
         table.append("<li style=padding-top:11px;padding-left:12px class=\"NavLinkItem\">");
         table.append("<form style = \"display: inline;\" id=\"quickSearchForm\"action=\"" + action + "\" method=\"get\">\r\n");
         table.append("<input onkeydown=\"return event.key != 'Enter'\" type=\"text\" placeholder=\"Search...\" style='font-size:80%;outline:none' class=\"input-medium\"  name=\"searchterms\" >\r\n");
 
         table.append("<input type='hidden' name='search-source' value='quicksearch:" + currentPageFilename + "'>\r\n");
+        //Clicking the button queues the search
         table.append("<input class='quicksearch_button' id='quicksearchbutton' type=\"image\" alt=\"Submit\" src=/img/Eyeglass.svg style=\"height:20px;\">");
         table.append("<script type='text/javascript'>\r\n$('input[name=searchterms]').focus()\r\n");
+        //Javascript function
         table.append("$(\"#quicksearchbutton\").click(function(){ \r\n");
         table.append("window.location.href = '" + action + "#' + $(\"#quickSearchForm\").serialize();\r\nreturn false; });");
         table.append("</script>\r\n");
         table.append("</form>");
         table.append("</li>");
 
+        //Depending on whether a user is an admin or not, either takes them in or out of the admin page
         if (isAdminPage && showAdminControls) {
+            //Logout button
             table.append(addNavLink("Logout", "logout.jsp", null,
                     currentPageFilename, false, "pull-right", "", false, true));
         } else {
+            //Enter admin page button
             table.append(addNavLink("Admin", "admin.jsp", null,
                     isAdminPage ? "admin.jsp" : currentPageFilename, true, "", "", false, true));
 
@@ -237,209 +212,52 @@ public class HTMLGeneration {
         table.append("</div>");
         table.append("</div>");
         table.append("</div>");
-        table.append("</div>"); //navigationlinks
-        table.append("</div>"); //navigationlinkscontainer
+        table.append("</div>");
+        table.append("</div>");
+        //Close up generic navigation links
 
         // Admin Row
         if (isAdminPage && showAdminControls) {
+            //Opens up admin controls
             table.append("<div id=\"adminLinksContainer\" class='clearfix'>");
             table.append("<div id='adminLinks' class='site_container' style=\"margin:0 !important\">");
             table.append("<ul class=\"navLinkUL\" style=\"float:right\">");
+            //Admin home button
             table.append(addNavLink("Admin Home", "admin.jsp", null, currentPageFilename, true, "", "", true, true));
+            //Submissions button
             table.append(addNavLink("Submissions", "ListSubmissions.jsp", null, currentPageFilename, true, "", "", true, false));
-
+            //Admin editing options dropdown
             table.append("<li class=\"NavLinkItem\">\n" +
                     " <div class=\"dropdownBorder\" style=\"width:100px\">\n" +
                     "  <div class=\"dropdown\" style=\"width:100px;z-index:8000\">\n" +
                     "   <div style=\"border-right: 1px solid #FFFFFF;height: 17.6px;margin-top: 20px;\nmargin-bottom: 1em;\">" +
                     "<p class=\"navBarAnchor\" style=\"display:inline;color: white;margin-block-start: 0em;padding:0px 8px 0px 25.41px;margin-top:20px;\">Edit</p><img class=\"dropImage\" style=\"display:inline;height:7.04px;width:17.6px;margin-top:-3.5px;\" src=\"/img/dropdown_arrow.svg\"></div>\n" +
                     "   <div class=\"dropdown-content\" style=\"width:100px\"><ul style=\"padding-left:0px\">\n");
-
+            //Edit records
             table.append(addDropdownLink("Records", "EditMouseSelection.jsp", null,
                     currentPageFilename, true, "adminNavLinkDropdown", "width: 100px;text-align: center;height: 50px", false, false));
+            //Edit holders
             table.append(addDropdownLink("Holders", "EditHolderChooser.jsp", null,
                     currentPageFilename, true, "adminNavLinkDropdown", "width: 100px;text-align: center;height: 50px", false, false));
+            //Edit facilities
             table.append(addDropdownLink("Facilities", "EditFacilityChooser.jsp", null,
                     currentPageFilename, true, "adminNavLinkDropdown", "width: 100px;text-align: center;height: 50px", false, false));
-
             table.append("   </ul></div>\n" +
                     "  </div>\n" +
                     " </div>\n" + "</li>");
+            //Close up dropdown
 
             table.append(addNavLink("Change Requests", "ManageChangeRequests.jsp", null, currentPageFilename, true, "", "", false, false));
-//            table.append(addNavLink("Admin Search", "AdminSearch.jsp", null, currentPageFilename, true, "", "", true, false));
-//            table.append(addNavLink("Data Upload", "ImportReports.jsp", null, currentPageFilename, true, "", "", false, false));
-//            table.append(addNavLink("Reports", "Reports.jsp", null, currentPageFilename, true, "", "", true, false));
-//            table.append(addNavLink("Notes", "ManageAdminNotes.jsp", null, currentPageFilename, true, "", "", true, false));
-//            table.append(addNavLink("Options", "Options.jsp", null, currentPageFilename, true, "", "", false, false));
             table.append("</ul>");
-            table.append("</div>"); //adminlinks
-            table.append("</div>"); //adminlinkscontainer
+            table.append("</div>");
+            table.append("</div>");
+            //Close up admin controls
         }
 
         table.append("</div>"); //navbarcontainer
-        Setting alert = DBConnect.loadSetting("general_site_alert");
-        if (alert.value != null && !alert.value.trim().isEmpty()) {
-            table.append("<div class='site_container'><div class='alert alert-error' style='margin-top: 15px'><b>" + alert.value + "</b></div></div>");
-        }
         return table.toString();
     }
 
-    /*public static String getLoggedInNavBar(String currentPageFilename,
-                                   boolean isAdminPage, boolean showAdminControls) {
-      StringBuffer table = new StringBuffer();
-      table.append("<div id=\"navBarContainer\">");
-
-      // Page header
-      table.append("<div id=\"pageHeaderContainer\" class='clearfix'>");
-      table.append("<div class='site_container'>");
-      table.append("<div id=\"pageTitleContainer\">");
-      table.append("<div>"); //pagetitle
-
-      table.append("<img src=/img/logo_mouse_database_MSU.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>");
-      table.append("<span id=\"pageTitle\">" + "<a href='" + siteRoot + "'>" + DBConnect.loadSetting("general_site_name").value + "</a></span>");
-
-
-      table.append("</div>");
-
-      table.append("<div>"); // About, faq, contact links
-      table.append("<span class=\"titleSubText\">");
-
-        table.append("<form name=home action=loggedInServlet method=post style=\"display: inline;\">"
-                + "<a href=\"javascript: submitformhome()\">Home</a>"
-                +"<input type=\"hidden\" name=\"page\" value=go_home>"
-                + "</form>");
-        table.append("<form name=submitfeedback action=loggedInServlet method=post style=\"display: inline;\">"
-                + "<a href=\"javascript: submitformfeedback()\">Submit Feedback</a>"
-                +"<input type=\"hidden\" name=\"page\" value=contact>"
-                + "</form>");
-        table.append("<form name=logout action=loggedInServlet method=post style=\"display: inline;\">"
-                + "<a href=\"javascript: submitlogout()\">Logout</a>"
-                +"<input type=\"hidden\" name=\"page\" value=logout>"
-                + "</form>");
-
-
-      table.append("</span>");
-
-      table.append("</div>"); // About, faq, contact links
-      table.append("</div>"); //pagetitle
-      // Quick Search bar
-      if (currentPageFilename == null || !currentPageFilename.equals("search.jsp"))
-      {
-        table.append("<div id=\"quickSearchContainer\">");
-        String action = isAdminPage ? (adminRoot + "AdminSearch.jsp") : (siteRoot + "search.jsp");
-        table.append("<form id=\"quickSearchForm\"action=\"" + action + "\" method=\"get\">\r\n");
-        table.append("<input type=\"text\" class=\"input-medium search-query\"  name=\"searchterms\" >\r\n");
-        table.append("<input type='hidden' name='search-source' value='quicksearch:" + currentPageFilename + "'>\r\n");
-        table.append("<input id='quicksearchbutton' class=\"btn search-query\" type=\"submit\" value=\"" +
-                (isAdminPage ? "Admin Quick" : "Quick") + " Search\">\r\n");
-        table.append("<script type='text/javascript'>\r\n$('input[name=searchterms]').focus()\r\n");
-        table.append("$(\"#quicksearchbutton\").click(function(){ \r\n");
-        table.append("window.location.href = '" + action + "#' + $(\"#quickSearchForm\").serialize();\r\nreturn false; });");
-        table.append("</script>\r\n");
-        table.append("</form>");
-
-        table.append("</div>");
-
-      }
-      table.append("<a href=\"" + siteRoot + "history.jsp\">"
-              + "<img src=/img/UCSF_logo.png title='History of MouseDB' style='padding-top: 15px !important; background-color:#DDE6E5' width='120px' class='10year' >");
-
-
-
-      table.append("</div>"); //pagetitlecontainer
-      table.append("</div>"); //pageheader
-      table.append("</div>"); //pageheadercontainer
-      // Navigation Bar
-      table.append("<div id=\"navigationLinksContainer\" class='clearfix'>");
-      table.append("<div id='navigationLinks' class='site_container'>");
-      table.append("<ul class=\"navLinkUL\">");
-      //Navigation links for the header bar
-  //    table.append(addNavLink("Search", "search.jsp", null,
-  //        currentPageFilename, false,"nav-search-link"));
-      table.append(addLoggedInNavLink("Registration", "application.jsp", null,
-              currentPageFilename, false,""));
-      table.append(addLoggedInNavLink("Rodent Records", "MouseReport.jsp", null,
-              currentPageFilename, false,"nav-mouselist"));
-      table.append(addLoggedInNavLink("Gene List", "GeneReport.jsp", null,
-              currentPageFilename, false,""));
-      table.append(addLoggedInNavLink("Holder List", "HolderReport.jsp", null,
-              currentPageFilename, false,""));
-      table.append(addLoggedInNavLink("Facility List", "FacilityReport.jsp", null,
-              currentPageFilename, false,""));
-      // table.append(addNavLink("Endangered Mice", "EndangeredReport.jsp",
-      // null,currentPageFilename,false));
-      table.append(addLoggedInNavLink("Submit Rodents", "submission.jsp", null,
-              currentPageFilename, false,""));
-      table.append(addLoggedInNavLink("About", "aboutTab.jsp", null, currentPageFilename, false,""));
-      if (isAdminPage && showAdminControls){
-        table.append(addNavLink("Log out", "logout.jsp", null,
-                currentPageFilename, false,"pull-right small"));
-      }
-      else {
-        table.append(addNavLink("Admin use only", "admin.jsp", null,
-                isAdminPage ? "admin.jsp" : currentPageFilename, true, "pull-right small"));
-      }
-
-      table.append("</ul>");
-      table.append("</div>"); //navigationlinks
-      table.append("</div>"); //navigationlinkscontainer
-
-      // Admin Row
-      if (isAdminPage && showAdminControls) {
-        table.append("<div id=\"adminLinksContainer\" class='clearfix'>");
-        table.append("<div id='adminLinks' class='site_container'>");
-        table.append("<ul class=\"navLinkUL\">");
-        table.append(addNavLink("Admin Home", "admin.jsp", null, currentPageFilename, true));
-        table.append(addNavLink("Registration", "applicationsList.jsp", null, currentPageFilename, true));
-        table.append(addNavLink("Change Requests", "ManageChangeRequests.jsp", null, currentPageFilename, true));
-        table.append(addNavLink("Submissions", "ListSubmissions.jsp", null, currentPageFilename, true));
-        table.append(addNavLink("Admin Search", "AdminSearch.jsp", null, currentPageFilename, true));
-        table.append(addNavLink("Edit Records", "EditMouseSelection.jsp", null, currentPageFilename, true));
-        table.append(addNavLink("Edit Holders", "EditHolderChooser.jsp", null, currentPageFilename, true));
-        table.append(addNavLink("Edit Facilities","EditFacilityChooser.jsp", null, currentPageFilename, true));
-        table.append(addNavLink("Data Upload", "ImportReports.jsp", null,  currentPageFilename, true));
-        table.append(addNavLink("Reports", "Reports.jsp", null, currentPageFilename, true));
-        table.append(addNavLink("Notes", "ManageAdminNotes.jsp", null, currentPageFilename, true));
-        table.append(addNavLink("Options", "Options.jsp", null, currentPageFilename, true));
-        table.append("</ul>");
-        table.append("</div>"); //adminlinks
-        table.append("</div>"); //adminlinkscontainer
-      }
-
-      table.append("</div>"); //navbarcontainer
-      Setting alert = DBConnect.loadSetting("general_site_alert");
-      if (alert.value != null && !alert.value.trim().isEmpty()) {
-        table.append("<div class='site_container'><div class='alert alert-error' style='margin-top: 15px'><b>" + alert.value + "</b></div></div>");
-      }
-      return table.toString();
-    }
-
-    private static String addLoggedInNavLink(String targetNiceName,
-                                     String targetPageFilename, String targetPageArguments,
-                                     String currentPageFilename, boolean isAdminPage, String cssClass) {
-
-      cssClass += targetPageFilename.equals(currentPageFilename) ? " current" : "";
-      cssClass += " NavLinkItem";
-
-      String url = (isAdminPage ? adminRoot : siteRoot) + targetPageFilename;
-      if (targetPageArguments != null) {
-        url += targetPageArguments;
-      }
-
-      String strippedNiceName = targetNiceName.toLowerCase().replaceAll(" ","");
-      if (strippedNiceName.equals("registration")){
-        strippedNiceName="mouseregister";
-      }
-      //System.out.println(strippedNiceName);
-      return "<form name=\""+strippedNiceName+"\"method=post action=loggedInServlet style=\"display: inline;\">"+
-              "<li class=\"" + cssClass + "\">"
-              +"<input type=\"hidden\" name=\"page\" value=\"loggedIn_" + targetNiceName+"\">"
-              +"<a class=\"navBarAnchor\" href=\"javascript: submitform"+strippedNiceName+"()\">"+targetNiceName
-              +"</a></li>\r\n"
-              +"</form>";
-
-    }*/
     private static String addNavLink(String targetNiceName,
                                      String targetPageFilename, String targetPageArguments,
                                      String currentPageFilename, boolean isAdminPage) {
@@ -468,6 +286,9 @@ public class HTMLGeneration {
         }
 
         String to_return = "<li class=\"" + cssClass + "\">" + "<div style=\"";
+        //To format the nav bar, add little dividers between the different nav links
+        //booleans left/right border determine whether the nav link has the specified
+        //border on it.
         if (leftBorder) {
             to_return += "border-left: 1px solid #FFFFFF;";
         }
@@ -476,6 +297,7 @@ public class HTMLGeneration {
 
         }
         to_return += style;
+        //Use navbaranchor class to style css
         to_return += "\"</div><a class=\"navBarAnchor\" href=\"" + url + "\">"
                 + targetNiceName + "</a></li>\r\n";
         return to_return;
@@ -495,6 +317,9 @@ public class HTMLGeneration {
         }
 
         String to_return = "<li class=\"" + cssClass + "\">" + "<div style=\"";
+        //To format the nav bar, add little dividers between the different nav links
+        //booleans left/right border determine whether the nav link has the specified
+        //border on it.
         if (leftBorder) {
             to_return += "border-left: 1px solid #FFFFFF;";
         }
@@ -503,6 +328,7 @@ public class HTMLGeneration {
 
         }
         to_return += style;
+        //Was having an issue where style would not be applied in certain admin scenarios, so the cssClass.equals is a fix
         if (cssClass.equals("adminNavLinkDropdown NavLinkItem") || cssClass.equals("adminNavLinkDropdown current NavLinkItem")) {
             to_return += "\">" + "<a style=\"height:50px;width:100px;display:block;line-height:50px\" class=\"navBarAnchor_noTint\" href=\"" + url + "\">" + targetNiceName + "</a></div></li>\r\n";
         } else {
@@ -510,78 +336,6 @@ public class HTMLGeneration {
         }
         return to_return;
 
-    }
-
-
-    //Returns the HTML formatting for the applicant records table
-    public static String getApplicantTable() {
-        //First, we get all applicants based upon id
-        ArrayList<Applicant> list_of_applicants = DBConnect.getAllApplicants("id");
-        //Stylistic settings
-        String style =
-                "<style>" +
-                        "table, td, th {border: 1px solid black;}" +
-                        "table {width: 100%; border-collapse: collapse;}" +
-                        "td{vertical-align:middle;}" +
-                        "tr:nth-child(even) {background-color: #FFFFFF;}" +
-                        "tr:nth-child(odd) {background-color: #f3f3f3ff;}" +
-                        "tr:nth-child(1) {background-color: #d9d9d9ff;}" +
-                        "</style>";
-
-        //Break the page into one table with rows for each applicant
-        //and columns for each different piece of information
-
-        //This is the top row
-        String formatting = "<table>" + "<tr>" +
-                "<td>ID</td>" +
-                "<td>First name</td>" +
-                "<td>Last name</td>" +
-                "<td>Email</td>" +
-                "<td>NetID</td>" +
-                "<td>AUF/Protocol Number</td>" +
-                "<td>Position</td>" +
-                "<td>Status</td>" +
-                "<td>Change approval</td>" +
-                "</tr>";
-
-        //Iterate over each user, and add them into a new row
-        for (Applicant user : list_of_applicants) {
-            formatting += "<tr>";
-            formatting += "<td>" + user.getId() + "</td>";
-            formatting += "<td>" + user.getFirst_name() + "</td>";
-            formatting += "<td>" + user.getLast_name() + "</td>";
-            formatting += "<td>" + user.getEmail() + "</td>";
-            formatting += "<td>" + user.getNetID() + "</td>";
-            formatting += "<td>" + user.getAUF() + "</td>";
-            formatting += "<td>" + user.getPosition() + "</td>";
-            formatting += "<td>" + user.getApproved() + "</td>";
-
-            //To make the change approval status button work, we need to create a
-            // new form associated with each applicant tied into the last cell
-            formatting += "<td>" + "<form method=\"post\" action=\"statusServlet\">";
-
-            //Pass all the data as hidden inputs. Basically copying what we did above,
-            //but hidden from the user
-            formatting += "<input id=identity name=identity type=hidden value=" + user.getId() + ">";
-            formatting += "<input id=first_name name=first_name type=hidden value=" + user.getFirst_name() + ">";
-            formatting += "<input id=last_name name=last_name type=hidden value=" + user.getLast_name() + ">";
-            formatting += "<input id=email name=email type=hidden value=" + user.getEmail() + ">";
-            formatting += "<input id=net_id name=net_id type=hidden value=" + user.getNetID() + ">";
-            formatting += "<input id=auf name=auf type=hidden value=" + user.getAUF() + ">";
-            formatting += "<input id=position name=position type=hidden value=" + user.getPosition() + ">";
-            formatting += "<input id=approved name=approved type=hidden value=" + user.getApproved() + ">";
-
-            //Create the submit button
-            formatting += "<input type=\"submit\" value=\"Change Access\">";
-            //End the form
-            formatting += "</form></td></tr>";
-
-
-        }
-        //End the table
-        formatting += "</table>";
-        //Return the formatted page
-        return style + formatting;
     }
 
     public static String getNewMouseForm(MouseRecord r) {
@@ -833,6 +587,25 @@ public class HTMLGeneration {
         //The else statement attatched to it corresponds to mice.
         //-----------------------------------------------------------------------------------------------------------------
         if (r.isRat()) {
+            // Modification type section
+            //Added endonuclease-mediated -EW
+            // Expressed Sequence section
+            String[] exprSeqValues = {"Mouse Gene (unmodified)", "Reporter", "Cre",
+                    "Modified mouse gene or Other"};
+            String[] exprSeqLabels = {"Genetic Marker", "Reporter", "Cre",
+                    "Other"};
+            getInputRow(
+                    buf,
+                    "Expressed<br>Sequence",
+                    genRadio("expressedSequence", exprSeqValues, exprSeqLabels,
+                            r.getExpressedSequence(), ""),
+                    "id=\"trExprSeqRow\" style=\""
+                            + rowVisibility(r.isTG()) + "\"onchange=\"UpdateExpressedSequenceEdit()\"",
+                    "editMouseRow");
+            buf.append("<tr class='editMouseRow' id='trGeneRow' style='display:none'><td class='editMouseCellSmallL'>Gene</td><td class='editMouseCellSmallR'><input type=\"text\" name=\"exprSeqGene\" value='" + HTMLGeneration.emptyIfNull(r.getTargetGeneID()) + "'size=\"35\" maxlength=\"100\"></td></tr>");
+            buf.append("<tr class='editMouseRow' id='trRepRow' style='display:none'><td class='editMouseCellSmallL'>Reporter</td><td class='editMouseCellSmallR'><input type=\"text\" name=\"exprSeqRep\" value='" + HTMLGeneration.emptyIfNull(r.getReporter()) + "'size=\"35\" maxlength=\"100\"></td></tr>");
+            buf.append("<tr class='editMouseRow' id='trDescRow' style='display:none'><td class='editMouseCellSmallL'>Description</td><td class='editMouseCellSmallR'><input type=\"text\" name=\"exprSeqComment\" value='" + HTMLGeneration.emptyIfNull(r.getOtherComment()) + "'size=\"35\" maxlength=\"100\"></td></tr>");
+
             buf.append("</table></div>");
             buf.append("<div class=\"editMouseFormRightColumn\">");
             buf.append("<table class=\"editMouseColumn\">\r\n");
@@ -841,51 +614,52 @@ public class HTMLGeneration {
             buf.append("</td></tr>");
             String mgiID = r.getRepositoryCatalogNumber();
 
-            String rgdID = mgiID;
-            field = getTextInput(
-                    "geneRGDID",
-                    emptyIfNull(mgiID),
-                    size,
-                    11,
-                    "id=\"geneRGDID\" onkeyup=\"validateInput('geneRGDID', 'geneRGDIDValidation', 'rgdModifiedGeneId', '')\"");
+            if (r.isTG()) {
+                String rgdID = mgiID;
+                field = getTextInput(
+                        "geneRGDID",
+                        emptyIfNull(mgiID),
+                        size,
+                        11,
+                        "id=\"geneRGDID\" onkeyup=\"validateInput('geneRGDID', 'geneRGDIDValidation', 'rgdModifiedGeneId', '')\"");
 
-            if (rgdID != null && !rgdID.isEmpty()) {
+                if (rgdID != null && !rgdID.isEmpty()) {
 
-                String geneURL = HTMLGeneration.formatRGD(rgdID);
-                String resultString = "";
-                String validationStyle = "";
-                String manualNameSymbolEntry = "<br>RGD SQL connection unavailable.  To continue editing this record, the gene Symbol and Name must be manually entered. <br>Symbol:&nbsp;"
-                        + getTextInput("geneManualSymbol", "", 15, 25, null)
-                        + "&nbsp;&nbsp;Name:&nbsp;"
-                        + getTextInput("geneManualName", "", 15, 25, null);
+                    String geneURL = HTMLGeneration.formatRGD(rgdID);
+                    String resultString = "";
+                    String validationStyle = "";
+                    String manualNameSymbolEntry = "<br>RGD SQL connection unavailable.  To continue editing this record, the gene Symbol and Name must be manually entered. <br>Symbol:&nbsp;"
+                            + getTextInput("geneManualSymbol", "", 15, 25, null)
+                            + "&nbsp;&nbsp;Name:&nbsp;"
+                            + getTextInput("geneManualName", "", 15, 25, null);
 
-                Gene knownGene = DBConnect.findGene(rgdID);
-                if (knownGene != null) {
-                    resultString = knownGene.getSymbol() + " - "
-                            + knownGene.getFullname();
-                    validationStyle = "bp_valid";
-                    replaceBrackets(resultString);
-                } else {
-                    RGDResult geneResult = RGDConnect.getGeneQuery(rgdID);
-                    validationStyle = geneResult.isValid() ? "bp_valid"
-                            : "bp_invalid";
-                    if (geneResult.isValid()) {
-                        resultString = geneResult.getSymbol() + " - "
-                                + geneResult.getName() + " " + formatRGD(rgdID);
+                    Gene knownGene = DBConnect.findGene(rgdID);
+                    if (knownGene != null) {
+                        resultString = knownGene.getSymbol() + " - "
+                                + knownGene.getFullname();
+                        validationStyle = "bp_valid";
+                        replaceBrackets(resultString);
                     } else {
-                        resultString = geneResult.getErrorString();
+                        RGDResult geneResult = RGDConnect.getGeneQuery(rgdID);
+                        validationStyle = geneResult.isValid() ? "bp_valid"
+                                : "bp_invalid";
+                        if (geneResult.isValid()) {
+                            resultString = geneResult.getSymbol() + " - "
+                                    + geneResult.getName() + " " + formatRGD(rgdID);
+                        } else {
+                            resultString = geneResult.getErrorString();
+                        }
                     }
+
+                    field += "<br><span class='" + validationStyle
+                            + "' id='geneRGDIDValidation'>" + resultString
+                            + " (RGD:" + r.getGeneID() + ")</span>";
+
+                } else {
+                    field += "<br><span id='geneRGDIDValidation'></span>";
                 }
-
-                field += "<br><span class='" + validationStyle
-                        + "' id='geneRGDIDValidation'>" + resultString
-                        + " (RGD:" + r.getGeneID() + ")</span>";
-
-            } else {
-                field += "<br><span id='geneRGDIDValidation'></span>";
+                getInputRow(buf, "Gene RGD ID", field, null, "editMouseRow");
             }
-            getInputRow(buf, "Gene RGD ID", field, null, "editMouseRow");
-
         }
         //-----------------------------------------------------------------------------------------------------------------
         //End code performed only for rats
@@ -898,15 +672,24 @@ public class HTMLGeneration {
                 if (r.isMA()) {
                     // Gene Section
                     String mgiID = r.getGeneID();
+
+                    ArrayList<SubmittedMouse> tempSubArray = null;
+                    if (sub == null) {
+                        tempSubArray = DBConnect.getMouseSubmission(Integer.parseInt(r.getSubmittedMouseID()));
+                    }
+
                     if ((sub != null && (sub.getMAMgiGeneID() != null && !sub.getMAMgiGeneID().isEmpty()))) {
                         mgiID = sub.getMAMgiGeneID();
+                    } else if (sub == null && !tempSubArray.isEmpty() && tempSubArray.get(0) != null) {
+                        if (tempSubArray.get(0).getMAMgiGeneID() != null && !tempSubArray.get(0).getMAMgiGeneID().isEmpty())
+                            mgiID = tempSubArray.get(0).getMAMgiGeneID();
                     }
                     field = getTextInput(
                             "geneMGIID",
                             emptyIfNull(mgiID),
                             size,
                             11,
-                            "id=\"geneMGIID\"");
+                            "id=\"geneMGIID\" onkeyup=\"validateInput('geneMGIID', 'geneMGIIDValidation', 'mgiModifiedGeneId', 'none')\"");
                     if (mgiID != null && !mgiID.isEmpty()) {
                         String geneURL = HTMLGeneration.formatMGI(mgiID);
                         String resultString = "";
@@ -940,11 +723,11 @@ public class HTMLGeneration {
                             }
                         }
                         if (r.isRat()) {
-                            field += "<span class='" + validationStyle
+                            field += "<br><span class='" + validationStyle
                                     + "' id='geneRGDIDValidation'>" + resultString
                                     + " (RGD:" + formatRGD(r.getGeneID()) + ")</span>";
                         } else {
-                            field += "<span class='" + validationStyle
+                            field += "<br><span class='" + validationStyle
                                     + "' id='geneMGIIDValidation'>" + resultString
                                     + " (MGI:" + geneURL + ")</span>";
                         }
@@ -980,8 +763,12 @@ public class HTMLGeneration {
                             r.getExpressedSequence(), ""),
                     "id=\"trExprSeqRow\" style=\""
                             + rowVisibility(r.isTG() || (r.getModificationType() != null
-                            && r.getModificationType().equalsIgnoreCase("targeted knock-in") ^ (r.getModificationType().equalsIgnoreCase("endonuclease-mediated")))) + "\"",
+                            && r.getModificationType().equalsIgnoreCase("targeted knock-in") ^ (r.getModificationType().equalsIgnoreCase("endonuclease-mediated")))) + "\"" + "onchange=\"UpdateExpressedSequenceEdit()\"",
                     "editMouseRow");
+            buf.append("<tr class='editMouseRow' id='trGeneRow' style='display:none'><td class='editMouseCellSmallL'>Gene</td><td class='editMouseCellSmallR'><input type=\"text\" name=\"exprSeqGene\" value='" + HTMLGeneration.emptyIfNull(r.getTargetGeneID()) + "'size=\"35\" maxlength=\"100\"></td></tr>");
+            buf.append("<tr class='editMouseRow' id='trRepRow' style='display:none'><td class='editMouseCellSmallL'>Reporter</td><td class='editMouseCellSmallR'><input type=\"text\" name=\"exprSeqRep\" value='" + HTMLGeneration.emptyIfNull(r.getReporter()) + "'size=\"35\" maxlength=\"100\"></td></tr>");
+            buf.append("<tr class='editMouseRow' id='trDescRow' style='display:none'><td class='editMouseCellSmallL'>Description</td><td class='editMouseCellSmallR'><input type=\"text\" name=\"exprSeqComment\" value='" + HTMLGeneration.emptyIfNull(r.getOtherComment()) + "'size=\"35\" maxlength=\"100\"></td></tr>");
+
 
             field = "<textarea name='adminComment' rows='5' style='width:90%;resize:none' >" + emptyIfNull(r.getAdminComment()) + "</textarea>\r\n";
             getInputRow(buf, "Record Admin Comment", field, "", "editMouseRow"); //testing
@@ -1101,13 +888,15 @@ public class HTMLGeneration {
                 getTextInputRow(buf, "Official Name", "officialMouseName",
                         officialMouseName, size, 255, null, null, "editMouseRow");
             }
-            //-----------------------------------------------------------------------------------------------------------------
-            //End code performed for only mice
+        }
+        //-----------------------------------------------------------------------------------------------------------------
+        //End code performed for only mice
 
 
-            //**BEGIN code performed for all operations
-            //-----------------------------------------------------------------------------------------------------------------
-            // PubMed ID(s)
+        //**BEGIN code performed for all operations
+        //-----------------------------------------------------------------------------------------------------------------
+        // PubMed ID(s)
+        if (!r.isIS()) {
             int pubMedNum = 1;
             for (String pmID : r.getPubmedIDs()) {
                 if (pmID == null || pmID.isEmpty())
@@ -1154,20 +943,19 @@ public class HTMLGeneration {
 
             getInputRow(buf, "PubMed ID #" + pubMedNum, field, null,
                     "editMouseRow");
-
-            // String[] mtaValues = { "Y", "N", "D" };
-            // String[] mtaNiceNames = { "Yes", "No", "Don't Know" };
-            // field = genSelect("mtaRequired", mtaValues, mtaNiceNames,
-            // r.getMtaRequired(), null);
-            // field = genCheckbox("mtaRequired", mtaValues,
-            // r.getMtaRequired());
-            // getInputRow(buf, "MTA Required?", field, null, "editMouseRow");
+        }
+        // String[] mtaValues = { "Y", "N", "D" };
+        // String[] mtaNiceNames = { "Yes", "No", "Don't Know" };
+        // field = genSelect("mtaRequired", mtaValues, mtaNiceNames,
+        // r.getMtaRequired(), null);
+        // field = genCheckbox("mtaRequired", mtaValues,
+        // r.getMtaRequired());
+        // getInputRow(buf, "MTA Required?", field, null, "editMouseRow");
 
 //      field = "<input type=\"checkbox\" value=\"true\" name=\"endangered\" "
 //          + (r.isEndangered() ? "checked=\"checked\"" : "") + " >";
 //      getInputRow(buf, "Endangered?", field, null, "editMouseRow");
 
-        }
 
         if (r.getMouseType().equalsIgnoreCase("inbred strain")) {
             buf.append("<tr class=\"editMouseRow\">\r\n");
@@ -2130,10 +1918,10 @@ public class HTMLGeneration {
                             cryoLiveStatus = "";
                         } else if (holder.getCryoLiveStatus().equalsIgnoreCase(
                                 "Live and cryo")) {
-                            cryoLiveStatus = "(Cryo,Live)";
+                            cryoLiveStatus = "<br>(Live & cryo)";
                         } else if (holder.getCryoLiveStatus().equalsIgnoreCase(
                                 "Cryo only")) {
-                            cryoLiveStatus = "(Cryo)";
+                            cryoLiveStatus = "<br>(Cryo)";
                         }
                     }
 
@@ -2160,7 +1948,7 @@ public class HTMLGeneration {
 
 
                     holderBuf.append("<dt" + (overMax ? " style='display:none'" : "") + ">"
-                            + (holder.isCovert() ? "<span class='covert_tag'>CVT</span>-" : "")
+                            + (holder.isCovert() ? "CVT - " : "")
                             + mailLink + "<br>" + facilityName
                             + "<span class='lbl'>" + cryoLiveStatus + "</span>"
                             + "</dt>");
@@ -2482,7 +2270,7 @@ public class HTMLGeneration {
                 table.append("</td>\r\n");
                 table.append("<td class='adminFacilityCode'>" + HTMLGeneration.emptyIfNull(facility.getFacilityCode()) + "</td>");
                 table.append("<td class='adminFacilityEdit'><a href=\"EditFacilityForm.jsp?facilityID="
-                            + facility.getFacilityID() + "\">Edit facility #" + facility.getFacilityID() + "</a></td>\r\n");
+                        + facility.getFacilityID() + "\">Edit facility #" + facility.getFacilityID() + "</a></td>\r\n");
                 table.append("</tr>");
                 numFacilities++;
             }
@@ -3727,7 +3515,7 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.2.1.09";
+        String version = "4.2.1.14";
         //Current date
         String year = "2021";
         //Email of database administrator

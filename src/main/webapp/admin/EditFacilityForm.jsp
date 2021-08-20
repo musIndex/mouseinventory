@@ -39,14 +39,14 @@
                         <tr class="formField">
                             <td class="formLeft">*Facility Name</td>
                             <td class="formRight">
-                                <input type="text" name="facilityName" class='formInput' required
+                                <input type="text" name="facilityName" required
                                        value="<%= facility.getFacilityName() %>">
                             </td>
                         </tr>
                         <tr class="formField">
                             <td class="formLeft">*Facility Description</td>
                             <td class="formRight">
-                                <input type="text" name="facilityDescription" class='formInput' required
+                                <input type="text" name="facilityDescription" required
                                        value="<%= HTMLGeneration.emptyIfNull(facility.getFacilityDescription()) %>">
                             </td>
 
@@ -57,7 +57,7 @@
                                 <%--                                <br><i>email address first (if any),<br>one expert per line.</i>--%>
                             </td>
                             <td class="formRight">
-                                <textarea name="localExperts" class="formInput"
+                                <textarea name="localExperts"
                                           style="resize: none;margin-top: 13px;margin-bottom: 13px;width: 212.8px"
                                           rows="7"><%= HTMLGeneration.emptyIfNull(facility.getLocalExperts()) %></textarea>
                             </td>
@@ -66,7 +66,7 @@
                         <tr class="formField">
                             <td class="formLeft">*Facility Code</td>
                             <td class="formRight">
-                                <input type="text" name="facilityCode" class='formInput' required
+                                <input type="text" name="facilityCode" required
                                        value="<%= HTMLGeneration.emptyIfNull(facility.getFacilityCode()) %>">
                             </td>
                         </tr>

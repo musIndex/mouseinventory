@@ -57,59 +57,59 @@
                         </tr>
 
                         <tr class="formField">
-                            <td class="formLeft">First Name</td>
+                            <td class="formLeft">*First Name</td>
                             <td class="formRight">
-                                <input class="formInput" type="text" name="firstName" value="<%=HTMLGeneration.emptyIfNull(submitterData.getFirstName()) %>" id="userid" required>
+                                <input type="text" name="firstName" value="<%=HTMLGeneration.emptyIfNull(submitterData.getFirstName()) %>" id="userid" required>
                                 <%--                                <span class="validationError"><%=HTMLGeneration.emptyIfNull(submitterData.getFirstNameErr()) %></span>--%>
                             </td>
                         </tr>
                         <tr class="formFieldAlt">
-                            <td class="formLeft">Last Name</td>
+                            <td class="formLeft">*Last Name</td>
                             <td class="formRight">
-                                <input class="formInput" type="text" id="lastName" name="lastName" value="<%=HTMLGeneration.emptyIfNull(submitterData.getLastName()) %>" required>
+                                <input type="text" id="lastName" name="lastName" value="<%=HTMLGeneration.emptyIfNull(submitterData.getLastName()) %>" required>
                                 <%--                                <span class="validationError"><%=HTMLGeneration.emptyIfNull(submitterData.getLastNameErr()) %></span>--%>
                             </td>
                         </tr>
                         <tr class="formField">
-                            <td class="formLeft">Department</td>
+                            <td class="formLeft">*Department</td>
                             <td class="formRight">
-                                <input class="formInput" type="text" id="department" name="department" value="<%=HTMLGeneration.emptyIfNull(submitterData.getDepartment()) %>" required>
+                                <input type="text" id="department" name="department" value="<%=HTMLGeneration.emptyIfNull(submitterData.getDepartment()) %>" required>
                                 <%--                                <span class="validationError"><%=HTMLGeneration.emptyIfNull(submitterData.getDepartmentErr()) %></span>--%>
                             </td>
                         </tr>
                         <tr class="formFieldAlt">
-                            <td class="formLeft">Email</td>
+                            <td class="formLeft">*Email</td>
                             <td class="formRight">
-                                <input class="formInput" type="email" name="email" id="Email" value="<%=HTMLGeneration.emptyIfNull(submitterData.getEmail()) %>" required>
+                                <input type="email" name="email" id="Email" value="<%=HTMLGeneration.emptyIfNull(submitterData.getEmail()) %>" required>
                                 <%--                                <span class="validationError"><%=HTMLGeneration.emptyIfNull(submitterData.getEmailErr()) %></span>--%>
                             </td>
                         </tr>
                         <tr class="formFieldAlt">
-                            <td class="formLeft">Holder</td>
+                            <td class="formLeft">*Holder</td>
                             <td class="formRight" onchange="">
                                 <%=HTMLGeneration.genSelect("holderName", (String[]) holderList, HTMLGeneration.chooseOneIfNull(newMouse.getHolderName()), "onChange='checkOtherHolderName()' !important style=\"width:222.8px;margin-top:4px;margin-bottom: -7px;\" required")%>
                                 <div class="spacing_div_minix2"></div>
                                 <%--                                <span class="validationError"><%=HTMLGeneration.emptyIfNull(newMouse.getHolderNameErr()) %></span>--%>
                                 <span id="otherHolderSpan" style="<%=HTMLGeneration.rowVisibility(newMouse.hasOtherHolderName()) %>">
-                                    <input class="formInput" type="text" name="otherHolderName" value="<%=HTMLGeneration.emptyIfNull(newMouse.getOtherHolderName()) %>" style="margin-bottom: 4px">
+                                    <input type="text" name="otherHolderName" value="<%=HTMLGeneration.emptyIfNull(newMouse.getOtherHolderName()) %>" style="margin-bottom: 4px">
 <%--                                    <span class="validationError"><%=HTMLGeneration.emptyIfNull(newMouse.getOtherHolderNameErr()) %></span>--%>
                                 </span>
                             </td>
                         </tr>
                         <tr class="formFieldAlt">
-                            <td class="formLeft">Facility</td>
+                            <td class="formLeft">*Facility</td>
                             <td class="formRight" onchange="">
                                 <%=HTMLGeneration.genSelect("holderFacility", (String[]) facilityList, HTMLGeneration.emptyIfNull(newMouse.getHolderFacility()), "onChange='checkOtherFacility()' !important style=\"width:222.8px;margin-top:4px;margin-bottom: -7px;\" required")%>
                                 <div class="spacing_div_minix2"></div>
                                 <%--                                <span class="validationError"><%=HTMLGeneration.emptyIfNull(newMouse.getHolderFacilityErr()) %></span>--%>
                                 <span id="otherFacilitySpan" style="<%=HTMLGeneration.rowVisibility(newMouse.hasOtherFacilityName()) %>">
-                                    <input class="formInput" type="text" name="otherHolderFacility" value="<%=HTMLGeneration.emptyIfNull(newMouse.getOtherHolderFacility()) %>" style="margin-bottom: 4px">
+                                    <input type="text" name="otherHolderFacility" value="<%=HTMLGeneration.emptyIfNull(newMouse.getOtherHolderFacility()) %>" style="margin-bottom: 4px">
 <%--                                    <span class="validationError"><%=HTMLGeneration.emptyIfNull(newMouse.getOtherFacilityErr()) %></span>--%>
                                 </span>
                             </td>
                         </tr>
                         <tr class="formFieldAlt">
-                            <td class="formLeft">Rodent type</td>
+                            <td class="formLeft">*Rodent type</td>
                             <td class="formRight">
                                 <div class="formRightButtonSelect">
                                     <div class="formTopButton">

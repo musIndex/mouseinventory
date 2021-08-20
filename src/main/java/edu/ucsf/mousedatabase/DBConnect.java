@@ -1302,6 +1302,8 @@ public class DBConnect {
             query.append("is_rat=0" + "\r\n");
         }
 
+
+
         query.append("WHERE id=" + updatedRecord.getMouseID());
         Log.Info("Updating mouse record with query: \r\n" + query);
         executeNonQuery(query.toString());
