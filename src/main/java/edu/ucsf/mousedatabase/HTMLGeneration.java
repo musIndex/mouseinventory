@@ -587,6 +587,25 @@ public class HTMLGeneration {
         //The else statement attatched to it corresponds to mice.
         //-----------------------------------------------------------------------------------------------------------------
         if (r.isRat()) {
+            // Modification type section
+            //Added endonuclease-mediated -EW
+            // Expressed Sequence section
+            String[] exprSeqValues = {"Mouse Gene (unmodified)", "Reporter", "Cre",
+                    "Modified mouse gene or Other"};
+            String[] exprSeqLabels = {"Genetic Marker", "Reporter", "Cre",
+                    "Other"};
+            getInputRow(
+                    buf,
+                    "Expressed<br>Sequence",
+                    genRadio("expressedSequence", exprSeqValues, exprSeqLabels,
+                            r.getExpressedSequence(), ""),
+                    "id=\"trExprSeqRow\" style=\""
+                            + rowVisibility(r.isTG()) + "\"onchange=\"UpdateExpressedSequenceEdit()\"",
+                    "editMouseRow");
+            buf.append("<tr class='editMouseRow' id='trGeneRow' style='display:none'><td class='editMouseCellSmallL'>Gene</td><td class='editMouseCellSmallR'><input type=\"text\" name=\"exprSeqGene\" value='" + HTMLGeneration.emptyIfNull(r.getTargetGeneID()) + "'size=\"35\" maxlength=\"100\"></td></tr>");
+            buf.append("<tr class='editMouseRow' id='trRepRow' style='display:none'><td class='editMouseCellSmallL'>Reporter</td><td class='editMouseCellSmallR'><input type=\"text\" name=\"exprSeqRep\" value='" + HTMLGeneration.emptyIfNull(r.getReporter()) + "'size=\"35\" maxlength=\"100\"></td></tr>");
+            buf.append("<tr class='editMouseRow' id='trDescRow' style='display:none'><td class='editMouseCellSmallL'>Description</td><td class='editMouseCellSmallR'><input type=\"text\" name=\"exprSeqComment\" value='" + HTMLGeneration.emptyIfNull(r.getOtherComment()) + "'size=\"35\" maxlength=\"100\"></td></tr>");
+
             buf.append("</table></div>");
             buf.append("<div class=\"editMouseFormRightColumn\">");
             buf.append("<table class=\"editMouseColumn\">\r\n");
@@ -595,51 +614,52 @@ public class HTMLGeneration {
             buf.append("</td></tr>");
             String mgiID = r.getRepositoryCatalogNumber();
 
-            String rgdID = mgiID;
-            field = getTextInput(
-                    "geneRGDID",
-                    emptyIfNull(mgiID),
-                    size,
-                    11,
-                    "id=\"geneRGDID\" onkeyup=\"validateInput('geneRGDID', 'geneRGDIDValidation', 'rgdModifiedGeneId', '')\"");
+            if (r.isTG()) {
+                String rgdID = mgiID;
+                field = getTextInput(
+                        "geneRGDID",
+                        emptyIfNull(mgiID),
+                        size,
+                        11,
+                        "id=\"geneRGDID\" onkeyup=\"validateInput('geneRGDID', 'geneRGDIDValidation', 'rgdModifiedGeneId', '')\"");
 
-            if (rgdID != null && !rgdID.isEmpty()) {
+                if (rgdID != null && !rgdID.isEmpty()) {
 
-                String geneURL = HTMLGeneration.formatRGD(rgdID);
-                String resultString = "";
-                String validationStyle = "";
-                String manualNameSymbolEntry = "<br>RGD SQL connection unavailable.  To continue editing this record, the gene Symbol and Name must be manually entered. <br>Symbol:&nbsp;"
-                        + getTextInput("geneManualSymbol", "", 15, 25, null)
-                        + "&nbsp;&nbsp;Name:&nbsp;"
-                        + getTextInput("geneManualName", "", 15, 25, null);
+                    String geneURL = HTMLGeneration.formatRGD(rgdID);
+                    String resultString = "";
+                    String validationStyle = "";
+                    String manualNameSymbolEntry = "<br>RGD SQL connection unavailable.  To continue editing this record, the gene Symbol and Name must be manually entered. <br>Symbol:&nbsp;"
+                            + getTextInput("geneManualSymbol", "", 15, 25, null)
+                            + "&nbsp;&nbsp;Name:&nbsp;"
+                            + getTextInput("geneManualName", "", 15, 25, null);
 
-                Gene knownGene = DBConnect.findGene(rgdID);
-                if (knownGene != null) {
-                    resultString = knownGene.getSymbol() + " - "
-                            + knownGene.getFullname();
-                    validationStyle = "bp_valid";
-                    replaceBrackets(resultString);
-                } else {
-                    RGDResult geneResult = RGDConnect.getGeneQuery(rgdID);
-                    validationStyle = geneResult.isValid() ? "bp_valid"
-                            : "bp_invalid";
-                    if (geneResult.isValid()) {
-                        resultString = geneResult.getSymbol() + " - "
-                                + geneResult.getName() + " " + formatRGD(rgdID);
+                    Gene knownGene = DBConnect.findGene(rgdID);
+                    if (knownGene != null) {
+                        resultString = knownGene.getSymbol() + " - "
+                                + knownGene.getFullname();
+                        validationStyle = "bp_valid";
+                        replaceBrackets(resultString);
                     } else {
-                        resultString = geneResult.getErrorString();
+                        RGDResult geneResult = RGDConnect.getGeneQuery(rgdID);
+                        validationStyle = geneResult.isValid() ? "bp_valid"
+                                : "bp_invalid";
+                        if (geneResult.isValid()) {
+                            resultString = geneResult.getSymbol() + " - "
+                                    + geneResult.getName() + " " + formatRGD(rgdID);
+                        } else {
+                            resultString = geneResult.getErrorString();
+                        }
                     }
+
+                    field += "<br><span class='" + validationStyle
+                            + "' id='geneRGDIDValidation'>" + resultString
+                            + " (RGD:" + r.getGeneID() + ")</span>";
+
+                } else {
+                    field += "<br><span id='geneRGDIDValidation'></span>";
                 }
-
-                field += "<br><span class='" + validationStyle
-                        + "' id='geneRGDIDValidation'>" + resultString
-                        + " (RGD:" + r.getGeneID() + ")</span>";
-
-            } else {
-                field += "<br><span id='geneRGDIDValidation'></span>";
+                getInputRow(buf, "Gene RGD ID", field, null, "editMouseRow");
             }
-            getInputRow(buf, "Gene RGD ID", field, null, "editMouseRow");
-
         }
         //-----------------------------------------------------------------------------------------------------------------
         //End code performed only for rats
@@ -653,15 +673,14 @@ public class HTMLGeneration {
                     // Gene Section
                     String mgiID = r.getGeneID();
                     ArrayList<SubmittedMouse> tempSubArray = null;
-                    if (sub == null){
-                         tempSubArray = DBConnect.getMouseSubmission(Integer.parseInt(r.getSubmittedMouseID()));
+                    if (sub == null) {
+                        tempSubArray = DBConnect.getMouseSubmission(Integer.parseInt(r.getSubmittedMouseID()));
                     }
                     if ((sub != null && (sub.getMAMgiGeneID() != null && !sub.getMAMgiGeneID().isEmpty()))) {
                         mgiID = sub.getMAMgiGeneID();
-                    }
-                    else if (sub == null && !tempSubArray.isEmpty() && tempSubArray.get(0) != null){
+                    } else if (sub == null && !tempSubArray.isEmpty() && tempSubArray.get(0) != null) {
                         if (tempSubArray.get(0).getMAMgiGeneID() != null && !tempSubArray.get(0).getMAMgiGeneID().isEmpty())
-                        mgiID = tempSubArray.get(0).getMAMgiGeneID();
+                            mgiID = tempSubArray.get(0).getMAMgiGeneID();
                     }
                     field = getTextInput(
                             "geneMGIID",
@@ -742,8 +761,12 @@ public class HTMLGeneration {
                             r.getExpressedSequence(), ""),
                     "id=\"trExprSeqRow\" style=\""
                             + rowVisibility(r.isTG() || (r.getModificationType() != null
-                            && r.getModificationType().equalsIgnoreCase("targeted knock-in") ^ (r.getModificationType().equalsIgnoreCase("endonuclease-mediated")))) + "\"",
+                            && r.getModificationType().equalsIgnoreCase("targeted knock-in") ^ (r.getModificationType().equalsIgnoreCase("endonuclease-mediated")))) + "\"" + "onchange=\"UpdateExpressedSequenceEdit()\"",
                     "editMouseRow");
+            buf.append("<tr class='editMouseRow' id='trGeneRow' style='display:none'><td class='editMouseCellSmallL'>Gene</td><td class='editMouseCellSmallR'><input type=\"text\" name=\"exprSeqGene\" value='" + HTMLGeneration.emptyIfNull(r.getTargetGeneID()) + "'size=\"35\" maxlength=\"100\"></td></tr>");
+            buf.append("<tr class='editMouseRow' id='trRepRow' style='display:none'><td class='editMouseCellSmallL'>Reporter</td><td class='editMouseCellSmallR'><input type=\"text\" name=\"exprSeqRep\" value='" + HTMLGeneration.emptyIfNull(r.getReporter()) + "'size=\"35\" maxlength=\"100\"></td></tr>");
+            buf.append("<tr class='editMouseRow' id='trDescRow' style='display:none'><td class='editMouseCellSmallL'>Description</td><td class='editMouseCellSmallR'><input type=\"text\" name=\"exprSeqComment\" value='" + HTMLGeneration.emptyIfNull(r.getOtherComment()) + "'size=\"35\" maxlength=\"100\"></td></tr>");
+
 
             field = "<textarea name='adminComment' rows='5' style='width:90%;resize:none' >" + emptyIfNull(r.getAdminComment()) + "</textarea>\r\n";
             getInputRow(buf, "Record Admin Comment", field, "", "editMouseRow"); //testing
@@ -863,13 +886,15 @@ public class HTMLGeneration {
                 getTextInputRow(buf, "Official Name", "officialMouseName",
                         officialMouseName, size, 255, null, null, "editMouseRow");
             }
-            //-----------------------------------------------------------------------------------------------------------------
-            //End code performed for only mice
+        }
+        //-----------------------------------------------------------------------------------------------------------------
+        //End code performed for only mice
 
 
-            //**BEGIN code performed for all operations
-            //-----------------------------------------------------------------------------------------------------------------
-            // PubMed ID(s)
+        //**BEGIN code performed for all operations
+        //-----------------------------------------------------------------------------------------------------------------
+        // PubMed ID(s)
+        if (!r.isIS()) {
             int pubMedNum = 1;
             for (String pmID : r.getPubmedIDs()) {
                 if (pmID == null || pmID.isEmpty())
@@ -916,20 +941,19 @@ public class HTMLGeneration {
 
             getInputRow(buf, "PubMed ID #" + pubMedNum, field, null,
                     "editMouseRow");
-
-            // String[] mtaValues = { "Y", "N", "D" };
-            // String[] mtaNiceNames = { "Yes", "No", "Don't Know" };
-            // field = genSelect("mtaRequired", mtaValues, mtaNiceNames,
-            // r.getMtaRequired(), null);
-            // field = genCheckbox("mtaRequired", mtaValues,
-            // r.getMtaRequired());
-            // getInputRow(buf, "MTA Required?", field, null, "editMouseRow");
+        }
+        // String[] mtaValues = { "Y", "N", "D" };
+        // String[] mtaNiceNames = { "Yes", "No", "Don't Know" };
+        // field = genSelect("mtaRequired", mtaValues, mtaNiceNames,
+        // r.getMtaRequired(), null);
+        // field = genCheckbox("mtaRequired", mtaValues,
+        // r.getMtaRequired());
+        // getInputRow(buf, "MTA Required?", field, null, "editMouseRow");
 
 //      field = "<input type=\"checkbox\" value=\"true\" name=\"endangered\" "
 //          + (r.isEndangered() ? "checked=\"checked\"" : "") + " >";
 //      getInputRow(buf, "Endangered?", field, null, "editMouseRow");
 
-        }
 
         if (r.getMouseType().equalsIgnoreCase("inbred strain")) {
             buf.append("<tr class=\"editMouseRow\">\r\n");
@@ -2244,7 +2268,7 @@ public class HTMLGeneration {
                 table.append("</td>\r\n");
                 table.append("<td class='adminFacilityCode'>" + HTMLGeneration.emptyIfNull(facility.getFacilityCode()) + "</td>");
                 table.append("<td class='adminFacilityEdit'><a href=\"EditFacilityForm.jsp?facilityID="
-                            + facility.getFacilityID() + "\">Edit facility #" + facility.getFacilityID() + "</a></td>\r\n");
+                        + facility.getFacilityID() + "\">Edit facility #" + facility.getFacilityID() + "</a></td>\r\n");
                 table.append("</tr>");
                 numFacilities++;
             }
@@ -3489,7 +3513,7 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.2.1.12";
+        String version = "4.2.1.14";
         //Current date
         String year = "2021";
         //Email of database administrator

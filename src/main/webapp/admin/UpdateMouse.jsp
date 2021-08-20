@@ -33,6 +33,15 @@
 
 //TODO combine code in updatemouse,updatechangerequest,updatesubmission into servlet
 
+    ArrayList<SubmittedMouse> props = new ArrayList<SubmittedMouse>();
+    props = DBConnect.getMouseSubmission(Integer.parseInt(DBConnect.getMouseRecord(mouseID).get(0).getSubmittedMouseID()));
+    SubmittedMouse sub = props.get(0);
+    if (sub.getIs_rat().equalsIgnoreCase("1")){
+        updatedRecord.setRat(1);
+    }
+    if (sub.getTGRegulatoryElement() != null){
+        updatedRecord.setRegulatoryElement(sub.getTGRegulatoryElement());
+    }
     PopulateMouseResult result = RecordManager.PopulateMouseDataFromRequest(updatedRecord, request);
     if (!result.Success) {
         errorsEncountered = true;
@@ -53,26 +62,9 @@
             //update the record
 
 
-            ArrayList<SubmittedMouse> props = new ArrayList<SubmittedMouse>();
-            props = DBConnect.getMouseSubmission(Integer.parseInt(DBConnect.getMouseRecord(mouseID).get(0).getSubmittedMouseID()));
-            int gene_id = Integer.parseInt(DBConnect.getMouseRecord(mouseID).get(0).getGeneID());
-            //System.out.println(props.toString());
-            SubmittedMouse sub = props.get(0);
-            if (updatedRecord.getExpressedSequence() != null && updatedRecord.getExpressedSequence().equals("Mouse Gene (unmodified)") && updatedRecord.getTargetGeneID() == null && updatedRecord.getRegulatoryElement() == null) {
-                updatedRecord.setTargetGeneID(sub.getTGMouseGene());
-                if (updatedRecord.getGeneID() == null) {
-                    updatedRecord.setGeneID("" + gene_id);
-                }
-                updatedRecord.setRegulatoryElement(sub.getTGRegulatoryElement());
-            }
-            if (updatedRecord.getExpressedSequence() != null) {
-                if (updatedRecord.getExpressedSequence().equals("Reporter")) {
-                    updatedRecord.setReporter(sub.getTGReporter());
-                } else if (updatedRecord.getExpressedSequence().equals("Modified mouse gene or Other")) {
-                    updatedRecord.setTargetGeneName(sub.getTGOther());
-                    updatedRecord.setGeneName(sub.getTGOther());
-                    updatedRecord.setOtherComment(sub.getTGOther());
-                }
+            int gene_id = -100;
+            if (!(DBConnect.getMouseRecord(mouseID).get(0).getGeneID() == null)){
+                gene_id = Integer.parseInt(DBConnect.getMouseRecord(mouseID).get(0).getGeneID());
             }
             if (updatedRecord.isMA() && (sub.getMAMgiGeneID() != null || !sub.getMAMgiGeneID().equals("")) && updatedRecord.getGeneLink() == null) {
                 if (updatedRecord.getGeneLink() == null) {
@@ -85,7 +77,6 @@
                     updatedRecord.setGeneID("" + gene_id);
                 }
             }
-//        DBConnect.updateMouseRecord(updatedRecord);
         }
         recordUpdateResult = DBConnect.updateMouseRecord(updatedRecord);
         pageHeader = "Updated Record #" + mouseID;
