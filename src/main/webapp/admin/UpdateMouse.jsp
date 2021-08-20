@@ -39,6 +39,7 @@
     if (sub.getIs_rat().equalsIgnoreCase("1")){
         updatedRecord.setRat(1);
     }
+
     PopulateMouseResult result = RecordManager.PopulateMouseDataFromRequest(updatedRecord, request);
     if (!result.Success) {
         errorsEncountered = true;

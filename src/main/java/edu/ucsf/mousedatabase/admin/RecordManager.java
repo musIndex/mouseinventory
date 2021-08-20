@@ -184,8 +184,10 @@ public class RecordManager {
         newMouse.setHolders(holders);
     }
 
+
     public static void AddFile(MouseRecord newMouse, File file) {
         //ArrayList<String> files = new ArrayList<String>();
+
 
         newMouse.setFilename(file.getName());
     }
