@@ -74,3 +74,7 @@
 </div>
 </div>
 <%=HTMLGeneration.getWebsiteFooter()%>
+
+<script>
+    UpdateExpressedSequenceEdit();
+</script>
