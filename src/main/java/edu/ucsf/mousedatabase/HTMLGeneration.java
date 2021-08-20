@@ -672,10 +672,12 @@ public class HTMLGeneration {
                 if (r.isMA()) {
                     // Gene Section
                     String mgiID = r.getGeneID();
+
                     ArrayList<SubmittedMouse> tempSubArray = null;
                     if (sub == null) {
                         tempSubArray = DBConnect.getMouseSubmission(Integer.parseInt(r.getSubmittedMouseID()));
                     }
+
                     if ((sub != null && (sub.getMAMgiGeneID() != null && !sub.getMAMgiGeneID().isEmpty()))) {
                         mgiID = sub.getMAMgiGeneID();
                     } else if (sub == null && !tempSubArray.isEmpty() && tempSubArray.get(0) != null) {
