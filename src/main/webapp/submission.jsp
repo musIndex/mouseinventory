@@ -91,7 +91,7 @@
                                 <div class="spacing_div_minix2"></div>
                                 <%--                                <span class="validationError"><%=HTMLGeneration.emptyIfNull(newMouse.getHolderNameErr()) %></span>--%>
                                 <span id="otherHolderSpan" style="<%=HTMLGeneration.rowVisibility(newMouse.hasOtherHolderName()) %>">
-                                    <input type="text" name="otherHolderName" value="<%=HTMLGeneration.emptyIfNull(newMouse.getOtherHolderName()) %>" style="margin-bottom: 4px">
+                                    <input type="text" id="otherHolderName" name="otherHolderName" value="<%=HTMLGeneration.emptyIfNull(newMouse.getOtherHolderName()) %>" style="margin-bottom: 4px">
 <%--                                    <span class="validationError"><%=HTMLGeneration.emptyIfNull(newMouse.getOtherHolderNameErr()) %></span>--%>
                                 </span>
                             </td>
@@ -103,7 +103,7 @@
                                 <div class="spacing_div_minix2"></div>
                                 <%--                                <span class="validationError"><%=HTMLGeneration.emptyIfNull(newMouse.getHolderFacilityErr()) %></span>--%>
                                 <span id="otherFacilitySpan" style="<%=HTMLGeneration.rowVisibility(newMouse.hasOtherFacilityName()) %>">
-                                    <input type="text" name="otherHolderFacility" value="<%=HTMLGeneration.emptyIfNull(newMouse.getOtherHolderFacility()) %>" style="margin-bottom: 4px">
+                                    <input type="text" id="otherHolderFacility" name="otherHolderFacility" value="<%=HTMLGeneration.emptyIfNull(newMouse.getOtherHolderFacility()) %>" style="margin-bottom: 4px">
 <%--                                    <span class="validationError"><%=HTMLGeneration.emptyIfNull(newMouse.getOtherFacilityErr()) %></span>--%>
                                 </span>
                             </td>

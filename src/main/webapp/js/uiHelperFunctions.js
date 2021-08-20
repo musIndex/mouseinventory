@@ -389,25 +389,31 @@ function MouseIsNotPublished()
 function checkOtherHolderName()
 {
   var inputFieldId = document.getElementById("holderName");
+  var otherHolderSpan= document.getElementById("otherHolderName");
   if(inputFieldId.value == "Other(specify)")
   {
     setElementVisibility("otherHolderSpan", "");
+    otherHolderSpan.required = true;
   }
   else
   {
     setElementVisibility("otherHolderSpan", "none");
+    otherHolderSpan.required = false;
   }
 }
 function checkOtherFacility()
 {
   var inputFieldId = document.getElementById("holderFacility");
+  var otherFacilitySpan= document.getElementById("otherHolderFacility");
   if(inputFieldId.value == "Other(specify)")
   {
     setElementVisibility("otherFacilitySpan", "");
+    otherFacilitySpan.required = true;
   }
   else
   {
     setElementVisibility("otherFacilitySpan", "none");
+    otherFacilitySpan.required = false;
   }
 }
 function checkOtherMouseDiscipline()
