@@ -545,20 +545,20 @@ public class HTMLGeneration {
         for (MouseHolder holder : holderList) {
             buf.append("<tr class=\"editMouseRow\">");
             if (holder.isNewlyAdded()) {
-                buf.append("<td class='editMouseCellSmallL'>Holder*<br><br>Facility*</td>");
+                buf.append("<td class='editMouseCellSmallL'><p style='margin-top:-29px;margin-bottom:12px'>*Holder</p><br><p style='margin: 0;margin-top: -26px;'>*Facility</p></td>");
             } else {
-                buf.append("<td class='editMouseCellSmallL'>Holder<br><br>Facility</td>");
+                buf.append("<td class='editMouseCellSmallL'><p style='margin-top:-29px;margin-bottom:12px'>Holder</p><br><p style='margin: 0;margin-top: -26px;'>Facility</p></td>");
             }
             buf.append("<td class='editMouseCellSmallR'><div style=\"position: relative\">");
             if (holder.isNewlyAdded()) {
                 buf.append("<br><br>");
             }
             buf.append(HTMLGeneration.genSelect("holder_id-" + k, holderIDs,
-                    holderNames, String.valueOf(holder.getHolderID()), "style='width:90%'", false));
-            buf.append("<br><br>");
+                    holderNames, String.valueOf(holder.getHolderID()), "style='width:90%;margin-bottom:5px'", false));
             buf.append(HTMLGeneration.genSelect("facility_id-" + k,
                     facilityIDs, facilityNames,
-                    String.valueOf(holder.getFacilityID()), "style='margin-right:10px'", false));
+                    String.valueOf(holder.getFacilityID()), "style='margin-right:10px;margin-bottom:5px'", false));
+            buf.append("<br>");
             buf.append(HTMLGeneration.genFlatRadio("cryoLiveStatus-" + k,
                     new String[]{"Live only", "Live and Cryo", "Cryo only"},
                     new String[]{"Live only", "Live and Cryo", "Cryo only"},
@@ -3519,7 +3519,7 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.2.1.15";
+        String version = "4.2.1.16";
         //Current date
         String year = "2021";
         //Email of database administrator
