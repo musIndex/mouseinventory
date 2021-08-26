@@ -210,7 +210,7 @@ public class HTMLGeneration {
     table.append(addNavLink("Submit Mice", "submitforminit.jsp", null,
         currentPageFilename, false));
     table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false));
-    table.append(addNavLink("Forum", "forum.jsp", null, currentPageFilename, false));
+    table.append(addNavLink("Mouselist", "forum.jsp", null, currentPageFilename, false));
     
     if (isAdminPage && showAdminControls){
       table.append(addNavLink("Log out", "logout.jsp", null,
