@@ -14,10 +14,10 @@
   String adminEmail = DBConnect.loadSetting("admin_info_email").value;
 %>
 <div class="site_container">
-<h2><a class="btn btn-info" href="<%=DBConnect.loadSetting("general_site_mouselist")%>">Mouselist App</a>
- where researchers find collaborators with similar animal needs and share costs</h2>
-<a href="<%=DBConnect.loadSetting("general_site_mouselist")%>">
-      <img src="<%=imageRoot %>target_mice.png" title='Click to Mouselist' width='200px' class="woodmouse"/>
+<h2 style="margin-top:40px !important;">Find collaborators with similar animal needs and share costs<a class="btn btn-info" href="<%=DBConnect.loadSetting("general_site_mouselist")%>" style="margin-left:20px !important;">Mouselist App</a>
+ </h2>
+<a href="<%=DBConnect.loadSetting("general_site_mouselist")%>" >
+      <img src="<%=imageRoot %>mouselist_target.png" title='Click to Mouselist' width='250px' class="woodmouse" style="padding-left:200px !important;"/>
       </a>
       <p>Contact Database Administrator with questions about UCSF Mouselist at <%=HTMLGeneration.formatEmail(adminEmail, adminEmail, null) %></p>
 </div>
