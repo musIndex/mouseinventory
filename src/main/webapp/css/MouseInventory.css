@@ -1705,6 +1705,7 @@ div.mousetype_selection_links > ul {
 div.mousetype_selection_links > ul > li {
     list-style-type: none;
     margin: 6px 0;
+    padding-bottom: 5px;
 }
 
 div.mousetype_selection_links > ul > li input[type=checkbox],
