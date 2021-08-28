@@ -90,6 +90,23 @@
                 }
             }
         }
+        if (isRat == true && record.isTG()) {
+            ArrayList<SubmittedMouse> props = new ArrayList<SubmittedMouse>();
+            props = DBConnect.getMouseSubmission(submissionID);
+            //System.out.println(props.toString());
+            SubmittedMouse sub = props.get(0);
+            if (record.getExpressedSequence() != null) {
+                if (record.getExpressedSequence().equals("Reporter")) {
+                    record.setReporter(sub.getTGReporter());
+                } else if (record.getExpressedSequence().equals("Mouse Gene (unmodified)")) {
+                    record.setTargetGeneID(sub.getProperties().getProperty("rat gene"));
+                } else if (record.getExpressedSequence().equals("Modified mouse gene or Other")) {
+                    record.setTargetGeneName(sub.getTGOther());
+                    record.setGeneName(sub.getTGOther());
+                    record.setOtherComment(sub.getTGOther());
+                }
+            }
+        }
         records = new ArrayList<MouseRecord>();
         records.add(record);
 
