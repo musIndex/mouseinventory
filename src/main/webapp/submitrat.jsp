@@ -47,7 +47,11 @@
 
         if (newRat.getRatRGDID() != null && !(newRat.getRatRGDID().isEmpty()) && (newRat.isTG() || newRat.isMA())) {
             String repositoryCatalogID = newRat.getRatRGDID();
-            if (repositoryCatalogID != null && !repositoryCatalogID.equalsIgnoreCase("none")) {
+            //remove all special characters that aren't numbers
+            repositoryCatalogID = repositoryCatalogID.replaceAll(" ","");
+            repositoryCatalogID = repositoryCatalogID.replaceAll("[^0-9]","");
+            newRat.setRatRGDID(repositoryCatalogID);
+            if (repositoryCatalogID != null && !repositoryCatalogID.equalsIgnoreCase("none") && !repositoryCatalogID.isEmpty()) {
                 existingRecordID = DBConnect.checkForDuplicates(Integer.parseInt(newRat.getRatRGDID()), -1);
             }
         } else if (newRat.isIS()) {
