@@ -8,8 +8,8 @@
 %>
 
 <div class="site_container">
-<h2>Page not found.</h2>
-<p>We're sorry, but the page you've requested cannot be found.</p>
-
-
+<p class="main_header">Page not found.</p>
+<p class="label_text">We're sorry, but the page you've requested cannot be found.</p>
 </div>
+
+<%=HTMLGeneration.getWebsiteFooter()%>
