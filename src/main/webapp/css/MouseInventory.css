@@ -2123,6 +2123,8 @@ table.form_table td {
 
 .MSU_footer_text {
     padding: 15px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
     margin-top: 0px;
     color: white;
     font-size: 16px;

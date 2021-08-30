@@ -1013,7 +1013,7 @@ public class HTMLGeneration {
 
 
         }
-        if (r.isTG()){
+        if (r.isTG()) {
             field = getTextInput("regulatoryElement", r.getRegulatoryElement(), size, 100, null);
             getInputRow(buf, "Regulatory Element", field, "style='line-height:24px'", "editMouseRow");
         }
@@ -3519,14 +3519,14 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.2.1.23";
+        String version = "4.2.2.0";
         //Current date
         String year = "2021";
         //Email of database administrator
         String email = "ORA.MSURodentDatabase@msu.edu";
 
         //written HTML for the footer (includes a spacing div at the very beginning of height 100px.
-        String footer_HTML = "<div class=\"spacing_div\" style=\"height:200px\"></div>" + "<div class=\"MSU_footer\">\n" +
+        String footer_HTML = "<div class=\"spacing_div\" style=\"height:275px\"></div>" + "<div id='MSU_footer' class=\"MSU_footer\">\n" +
                 "\n" +
                 " <div class=\"category\">\n" +
                 "  <div class=\"two_column_left\">\n" +
@@ -3544,6 +3544,36 @@ public class HTMLGeneration {
                 " </div>\n" +
                 "\n" +
                 "</div>";
+
+        //Script to resize website footer, as with certain aspect ratios it was improperly placed.
+
+        footer_HTML += "<script>\n" +
+                " footerPlacement();\n" +
+                " window.addEventListener('resize', footerPlacement);\n" +
+                "\n" +
+                " function footerPlacement(){\n" +
+                "  var width = document.documentElement.clientWidth;\n" +
+                "  var height = document.documentElement.clientHeight;\n" +
+                "  // console.log(\"Window ratio: \" + height*1.0/width);\n" +
+                "\n" +
+                "  var contentWidth = document.body.offsetWidth;\n" +
+                "  var contentHeight = document.body.offsetHeight;\n" +
+                "  // console.log(\"Content ratio: \" + contentHeight*1.0/contentWidth);\n" +
+                "\n" +
+                "\n" +
+                "  var windowRatio = height*1.0/width;\n" +
+                "  var contentRatio = contentHeight*1.0/contentWidth;\n" +
+                "  var footer = document.getElementById(\"MSU_footer\");\n" +
+                "\n" +
+                "   if (windowRatio*1.0/contentRatio > 1){\n" +
+                "    footer.style.position = \"fixed\";\n" +
+                "   }\n" +
+                "  else{\n" +
+                "   footer.style.position = \"absolute\";\n" +
+                "  }\n" +
+                " }\n" +
+                "\n" +
+                "</script>";
 
         return footer_HTML;
     }
