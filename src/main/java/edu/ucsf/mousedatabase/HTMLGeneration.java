@@ -3519,14 +3519,14 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.2.1.25";
+        String version = "4.2.1.27";
         //Current date
         String year = "2021";
         //Email of database administrator
         String email = "ORA.MSURodentDatabase@msu.edu";
 
         //written HTML for the footer (includes a spacing div at the very beginning of height 100px.
-        String footer_HTML = "<div class=\"spacing_div\" style=\"height:200px\"></div>" + "<div id='MSU_footer' class=\"MSU_footer\">\n" +
+        String footer_HTML = "<div class=\"spacing_div\" style=\"height:275px\"></div>" + "<div id='MSU_footer' class=\"MSU_footer\">\n" +
                 "\n" +
                 " <div class=\"category\">\n" +
                 "  <div class=\"two_column_left\">\n" +
@@ -3554,12 +3554,12 @@ public class HTMLGeneration {
                 "    function footerPlacement(){\n" +
                 "        var width = document.documentElement.clientWidth;\n" +
                 "        var height = document.documentElement.clientHeight;\n" +
-                "        console.log(\"Width: \" + width);\n" +
-                "        console.log(\"Height: \" + height);\n" +
+//                "        console.log(\"Width: \" + width);\n" +
+//                "        console.log(\"Height: \" + height);\n" +
                 "\n" +
                 "        var footer = document.getElementById(\"MSU_footer\");\n" +
                 "\n" +
-                "        if (height*1.0/width > 1.41){\n" +
+                "        if (height*1.0/width > 1.43){\n" +
                 "            footer.style.position = \"fixed\";\n" +
                 "        }\n" +
                 "        else{\n" +
