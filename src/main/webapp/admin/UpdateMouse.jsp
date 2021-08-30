@@ -64,7 +64,7 @@
             if (!(DBConnect.getMouseRecord(mouseID).get(0).getGeneID() == null)){
                 gene_id = Integer.parseInt(DBConnect.getMouseRecord(mouseID).get(0).getGeneID());
             }
-            if (updatedRecord.isMA() && (sub.getMAMgiGeneID() != null || !sub.getMAMgiGeneID().equals("")) && updatedRecord.getGeneLink() == null) {
+            if (updatedRecord.isMA() && (sub.getMAMgiGeneID() != null && !sub.getMAMgiGeneID().equals("")) && updatedRecord.getGeneLink() == null) {
                 if (updatedRecord.getGeneLink() == null) {
                     updatedRecord.setGeneLink(sub.getMAMgiGeneID());
                 }
