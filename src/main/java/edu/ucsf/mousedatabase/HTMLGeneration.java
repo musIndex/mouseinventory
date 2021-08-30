@@ -3519,7 +3519,7 @@ public class HTMLGeneration {
     public static String getWebsiteFooter() {
 
         //Database version
-        String version = "4.2.1.24";
+        String version = "4.2.1.25";
         //Current date
         String year = "2021";
         //Email of database administrator
@@ -3559,7 +3559,7 @@ public class HTMLGeneration {
                 "\n" +
                 "        var footer = document.getElementById(\"MSU_footer\");\n" +
                 "\n" +
-                "        if (height*1.0/width > 1.43){\n" +
+                "        if (height*1.0/width > 1.41){\n" +
                 "            footer.style.position = \"fixed\";\n" +
                 "        }\n" +
                 "        else{\n" +
