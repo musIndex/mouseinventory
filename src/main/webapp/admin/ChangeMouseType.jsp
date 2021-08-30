@@ -67,6 +67,7 @@
     <%
     } else {
         record.setMouseType(newMouseType.getTypeName());
+
         DBConnect.updateMouseRecord(record);
         records = DBConnect.getMouseRecord(mouseID);
     %>
