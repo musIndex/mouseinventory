@@ -100,7 +100,7 @@
             buf.append("<br>");
             buf.append("<div class=\"adminHomeTable\">");
             buf.append("<table class=\"adminHomeTableInside\">");
-            buf.append("<tr class=\"adminHomeTableHeader\"><td colspan=\"2\">There are <b>" + changeRequests.size() + "</b> " + label + " manual change requests:</td></tr>");
+            buf.append("<tr class=\"adminHomeTableHeader\"><td colspan=\"2\">There" + (changeRequests.size() > 1 ? " are " : " is ") + "<b>" + changeRequests.size() + "</b> " + label + " manual change request" + (changeRequests.size() > 1 ? "s" : "") + ":</td></tr>");
             for (ChangeRequest changeRequest : changeRequests) {
                 String changeRequestTitle = changeRequest.getFirstname() + " " + changeRequest.getLastname() + " requested: " +
                         changeRequest.actionRequested().label + " ";
@@ -136,7 +136,7 @@
             right_buf.append("<div class=\"adminHomeTable\" style=\"float:right\">");
             right_buf.append("<br>");
             right_buf.append("<table class=\"adminHomeTableInside\">");
-            right_buf.append("<tr class=\"adminHomeTableHeader\"><td colspan=\"2\">There are <b>" + newSubmissions.size() + "</b> " + label + ":</td></tr>");
+            right_buf.append("<tr class=\"adminHomeTableHeader\"><td colspan=\"2\">There" + (newSubmissions.size() > 1 ? " are " : " is ") + "<b>" + newSubmissions.size() + "</b> " + (newSubmissions.size() > 1 ? label : label.substring(0, label.length() - 1)) + ":</td></tr>");
 
             for (SubmittedMouse mouse : newSubmissions) {
                 String mouseName = "";
@@ -167,7 +167,7 @@
                     }
                 }
 
-                right_buf.append("<tr><td class=\"adminTableLeftTd\">" + mouseName + "<span style=\"font-weight:bold\">"
+                right_buf.append("<tr><td class=\"adminTableLeftTd\"><b>" + mouseName + "</b><span style=\"font-weight:bold\">"
                         + HTMLUtilities.getCommentForDisplay(HTMLGeneration.emptyIfNull(mouse.getOfficialSymbol()))
                         + "</span> " + action + "  " + holders
                         + "</td><td class=\"adminTableRightTd\">" +
@@ -222,7 +222,7 @@
                         holders += holder.getFullname();
                     }
                 }
-                hold_buf.append("<tr><td class=\"adminTableLeftTd\">" + mouseName + "<span style=\"font-weight:bold\">"
+                hold_buf.append("<tr><td class=\"adminTableLeftTd\"><b>" + mouseName + "</b><span style=\"font-weight:bold\">"
                         + HTMLUtilities.getCommentForDisplay(HTMLGeneration.emptyIfNull(mouse.getOfficialSymbol()))
                         + "</span> " + action + "  " + holders
                         + "</td><td class=\"adminTableRightTd\">" +
