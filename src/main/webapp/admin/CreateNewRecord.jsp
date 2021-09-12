@@ -12,8 +12,9 @@
     if (request.getParameter("id") == null) {
 %>
 <div class="site_container">
-    <h2>ERROR - no submission specified.</h2>
+    <p class="main_header">ERROR - no submission specified.</p>
 </div>
+<%=HTMLGeneration.getWebsiteFooter()%>
 <%
         return;
     }
@@ -29,8 +30,10 @@
     if (submissions.size() < 1) {
 %>
 <div class="site_container">
-    <h2>ERROR - submission #<%=submissionID %> was not found</h2>
+    <p class="main_header">ERROR - submission #<%=submissionID %> was not found</p>
+
 </div>
+<%=HTMLGeneration.getWebsiteFooter()%>
 <%
         return;
     }
@@ -39,8 +42,9 @@
     if (submission.getStatus().equalsIgnoreCase("accepted")) {
 %>
 <div class="site_container">
-    <h2>ERROR - submission #<%=submissionID %> has already been accepted.</h2>
+    <p class="main_header">ERROR - submission #<%=submissionID %> has already been accepted.</p>
 </div>
+<%=HTMLGeneration.getWebsiteFooter()%>
 <%
         return;
     }
@@ -55,10 +59,11 @@
             String submissionTable = getSubmissionTable(submissions, null, null, false);
 %>
 <div class="site_container">
-    <h2>ERROR - no incomplete record associated with this submission in holding. Automatically moved to 'new', and a
-        note was added:</h2>
+    <p class="main_header">ERROR - no incomplete record associated with this submission in holding. Automatically moved to 'new', and a
+        note was added:</p>
     <%=submissionTable %>
 </div>
+<%=HTMLGeneration.getWebsiteFooter()%>
 <%
             return;
         }
