@@ -14,14 +14,15 @@
   String adminEmail = DBConnect.loadSetting("admin_info_email").value;
 %>
 <div class="site_container">
-<h2 style="margin-top:40px !important;">Find collaborators with similar animal needs and share costs<a class="btn btn-info" href="<%=DBConnect.loadSetting("general_site_mouselist")%>" style="margin-left:20px !important;">Mouselist App</a>
- </h2>
+<h1 style="margin-top:40px !important;">Find collaborators with similar animal needs and share costs
+ </h1>
+ <h2 ><i>Mouselist Site Preview</i>    To view POSTS click<a class="btn btn-info" href="<%=DBConnect.loadSetting("general_site_mouselist")%>" 
+style="margin-left:10px !important;">UCSF Mouselist App</a> to navigate to site.</h2>
 <a href="<%=DBConnect.loadSetting("general_site_mouselist")%>" >
- <iframe src="<%=DBConnect.loadSetting("general_site_mouselist")%>"
-          width="100%" height="500" allowfullscreen sandbox>
+ <iframe src="<%=DBConnect.loadSetting("general_site_mouselist")%>" width="100%" height="500" allowfullscreen sandbox="allow-scripts">
   </iframe>
   
-      <img src="<%=imageRoot %>mouselist_target.png" title='Click to Mouselist' width='250px' class="woodmouse" style="padding-left:200px !important;"/>
+      <img src="<%=imageRoot %>mouselist_target.png" title='Click to Mouselist' width='250px' class="woodmouse" style="padding-left:100px !important;"/>
       </a>
       <p>Contact Database Administrator with questions about UCSF Mouselist at <%=HTMLGeneration.formatEmail(adminEmail, adminEmail, null) %></p>
 </div>
