@@ -840,7 +840,7 @@ public class HTMLGeneration {
     field = "<textarea name=\"generalComment\" rows=\"10\" cols=\"60\">"
         + emptyIfNull(r.getGeneralComment()) + "</textarea>\r\n";
     getInputRow(buf, "Comment", field, null, "editMouseRow");
-    buf.append("<tr class=editMouseRow><td colspan=2>To make links, use [URL]http://example.com[/URL] and display name use [link]example[/link].  For bold, use [B]bold text here[/B]</td></tr>");
+    buf.append("<tr class=editMouseRow><td colspan=2>To make links, use [URL]http://example.com[/URL] and display name use [link]example[/link]. Can add up to 3 links use, [URL2][/URL2][link2][/link2][URL3][URL3][link3][/link3]  For bold, use [B]bold text here[/B]</td></tr>");
     // if (r.isTG())
     // {
     // String[] transgenicTypes = { "Random Insertion" };
