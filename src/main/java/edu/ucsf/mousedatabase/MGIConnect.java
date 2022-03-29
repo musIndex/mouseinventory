@@ -540,13 +540,15 @@ public class MGIConnect {
         }
 
         StringBuilder sb = new StringBuilder();
+        //Fixed import comment from MGI_notechunk table does not exist
+      
         query = "select note " +
-            "from MGI_Note n, MGI_NoteType t, MGI_NoteChunk c " +
-            "where n._NoteType_key = t._NoteType_key " +
-            "and t._MGIType_key = 11 " +
-            "and n._Note_key = c._Note_key " +
-            "and _object_key="+ alleleKey + " " +
-            "and noteType='Molecular' order by sequenceNum";
+        		"from MGI_Note n, MGI_NoteType t "+
+        		"where n._NoteType_key = t._NoteType_key " +
+        		"and n._MGIType_key = 11 " +
+        		"and _object_key="+ alleleKey + " " +
+        		"and noteType='Molecular'";
+        
         if (verbose) System.out.println(query);
         rs= stmt.executeQuery(query);
         while (rs.next())
