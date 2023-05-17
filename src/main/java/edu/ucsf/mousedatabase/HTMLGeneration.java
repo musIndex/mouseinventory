@@ -76,6 +76,7 @@ public class HTMLGeneration {
     buf.append("<!DOCTYPE html>\r\n");
     buf.append("<html>\r\n");
     buf.append("<head>\r\n");
+    buf.append(googleAnalyticsScript + "\r\n");
     buf.append("<meta name='robots' content='noindex, nofollow'>");
     if (disableCache) {
       buf.append("<meta http-equiv='cache-control' content='no-cache'>\r\n");
@@ -109,7 +110,7 @@ public class HTMLGeneration {
       buf.append("<script src='" + scriptRoot  + "jquery.cleditor.js'></script>");
     }
 
-    buf.append(googleAnalyticsScript + "\r\n");
+    
     if (additionalJavaScript != null) {
       buf.append(additionalJavaScript);
     }
