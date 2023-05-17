@@ -43,19 +43,16 @@ public class HTMLGeneration {
   public static final String styleRoot = siteRoot + "css/";
   public static final String dataRoot = siteRoot + "rawdata/";
 
-  public static void setGoogleAnalyticsId(String id, String domainSuffix)
+  public static void setGoogleAnalyticsId(String googleId)
   {
     googleAnalyticsScript =
-           "<script type=\"text/javascript\">\r\n"
-        + "  var _gaq = _gaq || [];\r\n"
-        + "  _gaq.push(['_setAccount', '" + id  + "']);\r\n"
-        + "  _gaq.push(['_setDomainName', '"+ domainSuffix + "']);\r\n"
-        + "  _gaq.push(['_trackPageview']);\r\n"
-        + "  (function() {\r\n"
-        + "    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;\r\n"
-        + "    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';\r\n"
-        + "    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);\r\n"
-        + "  })();" + "</script>\r\n";
+    		"<script async src='https://www.googletagmanager.com/gtag/js?id='"+ googleId+"'></script>\r\n"
+    		+ "<script>\r\n" 
+    		+ "window.dataLayer = window.dataLayer || [];\r\n"
+    		+ "function gtag(){dataLayer.push(arguments);}\r\n"
+    		+ "gtag('js', new Date());\r\n"
+    		+ "gtag('config', '"+ googleId +"');\r\n"
+    		+ "</script>\r\n";
   }
 
   public static String googleAnalyticsScript;

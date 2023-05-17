@@ -54,7 +54,8 @@ public class ContextListener implements ServletContextListener {
     
     MGIConnect.Initialize(env.get("MGI_DB_DRIVER_CLASSNAME"), env.get("MGI_DB_CONNECTION_STRING"));
 
-    HTMLGeneration.setGoogleAnalyticsId(env.get("GOOGLE_ANALYTICS_ACCOUNT"), env.get("GOOGLE_ANALYTICS_DOMAIN_SUFFIX"));
+    HTMLGeneration.setGoogleAnalyticsId(env.get("GOOGLE_ID"));
+    
 
     MouseMail.intitialize(env.get("SMTP_SERVER"), env.get("SMTP_USER"), env.get("SMTP_PW"),
         Integer.parseInt(env.get("SMTP_PORT")), Boolean.parseBoolean(env.get("SMTP_SSL_ENABLED")));
