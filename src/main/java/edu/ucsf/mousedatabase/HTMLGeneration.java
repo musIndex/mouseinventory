@@ -46,7 +46,7 @@ public class HTMLGeneration {
   public static void setGoogleAnalyticsId(String googleId)
   {
     googleAnalyticsScript =
-    		"<script async src='https://www.googletagmanager.com/gtag/js?id='"+ googleId+"'></script>\r\n"
+    		"<script async src='https://www.googletagmanager.com/gtag/js?id="+googleId+"'></script>\r\n"
     		+ "<script>\r\n" 
     		+ "window.dataLayer = window.dataLayer || [];\r\n"
     		+ "function gtag(){dataLayer.push(arguments);}\r\n"
