@@ -90,7 +90,7 @@ $(document).ready(function(){
 
     if (window.searchQuery != search_query ) {
       window.searchQuery = search_query;
-      _gaq.push(['_trackPageview', window.location.pathname + '?' + window.location.hash.substring(1)]);
+      //_gaq.push(['_trackPageview', window.location.pathname + '?' + window.location.hash.substring(1)]);
       if (search_query.searchterms){
         $("#searchresults-container").fadeOut(50,function(){
           $(this).html("<div class='search-load-message'>Searching...</div>").fadeIn(50,do_search_ajax);
