@@ -1677,13 +1677,14 @@ public class HTMLGeneration {
         }
         if (nextRecord.getMtaRequired() != null) {
           if (nextRecord.getMtaRequired().equalsIgnoreCase("Y")) {
-            // table.append("<dt>MTA is required.</dt>\r\n");
+            table.append("<dt><b>MTA is required </b>"+"<a href='mailto:"+ nextRecord.getMtaHolder() +"?subject=MTA form request'>contact</a> "+ "</dt>\r\n");
+            
           } else if (nextRecord.getMtaRequired()
               .equalsIgnoreCase("D")) {
-            // table.append("<dt>Unknown if MTA required.</dt>\r\n");
+            //table.append("<dt>Unknown if MTA required.</dt>\r\n");
           } else if (nextRecord.getMtaRequired()
               .equalsIgnoreCase("N")) {
-            // table.append("<dt>MTA is not required</dt>\r\n");
+            //table.append("<dt>MTA is not required</dt>\r\n");
           }
         }
 

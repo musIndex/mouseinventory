@@ -41,7 +41,7 @@ public class DBConnect {
 			+ "gene.symbol as 'gene symbol', gene.fullname as 'gene name',cryopreserved,"
 			+ "status,endangered,submittedmouse_id, targetgenes.mgi as 'target gene MGI',"
 			+ "targetgenes.symbol as 'target gene symbol', targetgenes.fullname as 'target gene name', official_name,"
-			+ "admin_comment\r\n";
+			+ "admin_comment, mta_holder\r\n";
 
 	private static final String mouseRecordTableJoins = "   left join mousetype on mouse.mousetype_id=mousetype.id\r\n"
 			+ "  left join gene on mouse.gene_id=gene.id\r\n"
@@ -1139,6 +1139,8 @@ public class DBConnect {
 
 		query.append("mta_required="
 				+ (updatedRecord.getMtaRequired() != null ? "'" + updatedRecord.getMtaRequired() + "'" : "'N'") + ", \r\n");
+		query.append("mta_holder="
+				+ (updatedRecord.getMtaHolder() != null ? "'" + updatedRecord.getMtaHolder()+ "'":"NULL") + ", \r\n");
 		query.append("general_comment="
 				+ (updatedRecord.getGeneralComment() != null ? "'" + addMySQLEscapes(updatedRecord.getGeneralComment()) + "'"
 						: "NULL")
@@ -2285,6 +2287,9 @@ public class DBConnect {
 			result.append(pubmeds);
 			result.append(',');
 			result.append(mouseRecord.getMtaRequired());
+			result.append(',');
+			result.append(mouseRecord.getMtaHolder());
+			
 			if (submission != null) {
 				result.append(',');
 				result.append('"');
@@ -2903,6 +2908,7 @@ public class DBConnect {
 			nextMouse.setTransgenicType(g_str("transgenictype"));
 
 			nextMouse.setMtaRequired(g_str("mta_required"));
+			nextMouse.setMtaHolder(g_str("mta_holder"));
 			nextMouse.setGeneralComment(g_str("general_comment"));
 			nextMouse.setBackgroundStrain(g_str("strain"));
 

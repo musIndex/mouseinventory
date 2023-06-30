@@ -36,6 +36,7 @@ public class MouseRecord {
   String transgenicType;
 
   String mtaRequired;
+  String mtaHolder;
   String generalComment;
   String backgroundStrain;
 
@@ -280,6 +281,12 @@ public class MouseRecord {
   public void setMtaRequired(String mtaRequired) {
     this.mtaRequired = mtaRequired;
   }
+  public String getMtaHolder() {
+	  return mtaHolder;
+  }
+  public void setMtaHolder(String mtaHolder) {
+	  this.mtaHolder = mtaHolder;
+  }
   public String getGeneralComment() {
     return generalComment;
   }
@@ -483,6 +490,7 @@ public class MouseRecord {
 
           props.setProperty("strain",emptyIfNull(newMouse.getBackgroundStrain()));
           props.setProperty("mta",emptyIfNull(newMouse.getMtaRequired()));
+          //props.setProperty("mta holder",emptyIfNull(newMouse.getMtaHolder()));
           //props.setProperty("producedInLabOfHolder",emptyIfNull(newMouse.getProducedInLabOfHolder()));
           //if(newMouse.isPublished())
           //{
