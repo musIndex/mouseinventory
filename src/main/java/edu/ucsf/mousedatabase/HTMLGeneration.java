@@ -1792,6 +1792,10 @@ public class HTMLGeneration {
           }
 
           EmailRecipient rec = EmailRecipientManager.recipientsForHolder(holder);
+          String mtaReq = "";
+          if (nextRecord.getMtaRequired().equalsIgnoreCase("Y"))
+          { mtaReq = " & MTA form Request";}
+         
           
           String mailLink = edit ? getAdminMailLink(rec.recipients,rec.ccs, 
                                             EmailTemplate.MOUSERECORD, 
@@ -1799,9 +1803,8 @@ public class HTMLGeneration {
                                             holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")",
                                             -1,-1,nextRecord.getMouseID(),holder.getHolderID())
                                  : getMailToLink(rec.recipients, rec.ccs,  
-                                     "Regarding " + nextRecord.getMouseName() + "-Record# " + nextRecord.getMouseID(), 
-                                     null, firstInitial + holder.getLastname(),
-                                     holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")");
+                                     "Regarding " + nextRecord.getMouseName() + "-Record# " + nextRecord.getMouseID()+ mtaReq ,
+                                 null, firstInitial + holder.getLastname(), holder.getFirstname() + " " + holder.getLastname() + " (" + holder.getDept() + ")");
                                    
                                   
           
