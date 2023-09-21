@@ -2955,14 +2955,14 @@ public class DBConnect {
 		// ************************************************************
 		private ArrayList<String> getFilenames(String mouseID, String filestatus) throws SQLException
 		{
-			Log.Info("calling getFilenames");
+			//Log.Info("calling getFilenames");
 			String query = "SELECT filename FROM mouse_files WHERE mouseID='" + mouseID + "'"+ " AND filestatus='" + filestatus + "'";
 			return StringResultGetter.getInstance("filename").Get(query);
 		}
 
 		private ArrayList<File> getFiles(String mouseID) throws SQLException
 		{ //this needs to be redone for new file storage.
-			Log.Info("calling getFiles");
+			//Log.Info("calling getFiles");
 			String query = "SELECT file, filename FROM mouse_files WHERE mouseID='" + mouseID + "'";
 			return MouseFileResultGetter.getInstance(_connection).Get(query);
 		}

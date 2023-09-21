@@ -79,7 +79,7 @@
 
     String editForm = getEditMouseForm(record,submission);
 
-    String recordPreview = getMouseTable(records,false,false,true,true,true);
+    //String recordPreview = getMouseTable(records,false,false,true,true,true);
 
 %>
 
@@ -89,8 +89,7 @@
 </h2>
 <%@ include file='_lastSubmissionListLink.jspf' %>
 <%=submissionTable %>
-<h2>Record Preview:</h2>
-<%=recordPreview %>
+
 <%= otherRecordInfo %>
 <br>
 <%=editForm %>
