@@ -1,5 +1,5 @@
 body {
-  color: #23476b;
+  color: #0E5258;
   padding: 0px;
   margin: 0px; 
 }
@@ -37,7 +37,7 @@ ul.navLinkUL {
 
 #pageHeaderContainer {
   padding: 1px 0px;
-  background-color: #DDE6E5;
+  background-color:#FFFFFF;
 }
 
 
@@ -72,12 +72,39 @@ ul.navLinkUL {
 }
 
 #pageTitle a {
-  color: #667A99;
-  font-size: 40px !important;
-  line-height: 40px !important;
+  color: #0E5258;
+  font-size: 45px !important;
+  line-height: 60px !important;
   text-decoration: none;
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.25);
+  
 }
+.ucsfHeader{
+  background-color:#052049;
+  border: none;
+  color:#FFFFFF;
+  font-size: 14px;
+  cursor: pointer;
+  pointer-events:auto;
+  
+}
+#ucsfContainer {
+  font-size: 14px;
+  margin: 0px;
+  padding: 9px;
+  min-width: 920px;
+  background-color: #052049;
+}
+.ucsfLinks{
+	list-style-type:none;
+	background-color:#052049;
+	margin:0;
+	padding:0px;
+	text-decoration: none;
+	color:#FFFFFF;
+	display: inline;
+}
+
 
 .titleSubText {
   line-height: 25px;
@@ -85,7 +112,7 @@ ul.navLinkUL {
 
 .titleSubText a {
   font-size: 12px;
-  background-color: #DDE6E5;
+  background-color: #FFFFFF;
   border-radius: 3px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -143,7 +170,7 @@ ul.navLinkUL {
   min-width: 920px;
 }
 #navigationLinksContainer {
-  background-color: #A3B9BC;
+  background-color: #14828C;
 }
 
 #adminLinksContainer {
@@ -181,27 +208,27 @@ ul.navLinkUL {
 }
 
 #navigationLinks li:nth-child(1) {
-  background-color: #A3B9BC;
+  background-color: #14828C;
 }
 
 #navigationLinks li:nth-child(2) {
-  background-color: #A3B9BC;
+  background-color: #14828C;
 }
 
 #navigationLinks li:nth-child(3) {
-  background-color: #A3B9BC;
+  background-color: #14828C;
 }
 
 #navigationLinks li:nth-child(4) {
-  background-color: #A3B9BC;
+  background-color: #14828C;
 }
 
 #navigationLinks li:nth-child(5) {
-  background-color: #A3B9BC;
+  background-color: #14828C;
 }
 
 #navigationLinks li:nth-child(6) {
-  background-color: #A3B9BC;
+  background-color: #14828C;
 }
 
 #adminLinks li {
@@ -334,15 +361,15 @@ tr.formFieldAlt {
 
 tr.mouselistH {
   font-size: 14pt;
-  background-color: #89BBE2;
+  background-color: #B8E6FA;
 }
 
 tr.mouselist {
-  background-color: #E7EDEC;
+  background-color: #F2F3F4;
 }
 
 tr.mouselistAlt {
-  background-color: #E2E9DB;
+  background-color: #E1E3E5;
 }
 
 tr.submissionlistH {
@@ -374,23 +401,23 @@ tr.changerequestlistAlt {
 
 tr.facilitylistH {
   font-size: 14pt;
-  background-color: #89BBE2;
+  background-color: #B8E6FA;
 }
 
 tr.facilitylist {
-  background-color: #E7EDEC;
+  background-color: #F2F3F4;
 }
 
 tr.facilitylistAlt {
-  background-color: #E2E9DB;
+  background-color: #E1E3E5;
 }
 
 tr.holderlist {
-  background-color: #E7EDEC;
+  background-color: #F2F3F4;
 }
 
 tr.holderlistAlt {
-  background-color: #E2E9DB;
+  background-color: #E1E3E5;
 }
 
 table.editMouseParent {
@@ -715,10 +742,7 @@ td.mouselistcolumn-holders {
 .search-box-small img.woodmouse {
   padding-right: 0px;
 }
-.site_container img.10year {
-  padding-right: 30px;
-  
-}
+
 
 img.MDBlogo {
   padding-right: 50px;

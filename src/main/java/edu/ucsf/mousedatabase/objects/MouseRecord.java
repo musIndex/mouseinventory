@@ -490,7 +490,7 @@ public class MouseRecord {
 
           props.setProperty("strain",emptyIfNull(newMouse.getBackgroundStrain()));
           props.setProperty("mta",emptyIfNull(newMouse.getMtaRequired()));
-          //props.setProperty("mta holder",emptyIfNull(newMouse.getMtaHolder()));
+          props.setProperty("mta holder",emptyIfNull(newMouse.getMtaHolder()));
           //props.setProperty("producedInLabOfHolder",emptyIfNull(newMouse.getProducedInLabOfHolder()));
           //if(newMouse.isPublished())
           //{

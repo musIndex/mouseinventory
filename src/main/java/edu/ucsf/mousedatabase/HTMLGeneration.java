@@ -122,9 +122,9 @@ public class HTMLGeneration {
   }
 
   public static String getPageFooter() {
-    StringBuffer buf = new StringBuffer();
-    buf.append("</body>");
-    buf.append("</html>");
+	StringBuffer buf = new StringBuffer();
+	buf.append("</body>");
+	buf.append("</html>");
     return buf.toString();
   }
 
@@ -140,10 +140,42 @@ public class HTMLGeneration {
 
     // Page header
     table.append("<div id=\"pageHeaderContainer\" class='clearfix'>");
+    // UCSF header
+    table.append("<div id=\"ucsfContainer\" class='clearfix'>");
+    table.append("<ul class=\"ucsfHeader\">");
+    table.append("<li class=\"ucsfLinks\">");
+    table.append("<div style=\"float: left;\">");
+    table.append("<img src=/img/UCSF_Logo_21_White_300dpi_RGB.png width='45px'>");
+    table.append("<a class=\"navBarAnchor\" style=\"padding-left:15px;\" href=\"http://www.ucsf.edu\">University of California San Francisco</a>");
+    table.append("</div>");
+    table.append("</li>");
+    table.append("<li class=\"ucsfLinks\">");
+    table.append("<div style=\"float: right;\">");
+    table.append("<a class=\"navBarAnchor\"href=\"http://www.ucsfhealth.org\">UCSF Health</a>");
+    table.append("</div>");
+    table.append("</li>");
+    table.append("<li class=\"ucsfLinks\">");
+    table.append("<div style=\"float: right;\">");
+    table.append("<a class=\"navBarAnchor\"href=\"http://www.ucsf.edu/search\">Search UCSF</a>");
+    table.append("</div>");
+    table.append("</li>");
+    table.append("<li class=\"ucsfLinks\">");
+    table.append("<div style=\"float: right;\">");
+    table.append("<a class=\"navBarAnchor\" href=\"http://www.ucsf.edu/about\">About UCSF</a>");
+    table.append("</div>");
+    table.append("</li>");   
+    table.append("</ul>");
+    table.append("</div>");
     table.append("<div class='site_container'>");
+  
+    
     table.append("<div id=\"pageTitleContainer\">");
-    table.append("<div>"); //pagetitle
-    table.append("<span id=\"pageLogo\">"+ "<a href=\"" + siteRoot + "about.jsp\">"+"<img src=/img/logo_mouse_database_UCSF.png width='120px'style='background-color:#DDE6E5' class='MDBlogo'>"+ "</a></span>");
+    table.append("<div>");
+    
+
+    
+    //pagetitle
+    table.append("<span id=\"pageLogo\">"+ "<a href=\"" + siteRoot + "about.jsp\">"+"<img src=/img/logo_mouse_database.png width='120px' class='MDBlogo'>"+ "</a></span>");
   
     
     
@@ -182,7 +214,7 @@ public class HTMLGeneration {
 
     }
     table.append("<a href=\"" + siteRoot + "history.jsp\">"
-    		+ "<img src=/img/OR_logo_10year_update.png title='History of MouseDB' style='padding-top: 10px !important; background-color:#DDE6E5' width='120px' class='10year' >");
+    		+ "<img src=/img/OR_logo_10year_update.png title='History of MouseDB' style='padding-top: 5px !important; background-color:#FFFFFF' width='115px' >");
     
    
     
@@ -249,6 +281,7 @@ public class HTMLGeneration {
     if (alert.value != null && !alert.value.trim().isEmpty()) {
       table.append("<div class='site_container'><div class='alert alert-error' style='margin-top: 15px'><b>" + alert.value + "</b></div></div>");
     }
+    
     return table.toString();
   }
 
@@ -799,14 +832,19 @@ public class HTMLGeneration {
 
       getInputRow(buf, "PubMed ID #" + pubMedNum, field, null,
           "editMouseRow");
-
-      // String[] mtaValues = { "Y", "N", "D" };
-      // String[] mtaNiceNames = { "Yes", "No", "Don't Know" };
-      // field = genSelect("mtaRequired", mtaValues, mtaNiceNames,
-      // r.getMtaRequired(), null);
-      // field = genCheckbox("mtaRequired", mtaValues,
-      // r.getMtaRequired());
-      // getInputRow(buf, "MTA Required?", field, null, "editMouseRow");
+      //Test original MTA code -EW
+      String[] mtaValues = { "Y", "N", "D" };
+      String[] mtaNiceNames = { "Yes", "No", "Don't Know" };
+      field = genSelect("mtaRequired", mtaValues, mtaNiceNames,
+      r.getMtaRequired(), null);
+      field = genCheckbox("mtaRequired", mtaValues,
+      r.getMtaRequired());
+      getInputRow(buf, "MTA Required?", field, null, "editMouseRow");
+      
+      field = getTextInput("mtaHolder", r.getMtaHolder(), size, 100, null);
+      getInputRow(buf, "MTA Holder Email", field, null, "editMouseRow");
+      
+      
 
 //      field = "<input type=\"checkbox\" value=\"true\" name=\"endangered\" "
 //          + (r.isEndangered() ? "checked=\"checked\"" : "") + " >";
