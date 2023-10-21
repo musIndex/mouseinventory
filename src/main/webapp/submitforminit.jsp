@@ -135,6 +135,7 @@ if (request != null && request.getRemoteUser() != null && request.getRemoteUser(
 </form>
 </div>
 </div>
+<%=HTMLGeneration.getUCSFFooter()%>
 <script>
 function AutoPopulateContactInfo()
 {

@@ -17,5 +17,6 @@
 submitting change requests and entering new submissions.</p>
 <p>Alternatively, you can contact Database admin at <%=HTMLGeneration.formatEmail(adminEmail, adminEmail, null) %></p>
 </div>
-
+</div>
+<%=HTMLGeneration.getUCSFFooter()%>
 

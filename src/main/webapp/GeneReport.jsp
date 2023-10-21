@@ -28,3 +28,6 @@
         <%= table%>
 
 </div>
+</div>
+<div>
+<%=HTMLGeneration.getUCSFFooter()%>

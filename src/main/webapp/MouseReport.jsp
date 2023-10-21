@@ -214,3 +214,4 @@
     </div>
   </form>
 </div>
+<%=getUCSFFooter()%>

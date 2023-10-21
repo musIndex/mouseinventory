@@ -43,11 +43,14 @@ head of the UCSF Animal Care Facility, who understood the value of the applicati
 <p>User Manual that describes Mouse Inventory features.</p>
 <a class="btn btn-success" href="https://mousespace.blob.core.windows.net/$web/UserManual.pdf">DOWNLOAD USER MANUAL(pdf)</a>
  <h4>Logos Designed by Marta Dansa 2019</h4>
- <div class="search-box search-box-small">
-      <img src="<%=imageRoot %>target_mice.png" class="woodmouse"/>
-      </div>
+ 
+      <img src="<%=imageRoot %>target_mice.png" width= 100px class="woodmouse">
+ 
 
 
 
 </div>
 </div>
+</div>
+
+<%=getUCSFFooter()%>

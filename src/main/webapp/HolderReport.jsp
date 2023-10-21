@@ -29,7 +29,8 @@
     <a style='display:none' class='btn clear_btn' href='#'>clear search</a></form>
 <%= table %>
 </div>
-
+</div>
+<%=HTMLGeneration.getUCSFFooter()%>
 <script>
 !function($){
   var search_form = $("form#search_form");
@@ -59,3 +60,4 @@
 }(jQuery);
 
 </script>
+

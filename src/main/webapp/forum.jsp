@@ -28,5 +28,5 @@ style="margin-left:10px !important;">UCSF Mouselist App</a></h2>
       <h3>Mouselist runs best on <i>Chrome</i> or <i>Firefox</i>. Single sign-on required.</h3>
       <p>Contact Database Administrator with questions about UCSF Mouselist at <%=HTMLGeneration.formatEmail(adminEmail, adminEmail, null) %></p>
 </div>
-
+<%=getUCSFFooter()%>
 

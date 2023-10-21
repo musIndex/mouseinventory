@@ -228,5 +228,5 @@ v2.1 Mouse Inventory 2019
 </div>
 </div>
 </div>
-
+<%=getUCSFFooter()%>
 

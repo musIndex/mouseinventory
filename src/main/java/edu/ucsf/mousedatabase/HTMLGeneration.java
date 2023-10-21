@@ -127,6 +127,48 @@ public class HTMLGeneration {
 	buf.append("</html>");
     return buf.toString();
   }
+  
+  public static String getUCSFFooter() {
+	StringBuffer buf = new StringBuffer();
+    buf.append("<div id=\"ucsfContainer\" class='clearfix'>");
+    buf.append("<ul class=\"ucsfHeader\">");
+    buf.append("<li class=\"ucsfLinks\">");
+    buf.append("<div style=\"float: left;\">");
+    buf.append("<p style=\"color:#FFF;  font-size: 14px\">© 2023 The Regents of the University of California</p>");
+    buf.append("</div>");
+    buf.append("<li class=\"ucsfLinks\">");
+    buf.append("<div style=\"float: right;\">");
+    buf.append("<a class=\"navBarAnchor\" href=\"https://websites.ucsf.edu/azlist\">A-Z Website List</a>");
+    buf.append("</div>");
+    buf.append("</li>");
+    buf.append("</li>");
+    buf.append("<li class=\"ucsfLinks\">");
+    buf.append("<div style=\"float: right;\">");
+    buf.append("<a class=\"navBarAnchor\" href=\"https://websites.ucsf.edu/website-terms-use\">Terms of Use</a>");
+    buf.append("</div>");
+    buf.append("</li>");
+      
+    buf.append("<li class=\"ucsfLinks\">");
+    buf.append("<div style=\"float: right;\">");
+    buf.append("<a class=\"navBarAnchor\" href=\"https://www.ucsf.edu/website-privacy-policy\">Privacy Policy</a>");
+    buf.append("</div>");
+    buf.append("</li>"); 
+    buf.append("<li class=\"ucsfLinks\">");
+    buf.append("<div style=\"float: right;\">");
+    buf.append("<a class=\"navBarAnchor\"href=\" https://websites.ucsf.edu/digital-accessibility\">Accessibility</a>");
+    buf.append("</div>");
+    buf.append("</li>");
+      
+    buf.append("<li class=\"ucsfLinks\">");
+    buf.append("<div style=\"float: right;\">");
+    buf.append("<a class=\"navBarAnchor\"href=\"mailto:admin.mousedatabase@ucsf.edu\">Contact Us</a>");
+    buf.append("</div>");
+    buf.append("</li>");
+      
+    buf.append("</ul>");
+    buf.append("</div>");
+    return buf.toString();
+  }
 
   public static String getNavBar(String currentPageFilename,
       boolean isAdminPage) {
