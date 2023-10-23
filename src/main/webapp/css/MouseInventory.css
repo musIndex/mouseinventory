@@ -2,6 +2,7 @@ body {
   color: #0E5258;
   padding: 0px;
   margin: 0px; 
+  height: 100%
 }
 
 div.duplicateDescriptor {
@@ -79,13 +80,18 @@ ul.navLinkUL {
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.25);
   
 }
-.ucsfHeader{
+.ucsfHeader, .ucsfFooter{
   background-color:#052049;
   border: none;
   color:#FFFFFF;
   font-size: 14px;
   cursor: pointer;
   pointer-events:auto;
+  
+}
+.ucsfFooter{
+  position: sticky;
+  bottom: 0;
   
 }
 #ucsfContainer {

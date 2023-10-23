@@ -23,7 +23,7 @@ style="margin-left:10px !important;">UCSF Mouselist App</a></h2>
   <iframe src= "<%=DBConnect.loadSetting("mouselist_fnct")%>" width="50%" height="200" style="border:3px solid black" allowfullscreen sandbox="allow-same-origin">
   </iframe>
   
-      <img src="<%=imageRoot %>mouselist_target.png" title='Click to Mouselist' width='250px' class="woodmouse" style="padding-left:100px !important;"/>
+      <img src="<%=imageRoot %>mouselist_target.png" title='Click to Mouselist' width='280px' class="woodmouse" style="padding-left:100px !important;"/>
       </a>
       <h3>Mouselist runs best on <i>Chrome</i> or <i>Firefox</i>. Single sign-on required.</h3>
       <p>Contact Database Administrator with questions about UCSF Mouselist at <%=HTMLGeneration.formatEmail(adminEmail, adminEmail, null) %></p>

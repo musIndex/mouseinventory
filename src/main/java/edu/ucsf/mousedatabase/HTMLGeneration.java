@@ -131,37 +131,37 @@ public class HTMLGeneration {
   public static String getUCSFFooter() {
 	StringBuffer buf = new StringBuffer();
     buf.append("<div id=\"ucsfContainer\" class='clearfix'>");
-    buf.append("<ul class=\"ucsfHeader\">");
+    buf.append("<ul class=\"ucsfFooter\">");
     buf.append("<li class=\"ucsfLinks\">");
     buf.append("<div style=\"float: left;\">");
     buf.append("<p style=\"color:#FFF;  font-size: 14px\">© 2023 The Regents of the University of California</p>");
     buf.append("</div>");
     buf.append("<li class=\"ucsfLinks\">");
     buf.append("<div style=\"float: right;\">");
-    buf.append("<a class=\"navBarAnchor\" href=\"https://websites.ucsf.edu/azlist\">A-Z Website List</a>");
+    buf.append("<p><a class=\"navBarAnchor\" href=\"https://websites.ucsf.edu/azlist\">A-Z Website List</a></p>");
     buf.append("</div>");
     buf.append("</li>");
     buf.append("</li>");
     buf.append("<li class=\"ucsfLinks\">");
     buf.append("<div style=\"float: right;\">");
-    buf.append("<a class=\"navBarAnchor\" href=\"https://websites.ucsf.edu/website-terms-use\">Terms of Use</a>");
+    buf.append("<p><a class=\"navBarAnchor\" href=\"https://websites.ucsf.edu/website-terms-use\">Terms of Use</a></p>");
     buf.append("</div>");
     buf.append("</li>");
       
     buf.append("<li class=\"ucsfLinks\">");
     buf.append("<div style=\"float: right;\">");
-    buf.append("<a class=\"navBarAnchor\" href=\"https://www.ucsf.edu/website-privacy-policy\">Privacy Policy</a>");
+    buf.append("<p><a class=\"navBarAnchor\" href=\"https://www.ucsf.edu/website-privacy-policy\">Privacy Policy</a></p>");
     buf.append("</div>");
     buf.append("</li>"); 
     buf.append("<li class=\"ucsfLinks\">");
     buf.append("<div style=\"float: right;\">");
-    buf.append("<a class=\"navBarAnchor\"href=\" https://websites.ucsf.edu/digital-accessibility\">Accessibility</a>");
+    buf.append("<p><a class=\"navBarAnchor\"href=\" https://websites.ucsf.edu/digital-accessibility\">Accessibility</a></p>");
     buf.append("</div>");
     buf.append("</li>");
       
     buf.append("<li class=\"ucsfLinks\">");
     buf.append("<div style=\"float: right;\">");
-    buf.append("<a class=\"navBarAnchor\"href=\"mailto:admin.mousedatabase@ucsf.edu\">Contact Us</a>");
+    buf.append("<p><a class=\"navBarAnchor\"href=\"mailto:admin.mousedatabase@ucsf.edu\">Contact Us</a></p>");
     buf.append("</div>");
     buf.append("</li>");
       
@@ -183,7 +183,7 @@ public class HTMLGeneration {
     // Page header
     table.append("<div id=\"pageHeaderContainer\" class='clearfix'>");
     // UCSF header
-    table.append("<div id=\"ucsfContainer\" class='clearfix'>");
+    table.append("<div id=\"ucsfContainer\" class='clearfix' style='margin-bottom: 20px !important';>");
     table.append("<ul class=\"ucsfHeader\">");
     table.append("<li class=\"ucsfLinks\">");
     table.append("<div style=\"float: left;\">");
@@ -217,7 +217,7 @@ public class HTMLGeneration {
 
     
     //pagetitle
-    table.append("<span id=\"pageLogo\">"+ "<a href=\"" + siteRoot + "about.jsp\">"+"<img src=/img/logo_mouse_database.png width='120px' class='MDBlogo'>"+ "</a></span>");
+    table.append("<span id=\"pageLogo\">"+ "<a href=\"" + siteRoot + "about.jsp\">"+"<img src=/img/logo_mouse_database.png width='160px' class='MDBlogo'>"+ "</a></span>");
   
     
     
