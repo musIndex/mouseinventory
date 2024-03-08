@@ -9,7 +9,7 @@
 	<name>mouseinventory Maven Webapp</name>
 	<url>http://ucsf-mousedb.github.com/mouseinventory/</url>
 	<properties>
-		<spring.version>5.3.18</spring.version>
+		<spring.version>6.0.0</spring.version>
 	</properties>
 	<profiles>
 		<profile>
@@ -18,7 +18,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<tomcat-server>mouseinventory-local</tomcat-server>
+				<tomcat-server>mouseinventory-tomcat</tomcat-server>
 				<tomcat-url>http://localhost:8080/manager/text</tomcat-url>
 				<app-path>/</app-path>
 			</properties>
