@@ -3,6 +3,7 @@ package edu.ucsf.mousedatabase.servlets;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -38,16 +40,20 @@ public class ImportServlet extends HttpServlet {
 
   }
   @SuppressWarnings("rawtypes")
+  
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
+    //ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
     try {
       /*
        * Parse the request
        */
-      List items = uploadHandler.parseRequest(request);
-      Iterator itr = items.iterator();
-
+      //Jakarta servlet doesn't have parseRequest method	
+      //List items = uploadHandler.parseRequest(request);
+    	
+      //Iterator itr = items.iterator();
+      Collection<Part> items = request.getParts();
+  	  Iterator<Part> itr = items.iterator();	
       final HashMap<String,String> parameters = new HashMap<String, String>();
       FileItem dataFile = null;
       int importDefinitionId = -1;

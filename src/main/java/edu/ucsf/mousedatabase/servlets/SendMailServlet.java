@@ -3,6 +3,7 @@ package edu.ucsf.mousedatabase.servlets;
 import static edu.ucsf.mousedatabase.HTMLGeneration.stringToInt;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -124,10 +126,14 @@ public class SendMailServlet extends HttpServlet {
 
 	
 	 @SuppressWarnings("rawtypes")
-	private Object[] fetchMultipartParams(HttpServletRequest request, String attachmentParameterName) throws FileUploadException {
-	  ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
-    List items = uploadHandler.parseRequest(request);
-    Iterator itr = items.iterator();
+	private Object[] fetchMultipartParams(HttpServletRequest request, String attachmentParameterName) throws FileUploadException, IOException, ServletException {
+	  //ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
+    //List items = uploadHandler.parseRequest(request);
+		 Collection<Part> items;
+		 items = request.getParts();
+	
+	  	  Iterator<Part> itr = items.iterator();	 
+    //Iterator itr = items.iterator();
     HashMap<String,byte[]> attachments = new HashMap<String, byte[]>();
     HashMap<String,String> parameters = new HashMap<String, String>();
     while(itr.hasNext()) {
@@ -143,7 +149,8 @@ public class SendMailServlet extends HttpServlet {
     }
    
     return new Object[]{parameters,attachments};
-	}
+	
+	 }
 	
 
 	

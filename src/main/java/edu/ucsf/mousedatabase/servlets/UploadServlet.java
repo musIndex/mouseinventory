@@ -10,6 +10,7 @@ import java.io.IOException;
 //import java.nio.file.Path;
 //import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Enumeration;
@@ -18,6 +19,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -66,7 +68,7 @@ public class UploadServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Log.Info("recieved file for processing");
-		ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
+		//ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
 		String mouseID = "";
 		String fileName = defaultFileName;
 		String fileStatus = "";
@@ -75,8 +77,10 @@ public class UploadServlet extends HttpServlet {
 
 	    try {
 	    	
-	    	List items = uploadHandler.parseRequest(request);
-	        Iterator itr = items.iterator();
+	    	//List items = uploadHandler.parseRequest(request);
+	    	Collection<Part> items = request.getParts();
+	    	Iterator<Part> itr = items.iterator();
+	        //Iterator itr = items.iterator();
 	        
 	        
 	        
