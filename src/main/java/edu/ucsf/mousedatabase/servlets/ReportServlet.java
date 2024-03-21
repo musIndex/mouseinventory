@@ -29,8 +29,7 @@ public class ReportServlet extends HttpServlet
   public static final String OtherInstitutionsSubmissionsImportReportName = "IDU new submissions report";
   public static final String OtherInstitutionsUnpublishedImportReportName = "IDU unpublished transfers report";
 
-  public void doGet(HttpServletRequest request, HttpServletResponse  response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     Object[] args = null;
     String reportName = request.getParameter("reportName");
