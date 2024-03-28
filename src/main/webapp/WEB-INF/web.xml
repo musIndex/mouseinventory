@@ -173,7 +173,8 @@
   <servlet-mapping>
     <servlet-name>CsvServletNew</servlet-name>
     <url-pattern>/MouseList2</url-pattern>
-  </servlet-mapping>  
+  </servlet-mapping> 
+  <!-- 
   <filter>
     <filter-name>BasicFilter</filter-name>
     <filter-class>edu.ucsf.mousedatabase.filters.BasicFilter</filter-class>
@@ -193,4 +194,5 @@
     <servlet-name>UploadServlet</servlet-name>
     <servlet-name>RemoveServlet</servlet-name>
   </filter-mapping>
+   --> 
 </web-app>

@@ -25,9 +25,10 @@ import jakarta.servlet.annotation.WebServlet;
 
 //import com.microsoft.applicationinsights.core.dependencies.google.logging.type.HttpRequest;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
+
 import org.apache.commons.io.FilenameUtils;
 
 import edu.ucsf.mousedatabase.DBConnect;
