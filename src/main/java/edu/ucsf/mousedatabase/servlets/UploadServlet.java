@@ -6,8 +6,10 @@ import static edu.ucsf.mousedatabase.HTMLGeneration.urlEncode;
 
 import java.io.File;
 import java.io.IOException;
+
 //import java.nio.file.Files;
-//import java.nio.file.Path;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 //import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +22,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+//import jakarta.ws.rs.Path;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.annotation.WebServlet;
 
@@ -38,6 +41,7 @@ import edu.ucsf.mousedatabase.objects.ChangeRequest;
 
 import java.util.regex.*; 
 
+//@Path("/{name}")
 /**
  * Servlet implementation class UploadServlet
  */
@@ -52,7 +56,7 @@ public class UploadServlet extends HttpServlet {
 	//private boolean loggedInAsAdmin = true;
 	
 	
-	
+
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -65,6 +69,7 @@ public class UploadServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Log.Info("recieved file for processing");
@@ -140,8 +145,13 @@ public class UploadServlet extends HttpServlet {
 						
 						 File file = new File(fileName);
 	            		 Log.Info("about to write");
-	            		 item.write(file);
-	            		files.add(file);
+	            		 
+	            		 Path fileN = Paths.get(fileName);
+	            		 item.write(fileN);
+	            		 //item.write(@PathParam(fileName));
+	            		
+	            		
+	            		 files.add(file);
 	            		Log.Info("wrote file");
 	            	
 					} else {
