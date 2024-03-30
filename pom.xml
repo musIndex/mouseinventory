@@ -200,11 +200,7 @@
 			<artifactId>mariadb-java-client</artifactId>
 			<version>2.4.3</version>
 		</dependency>
-		<dependency>
-    		<groupId>org.apache.maven.plugins</groupId>
-    		<artifactId>maven-war-plugin</artifactId>
-    		<version>3.4.0</version>
-		</dependency>
+		
 	</dependencies>
 	<build>
 		<finalName>ROOT</finalName>
@@ -220,8 +216,8 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
+    		    <artifactId>tomcat8-maven-plugin</artifactId>
+                <version>3.0-r1756463</version>
 				<configuration>
 					<contextFile>${project.basedir}/src/main/webapp/META-INF/context.xml</contextFile>
 					<server>${tomcat-server}</server>
