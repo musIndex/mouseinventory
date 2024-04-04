@@ -3,7 +3,6 @@ package edu.ucsf.mousedatabase.servlets;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,18 +12,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
 
 import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.fileupload2.core.FileUploadException;
 import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
-
 import edu.ucsf.mousedatabase.HTMLGeneration;
 import edu.ucsf.mousedatabase.HTMLUtilities;
 import edu.ucsf.mousedatabase.Log;
 import edu.ucsf.mousedatabase.dataimport.ImportHandler;
-
 
 
 public class ImportServlet extends HttpServlet {
@@ -41,18 +37,20 @@ public class ImportServlet extends HttpServlet {
   @SuppressWarnings("rawtypes")
   
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    //ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
+	  
+	  DiskFileItemFactory factory = DiskFileItemFactory.builder().get();
+	  JakartaServletFileUpload uploadHandler = new JakartaServletFileUpload(factory);
+    
+	  
     try {
       /*
        * Parse the request
        */
-      //Jakarta servlet doesn't have parseRequest method	
-      //List items = uploadHandler.parseRequest(request);
+      
+    	List items = uploadHandler.parseRequest(request);
+       Iterator itr = items.iterator();
     	
-      //Iterator itr = items.iterator();
-      Collection<Part> items = request.getParts();
-  	  Iterator<Part> itr = items.iterator();	
+  	
       final HashMap<String,String> parameters = new HashMap<String, String>();
       FileItem dataFile = null;
       int importDefinitionId = -1;

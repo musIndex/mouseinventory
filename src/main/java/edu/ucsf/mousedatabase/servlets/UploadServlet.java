@@ -74,6 +74,8 @@ public class UploadServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		Log.Info("recieved file for processing");
 		//ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
+		DiskFileItemFactory factory = DiskFileItemFactory.builder().get();
+		JakartaServletFileUpload uploadHandler = new JakartaServletFileUpload(factory);
 		String mouseID = "";
 		String fileName = defaultFileName;
 		String fileStatus = "";
@@ -82,10 +84,8 @@ public class UploadServlet extends HttpServlet {
 
 	    try {
 	    	
-	    	//List items = uploadHandler.parseRequest(request);
-	    	Collection<Part> items = request.getParts();
-	    	Iterator<Part> itr = items.iterator();
-	        //Iterator itr = items.iterator();
+	    	List items = uploadHandler.parseRequest(request);
+	    	Iterator itr = items.iterator();
 	        
 	        
 	        

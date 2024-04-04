@@ -129,22 +129,21 @@ public class SendMailServlet extends HttpServlet {
 	private Object[] fetchMultipartParams(HttpServletRequest request, String attachmentParameterName) throws FileUploadException, IOException, ServletException {
 	  //ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
     //List items = uploadHandler.parseRequest(request);
-		 Collection<Part> items;
-		 items = request.getParts();
-	
-	  	  Iterator<Part> itr = items.iterator();	 
-    //Iterator itr = items.iterator();
-    HashMap<String,byte[]> attachments = new HashMap<String, byte[]>();
-    HashMap<String,String> parameters = new HashMap<String, String>();
-    while(itr.hasNext()) {
-      FileItem item = (FileItem) itr.next();
+		 DiskFileItemFactory factory = DiskFileItemFactory.builder().get();
+		 JakartaServletFileUpload uploadHandler = new JakartaServletFileUpload(factory);
+		 List items = uploadHandler.parseRequest(request);
+         Iterator itr = items.iterator();
+         HashMap<String,byte[]> attachments = new HashMap<String, byte[]>();
+         HashMap<String,String> parameters = new HashMap<String, String>();
+         while(itr.hasNext()) {
+        	 FileItem item = (FileItem) itr.next();
 
-      if(!item.isFormField()) {
-        if (item.getFieldName().startsWith(attachmentParameterName)) {
-          attachments.put(item.getName(),item.get());
-        }
-      }else{
-        parameters.put(item.getFieldName(),item.getString());
+        	 if(!item.isFormField()) {
+        		 if (item.getFieldName().startsWith(attachmentParameterName)) {
+        			 attachments.put(item.getName(),item.get());
+        		 }
+        	 	}else{
+        	 		parameters.put(item.getFieldName(),item.getString());
       }
     }
    
