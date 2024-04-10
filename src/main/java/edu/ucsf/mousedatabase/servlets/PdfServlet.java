@@ -1,8 +1,8 @@
 package edu.ucsf.mousedatabase.servlets;
 
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.*;
 
 import static edu.ucsf.mousedatabase.HTMLGeneration.*;
 
