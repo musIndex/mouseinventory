@@ -3,8 +3,8 @@ package edu.ucsf.mousedatabase.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.*;
 
 import edu.ucsf.mousedatabase.*;
 import edu.ucsf.mousedatabase.objects.ImportReport;
