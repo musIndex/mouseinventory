@@ -13,11 +13,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
 
 import edu.ucsf.mousedatabase.HTMLGeneration;
 import edu.ucsf.mousedatabase.HTMLUtilities;
@@ -39,8 +38,9 @@ public class ImportServlet extends HttpServlet {
   }
   @SuppressWarnings("rawtypes")
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
+	  DiskFileItemFactory factory = DiskFileItemFactory.builder().get();
+	  JakartaServletFileUpload uploadHandler = new JakartaServletFileUpload(factory);
+   
     try {
       /*
        * Parse the request

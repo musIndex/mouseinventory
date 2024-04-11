@@ -6,9 +6,10 @@ import static edu.ucsf.mousedatabase.HTMLGeneration.urlEncode;
 
 import java.io.File;
 import java.io.IOException;
-//import java.nio.file.Files;
-//import java.nio.file.Path;
-//import java.nio.file.Paths;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,14 +20,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 
 //import com.microsoft.applicationinsights.core.dependencies.google.logging.type.HttpRequest;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 
 import edu.ucsf.mousedatabase.DBConnect;
@@ -66,7 +66,9 @@ public class UploadServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Log.Info("recieved file for processing");
-		ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
+		DiskFileItemFactory factory = DiskFileItemFactory.builder().get();
+		JakartaServletFileUpload uploadHandler = new JakartaServletFileUpload(factory);
+		
 		String mouseID = "";
 		String fileName = defaultFileName;
 		String fileStatus = "";
@@ -134,9 +136,11 @@ public class UploadServlet extends HttpServlet {
 						}
 						Log.Info("in servlet, filename is currently : " + fileName);
 						
-						 File file = new File(fileName);
+						File file = new File(fileName);
 	            		 Log.Info("about to write");
-	            		 item.write(file);
+	            		 Path fileN = Paths.get(fileName);
+	            		 item.write(fileN);
+	            		 
 	            		files.add(file);
 	            		Log.Info("wrote file");
 	            	

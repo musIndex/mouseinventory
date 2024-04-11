@@ -13,10 +13,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
 
 import com.google.gson.Gson;
 
@@ -125,8 +125,10 @@ public class SendMailServlet extends HttpServlet {
 	
 	 @SuppressWarnings("rawtypes")
 	private Object[] fetchMultipartParams(HttpServletRequest request, String attachmentParameterName) throws FileUploadException {
-	  ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory ());
-    List items = uploadHandler.parseRequest(request);
+		 DiskFileItemFactory factory = DiskFileItemFactory.builder().get();
+		 JakartaServletFileUpload uploadHandler = new JakartaServletFileUpload(factory);
+		
+	  List items = uploadHandler.parseRequest(request);
     Iterator itr = items.iterator();
     HashMap<String,byte[]> attachments = new HashMap<String, byte[]>();
     HashMap<String,String> parameters = new HashMap<String, String>();
