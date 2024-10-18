@@ -9,7 +9,7 @@
 	<name>mouseinventory Maven Webapp</name>
 	<url>http://ucsf-mousedb.github.com/mouseinventory/</url>
 	<properties>
-		<spring.version>6.1.4</spring.version>
+		<spring.version>6.1.14</spring.version>
 	</properties>
 	<profiles>
 		<profile>
