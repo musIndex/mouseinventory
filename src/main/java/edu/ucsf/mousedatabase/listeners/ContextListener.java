@@ -52,7 +52,7 @@ public class ContextListener implements ServletContextListener {
     Map<String, String> env = System.getenv();
     Log.Info("SMTP_PORT: " + env.get("SMTP_PORT"));
     
-    MGIConnect.Initialize(env.get("MGI_DB_DRIVER_CLASSNAME"), env.get("MGI_DB_CONNECTION_STRING"));
+   // MGIConnect.Initialize(env.get("MGI_DB_DRIVER_CLASSNAME"), env.get("MGI_DB_CONNECTION_STRING"));
 
     HTMLGeneration.setGoogleAnalyticsId(env.get("GOOGLE_ID"));
     

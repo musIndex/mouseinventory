@@ -459,15 +459,16 @@ public class ImportHandler
     ImportStatusTracker.UpdateStatus(importTaskId, ImportStatus.PROCESSING);
 
 
-
-    MGIResult test = MGIConnect.DoMGIAlleleQuery("3052827");
+//This will test if alliancegenome.org REST endpoint is working
+    //String restMGI = "https://www.alliancegenome.org/api/allele/MGI:3809524"; from MGIConnect.java
+   /*MGIResult test = MGIConnect.DoMGIAlleleQuery("3052827");
     if (test.isMgiConnectionTimedout() || test.isMgiOffline())
     {
       ImportStatusTracker.AppendMessage(importTaskId,"Failed to connect to MGI, try again later");
       ImportStatusTracker.UpdateStatus(importTaskId,ImportStatus.ERROR);
       return;
     }
-
+*/
     MmrrcConnect mmrrcData = null;
 
 

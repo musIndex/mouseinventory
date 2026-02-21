@@ -4,43 +4,49 @@ import java.sql.*;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Properties;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
+import java.io.StringReader;
 import java.lang.Thread;
 
 import edu.ucsf.mousedatabase.beans.MouseSubmission;
 import edu.ucsf.mousedatabase.dataimport.ImportStatusTracker;
 import edu.ucsf.mousedatabase.dataimport.ImportStatusTracker.ImportStatus;
 import edu.ucsf.mousedatabase.objects.MGIResult;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 
 public class MGIConnect {
 
   //todo get these from the mgi database, they shouldn't be static
+	//MGI_MARKER is for GENE page in informatics.jax.org
+  //These int values were used in the old MGI postgresql database, just keep use it to distinguish the different informatics.jax.org page types
   public static int MGI_MARKER = 2;
+  //MGI_ALLELE is set in MGIResult object, called in HTMLGeneration, same as old MGI postgresql db "mgiTypeKey"
   public static int MGI_ALLELE = 11;
+  //MGI_REFRENCE is for PUBMED articles
   public static int MGI_REFERENCE = 1;
-
+// from old MGI postgresql db
   public static int MGI_MARKER_OTHER_GENOME_FEATURE = 9;
-
+//These are not used. -EW
   public static final String pmDBurl = "http://www.ncbi.nlm.nih.gov/pubmed/";
   public static final String pmDBurlTail = "?dopt=Abstract";
   public static final String mgiDBurl = "http://www.informatics.jax.org/accession/MGI:";
 
-  private static String databaseConnectionString;
-  private static String databaseDriverName;
-
-  private static boolean initialized = false;
-
-  public static boolean verbose = false;
-
-  public static boolean Initialize(String databaseDriverName, String databaseConnectionString) {
-    if (initialized) {
-      return false;
-    }
-    MGIConnect.databaseDriverName = databaseDriverName;
-    MGIConnect.databaseConnectionString = databaseConnectionString;
-    initialized = true;
-    return true;
-  }
-
+ 
   // TODO make this method public and make callers figure out typeIDs
   public static MGIResult doMGIQuery(String accessionID, int expectedTypeID, String wrongTypeString) {
     return doMGIQuery(accessionID, expectedTypeID, wrongTypeString, true);
@@ -51,140 +57,125 @@ public class MGIConnect {
 
     MGIResult result = new MGIResult();
     result.setAccessionID(accessionID);
+    //expectedTypeID will set to either MGI_MARKER for MGI GENE PAGE or MGI_ALLELE for Mutant Allele/Transgene MGI Page
     result.setType(expectedTypeID);
-    String query = "";
-    Connection connection = null;
+   
 
     String accID = accessionID;
     if (expectedTypeID != MGI_REFERENCE) {
+    	//This will set both allele ID or gene ID
       accID = "MGI:" + accessionID;
     }
+    //Setting GENE symbol and name, only way to set symbol and name, no edit field in mouse record.
+    if (expectedTypeID == MGI_MARKER) {
+    	String mgiGeneJson = mgiGeneRest(accID);
+    	if (mgiGeneJson == null) {
+    		result.setValid(offlineOK);
+    	    result.setErrorString("Not able to access MGI data.");
+    	    result.setTitle(result.getErrorString());
+    	    result.setAuthors("");
+    	    result.setName(result.getErrorString());
+    	    result.setSymbol("");
+    	    result.setMgiConnectionTimedout(true);
+    		
+    	}else {
+    	JsonReader jsonGeneReader = Json.createReader(new StringReader(mgiGeneJson));
+		JsonObject jsonGeneObject = jsonGeneReader.readObject();
+		
+    	String geneSymbol = null;
+    	geneSymbol = jsonGeneObject.getString("symbol");
 
-    try {
-      connection = connect();
-      query = "select _Accession_key, ACC_Accession._MGIType_key, primaryKeyName, _Object_key, tableName "
-          + "from ACC_Accession left join ACC_MGIType on ACC_Accession._MGIType_key=ACC_MGIType._MGIType_key "
-          + "where accID='" + accID + "' " + "and ACC_Accession._MGIType_key in(" + MGI_MARKER + "," + MGI_ALLELE + ","
-          + MGI_REFERENCE + ")";
-      // the last line above is kind of a hack because sometimes you get multiple
-      // results for accession ids, such as evidence types
-
-      java.sql.Statement stmt = connection.createStatement();
-      if (verbose) System.out.println(query);
-      ResultSet rs = stmt.executeQuery(query);
-
-      if (rs.next()) {
-        // int accessionKey = rs.getInt("_Accession_key");
-        int mgiTypeKey = rs.getInt("_MGIType_key");
-        String primaryKeyName = rs.getString("primaryKeyName");
-        int objectKey = rs.getInt("_Object_key");
-        String tableName = rs.getString("tableName");
-
-        if (mgiTypeKey != expectedTypeID) // TODO lookup type id, don't hard code it
-        {
-          if (verbose) System.out.println("type key mismatch! " + mgiTypeKey + " != " + expectedTypeID);
-          // see if this is a possible other genome feature issue
-          if (mgiTypeKey == MGI_MARKER && expectedTypeID == MGI_ALLELE) {
-            query = "select * from " + tableName + " where " + primaryKeyName + "=" + objectKey;
-            if (verbose) System.out.println(query);
-            stmt = connection.createStatement();
-            rs = stmt.executeQuery(query);
-            if (rs.next() && rs.getInt("_Marker_Type_key") == MGI_MARKER_OTHER_GENOME_FEATURE) {
-              query = getAlleleQueryFromOGFID(accessionID);
-              stmt = connection.createStatement();
-              rs = stmt.executeQuery(query);
-              if (rs.next()) {
-                String allelePageID = rs.getString("accID");
-                return doMGIQuery(allelePageID, expectedTypeID, wrongTypeString);
-              }
-            }
-          }
-          result.setValid(false);
-          result.setErrorString(wrongTypeString);
-
-        } else {
-          query = "select * from " + tableName + " where " + primaryKeyName + "=" + objectKey;
-          if (verbose) System.out.println(query);
-          stmt = connection.createStatement();
-          rs = stmt.executeQuery(query);
-
-          if (rs.next()) {
-            if (mgiTypeKey == MGI_ALLELE) {
-              result.setSymbol(rs.getString("symbol"));
-              result.setName(trimOfficialName(rs.getString("name")));
-              result.setValid(true);
-
-              query = "select term from ALL_Allele aa inner join voc_term voc on aa._Allele_Type_key=voc._Term_key where _Allele_key="
-                  + objectKey;
-              if (verbose) System.out.println(query);
-              rs = stmt.executeQuery(query);
-              if (rs.next()) {
-                String alleleType = rs.getString("term");
-                if (verbose) System.out.println("allele type: " + alleleType);
-                if (alleleType.equalsIgnoreCase("QTL")) {
-                  result.setValid(false);
-                  result.setErrorString(
-                      "This ID corresponds to a QTL variant. Please go back to step 2 and do a submission for the relevant inbred strain");
-                }
-              }
-
-            } else if (mgiTypeKey == MGI_MARKER) {
-              result.setSymbol(rs.getString("symbol"));
-              result.setName(rs.getString("name"));
-              result.setValid(true);
-            } else if (mgiTypeKey == MGI_REFERENCE) {
-              result.setAuthors(rs.getString("authors"));
-              result.setTitle(rs.getString("title"));
-              result.setValid(true);
-            }
-          }
-        }
-      } else {
-        if (expectedTypeID == MGI_REFERENCE) {
-          result.setErrorString("Not found.  Please confirm that you have the correct Pubmed ID.");
-          result.setValid(false);
-        } else {
-          result.setErrorString("Not found in MGI database.  Confirm that you have the correct Accession ID");
-          result.setValid(false);
-        }
-
-      }
-    } catch (NullPointerException e) {
-      result.setValid(offlineOK);
-      result.setErrorString("Connection to MGI timed out.");
-      result.setTitle(result.getErrorString());
-      result.setAuthors("");
-      result.setName(result.getErrorString());
-      result.setSymbol("");
-      result.setMgiConnectionTimedout(true);
-      e.printStackTrace(System.err);
-
-    } catch (Exception e) {
-
-      result.setValid(offlineOK);
-      result.setErrorString(
-          "MGI database connection unavailable.  This is to be expected late at night on weekdays.  Please manually verify that this is the correct ID");
-      result.setTitle(result.getErrorString());
-      result.setAuthors("");
-      result.setName(result.getErrorString());
-      result.setSymbol("");
-      result.setMgiOffline(true);
-      // System.err.println(query);
-      e.printStackTrace(System.err);
-    } finally {
-      if (connection != null) {
-        try {
-          connection.close();
-        } catch (SQLException ex) {
-          ex.printStackTrace();
-        }
-      }
+    	String geneName = null;
+    	geneName = jsonGeneObject.getString("name");
+    	 result.setSymbol(geneSymbol);
+         result.setName(geneName);
+         result.setValid(true);
+    	}
     }
-    // Close the connection to MGI.
 
+    if (expectedTypeID == MGI_ALLELE) {
+    	String alleleJson= mgiAlleleRest(accID);
+    	
+			if (alleleJson == null) {
+				result.setValid(false);
+				result.setErrorString(wrongTypeString);
+			} else {
+			JsonReader jsonReader = Json.createReader(new StringReader(alleleJson));
+			JsonObject jsonObject = jsonReader.readObject();
+			JsonObject innerJson = jsonObject.getJsonObject("allele");
+			
+			String alleleSymbol = null;
+			alleleSymbol = innerJson.get("alleleSymbol").asJsonObject().getString("formatText").replaceAll("<sup>", "<").replaceAll("</sup>", ">");
+			//String fixedSymbolObj = symbolObj.replaceAll("<sup>", "<").replaceAll("</sup>", ">");
+			result.setSymbol(alleleSymbol);
+			//REST does not have Allele Name in JSON
+			result.setName("");
+			result.setValid(true);
+			result.setAuthors("");
+			result.setTitle("");
+            } 
+			//Can't set Reference pubmed article ID not in REST JSON
+	if (expectedTypeID == MGI_REFERENCE) {
+	              result.setAuthors("");
+	              result.setTitle("");
+	              result.setValid(true);
+	            }		
+    }
+  
     return result;
+}
+  private static String mgiAlleleRest(String mgiAlleleId) {
+		String alleleJson = null;
+		String restMGI = "https://www.alliancegenome.org/api/allele/" + mgiAlleleId;
+		Client clientMouse = ClientBuilder.newClient();
+		try {
+			
+			Response response = clientMouse.target(restMGI).request().get();
+			if (response.getStatus() == Response.Status.OK.getStatusCode() || response.getStatus() == Response.Status.CREATED.getStatusCode()) {
+              //System.out.println("Request successful!");
+              alleleJson = clientMouse.target(restMGI)
+  					.request(MediaType.APPLICATION_JSON)
+  					.get(String.class);
+          } else {
+              // Handle other non-2xx status codes explicitly if needed
+              System.out.println("Request failed with status: " + response.getStatus());
+          }
+			
+		}catch (Exception e) {
+	    	//allelJSON will be set to null if can't connect
+	    }
+	    finally 
+	    {
+	    	clientMouse.close();
+	    }
+		System.out.println("allele json:"+ alleleJson);
+		return alleleJson;
+	}
+  
+  public static String mgiGeneRest(String mgiID) {
+	  	String geneJson = null;
+	  	Client clientGene = ClientBuilder.newClient();
+	  	String geneMGI = "https://www.alliancegenome.org/api/gene/" + mgiID;
+	  	
+	    try {
+	    	Response response = clientGene.target(geneMGI).request().get();
+			if (response.getStatus() == Response.Status.OK.getStatusCode() || response.getStatus() == Response.Status.CREATED.getStatusCode())
+				{
+				geneJson = clientGene.target(geneMGI)
+			    		.request(MediaType.APPLICATION_JSON)
+			    		.get(String.class);  
+				}
+			
+	    }catch (Exception e) {
+	    	//geneJSON will be set to null if can't connect
+	    }
+	    finally 
+	    {
+	    	clientGene.close();
+	    }
+	    
+	  return geneJson;
   }
-
   public static HashMap<Integer, MouseSubmission> SubmissionFromMGI(Collection<Integer> accessionIDs,
       int importTaskId) {
     HashMap<Integer, MouseSubmission> newSubmissions = new HashMap<Integer, MouseSubmission>();
@@ -194,7 +185,7 @@ public class MGIConnect {
     // checking that it isn't a QTL or other genome feature
 
     HashMap<Integer, Properties> results = getPropertiesFromAlleleMgiID(accessionIDs, importTaskId);
-
+    //System.out.println("SubmissionFromMGI method, printing results: "+ results);
     for (int key : results.keySet()) {
 
       Properties props = results.get(key);
@@ -208,8 +199,8 @@ public class MGIConnect {
 
         sub.setMouseType("unknown");
 
-        if (verbose) System.out.println("*****************************");
-        if (verbose) System.out.println("Allele MGI ID: " + key);
+       // if (verbose) System.out.println("*****************************");
+       // if (verbose) System.out.println("Allele MGI ID: " + key);
 
         String geneId = null;
 
@@ -220,7 +211,7 @@ public class MGIConnect {
           String value = props.getProperty(prop);
 
 
-          if (verbose) System.out.println(prop + ": " + value);
+        //  if (verbose) System.out.println(prop + ": " + value);
           if (prop.equals("mouseName"))
           {
             sub.setOfficialMouseName(trimOfficialName(value));
@@ -259,9 +250,7 @@ public class MGIConnect {
               sub.setMouseType("Transgene");
               sub.setTransgenicType("undetermined");
               sub.setTGExpressedSequence("undetermined");
-              //extract from 'Transgenic (Reporter)'
-              //or 'Transgenic (random, expressed)'
-              //or 'Transgenic (Cre/Flp)'
+              
             }
             else if (value.startsWith("Gene trapped"))
             {
@@ -272,17 +261,6 @@ public class MGIConnect {
             {
        
             		sub.setMouseType("Inbred Strain");
-              //TODO ????
-//              Allele MGI ID: 3579311
-//              mouseType : Not Applicable
-//              pubMedTitle : THE AKR THYMIC ANTIGEN AND ITS DISTRIBUTION IN LEUKEMIAS AND NERVOUS TISSUES.
-//              gene name : thymus cell antigen 1, theta
-//              gene symbol : Thy1
-//              mouseName : a variant
-//              pubMedID : 14207060
-//              pubMedAuthor : REIF AE
-//              officialSymbol : Thy1<a>
-//              gene mgi ID : 98747
             	
             }
             else if (value.startsWith("QTL"))
@@ -376,32 +354,12 @@ public class MGIConnect {
   private static String trimOfficialName(String rawName)
   {
     return rawName;
-//    if (rawName == null || rawName.isEmpty())
-//    {
-//      return rawName;
-//    }
-//
-//    if (rawName.toLowerCase().indexOf("targeted mutation ") < 0 && rawName.toLowerCase().indexOf("transgene insertion ") < 0)
-//    {
-//      return rawName;
-//    }
-//
-//    int index = rawName.indexOf(',') + 1;
-//    if (index >= rawName.length() - 1)
-//    {
-//      return rawName;
-//    }
-//    return rawName.substring(index).trim();
-
   }
 
   public static HashMap<Integer,Properties> getPropertiesFromAlleleMgiID(Collection<Integer> accessionIDs, int importTaskId)
   {
     HashMap<Integer,Properties> results = new HashMap<Integer,Properties>();
-    Connection connection = null;
-    Statement stmt = null;
-    ResultSet rs = null;
-
+    
     ImportStatusTracker.UpdateHeader(importTaskId, "Downloading Allele data from MGI (Task 2 of 3)");
     ImportStatusTracker.SetProgress(importTaskId, 0);
 
@@ -410,8 +368,7 @@ public class MGIConnect {
 
     try
     {
-      connection = connect();
-      stmt = connection.createStatement();
+     
       for(int accessionID : accessionIDs)
       {
 
@@ -423,150 +380,109 @@ public class MGIConnect {
           Log.Info("Ignored invalid accession ID: " + accessionID);
           continue;
         }
-        if (verbose) System.out.println("Fetching details for MGI:" + accessionID);
+     
         Properties props = new Properties();
         results.put(accessionID, props);
-        //TODO get the comment??
-        String query = "select _Object_key " +
-          "from ACC_Accession left join ACC_MGIType on ACC_Accession._MGIType_key=ACC_MGIType._MGIType_key " +
-          "where accid='MGI:" + accessionID + "' " +
-          "and ACC_Accession._MGIType_key=11";
-        if (verbose) System.out.println(query);
-        rs = stmt.executeQuery(query);
-        if(!rs.next())
-        {
-          //accession ID not found, return early
-          Log.Info("No matching alleles found for accession ID: " + accessionID);
-          continue;
-        }
-        int alleleKey = rs.getInt("_Object_key");
-        query = "select _Marker_key,name,symbol from ALL_Allele where _Allele_key=" + alleleKey;
-        if (verbose) System.out.println(query);
-        rs = stmt.executeQuery(query);
-
-        if(!rs.next())
-        {
-          //no data in allele table, very strange
-          if (verbose) System.out.println("No data found for allele key: " + alleleKey);
-          continue;
-        }
-        props.setProperty("mouseName",rs.getString("name"));
-        props.setProperty("officialSymbol",rs.getString("symbol"));
+       
+        //NEED to change from ResultSet to REST results from AllianceGenome has MGI Data
+      
+        //Call method for allele REST
+        //REST doesn't have allele name
+        String accId = "MGI:"+accessionID;
+        String alleleJson = mgiAlleleRest(accId);
+        ImportStatusTracker.AppendMessage(importTaskId,"Allele Json " + alleleJson );
+        String alleleSymbol = "";
+        String mutation = "";
+        String alleleType = "";//Mutant Allele or Transgene
+        String mgiGeneID = "";
+        String fixedGeneID = "";
+        String geneSymbol = "";
+        String geneName = "";
+        String details = "";
+        
+    	if (alleleJson == null) {
+		//need to error here or check properties set to null, will manually need to add
+    		Log.Info("No markers for allele MGI: " + accessionID);
+		} else {
+		JsonReader jsonReader = Json.createReader(new StringReader(alleleJson));
+		JsonObject jsonObject = jsonReader.readObject();
+		JsonObject innerJson = jsonObject.getJsonObject("allele");
+		JsonArray detailsJsonArray = innerJson.getJsonArray("relatedNotes");
+		JsonObject detailsFirstObject = detailsJsonArray.getJsonObject(0);
+		
+		details = detailsFirstObject.getString("freeText");
+		
+		alleleSymbol = innerJson.get("alleleSymbol").asJsonObject().getString("formatText").replaceAll("<sup>", "<").replaceAll("</sup>", ">");
+		//Determine if Mutant Allele or Transgene
+		
+		if (jsonObject.containsKey("alleleOfGene"))
+		{
+		mgiGeneID = jsonObject.get("alleleOfGene").asJsonObject().getString("primaryExternalId");
+		//Use fixMgiGeneID as Prop
+		fixedGeneID = mgiGeneID.replace("MGI:","");
+		String symbolPattern = "<Tg";
+		Pattern pattern = Pattern.compile(symbolPattern);
+		Matcher symbolMatch = pattern.matcher(alleleSymbol);
+			if(symbolMatch.find()) {
+				// THIS IS TRANSGENE 
+				alleleType = "Transgene";
+			}else {
+			//THIS IS MUTANT ALLELE need to set as type
+				alleleType = "Mutant Allele";
+			//Call method to get Gene JSON, set gene name and symbol
+				String geneJson = mgiGeneRest(mgiGeneID);
+				JsonReader geneJsonReader = Json.createReader(new StringReader(geneJson));
+				JsonObject geneJsonObject = geneJsonReader.readObject();
+				
+				geneName = geneJsonObject.getString("name");
+				geneSymbol = geneJsonObject.getString("symbol");
+				System.out.println("gene Name is : "+ geneName);
+		}
+		}
+		else {
+			//transgene does not have known gene insert
+			alleleType = "Transgene";
+			
+		}
+		
+         
+        //MGI REST does not have mouse name
+        props.setProperty("mouseName","");
+        props.setProperty("officialSymbol", alleleSymbol);
 
         ImportStatusTracker.AppendMessage(importTaskId, "MGI:" + accessionID + " -> " + HTMLUtilities.getCommentForDisplay(props.getProperty("officialSymbol")));
-        int markerKey = rs.getInt("_Marker_key");
-
-        query = "select term from ALL_Allele_Mutation mut inner join voc_term voc on mut._mutation_key=voc._term_key where _Allele_key=" + alleleKey;
-        if (verbose) System.out.println(query);
-        rs = stmt.executeQuery(query);
-        if (rs.next())
-        {
-          String mutation = rs.getString("term");
-          //convert MGI terminology to ours
+       
+     
+          
+          //Manually set mutation after PDU upload on record edit form
           props.setProperty("mutationType",mutation);
-        }
+        
 
-        query = "select term from ALL_Allele aa inner join voc_term voc on aa._Allele_Type_key=voc._Term_key where _Allele_key=" + alleleKey;
-        if (verbose) System.out.println(query);
-        rs = stmt.executeQuery(query);
-        if (rs.next())
-        {
-          String alleleType = rs.getString("term");
+       
           //convert MGI terminology to ours
           props.setProperty("mouseType",alleleType);
-        }
-        if (markerKey > 0)
-        {
-          query = "select symbol,name from MRK_Marker where _Marker_key=" + markerKey;
-          if (verbose) System.out.println(query);
-          rs = stmt.executeQuery(query);
-          if (rs.next())
-          {
-            //todo set gene properties
-            String symbol = rs.getString("symbol");
-            String name = rs.getString("name");
-            props.setProperty("geneSymbol",symbol);
-            props.setProperty("geneName",name);
-
-            query = "select numericPart from ACC_Accession WHERE _MGIType_key=2  " +
-                "and _Object_key=" + markerKey + " and prefixPart='MGI:'  and preferred=1";
-            if (verbose) System.out.println(query);
-            rs = stmt.executeQuery(query);
-            if (rs.next())
-            {
-              int geneMgiId = rs.getInt("numericPart");
-              props.setProperty("geneMgiID",Integer.toString(geneMgiId));
-              //todo set gene MGI accession ID
-            }
-          }
-        }
-        else
-        {
-          Log.Info("No markers for allele MGI: " + accessionID);
-        }
-
-        query = "select _Refs_key from mgi_reference_assoc ref inner join mgi_refassoctype ty using(_refassoctype_key) where _Object_key=" + alleleKey + " and assoctype='Original'";
-        if (verbose) System.out.println(query);
-        rs = stmt.executeQuery(query);
-        if (rs.next())
-        {
-          int refKey = rs.getInt("_Refs_key");
-          query = "select _primary,title from BIB_refs where _Refs_key=" + refKey;
-          if (verbose) System.out.println(query);
-          rs = stmt.executeQuery(query);
-          if (rs.next())
-          {
-            props.setProperty("pubMedAuthor", rs.getString("_primary"));
-            props.setProperty("pubMedTitle", rs.getString("title"));
-          }
-          query = "select accID from ACC_Accession where _MGIType_key=1 and _Object_key=" + refKey + " and prefixPart is NULL";
-          if (verbose) System.out.println(query);
-          rs = stmt.executeQuery(query);
-          if (rs.next())
-          {
-            props.setProperty("pubMedID", rs.getString("accID"));
-          }
-          else
-          {
-            query = "select accID from ACC_Accession where _MGIType_key=1 and _Object_key=" + refKey + "and prefixPart='MGI:'";
-            if (verbose) System.out.println(query);
-            rs = stmt.executeQuery(query);
-            if (rs.next())
-            {
-              props.setProperty("referenceMgiAccessionId", rs.getString("accID"));
-            }
-          }
-
-        }
-
-        StringBuilder sb = new StringBuilder();
-        //Fixed import comment from MGI_notechunk table does not exist
-      
-        query = "select note " +
-        		"from MGI_Note n, MGI_NoteType t "+
-        		"where n._NoteType_key = t._NoteType_key " +
-        		"and n._MGIType_key = 11 " +
-        		"and _object_key="+ alleleKey + " " +
-        		"and noteType='Molecular'";
         
-        if (verbose) System.out.println(query);
-        rs= stmt.executeQuery(query);
-        while (rs.next())
-        {
-          sb.append(rs.getString("note"));
-        }
-        if (sb.length() > 0)
-        {
-          props.setProperty("description", sb.toString());
-        }
-        else {
-          Log.Error("No description found for allele w/ accID: " + accessionID + ".  Ran this query:\n" + query);
-        }
+       
+            props.setProperty("geneSymbol",geneSymbol);
+            props.setProperty("geneName",geneName);
 
+           //geneMgiID is set as integer without 'MGI:' need to strip and just have number
+              props.setProperty("geneMgiID", fixedGeneID);
+              //todo set gene MGI accession ID
+         
+            props.setProperty("pubMedAuthor", "");
+            props.setProperty("pubMedTitle", "");
+       
+            props.setProperty("pubMedID", "");
+         
+            props.setProperty("referenceMgiAccessionId", "");
+            
 
-      }
-
-    }
+    
+            props.setProperty("description", details );
+		}
+		}
+    }	
     catch (Exception e)
     {
       Log.Error("Error fetching Allele details from MGI",e);
@@ -575,21 +491,10 @@ public class MGIConnect {
     }
     finally
     {
-      if(connection != null)
-        {
-          try
-          {
-            connection.close();
-          }
-          catch(SQLException ex)
-          {
-             ex.printStackTrace();
-          }
-        }
       ImportStatusTracker.SetProgress(importTaskId, 1);
     }
 
-    if(verbose){
+
 
       for(int mgiId : results.keySet()){
         Properties props = results.get(mgiId);
@@ -601,77 +506,11 @@ public class MGIConnect {
         }
       }
 
+    return results;
+  
 
     }
 
-    return results;
-  }
-
-//  private static void  getOfficialMouseNames(String[] accessionIds)
-//  {
-//    Connection connection = null;
-//    Statement stmt = null;
-//    ResultSet rs = null;
-//
-//    try
-//    {
-//      connection = connect();
-//      stmt = connection.createStatement();
-//      for(String accessionID : accessionIds)
-//      {
-//        if (verbose) System.out.println("Fetching details for MGI:" + accessionID);
-//        //Properties props = new Properties();
-//        //TODO get the comment??
-//        String query = "select ACC_Accession.numericPart, symbol,ALL_ALLELE.name " +
-//        "from ACC_Accession left join ACC_MGIType on ACC_Accession._MGIType_key=ACC_MGIType._MGIType_key " +
-//        "left join ALL_ALLELE on ACC_Accession._Object_key = ALL_Allele._Allele_key " +
-//        "where accID='" + accessionID + "' " +
-//        "and ACC_Accession._MGIType_key = 11  ";
-//        if (verbose) System.out.println(query);
-//        rs = stmt.executeQuery(query);
-//        if(!rs.next())
-//        {
-//          //accession ID not found, return early
-//          Log.Info("No matching alleles found for accession ID: " + accessionID);
-//          continue;
-//        }
-//
-//        int id = rs.getInt(1);
-//        //String symbol = rs.getString(2);
-//        String name = rs.getString(3);
-//
-//        if (verbose) System.out.println(name + "\t" + id);
-//
-//      }
-//
-//    }
-//    catch (Exception e)
-//    {
-//      e.printStackTrace();
-//    }
-//    finally
-//    {
-//      if(connection != null)
-//        {
-//          try
-//          {
-//            connection.close();
-//          }
-//          catch(SQLException ex)
-//          {
-//             ex.printStackTrace();
-//          }
-//        }
-//    }
-//
-//  }
-
-
-  private static String getAlleleQueryFromOGFID(String OGFID)
-  {
-    return "select a2.accId from acc_accession a1, all_allele e, acc_accession a2 where a1.accid='" + OGFID + "' and a1._mgitype_key=2 and a2._mgitype_key=11 and a2._object_key=e._allele_key and e._marker_key=a1._object_key";
-
-  }
 
   public static MGIResult DoReferenceQuery(String refAccessionID)
   {
@@ -706,67 +545,6 @@ public class MGIConnect {
     public static MGIResult DoMGITransgeneQuery(String transgeneAccessionID)
     {
       return doMGIQuery(transgeneAccessionID, MGI_ALLELE, "This is a valid Accession ID, but it does not correspond to a transgene detail page.  Click on the link to see what it does correspond to.  Find the transgene detail page for the mouse being submitted and re-enter the ID. ");
-    }
-
-
-    private static Connection connect() throws Exception
-    {
-      if (!initialized)
-      {
-        throw new Exception("Tried to connect to MGI before initializing connection parameters!");
-      }
-
-      ConnectionThread t = new ConnectionThread();
-      t.start();
-
-      long timeoutMillis = 10000;
-
-    t.join(timeoutMillis);
-    if (t.isAlive())
-    {
-      //timeout reached, kill thread and throw timeout exception
-      t.interrupt();
-      Log.Info("Timeout reached, interrupting mgi connection thread");
-    }
-
-        return t.getConnection();
-    }
-
-    private static class ConnectionThread extends Thread
-    {
-      private Connection connection = null;
-
-      public ConnectionThread()
-      {
-        super();
-      }
-
-    @Override
-    public void run() {
-      try {
-        // Load the JDBC driver: MySQL MM JDBC driver
-        Class.forName(databaseDriverName);
-        // Create a new connection to MGI
-        setConnection(DriverManager.getConnection(databaseConnectionString));
-        if (verbose) System.out.println("Successfully connected to MGI, returning connection");
-      } catch (ClassNotFoundException e) {
-        Log.Error("Failed to connect to MGI:", e);
-      } catch (SQLException e) {
-        Log.Error("Failed to connect to MGI:", e);
-      }
-
-    }
-
-    void setConnection(Connection connection) {
-      this.connection = connection;
-    }
-
-    Connection getConnection() {
-      return connection;
-    }
-
-
-
     }
 
 
