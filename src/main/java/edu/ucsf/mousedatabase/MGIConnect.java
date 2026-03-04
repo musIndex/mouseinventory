@@ -234,6 +234,18 @@ public class MGIConnect {
 
               }
             }
+            else if(value.contains("Mutant Allele"))
+            {
+            	sub.setMouseType("Mutant Allele");
+            	sub.setMAModificationType("undetermined");
+            }
+            else if(value.contains("Transgene"))
+            {
+            	sub.setMouseType("Transgene");
+            	sub.setTransgenicType("undetermined");
+                sub.setTGExpressedSequence("undetermined");
+            }
+            
             //Added Radiation induced muations -EW
             else if (value.startsWith("Radiation")) 
             {
@@ -459,7 +471,7 @@ public class MGIConnect {
         
 
        
-          //convert MGI terminology to ours
+          //Set this above in submission bean prop results to have Mutant Allele and Transgene
           props.setProperty("mouseType",alleleType);
         
        
@@ -467,7 +479,7 @@ public class MGIConnect {
             props.setProperty("geneName",geneName);
 
            //geneMgiID is set as integer without 'MGI:' need to strip and just have number
-              props.setProperty("geneMgiID", fixedGeneID);
+            props.setProperty("geneMgiID", fixedGeneID);
               //todo set gene MGI accession ID
          
             props.setProperty("pubMedAuthor", "");
