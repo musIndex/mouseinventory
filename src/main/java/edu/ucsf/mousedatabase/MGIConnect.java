@@ -81,15 +81,16 @@ public class MGIConnect {
     	}else {
     	JsonReader jsonGeneReader = Json.createReader(new StringReader(mgiGeneJson));
 		JsonObject jsonGeneObject = jsonGeneReader.readObject();
-		
+		String geneName = null;
     	String geneSymbol = null;
-    	geneSymbol = jsonGeneObject.getString("symbol");
-
-    	String geneName = null;
-    	geneName = jsonGeneObject.getString("name");
-    	 result.setSymbol(geneSymbol);
-         result.setName(geneName);
-         result.setValid(true);
+    	geneName = jsonGeneObject.getJsonObject("gene").getJsonObject("geneFullName").getString("formatText");
+        Log.Info("Gene Name: " + geneName);
+         //geneSymbol = geneJsonObject.getString("symbol");
+        geneSymbol = jsonGeneObject.getJsonObject("gene").getJsonObject("geneSymbol").getString("formatText");
+        Log.Info("Gene Name: " + geneSymbol);
+    	result.setSymbol(geneSymbol);
+        result.setName(geneName);
+        result.setValid(true);
     	}
     }
 
@@ -443,12 +444,18 @@ public class MGIConnect {
 				alleleType = "Mutant Allele";
 			//Call method to get Gene JSON, set gene name and symbol
 				String geneJson = mgiGeneRest(mgiGeneID);
+				Log.Info("Gene Json: " + geneJson);
 				JsonReader geneJsonReader = Json.createReader(new StringReader(geneJson));
 				JsonObject geneJsonObject = geneJsonReader.readObject();
-				
-				geneName = geneJsonObject.getString("name");
-				geneSymbol = geneJsonObject.getString("symbol");
 				System.out.println("gene Name is : "+ geneName);
+				//geneName = geneJsonObject.getString("name");
+                geneName = geneJsonObject.getJsonObject("gene").getJsonObject("geneFullName").getString("formatText");
+	            Log.Info("Gene Name: " + geneName);
+                
+	            //geneSymbol = geneJsonObject.getString("symbol");
+                geneSymbol = geneJsonObject.getJsonObject("gene").getJsonObject("geneSymbol").getString("formatText");
+                Log.Info("Gene Name: " + geneSymbol);
+                
 		}
 		}
 		else {
