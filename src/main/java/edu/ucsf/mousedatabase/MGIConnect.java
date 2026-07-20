@@ -5,8 +5,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Properties;
 
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -60,7 +63,7 @@ public class MGIConnect {
     //expectedTypeID will set to either MGI_MARKER for MGI GENE PAGE or MGI_ALLELE for Mutant Allele/Transgene MGI Page
     result.setType(expectedTypeID);
    
-
+    String alleleKey = null;
     String accID = accessionID;
     if (expectedTypeID != MGI_REFERENCE) {
     	//This will set both allele ID or gene ID
@@ -112,11 +115,76 @@ public class MGIConnect {
 			//REST does not have Allele Name in JSON
 			result.setName("");
 			result.setValid(true);
-			result.setAuthors("");
-			result.setTitle("");
+			//add code to get PMID, authors, title
+			alleleKey = getAlleleKey(accessionID);
+			if (alleleKey !=null) {
+				String headArticlesURL = "https://www.informatics.jax.org/reference/json?";
+				String tailArticlesURL = "&results=25&startIndex=0&sort=year&dir=asc&typeFilter=Literature";
+				String articleURL = headArticlesURL+alleleKey+tailArticlesURL;
+				try{
+				Document docArticle = Jsoup.connect(articleURL)
+		                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+		                .header("Referer", articleURL)
+		                .ignoreContentType(true)
+		                .get();
+				
+
+				Element firstArticle = docArticle.selectFirst("a[href*='pubmed']");
+				//PMID for original article
+				//articlePMID = firstArticle.text();
+				String htmlJson = docArticle.toString();
+				String articleJson = Jsoup.parse(htmlJson).text();
+				JsonReader articleJsonReader = Json.createReader(new StringReader(articleJson));
+				JsonObject articleJsonObject = articleJsonReader.readObject();
+				JsonArray articlesArray = articleJsonObject.getJsonArray("summaryRows");
+				JsonObject articleObject = articlesArray.getJsonObject(0);
+				result.setTitle(articleObject.getString("title"));
+				result.setAuthors(articleObject.getString("authors"));
+				}
+				catch (HttpStatusException ex){
+					System.err.println("HTTP error fetching URL. Status code: " + ex.getStatusCode());
+	                System.err.println("URL: " + ex.getUrl());
+				}catch (IOException e) {
+	            // Handles any other general network or parsing I/O errors
+	            System.err.println("General I/O exception: " + e.getMessage());
+	            } 
+			}
+			}
             } 
-			//Can't set Reference pubmed article ID not in REST JSON
+			//Get Authors and title using MGIID and reference page
 	if (expectedTypeID == MGI_REFERENCE) {
+		alleleKey = getAlleleKey(accessionID);
+		if (alleleKey !=null) {
+			String headArticlesURL = "https://www.informatics.jax.org/reference/json?";
+			String tailArticlesURL = "&results=25&startIndex=0&sort=year&dir=asc&typeFilter=Literature";
+			String articleURL = headArticlesURL+alleleKey+tailArticlesURL;
+			try{
+			Document docArticle = Jsoup.connect(articleURL)
+	                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+	                .header("Referer", articleURL)
+	                .ignoreContentType(true)
+	                .get();
+			
+
+			//Element firstArticle = docArticle.selectFirst("a[href*='pubmed']");
+			//PMID for original article
+			//articlePMID = firstArticle.text();
+			String htmlJson = docArticle.toString();
+			String articleJson = Jsoup.parse(htmlJson).text();
+			JsonReader articleJsonReader = Json.createReader(new StringReader(articleJson));
+			JsonObject articleJsonObject = articleJsonReader.readObject();
+			JsonArray articlesArray = articleJsonObject.getJsonArray("summaryRows");
+			JsonObject articleObject = articlesArray.getJsonObject(0);
+			result.setTitle(articleObject.getString("title"));
+			result.setAuthors(articleObject.getString("authors"));
+			}
+			catch (HttpStatusException ex){
+				System.err.println("HTTP error fetching URL. Status code: " + ex.getStatusCode());
+                System.err.println("URL: " + ex.getUrl());
+			}catch (IOException e) {
+            // Handles any other general network or parsing I/O errors
+            System.err.println("General I/O exception: " + e.getMessage());
+            } 
 	              result.setAuthors("");
 	              result.setTitle("");
 	              result.setValid(true);
@@ -177,6 +245,43 @@ public class MGIConnect {
 	    
 	  return geneJson;
   }
+  private static String getAlleleKey(String accessionID){
+		String refrencesURL = "https://www.informatics.jax.org/reference/allele/MGI:"+ accessionID +"?typeFilter=Literature#myDataTable=results%3D25%26startIndex%3D0%26sort%3Dyear%26dir%3Dasc%26typeFilter%3DLiterature";
+		String alleleKey = null;
+		try {
+		Document docReferencePage = Jsoup.connect(refrencesURL)
+              .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+              .header("Referer", refrencesURL)
+              .ignoreContentType(true)
+              .get();
+	 
+		
+		
+		Elements scriptElements = docReferencePage.getElementsByTag("script");
+		
+		for (Element element : scriptElements) {
+		    if (element.data().contains("querystring")) {
+		        Pattern pattern = Pattern.compile("querystring = ([^;]*);");
+		        Matcher matcher = pattern.matcher(element.data());
+		        if (matcher.find()) {
+		            alleleKey = matcher.group(1);
+		            alleleKey = alleleKey.replace("\"", "");
+		            
+		        } else {
+		            System.err.println("No match found!");
+		        }
+		        break;
+		    }
+		}
+		}catch (HttpStatusException ex){
+			System.err.println("HTTP error fetching URL. Status code: " + ex.getStatusCode());
+          System.err.println("URL: " + ex.getUrl());
+		}catch (IOException e) {
+      // Handles any other general network or parsing I/O errors
+      System.err.println("General I/O exception: " + e.getMessage());
+      }
+		return alleleKey;
+	   }
   public static HashMap<Integer, MouseSubmission> SubmissionFromMGI(Collection<Integer> accessionIDs,
       int importTaskId) {
     HashMap<Integer, MouseSubmission> newSubmissions = new HashMap<Integer, MouseSubmission>();
@@ -412,6 +517,10 @@ public class MGIConnect {
         String geneSymbol = "";
         String geneName = "";
         String details = "";
+        String alleleKey = getAlleleKey(Integer.toString(accessionID));
+        String articlePMID = "";
+        String articleTitle= "";
+        String articleAuthors = "";
         
     	if (alleleJson == null) {
 		//need to error here or check properties set to null, will manually need to add
@@ -463,7 +572,39 @@ public class MGIConnect {
 			alleleType = "Transgene";
 			
 		}
-		
+		//Get pubmed ID, author, title from MGI reference page
+		if (alleleKey !=null) {
+			String headArticlesURL = "https://www.informatics.jax.org/reference/json?";
+			String tailArticlesURL = "&results=25&startIndex=0&sort=year&dir=asc&typeFilter=Literature";
+			String articleURL = headArticlesURL+alleleKey+tailArticlesURL;
+			try{
+			Document docArticle = Jsoup.connect(articleURL)
+	                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+	                .header("Referer", articleURL)
+	                .ignoreContentType(true)
+	                .get();
+			
+
+			Element firstArticle = docArticle.selectFirst("a[href*='pubmed']");
+			//PMID for original article
+			articlePMID = firstArticle.text();
+			String htmlJson = docArticle.toString();
+			String articleJson = Jsoup.parse(htmlJson).text();
+			JsonReader articleJsonReader = Json.createReader(new StringReader(articleJson));
+			JsonObject articleJsonObject = articleJsonReader.readObject();
+			JsonArray articlesArray = articleJsonObject.getJsonArray("summaryRows");
+			JsonObject articleObject = articlesArray.getJsonObject(0);
+			articleTitle = articleObject.getString("title");
+			articleAuthors = articleObject.getString("authors");
+			}
+			catch (HttpStatusException ex){
+				System.err.println("HTTP error fetching URL. Status code: " + ex.getStatusCode());
+                System.err.println("URL: " + ex.getUrl());
+			}catch (IOException e) {
+            // Handles any other general network or parsing I/O errors
+            System.err.println("General I/O exception: " + e.getMessage());
+            } 
+		}
          
         //MGI REST does not have mouse name
         props.setProperty("mouseName","");
@@ -489,10 +630,10 @@ public class MGIConnect {
             props.setProperty("geneMgiID", fixedGeneID);
               //todo set gene MGI accession ID
          
-            props.setProperty("pubMedAuthor", "");
-            props.setProperty("pubMedTitle", "");
+            props.setProperty("pubMedAuthor", articleAuthors);
+            props.setProperty("pubMedTitle", articleTitle);
        
-            props.setProperty("pubMedID", "");
+            props.setProperty("pubMedID", articlePMID);
          
             props.setProperty("referenceMgiAccessionId", "");
             

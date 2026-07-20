@@ -832,7 +832,7 @@ public class HTMLGeneration {
       for (String pmID : r.getPubmedIDs()) {
         if (pmID == null || pmID.isEmpty())
           continue;
-        MGIResult pubmedResult = MGIConnect.DoReferenceQuery(pmID);
+        MGIResult pubmedResult = MGIConnect.DoReferenceQuery(mgiID);//change to mgiID to get authors/title 
         if (pubmedResult.isMgiConnectionTimedout()
             || pubmedResult.isMgiOffline()) {
           // buf = new StringBuilder();
