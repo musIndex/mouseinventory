@@ -283,7 +283,7 @@ public class HTMLGeneration {
         currentPageFilename, false));
     table.append(addNavLink("About", "aboutTab.jsp", null, currentPageFilename, false));
     table.append(addNavLink("Mouselist", "forum.jsp", null, currentPageFilename, false));
-    
+   /* 
     if (isAdminPage && showAdminControls){
       table.append(addNavLink("Log out", "logout.jsp", null,
           currentPageFilename, false,"pull-right small"));
@@ -292,7 +292,7 @@ public class HTMLGeneration {
       table.append(addNavLink("Admin use only", "admin.jsp", null,
           isAdminPage ? "admin.jsp" : currentPageFilename, true, "pull-right small"));
     }
-    
+    */
     table.append("</ul>");
     table.append("</div>"); //navigationlinks
     table.append("</div>"); //navigationlinkscontainer
